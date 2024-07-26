@@ -1,0 +1,317 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:plusone/routes/routes.dart';
+import '../../../../utils/colors.dart';
+import '../../../components/custoelevatedbtn.dart';
+import '../../../components/custofilterbtn.dart';
+
+class SettingUi extends GetWidget{
+  const SettingUi({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var h=Get.height;
+    var w=Get.width;
+    return Scaffold(
+      backgroundColor: clrWhite,
+      body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        width:h*.05,
+                        height:h*.05,
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                            color: clrGreyLight,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Center(child: Icon(Icons.arrow_back_ios)),
+                      ),
+                    ),
+                    const Text(
+                      "Settings",
+                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 19),
+                    ),
+                      SizedBox(
+                      width:h*.025,
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: Get.height * 0.03,
+                        ),
+                        Text(
+                          "Notifications ",
+                          style: TextStyle(fontSize: 14, color: clrGreyTextLight),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: 21,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.pushNotiSettingUi);
+                            },
+                            child: Container(
+                              width: double.maxFinite,
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: const Text(
+                                "Push notifications",
+                                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                              ),
+                            )),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.025,
+                        ),
+                        const Text(
+                          "Email",
+                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height:h*.04,
+                        ),
+                          SizedBox(
+                          height:h*.012,
+                        ),
+                        Text(
+                          "Add other login options",
+                          style: TextStyle(fontSize: 14, color: clrGreyTextLight),
+                        ),
+                        SizedBox(
+                          height: h*.007,
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height:h*.016,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            googlePermissionAlert();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Google",
+                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                    height: 30,
+                                    width: 40,
+                                    child: FittedBox(
+                                        fit: BoxFit.fill,
+                                        child: Switch(
+                                            activeTrackColor: clrYellow,
+                                            value: true,
+                                            onChanged: (val) {},
+                                            activeColor: clrWhite,
+                                            focusColor: clrWhite,
+                                            trackOutlineColor:
+                                            WidgetStateProperty.all(
+                                                clrTransparent))))
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.016,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Apple",
+                              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                                height: h*.037,
+                                width: h*.05,
+                                child: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: Switch(
+                                      activeTrackColor: clrYellow,
+                                      value: false,
+                                      onChanged: (val) {},
+                                      activeColor: clrWhite,
+                                      focusColor: clrWhite,
+                                      inactiveThumbColor: clrWhite,
+                                      trackOutlineColor:
+                                      WidgetStateProperty.all(clrTransparent),
+                                    ))),
+
+                          ],
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.03,
+                        ),
+                          SizedBox(
+                          height:h*.012,
+                        ),
+                        Text(
+                          "Legal",
+                          style: TextStyle(fontSize: 14, color: clrGreyTextLight),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.037,
+                        ),
+                        const Text(
+                          "Terms & conditions ",
+                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.037,
+                        ),
+                        const Text(
+                          "Privacy policy ",
+                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.037,
+                        ),
+                        const Text(
+                          "Community Guidelines ",
+                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height:h*.037,
+                        ),
+                          SizedBox(
+                          height:h*.012,
+                        ),
+                        Text(
+                          "Privacy",
+                          style: TextStyle(fontSize: 14, color: clrGreyTextLight),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.021,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.activityVisibilitySettingUi);
+                          },
+                          child: Container(
+                            width: double.maxFinite,
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: const Text(
+                              "Activity visibility on profile",
+                              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          color: clrGreyLight,
+                          height: h*.021,
+                        ),
+                          SizedBox(
+                          height:h*.012,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )),
+    );
+  }
+  googlePermissionAlert() {
+    return Get.dialog(AlertDialog(
+      backgroundColor: clrWhite,
+      contentPadding: EdgeInsets.symmetric(horizontal: 25,vertical: 25),
+      insetPadding: EdgeInsets.symmetric(horizontal: 13),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: Text(
+              """"PlusOnes" wants to use 
+"google.com" to log in""",
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: Get.height * 0.01,
+          ),
+          Center(
+              child: Text(
+                "This allows the app to share information about you.",
+                textAlign: TextAlign.center,
+              )),
+          SizedBox(
+            height: Get.height * 0.02,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 45,
+                  child: CustoFilterBtn(
+                    ontap: () {
+                      Get.back();
+                    },
+                    borderClr: clrBlacke,
+                    backgroundClr: clrWhite,
+                    lable: Text(
+                      "Cancel",
+                      style: TextStyle(color: clrBlacke),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: 45,
+                  child: CustoElevatedBtn(
+                    onTap: () {
+                      Get.back();
+                    },
+                    backgroundClr: clrBlacke,
+                    child: Text(
+                      "Continue",
+                      style: TextStyle(color: clrWhite),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ));
+  }
+}
+
