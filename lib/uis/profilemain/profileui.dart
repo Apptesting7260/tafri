@@ -314,6 +314,7 @@ class ProfileUi extends GetWidget<ProfilemainController>{
                     height: Res.h_btn,
                     child: CustoElevatedBtn(
                         onTap: () {
+                          debugPrint("gk==logout");
                           Get.offAll(() {
                             Get.offAllNamed(Routes.initialPage);
                           });

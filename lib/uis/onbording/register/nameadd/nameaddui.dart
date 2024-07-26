@@ -164,10 +164,10 @@ class NameAddUi extends GetWidget<NameAddController>{
                                 }
                               },
                               backgroundClr: clrBlacke,
-                              child: Obx(() => controller.loading.value ? CommonUi.fourDotLoading() : Text(
+                              child:controller.loading.value ? CommonUi.fourDotLoading() : Text(
                                 "Continue",
                                 style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),
-                              ),)
+                              )
                             )
                         ),
                       ),),
