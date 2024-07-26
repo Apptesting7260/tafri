@@ -4,6 +4,7 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/myactivity/myactivitylist/controller/myacti_controller.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/size.dart';
 
 class  MyActivitiesListUi extends GetWidget<MyactiController>{
   const MyActivitiesListUi({super.key});
@@ -52,7 +53,7 @@ class  MyActivitiesListUi extends GetWidget<MyactiController>{
               ),
               Flexible(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
+                  padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -153,6 +154,7 @@ class  MyActivitiesListUi extends GetWidget<MyactiController>{
                                         Column(
                                           children: [
                                             Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   clipBehavior: Clip.hardEdge,
@@ -178,14 +180,17 @@ class  MyActivitiesListUi extends GetWidget<MyactiController>{
                                                       children: [
                                                         const Text("Padel with Joris",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
                                                         Text("Completed",style: TextStyle(color: clrGreyDark,fontSize: 12)),
-                                                        Row(
-                                                          children: [
-                                                            Flexible(child: Text("Rate and review your activity",style: TextStyle(color: clrYellowText,fontSize: 12,fontWeight: FontWeight.w600))),
-                                                             SizedBox(
-                                                              width: w*.06,
-                                                            ),
-                                                            Icon(Icons.arrow_right,size: 18,color: clrYellowText,)
-                                                          ],
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical: 3),
+                                                          child: Row(
+                                                            children: [
+                                                              Flexible(child: Text("Rate and review your activity",style: TextStyle(color: clrYellowText,fontSize: 12,fontWeight: FontWeight.w600))),
+                                                              SizedBox(
+                                                                width: w*.00,
+                                                              ),
+                                                              Icon(Icons.arrow_right,size: 18,color: clrYellowText,)
+                                                            ],
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -266,6 +271,7 @@ class  MyActivitiesListUi extends GetWidget<MyactiController>{
                                           height: Get.height*0.003,
                                         ),
                                         Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               clipBehavior: Clip.hardEdge,
@@ -332,6 +338,7 @@ class  MyActivitiesListUi extends GetWidget<MyactiController>{
                                         Column(
                                           children: [
                                             Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   clipBehavior: Clip.hardEdge,
@@ -378,15 +385,16 @@ class  MyActivitiesListUi extends GetWidget<MyactiController>{
 
                                                           ],
                                                         ),
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [
-                                                            Flexible(child: Text("Confirm attendance",style: TextStyle(color: clrYellowText,fontSize: 12,fontWeight: FontWeight.w600))),
-                                                             SizedBox(
-                                                              width: w*.01,
-                                                            ),
-                                                            Icon(Icons.arrow_right,size: 18,color: clrYellowText,)
-                                                          ],
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical: 3),
+                                                          child: Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: [
+                                                              Flexible(child: Text("Confirm attendance",style: TextStyle(color: clrYellowText,fontSize: 12,fontWeight: FontWeight.w600))),
+
+                                                              Icon(Icons.arrow_right,size: 18,color: clrYellowText,)
+                                                            ],
+                                                          ),
                                                         ),
                                                       ],
                                                     ),

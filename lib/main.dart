@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
           fontFamily: "Nunito",
        scaffoldBackgroundColor: clrWhite,
         colorScheme: ColorScheme.fromSeed(seedColor: clrWhite),

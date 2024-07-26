@@ -5,8 +5,6 @@ import 'package:plusone/networking/checkconnection.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/onbording/introone/controller/intro_controller.dart';
 import 'package:plusone/uis/onbording/register/nameadd/model/name_add_model.dart';
-import 'package:plusone/utils/globalcontroller.dart';
-import 'package:plusone/utils/globaldeta.dart';
 import 'package:plusone/utils/tostmsg.dart';
 
 import '../../../../../routes/routes.dart';
@@ -17,7 +15,6 @@ class NameAddController extends GetxController{
 
   final IntroController introController = Get.find<IntroController>();
 
-  Globalcontroller globalController=Globalcontroller();
   var loading = false.obs;
 
   TextEditingController fNameController=TextEditingController();

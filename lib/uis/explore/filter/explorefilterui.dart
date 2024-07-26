@@ -261,6 +261,8 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                           firstDate: DateTime(1950),
                           lastDate: DateTime.now(),
                           context: context,
+                          // initialDateRange: exploreListController.filterDateStart.value != '' &&
+                          //     exploreListController.filterDateCalenderEnd.value !=''?DateTime.parse("") : null
                         );
                         if (dateRange != null) {
                           print("gk=====$dateRange");

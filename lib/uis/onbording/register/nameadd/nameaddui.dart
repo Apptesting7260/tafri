@@ -150,32 +150,26 @@ class NameAddUi extends GetWidget<NameAddController>{
                       SizedBox(
                         height: h * .02,
                       ),
-                      Obx(() => Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Obx(() => Opacity(
-                            opacity: controller.loading.value ? 0.5 : 1,
-                            child: SizedBox(
-                                width: double.maxFinite,
-                                height: Res.h_btn,
-                                child: CustoElevatedBtn(
-                                  onTap: () {
-                                    if(!controller.loading.value){
-                                      if(formKey.currentState!.validate()){
-                                        controller.registerName();
-                                      }
-                                    }
-                                  },
-                                  backgroundClr: clrBlacke,
-                                  child: Text(
-                                    "Continue",
-                                    style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),
-                                  ),
-                                )
-                            ),
-                          ),),
-                          controller.loading.value ? CommonUi.fourDotLoading() : CommonUi.emptySizeBox()
-                        ],
+                      Obx(() => Opacity(
+                        opacity: controller.loading.value ? 0.5 : 1,
+                        child: SizedBox(
+                            width: double.maxFinite,
+                            height: Res.h_btn,
+                            child: CustoElevatedBtn(
+                              onTap: () {
+                                if(!controller.loading.value){
+                                  if(formKey.currentState!.validate()){
+                                    controller.registerName();
+                                  }
+                                }
+                              },
+                              backgroundClr: clrBlacke,
+                              child: Obx(() => controller.loading.value ? CommonUi.fourDotLoading() : Text(
+                                "Continue",
+                                style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),
+                              ),)
+                            )
+                        ),
                       ),),
                       SizedBox(
                         height: h * .02,

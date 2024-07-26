@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import '../../../../utils/colors.dart';
+import '../../../../utils/size.dart';
 import '../../../components/custoelevatedbtn.dart';
 import '../../../components/custofilterbtn.dart';
+import 'controller/setting_controller.dart';
 
-class SettingUi extends GetWidget{
+class SettingUi extends GetWidget<SettingController>{
   const SettingUi({super.key});
 
   @override
@@ -18,7 +20,7 @@ class SettingUi extends GetWidget{
       backgroundColor: clrWhite,
       body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: Column(
               children: [
                 SizedBox(
@@ -119,19 +121,23 @@ class SettingUi extends GetWidget{
                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
-                                    height: 30,
-                                    width: 40,
+                                    height: h*.04,
+                                    width: h*.055,
                                     child: FittedBox(
                                         fit: BoxFit.fill,
-                                        child: Switch(
-                                            activeTrackColor: clrYellow,
-                                            value: true,
-                                            onChanged: (val) {},
-                                            activeColor: clrWhite,
-                                            focusColor: clrWhite,
-                                            trackOutlineColor:
-                                            WidgetStateProperty.all(
-                                                clrTransparent))))
+                                        child: Obx((){
+                                          return Switch(
+                                              activeTrackColor: clrYellow,
+                                              value: controller.googleVal.value,
+                                              onChanged: (val) {
+                                                controller.changeGoogleVal();
+                                              },
+                                              activeColor: clrWhite,
+                                              focusColor: clrWhite,
+                                              trackOutlineColor:
+                                              WidgetStateProperty.all(
+                                                  clrTransparent));
+                                        })))
                               ],
                             ),
                           ),
@@ -148,20 +154,23 @@ class SettingUi extends GetWidget{
                               style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
                             ),
                             SizedBox(
-                                height: h*.037,
-                                width: h*.05,
+                                height: h*.04,
+                                width: h*.055,
                                 child: FittedBox(
                                     fit: BoxFit.fill,
-                                    child: Switch(
-                                      activeTrackColor: clrYellow,
-                                      value: false,
-                                      onChanged: (val) {},
-                                      activeColor: clrWhite,
-                                      focusColor: clrWhite,
-                                      inactiveThumbColor: clrWhite,
-                                      trackOutlineColor:
-                                      WidgetStateProperty.all(clrTransparent),
-                                    ))),
+                                    child:Obx((){
+                                      return Switch(
+                                          activeTrackColor: clrYellow,
+                                          value: controller.appleVal.value,
+                                          onChanged: (val) {
+                                            controller.changeAppleVal();
+                                          },
+                                          activeColor: clrWhite,
+                                          focusColor: clrWhite,
+                                          trackOutlineColor:
+                                          WidgetStateProperty.all(
+                                              clrTransparent));
+                                    }))),
 
                           ],
                         ),

@@ -15,7 +15,7 @@ class OccupationUi extends GetWidget{
     var w=Get.width;
     return Scaffold(
       body: SafeArea(child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13),
+        padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
               SizedBox(

@@ -43,7 +43,7 @@ class IntroController extends GetxController {
         var body = PhoneNumberModel.fromJson(response.body);
         log('code == ${response.statusCode}');
         log("data == ${response.body}");
-        if(response.statusCode == 200){
+        if(body.status == true){
           loading.value = false;
           if(body.message == 'Mobile number exists' && body.currentStep == '4'){
             showTostMsg('Mobile number exists. Please login to continue');

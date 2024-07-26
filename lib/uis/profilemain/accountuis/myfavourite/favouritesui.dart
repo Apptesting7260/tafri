@@ -5,6 +5,7 @@ import 'package:readmore/readmore.dart';
 
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
+import '../../../../utils/size.dart';
 import '../../../explore/exploreview/exploreviewui.dart';
 
 class FavouriteListUi extends GetWidget{
@@ -17,7 +18,7 @@ class FavouriteListUi extends GetWidget{
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13),
+          padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
               SizedBox(

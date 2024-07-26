@@ -22,7 +22,7 @@ class FunFactUi extends GetWidget {
             height: 8,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13),
+            padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -57,8 +57,8 @@ class FunFactUi extends GetWidget {
           Expanded(
             child: ListView(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13),
+                  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                   child: Text(
                       "Answer 1-3 fun fact questions to show your personality and help others get to know you"),
                 ),
@@ -66,7 +66,7 @@ class FunFactUi extends GetWidget {
                   height: Get.height * 0.015,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
+                  padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
@@ -102,7 +102,7 @@ class FunFactUi extends GetWidget {
                   clipBehavior: Clip.none,
                   children: [
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 13),
+                      margin:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 15),
                       decoration: BoxDecoration(
@@ -213,7 +213,7 @@ class FunFactUi extends GetWidget {
                   height: Get.height * 0.015,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
+                  padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                   child: InkWell(
                     onTap: () {},
                     child: Row(

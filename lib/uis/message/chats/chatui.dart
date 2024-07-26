@@ -232,6 +232,7 @@ class ChatUi extends GetWidget{
                 padding: const EdgeInsets.symmetric(horizontal: 13),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(width: Get.width*0.78,height: Res.h_btn,child: CustoTextFormField(hintText: "Type your message",sufixIcon: InkWell(onTap: ()async{
                       final ImagePicker picker = ImagePicker();

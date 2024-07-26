@@ -77,166 +77,160 @@ class IntroOneUi extends GetWidget<IntroController>{
                             enableDrag: false,
                             onClosing: () {},
                             builder: (context) {
-                              return Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                 Obx(() =>  Opacity(
-                                   opacity: controller.loading.value ? 0.5 : 1,
-                                   child: Container(
-                                       width: double.maxFinite,
-                                       height: h*.47,
-                                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                                       child: SingleChildScrollView(
-                                         child: Column(
-                                           crossAxisAlignment:
-                                           CrossAxisAlignment.start,
-                                           children: [
-                                             Center(
-                                               child: Container(
-                                                 margin: const EdgeInsets.symmetric(vertical: 7),
-                                                 alignment: Alignment.center,
-                                                 height: h*.005,
-                                                 width: w*.12,
-                                                 decoration: BoxDecoration(
-                                                     color: clrGrey,
-                                                     borderRadius: BorderRadius.circular(10)
-                                                 ),
-                                               ),
-                                             ),
-                                             SizedBox(
-                                               height: Get.height*.03,
-                                             ),
-                                             const Text(
-                                               "Sign Up",
-                                               style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),
-                                             ),
-                                             const Text(
-                                               "We need your mobile number to verify your account.",
-                                               style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
-                                             ),
-                                             SizedBox(
-                                               height: Get.height*.02,
-                                             ),
-                                             Form(
-                                               key: _formKey,
-                                               child: TextFormField(
-                                                 controller: controller.mobnoController,
-                                                 validator: (val){
+                              return Obx(() =>  Opacity(
+                                opacity: controller.loading.value ? 0.5 : 1,
+                                child: Container(
+                                    width: double.maxFinite,
+                                    height: h*.47,
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Center(
+                                            child: Container(
+                                              margin: const EdgeInsets.symmetric(vertical: 7),
+                                              alignment: Alignment.center,
+                                              height: h*.005,
+                                              width: w*.12,
+                                              decoration: BoxDecoration(
+                                                  color: clrGrey,
+                                                  borderRadius: BorderRadius.circular(10)
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: Get.height*.03,
+                                          ),
+                                          const Text(
+                                            "Sign Up",
+                                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),
+                                          ),
+                                          const Text(
+                                            "We need your mobile number to verify your account.",
+                                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            height: Get.height*.02,
+                                          ),
+                                          Form(
+                                            key: _formKey,
+                                            child: TextFormField(
+                                              controller: controller.mobnoController,
+                                              validator: (val){
 
-                                                   if( val== null || val.isEmpty){
-                                                     debugPrint("=====error");
-                                                     return "Mobile Number is required";
-                                                   }if(val.length <10){
-                                                     return "Enter valid mobile number";
-                                                   }
-                                                   else{
-                                                     return null;
-                                                   }
-                                                 },
-                                                 keyboardType: TextInputType.number,
-                                                 inputFormatters: <TextInputFormatter>[
-                                                   FilteringTextInputFormatter.digitsOnly
-                                                 ],
-                                                 decoration: InputDecoration(
+                                                if( val== null || val.isEmpty){
+                                                  debugPrint("=====error");
+                                                  return "Mobile Number is required";
+                                                }if(val.length <10){
+                                                  return "Enter valid mobile number";
+                                                }
+                                                else{
+                                                  return null;
+                                                }
+                                              },
+                                              keyboardType: TextInputType.number,
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter.digitsOnly
+                                              ],
+                                              decoration: InputDecoration(
 
-                                                     hintText: "Mobile number",
-                                                     hintStyle: const TextStyle(
-                                                         fontWeight: FontWeight.w400,fontSize: 16),
-                                                     contentPadding:
-                                                     const EdgeInsets.symmetric(
-                                                         horizontal: 15,
-                                                         vertical: 0),
-                                                     filled: true,
-                                                     fillColor: clrGreyLight,
-                                                     prefixIcon:  CountryCodePicker(
-                                                       textStyle: TextStyle(fontWeight: FontWeight.w700,fontSize: 15,color: clrBlacke),
-                                                       onChanged: (code){
-                                                         debugPrint("===${code.runtimeType}");
-                                                         controller.changeCountryCode(code);
-                                                       },
-                                                       // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                                       initialSelection: controller.initialSelection.value,
-                                                       favorite: ['+39', 'FR'],
-                                                       // optional. Shows only country name and flag
-                                                       showCountryOnly: false,
-                                                       // optional. Shows only country name and flag when popup is closed.
-                                                       showOnlyCountryWhenClosed: false,
-                                                       // optional. aligns the flag and the Text left
-                                                       alignLeft: false,
-                                                     ),
-                                                     border: OutlineInputBorder(
-                                                         borderSide: BorderSide.none,
-                                                         borderRadius:
-                                                         BorderRadius.circular(30))),
-                                               ),
-                                             ),
-                                             SizedBox(
-                                               height: Get.height*0.025,
-                                             ),
-                                             SizedBox(
-                                                 width: double.maxFinite,
-                                                 height:Res.h_btn,
-                                                 child: CustoElevatedBtn(
-                                                   onTap: () {
-                                                     if(!controller.loading.value){
-                                                       if(_formKey.currentState!.validate()){
-                                                         controller.checkMobNoApi();
-                                                       }
-                                                     }
-                                                   },
-                                                   backgroundClr: clrBlacke,
-                                                   child: Text(
-                                                     "Next",
-                                                     style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),
-                                                   ),)
-                                             ),
-                                             SizedBox(
-                                               height:  Get.height*0.025,
-                                             ),
+                                                  hintText: "Mobile number",
+                                                  hintStyle: const TextStyle(
+                                                      fontWeight: FontWeight.w400,fontSize: 16),
+                                                  contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 0),
+                                                  filled: true,
+                                                  fillColor: clrGreyLight,
+                                                  prefixIcon:  CountryCodePicker(
+                                                    textStyle: TextStyle(fontWeight: FontWeight.w700,fontSize: 15,color: clrBlacke),
+                                                    onChanged: (code){
+                                                      debugPrint("===${code.runtimeType}");
+                                                      controller.changeCountryCode(code);
+                                                    },
+                                                    // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                                    initialSelection: controller.initialSelection.value,
+                                                    favorite: ['+39', 'FR'],
+                                                    // optional. Shows only country name and flag
+                                                    showCountryOnly: false,
+                                                    // optional. Shows only country name and flag when popup is closed.
+                                                    showOnlyCountryWhenClosed: false,
+                                                    // optional. aligns the flag and the Text left
+                                                    alignLeft: false,
+                                                  ),
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                      BorderRadius.circular(30))),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: Get.height*0.025,
+                                          ),
+                                          SizedBox(
+                                              width: double.maxFinite,
+                                              height:Res.h_btn,
+                                              child: CustoElevatedBtn(
+                                                onTap: () {
+                                                  if(!controller.loading.value){
+                                                    if(_formKey.currentState!.validate()){
+                                                      controller.checkMobNoApi();
+                                                    }
+                                                  }
+                                                },
+                                                backgroundClr: clrBlacke,
+                                                child: Obx(() => controller.loading.value ? CommonUi.fourDotLoading() : Text(
+                                                  "Next",
+                                                  style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),
+                                                ),),)
+                                          ),
+                                          SizedBox(
+                                            height:  Get.height*0.025,
+                                          ),
 
-                                             Container(
-                                               padding: const EdgeInsets.symmetric(
-                                                   horizontal: 20),
-                                               child: RichText(
-                                                   textAlign: TextAlign.center,
-                                                   text: TextSpan(children: [
-                                                     TextSpan(
-                                                         text:
-                                                         "By registering you accept our",style: TextStyle(color: clrGreyDark,fontWeight: FontWeight.w300,fontSize: 12)),
-                                                     TextSpan(
-                                                         text: " Terms of Use",
-                                                         style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
-                                                     TextSpan(text: " and",style: TextStyle(color: clrGreyDark,fontWeight: FontWeight.w300,fontSize: 12)),
-                                                     TextSpan(
-                                                         text: " Privacy Policy",
-                                                         style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
-                                                   ])),),
-                                             SizedBox(
-                                               height:h*0.04 ,
-                                             ),
-                                             Container(
-                                               alignment: Alignment.center,
-                                               padding: const EdgeInsets.symmetric(
-                                                   horizontal: 20),
-                                               child: RichText(
-                                                   textAlign: TextAlign.center,
-                                                   text: TextSpan(children: [
-                                                     TextSpan(
-                                                         text:
-                                                         "Need Help? Contact ",style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w300,fontSize: 12)),
-                                                     TextSpan(
-                                                         text: "info@plusonesapp.com",
-                                                         style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
-                                                   ])),
-                                             ),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text:
+                                                      "By registering you accept our",style: TextStyle(color: clrGreyDark,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                  TextSpan(
+                                                      text: " Terms of Use",
+                                                      style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                  TextSpan(text: " and",style: TextStyle(color: clrGreyDark,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                  TextSpan(
+                                                      text: " Privacy Policy",
+                                                      style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                ])),),
+                                          SizedBox(
+                                            height:h*0.04 ,
+                                          ),
+                                          Container(
+                                            alignment: Alignment.center,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text:
+                                                      "Need Help? Contact ",style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                  TextSpan(
+                                                      text: "info@plusonesapp.com",
+                                                      style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                ])),
+                                          ),
 
-                                           ],
-                                         ),
-                                       )),
-                                 ),),
-                                  Obx(() => controller.loading.value ? CommonUi.fourDotLoading() : CommonUi.emptySizeBox(),),
-                                ],
-                              );
+                                        ],
+                                      ),
+                                    )),
+                              ),);
                             }));
                       },
                       backgroundClr: clrYellow,

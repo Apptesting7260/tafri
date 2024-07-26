@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
@@ -199,29 +200,42 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                           child: Text("DOB is required.",style: TextStyle(color:clrRedErr,fontSize: 12),),
                         ):const SizedBox() ;
                       }),
+                      Obx((){
+                        return controller.isOld.value && controller.isShowDobErr.value==true ? Padding(
+                          padding: const EdgeInsets.only(left: 14,top: 5),
+                          child: Text("Age should be greater than 18 years.",style: TextStyle(color:clrRedErr,fontSize: 12),),
+                        ) : const SizedBox() ;
+                      }),
                       SizedBox(
                         height: h * .02,
                       ),
-                      SizedBox(
-                          width: double.maxFinite,
-                          height: Res.h_btn,
-                          child: CustoElevatedBtn(
-                              onTap: () {
-                                controller.changeShowDobVal(true);
-                                if(_formKey.currentState!.validate()){
-                                  if(controller.dob.value != ''){
-                                    controller.submitlocDob();
+                      Obx(() => Opacity(
+                        opacity: controller.loading.value ? 0.5 : 1,
+                        child: SizedBox(
+                            width: double.maxFinite,
+                            height: Res.h_btn,
+                            child: CustoElevatedBtn(
+                                onTap: () {
+                                  if(!controller.loading.value){
+                                    controller.changeShowDobVal(true);
+                                    if(_formKey.currentState!.validate()){
+                                      if(controller.dob.value != ''){
+                                        if(!controller.isOld.value){
+                                          controller.registerLocation();
+                                        }
+                                      }
+                                    }
                                   }
-                                }
-                              },
-                              backgroundClr: clrBlacke,
-                              child: Text(
-                                "Continue",
-                                style: TextStyle(
-                                    color: clrWhite,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ))),
+                                },
+                                backgroundClr: clrBlacke,
+                                child: controller.loading.value ? CommonUi.fourDotLoading() : Text(
+                                  "Continue",
+                                  style: TextStyle(
+                                      color: clrWhite,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16),
+                                ))),
+                      ),),
                       SizedBox(
                         height: h * .02,
                       ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Creativitycontroller extends GetxController with GetTickerProviderStateMixin{
   late TabController tabController;
@@ -34,6 +37,17 @@ class Creativitycontroller extends GetxController with GetTickerProviderStateMix
   changejoinInstant(){
     joinInstant.value=!joinInstant.value;
   }
-
+  RxString sTime="".obs;
+  changeStime(TimeOfDay stime){
+    sTime.value="${stime.hour}:${stime.minute}";
+  }
+  RxString eTime="".obs;
+  changeEtime(TimeOfDay etime){
+    eTime.value="${etime.hour}:${etime.minute}";
+  }
+  Rx<bool> choosePhotoCheck=false.obs;
+  changeChoosePhotoVal(){
+    choosePhotoCheck.value=!choosePhotoCheck.value;
+  }
 
 }

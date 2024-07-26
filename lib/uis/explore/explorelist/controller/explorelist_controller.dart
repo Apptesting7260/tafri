@@ -243,8 +243,8 @@ class ExploreListController extends GetxController{
     filterDateStart.value=DateFormat("dd/MM/yyyy").format(newDob.start);
     filterDateCalenderStart.value=DateFormat("yyyy-MM-dd").format(newDob.start);
 
-    filterDateEnd.value=DateFormat("dd/MM/yyyy").format(newDob.start);
-    filterDateCalenderEnd.value=DateFormat("yyyy-MM-dd").format(newDob.start);
+    filterDateEnd.value=DateFormat("dd/MM/yyyy").format(newDob.end);
+    filterDateCalenderEnd.value=DateFormat("yyyy-MM-dd").format(newDob.end);
   }
   RxBool hideWaitListAct=false.obs;
   changeHideWaitListAct(){

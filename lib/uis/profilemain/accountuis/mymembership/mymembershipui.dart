@@ -18,7 +18,7 @@ class MyMemberShipUi extends GetWidget{
       body: SafeArea(
 
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

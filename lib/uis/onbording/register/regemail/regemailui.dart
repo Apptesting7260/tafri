@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/navbar/navbar.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../utils/colors.dart';
 import '../../../components/custoelevatedbtn.dart';
@@ -129,23 +130,28 @@ class RegEmailUi extends GetWidget<RegemailController> {
                       SizedBox(
                         height: h * .03,
                       ),
-                      SizedBox(
-                          width: double.maxFinite,
-                          height: Res.h_btn,
-                          child: CustoElevatedBtn(
-                              onTap: () {
-                                if(_formKey.currentState!.validate()){
-                                   controller.submitemail();
-                                }
-                              },
-                              backgroundClr: clrBlacke,
-                              child: Text(
-                                "Explore the app",
-                                style: TextStyle(
-                                    color: clrWhite,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ))),
+                      Obx(() => Opacity(
+                        opacity: controller.loading.value ? 0.5 : 1,
+                        child: SizedBox(
+                            width: double.maxFinite,
+                            height: Res.h_btn,
+                            child: CustoElevatedBtn(
+                                onTap: () {
+                                  if(!controller.loading.value){
+                                    if(_formKey.currentState!.validate()){
+                                      controller.registerEmail();
+                                    }
+                                  }
+                                },
+                                backgroundClr: clrBlacke,
+                                child: controller.loading.value ? CommonUi.fourDotLoading() : Text(
+                                  "Explore the app",
+                                  style: TextStyle(
+                                      color: clrWhite,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16),
+                                ))),
+                      ),),
                       SizedBox(
                         height: h * .02,
                       ),

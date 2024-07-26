@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
@@ -171,7 +172,13 @@ class CreateActivityUi extends GetWidget<Creativitycontroller>{
                               ),
                               Row(
                                 children: [
-                                  Checkbox(value: true, onChanged: (val) {}),
+                                  Obx((){
+                                    return Checkbox(value: controller.choosePhotoCheck.value, onChanged: (val) {
+                                      controller.changeChoosePhotoVal();
+                                    },activeColor: clrYellow,);
+
+
+                                  }),
                                   const SizedBox(
                                     width: 0,
                                   ),
@@ -183,11 +190,16 @@ class CreateActivityUi extends GetWidget<Creativitycontroller>{
                               ),
                               SizedBox(
                                 height: Res.h_btn,
-                                child: const CustoDropDownBtn(itemList: [
+                                child:   CustoDropDownBtn(
+                                    onchange: (val){
+
+                                    },
+                                    itemList: const [
                                   DropdownMenuItem(
                                     value: 1,
                                     child: Text("Coffee"),
-                                  )
+                                  ),
+
                                 ], hindtext: "Select Category"),
                               ),
                               SizedBox(
@@ -266,59 +278,63 @@ class CreateActivityUi extends GetWidget<Creativitycontroller>{
                               SizedBox(
                                 height: Get.height * 0.015,
                               ),
-                              SizedBox(
-                                height: Res.h_btn,
-                                child: CustoDropDownBtn(
-                                  itemList: const [
-                                    DropdownMenuItem(
-                                      value: 1,
-                                      child: Text("10:00 AM"),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 2,
-                                      child: Text("11:00 AM"),
-                                    ),
-                                    DropdownMenuItem(
-                                        value: 3,
-                                        child: Text("12:00 PM")
-                                    ),
-                                  ],
-                                  hindtext: "Start At",
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Image.asset("assets/icons/timericon.png"),
-                                  ),
-                                ),
-                              ),
+                              Obx((){
+                                return SizedBox(
+                                    height: Res.h_btn,
+                                    child: InkWell(
+                                      onTap: ()async{
+                                        TimeOfDay? stime=await  showTimePicker(context: context, initialTime: TimeOfDay.now());
+                                        if(stime!=null){
+                                          controller.changeStime(stime);
+                                        }
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: clrGreyLight,),
+                                          child: Row(
+                                            children: [
+                                              Image.asset("assets/icons/timericon.png",height: h*.035,),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(controller.sTime ==''? "Start At":"${controller.sTime}",style: TextStyle(color:controller.sTime ==''?clrGreyDark:clrBlacke),)
+                                            ],
+                                          )
+                                      ),
+                                    )
+                                );
+                              }),
                         
                               SizedBox(
                                 height: h * 0.015,
                               ),
-                              SizedBox(
-                                height: Res.h_btn,
-                                child: CustoDropDownBtn(
-                                  itemList: const [
-                                    DropdownMenuItem(
-                                      value: 1,
-                                      child: Text("1:00 PM"),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 2,
-                                      child: Text("2:00 PM"),
-                                    ),
-                                    DropdownMenuItem(
-                                        value: 3,
-                                        child: Text("3:00 PM")
-                                    ),
-                                  ],
-                                  hindtext: "Ends At",
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Image.asset("assets/icons/timericon.png"),
-                                  ),
-                                ),
-                              ),
-                        
+                              Obx((){
+                                return SizedBox(
+                                    height: Res.h_btn,
+                                    child: InkWell(
+                                      onTap: ()async{
+                                        TimeOfDay? etime=await  showTimePicker(context: context, initialTime: TimeOfDay.now());
+                                        if(etime!=null){
+                                          controller.changeEtime(etime);
+                                        }
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: clrGreyLight,),
+                                          child: Row(
+                                            children: [
+                                              Image.asset("assets/icons/timericon.png",height: h*.035,),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(controller.eTime ==''? "Ends At":"${controller.eTime}",style: TextStyle(color:controller.eTime ==''?clrGreyDark:clrBlacke),)
+                                            ],
+                                          )
+                                      ),
+                                    )
+                                );
+                              }),
+
                               SizedBox(
                                 height: Get.height * 0.015,
                               ),
@@ -645,6 +661,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller>{
   }
   alertRepeatSchedule() {
     Get.dialog(AlertDialog(
+      backgroundColor: clrWhite,
       scrollable: true,
       insetPadding: const EdgeInsets.symmetric(horizontal: 13),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
@@ -892,7 +909,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller>{
             Row(
               children: [
                 Expanded(
-                  child: CustoFilterBtn(lable:  Text("Cancel",style: TextStyle(color: clrBlacke),), ontap: (){
+                  child: CustoFilterBtn(lable:  Text("Cancel",style: TextStyle(color: clrBlacke),),borderClr: clrBlacke, ontap: (){
                     Get.back();
                   }, backgroundClr: Get.theme.scaffoldBackgroundColor
                 ),
