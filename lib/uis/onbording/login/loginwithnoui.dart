@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/onbording/login/controller/loginno_controller.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/common.dart';
 import '../../components/custoelevatedbtn.dart';
 
-class LoginWithNoUi extends GetWidget{
-  const LoginWithNoUi({super.key});
-
+class LoginWithNoUi extends GetWidget<LoginnoController>{
+   LoginWithNoUi({super.key});
+  final _formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
@@ -111,54 +113,83 @@ class LoginWithNoUi extends GetWidget{
                                         SizedBox(
                                           height: h*.025,
                                         ),
-                                        TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.digitsOnly
-                                          ],
-                                          decoration: InputDecoration(
-                                              hintText: "Mobile number",
-                                              hintStyle: const TextStyle(
-                                                  fontWeight: FontWeight.w400,fontSize: 16),
-                                              contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 15,
-                                                  vertical: 0),
-                                              filled: true,
-                                              fillColor: clrGreyLight,
-                                              prefixIcon: const CountryCodePicker(
-                                                onChanged: print,
-                                                // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                                initialSelection: 'IT',
-                                                favorite: ['+91','+39', 'FR'],
-                                                // optional. Shows only country name and flag
-                                                showCountryOnly: false,
-                                                // optional. Shows only country name and flag when popup is closed.
-                                                showOnlyCountryWhenClosed: false,
-                                                // optional. aligns the flag and the Text left
-                                                alignLeft: false,
-                                              ),
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide.none,
-                                                  borderRadius:
-                                                  BorderRadius.circular(30))),
+                                        Form(
+                                          key:_formKey ,
+                                          child: TextFormField(
+                                            validator: (val){
+                                              if( val== null || val.isEmpty){
+                                                debugPrint("=====error");
+                                                return "Mobile Number is required";
+                                              }if(val.length <10){
+                                                return "Enter valid mobile number";
+                                              }
+                                              else{
+                                                return null;
+                                              }
+                                            },
+                                            controller: controller.mobNoCon,
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: <TextInputFormatter>[
+                                              FilteringTextInputFormatter.digitsOnly
+                                            ],
+                                            decoration: InputDecoration(
+                                                hintText: "Mobile number",
+                                                hintStyle: const TextStyle(
+                                                    fontWeight: FontWeight.w400,fontSize: 16),
+                                                contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 15,
+                                                    vertical: 0),
+                                                filled: true,
+                                                fillColor: clrGreyLight,
+                                                prefixIcon:  CountryCodePicker(
+                                                  onChanged: (code){
+                                                    debugPrint("===${code.runtimeType}");
+                                                    controller.changeCountryCode(code);
+                                                  },
+                                                  // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                                  initialSelection: controller.initialSelection.value,
+                                                  favorite: ['+91','+39', 'FR'],
+                                                  // optional. Shows only country name and flag
+                                                  showCountryOnly: false,
+                                                  // optional. Shows only country name and flag when popup is closed.
+                                                  showOnlyCountryWhenClosed: false,
+                                                  // optional. aligns the flag and the Text left
+                                                  alignLeft: false,
+                                                ),
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide.none,
+                                                    borderRadius:
+                                                    BorderRadius.circular(30))),
+                                          ),
                                         ),
                                          SizedBox(
                                           height: h*.025,
                                         ),
-                                        SizedBox(
-                                          width: double.maxFinite,
-                                          height: Res.h_btn,
-                                          child: CustoElevatedBtn(
-                                              onTap: () {
-                                                Get.toNamed(Routes.codeVerify,arguments: {'current step':5});
-                                              },
-                                              backgroundClr: clrBlacke,
-                                              child: Text(
-                                                "Next",
-                                                style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),
-                                              )),
-                                        ),
+                                       Obx((){
+                                         return  Opacity(
+                                           opacity: controller.isLoadingLogin.value?0.5:1
+                                           ,
+                                           child: SizedBox(
+                                             width: double.maxFinite,
+                                             height: Res.h_btn,
+                                             child: CustoElevatedBtn(
+                                                 onTap: () {
+                                                   if(!controller.isLoadingLogin.value){
+                                                      if(_formKey.currentState!.validate()){
+                                                        controller.loginApi();
+                                                      }
+                                                   }
+
+                                                 },
+                                                 backgroundClr: clrBlacke,
+                                                 child:controller.isLoadingLogin.value?CommonUi.fourDotLoading(): Text(
+                                                   "Next",
+                                                   style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),
+                                                 )),
+                                           ),
+                                         );
+                                       }),
                                          SizedBox(
                                           height: h*.025,
                                         ),
