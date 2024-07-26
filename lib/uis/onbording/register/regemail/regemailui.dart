@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
-import 'package:plusone/uis/navbar/navbar.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../utils/colors.dart';
 import '../../../components/custoelevatedbtn.dart';
 import '../../../components/custotextfield.dart';
-import '../../introone/intoone.dart';
 import 'controller/regemail_controller.dart';
 
 class RegEmailUi extends GetWidget<RegemailController> {
