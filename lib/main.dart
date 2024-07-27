@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/onbording/introone/binding/intro_binding.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/local_storage.dart';
 
 Future<void> main() async{
   await GetStorage.init();
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    String? token = LocalStorage.getToken();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: clrWhite),
         useMaterial3: true,
       ),
-      initialRoute: Routes.initialPage,
+      initialRoute: token != null && token.isNotEmpty ? Routes.navbarUi : Routes.initialPage ,
       initialBinding: IntroBinding(),
       getPages: Routes.listRoutes,
       // home:const IntroOneUi(),

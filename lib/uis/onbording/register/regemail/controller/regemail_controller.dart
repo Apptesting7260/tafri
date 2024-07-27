@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/onbording/introone/controller/intro_controller.dart';
 import 'package:plusone/uis/onbording/register/regemail/model/register_email_model.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import '../../../../../networking/apiservices.dart';
 import '../../../../../networking/endpoints.dart';
@@ -30,6 +31,7 @@ class RegemailController extends GetxController{
       var data = RegisterEmailModel.fromJson(response.body);
       if(data.status == true){
         loading.value = false;
+        LocalStorage.saveToken(data.accessToken.toString());
         Get.offAllNamed(Routes.navbarUi);
       }else{
         loading.value = false;
