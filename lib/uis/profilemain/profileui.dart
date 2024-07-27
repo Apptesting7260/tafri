@@ -7,6 +7,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/onbording/introone/intoone.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 
 class ProfileUi extends GetWidget<ProfilemainController>{
@@ -314,10 +315,12 @@ class ProfileUi extends GetWidget<ProfilemainController>{
                     height: Res.h_btn,
                     child: CustoElevatedBtn(
                         onTap: () {
-                          debugPrint("gk==logout");
-                          Get.offAll(() {
-                            Get.offAllNamed(Routes.initialPage);
-                          });
+                          LocalStorage.removeToken();
+                          debugPrint("gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
+
+                          if(LocalStorage.getToken()==null || LocalStorage.getUid()==null){
+                                Get.offAllNamed(Routes.initialPage);
+                          }
                         },
                         backgroundClr: clrBlacke,
                         child: Text(

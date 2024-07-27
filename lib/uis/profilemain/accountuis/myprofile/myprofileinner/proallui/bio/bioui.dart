@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
+import '../../controller/myprofileinn_controller.dart';
 
-class BioUi extends GetWidget{
+class BioUi extends GetWidget<MyprofileInnController>{
   const BioUi({super.key});
 
   @override
@@ -57,10 +58,17 @@ class BioUi extends GetWidget{
                     height: Get.height*0.015,
                   ),
                   TextFormField(
+                    controller: controller.bioController,
+                    validator: (val){
+                      if(val==null || val.isEmpty || val==''){
+                        return "Please tell us about yourself";
+                      }
+                    },
                     keyboardType:TextInputType.text,
                     maxLines: 8,
                     maxLength: 350,
                     decoration: InputDecoration(
+
                         hintText: "Introduce yourself...",
                         hintStyle: TextStyle(fontWeight: FontWeight.w400,color: clrGreyTextLight),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
@@ -72,7 +80,9 @@ class BioUi extends GetWidget{
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){
+              Get.back();
+            } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             SizedBox(
               height: Get.height*0.01,
             ),

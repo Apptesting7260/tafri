@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
 import 'package:plusone/utils/size.dart';
-
 import '../../../../../../../utils/colors.dart';
 
-class GetVerifyUi extends GetWidget{
+class GetVerifyUi extends GetWidget<MyprofileInnController>{
   const GetVerifyUi({super.key});
 
   @override
@@ -83,7 +83,11 @@ class GetVerifyUi extends GetWidget{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text("Instagram",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
-                            Container(height:h*.044,child: FittedBox(child: Switch(activeTrackColor:clrYellow,value: true, onChanged: (val){},activeColor: clrWhite,focusColor: clrWhite,)))
+                            SizedBox(height:h*.044,child: FittedBox(child: Obx((){
+                              return Switch(activeTrackColor:clrYellow,value: controller.isInstaVerified.value==1?true:false, onChanged: (val){
+                                controller.changeVerifyInsta(controller.isInstaVerified.value==1?0:1);
+                              },activeColor: clrWhite,focusColor: clrWhite,inactiveThumbColor: clrWhite,trackOutlineColor: WidgetStateProperty.all(clrTransparent),inactiveTrackColor: clrTrack,);
+                            })))
                           ],
                         ),
                       )
@@ -104,7 +108,11 @@ class GetVerifyUi extends GetWidget{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text("LinkedIn",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
-                            Container(height:h*.044,child: FittedBox(child: Switch(activeTrackColor:clrYellow,value: true, onChanged: (val){},activeColor: clrWhite,focusColor: clrWhite,)))
+                            SizedBox(height:h*.044,child: FittedBox(child: Obx((){
+                              return Switch(activeTrackColor:clrYellow,value: controller.isLinkdinVerified.value==1?true:false, onChanged: (val){
+                                controller.changeVerifyLinkdin(controller.isLinkdinVerified.value==1?0:1);
+                              },activeColor: clrWhite,trackOutlineColor: WidgetStateProperty.all(clrTransparent),focusColor: clrWhite,inactiveThumbColor: clrWhite,inactiveTrackColor: clrTrack,);
+                            })))
                           ],
                         ),
                       )

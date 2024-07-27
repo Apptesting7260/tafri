@@ -93,6 +93,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                       ],
                       onCompleted: (v) {
                         String token=Get.arguments['token'];
+                        String uId=Get.arguments['uid'];
                         if (currentStep == 0) {
                           Get.toNamed(Routes.nameAddUi);
                           // Get.toNamed(Routes.navbarUi);
@@ -104,6 +105,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                           Get.toNamed(Routes.regEmailui);
                         }else{
                           LocalStorage.saveToken(token);
+                          LocalStorage.saveUid(uId);
                           Get.toNamed(Routes.navbarUi);
                         }
                       },
@@ -127,6 +129,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                         child: CustoElevatedBtn(
                           onTap: () {
                             String token=Get.arguments['token'];
+                            String uId=Get.arguments['uid'];
                             if (currentStep == 0) {
                               Get.toNamed(Routes.nameAddUi);
                             } else if (currentStep == 1) {
@@ -137,6 +140,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                               Get.toNamed(Routes.regEmailui);
                             }else{
                               LocalStorage.saveToken(token);
+                              LocalStorage.saveUid(uId);
                               Get.toNamed(Routes.navbarUi);
                             }
                           },

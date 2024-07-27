@@ -1,13 +1,15 @@
 class LoginModel {
   bool? status;
   String? message;
+  String? uId;
   String? token;
 
-  LoginModel({this.status, this.message,this.token});
+  LoginModel({this.status, this.message,this.token,this.uId});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
+    uId = json['user_id'].toString();
     token = json['access_token'];
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class BioController extends GetxController{
@@ -6,4 +7,5 @@ class BioController extends GetxController{
     // TODO: implement onInit
     super.onInit();
   }
+
 }

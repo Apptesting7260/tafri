@@ -3,6 +3,10 @@ class EndPoints{
   static String baseUrl="https://urlsdemo.online/plusone/api/";
   static String addNewUserUrl="${baseUrl}addnewuser";
   static String loginApiUrl="${baseUrl}login";
+  static String completeProfileApiUrl="${baseUrl}complete-profile";
+  static String languageListApiUrl="${baseUrl}get-languages";
+  static String getCategoryApiUrl="${baseUrl}get-categories";
+
   static String checkNuExist="${baseUrl}check-number-existing";
   static String signupStep1 = '${baseUrl}signup-step1';
   static String signupStep2 = '${baseUrl}signup-step2';

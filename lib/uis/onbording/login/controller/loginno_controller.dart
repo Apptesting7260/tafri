@@ -33,7 +33,7 @@ class LoginnoController extends GetxController{
     if(response.statusCode==200){
       if(body.status==true){
         debugPrint("gk======token==${body.token}");
-        Get.toNamed(Routes.codeVerify,arguments: {'current step':5,'token':body.token});
+        Get.toNamed(Routes.codeVerify,arguments: {'current step':5,'token':body.token,'uid':body.uId});
       }else{
         showTostMsg(body.message);
       }

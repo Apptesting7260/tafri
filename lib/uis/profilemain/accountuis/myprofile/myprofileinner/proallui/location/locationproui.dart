@@ -4,10 +4,11 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
+import '../../controller/myprofileinn_controller.dart';
 
-class LocationProUi extends GetWidget{
-  const LocationProUi({super.key});
-
+class LocationProUi extends GetWidget<MyprofileInnController>{
+  LocationProUi({super.key});
+final _formState=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
@@ -57,20 +58,36 @@ class LocationProUi extends GetWidget{
                   SizedBox(
                     height: Get.height*0.015,
                   ),
-                  SizedBox(
-                    height: Res.h_btn,
-                    child: CustoTextFormField(
-                      hintText: "Amsterdam, Netherlands",
-                      sufixIcon: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset("assets/icons/locationicon.png"),
+                  // Obx((){
+                  //   return ;
+                  // })
+                  Form(
+                    key: _formState,
+                    child: SizedBox(
+                      child: CustoTextFormField(
+                        controll: controller.locController,
+                        validation: (val){
+                          if(val==null || val.isEmpty || val==''){
+                            return "Location is required";
+                          }
+                          return null;
+                        },
+                        hintText: "Amsterdam, Netherlands",
+                        sufixIcon: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Image.asset("assets/icons/locationicon.png",height: Get.height*.04,),
+                        ),
                       ),
                     ),
                   )
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){
+              if(_formState.currentState!.validate()){
+                Get.back();
+              }
+            } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             SizedBox(
               height: Get.height*0.01,
             ),

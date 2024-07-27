@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
 import 'package:plusone/utils/size.dart';
 
 import '../../../../../../../utils/colors.dart';
 
-class OccupationUi extends GetWidget{
-  const OccupationUi({super.key});
-
+class OccupationUi extends GetWidget<MyprofileInnController>{
+   OccupationUi({super.key});
+  final _formState=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
@@ -58,13 +59,20 @@ class OccupationUi extends GetWidget{
                   SizedBox(
                     height: Get.height*0.015,
                   ),
-                  SizedBox(
-                    height: Res.h_btn,
+                  Form(
+                    key: _formState,
                     child: CustoTextFormField(
+                      controll: controller.ocupatController,
+                      validation: (val){
+                        if(val==null || val.isEmpty || val==''){
+                          return "Please enter your ocupation";
+                        }
+                        return null;
+                      },
                       hintText: "Ocupation",
                       sufixIcon: Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Image.asset("assets/icons/bagicon.png"),
+                        child: Image.asset("assets/icons/bagicon.png",height: h*.04,),
                       ),
                     ),
                   ),
@@ -74,6 +82,7 @@ class OccupationUi extends GetWidget{
                   SizedBox(
                     height: Res.h_btn,
                     child: CustoTextFormField(
+                      controll: controller.organiController,
                       hintText: "Organisation (optional)",
                       sufixIcon: Padding(
                         padding: const EdgeInsets.all(10),
@@ -84,7 +93,11 @@ class OccupationUi extends GetWidget{
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){
+              if(_formState.currentState!.validate()){
+                Get.back();
+              }
+            } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             SizedBox(
               height: Get.height*0.01,
             ),
