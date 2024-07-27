@@ -5,6 +5,7 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/onbording/introone/controller/intro_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 
 class CodeVerifyUi extends GetWidget<IntroController> {
@@ -91,6 +92,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                         )
                       ],
                       onCompleted: (v) {
+                        String token=Get.arguments['token'];
                         if (currentStep == 0) {
                           Get.toNamed(Routes.nameAddUi);
                           // Get.toNamed(Routes.navbarUi);
@@ -100,6 +102,9 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                           Get.toNamed(Routes.regLocDobui);
                         } else if (currentStep == 3) {
                           Get.toNamed(Routes.regEmailui);
+                        }else{
+                          LocalStorage.saveToken(token);
+                          Get.toNamed(Routes.navbarUi);
                         }
                       },
                       onChanged: (value) {
@@ -121,6 +126,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                         height: Res.h_btn,
                         child: CustoElevatedBtn(
                           onTap: () {
+                            String token=Get.arguments['token'];
                             if (currentStep == 0) {
                               Get.toNamed(Routes.nameAddUi);
                             } else if (currentStep == 1) {
@@ -130,6 +136,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                             } else if (currentStep == 3) {
                               Get.toNamed(Routes.regEmailui);
                             }else{
+                              LocalStorage.saveToken(token);
                               Get.toNamed(Routes.navbarUi);
                             }
                           },
