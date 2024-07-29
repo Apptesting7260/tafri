@@ -6,6 +6,7 @@ class EndPoints{
   static String completeProfileApiUrl="${baseUrl}complete-profile";
   static String languageListApiUrl="${baseUrl}get-languages";
   static String getCategoryApiUrl="${baseUrl}get-categories";
+  static String funFactQestiApiUrl="${baseUrl}get-user_fun_facts";
 
   static String checkNuExist="${baseUrl}check-number-existing";
   static String signupStep1 = '${baseUrl}signup-step1';

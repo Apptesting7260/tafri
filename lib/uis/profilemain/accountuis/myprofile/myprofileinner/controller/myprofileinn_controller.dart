@@ -1,6 +1,13 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:http/http.dart'as http;
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/addphoto/controller/addphoto_controller.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/funfact/models/funfactquest_model.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/language/models/langauagemodel.dart';
 import 'package:plusone/utils/local_storage.dart';
 import '../../../../../../networking/apiservices.dart';
@@ -17,6 +24,7 @@ class MyprofileInnController extends GetxController with GetTickerProviderStateM
   @override
   void onInit() {
     languageApi();
+    funFactQuetionList();
     activityGetDataApi();
     tabController = TabController(length: 2, vsync: this);
     Future.delayed(Duration.zero,(){
@@ -102,6 +110,10 @@ class MyprofileInnController extends GetxController with GetTickerProviderStateM
   removeSelectLan(index){
     selectedLanguageList.removeAt(index);
     selectedLanguageList.reversed;
+  }
+  Rx<bool> isShowLangReqError=false.obs;
+  changeIsShowLangError(val){
+    isShowLangReqError.value=val;
   }
 //************************************************Get verified code ****************
   Rx<int> isInstaVerified=0.obs;
@@ -192,38 +204,93 @@ class MyprofileInnController extends GetxController with GetTickerProviderStateM
     debugPrint("gk==selectedCatIds=${selectedCatIds}");
     debugPrint("gk==selectedSubCatIds=${selectedSubCatIds}");
   }
-
-  //************************************************My profile mulipart api ****************
-  Rx<bool> isLoadingProfile=false.obs;
-  Future<void> myProfileSubmit()async{
-    isLoadingProfile.value=true;
+//************************************************funfact ****************
+  var funFactListDeta=[].obs;
+  var questionList=[].obs;
+  addFunFactDeta(q,ans){
+    funFactListDeta.add({"ques":q,"and":ans});
+  }
+  removeFunFactDeta(index){
+    if (index >= 0 && index < funFactListDeta.length) {
+      funFactListDeta.removeAt(index);
+    } else {
+      print('Index out of range');
+    }
+  }
+  //************************************************funfact api****************
+  Rx<bool> isLoadingFunFactQuest=false.obs;
+  Rx<FunfactQuestModel> funFactQuetionList = FunfactQuestModel().obs;
+  Future<void> funfactQuestionApi()async{
+    isLoadingFunFactQuest.value=true;
     String? token=LocalStorage.getToken();
     try{
-      // final response = await api.get(EndPoints.getCategoryApiUrl,headers: {"Authorization":"Bearer $token"});
-      // final response = await api.(EndPoints.getCategoryApiUrl,headers: {"Authorization":"Bearer $token"});
-      var request = http.MultipartRequest('POST', Uri.parse(EndPoints.completeProfileApiUrl));
-      var uid=LocalStorage.getUid();
-      request.fields['user_id']="$uid";
-      request.fields['bio']="$uid";
-      request.fields['occupation']="$uid";
-      request.fields['organisation_name']="$uid";
-      request.fields['language_id']="$uid";
-      request.fields['category_id']="$uid";
-      request.fields['subcategory_id']="$uid";
-      request.fields['questions']="$uid";
-      request.fields['answers']="$uid";
-      request.fields['profile_photo']="$uid";
-      request.fields['verify_instagram']="$uid";
-      request.fields['verify_linkedin']="$uid";
-      var response = await request.send();
+      final response = await api.get(EndPoints.funFactQestiApiUrl,headers: {"Authorization":"Bearer $token"});
       if(response.statusCode==200){
-        // ActivityModel body=ActivityModel.fromJson(response.body);
-        // if(body.status==true){
+        FunfactQuestModel body=FunfactQuestModel.fromJson(response.body);
+        body.result?.map((e){
+          questionList.add(
+              DropdownMenuItem(child: Text(e.title.toString()),value: e.id,)
+          );
+        });
+
+
+        if(body.status==true){
+          funFactQuetionList.value=body;
+        }else{
+          debugPrint("error=funfact statu false");
+          showTostMsg("Something went wrong");
+        }
+      }else{
+        debugPrint("error=funfact statuscode");
+        showTostMsg("Something went wrong");
+      }
+    }catch(e){
+      debugPrint("error=funfact=$e");
+      showTostMsg("Something went wrong");
+    }
+    isLoadingFunFactQuest.value=false;
+  }
+
+  //************************************************My profile mulipart api ****************
+  AddphotoController addPhotoController=Get.put(AddphotoController());
+  Rx<bool> isLoadingProfile=false.obs;
+  Future<void> myProfileSubmit()async{
+    var uid=LocalStorage.getUid();
+    isLoadingProfile.value=true;
+    String? token=LocalStorage.getToken();
+    log("completeProfileApiUrl=${EndPoints.completeProfileApiUrl}  -=uid=$uid  --bio=${bioController.value.text}-------occupation=${ocupatController.value.text}  language_id=${selectedLanguageList.toString()}    ---category_id=${selectedCatIds.toString()}  -----subcategory_id=${selectedSubCatIds}");
+    try{
+      var request = http.MultipartRequest('POST', Uri.parse(EndPoints.completeProfileApiUrl));
+      request.headers['Authorization']='Bearer $token';
+      request.fields['user_id']="$uid";
+      request.fields['bio']=bioController.value.text.trim();
+      request.fields['occupation']=ocupatController.value.text.trim();
+      request.fields['organisation_name']=organiController.value.text.trim();
+      request.fields['language_id']=selectedLanguageList.toString();
+      request.fields['category_id']=selectedCatIds.toString();
+      request.fields['subcategory_id']=selectedSubCatIds.toString();
+      // request.fields['questions']="$uid";
+      // request.fields['answers']="$uid";
+      if(addPhotoController.selectedImage.value !=null){
+        request.files.add(await http.MultipartFile.fromPath("profile_photo", addPhotoController.selectedImage.value!.path));
+      }
+      request.fields['verify_instagram']=isInstaVerified.value.toString();
+      request.fields['verify_linkedin']=isLinkdinVerified.value.toString();
+      var responseRes = await request.send();
+      var resDeta=await responseRes.stream.toBytes();
+      var responseString = String.fromCharCodes(resDeta);
+      log("gk===statusCode profile=${responseRes.statusCode}");
+      log("gk===responseString profile=${responseString}");
+      var jsonResponse = jsonDecode(responseString);
+      if(responseRes.statusCode==200){
+        // if(jsonResponse['status']==true){
         //   activityListData.value=body;
         //   debugPrint("gk=====activity listdeta=${response.body}");
         // }else{
-          showTostMsg("Profile data submitted successfully");
+          showTostMsg("${jsonResponse['message']}");
         // }
+      }if(responseRes.statusCode==401){
+        showTostMsg("${jsonResponse['message']}");
       }else{
         showTostMsg("Something went wrong");
       }

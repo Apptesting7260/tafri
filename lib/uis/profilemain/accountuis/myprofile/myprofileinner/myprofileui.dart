@@ -450,7 +450,9 @@ class MyProfileUi extends GetWidget<MyprofileInnController>{
                           SizedBox(
                             height: Res.h_btn,
                             width: double.maxFinite,
-                            child: CustoElevatedBtn(onTap: (){}, backgroundClr: clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),)),
+                            child: CustoElevatedBtn(onTap: (){
+                              controller.myProfileSubmit();
+                            }, backgroundClr: clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),)),
                           ),
                           SizedBox(
                             height: Get.height*.015,

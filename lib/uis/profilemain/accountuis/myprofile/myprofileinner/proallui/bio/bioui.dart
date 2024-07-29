@@ -6,8 +6,8 @@ import '../../../../../../../utils/colors.dart';
 import '../../controller/myprofileinn_controller.dart';
 
 class BioUi extends GetWidget<MyprofileInnController>{
-  const BioUi({super.key});
-
+    BioUi({super.key});
+  final _formState=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
@@ -57,31 +57,36 @@ class BioUi extends GetWidget<MyprofileInnController>{
                   SizedBox(
                     height: Get.height*0.015,
                   ),
-                  TextFormField(
-                    controller: controller.bioController,
-                    validator: (val){
-                      if(val==null || val.isEmpty || val==''){
-                        return "Please tell us about yourself";
-                      }
-                    },
-                    keyboardType:TextInputType.text,
-                    maxLines: 8,
-                    maxLength: 350,
-                    decoration: InputDecoration(
+                  Form(
+                    key: _formState,
+                    child: TextFormField(
+                      controller: controller.bioController,
+                      validator: (val){
+                        if(val==null || val.isEmpty || val==''){
+                          return "Please tell about yourself";
+                        }
+                      },
+                      keyboardType:TextInputType.text,
+                      maxLines: 8,
+                      maxLength: 350,
+                      decoration: InputDecoration(
 
-                        hintText: "Introduce yourself...",
-                        hintStyle: TextStyle(fontWeight: FontWeight.w400,color: clrGreyTextLight),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                        fillColor: clrGreyLight,
-                        filled: true,
-                        border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(10))
+                          hintText: "Introduce yourself...",
+                          hintStyle: TextStyle(fontWeight: FontWeight.w400,color: clrGreyTextLight),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                          fillColor: clrGreyLight,
+                          filled: true,
+                          border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(10))
+                      ),
                     ),
                   )
                 ],
               ),
             ),
             SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){
+              // if(_formState.currentState!.validate()){
               Get.back();
+              // }
             } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             SizedBox(
               height: Get.height*0.01,

@@ -13,6 +13,7 @@ import 'models/langauagemodel.dart';
 class LanguagesProUi extends GetWidget<MyprofileInnController> {
   LanguagesProUi({super.key});
   SingleSelectController cutoDropController = SingleSelectController(null);
+  final _formState = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
@@ -99,9 +100,10 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                               closeDropDownOnClearFilterSearch: true,
                               hideSelectedFieldWhenExpanded: true,
                               decoration: CustomDropdownDecoration(
-                                  closedSuffixIcon:
-                             const          Icon(Icons.arrow_drop_down_outlined),
-                                  expandedSuffixIcon: const Icon(Icons.arrow_drop_up),
+                                  closedSuffixIcon: const Icon(
+                                      Icons.arrow_drop_down_outlined),
+                                  expandedSuffixIcon:
+                                      const Icon(Icons.arrow_drop_up),
                                   closedFillColor: clrGreyLight,
                                   closedBorderRadius:
                                       BorderRadius.circular(30)),
@@ -113,7 +115,8 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                               excludeSelected: false,
                               onChanged: (value) {
                                 if (value != null) {
-                                  if (controller.selectedLanguageList.any((map) => map.containsValue(value))) {
+                                  if (controller.selectedLanguageList
+                                      .any((map) => map.containsValue(value))) {
                                   } else {
                                     int len = controller.langListData.value
                                             .result?.length ??
@@ -123,8 +126,10 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                                           .langListData.value.result?[i];
                                       if (value.toString().toLowerCase() ==
                                           singleDeta?.name?.toLowerCase()) {
-                                        controller.selectedLanguageList
-                                            .add({'id':singleDeta?.id,"lang":singleDeta?.name});
+                                        controller.selectedLanguageList.add({
+                                          'id': singleDeta?.id,
+                                          "lang": singleDeta?.name
+                                        });
                                         log("gk===selectedLanguageList==${controller.selectedLanguageList}");
                                       }
                                     }
@@ -135,56 +140,85 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                               },
                             ),
                           ),
+                          controller.isShowLangReqError.value? SizedBox(width: double.maxFinite,child: Text("Please select atleast one language",style: TextStyle(color: clrRedErr,fontSize: 12),)):SizedBox(),
                           SizedBox(
-                            height: h*.02,
+                            height: h * .02,
                           ),
-                          Obx((){
-                            List<Widget> lst=[];
-                            for(int i=0;i<controller.selectedLanguageList.length;i++){
-                              var singelDeta=controller.selectedLanguageList[i];
-                                lst.add(Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
-                                  decoration: BoxDecoration(
-                                      color: clrBlacke,
-                                      borderRadius:BorderRadius.circular(20)
-                                  ),
-                                  child:
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                            color: clrWhite,
-                                            borderRadius:BorderRadius.circular(100)
-                                        ),
-                                        child: const Icon(Icons.check,size: 14,),
-                                      ),SizedBox(
-                                        width: w*.01,
+                          Obx(() {
+                            List<Widget> lst = [];
+                            for (int i = 0;
+                                i < controller.selectedLanguageList.length;
+                                i++) {
+                              var singelDeta =
+                                  controller.selectedLanguageList[i];
+                              lst.add(Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 6),
+                                decoration: BoxDecoration(
+                                    color: clrBlacke,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                          color: clrWhite,
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: const Icon(
+                                        Icons.check,
+                                        size: 14,
                                       ),
-                                      Text("${singelDeta['lang']}",style: TextStyle(color: clrWhite),)
-                                      ,SizedBox(
-                                        width: w*.01,
-                                      ),
-                                      InkWell(onTap: (){
-                                        controller.removeSelectLan(i);
-                                      },child: Icon(Icons.close,color: clrWhite,size: 20,)),
-                                    ],
-                                  ),
-                                ));
+                                    ),
+                                    SizedBox(
+                                      width: w * .01,
+                                    ),
+                                    Text(
+                                      "${singelDeta['lang']}",
+                                      style: TextStyle(color: clrWhite),
+                                    ),
+                                    SizedBox(
+                                      width: w * .01,
+                                    ),
+                                    InkWell(
+                                        onTap: () {
+                                          controller.removeSelectLan(i);
+                                        },
+                                        child: Icon(
+                                          Icons.close,
+                                          color: clrWhite,
+                                          size: 20,
+                                        )),
+                                  ],
+                                ),
+                              ));
                             }
-            return SizedBox(width: double.maxFinite,child: Wrap(alignment: WrapAlignment.start,crossAxisAlignment: WrapCrossAlignment.start,runSpacing: h*.005,spacing: w*.013,children: lst,));
-          })
-
+                            return SizedBox(
+                                width: double.maxFinite,
+                                child: Wrap(
+                                  alignment: WrapAlignment.start,
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  runSpacing: h * .005,
+                                  spacing: w * .013,
+                                  children: lst,
+                                ));
+                          })
                         ],
                       ),
                     ),
-
                     SizedBox(
                         height: Res.h_btn,
                         width: double.maxFinite,
                         child: CustoElevatedBtn(
-                            onTap: () {},
+                            onTap: () {
+                              if (controller.selectedLanguageList.isEmpty) {
+                                controller.changeIsShowLangError(true);
+                              } else {
+                                controller.changeIsShowLangError(false);
+                                Get.back();
+                              }
+                            },
                             backgroundClr: clrBlacke,
                             child: Text(
                               "Save",
