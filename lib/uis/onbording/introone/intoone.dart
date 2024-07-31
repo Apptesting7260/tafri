@@ -236,7 +236,7 @@ class IntroOneUi extends GetWidget<IntroController>{
                       backgroundClr: clrYellow,
                       child: Text(
                         "Sign Up",
-                        style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w600),
+                        style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Nunito')
                       ))),
               SizedBox(
                 height: h*.014,
@@ -251,7 +251,7 @@ class IntroOneUi extends GetWidget<IntroController>{
                       backgroundClr: clrWhite,
                       child: Text(
                         "Log in",
-                        style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w700,fontSize: 16),
+                        style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w600,fontSize: 16,fontFamily: 'Nunito'),
                       ))),
               SizedBox(
                 height: h*.06,
