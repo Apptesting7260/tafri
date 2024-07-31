@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 Color clrYellow = Color(0xffFFC107);
 Color clrYellowText=Color(0xffB48800);
-Color clrGreyLight=Color(0xffECECEC);
+Color clrGreyLight=Color.fromRGBO(236, 236, 236, 1);
 Color clrGrey=Color(0xffAAADB4);
 Color clrGrey868380=Color(0xff868380);
 Color clrGrey5D5C5E=Color(0xff5D5C5E);

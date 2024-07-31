@@ -150,7 +150,8 @@ class ExploreUi extends GetWidget<ExploreListController>{
                           Map singelDeta=controller.exploreListData.value[index];
                           return InkWell(
                             onTap: () {
-                              Get.toNamed(Routes.exploreView);
+                              controller.showHomePop();
+                              // Get.toNamed(Routes.exploreView);
                             },
                             child: Container(
                               margin: const EdgeInsets.symmetric(vertical: 10),

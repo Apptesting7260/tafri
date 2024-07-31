@@ -132,7 +132,7 @@ class Routes{
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
-    GetPage(name: codeVerify, page:()=>CodeVerifyUi(),bindings: [IntroBinding(),CodeverifyBinding()]),
+    GetPage(name: codeVerify, page:()=>CodeVerifyUi(),bindings: [IntroBinding(),CodeverifyBinding(),LoginnoBinding()]),
     GetPage(name: loginWithMobNo, page:()=>LoginWithNoUi(),binding: LoginnoBinding()),
     GetPage(name: nameAddUi, page:()=>NameAddUi(),binding: NameaddBinding()),
     GetPage(name: genderaddUi, page:()=>GenderAddUi(),binding: GenderaddBinding()),

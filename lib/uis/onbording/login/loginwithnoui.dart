@@ -48,7 +48,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController>{
                               fontWeight: FontWeight.w700,
                               color: clrWhite),
                         ),
-                        Text("One",
+                        Text("Ones",
                             style: TextStyle(
                                 fontSize: 50,
                                 color: clrYellow,
@@ -119,13 +119,11 @@ class LoginWithNoUi extends GetWidget<LoginnoController>{
                                             validator: (val){
                                               if( val== null || val.isEmpty){
                                                 debugPrint("=====error");
-                                                return "Mobile Number is required";
-                                              }if(val.length <10){
-                                                return "Enter valid mobile number";
+                                                return "Please enter your mobile number";
+                                              }else if (!controller.validatePhoneNumber(val, controller.initialSelection.value)) {
+                                                return 'Invalid mobile number for the selected country';
                                               }
-                                              else{
-                                                return null;
-                                              }
+                                              return null;
                                             },
                                             controller: controller.mobNoCon,
                                             keyboardType: TextInputType.number,
@@ -147,14 +145,10 @@ class LoginWithNoUi extends GetWidget<LoginnoController>{
                                                     debugPrint("===${code.runtimeType}");
                                                     controller.changeCountryCode(code);
                                                   },
-                                                  // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                                                   initialSelection: controller.initialSelection.value,
-                                                  favorite: ['+91','+39', 'FR'],
-                                                  // optional. Shows only country name and flag
+                                                  favorite: ['+31','+39'],
                                                   showCountryOnly: false,
-                                                  // optional. Shows only country name and flag when popup is closed.
                                                   showOnlyCountryWhenClosed: false,
-                                                  // optional. aligns the flag and the Text left
                                                   alignLeft: false,
                                                 ),
                                                 border: OutlineInputBorder(

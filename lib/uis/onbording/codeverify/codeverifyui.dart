@@ -4,6 +4,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/onbording/introone/controller/intro_controller.dart';
+import 'package:plusone/uis/onbording/login/controller/loginno_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
@@ -12,6 +13,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
   CodeVerifyUi({super.key});
 
   TextEditingController pinController = TextEditingController();
+  final LoginnoController loginnoController = Get.find<LoginnoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,12 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
-                    Text(
+                    currentStep == 5 ? Text(
+                      "${loginnoController.countryCode.value} ${loginnoController.mobNoCon.value.text}",
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                    ) : Text(
                       "${controller.countryCode.value} ${controller.mobnoController.value.text}",
                       textAlign: TextAlign.center,
                       style:
@@ -92,8 +99,8 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                         )
                       ],
                       onCompleted: (v) {
-                        String token=Get.arguments['token'];
-                        String uId=Get.arguments['uid'];
+                        String? token=Get.arguments['token'];
+                        String? uId=Get.arguments['uid'];
                         if (currentStep == 0) {
                           Get.toNamed(Routes.nameAddUi);
                           // Get.toNamed(Routes.navbarUi);
@@ -104,8 +111,8 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                         } else if (currentStep == 3) {
                           Get.toNamed(Routes.regEmailui);
                         }else{
-                          LocalStorage.saveToken(token);
-                          LocalStorage.saveUid(uId);
+                          LocalStorage.saveToken(token!);
+                          LocalStorage.saveUid(uId!);
                           Get.toNamed(Routes.navbarUi);
                         }
                       },
@@ -128,8 +135,8 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                         height: Res.h_btn,
                         child: CustoElevatedBtn(
                           onTap: () {
-                            String token=Get.arguments['token'];
-                            String uId=Get.arguments['uid'];
+                            String? token=Get.arguments['token'];
+                            String? uId=Get.arguments['uid'];
                             if (currentStep == 0) {
                               Get.toNamed(Routes.nameAddUi);
                             } else if (currentStep == 1) {
@@ -139,8 +146,8 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                             } else if (currentStep == 3) {
                               Get.toNamed(Routes.regEmailui);
                             }else{
-                              LocalStorage.saveToken(token);
-                              LocalStorage.saveUid(uId);
+                              LocalStorage.saveToken(token!);
+                              LocalStorage.saveUid(uId!);
                               Get.toNamed(Routes.navbarUi);
                             }
                           },

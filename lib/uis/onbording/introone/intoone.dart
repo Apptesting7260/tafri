@@ -81,7 +81,7 @@ class IntroOneUi extends GetWidget<IntroController>{
                                 opacity: controller.loading.value ? 0.5 : 1,
                                 child: Container(
                                     width: double.maxFinite,
-                                    height: h*.47,
+                                    height: h*.5,
                                     padding: const EdgeInsets.symmetric(horizontal: 20),
                                     child: SingleChildScrollView(
                                       child: Column(
@@ -107,28 +107,25 @@ class IntroOneUi extends GetWidget<IntroController>{
                                             "Sign Up",
                                             style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),
                                           ),
+                                          SizedBox(height: 8,),
                                           const Text(
                                             "We need your mobile number to verify your account.",
                                             style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
                                           ),
                                           SizedBox(
-                                            height: Get.height*.02,
+                                            height: Get.height*.03,
                                           ),
                                           Form(
                                             key: _formKey,
                                             child: TextFormField(
                                               controller: controller.mobnoController,
                                               validator: (val){
-
-                                                if( val== null || val.isEmpty){
-                                                  debugPrint("=====error");
-                                                  return "Mobile Number is required";
-                                                }if(val.length <10){
-                                                  return "Enter valid mobile number";
+                                                if (val == null || val.isEmpty) {
+                                                  return 'Please enter your mobile number';
+                                                } else if (!controller.validatePhoneNumber(val, controller.initialSelection.value)) {
+                                                  return 'Invalid mobile number for the selected country';
                                                 }
-                                                else{
-                                                  return null;
-                                                }
+                                                return null;
                                               },
                                               keyboardType: TextInputType.number,
                                               inputFormatters: <TextInputFormatter>[
@@ -145,26 +142,22 @@ class IntroOneUi extends GetWidget<IntroController>{
                                                       vertical: 0),
                                                   filled: true,
                                                   fillColor: clrGreyLight,
-                                                  prefixIcon:  CountryCodePicker(
+                                                  prefixIcon: CountryCodePicker(
                                                     textStyle: TextStyle(fontWeight: FontWeight.w700,fontSize: 15,color: clrBlacke),
                                                     onChanged: (code){
                                                       debugPrint("===${code.runtimeType}");
                                                       controller.changeCountryCode(code);
                                                     },
-                                                    // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                                                     initialSelection: controller.initialSelection.value,
-                                                    favorite: ['+39', 'FR'],
-                                                    // optional. Shows only country name and flag
+                                                    favorite: ['+31','+39'],
                                                     showCountryOnly: false,
-                                                    // optional. Shows only country name and flag when popup is closed.
                                                     showOnlyCountryWhenClosed: false,
-                                                    // optional. aligns the flag and the Text left
                                                     alignLeft: false,
                                                   ),
                                                   border: OutlineInputBorder(
                                                       borderSide: BorderSide.none,
                                                       borderRadius:
-                                                      BorderRadius.circular(30))),
+                                                      BorderRadius.circular(50))),
                                             ),
                                           ),
                                           SizedBox(
@@ -200,13 +193,19 @@ class IntroOneUi extends GetWidget<IntroController>{
                                                   TextSpan(
                                                       text:
                                                       "By registering you accept our",style: TextStyle(color: clrGreyDark,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                  const TextSpan(
+                                                    text: ' '
+                                                  ),
                                                   TextSpan(
-                                                      text: " Terms of Use",
-                                                      style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                      text: "Terms of Use",
+                                                      style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12,decoration: TextDecoration.underline)),
                                                   TextSpan(text: " and",style: TextStyle(color: clrGreyDark,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                  const TextSpan(
+                                                    text: ' '
+                                                  ),
                                                   TextSpan(
-                                                      text: " Privacy Policy",
-                                                      style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12)),
+                                                      text: "Privacy Policy",
+                                                      style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w300,fontSize: 12,decoration: TextDecoration.underline)),
                                                 ])),),
                                           SizedBox(
                                             height:h*0.04 ,
