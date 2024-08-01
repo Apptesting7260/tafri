@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../components/custoelevatedbtn.dart';
 import 'controller/addphoto_controller.dart';
@@ -13,30 +14,16 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13),
+        padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
             const SizedBox(
-              height: 8,
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: clrGreyLight,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Center(child: Icon(Icons.arrow_back_ios)),
-                  ),
-                ),
+                CommonUi.appBar(),
                 const Text(
                   "Add a profile photo",
                   style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700),
@@ -47,14 +34,14 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
               ],
             ),
             SizedBox(
-              height: Get.height*0.03,
+              height: Get.height*0.06,
             ),
             Expanded(
               child: ListView(
                 children: [
                   const Text("Upload a recent photo of yourself. Only members can see your profile photo.",style: TextStyle(fontSize: 16),),
                   SizedBox(
-                    height: Get.height*0.015,
+                    height: Get.height*0.04,
                   ),
                   Center(
                     child: Stack(
@@ -106,7 +93,7 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                     ),
                   ),
                   SizedBox(
-                    height: Get.height*0.03,
+                    height: Get.height*0.04,
                   ),
 
                   Text("Make sure your photo is clear and in focus, from the shoulders up, and only include yourself.",textAlign: TextAlign.center,style: TextStyle(color: clrGreyTextLight.withOpacity(0.7)),)
@@ -114,8 +101,8 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
               ),
             ),
             SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Upload Photo",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
-            SizedBox(
-              height: Get.height*0.01,
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

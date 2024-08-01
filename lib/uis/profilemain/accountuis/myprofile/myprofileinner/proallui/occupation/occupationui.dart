@@ -3,43 +3,33 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 
 import '../../../../../../../utils/colors.dart';
 
-class OccupationUi extends GetWidget<MyprofileInnController>{
-   OccupationUi({super.key});
-  final _formState=GlobalKey<FormState>();
+class OccupationUi extends GetWidget<MyprofileInnController> {
+  OccupationUi({super.key});
+
+  final _formState = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    var h=Get.height;
-    var w=Get.width;
+    var h = Get.height;
+    var w = Get.width;
     return Scaffold(
-      body: SafeArea(child: Padding(
-        padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      body: SafeArea(
+          child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
-              SizedBox(
-              height:h*.01,
+            const SizedBox(
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    width:h*.05,
-                    height:h*.05,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: clrGreyLight,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Center(child: Icon(Icons.arrow_back_ios)),
-                  ),
-                ),
+                CommonUi.appBar(),
                 const Text(
                   "Occupation",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
@@ -50,56 +40,70 @@ class OccupationUi extends GetWidget<MyprofileInnController>{
               ],
             ),
             SizedBox(
-              height: Get.height*0.03,
+              height: Get.height * 0.035,
             ),
             Expanded(
               child: Column(
                 children: [
-                  const Text("Share your current occupation. This can be your job, education, or other roles. ",),
+                  const Text(
+                    "Share your current occupation. This can be your job, education, or other roles. ",
+                  ),
                   SizedBox(
-                    height: Get.height*0.015,
+                    height: Get.height * 0.025,
                   ),
                   Form(
                     key: _formState,
                     child: CustoTextFormField(
                       controll: controller.ocupatController,
-                      validation: (val){
-                        if(val==null || val.isEmpty || val==''){
+                      validation: (val) {
+                        if (val == null || val.isEmpty || val == '') {
                           return "Please enter your ocupation";
                         }
                         return null;
                       },
-                      hintText: "Ocupation",
+                      hintText: "Occupation",
                       sufixIcon: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset("assets/icons/bagicon.png",height: h*.04,),
+                        padding: const EdgeInsets.only(left: 20,right: 10,top: 13,bottom: 13),
+                        child: Image.asset(
+                          "assets/icons/bagicon.png",
+                          height: h * .02,
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: Get.height*0.015,
+                    height: Get.height * 0.02,
                   ),
-                  SizedBox(
-                    height: Res.h_btn,
-                    child: CustoTextFormField(
-                      controll: controller.organiController,
-                      hintText: "Organisation (optional)",
-                      sufixIcon: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset("assets/icons/buildingicon.png"),
-                      ),
+                  CustoTextFormField(
+                    controll: controller.organiController,
+                    hintText: "Organisation (optional)",
+                    sufixIcon: Padding(
+                      padding: const EdgeInsets.only(left: 20,right: 10,top: 13,bottom: 13),
+                      child: Image.asset("assets/icons/buildingicon.png",height: 10,),
                     ),
                   )
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){
-              if(_formState.currentState!.validate()){
-                Get.back();
-              }
-            } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             SizedBox(
-              height: Get.height*0.01,
+                height: Res.h_btn,
+                width: double.maxFinite,
+                child: CustoElevatedBtn(
+                    onTap: () {
+                      if (_formState.currentState!.validate()) {
+                        Get.back();
+                      }
+                    },
+                    backgroundClr: clrBlacke,
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                          color: clrWhite,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ))),
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
 import '../../controller/myprofileinn_controller.dart';
@@ -17,27 +18,13 @@ class BioUi extends GetWidget<MyprofileInnController>{
         padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
-              SizedBox(
-              height: h*.007,
+              const SizedBox(
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    width:h*.05,
-                    height:h*.05,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: clrGreyLight,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Center(child: Icon(Icons.arrow_back_ios)),
-                  ),
-                ),
+                CommonUi.appBar(),
                 const Text(
                   "Bio",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
@@ -55,7 +42,7 @@ class BioUi extends GetWidget<MyprofileInnController>{
                 children: [
                   const Text("Share a bit about yourself helps members understand you better and find like-minded activity partners.",style: TextStyle(fontSize: 15),),
                   SizedBox(
-                    height: Get.height*0.015,
+                    height: Get.height*0.025,
                   ),
                   Form(
                     key: _formState,
@@ -70,7 +57,6 @@ class BioUi extends GetWidget<MyprofileInnController>{
                       maxLines: 8,
                       maxLength: 350,
                       decoration: InputDecoration(
-
                           hintText: "Introduce yourself...",
                           hintStyle: TextStyle(fontWeight: FontWeight.w400,color: clrGreyTextLight),
                           contentPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
@@ -88,8 +74,8 @@ class BioUi extends GetWidget<MyprofileInnController>{
               Get.back();
               // }
             } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
-            SizedBox(
-              height: Get.height*0.01,
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

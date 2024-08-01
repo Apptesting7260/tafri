@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/utils/common.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/size.dart';
 import '../../../components/custoelevatedbtn.dart';
@@ -23,27 +24,13 @@ class SettingUi extends GetWidget<SettingController>{
             padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: Column(
               children: [
-                SizedBox(
-                  height: Get.height * 0.01,
+                const SizedBox(
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        width:h*.05,
-                        height:h*.05,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            color: clrGreyLight,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(child: Icon(Icons.arrow_back_ios)),
-                      ),
-                    ),
+                    CommonUi.appBar(),
                     const Text(
                       "Settings",
                       style: TextStyle(fontWeight: FontWeight.w800, fontSize: 19),
@@ -230,7 +217,7 @@ class SettingUi extends GetWidget<SettingController>{
                           },
                           child: Container(
                             width: double.maxFinite,
-                            padding: EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                             child: const Text(
                               "Activity visibility on profile",
                               style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
@@ -256,12 +243,12 @@ class SettingUi extends GetWidget<SettingController>{
   googlePermissionAlert() {
     return Get.dialog(AlertDialog(
       backgroundColor: clrWhite,
-      contentPadding: EdgeInsets.symmetric(horizontal: 25,vertical: 25),
-      insetPadding: EdgeInsets.symmetric(horizontal: 13),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 25,vertical: 25),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 13),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Center(
+          const Center(
             child: Text(
               """"PlusOnes" wants to use 
 "google.com" to log in""",
@@ -272,7 +259,7 @@ class SettingUi extends GetWidget<SettingController>{
           SizedBox(
             height: Get.height * 0.01,
           ),
-          Center(
+          const Center(
               child: Text(
                 "This allows the app to share information about you.",
                 textAlign: TextAlign.center,
@@ -298,7 +285,7 @@ class SettingUi extends GetWidget<SettingController>{
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(

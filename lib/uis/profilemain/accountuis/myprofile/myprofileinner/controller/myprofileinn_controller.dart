@@ -81,7 +81,7 @@ class MyprofileInnController extends GetxController with GetTickerProviderStateM
                   ),
                 ),
                   SizedBox(
-                  height: Get.height*.012,
+                  height: Get.height*.015,
                 ),
                 Center(
                   child: SizedBox(
@@ -93,12 +93,12 @@ class MyprofileInnController extends GetxController with GetTickerProviderStateM
                   ),
                 ),
                   SizedBox(
-                  height:Get.height*.007,
+                  height:Get.height*.01,
                 ),
                 Center(
                   child: InkWell(onTap: (){
                     Get.back();
-                  },child: Text("I will do it later",style: TextStyle(color: clrGreyTextLight,fontSize: 13),)),
+                  },child: Text("I will do it later",style: TextStyle(color: clrGreyTextLight,fontSize: 13,decoration: TextDecoration.underline),)),
                 )
               ],
             ),

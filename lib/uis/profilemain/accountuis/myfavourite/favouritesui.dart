@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../../../routes/routes.dart';
@@ -21,29 +22,15 @@ class FavouriteListUi extends GetWidget{
           padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
-              SizedBox(
-                height: Get.height * 0.01,
+              const SizedBox(
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                          color: clrGreyLight,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Center(child: Icon(Icons.arrow_back_ios)),
-                    ),
-                  ),
-                  Text("My favorites",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19),),
-                  SizedBox(
+                  CommonUi.appBar(),
+                  const Text("My favorites",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19),),
+                  const SizedBox(
                     width: 20,
                   )
                 ],
@@ -132,7 +119,7 @@ class FavouriteListUi extends GetWidget{
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Container(
-                                        margin: EdgeInsets.only(bottom: 7),
+                                        margin: const EdgeInsets.only(bottom: 7),
                                         height: 16,
                                         child: ListView.builder(
                                             itemCount: 3,
@@ -171,16 +158,19 @@ class FavouriteListUi extends GetWidget{
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600),
                                         ),
+                                        const SizedBox(height: 5,),
                                         Text(
                                           "Vondelpark",
                                           style: TextStyle(
                                               color: clrGreyDark),
                                         ),
+                                        const SizedBox(height: 5,),
                                         Text(
                                           "13 March 2024 | 2:30 PM - 6:00PM",
                                           style: TextStyle(
                                               color: clrGreyDark),
                                         ),
+                                        const SizedBox(height: 5,),
                                         Text(
                                           "Up to 3 people | 1 spot left",
                                           style: TextStyle(
@@ -219,7 +209,8 @@ class FavouriteListUi extends GetWidget{
                                 trimExpandedText: 'Learn less',
                                 moreStyle:
                                 TextStyle(color: clrBlacke,fontWeight: FontWeight.w700),
-                              )
+                              ),
+                              const SizedBox(height: 10,),
                             ],
                           ),
                         ),

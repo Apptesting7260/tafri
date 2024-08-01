@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/utils/common.dart';
@@ -12,9 +13,11 @@ import '../../introone/intoone.dart';
 import 'controller/genderadd_controller.dart';
 
 class GenderAddUi extends GetWidget<GenderaddController> {
-   GenderAddUi({super.key});
+  GenderAddUi({super.key});
+
   final _formKey = GlobalKey<FormState>();
   final _fromKey1 = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
@@ -25,6 +28,9 @@ class GenderAddUi extends GetWidget<GenderaddController> {
           width: double.maxFinite,
           child: Column(
             children: [
+              SizedBox(
+                height: 10,
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -34,27 +40,9 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                       SizedBox(
                         height: h * .01,
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                                color: clrGreyLight,
-                                borderRadius: BorderRadius.circular(10)),
-                            child:
-                                const Center(child: Icon(Icons.arrow_back_ios)),
-                          ),
-                        ),
-                      ),
+                      CommonUi.appBar(),
                       SizedBox(
-                        height: h * .03,
+                        height: h * .04,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,7 +78,7 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                         ],
                       ),
                       SizedBox(
-                        height: h * .02,
+                        height: h * .04,
                       ),
                       const Text(
                         "What gender describes you best?",
@@ -107,144 +95,162 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                       SizedBox(
                         height: h * .04,
                       ),
-                     Column(
-                                            children: [
-                     Obx(() {
-                       return SizedBox(
-                           // height: Res.h_btn,
-                           child: Form(
-                             key: _formKey,
-                             child: DropdownButtonFormField(
-                                 validator: (val){
-                                   log("gk---$val");
-                                   if( val== null || controller.genderValue.value == ''){
-                                     return "Gender is required";
-                                   }else{
-                                     return null;
-                                   }
-                                 },
-                               value: controller.genderValue.value!.isEmpty
-                                   ? null
-                                   : controller.genderValue.value,
-                               items: const [
-                                 DropdownMenuItem(
-                                   value: 'male',
-                                   child: Text("Male"),
-                                 ),
-                                 DropdownMenuItem(
-                                   value: 'female',
-                                   child: Text("Female"),
-                                 ),
-                                 DropdownMenuItem(
-                                   value: 'none-binary',
-                                   child: Text("None-binary"),
-                                 ),
-                                 DropdownMenuItem(
-                                   value: 'other',
-                                   child: Text("Other"),
-                                 )
-                               ],
-                               hint: const Text("Gender"),
-                               onChanged: (val) {
-                                 controller.changeGenderVal(val);
-                               },
-                               decoration: InputDecoration(
-                                   prefixIcon: Container(
-                                       padding: EdgeInsets.symmetric(
-                                           horizontal: 12, vertical: h*.02),
-                                       child: const Image(
-                                         image: AssetImage(
-                                             "assets/icons/gendericon.png"),
-                                         height: 3,
-                                         width: 3,
-                                       )),
-                                   hintStyle: TextStyle(
-                                       fontWeight: FontWeight.w400,
-                                       color: clrGreyTextLight),
-                                   contentPadding: const EdgeInsets.symmetric(
-                                       horizontal: 15, vertical: 10),
-                                   fillColor: clrGreyLight,
-                                   filled: true,
-                                   border: OutlineInputBorder(
-                                       borderSide: BorderSide.none,
-                                       borderRadius: BorderRadius.circular(30))),
-                             ),
-                           ));
-                     }),
-                     Obx(() {
-                       return controller.genderValue.value == 'other'
-                           ? Column(
-                         children: [
-                           SizedBox(
-                             height: h * .025,
-                           ),
-                           SizedBox(
-                             // height: Res.h_btn,
-                             child: Form(
-                               key: _fromKey1,
-                               child: CustoTextFormField(
-                                 validation: (val){
-                                   if( val == null || val.isEmpty){
-                                     return "Gender is required";
-                                   }else{
-                                     return null;
-                                   }
-                                 } ,
-                                 hintText: "Enter your Gender",
-                                 sufixIcon: Container(
-                                     padding: const EdgeInsets.symmetric(
-                                         horizontal: 12, vertical: 10),
-                                     child: const Image(
-                                       image: AssetImage(
-                                           "assets/icons/gendericon.png"),
-                                       height: 3,
-                                       width: 3,
-                                     )),
-                                 controll: controller.genderController,
-                               ),
-                             ),
-                           ),
-                         ],
-                       )
-                           : const SizedBox();
-                     }),
-                                            ],
+                      Column(
+                        children: [
+                          Obx(() {
+                            return SizedBox(
+                                // height: Res.h_btn,
+                                child: Form(
+                              key: _formKey,
+                              child: DropdownButtonFormField(
+                                validator: (val) {
+                                  log("gk---$val");
+                                  if (val == null ||
+                                      controller.genderValue.value == '') {
+                                    return "Gender is required";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                value: controller.genderValue.value!.isEmpty
+                                    ? null
+                                    : controller.genderValue.value,
+                                items: const [
+                                  DropdownMenuItem(
+                                    value: 'male',
+                                    child: Text("Male"),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'female',
+                                    child: Text("Female"),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'none-binary',
+                                    child: Text("None-binary"),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'other',
+                                    child: Text("Other"),
+                                  )
+                                ],
+                                hint: const Text("Gender",style:TextStyle(
+                                  fontWeight: FontWeight.w500
+                                ) ,),
+                                onChanged: (val) {
+                                  controller.changeGenderVal(val);
+                                },
+                                decoration: InputDecoration(
+                                    prefixIcon: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: h * .02),
+                                        child: const Image(
+                                          image: AssetImage(
+                                              "assets/icons/gendericon.png"),
+                                          height: 3,
+                                          width: 3,
+                                        )),
+                                    hintStyle: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: clrGreyTextLight),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 15),
+                                    fillColor: clrGreyLight,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius:
+                                            BorderRadius.circular(100))),
+                              ),
+                            ));
+                          }),
+                          Obx(() {
+                            return controller.genderValue.value == 'other'
+                                ? Column(
+                                    children: [
+                                      SizedBox(
+                                        height: h * .025,
+                                      ),
+                                      SizedBox(
+                                        // height: Res.h_btn,
+                                        child: Form(
+                                          key: _fromKey1,
+                                          child: CustoTextFormField(
+                                            validation: (val) {
+                                              if (val == null || val.isEmpty) {
+                                                return "Gender is required";
+                                              } else {
+                                                return null;
+                                              }
+                                            },
+                                            hintText: "Enter your Gender",
+                                            sufixIcon: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 10),
+                                                child: const Image(
+                                                  image: AssetImage(
+                                                      "assets/icons/gendericon.png"),
+                                                  height: 3,
+                                                  width: 3,
+                                                )),
+                                            controll:
+                                                controller.genderController,
                                           ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox();
+                          }),
+                        ],
+                      ),
                       SizedBox(
                         height: h * .03,
                       ),
-                      Obx(() => Opacity(
-                        opacity: controller.loading.value ? 0.50 : 1,
-                        child: SizedBox(
-                            width: double.maxFinite,
-                            height: Res.h_btn,
-                            child: CustoElevatedBtn(
-                                onTap: () {
-                                  if(!controller.loading.value){
-                                    if(controller.genderValue.value == 'other'){
-                                      final validate = _fromKey1.currentState!.validate() && _formKey.currentState!.validate();
-                                      if(validate){
+                      Obx(
+                        () => Opacity(
+                          opacity: controller.loading.value ? 0.50 : 1,
+                          child: SizedBox(
+                              width: double.maxFinite,
+                              height: Res.h_btn,
+                              child: CustoElevatedBtn(
+                                  onTap: () {
+                                    if (!controller.loading.value) {
+                                      if (controller.genderValue.value ==
+                                          'other') {
+                                        final validate = _fromKey1.currentState!
+                                                .validate() &&
+                                            _formKey.currentState!.validate();
+                                        if (validate) {
+                                          controller.registerGender();
+                                        }
+                                      } else if (_formKey.currentState!
+                                          .validate()) {
                                         controller.registerGender();
                                       }
-                                    } else if(_formKey.currentState!.validate()){
-                                      controller.registerGender();
                                     }
-                                  }
-                                },
-                                backgroundClr: clrBlacke,
-                                child: Obx(() => controller.loading.value ? CommonUi.fourDotLoading() : Text(
-                                  "Continue",
-                                  style: TextStyle(
-                                      color: clrWhite,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16),
-                                ),))),
-                      ),),
+                                  },
+                                  backgroundClr: clrBlacke,
+                                  child: Obx(
+                                    () => controller.loading.value
+                                        ? CommonUi.fourDotLoading()
+                                        : Text(
+                                            "Continue",
+                                            style: TextStyle(
+                                                color: clrWhite,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16),
+                                          ),
+                                  ))),
+                        ),
+                      ),
                       SizedBox(
-                        height: h * .02,
+                        height: h * .025,
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.visibility_outlined,

@@ -22,6 +22,7 @@ class RegEmailUi extends GetWidget<RegemailController> {
           width: double.maxFinite,
           child: Column(
             children: [
+              SizedBox(height: 10,),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -31,27 +32,9 @@ class RegEmailUi extends GetWidget<RegemailController> {
                       SizedBox(
                         height: h * .01,
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                                color: clrGreyLight,
-                                borderRadius: BorderRadius.circular(10)),
-                            child:
-                                const Center(child: Icon(Icons.arrow_back_ios)),
-                          ),
-                        ),
-                      ),
+                      CommonUi.appBar(),
                       SizedBox(
-                        height: h * .03,
+                        height: h * .04,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +70,7 @@ class RegEmailUi extends GetWidget<RegemailController> {
                         ],
                       ),
                       SizedBox(
-                        height: h * .02,
+                        height: h * .04,
                       ),
                       const Text(
                         "What’s your email?",
@@ -102,7 +85,7 @@ class RegEmailUi extends GetWidget<RegemailController> {
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
-                        height: h * .03,
+                        height: h * .035,
                       ),
                       Form(
                         key: _formKey,
@@ -155,6 +138,7 @@ class RegEmailUi extends GetWidget<RegemailController> {
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Image.asset(
                             "assets/icons/eyeclosedicon.png",

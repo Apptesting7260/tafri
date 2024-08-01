@@ -33,26 +33,11 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                     EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                 child: Column(
                   children: [
-                    SizedBox(height: h * .01),
+                    SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            width: h * .05,
-                            height: h * .05,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                                color: clrGreyLight,
-                                borderRadius: BorderRadius.circular(10)),
-                            child:
-                                const Center(child: Icon(Icons.arrow_back_ios)),
-                          ),
-                        ),
+                        CommonUi.appBar(),
                         const Text(
                           "Languages",
                           style: TextStyle(
@@ -74,7 +59,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(fontSize: 15),
                           ),
                           SizedBox(
-                            height: Get.height * 0.015,
+                            height: Get.height * 0.025,
                           ),
                           //   SizedBox(
                           //   height: Res.h_btn,
@@ -90,55 +75,52 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                           //
                           //   },
                           // ),
-                          SizedBox(
-                            height: Res.h_btn,
-                            child: CustomDropdown.search(
-                              initialItem: null,
-                              controller: cutoDropController,
-                              closedHeaderPadding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: h * .013),
-                              closeDropDownOnClearFilterSearch: true,
-                              hideSelectedFieldWhenExpanded: true,
-                              decoration: CustomDropdownDecoration(
-                                  closedSuffixIcon: const Icon(
-                                      Icons.arrow_drop_down_outlined),
-                                  expandedSuffixIcon:
-                                      const Icon(Icons.arrow_drop_up),
-                                  closedFillColor: clrGreyLight,
-                                  closedBorderRadius:
-                                      BorderRadius.circular(30)),
-                              hintText: 'Select language',
-                              items: controller.langListData.value.result
-                                  ?.map((e) {
-                                return e.name;
-                              }).toList(),
-                              excludeSelected: false,
-                              onChanged: (value) {
-                                if (value != null) {
-                                  if (controller.selectedLanguageList
-                                      .any((map) => map.containsValue(value))) {
-                                  } else {
-                                    int len = controller.langListData.value
-                                            .result?.length ??
-                                        0;
-                                    for (int i = 0; i < len; i++) {
-                                      Result? singleDeta = controller
-                                          .langListData.value.result?[i];
-                                      if (value.toString().toLowerCase() ==
-                                          singleDeta?.name?.toLowerCase()) {
-                                        controller.selectedLanguageList.add({
-                                          'id': singleDeta?.id,
-                                          "lang": singleDeta?.name
-                                        });
-                                        log("gk===selectedLanguageList==${controller.selectedLanguageList}");
-                                      }
+                          CustomDropdown.search(
+                            initialItem: null,
+                            controller: cutoDropController,
+                            closedHeaderPadding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: h * .017),
+                            closeDropDownOnClearFilterSearch: true,
+                            hideSelectedFieldWhenExpanded: true,
+                            decoration: CustomDropdownDecoration(
+                                closedSuffixIcon: const Icon(
+                                    Icons.arrow_drop_down_outlined),
+                                expandedSuffixIcon:
+                                    const Icon(Icons.arrow_drop_up),
+                                closedFillColor: clrGreyLight,
+                                closedBorderRadius:
+                                    BorderRadius.circular(100)),
+                            hintText: 'Select language',
+                            items: controller.langListData.value.result
+                                ?.map((e) {
+                              return e.name;
+                            }).toList(),
+                            excludeSelected: false,
+                            onChanged: (value) {
+                              if (value != null) {
+                                if (controller.selectedLanguageList
+                                    .any((map) => map.containsValue(value))) {
+                                } else {
+                                  int len = controller.langListData.value
+                                          .result?.length ??
+                                      0;
+                                  for (int i = 0; i < len; i++) {
+                                    Result? singleDeta = controller
+                                        .langListData.value.result?[i];
+                                    if (value.toString().toLowerCase() ==
+                                        singleDeta?.name?.toLowerCase()) {
+                                      controller.selectedLanguageList.add({
+                                        'id': singleDeta?.id,
+                                        "lang": singleDeta?.name
+                                      });
+                                      log("gk===selectedLanguageList==${controller.selectedLanguageList}");
                                     }
                                   }
                                 }
-                                log('changing value to: $value');
-                                cutoDropController.value = null;
-                              },
-                            ),
+                              }
+                              log('changing value to: $value');
+                              cutoDropController.value = null;
+                            },
                           ),
                           controller.isShowLangReqError.value? SizedBox(width: double.maxFinite,child: Text("Please select atleast one language",style: TextStyle(color: clrRedErr,fontSize: 12),)):SizedBox(),
                           SizedBox(
@@ -227,8 +209,8 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700),
                             ))),
-                    SizedBox(
-                      height: Get.height * 0.01,
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),

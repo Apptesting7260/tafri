@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
 
@@ -19,27 +20,12 @@ class GetVerifyUi extends GetWidget<MyprofileInnController>{
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 8,
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: clrGreyLight,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Center(child: Icon(Icons.arrow_back_ios)),
-                  ),
-                ),
-
+                CommonUi.appBar(),
                 const SizedBox(
                   width: 20,
                 ),
@@ -63,14 +49,14 @@ class GetVerifyUi extends GetWidget<MyprofileInnController>{
               ],
             ),
             SizedBox(
-              height: Get.height*0.03,
+              height: Get.height*0.018,
             ),
             Expanded(
               child: ListView(
                 children: [
                   const Text("Help keep our community secure and authentic by optionally verifying your social media accounts. Your information will remain private, and you’ll receive a badge on your profile.",style: TextStyle(fontSize: 16),),
                   SizedBox(
-                    height: Get.height*0.015,
+                    height: Get.height*0.03,
                   ),
                   Row(
                     children: [
@@ -127,8 +113,8 @@ class GetVerifyUi extends GetWidget<MyprofileInnController>{
               ),
             ),
             SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
-            SizedBox(
-              height: Get.height*0.01,
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

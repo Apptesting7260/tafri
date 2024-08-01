@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../utils/colors.dart';
@@ -20,27 +21,13 @@ class ReferFrndUi extends GetWidget{
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: Get.height * 0.01,
+                const SizedBox(
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        width: h*.05,
-                        height:h*.05,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            color: clrGreyLight,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(child: Icon(Icons.arrow_back_ios)),
-                      ),
-                    ),
+                   CommonUi.appBar(),
                     const Text("Invite friends",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19),),
                       SizedBox(
                       width: w*.07,

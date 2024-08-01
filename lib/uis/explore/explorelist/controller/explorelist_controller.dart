@@ -171,7 +171,7 @@ class ExploreListController extends GetxController {
                                 "Become a member",
                                 style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
                               )),
-                              Image.asset('assets/icons/arrow right.png')
+                              Image.asset('assets/icons/arrow right.png',height: 14,)
                             ],
                           ),
                         )
@@ -208,7 +208,7 @@ class ExploreListController extends GetxController {
                               const Flexible(
                                   child: Text("Complete profile",
                                       style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400))),
-                              Image.asset('assets/icons/arrow right.png')
+                              Image.asset('assets/icons/arrow right.png',height: 14)
                             ],
                           ),
                         )

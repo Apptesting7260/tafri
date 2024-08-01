@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/customexpension.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
@@ -30,27 +31,13 @@ class HelpCenterUi extends GetWidget{
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                SizedBox(
-                  height: Get.height * 0.01,
+                const SizedBox(
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        width:h*.05,
-                        height:h*.05,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            color: clrGreyLight,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(child: Icon(Icons.arrow_back_ios)),
-                      ),
-                    ),
+                    CommonUi.appBar(),
                     const Text("Help center",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19),),
                       SizedBox(
                       width: h*.025,
@@ -67,7 +54,7 @@ class HelpCenterUi extends GetWidget{
                         ),
                           SizedBox(
                           height: Res.h_btn,
-                          child: CustoTextFormField(sufixIcon: Icon(Icons.search),hintText: "Search",),
+                          child: const CustoTextFormField(sufixIcon: Icon(Icons.search),hintText: "Search",),
                         ),
                         SizedBox(
                           height: Get.height * 0.02,
@@ -82,21 +69,18 @@ class HelpCenterUi extends GetWidget{
                           height: Get.height * 0.013,
                         ),
                         const CustomExpansionWidget(title: Text("Can you explain your membership? ",style: TextStyle(fontSize: 15)), body: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.",style: TextStyle(fontSize: 15))),
-
-                        SizedBox(
-                          height: Get.height * 0.03,
-                        ),
-                        SizedBox(
-                          width: double.maxFinite,
-                          height: Res.h_btn,
-                          child: CustoElevatedBtn(child: Text("Contact Support",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
-                            custoSupportAlert();
-                          }, backgroundClr: clrBlacke),
-                        )
-
-
                       ],
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    height: Res.h_btn,
+                    child: CustoElevatedBtn(child: Text("Contact Support",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
+                      custoSupportAlert();
+                    }, backgroundClr: clrBlacke),
                   ),
                 ),
               ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
 import '../../controller/myprofileinn_controller.dart';
@@ -18,27 +19,13 @@ final _formState=GlobalKey<FormState>();
         padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
-              SizedBox(
-              height: h*.007,
+              const SizedBox(
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    width: h*.05,
-                    height: h*.05,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: clrGreyLight,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Center(child: Icon(Icons.arrow_back_ios)),
-                  ),
-                ),
+                CommonUi.appBar(),
                 const Text(
                   "Location",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
@@ -49,14 +36,14 @@ final _formState=GlobalKey<FormState>();
               ],
             ),
             SizedBox(
-              height: Get.height*0.03,
+              height: Get.height*0.035,
             ),
             Expanded(
               child: Column(
                 children: [
                   const Text("Share where you are based to join activities nearby.",style: TextStyle(fontSize: 15),),
                   SizedBox(
-                    height: Get.height*0.015,
+                    height: Get.height*0.025,
                   ),
                   // Obx((){
                   //   return ;
@@ -88,8 +75,8 @@ final _formState=GlobalKey<FormState>();
                 Get.back();
               }
             } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
-            SizedBox(
-              height: Get.height*0.01,
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

@@ -32,6 +32,7 @@ class RegemailController extends GetxController{
       if(data.status == true){
         loading.value = false;
         LocalStorage.saveToken(data.accessToken.toString());
+        LocalStorage.saveUid(data.userID.toString());
         Get.offAllNamed(Routes.navbarUi);
       }else{
         loading.value = false;

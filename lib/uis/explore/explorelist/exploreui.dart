@@ -51,7 +51,7 @@ class ExploreUi extends GetWidget<ExploreListController>{
           child: Column(
             children: [
               SizedBox(
-                height: Get.height * 0.015,
+                height: Get.height * 0.03,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
@@ -69,7 +69,7 @@ class ExploreUi extends GetWidget<ExploreListController>{
                           )),
                     ),
                      SizedBox(
-                      width: w*.01,
+                      width: w*.03,
                     ),
                     InkWell(
                       onTap: () {
@@ -89,7 +89,7 @@ class ExploreUi extends GetWidget<ExploreListController>{
                 ),
               ),
               SizedBox(
-                height: Get.height * 0.01,
+                height: Get.height * 0.022,
               ),
               SizedBox(
                 height: h*.048,
@@ -137,7 +137,7 @@ class ExploreUi extends GetWidget<ExploreListController>{
                     }),
               ),
               SizedBox(
-                height: Get.height * 0.01,
+                height: Get.height * 0.013,
               ),
               Expanded(
                 child: Obx((){
@@ -158,13 +158,13 @@ class ExploreUi extends GetWidget<ExploreListController>{
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: h*.25,
+                                    height: h*.26,
                                     child: Stack(
                                       // clipBehavior: Clip.none,
                                       children: [
                                         CarouselSlider(
                                           options: CarouselOptions(
-                                              height: h*.25, viewportFraction: 1,
+                                              height: h*.26, viewportFraction: 1,
                                           onPageChanged: (currIndex,CarouselPageChangedReason reason){
                                                 controller.changeIndicator(index,currIndex);
                                             debugPrint(" currIndex $currIndex reason=$reason");
@@ -188,7 +188,7 @@ class ExploreUi extends GetWidget<ExploreListController>{
                                                     child: Image.asset(
                                                       "$i",
                                                       fit: BoxFit.cover,
-                                                      height: h*.25,
+                                                      height: h*.26,
                                                       width: double.maxFinite,
                                                     ));
                                               },
@@ -272,17 +272,23 @@ class ExploreUi extends GetWidget<ExploreListController>{
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             SizedBox(
-                                              height: h*.003,
+                                              height: h*.005,
                                             ),
                                             Text(
                                               singelDeta['location'],
                                               style: TextStyle(
                                                   color: clrGreyDark),
                                             ),
+                                            SizedBox(
+                                              height: h*.005,
+                                            ),
                                             Text(
                                               singelDeta['time'],
                                               style: TextStyle(
                                                   color: clrGreyDark),
+                                            ),
+                                            SizedBox(
+                                              height: h*.005,
                                             ),
                                             Text(
                                               "Up to ${singelDeta['poststotal']} people | ${singelDeta['leftposts']} spot left",
@@ -310,7 +316,7 @@ class ExploreUi extends GetWidget<ExploreListController>{
                                     ],
                                   ),
                                   SizedBox(
-                                    height: Get.height * 0.01,
+                                    height: Get.height * 0.015,
                                   ),
                                   ReadMoreText(
                                     singelDeta['des'],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/utils/common.dart';
 
 import '../../../../../../utils/colors.dart';
 
@@ -14,27 +15,13 @@ class ActivityVisibility extends GetWidget{
           padding: const EdgeInsets.symmetric(horizontal: 13),
           child: Column(
             children: [
-              SizedBox(
-                height: Get.height * 0.01,
+              const SizedBox(
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                          color: clrGreyLight,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Center(child: Icon(Icons.arrow_back_ios)),
-                    ),
-                  ),
+                  CommonUi.appBar(),
                   const Text("Activities visibility",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19),),
                   const SizedBox(
                     width: 20,
@@ -42,7 +29,7 @@ class ActivityVisibility extends GetWidget{
                 ],
               ),
               SizedBox(
-                height: Get.height * 0.03,
+                height: Get.height * 0.035,
               ),
               Expanded(
                   child:Column(

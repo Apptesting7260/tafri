@@ -31,10 +31,10 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
           prefixIcon:widget.sufixIcon==null?null :widget.sufixIcon ,
           hintText: widget.hintText,
           hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,color: clrGreyTextLight),
-          contentPadding:   EdgeInsets.symmetric(horizontal: 15,vertical: Get.height*.013),
+          contentPadding:   EdgeInsets.symmetric(horizontal: 15,vertical: Get.height*.02),
           fillColor: clrGreyLight,
           filled: true,
-          border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(20))
+          border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(100))
       ),
     );
   }

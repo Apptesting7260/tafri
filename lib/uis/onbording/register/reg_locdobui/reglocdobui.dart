@@ -23,6 +23,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
           width: double.maxFinite,
           child: Column(
             children: [
+              SizedBox(height: 10,),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -32,27 +33,9 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                       SizedBox(
                         height: h * .01,
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                                color: clrGreyLight,
-                                borderRadius: BorderRadius.circular(10)),
-                            child:
-                                const Center(child: Icon(Icons.arrow_back_ios)),
-                          ),
-                        ),
-                      ),
+                      CommonUi.appBar(),
                       SizedBox(
-                        height: h * .03,
+                        height: h * .04,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +71,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                         ],
                       ),
                       SizedBox(
-                        height: h * .02,
+                        height: h * .04,
                       ),
                       const Text(
                         "Location and age",
@@ -103,7 +86,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
-                        height: h * .02,
+                        height: h * .035,
                       ),
                       const Text(
                         "Where do you live?",
@@ -137,7 +120,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                         ),
                       ),
                       SizedBox(
-                        height: h * .02,
+                        height: h * .025,
                       ),
                       const Text(
                         "What’s your date of birth?",
@@ -207,7 +190,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                         ) : const SizedBox() ;
                       }),
                       SizedBox(
-                        height: h * .02,
+                        height: h * .035,
                       ),
                       Obx(() => Opacity(
                         opacity: controller.loading.value ? 0.5 : 1,
@@ -241,6 +224,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.visibility_outlined,

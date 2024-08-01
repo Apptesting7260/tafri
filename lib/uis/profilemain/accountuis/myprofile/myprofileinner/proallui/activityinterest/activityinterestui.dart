@@ -30,28 +30,13 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                     EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: h * .012,
+                    const SizedBox(
+                      height:15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            width: h * .05,
-                            height: h * .05,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                                color: clrGreyLight,
-                                borderRadius: BorderRadius.circular(10)),
-                            child:
-                                const Center(child: Icon(Icons.arrow_back_ios)),
-                          ),
-                        ),
+                        CommonUi.appBar(),
                         const Text(
                           "Activity interests",
                           style: TextStyle(
@@ -63,7 +48,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                       ],
                     ),
                     SizedBox(
-                      height: Get.height * 0.02,
+                      height: Get.height * 0.025,
                     ),
                     Expanded(
                       child: ListView(
@@ -163,8 +148,8 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700),
                             ))),
-                    SizedBox(
-                      height: Get.height * 0.01,
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
