@@ -197,7 +197,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                         child: SizedBox(
                             width: double.maxFinite,
                             height: Res.h_btn,
-                            child: CustoElevatedBtn(
+                            child: CustomElevatedButton(
                                 onTap: () {
                                   if(!controller.loading.value){
                                     controller.changeShowDobVal(true);

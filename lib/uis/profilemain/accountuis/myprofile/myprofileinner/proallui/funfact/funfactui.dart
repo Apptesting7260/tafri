@@ -221,7 +221,7 @@ class FunFactUi extends GetWidget<MyprofileInnController>{
                   child: SizedBox(
                       height: Res.h_btn,
                       width: double.maxFinite,
-                      child: CustoElevatedBtn(
+                      child: CustomElevatedButton(
                           onTap: () {},
                           backgroundClr: clrBlacke,
                           child: Text(

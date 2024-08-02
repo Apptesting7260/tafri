@@ -202,7 +202,7 @@ class PlansUi extends GetWidget{
                 SizedBox(
                     height: Res.h_btn,
                     width: double.maxFinite,
-                    child: CustoElevatedBtn(
+                    child: CustomElevatedButton(
                         onTap: () {
                           if(isIOS){
                             alertPurchaseSuccessIos();
@@ -262,7 +262,7 @@ class PlansUi extends GetWidget{
                   child: SizedBox(
                     width: Get.width*0.6,
                     height: Res.h_btn,
-                    child: CustoElevatedBtn(onTap: (){
+                    child: CustomElevatedButton(onTap: (){
                       Get.offAll((){
                         return Navbar();
                       });

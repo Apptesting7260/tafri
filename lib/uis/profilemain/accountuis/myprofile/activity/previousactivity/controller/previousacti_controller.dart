@@ -47,7 +47,7 @@ class PreviousActiController extends GetxController{
                 SizedBox(
                 height: Get.height*.024,
               ),
-              SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustoElevatedBtn(onTap: (){
+              SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
                 Get.back();
                 Get.to((){
                   return const AddActReviewUi() ;

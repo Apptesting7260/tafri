@@ -268,7 +268,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: Get.height*0.03,
                       ),
-                      SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                      SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                         // Get.toNamed(Routes.adda);
                         Get.to((){
                           return const AddActReviewUi() ;

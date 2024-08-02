@@ -65,7 +65,7 @@ class MyMemberShipUi extends GetWidget{
                   SizedBox(
                     width: double.maxFinite,
                     height: Res.h_btn,
-                    child: CustoElevatedBtn(onTap: (){ 
+                    child: CustomElevatedButton(onTap: (){
                       Get.toNamed(Routes.switchPlanProUi);
                     }, backgroundClr: clrBlacke, child: Text("Switch plan",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),)),
                   )

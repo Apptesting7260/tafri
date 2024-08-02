@@ -88,7 +88,7 @@ class OccupationUi extends GetWidget<MyprofileInnController> {
             SizedBox(
                 height: Res.h_btn,
                 width: double.maxFinite,
-                child: CustoElevatedBtn(
+                child: CustomElevatedButton(
                     onTap: () {
                       if (_formState.currentState!.validate()) {
                         Get.back();

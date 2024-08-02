@@ -559,7 +559,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     child: SizedBox(
                       height: Res.h_btn,
                       width: double.maxFinite,
-                      child: CustoElevatedBtn(
+                      child: CustomElevatedButton(
                           onTap: () {
                             controller.myProfileSubmit();
                           },

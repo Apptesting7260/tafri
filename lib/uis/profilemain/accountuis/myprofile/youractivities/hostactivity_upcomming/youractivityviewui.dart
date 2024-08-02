@@ -210,7 +210,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                       SizedBox(
                         height: Get.height*0.02,
                       ),
-                      SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                      SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       }, backgroundClr: clrBlacke, child: Text("Message Group",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
                       SizedBox(
                         height: Get.height*0.04,
@@ -456,7 +456,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                       alertConfirmCancelActivityFees();
                     }, backgroundClr: clrBlacke, child: Text("Delete",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
@@ -512,7 +512,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
 
@@ -569,7 +569,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
                   ]
@@ -624,7 +624,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
 

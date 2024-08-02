@@ -100,7 +100,7 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Upload Photo",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustomElevatedButton(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Upload Photo",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             const SizedBox(
               height: 10,
             ),

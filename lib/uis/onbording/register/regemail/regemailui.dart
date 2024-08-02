@@ -116,7 +116,7 @@ class RegEmailUi extends GetWidget<RegemailController> {
                         child: SizedBox(
                             width: double.maxFinite,
                             height: Res.h_btn,
-                            child: CustoElevatedBtn(
+                            child: CustomElevatedButton(
                                 onTap: () {
                                   if(!controller.loading.value){
                                     if(_formKey.currentState!.validate()){

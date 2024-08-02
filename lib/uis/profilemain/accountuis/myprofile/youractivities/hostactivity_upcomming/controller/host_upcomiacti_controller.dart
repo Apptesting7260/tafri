@@ -49,7 +49,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
                 SizedBox(
                 height: Get.height*.023,
               ),
-              SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+              SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                 Get.back();
               }, backgroundClr: clrBlacke, child: Text("View Activity",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
                 SizedBox(
@@ -96,7 +96,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(child: Text("View Activity",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
+              SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(child: Text("View Activity",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
                 Get.back();
               }, backgroundClr: clrBlacke)),
                 SizedBox(
@@ -144,7 +144,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
               SizedBox(
               height: Get.height*.025,
             ),
-            SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(child: Text("Back to home screen",style: TextStyle(color: clrWhite),), onTap: (){
+            SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(child: Text("Back to home screen",style: TextStyle(color: clrWhite),), onTap: (){
               Get.back();
             }, backgroundClr: clrBlacke)),
               SizedBox(

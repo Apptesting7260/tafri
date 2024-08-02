@@ -46,7 +46,7 @@ class ReferFrndUi extends GetWidget{
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                   Share.share('check out my website https://example.com');
                 }, backgroundClr: clrBlacke, child: Text("Invite friends",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),)))
               ],

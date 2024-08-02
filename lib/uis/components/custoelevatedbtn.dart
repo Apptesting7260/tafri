@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
 
-class CustoElevatedBtn extends StatefulWidget {
+class CustomElevatedButton extends StatefulWidget {
   final Widget child;
-  final double? padhor;
+  final double? paddingHz;
   final Color? borderClr;
-  final double? padver;
+  final double? paddingVr;
   final Color backgroundClr;
   final Function() onTap;
 
-  const CustoElevatedBtn(
+  const CustomElevatedButton(
       {super.key,
       required this.child,
       required this.onTap,
       required this.backgroundClr,
-      this.padhor,
-      this.padver,
+      this.paddingHz,
+      this.paddingVr,
       this.borderClr});
 
   @override
-  State<CustoElevatedBtn> createState() => _CustoElevatedBtnState();
+  State<CustomElevatedButton> createState() => _CustomElevatedButtonState();
 }
 
-class _CustoElevatedBtnState extends State<CustoElevatedBtn> {
+class _CustomElevatedButtonState extends State<CustomElevatedButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -33,7 +33,7 @@ class _CustoElevatedBtnState extends State<CustoElevatedBtn> {
             elevation: 0,
             backgroundColor: widget.backgroundClr,
             padding: EdgeInsets.symmetric(
-                horizontal: widget.padhor ?? 5, vertical: widget.padver ?? 0),
+                horizontal: widget.paddingHz ?? 5, vertical: widget.paddingVr ?? 0),
             side: widget.borderClr != null
                 ? BorderSide(color: widget.borderClr ?? clrBlacke)
                 : BorderSide.none,

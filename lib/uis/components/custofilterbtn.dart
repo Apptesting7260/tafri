@@ -18,9 +18,9 @@ class CustoFilterBtn extends StatefulWidget {
 class _CustoFilterBtnState extends State<CustoFilterBtn> {
   @override
   Widget build(BuildContext context) {
-    return CustoElevatedBtn(
+    return CustomElevatedButton(
       borderClr: widget.borderClr,
-        padhor: 10,
+        paddingHz: 10,
         onTap: widget.ontap,
         backgroundClr: widget.backgroundClr,
         child: widget.lable);

@@ -542,7 +542,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                     Expanded(
                         child: SizedBox(
                       height: Res.h_btn,
-                      child: CustoElevatedBtn(
+                      child: CustomElevatedButton(
                           onTap: () {},
                           backgroundClr: clrBlacke,
                           child: Text("Apply filter",

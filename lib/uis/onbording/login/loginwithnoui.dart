@@ -69,7 +69,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController>{
               SizedBox(
                   width: double.maxFinite,
                   height: Res.h_btn,
-                  child: CustoElevatedBtn(
+                  child: CustomElevatedButton(
                       onTap: () {
                         Get.bottomSheet(BottomSheet(
                             enableDrag: false,
@@ -167,7 +167,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController>{
                                            child: SizedBox(
                                              width: double.maxFinite,
                                              height: Res.h_btn,
-                                             child: CustoElevatedBtn(
+                                             child: CustomElevatedButton(
                                                  onTap: () {
                                                    if(!controller.isLoadingLogin.value){
                                                       if(_formKey.currentState!.validate()){

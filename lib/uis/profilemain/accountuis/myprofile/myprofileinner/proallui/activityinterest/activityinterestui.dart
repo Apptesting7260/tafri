@@ -138,7 +138,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                     SizedBox(
                         height: Res.h_btn,
                         width: double.maxFinite,
-                        child: CustoElevatedBtn(
+                        child: CustomElevatedButton(
                             onTap: () {},
                             backgroundClr: clrBlacke,
                             child: Text(

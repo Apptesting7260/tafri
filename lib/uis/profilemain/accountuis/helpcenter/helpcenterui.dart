@@ -78,7 +78,7 @@ class HelpCenterUi extends GetWidget{
                   child: SizedBox(
                     width: double.maxFinite,
                     height: Res.h_btn,
-                    child: CustoElevatedBtn(child: Text("Contact Support",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
+                    child: CustomElevatedButton(child: Text("Contact Support",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
                       custoSupportAlert();
                     }, backgroundClr: clrBlacke),
                   ),
@@ -118,7 +118,7 @@ class HelpCenterUi extends GetWidget{
               SizedBox(
                 width: double.maxFinite,
                 height: Res.h_btn,
-                child: CustoElevatedBtn(onTap: () {
+                child: CustomElevatedButton(onTap: () {
                   Get.toNamed(Routes.poSupportChat);
                 },
                   backgroundClr: clrBlacke,

@@ -190,7 +190,7 @@ class AttendanceReviewUi extends GetWidget{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("Yes, no-show",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
 

@@ -112,7 +112,7 @@ class GetVerifyUi extends GetWidget<MyprofileInnController>{
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustomElevatedButton(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             const SizedBox(
               height: 10,
             ),

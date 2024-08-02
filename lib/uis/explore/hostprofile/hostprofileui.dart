@@ -772,7 +772,7 @@ class HostProfileUi extends GetWidget{
             const SizedBox(
               height: 20,
             ),
-            SizedBox(width: double.maxFinite,height: 45,child: CustoElevatedBtn(child: Text("Submit",style: TextStyle(color: clrWhite),), onTap: (){
+            SizedBox(width: double.maxFinite,height: 45,child: CustomElevatedButton(child: Text("Submit",style: TextStyle(color: clrWhite),), onTap: (){
               Get.back();
             }, backgroundClr: clrBlacke)),
             const SizedBox(

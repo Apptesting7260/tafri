@@ -145,7 +145,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                   SizedBox(
                     height: Res.h_btn,
                     width: double.maxFinite,
-                    child: CustoElevatedBtn(child: Text("Submit review",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){}, backgroundClr: clrBlacke),
+                    child: CustomElevatedButton(child: Text("Submit review",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){}, backgroundClr: clrBlacke),
                   ),
                   SizedBox(
                     height: Get.height * 0.01,

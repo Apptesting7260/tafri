@@ -23,8 +23,8 @@ class ExploreUi extends GetWidget<ExploreListController>{
         child: Container(
           height: h*0.070,
           padding: const EdgeInsets.only(bottom: 20),
-          child: CustoElevatedBtn(
-              padhor: 10,
+          child: CustomElevatedButton(
+              paddingHz: 10,
               onTap: () {
                 Get.toNamed(Routes.mapActivityUi);
               },

@@ -312,7 +312,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
               SizedBox(
                 width: double.maxFinite,
                 height: Res.h_btn,
-                child: CustoElevatedBtn(
+                child: CustomElevatedButton(
                     onTap: () {
                       LocalStorage.removeToken();
                       debugPrint(

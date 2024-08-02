@@ -591,10 +591,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                 ),
                                                                 SizedBox(
                                                                   height: 23,
-                                                                  child: CustoElevatedBtn(
+                                                                  child: CustomElevatedButton(
                                                                       onTap: () {},
                                                                       backgroundClr: clrGreyLight,
-                                                                      padhor: 10,
+                                                                      paddingHz: 10,
                                                                       child: Row(
                                                                         children: [
                                                                           Image

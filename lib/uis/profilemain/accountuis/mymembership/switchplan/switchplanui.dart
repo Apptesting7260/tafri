@@ -156,7 +156,7 @@ class SwitchPlanUi extends GetWidget{
                       SizedBox(
                         height:Res.h_btn,
                         width: double.maxFinite,
-                        child: CustoElevatedBtn(child: Text("Confirm change",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
+                        child: CustomElevatedButton(child: Text("Confirm change",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),), onTap: (){
                           changePlanAlert();
                         }, backgroundClr: clrBlacke),
                       ),
@@ -199,7 +199,7 @@ class SwitchPlanUi extends GetWidget{
               SizedBox(
                 height: Res.h_btn,
                 width: double.maxFinite,
-                child: CustoElevatedBtn(onTap: () {
+                child: CustomElevatedButton(onTap: () {
                   Get.back();
                 },
                   backgroundClr: clrBlacke,

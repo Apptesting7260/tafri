@@ -279,9 +279,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                         height: Get.height*0.03,
                       ),
                       Obx((){
-                        return exploreViewController.isReqSent.value==1? SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                        return exploreViewController.isReqSent.value==1? SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
                           exploreViewController.changeReqSent(2);
-                        }, backgroundClr: clrBlacke, child: Text("Request to join",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))):SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){}, backgroundClr: clrGrey, child: Text("Pending Host Confirmation",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))) ;
+                        }, backgroundClr: clrBlacke, child: Text("Request to join",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))):SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){}, backgroundClr: clrGrey, child: Text("Pending Host Confirmation",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))) ;
                       }),
                       Obx((){
                         return exploreViewController.isReqSent.value==2? Column(
@@ -394,7 +394,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
               SizedBox(
               height: Get.height*.024,
             ),
-            SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+            SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
               Get.back();
             }, backgroundClr: clrBlacke, child: Text("Submit",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
               SizedBox(
@@ -446,7 +446,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("No",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
 
@@ -503,7 +503,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("No",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
                   ]

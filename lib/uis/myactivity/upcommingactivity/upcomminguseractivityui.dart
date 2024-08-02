@@ -261,7 +261,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                       SizedBox(
                         height: Get.height*0.03,
                       ),
-                      SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){}, backgroundClr: clrGrey, child: Text("Pending Host Confirmation",style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),))),
+                      SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){}, backgroundClr: clrGrey, child: Text("Pending Host Confirmation",style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),))),
                       const SizedBox(
                         height: 10,
                       ),
@@ -368,7 +368,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
             const SizedBox(
               height: 20,
             ),
-            SizedBox(width: double.maxFinite,height: 45,child: CustoElevatedBtn(onTap: (){
+            SizedBox(width: double.maxFinite,height: 45,child: CustomElevatedButton(onTap: (){
               Get.back();
             }, backgroundClr: clrBlacke, child: Text("Submit",style: TextStyle(color: clrWhite),))),
             const SizedBox(
@@ -410,7 +410,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
               ),
               Row(
                   children: [
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("No",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
                     SizedBox(
@@ -474,7 +474,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("No",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
 

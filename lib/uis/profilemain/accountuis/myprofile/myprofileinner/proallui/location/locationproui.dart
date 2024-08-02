@@ -70,7 +70,7 @@ final _formState=GlobalKey<FormState>();
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustoElevatedBtn(onTap: (){
+            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustomElevatedButton(onTap: (){
               if(_formState.currentState!.validate()){
                 Get.back();
               }

@@ -192,7 +192,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                     SizedBox(
                         height: Res.h_btn,
                         width: double.maxFinite,
-                        child: CustoElevatedBtn(
+                        child: CustomElevatedButton(
                             onTap: () {
                               if (controller.selectedLanguageList.isEmpty) {
                                 controller.changeIsShowLangError(true);

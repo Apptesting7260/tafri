@@ -41,7 +41,7 @@ class UpCommingActiUserController extends GetxController{
                SizedBox(
                 height: Get.height*.024,
               ),
-              SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustoElevatedBtn(onTap: (){
+              SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
                 Get.back();
               }, backgroundClr: clrBlacke, child: Text("Go to activity",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
                SizedBox(
@@ -89,7 +89,7 @@ class UpCommingActiUserController extends GetxController{
               SizedBox(
               height:Get.height*.025,
             ),
-            SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustoElevatedBtn(onTap: (){
+            SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
               Get.back();
             }, backgroundClr: clrBlacke, child: Text("Explore more",style: TextStyle(color: clrWhite,fontWeight: FontWeight.w700,fontSize: 16),))),
               SizedBox(

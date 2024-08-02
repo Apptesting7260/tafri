@@ -520,7 +520,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                       child: SizedBox(
                           width: double.maxFinite,
                           height: Res.h_btn,
-                          child: CustoElevatedBtn(
+                          child: CustomElevatedButton(
                               onTap: () {},
                               backgroundClr: clrBlacke,
                               child: Text(
@@ -1008,7 +1008,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                   width: Get.width * 0.05,
                 ),
                 Expanded(
-                    child: CustoElevatedBtn(
+                    child: CustomElevatedButton(
                         child: Text(
                           "Done",
                           style: TextStyle(color: clrWhite),

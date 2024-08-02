@@ -133,7 +133,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                     SizedBox(
                         width: double.maxFinite,
                         height: Res.h_btn,
-                        child: CustoElevatedBtn(
+                        child: CustomElevatedButton(
                           onTap: () {
                             String? token=Get.arguments['token'];
                             String? uId=Get.arguments['uid'];

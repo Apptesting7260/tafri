@@ -214,7 +214,7 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                           child: SizedBox(
                               width: double.maxFinite,
                               height: Res.h_btn,
-                              child: CustoElevatedBtn(
+                              child: CustomElevatedButton(
                                   onTap: () {
                                     if (!controller.loading.value) {
                                       if (controller.genderValue.value ==

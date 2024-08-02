@@ -291,7 +291,7 @@ class SettingUi extends GetWidget<SettingController>{
               Expanded(
                 child: SizedBox(
                   height: 45,
-                  child: CustoElevatedBtn(
+                  child: CustomElevatedButton(
                     onTap: () {
                       Get.back();
                     },

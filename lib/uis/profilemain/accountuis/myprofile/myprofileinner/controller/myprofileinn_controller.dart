@@ -87,7 +87,7 @@ class MyprofileInnController extends GetxController with GetTickerProviderStateM
                   child: SizedBox(
                     width: Get.width*0.6,
                     height: Res.h_btn,
-                    child: CustoElevatedBtn(onTap: (){
+                    child: CustomElevatedButton(onTap: (){
                       Get.back();
                     }, backgroundClr: clrBlacke, child: Text("Complete Now",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),)),
                   ),
