@@ -10,12 +10,19 @@ class CommonUi{
    return LoadingAnimationWidget.fourRotatingDots(color: clrWhite, size: 45);
   }
 
+  static loadingIndicator(){
+    return CupertinoActivityIndicator(
+      color: clrGreyDark,
+      radius: 20,
+    );
+  }
+
   static emptySizeBox(){
     return const SizedBox();
   }
 
   static appBar(){
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         Get.back();
       },

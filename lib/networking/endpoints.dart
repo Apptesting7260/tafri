@@ -4,8 +4,8 @@ class EndPoints{
   static String addNewUserUrl="${baseUrl}addnewuser";
   static String loginApiUrl="${baseUrl}login";
   static String completeProfileApiUrl="${baseUrl}complete-profile";
-  static String languageListApiUrl="${baseUrl}get-languages";
-  static String getCategoryApiUrl="${baseUrl}get-categories";
+  static String languageListApiUrl="${baseUrl}get-languages/";
+  static String getCategoryApiUrl="${baseUrl}get-categories/";
   static String funFactQestiApiUrl="${baseUrl}get-user_fun_facts";
 
   static String checkNuExist="${baseUrl}check-number-existing";

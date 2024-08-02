@@ -20,10 +20,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
       body: SafeArea(child: Obx(() {
         return controller.isLoadingActivity.value
             ? Center(
-                child: Container(
-                  color: clrBlacke,
-                  child: CommonUi.fourDotLoading(),
-                ),
+                child: CommonUi.loadingIndicator(),
               )
             : Padding(
                 padding:

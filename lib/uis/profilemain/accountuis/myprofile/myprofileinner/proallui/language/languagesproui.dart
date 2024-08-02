@@ -22,10 +22,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
       body: Obx(() {
         return controller.isLanLoading.value == true
             ? Center(
-                child: Container(
-                  color: clrBlacke,
-                  child: CommonUi.fourDotLoading(),
-                ),
+                child: CommonUi.loadingIndicator(),
               )
             : SafeArea(
                 child: Padding(
