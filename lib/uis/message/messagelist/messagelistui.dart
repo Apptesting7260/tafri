@@ -306,24 +306,20 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                       motion: const ScrollMotion(),
                                       dismissible:
                                           DismissiblePane(onDismissed: () {}),
-                                      // All actions are defined in the children parameter.
                                       children: [
-                                        // A SlidableAction can have an icon and/or a label.
-                                        // SlidableAction(
-                                        //
-                                        //   onPressed: (context){},
-                                        //   backgroundColor: clrYellow,
-                                        //   foregroundColor: Colors.white,
-                                        //   icon: Icons.delete,
-                                        //
-                                        // ),
                                         Expanded(
                                           child: InkWell(
                                             onTap: () {},
                                             child: Container(
                                               margin: EdgeInsets.symmetric(
                                                   vertical: h * 0.008),
-                                              color: clrYellow,
+                                              decoration: BoxDecoration(
+                                                color: clrYellow,
+                                                borderRadius: BorderRadius.only(
+                                                  bottomRight: Radius.circular(15),
+                                                  topRight: Radius.circular(15)
+                                                ),
+                                              ),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
@@ -335,7 +331,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                         color: clrYellow),
                                                     child: Container(
                                                       height: h * 0.045,
-                                                      width: h * 0.045,
+                                                      width: 30,
                                                       decoration: const BoxDecoration(
                                                           image: DecorationImage(
                                                               image: AssetImage(

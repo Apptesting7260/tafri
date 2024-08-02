@@ -6,6 +6,7 @@ import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'controller/filterexp_controller.dart';
 
@@ -32,27 +33,12 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Get.height * 0.01,
+                        height: 15,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              width: h * .05,
-                              height: h * .05,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                  color: clrGreyLight,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: const Center(
-                                  child: Icon(Icons.arrow_back_ios)),
-                            ),
-                          ),
+                          CommonUi.appBar(),
                           const Text(
                             "Filter",
                             style: TextStyle(
@@ -64,7 +50,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                         ],
                       ),
                       SizedBox(
-                        height: Get.height * 0.02,
+                        height: Get.height * 0.025,
                       ),
                       const Text(
                         "Category",
@@ -72,14 +58,14 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                             fontWeight: FontWeight.w600, fontSize: 16),
                       ),
                       SizedBox(
-                        height: Get.height * 0.01,
+                        height: Get.height * 0.015,
                       ),
                       Obx(() {
                         List listCat = exploreListController.categryList;
                         // debugPrint("listCat=${listCat[1]}");
                         return Wrap(
-                          spacing: 6,
-                          runSpacing: 8,
+                          spacing: 8,
+                          runSpacing: 10,
                           children: listCat.map((e) {
                             return SizedBox(
                               height: Res.h_filter_btn,
@@ -123,7 +109,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                         );
                       }),
                       SizedBox(
-                        height: Get.height * 0.02,
+                        height: Get.height * 0.025,
                       ),
                       const Text(
                         "Location",
@@ -149,7 +135,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                         ),
                       ),
                       SizedBox(
-                        height: Get.height * 0.02,
+                        height: Get.height * 0.025,
                       ),
                       const Text(
                         "Group size",
@@ -174,7 +160,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 13),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(100),
                               color: clrGreyLight),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,7 +208,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                             ],
                           )),
                       SizedBox(
-                        height: Get.height * 0.02,
+                        height: Get.height * 0.025,
                       ),
                       const Text(
                         "Date",
@@ -234,8 +220,8 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                       ),
                       Obx(() {
                         return Wrap(
-                          spacing: 6,
-                          runSpacing: 8,
+                          spacing: 8,
+                          runSpacing: 10,
                           children: [
                             SizedBox(
                               height: Res.h_filter_btn,
@@ -398,7 +384,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                         );
                       }),
                       SizedBox(
-                        height: Get.height * 0.02,
+                        height: Get.height * 0.025,
                       ),
                       const Text(
                         "Time",
@@ -447,7 +433,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                       ),
 
                       SizedBox(
-                        height: Get.height * 0.02,
+                        height: Get.height * 0.025,
                       ),
                       const Text(
                         "Gender",
@@ -490,7 +476,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                         }),
                       ),
                       SizedBox(
-                        height: Get.height * 0.005,
+                        height: Get.height * 0.02,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
