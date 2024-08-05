@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:http/http.dart' as http;
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/model/profile_view_model.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/addphoto/controller/addphoto_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/funfact/models/funfactquest_model.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/language/models/langauagemodel.dart';
@@ -190,6 +191,7 @@ class MyprofileInnController extends GetxController
     isLoadingActivity.value = true;
     String? token = LocalStorage.getToken();
     String? uID = LocalStorage.getUid();
+    print(token);
     try {
       final response = await api.get("${EndPoints.getCategoryApiUrl}$uID",
           headers: {"Authorization": "Bearer $token"});
@@ -347,4 +349,5 @@ class MyprofileInnController extends GetxController
     }
     isLoadingProfile.value = false;
   }
+
 }

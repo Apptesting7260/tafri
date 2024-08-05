@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
@@ -9,6 +10,7 @@ import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfileUi extends GetWidget<ProfilemainController> {
   const ProfileUi({super.key});
@@ -36,30 +38,95 @@ class ProfileUi extends GetWidget<ProfilemainController> {
               SizedBox(
                 height: Get.height * 0.025,
               ),
-              Container(
-                clipBehavior: Clip.hardEdge,
-                height: h * .12,
-                width: h * .12,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    image: const DecorationImage(
-                        image: AssetImage("assets/images/proimg.png"),
-                        fit: BoxFit.cover)),
-              ),
-              SizedBox(
-                height: Get.height * 0.02,
-              ),
-              const Text(
-                "Kayla Wood",
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-              ),
-              SizedBox(
-                height: Get.height * 0.005,
-              ),
-              Text(
-                "kaylawood@gmail.com",
-                style: TextStyle(color: clrGreyTextLight, fontSize: 15),
-              ),
+              Obx(() {
+                if (controller.profileLoading.value) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const CircleAvatar(
+                          maxRadius: 50,
+                          minRadius: 40,
+                          backgroundColor: Colors.grey,
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
+                        Container(
+                          width: 100,
+                          height: 20,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.005,
+                        ),
+                        Container(
+                          width: 150,
+                          height: 15,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: CachedNetworkImage(
+                          imageUrl: '${controller.profileData.value.result?.profile?.profilePhoto}',
+                          fit: BoxFit.cover,
+                          height: h * .13,
+                          width: w * .28,
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Container(
+                                height: h * .13,
+                                width: w * .28,
+                                color: clrGrey,
+                              ),
+                            )
+                          ),
+                          errorWidget: (context, url, error) {
+                            print('error == $error');
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Container(
+                                height: h * .13,
+                                width: w * .28,
+                                decoration: BoxDecoration(
+                                    color: clrGrey,
+                                    image: DecorationImage(image: AssetImage('assets/icons/dangericon.png'))
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.02,
+                      ),
+                      Text(
+                        "${controller.profileData.value.result?.firstName} ${controller.profileData.value.result?.lastName}",
+                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.005,
+                      ),
+                      Text(
+                        "${controller.profileData.value.result?.email}",
+                        style: const TextStyle(color: Colors.grey, fontSize: 15),
+                      ),
+                    ],
+                  );
+                }
+              }),
               SizedBox(
                 height: Get.height * 0.03,
               ),

@@ -1,14 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/model/profile_view_model.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../utils/colors.dart';
 import 'controller/myprofileinn_controller.dart';
 
 class MyProfileUi extends GetWidget<MyprofileInnController> {
-  const MyProfileUi({super.key});
+  MyProfileUi({super.key});
+
+  final ProfilemainController profileController =
+      Get.find<ProfilemainController>();
 
   @override
   Widget build(BuildContext context) {
@@ -583,15 +590,42 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                       height: Get.height * 0.035,
                     ),
                     Center(
-                      child: Container(
-                        clipBehavior: Clip.hardEdge,
-                        height: h * .12,
-                        width: h * .12,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            image: const DecorationImage(
-                                image: AssetImage("assets/images/proimg.png"),
-                                fit: BoxFit.cover)),
+                      child: Obx(
+                        () => ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedNetworkImage(
+                              imageUrl:
+                                  '${profileController.profileData.value.result?.profile?.profilePhoto}',
+                              fit: BoxFit.cover,
+                              height: h * .14,
+                              width: w * .3,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Container(
+                                      height: h * .14,
+                                      width: w * .3,
+                                      color: clrGrey,
+                                    ),
+                                  )),
+                              errorWidget: (context, url, error) {
+                                print('error == $error');
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                    height: h * .14,
+                                    width: w * .3,
+                                    decoration: BoxDecoration(
+                                        color: clrGrey,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                'assets/icons/dangericon.png'))),
+                                  ),
+                                );
+                              }),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -600,9 +634,9 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Kayla",
-                          style: TextStyle(
+                        Text(
+                          "${profileController.profileData.value.result?.firstName}",
+                          style: const TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18),
                         ),
                         const SizedBox(
@@ -624,7 +658,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     ),
                     Center(
                         child: Text(
-                      "25 years old | She/Her",
+                      "${profileController.profileData.value.result?.age} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
                       style: TextStyle(color: clrGreyTextLight, fontSize: 13),
                     )),
                     SizedBox(
@@ -641,8 +675,31 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 color: clrGreyLight),
                             child: Column(
                               children: [
+                                // TweenAnimationBuilder<int>(
+                                //   tween: IntTween(
+                                //       begin: 0,
+                                //       end: int.parse(profileController
+                                //           .profileData
+                                //           .value
+                                //           .result!
+                                //           .attendanceRate
+                                //           .toString()
+                                //           .split('%')[0])),
+                                //   duration: const Duration(seconds: 1),
+                                //   builder: (context, value, child) {
+                                //     return Text(
+                                //       '$value%',
+                                //       style: TextStyle(
+                                //           color: clrYellowText.withOpacity(0.8),
+                                //           fontSize: 22,
+                                //           fontWeight: FontWeight.w700),
+                                //     );
+                                //   },
+                                // ),
                                 Text(
-                                  "100%",
+                                  profileController
+                                      .profileData.value.result!.attendanceRate
+                                      .toString(),
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -669,8 +726,30 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 color: clrGreyLight),
                             child: Column(
                               children: [
+                                // TweenAnimationBuilder<int>(
+                                //   tween: IntTween(
+                                //       begin: 0,
+                                //       end: int.parse(profileController
+                                //           .profileData
+                                //           .value
+                                //           .result!
+                                //           .activitiesJoined
+                                //           .toString())),
+                                //   duration: const Duration(seconds: 1),
+                                //   builder: (context, value, child) {
+                                //     return Text(
+                                //       '$value',
+                                //       style: TextStyle(
+                                //           color: clrYellowText.withOpacity(0.8),
+                                //           fontSize: 22,
+                                //           fontWeight: FontWeight.w700),
+                                //     );
+                                //   },
+                                // ),
                                 Text(
-                                  "20",
+                                  profileController.profileData.value.result!
+                                      .activitiesJoined
+                                      .toString(),
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -697,11 +776,33 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 color: clrGreyLight),
                             child: Column(
                               children: [
+                                // TweenAnimationBuilder<int>(
+                                //   tween: IntTween(
+                                //       begin: 0,
+                                //       end: int.parse(profileController
+                                //           .profileData
+                                //           .value
+                                //           .result!
+                                //           .activitiesHosted
+                                //           .toString())),
+                                //   duration: const Duration(seconds: 1),
+                                //   builder: (context, value, child) {
+                                //     return Text(
+                                //       '$value',
+                                //       style: TextStyle(
+                                //           color: clrYellowText.withOpacity(0.8),
+                                //           fontSize: 22,
+                                //           fontWeight: FontWeight.w700),
+                                //     );
+                                //   },
+                                // ),
                                 Text(
-                                  "25",
+                                  profileController.profileData.value.result!
+                                      .activitiesHosted
+                                      .toString(),
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
-                                      fontSize: 20,
+                                      fontSize: 22,
                                       fontWeight: FontWeight.w700),
                                 ),
                                 const Text("Activities Hosted",
@@ -732,7 +833,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
-                              "Hi, I’m Kayla! I love exploring local cafes and meeting new people in the neighborhood. Whether it’s chatting over coffee, discovering new places, or planning community events, I’m always up for a good conversation. Looking forward to connecting with you! ☕️👋",
+                              "${profileController.profileData.value.result?.profile?.bio}",
                               style: TextStyle(color: clrGreyTextLight)),
                         ],
                       ),
@@ -755,7 +856,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          Text("Amsterdam, Netherlands",
+                          Text(
+                              "${profileController.profileData.value.result?.location}",
                               style: TextStyle(color: clrGreyTextLight)),
                         ],
                       ),
@@ -778,7 +880,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          Text("Creative Strategist at YouTube",
+                          Text(
+                              "${profileController.profileData.value.result?.profile?.occupation}",
                               style: TextStyle(color: clrGreyTextLight)),
                         ],
                       ),
@@ -808,22 +911,19 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             spacing: w * .02,
                             runSpacing: h * .01,
                             children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 13, vertical: 5),
-                                decoration: BoxDecoration(
+                              ...?profileController.profileData.value.result
+                                  ?.profile?.languageNames
+                                  ?.map((language) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 13, vertical: 5),
+                                  decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: clrWhite),
-                                child: const Text("English"),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 13, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: clrWhite),
-                                child: const Text("Spanish"),
-                              )
+                                    color: clrWhite,
+                                  ),
+                                  child: Text(language),
+                                );
+                              }).toList(),
                             ],
                           )
                         ],
@@ -851,91 +951,30 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             height: h * .008,
                           ),
                           Wrap(
-                            spacing: w * .02,
-                            runSpacing: h * .01,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 13, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: clrWhite),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/cycleicon.png",
-                                      height: 20,
+                              spacing: w * .02,
+                              runSpacing: h * .01,
+                              children: profileController.interestList.map(
+                                (e) {
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 13, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.white),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Image.network(
+                                          e.icon.toString(),
+                                          height: 20,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(e.title.toString()),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    const Text("Cycling"),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 13, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: clrWhite),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/dinner.png",
-                                      height: 20,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    const Text("Dining out"),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 13, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: clrWhite),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/languagetrn.png",
-                                      height: 20,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    const Text("Language exchange"),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 13, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: clrWhite),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/dinner.png",
-                                      height: 20,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    const Text("Dining out"),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
+                                  );
+                                },
+                              ).toList())
                         ],
                       ),
                     ),
@@ -951,19 +990,39 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Fun facts about Emma",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 15),
-                          ),
-                          const Text(
-                            "Are you a morning person or night owl?",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 15),
-                          ),
                           Text(
-                              "I'm both! Whether it's sunrise or midnight, I'm always ready to roll.",
-                              style: TextStyle(color: clrGreyTextLight)),
+                            "Fun facts about ${profileController.profileData.value.result?.firstName}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${profileController.profileData.value.result?.profile?.funFactsAboutMe?[index].question}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                ),
+                                Text(
+                                    "${profileController.profileData.value.result?.profile?.funFactsAboutMe?[index].answer}",
+                                    style: TextStyle(color: clrGreyTextLight)),
+                              ],
+                            ),
+                            itemCount: profileController.profileData.value
+                                    .result?.profile?.funFactsAboutMe?.length ??
+                                0,
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              height: 10,
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -984,7 +1043,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: EdgeInsets.symmetric(vertical: Get.height * 0.01),
+                            margin: EdgeInsets.symmetric(
+                                vertical: Get.height * 0.01),
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             decoration: BoxDecoration(
