@@ -697,9 +697,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 //   },
                                 // ),
                                 Text(
-                                  profileController
-                                      .profileData.value.result!.attendanceRate
-                                      .toString(),
+                                  '${profileController.profileData.value.result?.attendanceRate.toString()}',
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -747,9 +745,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 //   },
                                 // ),
                                 Text(
-                                  profileController.profileData.value.result!
-                                      .activitiesJoined
-                                      .toString(),
+                                  '${profileController.profileData.value.result?.activitiesJoined.toString()}',
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -797,9 +793,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 //   },
                                 // ),
                                 Text(
-                                  profileController.profileData.value.result!
-                                      .activitiesHosted
-                                      .toString(),
+                                  '${profileController.profileData.value.result?.activitiesHosted.toString()}',
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -833,7 +827,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
-                              "${profileController.profileData.value.result?.profile?.bio}",
+                              profileController.profileData.value.result
+                                          ?.profile?.bio !=
+                                      null
+                                  ? "${profileController.profileData.value.result?.profile?.bio}"
+                                  : '',
                               style: TextStyle(color: clrGreyTextLight)),
                         ],
                       ),
@@ -880,8 +878,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          Text(
-                              "${profileController.profileData.value.result?.profile?.occupation}",
+                          Text(profileController.profileData.value.result?.profile?.occupation != null ?
+                              "${profileController.profileData.value.result?.profile?.occupation}" : '',
                               style: TextStyle(color: clrGreyTextLight)),
                         ],
                       ),

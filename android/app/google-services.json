@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "396232712466",
+    "project_id": "plusones-28b9f",
+    "storage_bucket": "plusones-28b9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396232712466:android:ab306fc1cb994f1ccd53cb",
+        "android_client_info": {
+          "package_name": "com.example.plusone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeb1sP2mDZj5suUJWIZ-WNpKg-fjBfNic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

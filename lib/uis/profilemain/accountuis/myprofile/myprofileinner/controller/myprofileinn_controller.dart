@@ -33,7 +33,6 @@ class MyprofileInnController extends GetxController
     Future.delayed(Duration.zero, () {
       return profileAlertPopUp();
     });
-    // TODO: implement onInit
     super.onInit();
   }
 
@@ -43,7 +42,7 @@ class MyprofileInnController extends GetxController
   TextEditingController organiController = TextEditingController();
   TextEditingController langController = TextEditingController();
 
-  Map profileDeta = {
+  Map profileData = {
     'user_id': '',
     'bio': '',
     'occupation': '',
@@ -58,7 +57,7 @@ class MyprofileInnController extends GetxController
     'verify_linkedin': '',
   };
 
-  profileAlertPopUp() async {
+  profileAlertPopUp() async  {
     Future.delayed(const Duration(seconds: 3), () {
       return Get.dialog(AlertDialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: 0),
