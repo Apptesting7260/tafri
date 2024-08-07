@@ -32,9 +32,6 @@ class NameAddController extends GetxController{
     };
     print(data);
 
-    bool isNet = await checkInternetConnection();
-
-    if(isNet){
       try{
         final response = await api.post(EndPoints.signupStep1, data);
         var body = SignUpStepOneModel.fromJson(response.body);
@@ -51,10 +48,6 @@ class NameAddController extends GetxController{
         loading.value = false;
         print('error == ${e.toString()}');
       }
-    }else{
-      loading.value = false;
-      showTostMsg("No internet connection found");
-    }
 
   }
 

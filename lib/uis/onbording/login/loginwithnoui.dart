@@ -216,10 +216,15 @@ class LoginWithNoUi extends GetWidget<LoginnoController>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(13),
-                    decoration: BoxDecoration(color: clrWhite,borderRadius: BorderRadius.circular(100)),
-                    child: Image.asset("assets/icons/googleicon.png",height: 18,),
+                  GestureDetector(
+                    onTap: () {
+                      controller.signInWithGoogle(context);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(13),
+                      decoration: BoxDecoration(color: clrWhite,borderRadius: BorderRadius.circular(100)),
+                      child: Image.asset("assets/icons/googleicon.png",height: 18,),
+                    ),
                   ),
                    SizedBox(
                     width: w*0.04,

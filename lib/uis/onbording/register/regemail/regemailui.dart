@@ -163,30 +163,30 @@ class RegEmailUi extends GetWidget<RegemailController> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Already have an account? ",
-                          style: TextStyle(color: clrGreyDark, fontSize: 12)),
-                      InkWell(
-                          onTap: () {
-                            Get.offAllNamed(Routes.initialPage);
-                            // Get.offAll(IntroOneUi());
-                          },
-                          child: Text("Log In",
-                              style: TextStyle(
-                                  color: clrYellowText,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700)))
-                    ],
-                  ),
-                  SizedBox(
-                    height: h * .02,
-                  ),
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Text("Already have an account? ",
+              //             style: TextStyle(color: clrGreyDark, fontSize: 12)),
+              //         InkWell(
+              //             onTap: () {
+              //               Get.offAllNamed(Routes.initialPage);
+              //               // Get.offAll(IntroOneUi());
+              //             },
+              //             child: Text("Log In",
+              //                 style: TextStyle(
+              //                     color: clrYellowText,
+              //                     fontSize: 12,
+              //                     fontWeight: FontWeight.w700)))
+              //       ],
+              //     ),
+              //     SizedBox(
+              //       height: h * .02,
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:plusone/networking/checkconnection.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/onbording/introone/binding/intro_binding.dart';
 import 'package:plusone/utils/colors.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
   }catch(e){
     print('firebase error == ${e.toString()}');
   }
+  InternetService();
   await GetStorage.init();
   runApp(const MyApp());
 }

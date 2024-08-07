@@ -216,28 +216,28 @@ class NameAddUi extends GetWidget<NameAddController> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Already have an account? ",
-                          style: TextStyle(color: clrGreyDark)),
-                      InkWell(
-                          onTap: () {
-                            Get.offAllNamed(Routes.initialPage);
-                          },
-                          child: Text("Log In",
-                              style: TextStyle(
-                                  color: clrYellowText,
-                                  fontWeight: FontWeight.w700)))
-                    ],
-                  ),
-                  SizedBox(
-                    height: h * .02,
-                  ),
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Text("Already have an account? ",
+              //             style: TextStyle(color: clrGreyDark)),
+              //         InkWell(
+              //             onTap: () {
+              //               Get.offAllNamed(Routes.initialPage);
+              //             },
+              //             child: Text("Log In",
+              //                 style: TextStyle(
+              //                     color: clrYellowText,
+              //                     fontWeight: FontWeight.w700)))
+              //       ],
+              //     ),
+              //     SizedBox(
+              //       height: h * .02,
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

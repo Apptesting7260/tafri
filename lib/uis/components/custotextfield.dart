@@ -12,7 +12,8 @@ class CustoTextFormField extends StatefulWidget {
   final TextEditingController? controll;
   final Widget? sufixIcon;
   final TextInputType? textKType;
-  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation});
+  final void Function(String)? onChanged;
+  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged});
 
   @override
   State<CustoTextFormField> createState() => _CustoTextFormFieldState();
@@ -27,6 +28,7 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
       maxLines: widget.maxLines,
       maxLength: widget.maxLength,
       keyboardType: widget.textKType??TextInputType.text,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
           prefixIcon:widget.sufixIcon==null?null :widget.sufixIcon ,
           hintText: widget.hintText,

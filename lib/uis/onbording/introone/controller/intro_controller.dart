@@ -235,8 +235,7 @@ class IntroController extends GetxController {
 
     log("send body==$data");
     loading.value = true;
-    bool isNetAval = await checkInternetConnection();
-    if (isNetAval) {
+
       try {
         final response = await api.post(EndPoints.checkNuExist, data);
         var body = PhoneNumberModel.fromJson(response.body);
@@ -262,9 +261,6 @@ class IntroController extends GetxController {
         showTostMsg('Something went wrong');
         print(e.toString());
       }
-    } else {
-      loading.value = false;
-      showTostMsg("No internet connection found");
-    }
+
   }
 }

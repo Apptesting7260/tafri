@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/components/location_form_field.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../routes/routes.dart';
@@ -10,9 +12,11 @@ import '../../introone/intoone.dart';
 import 'controller/reglocdob_controller.dart';
 
 class RegLocDOBUi extends GetWidget<ReglocdobController> {
-    RegLocDOBUi({super.key});
+  RegLocDOBUi({super.key});
+
   // ReglocdobController redLocCon=Get.find(ReglocdobController());
-  final _formKey=GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
@@ -23,7 +27,9 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
           width: double.maxFinite,
           child: Column(
             children: [
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -98,7 +104,18 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                       ),
                       Form(
                         key: _formKey,
-                        child: CustoTextFormField(
+                        child:
+                        CustomLocationField(
+                          itemBuilder: (context, suggestion) {
+                            return ListTile(
+                              title: Text(suggestion.name.toString()),
+                            );
+                          },
+                          suggestionsCallback: (value) async{
+                            return controller.searchPlaces(value);
+                          },
+                          hintText: "Enter your location",
+                          controller: controller.locationController,
                           validation: (val) {
                             if (val == null || val.isEmpty) {
                               return "Location is required";
@@ -106,18 +123,54 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                               return null;
                             }
                           },
-                          controll: controller.locationController,
-                          hintText: "Enter your location",
+                          onSelected: (value) {
+                            controller.locationController.text = value.name;
+                          },
                           sufixIcon: Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 10),
+                                  horizontal: 12, vertical: 13),
                               child: const Image(
-                                image:
-                                    AssetImage("assets/icons/locationicon.png"),
-                                height: 3,
-                                width: 3,
+                                image: AssetImage(
+                                    "assets/icons/locationicon.png"),
+                                height: 1,
+                                width: 1,
                               )),
-                        ),
+                        )
+                        // Column(
+                        //   children: [
+                        //     CustoTextFormField(
+                        //       validation: (val) {
+                        //         if (val == null || val.isEmpty) {
+                        //           return "Location is required";
+                        //         } else {
+                        //           return null;
+                        //         }
+                        //       },
+                        //       controll: controller.locationController,
+                        //       hintText: "Enter your location",
+                        //       sufixIcon: Container(
+                        //           padding: const EdgeInsets.symmetric(
+                        //               horizontal: 12, vertical: 13),
+                        //           child: const Image(
+                        //             image:
+                        //             AssetImage("assets/icons/locationicon.png"),
+                        //             height: 1,
+                        //             width: 1,
+                        //           )),
+                        //       onChanged: (value) {
+                        //         controller.onSearchChanged(value, context);
+                        //       },
+                        //     ),
+                        //     Obx(() => controller.places.isNotEmpty ? ListView.builder(
+                        //       itemCount: controller.places.length,
+                        //       shrinkWrap: true,
+                        //       itemBuilder: (context, index) {
+                        //         return ListTile(
+                        //           title: Text(controller.places[index].name.toString()),
+                        //         );
+                        //       },) : SizedBox(),)
+                        //   ],
+                        // ),
                       ),
                       SizedBox(
                         height: h * .025,
@@ -140,7 +193,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                                 initialDate: controller.dob.value == ''
                                     ? DateTime.now()
                                     : DateTime.parse(controller.dobForCalender
-                                        .value)); //controller.dob.value
+                                    .value)); //controller.dob.value
                             if (dob != null) {
                               print("gk=====$dob");
                               controller.changeDob(dob);
@@ -148,7 +201,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 5),
+                                vertical: 7, horizontal: 5),
                             decoration: BoxDecoration(
                                 color: clrGreyLight,
                                 borderRadius: BorderRadius.circular(30)),
@@ -160,65 +213,90 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                                     child: const Image(
                                       image: AssetImage(
                                           "assets/icons/calendericon.png"),
-                                      height: 20,
-                                      width: 20,
+                                      height: 19,
+                                      width: 19,
                                     )),
-                                const SizedBox(
-                                  width: 10,
-                                ),
+                                // const SizedBox(
+                                //   width: 10,
+                                // ),
                                 Text(
                                   controller.dob.value == ''
                                       ? "DD/MM/YYYY"
                                       : "${controller.dob}",
-                                  style: TextStyle(color: clrGreyTextLight),
+                                  style: TextStyle(
+                                      color: controller.dob.value == ''
+                                          ? clrGreyTextLight
+                                          : clrBlacke),
                                 )
                               ],
                             ),
                           ),
                         );
                       }),
-                      Obx((){
-                        return controller.dob.value == ''&& controller.isShowDobErr.value==true? Padding(
-                          padding: const EdgeInsets.only(left: 14,top: 5),
-                          child: Text("DOB is required.",style: TextStyle(color:clrRedErr,fontSize: 12),),
-                        ):const SizedBox() ;
+                      Obx(() {
+                        return controller.dob.value == '' &&
+                            controller.isShowDobErr.value == true
+                            ? Padding(
+                          padding:
+                          const EdgeInsets.only(left: 14, top: 5),
+                          child: Text(
+                            "DOB is required.",
+                            style:
+                            TextStyle(color: clrRedErr, fontSize: 12),
+                          ),
+                        )
+                            : const SizedBox();
                       }),
-                      Obx((){
-                        return controller.isOld.value && controller.isShowDobErr.value==true ? Padding(
-                          padding: const EdgeInsets.only(left: 14,top: 5),
-                          child: Text("Age should be greater than 18 years.",style: TextStyle(color:clrRedErr,fontSize: 12),),
-                        ) : const SizedBox() ;
+                      Obx(() {
+                        return controller.isOld.value &&
+                            controller.isShowDobErr.value == true
+                            ? Padding(
+                          padding:
+                          const EdgeInsets.only(left: 14, top: 5),
+                          child: Text(
+                            "Age should be greater than 18 years.",
+                            style:
+                            TextStyle(color: clrRedErr, fontSize: 12),
+                          ),
+                        )
+                            : const SizedBox();
                       }),
                       SizedBox(
                         height: h * .035,
                       ),
-                      Obx(() => Opacity(
-                        opacity: controller.loading.value ? 0.5 : 1,
-                        child: SizedBox(
-                            width: double.maxFinite,
-                            height: Res.h_btn,
-                            child: CustomElevatedButton(
-                                onTap: () {
-                                  if(!controller.loading.value){
-                                    controller.changeShowDobVal(true);
-                                    if(_formKey.currentState!.validate()){
-                                      if(controller.dob.value != ''){
-                                        if(!controller.isOld.value){
-                                          controller.registerLocation();
+                      Obx(
+                            () =>
+                            Opacity(
+                              opacity: controller.loading.value ? 0.5 : 1,
+                              child: SizedBox(
+                                  width: double.maxFinite,
+                                  height: Res.h_btn,
+                                  child: CustomElevatedButton(
+                                      onTap: () {
+                                        if (!controller.loading.value) {
+                                          controller.changeShowDobVal(true);
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            if (controller.dob.value != '') {
+                                              if (!controller.isOld.value) {
+                                                controller.registerLocation();
+                                              }
+                                            }
+                                          }
                                         }
-                                      }
-                                    }
-                                  }
-                                },
-                                backgroundClr: clrBlacke,
-                                child: controller.loading.value ? CommonUi.fourDotLoading() : Text(
-                                  "Continue",
-                                  style: TextStyle(
-                                      color: clrWhite,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16),
-                                ))),
-                      ),),
+                                      },
+                                      backgroundClr: clrBlacke,
+                                      child: controller.loading.value
+                                          ? CommonUi.fourDotLoading()
+                                          : Text(
+                                        "Continue",
+                                        style: TextStyle(
+                                            color: clrWhite,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16),
+                                      ))),
+                            ),
+                      ),
                       SizedBox(
                         height: h * .02,
                       ),
@@ -249,29 +327,29 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Already have an account? ",
-                          style: TextStyle(color: clrGreyDark, fontSize: 12)),
-                      InkWell(
-                          onTap: () {
-                            Get.offAllNamed(Routes.initialPage);
-                          },
-                          child: Text("Log In",
-                              style: TextStyle(
-                                  color: clrYellowText,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700)))
-                    ],
-                  ),
-                  SizedBox(
-                    height: h * .02,
-                  ),
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Text("Already have an account? ",
+              //             style: TextStyle(color: clrGreyDark, fontSize: 12)),
+              //         InkWell(
+              //             onTap: () {
+              //               Get.offAllNamed(Routes.initialPage);
+              //             },
+              //             child: Text("Log In",
+              //                 style: TextStyle(
+              //                     color: clrYellowText,
+              //                     fontSize: 12,
+              //                     fontWeight: FontWeight.w700)))
+              //       ],
+              //     ),
+              //     SizedBox(
+              //       height: h * .02,
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

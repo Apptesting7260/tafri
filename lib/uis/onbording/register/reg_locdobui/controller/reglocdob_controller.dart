@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:intl/intl.dart';
@@ -81,6 +82,37 @@ class ReglocdobController extends GetxController{
     }
 
   }
+
+
+
+// places api
+  RxList<PlacesSearchResult> places = <PlacesSearchResult>[].obs;
+  RxString _searchTerm = ''.obs;
+  final placesApi = GoogleMapsPlaces(apiKey: 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM');
+
+  void onSearchChanged(String value, BuildContext context) async {
+    print(value);
+    _searchTerm.value = value;
+    if (_searchTerm.isNotEmpty) {
+      final results = await searchPlaces(
+        _searchTerm.value,
+      );
+      places.value = results;
+    }
+  }
+
+  Future<List<PlacesSearchResult>> searchPlaces(String searchTerm) async {
+    final response = await placesApi.searchByText(
+      searchTerm,
+    );
+    if (response.isOkay) {
+      print('location == ${response.results}');
+      return response.results;
+    } else {
+      return [];
+    }
+  }
+
 
   // submitlocDob(){
   //   GlobalData.regData['location']=locationController.text.trim();
