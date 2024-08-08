@@ -6,6 +6,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/onbording/introone/controller/intro_controller.dart';
 import 'package:plusone/uis/onbording/login/controller/loginno_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 
@@ -14,6 +15,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
 
   TextEditingController pinController = TextEditingController();
   final LoginnoController loginnoController = Get.find<LoginnoController>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,118 +50,201 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
-                    currentStep == 5 ? Text(
-                      "${loginnoController.countryCode.value} ${loginnoController.mobNoCon.value.text}",
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-                    ) : Text(
-                      "${controller.countryCode.value} ${controller.mobnoController.value.text}",
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-                    ),
+                    currentStep == 5
+                        ? Text(
+                            "${loginnoController.countryCode.value} ${loginnoController.mobNoCon.value.text}",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 15),
+                          )
+                        : Text(
+                            "${controller.countryCode.value} ${controller.mobnoController.value.text}",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 15),
+                          ),
                     SizedBox(
                       height: h * 0.04,
                     ),
                     //pin cofe fields gk
-                    PinCodeTextField(
-                      appContext: context,
-                      pastedTextStyle: TextStyle(
-                        color: Colors.green.shade600,
-                        fontWeight: FontWeight.bold,
+                    Form(
+                      key: _formKey,
+                      child: PinCodeTextField(
+                        appContext: context,
+                        pastedTextStyle: TextStyle(
+                          color: Colors.green.shade600,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        length: 6,
+                        obscureText: false,
+                        obscuringCharacter: '*',
+                        blinkWhenObscuring: true,
+                        animationType: AnimationType.fade,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter otp';
+                          } else if (value.length < 6) {
+                            return 'Enter 6 digit otp';
+                          } else {
+                            return null;
+                          }
+                        },
+                        pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.circle,
+                          selectedFillColor: clrGreyLight,
+                          inactiveFillColor: clrGreyLight,
+                          activeColor: clrGreyLight,
+                          // borderRadius: null,
+                          fieldHeight: 48,
+                          fieldWidth: 50,
+                          inactiveColor: clrGreyLight,
+                          activeFillColor: clrGreyLight,
+                        ),
+                        cursorColor: Colors.black,
+                        animationDuration: const Duration(milliseconds: 300),
+                        enableActiveFill: true,
+                        // errorAnimationController: errorController,
+                        controller: pinController,
+                        keyboardType: TextInputType.number,
+                        boxShadows: const [
+                          BoxShadow(
+                            offset: Offset(0, 1),
+                            color: Colors.black12,
+                            blurRadius: 10,
+                          )
+                        ],
+                        onCompleted: (v) async {
+                          String? token = Get.arguments['token'];
+                          String? uId = Get.arguments['uid'];
+                          pinController.text = v;
+                          var verify = currentStep == 5
+                              ? await loginnoController.verifyOtp(
+                                  loginnoController.verificationID.value,
+                                  pinController.value.text.trim())
+                              : await controller.verifyOtp(
+                                  controller.verificationID.value,
+                                  pinController.value.text.trim());
+                          if (verify) {
+                            if (currentStep == 0) {
+                              Get.offNamed(Routes.nameAddUi);
+                              // Get.toNamed(Routes.navbarUi);
+                            } else if (currentStep == 1) {
+                              Get.offNamed(Routes.genderaddUi);
+                            } else if (currentStep == 2) {
+                              Get.offNamed(Routes.regLocDobui);
+                            } else if (currentStep == 3) {
+                              Get.offNamed(Routes.regEmailui);
+                            } else {
+                              LocalStorage.saveToken(token!);
+                              LocalStorage.saveUid(uId!);
+                              Get.offAllNamed(Routes.navbarUi);
+                            }
+                          }
+                          // if (currentStep == 0) {
+                          //   Get.toNamed(Routes.nameAddUi);
+                          //   // Get.toNamed(Routes.navbarUi);
+                          // } else if (currentStep == 1) {
+                          //   Get.toNamed(Routes.genderaddUi);
+                          // } else if (currentStep == 2) {
+                          //   Get.toNamed(Routes.regLocDobui);
+                          // } else if (currentStep == 3) {
+                          //   Get.toNamed(Routes.regEmailui);
+                          // }else{
+                          //   LocalStorage.saveToken(token!);
+                          //   LocalStorage.saveUid(uId!);
+                          //   Get.toNamed(Routes.navbarUi);
+                          // }
+                        },
+                        onChanged: (value) {
+                          debugPrint(value);
+                          pinController.text = value;
+                          // setState(() {
+                          //   // currentText = value;
+                          // });
+                        },
+                        beforeTextPaste: (text) {
+                          debugPrint("Allowing to paste $text");
+                          return true;
+                        },
                       ),
-                      length: 6,
-                      obscureText: false,
-                      obscuringCharacter: '*',
-                      blinkWhenObscuring: true,
-                      animationType: AnimationType.fade,
-                      pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.circle,
-                        selectedFillColor: clrGreyLight,
-                        inactiveFillColor: clrGreyLight,
-                        activeColor: clrGreyLight,
-                        // borderRadius: null,
-                        fieldHeight: 48,
-                        fieldWidth: 50,
-                        inactiveColor: clrGreyLight,
-                        activeFillColor: clrGreyLight,
-                      ),
-                      cursorColor: Colors.black,
-                      animationDuration: const Duration(milliseconds: 300),
-                      enableActiveFill: true,
-                      // errorAnimationController: errorController,
-                      controller: pinController,
-                      keyboardType: TextInputType.number,
-                      boxShadows: const [
-                        BoxShadow(
-                          offset: Offset(0, 1),
-                          color: Colors.black12,
-                          blurRadius: 10,
-                        )
-                      ],
-                      onCompleted: (v) {
-                        String? token=Get.arguments['token'];
-                        String? uId=Get.arguments['uid'];
-                        if (currentStep == 0) {
-                          Get.toNamed(Routes.nameAddUi);
-                          // Get.toNamed(Routes.navbarUi);
-                        } else if (currentStep == 1) {
-                          Get.toNamed(Routes.genderaddUi);
-                        } else if (currentStep == 2) {
-                          Get.toNamed(Routes.regLocDobui);
-                        } else if (currentStep == 3) {
-                          Get.toNamed(Routes.regEmailui);
-                        }else{
-                          LocalStorage.saveToken(token!);
-                          LocalStorage.saveUid(uId!);
-                          Get.toNamed(Routes.navbarUi);
-                        }
-                      },
-                      onChanged: (value) {
-                        debugPrint(value);
-                        // setState(() {
-                        //   // currentText = value;
-                        // });
-                      },
-                      beforeTextPaste: (text) {
-                        debugPrint("Allowing to paste $text");
-                        return true;
-                      },
                     ),
                     SizedBox(
                       height: h * .02,
                     ),
-                    SizedBox(
-                        width: double.maxFinite,
-                        height: Res.h_btn,
-                        child: CustomElevatedButton(
-                          onTap: () {
-                            String? token=Get.arguments['token'];
-                            String? uId=Get.arguments['uid'];
-                            if (currentStep == 0) {
-                              Get.toNamed(Routes.nameAddUi);
-                            } else if (currentStep == 1) {
-                              Get.toNamed(Routes.genderaddUi);
-                            } else if (currentStep == 2) {
-                              Get.toNamed(Routes.regLocDobui);
-                            } else if (currentStep == 3) {
-                              Get.toNamed(Routes.regEmailui);
-                            }else{
-                              LocalStorage.saveToken(token!);
-                              LocalStorage.saveUid(uId!);
-                              Get.toNamed(Routes.navbarUi);
-                            }
-                          },
-                          backgroundClr: clrBlacke,
-                          child: Text(
-                            "Verify",
-                            style: TextStyle(
-                                color: clrWhite,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16),
-                          ),
-                        )),
+                    Obx(
+                      () => Opacity(
+                        opacity: currentStep == 5
+                            ? (loginnoController.otpVerify.value ? 0.5 : 1)
+                            : (controller.otpVerify.value ? 0.5 : 1),
+                        child: SizedBox(
+                            width: double.maxFinite,
+                            height: Res.h_btn,
+                            child: CustomElevatedButton(
+                              onTap: () async {
+                                String? token = Get.arguments['token'];
+                                String? uId = Get.arguments['uid'];
+                                if (_formKey.currentState!.validate()) {
+                                  var verify = currentStep == 5
+                                      ? await loginnoController.verifyOtp(
+                                          loginnoController
+                                              .verificationID.value,
+                                          pinController.value.text.trim())
+                                      : await controller.verifyOtp(
+                                          controller.verificationID.value,
+                                          pinController.value.text.trim());
+                                  if (verify) {
+                                    if (currentStep == 0) {
+                                      Get.offNamed(Routes.nameAddUi);
+                                    } else if (currentStep == 1) {
+                                      Get.offNamed(Routes.genderaddUi);
+                                    } else if (currentStep == 2) {
+                                      Get.offNamed(Routes.regLocDobui);
+                                    } else if (currentStep == 3) {
+                                      Get.offNamed(Routes.regEmailui);
+                                    } else {
+                                      LocalStorage.saveToken(token!);
+                                      LocalStorage.saveUid(uId!);
+                                      Get.offAllNamed(Routes.navbarUi);
+                                    }
+                                  }
+                                }
+                                // if (currentStep == 0) {
+                                //   Get.toNamed(Routes.nameAddUi);
+                                // } else if (currentStep == 1) {
+                                //   Get.toNamed(Routes.genderaddUi);
+                                // } else if (currentStep == 2) {
+                                //   Get.toNamed(Routes.regLocDobui);
+                                // } else if (currentStep == 3) {
+                                //   Get.toNamed(Routes.regEmailui);
+                                // }else{
+                                //   LocalStorage.saveToken(token!);
+                                //   LocalStorage.saveUid(uId!);
+                                //   Get.toNamed(Routes.navbarUi);
+                                // }
+                              },
+                              backgroundClr: clrBlacke,
+                              child: currentStep == 5
+                                  ? (loginnoController.otpVerify.value
+                                      ? CommonUi.fourDotLoading()
+                                      : Text(
+                                          "Verify",
+                                          style: TextStyle(
+                                              color: clrWhite,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        ))
+                                  : (controller.otpVerify.value
+                                      ? CommonUi.fourDotLoading()
+                                      : Text(
+                                          "Verify",
+                                          style: TextStyle(
+                                              color: clrWhite,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        )),
+                            )),
+                      ),
+                    ),
                     SizedBox(
                       height: h * .025,
                     ),

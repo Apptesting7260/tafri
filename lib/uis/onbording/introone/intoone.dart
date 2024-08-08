@@ -315,6 +315,9 @@ class IntroOneUi extends GetWidget<IntroController> {
                 height: screenHeight * .065,
                 child: CustomElevatedButton(
                   onTap: () {
+                    controller.mobnoController.clear();
+                    controller.initialSelection.value = 'NL';
+                    controller.countryCode.value = '+31';
                     Get.toNamed(Routes.loginWithMobNo);
                   },
                   backgroundClr: clrWhite,

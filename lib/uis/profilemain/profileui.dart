@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/onbording/introone/intoone.dart';
@@ -381,6 +382,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                 height: Res.h_btn,
                 child: CustomElevatedButton(
                     onTap: () {
+                      GoogleSignIn().signOut();
                       LocalStorage.removeToken();
                       debugPrint(
                           "gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");

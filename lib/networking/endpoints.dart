@@ -8,6 +8,7 @@ class EndPoints{
   static String getCategoryApiUrl="${baseUrl}get-categories/";
   static String funFactQestiApiUrl="${baseUrl}get-user_fun_facts";
   static String profileViewUrl = '${baseUrl}user-profile-view/';
+  static String socialLoginUrl = '${baseUrl}socialite-login';
 
   static String checkNuExist="${baseUrl}check-number-existing";
   static String signupStep1 = '${baseUrl}signup-step1';

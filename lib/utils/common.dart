@@ -10,11 +10,15 @@ class CommonUi{
    return LoadingAnimationWidget.fourRotatingDots(color: clrWhite, size: 45);
   }
 
-  static loadingIndicator(){
+  static loadingIndicator({Color? color}){
     return CupertinoActivityIndicator(
-      color: clrGreyDark,
+      color: color ?? clrGreyDark,
       radius: 20,
     );
+  }
+
+  static discreteCircleLoading({Color? color}){
+    return LoadingAnimationWidget.discreteCircle(color: color ?? clrGreyDark, size: 45);
   }
 
   static emptySizeBox(){

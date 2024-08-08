@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/onbording/login/model/LoginModel.dart';
+import 'package:plusone/uis/onbording/login/model/social_login_model.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -237,10 +241,14 @@ class LoginnoController extends GetxController {
       if (response.statusCode == 200) {
         if (body.status == true) {
           debugPrint("gk======token==${body.token}");
-          Get.toNamed(Routes.codeVerify, arguments: {
-            'current step': 5,
-            'token': body.token,
-            'uid': body.uId
+          await sendOtp().then((value){
+            if(value == true){
+              Get.toNamed(Routes.codeVerify, arguments: {
+                'current step': 5,
+                'token': body.token,
+                'uid': body.uId
+              });
+            }
           });
         } else {
           showTostMsg(body.message);
@@ -274,17 +282,46 @@ class LoginnoController extends GetxController {
               ?.email}---${googleUser?.photoUrl}---${googleUser
               ?.id}----${googleUser?.serverAuthCode}  ===   ${googleAuth
               ?.accessToken}');
-      //googleLoading.value = false;
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      // Map data = {
-      //   'socailite_type': 'google',
-      //   'socailite_id': '${googleUser?.id}',
-      //   'first_name': '${googleUser?.displayName}',
-      //   'email': '${googleUser?.email}',
-      //   'device_token': '${FireBaseNotification.fcmToken.toString()}',
-      //   'language_type': lang,
-      // };
+      String? displayName = googleUser?.displayName;
+      String firstName = '';
+      String lastName = '';
+
+      if (displayName != null) {
+        List<String> nameParts = displayName.split(' ');
+        print(nameParts);
+        if (nameParts.length > 1) {
+          firstName = nameParts.first;
+          lastName = nameParts.sublist(1).join(' ');
+        } else {
+          firstName = displayName;
+        }
+      }
+
+      Map body = {
+        'socailite_type': 'google',
+        'socailite_id': '${googleUser?.id}',
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': '${googleUser?.email}',
+      };
+
+      final response = await api.post(EndPoints.socialLoginUrl, body);
+      if(response.statusCode == 200){
+        var data = SocialLoginModel.fromJson(response.body);
+        if(data.status == true){
+          LocalStorage.saveToken(data.data!.accessToken.toString());
+          LocalStorage.saveUid(data.data!.userId.toString());
+          Get.offAllNamed(Routes.navbarUi);
+        }else{
+          showTostMsg('Something went wrong');
+        }
+      }else{
+        showTostMsg('Something went wrong');
+      }
+
+      googleLoading.value = false;
 
     } catch (e) {
       googleLoading.value = false;
@@ -313,6 +350,68 @@ class LoginnoController extends GetxController {
       print('apple error ---  ${e.toString()}');
     }
   }
+
+
+
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  RxString verificationID = ''.obs;
+
+  Future<bool> sendOtp() async {
+    Completer<bool> completer = Completer<bool>();
+
+    try {
+      await auth.verifyPhoneNumber(
+        timeout: const Duration(minutes: 1),
+        phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            print('${e.code}');
+            showTostMsg('The provided phone number is not valid.');
+          }else{
+            showTostMsg('Something went wrong');
+          }
+          completer.complete(false);
+        },
+        codeSent: (String verificationId, int? forceResendingToken) {
+          print('codesent');
+          verificationID.value = verificationId;
+          completer.complete(true);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } catch (e) {
+      completer.complete(false);
+      print('error == ${e.toString()}');
+    }
+    return completer.future;
+
+  }
+
+
+  var otpVerify = false.obs;
+
+  Future<bool> verifyOtp(String verificationId,String smsCode) async{
+    otpVerify.value = true;
+    try{
+      var credential = await auth.signInWithCredential(PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode));
+      otpVerify.value = false;
+      return credential.user == null ? false : true;
+    }on FirebaseAuthException catch (e){
+      print('otp error == ${e.code}');
+      if(e.code == 'invalid-verification-code'){
+        showTostMsg('Invalid otp.');
+      }else{
+        showTostMsg('Please check your otp and try again.');
+      }
+      otpVerify.value = false;
+      return false;
+    }
+  }
+
 
 
 }
