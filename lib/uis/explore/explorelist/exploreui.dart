@@ -1,27 +1,33 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shimmer/shimmer.dart';
 import 'controller/explorelist_controller.dart';
 
-class ExploreUi extends GetWidget<ExploreListController>{
+class ExploreUi extends GetWidget<ExploreListController> {
   const ExploreUi({super.key});
+
 // var controller= Get.put(ExploreController());
   @override
   Widget build(BuildContext context) {
-    var h=Get.height;
-    var w=Get.width;
+    var h = Get.height;
+    var w = Get.width;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: h*0.070,
+          height: h * 0.070,
           padding: const EdgeInsets.only(bottom: 20),
           child: CustomElevatedButton(
               paddingHz: 10,
@@ -41,7 +47,8 @@ class ExploreUi extends GetWidget<ExploreListController>{
                   ),
                   Text(
                     "Map",
-                    style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        color: clrBlacke, fontWeight: FontWeight.w600),
                   )
                 ],
               )),
@@ -49,298 +56,507 @@ class ExploreUi extends GetWidget<ExploreListController>{
       ),
       body: SafeArea(
           child: Column(
-            children: [
-              SizedBox(
-                height: Get.height * 0.03,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: SizedBox(
-                          height: Res.h_btn,
-                          width: Get.width * 0.76,
-                          child: const CustoTextFormField(
-                            hintText: "Anywhere • any week",
-                            sufixIcon: Icon(Icons.search),
-                          )),
-                    ),
-                     SizedBox(
-                      width: w*.03,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed(Routes.filterExploreUi);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        margin:  EdgeInsets.only(bottom:h*.006 ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: clrBlacke),
-                        child: Image.asset("assets/icons/filtericon.png",height: w*.07,),
-                      ),
-                    ),
-                  ],
+        children: [
+          SizedBox(
+            height: Get.height * 0.03,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: SizedBox(
+                      height: Res.h_btn,
+                      width: Get.width * 0.76,
+                      child: const CustoTextFormField(
+                        hintText: "Anywhere • any week",
+                        sufixIcon: Icon(Icons.search),
+                      )),
                 ),
-              ),
-              SizedBox(
-                height: Get.height * 0.022,
-              ),
-              SizedBox(
-                height: h*.048,
-                child: ListView.builder(
-                  padding: EdgeInsets.only(left: Res.Defalt_side_margin),
-                    itemCount: 7,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.only(right: 7),
-                        padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-                        height: h*.035,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: index == 1 ? clrBlacke : clrGreyLight),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(5),
-                              height: h*.032,
-                              width: h*.032,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color: clrWhite),
-                              child: Image.asset(index==1?"assets/icons/artsicon.png":index==2?"assets/icons/learningicon.png":
-                              "assets/icons/sportsicon.png",
-                                color: clrBlacke,
+                SizedBox(
+                  width: w * .03,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.filterExploreUi);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    margin: EdgeInsets.only(bottom: h * .006),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: clrBlacke),
+                    child: Image.asset(
+                      "assets/icons/filtericon.png",
+                      height: w * .07,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: Get.height * 0.022,
+          ),
+          Obx(
+            () =>
+                controller.homePageLoading.value &&
+                        controller.homeData.value.result == null
+                    ? Expanded(
+                        child: Center(
+                          child:
+                              CommonUi.discreteCircleLoading(color: clrYellow),
+                        ),
+                      )
+                    : controller.homeError.value.isNotEmpty
+                        ? Expanded(
+                            child: SmartRefresher(
+                            onRefresh: () async {
+                              await controller.homePageApi();
+                              controller.refreshController1.refreshCompleted();
+                            },
+                            controller: controller.refreshController1,
+                            header: WaterDropMaterialHeader(
+                              color: clrWhite,
+                              backgroundColor: clrYellow,
+                              distance: 50,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Something went wrong',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: clrBlacke,
+                                    fontSize: 18),
                               ),
                             ),
-                             SizedBox(
-                              width: w*0.015,
-                            ),
-                            Text(
-                              index==1? "Arts":index==2? "Learning":"Sports",
-                              style: TextStyle(
-                                  color: index != 1 ? clrBlacke : clrWhite,fontWeight: FontWeight.w700),
-                            ),
-                            SizedBox(
-                              width: w*0.015,
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-              ),
-              SizedBox(
-                height: Get.height * 0.013,
-              ),
-              Expanded(
-                child: Obx((){
-                  return Container(
-                    margin:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-                    child: ListView.builder(
-                        itemCount: controller.exploreListData.value.length??0,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          Map singelDeta=controller.exploreListData.value[index];
-                          return InkWell(
-                            onTap: () {
-                              controller.showHomePop();
-                              // Get.toNamed(Routes.exploreView);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: h*.26,
-                                    child: Stack(
-                                      // clipBehavior: Clip.none,
-                                      children: [
-                                        CarouselSlider(
-                                          options: CarouselOptions(
-                                              height: h*.26, viewportFraction: 1,
-                                          onPageChanged: (currIndex,CarouselPageChangedReason reason){
-                                                controller.changeIndicator(index,currIndex);
-                                            debugPrint(" currIndex $currIndex reason=$reason");
-
-                                          }
-                                          ),
-                                          items: singelDeta['img'].map<Widget>((i) {
-                                            return Builder(
-                                              builder: (BuildContext context) {
-                                                return Container(
-                                                    clipBehavior: Clip.hardEdge,
-                                                    width: MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                    height: double.maxFinite,
-                                                    margin: const EdgeInsets.symmetric(
-                                                        horizontal: 0),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                        BorderRadius.circular(18)),
-                                                    child: Image.asset(
-                                                      "$i",
-                                                      fit: BoxFit.cover,
-                                                      height: h*.26,
-                                                      width: double.maxFinite,
-                                                    ));
-                                              },
-                                            );
-                                          }).toList(),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 10, vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    color: clrWhite,
-                                                    borderRadius:
-                                                    BorderRadius.circular(20)),
-                                                child:Text( singelDeta['lable'],style: const TextStyle(fontWeight: FontWeight.w600),),
-                                              ),
-                                              InkWell(
-                                                onTap: (){
-                                                  controller.changeFav(index);
-                                                },
-                                                child: Container(
-                                                  padding: const EdgeInsets.all(6),
-                                                  decoration: BoxDecoration(
-                                                      color: clrWhite,
-                                                      borderRadius:
-                                                      BorderRadius.circular(100)),
-                                                  child:singelDeta['isFav']?Icon(Icons.favorite,size: 20,color: clrYellow,) :const Icon(
-                                                    Icons.favorite_border,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Container(
-                                            margin: const EdgeInsets.only(bottom: 7),
-                                            height: 16,
-                                            child: ListView.builder(
-                                                itemCount:  singelDeta['img'].length??0,
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.horizontal,
-                                                itemBuilder: (context, index) {
-                                                  return Padding(
-                                                    padding: const EdgeInsets.symmetric(
-                                                        horizontal: 1.5),
-                                                    child: Icon(
-                                                      Icons.circle,color:singelDeta['currentCroIndex']==index?clrYellow: clrWhite,
-                                                      size: 8,
-                                                    ),
-                                                  );
-                                                }),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                              Text(
-                                              singelDeta['title'],
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            SizedBox(
-                                              height: h*.005,
-                                            ),
-                                            Text(
-                                              singelDeta['location'],
-                                              style: TextStyle(
-                                                  color: clrGreyDark),
-                                            ),
-                                            SizedBox(
-                                              height: h*.005,
-                                            ),
-                                            Text(
-                                              singelDeta['time'],
-                                              style: TextStyle(
-                                                  color: clrGreyDark),
-                                            ),
-                                            SizedBox(
-                                              height: h*.005,
-                                            ),
-                                            Text(
-                                              "Up to ${singelDeta['poststotal']} people | ${singelDeta['leftposts']} spot left",
-                                              style: TextStyle(
-                                                  color: clrYellowText, fontSize: 13),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Column(
-                                        children: [
-                                          Container(
-                                              height: h*.05,
-                                              width: h*.05,
+                          ))
+                        : Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                SizedBox(
+                                  height: h * .048,
+                                  child: ListView.builder(
+                                      padding: EdgeInsets.only(
+                                          left: Res.Defalt_side_margin),
+                                      itemCount: controller.homeData.value
+                                          .result?.categories?.length,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        var categoryData = controller
+                                            .homeData.value.result?.categories;
+                                        return GestureDetector(
+                                          onTap: () async{
+                                            controller.selectedIndex.value =
+                                                index;
+                                            controller.categoryID.value = categoryData?[index].id.toString();
+                                            controller.homeData.value.result?.categories?[index].loading?.value = true;
+                                            await controller.homePageApi();
+                                            controller.homeData.value.result?.categories?[index].loading?.value = false;
+                                          },
+                                          child: Obx(
+                                            () => Container(
+                                              margin: const EdgeInsets.only(
+                                                  right: 7),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                  BorderRadius.circular(100)),
-                                              child: Image.asset(
-                                                singelDeta['hostImg'],
-                                                fit: BoxFit.cover,
-                                              )),
-                                            Text( singelDeta['hostname'],style: TextStyle(fontWeight: FontWeight.w700),)
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.015,
-                                  ),
-                                  ReadMoreText(
-                                    singelDeta['des'],
-                                    style: TextStyle(color: clrGreyDark),
-                                    trimMode: TrimMode.Line,
-                                    trimLines: 2,
-                                    colorClickableText: Colors.pink,
-                                    trimCollapsedText: 'Learn more',
-                                    trimExpandedText: 'Learn less',
-                                    moreStyle:
-                                    TextStyle(color: clrBlacke,fontWeight: FontWeight.w700),
-                                  )
-                                ],
-                              ),
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  color: controller
+                                                              .selectedIndex
+                                                              .value ==
+                                                          index
+                                                      ? clrBlacke
+                                                      : clrGreyLight),
+                                              child: controller.homeData.value.result!.categories![index].loading!.value ? CommonUi.fallingDot() : Row(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        100),
+                                                    child: CachedNetworkImage(
+                                                      height: 24,
+                                                      width: 24,
+                                                      fit: BoxFit.cover,
+                                                      imageUrl:
+                                                      '${categoryData?[index].icon}',
+                                                      errorWidget: (context,
+                                                          url, error) =>
+                                                          Icon(
+                                                            Icons.error,
+                                                            color: clrBlacke,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    '${categoryData?[index].title}',
+                                                    style: TextStyle(
+                                                        color: controller
+                                                            .selectedIndex
+                                                            .value !=
+                                                            index
+                                                            ? clrBlacke
+                                                            : clrWhite,
+                                                        fontWeight:
+                                                        FontWeight.w700),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.013,
+                                ),
+                                Expanded(
+                                  child: Obx(() {
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: Res.Defalt_side_margin),
+                                      child: SmartRefresher(
+                                        controller:
+                                            controller.refreshController,
+                                        onRefresh: () async {
+                                          await controller.homePageApi();
+                                          controller.refreshController
+                                              .refreshCompleted();
+                                        },
+                                        header: WaterDropMaterialHeader(
+                                          color: clrWhite,
+                                          backgroundColor: clrYellow,
+                                          distance: 50,
+                                        ),
+                                        child:
+                                            controller.homeData.value.result!
+                                                    .activities!.isEmpty
+                                                ? const Center(
+                                                    child: Text(
+                                                        'No activity found!'),
+                                                  )
+                                                : ListView.builder(
+                                                    itemCount: controller
+                                                        .homeData
+                                                        .value
+                                                        .result
+                                                        ?.activities
+                                                        ?.length,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var activityData =
+                                                          controller
+                                                              .homeData
+                                                              .value
+                                                              .result
+                                                              ?.activities;
+                                                      return InkWell(
+                                                        onTap: () {
+                                                          controller
+                                                              .showHomePop();
+                                                          // Get.toNamed(Routes.exploreView);
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 10),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: h * .26,
+                                                                child: Stack(
+                                                                  children: [
+                                                                    CarouselSlider(
+                                                                      options: CarouselOptions(
+                                                                          height: h * .26,
+                                                                          viewportFraction: 1,
+                                                                          onPageChanged: (currIndex, CarouselPageChangedReason reason) {
+                                                                            controller.changeIndicator(index,
+                                                                                currIndex);
+                                                                            debugPrint(" currIndex $currIndex reason=$reason");
+                                                                          }),
+                                                                      items: activityData?[
+                                                                              index]
+                                                                          .banners
+                                                                          ?.map<Widget>(
+                                                                              (i) {
+                                                                        return Builder(
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return Container(
+                                                                                clipBehavior: Clip.hardEdge,
+                                                                                width: MediaQuery.of(context).size.width,
+                                                                                height: double.maxFinite,
+                                                                                margin: const EdgeInsets.symmetric(horizontal: 0),
+                                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                                                                                child: CachedNetworkImage(
+                                                                                  fit: BoxFit.cover,
+                                                                                  height: h * .26,
+                                                                                  width: double.maxFinite,
+                                                                                  imageUrl: "$i",
+                                                                                  placeholder: (context, url) => Shimmer.fromColors(
+                                                                                    baseColor: grey300,
+                                                                                    highlightColor: grey100,
+                                                                                    child: Container(
+                                                                                      width: double.maxFinite,
+                                                                                      height: h * .26,
+                                                                                      decoration: BoxDecoration(
+                                                                                        color: grey300,
+                                                                                        borderRadius: BorderRadius.circular(18),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ));
+                                                                          },
+                                                                        );
+                                                                      }).toList(),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal:
+                                                                              10,
+                                                                          vertical:
+                                                                              10),
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Container(
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                                            decoration:
+                                                                                BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(20)),
+                                                                            child:
+                                                                                Text(
+                                                                              '${activityData?[index].subcategoryTitle}',
+                                                                              style: const TextStyle(fontWeight: FontWeight.w600),
+                                                                            ),
+                                                                          ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              // controller
+                                                                              //     .changeFav(
+                                                                              //         index);
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              padding: const EdgeInsets.all(6),
+                                                                              decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(100)),
+                                                                              child: activityData?[index].isFav == true
+                                                                                  ? Icon(
+                                                                                      Icons.favorite,
+                                                                                      size: 20,
+                                                                                      color: clrYellow,
+                                                                                    )
+                                                                                  : const Icon(
+                                                                                      Icons.favorite_border,
+                                                                                      size: 20,
+                                                                                    ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .bottomCenter,
+                                                                      child:
+                                                                          Container(
+                                                                        margin: const EdgeInsets
+                                                                            .only(
+                                                                            bottom:
+                                                                                7),
+                                                                        height:
+                                                                            16,
+                                                                        child: ListView.builder(
+                                                                            itemCount: activityData?[index].banners?.length,
+                                                                            shrinkWrap: true,
+                                                                            scrollDirection: Axis.horizontal,
+                                                                            itemBuilder: (context, indicatorIndex) {
+                                                                              return Padding(
+                                                                                padding: const EdgeInsets.symmetric(horizontal: 1.5),
+                                                                                child: Obx(
+                                                                                  () => Icon(
+                                                                                    Icons.circle,
+                                                                                    color: activityData?[index].circleIndex?.value == indicatorIndex ? clrYellow : clrWhite,
+                                                                                    size: 8,
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            }),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height:
+                                                                    Get.height *
+                                                                        0.02,
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Flexible(
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          "${activityData?[index].name}",
+                                                                          style: const TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w600),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              h * .005,
+                                                                        ),
+                                                                        Text(
+                                                                          '${activityData?[index].location}',
+                                                                          style:
+                                                                              TextStyle(color: clrGreyDark),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              h * .005,
+                                                                        ),
+                                                                        Text(
+                                                                          '${activityData?[index].date} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
+                                                                          style:
+                                                                              TextStyle(color: clrGreyDark),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              h * .005,
+                                                                        ),
+                                                                        Text(
+                                                                          "Up to ${activityData?[index].maxPeople} people | 2 spot left",
+                                                                          style: TextStyle(
+                                                                              color: clrYellowText,
+                                                                              fontSize: 13),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Column(
+                                                                    children: [
+                                                                      ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(100),
+                                                                        child:
+                                                                            CachedNetworkImage(
+                                                                          height:
+                                                                              38,
+                                                                          width:
+                                                                              38,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                          imageUrl:
+                                                                              '${activityData?[index].profilePhoto}',
+                                                                          errorWidget: (context, url, error) =>
+                                                                              const Icon(Icons.error),
+                                                                          placeholder: (context, url) =>
+                                                                              Shimmer.fromColors(
+                                                                            baseColor:
+                                                                                grey300,
+                                                                            highlightColor:
+                                                                                grey100,
+                                                                            child:
+                                                                                Container(
+                                                                              width: double.maxFinite,
+                                                                              height: h * .05,
+                                                                              decoration: BoxDecoration(
+                                                                                color: grey300,
+                                                                                borderRadius: BorderRadius.circular(18),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                        '${activityData?[index].hostName}',
+                                                                        style: const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.w700),
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                height:
+                                                                    Get.height *
+                                                                        0.015,
+                                                              ),
+                                                              ReadMoreText(
+                                                                '${activityData?[index].description}',
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        clrGreyDark),
+                                                                trimMode:
+                                                                    TrimMode
+                                                                        .Line,
+                                                                trimLines: 2,
+                                                                colorClickableText:
+                                                                    Colors.pink,
+                                                                trimCollapsedText:
+                                                                    'Learn more',
+                                                                trimExpandedText:
+                                                                    'Learn less',
+                                                                moreStyle: TextStyle(
+                                                                    color:
+                                                                        clrBlacke,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                )
+                              ],
                             ),
-                          );
-                        }),
-                  ) ;
-                }),
-              )
-            ],
-          )),
+                          ),
+          )
+        ],
+      )),
     );
   }
 }
-
-

@@ -65,6 +65,8 @@ dependencies:
   flutter_typeahead: ^5.2.0
   google_maps_flutter: ^2.8.0
   flutter_google_maps_webservices: ^1.1.1
+  pull_to_refresh: ^2.0.0
+  otp_timer_button: ^1.1.1
 
 dev_dependencies:
   flutter_test:

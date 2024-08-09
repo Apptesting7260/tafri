@@ -16,3 +16,5 @@ Color clrBlacke=Colors.black;
 Color clrRedErr=Colors.red.shade900;
 Color clrBlackeChat=Color(0xff3F3F3F);
 Color clrTransparent=Colors.transparent;
+Color grey300 = Colors.grey.shade300;
+Color grey100 = Colors.grey.shade100;

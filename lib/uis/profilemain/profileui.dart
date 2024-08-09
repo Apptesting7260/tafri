@@ -42,15 +42,15 @@ class ProfileUi extends GetWidget<ProfilemainController> {
               Obx(() {
                 if (controller.profileLoading.value) {
                   return Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
+                    baseColor: grey300,
+                    highlightColor: grey100,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           maxRadius: 50,
                           minRadius: 40,
-                          backgroundColor: Colors.grey,
+                          backgroundColor: clrGrey,
                         ),
                         SizedBox(
                           height: Get.height * 0.02,
@@ -58,7 +58,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                         Container(
                           width: 100,
                           height: 20,
-                          color: Colors.grey,
+                          color: clrGrey,
                         ),
                         SizedBox(
                           height: Get.height * 0.005,
@@ -66,7 +66,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                         Container(
                           width: 150,
                           height: 15,
-                          color: Colors.grey,
+                          color: clrGrey,
                         ),
                       ],
                     ),
@@ -83,8 +83,8 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                           height: h * .13,
                           width: w * .28,
                           placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: Colors.grey.shade300,
-                            highlightColor: Colors.grey.shade100,
+                            baseColor: grey300,
+                            highlightColor: grey100,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Container(

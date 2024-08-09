@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../../../utils/colors.dart';
 import '../../../../../../../utils/size.dart';
 import 'models/activitymodel.dart';
@@ -83,9 +85,28 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                                           lable: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Image.network(
-                                                "${singleSubCatData?.icon}",
-                                                height: 16,
+                                              CachedNetworkImage(
+                                                height: 18,
+                                                imageUrl: '${singleSubCatData?.icon}',
+                                                placeholder: (context, url) => Shimmer
+                                                    .fromColors(
+                                                  baseColor:
+                                                  grey300,
+                                                  highlightColor:
+                                                  grey100,
+                                                  child:
+                                                  Container(
+                                                    height:18,
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      color:
+                                                      grey300,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          18),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                               const SizedBox(
                                                 width: 3,

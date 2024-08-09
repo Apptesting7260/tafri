@@ -18,7 +18,11 @@ class CommonUi{
   }
 
   static discreteCircleLoading({Color? color}){
-    return LoadingAnimationWidget.discreteCircle(color: color ?? clrGreyDark, size: 45);
+    return LoadingAnimationWidget.discreteCircle(color: color ?? clrGreyDark, size: 40);
+  }
+
+  static fallingDot(){
+    return LoadingAnimationWidget.fallingDot(color: clrWhite, size: 25);
   }
 
   static emptySizeBox(){

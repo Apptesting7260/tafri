@@ -4,11 +4,72 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:plusone/networking/apiservices.dart';
+import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/uis/explore/explorelist/model/home_page_model.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:plusone/utils/tostmsg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
 
 class ExploreListController extends GetxController {
+
+
+  @override
+  void onInit() {
+    super.onInit();
+    homePageApi();
+  }
+
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+  RefreshController refreshController1 = RefreshController(initialRefresh: false);
+
+  final api = ApiServices();
+  var homePageLoading = false.obs;
+  var homeData = HomePageModal().obs;
+  var homeError = ''.obs;
+  Rx<String?> categoryID = Rx<String?>(null);
+
+  var selectedIndex = 0.obs;
+
+  Future<void> homePageApi() async{
+
+    Map body = {
+      'category_id': categoryID.value,
+      'user_id': LocalStorage.getUid(),
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    homePageLoading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.homePage, body,headers: header);
+      if(response.statusCode == 200){
+        homeError.value = '';
+        print('home data == ${response.body}');
+        homeData.value = HomePageModal.fromJson(response.body);
+      }else{
+        print('error == ${response.body}');
+        homeError.value = 'ERROR';
+        homeData.value = HomePageModal();
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+      homeError.value = e.toString();
+      homeData.value = HomePageModal();
+    }
+
+    homePageLoading.value = false;
+
+  }
+
 
   RxList<Widget> wrapWidList = <Widget>[].obs;
 
@@ -91,8 +152,7 @@ class ExploreListController extends GetxController {
   }
 
   changeIndicator(index, currentIndex) {
-    exploreListData.value[index]['currentCroIndex'] = currentIndex;
-    exploreListData.refresh();
+    homeData.value.result!.activities?[index].circleIndex?.value = currentIndex;
   }
 
   showHomePop() async {

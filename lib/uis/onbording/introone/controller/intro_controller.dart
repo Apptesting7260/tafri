@@ -5,6 +5,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/checkconnection.dart';
 import 'package:plusone/networking/endpoints.dart';
@@ -229,6 +230,7 @@ class IntroController extends GetxController {
   }
 
   Future<void> checkMobNoApi() async {
+
     Map data = {
       "mobile": mobnoController.value.text.trim(),
       "country_code": countryCode.value
@@ -283,46 +285,83 @@ class IntroController extends GetxController {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   RxString verificationID = ''.obs;
-  // var otpSend = false.obs;
 
   Future<bool> sendOtp() async {
     Completer<bool> completer = Completer<bool>();
-    // otpSend.value = true;
 
     try {
       await auth.verifyPhoneNumber(
-        timeout: const Duration(minutes: 1),
+        timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobnoController.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
-
             print('${e.code}');
             showTostMsg('The provided phone number is not valid.');
           }else{
             showTostMsg('Something went wrong');
           }
-          // otpSend.value = false;
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           print('codesent');
           verificationID.value = verificationId;
-          // otpSend.value = false;
           completer.complete(true);
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
-      // otpSend.value = false;
       completer.complete(false);
       print('error == ${e.toString()}');
     }
     return completer.future;
 
   }
+
+  OtpTimerButtonController otpTimerButtonController =
+  OtpTimerButtonController();
+
+  Future<bool> resendOtp() async {
+    Completer<bool> completer = Completer<bool>();
+    otpTimerButtonController.loading();
+    try {
+      await auth.verifyPhoneNumber(
+        timeout: const Duration(seconds: 59),
+        phoneNumber: '${countryCode.value.toString()}${mobnoController.value.text.trim().toString()}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            print('${e.code}');
+            showTostMsg('The provided phone number is not valid.');
+          }else{
+            showTostMsg('Something went wrong');
+          }
+          otpTimerButtonController.enableButton();
+
+          completer.complete(false);
+        },
+        codeSent: (String verificationId, int? forceResendingToken) {
+          print('codesent');
+          showTostMsg('otp has been send successfully.');
+          print(verificationID.value);
+          verificationID.value = verificationId;
+          otpTimerButtonController.startTimer();
+          completer.complete(true);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } catch (e) {
+      otpTimerButtonController.enableButton();
+      completer.complete(false);
+      print('error == ${e.toString()}');
+    }
+    return completer.future;
+  }
+
 
 
   var otpVerify = false.obs;

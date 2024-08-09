@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/onbording/login/model/LoginModel.dart';
 import 'package:plusone/uis/onbording/login/model/social_login_model.dart';
@@ -362,7 +363,7 @@ class LoginnoController extends GetxController {
 
     try {
       await auth.verifyPhoneNumber(
-        timeout: const Duration(minutes: 1),
+        timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
@@ -410,6 +411,48 @@ class LoginnoController extends GetxController {
       otpVerify.value = false;
       return false;
     }
+  }
+
+
+  OtpTimerButtonController otpTimerButtonController =
+  OtpTimerButtonController();
+
+  Future<bool> resendOtp() async {
+    Completer<bool> completer = Completer<bool>();
+    otpTimerButtonController.loading();
+    try {
+      await auth.verifyPhoneNumber(
+        timeout: const Duration(seconds: 59),
+        phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            print('${e.code}');
+            showTostMsg('The provided phone number is not valid.');
+          }else{
+            showTostMsg('Something went wrong');
+          }
+          otpTimerButtonController.enableButton();
+          completer.complete(false);
+        },
+        codeSent: (String verificationId, int? forceResendingToken) {
+          print('codesent');
+          showTostMsg('otp has been send successfully.');
+          verificationID.value = verificationId;
+          otpTimerButtonController.startTimer();
+          completer.complete(true);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } catch (e) {
+      otpTimerButtonController.enableButton();
+      completer.complete(false);
+      print('error == ${e.toString()}');
+    }
+    return completer.future;
+
   }
 
 

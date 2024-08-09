@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
@@ -245,22 +246,63 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                             )),
                       ),
                     ),
-                    SizedBox(
-                      height: h * .025,
+                    const SizedBox(
+                      height: 5,
                     ),
-                    RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: "I didn’t receive a code. ",
-                              style: TextStyle(
-                                  color: clrGreyDark,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400)),
-                          TextSpan(
-                              text: "Resend",
-                              style: TextStyle(color: clrYellowText)),
-                        ])),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("I didn’t receive a code.",
+                            style: TextStyle(
+                                color: clrGreyDark,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400)),
+                        currentStep == 5
+                            ? OtpTimerButton(
+                                buttonType: ButtonType.text_button,
+                                controller: loginnoController.otpTimerButtonController,
+                                loadingIndicatorColor: clrBlacke,
+                                onPressed: () {
+                                  print('resend otp');
+                                  loginnoController.resendOtp();
+                                },
+                                text: Text('Resend',
+                                    style: TextStyle(color: clrYellowText)),
+                                duration: 60)
+                            : OtpTimerButton(
+                                buttonType: ButtonType.text_button,
+                                controller: controller.otpTimerButtonController,
+                                loadingIndicatorColor: clrBlacke,
+                                onPressed: () {
+                                  print('resend otp');
+                                  controller.resendOtp();
+                                },
+                                text: Text('Resend',
+                                    style: TextStyle(color: clrYellowText)),
+                                duration: 60),
+                      ],
+                    ),
+                    // RichText(
+                    //     textAlign: TextAlign.center,
+                    //     text: TextSpan(children: [
+                    //       TextSpan(
+                    //           text: "I didn’t receive a code. ",
+                    //           style: TextStyle(
+                    //               color: clrGreyDark,
+                    //               fontSize: 15,
+                    //               fontWeight: FontWeight.w400)),
+                    //       // WidgetSpan(child: OtpTimerButton(
+                    //       //     buttonType: ButtonType.text_button,
+                    //       //     onPressed: () {
+                    //       //       print('resend otp');
+                    //       //     },
+                    //       //     text: Text('Resend',style: TextStyle(color: clrYellowText)),
+                    //       //     duration: 20))
+                    //       TextSpan(
+                    //           text: "Resend",
+                    //           style: TextStyle(color: clrYellowText)),
+                    //     ])),
                   ],
                 ),
               ),
