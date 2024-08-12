@@ -2,14 +2,12 @@ import 'package:get/get.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/model/profile_view_model.dart';
-import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/activityinterest/models/activitymodel.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 
 class ProfilemainController extends GetxController{
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     viewProfile();
   }
@@ -32,23 +30,27 @@ class ProfilemainController extends GetxController{
     profileLoading.value = true;
     try{
       final response = await api.get('${EndPoints.profileViewUrl}$uid',headers: header);
-      var data = ProfileViewModel.fromJson(response.body);
-      if(data.status == true){
-        profileData.value = data;
-
-        if(data.result?.profile?.activityTitles != null){
-          for(var i in data.result!.profile!.activityTitles!){
-            if (i.subcategories != null) {
-              interestList.addAll(i.subcategories!);
+      if(response.statusCode == 200){
+        var data = ProfileViewModel.fromJson(response.body);
+        if(data.status == true){
+          profileData.value = data;
+          if(data.result?.profile?.activityTitles != null){
+            for(var i in data.result!.profile!.activityTitles!){
+              if (i.subcategories != null) {
+                interestList.addAll(i.subcategories!);
+              }
             }
           }
-        }
 
-        for (var subcategory in interestList) {
-          print('Title: ${subcategory.title}, Icon: ${subcategory.icon}');
-        }
+          for (var subcategory in interestList) {
+            print('Title: ${subcategory.title}, Icon: ${subcategory.icon}');
+          }
 
-        profileLoading.value = false;
+          profileLoading.value = false;
+        }else{
+          showTostMsg('Something went wrong');
+          profileLoading.value = false;
+        }
       }else{
         showTostMsg('Something went wrong');
         profileLoading.value = false;

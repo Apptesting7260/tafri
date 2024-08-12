@@ -125,7 +125,7 @@ class RegEmailUi extends GetWidget<RegemailController> {
                                   }
                                 },
                                 backgroundClr: clrBlacke,
-                                child: controller.loading.value ? CommonUi.fourDotLoading() : Text(
+                                child: controller.loading.value ? CommonUi.buttonLoading() : Text(
                                   "Explore the app",
                                   style: TextStyle(
                                       color: clrWhite,

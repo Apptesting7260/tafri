@@ -239,7 +239,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                       .isLoadingLogin
                                                                       .value
                                                                   ? CommonUi
-                                                                      .fourDotLoading()
+                                                                      .buttonLoading()
                                                                   : Text(
                                                                       "Next",
                                                                       style: TextStyle(
@@ -333,7 +333,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                 ),
               ),
               controller.googleLoading.value
-                  ? CommonUi.discreteCircleLoading(color: clrYellow)
+                  ? CommonUi.scaffoldLoading(color: clrYellow)
                   : CommonUi.emptySizeBox(),
             ],
           ),

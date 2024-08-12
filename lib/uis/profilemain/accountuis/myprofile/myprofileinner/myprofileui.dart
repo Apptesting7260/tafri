@@ -95,10 +95,17 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           borderRadius:
                                               BorderRadius.circular(100),
                                           color: clrGreyLight),
-                                      child: Image.asset(
-                                        "assets/icons/manicon.png",
-                                        color: clrGrey,
-                                      ),
+                                      child: profileController.profileData.value
+                                                  .result?.profile ==
+                                              null || profileController.profileData.value
+                                          .result?.profile?.profilePhoto == null
+                                          ? Image.asset(
+                                              "assets/icons/manicon.png",
+                                              color: clrGrey,
+                                            )
+                                          : CachedNetworkImage(
+                                              imageUrl:
+                                                  '${profileController.profileData.value.result?.profile?.profilePhoto}'),
                                     ),
                                     SizedBox(
                                       height: h * .02,
@@ -148,10 +155,14 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      Image.asset(
-                                        "assets/icons/dangericon.png",
-                                        height: 15,
-                                      ),
+                                      profileController.profileData.value.result
+                                                  ?.profile ==
+                                              null
+                                          ? Image.asset(
+                                              "assets/icons/dangericon.png",
+                                              height: 15,
+                                            )
+                                          : CommonUi.emptySizeBox(),
                                     ],
                                   ),
                                 ),
@@ -184,12 +195,16 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
-                                    Text(
-                                      "Add a short bio (Optional)",
+                                    Obx(() => Text(
+                                      profileController.profileData.value.result
+                                          ?.profile?.bio ==
+                                          null
+                                          ? "Add a short bio (Optional)"
+                                          : '${profileController.profileData.value.result?.profile?.bio}',
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
-                                    ),
+                                    ),)
                                   ],
                                 )),
                                 SizedBox(
@@ -199,10 +214,17 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      "assets/icons/dangericon.png",
-                                      height: 17,
-                                    ),
+                                    profileController.profileData.value.result
+                                                    ?.profile ==
+                                                null ||
+                                            profileController.profileData.value
+                                                    .result?.profile?.bio ==
+                                                null
+                                        ? Image.asset(
+                                            "assets/icons/dangericon.png",
+                                            height: 17,
+                                          )
+                                        : CommonUi.emptySizeBox(),
                                     SizedBox(
                                       width: w * .02,
                                     ),
@@ -241,12 +263,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
-                                    Text(
-                                      "Amsterdam, Netherlands",
+                                    Obx(() => Text(
+                                      "${profileController.profileData.value.result?.location}",
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
-                                    ),
+                                    ),),
                                   ],
                                 )),
                                 SizedBox(
@@ -296,7 +318,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
                                     Text(
-                                      "Add your occupation",
+                                      profileController.profileData.value.result
+                                                  ?.profile?.occupation ==
+                                              null
+                                          ? "Add your occupation"
+                                          : '${profileController.profileData.value.result?.profile?.occupation}',
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
@@ -310,10 +336,21 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      "assets/icons/dangericon.png",
-                                      height: 17,
-                                    ),
+                                    profileController.profileData.value.result
+                                                    ?.profile ==
+                                                null ||
+                                            profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.occupation ==
+                                                null
+                                        ? Image.asset(
+                                            "assets/icons/dangericon.png",
+                                            height: 17,
+                                          )
+                                        : CommonUi.emptySizeBox(),
                                     SizedBox(
                                       width: w * .02,
                                     ),
@@ -353,7 +390,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
                                     Text(
-                                      "Select languages you speak",
+                                      profileController.profileData.value.result
+                                                  ?.profile?.languageNames ==
+                                              null
+                                          ? "Select languages you speak"
+                                          : '${profileController.profileData.value.result?.profile?.languageNames}',
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
@@ -367,10 +408,14 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      "assets/icons/dangericon.png",
-                                      height: 17,
-                                    ),
+                                    profileController.profileData.value.result
+                                                ?.profile ==
+                                            null
+                                        ? Image.asset(
+                                            "assets/icons/dangericon.png",
+                                            height: 17,
+                                          )
+                                        : CommonUi.emptySizeBox(),
                                     SizedBox(
                                       width: w * .02,
                                     ),
@@ -410,7 +455,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
                                     Text(
-                                      "Add 3-10 activities",
+                                      profileController.profileData.value.result
+                                                  ?.profile?.activityTitles ==
+                                              null
+                                          ? "Add 3-10 activities"
+                                          : 'Click to adjust.',
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
@@ -424,10 +473,21 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      "assets/icons/dangericon.png",
-                                      height: 17,
-                                    ),
+                                    profileController.profileData.value.result
+                                                    ?.profile ==
+                                                null ||
+                                            profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.activityTitles ==
+                                                null
+                                        ? Image.asset(
+                                            "assets/icons/dangericon.png",
+                                            height: 17,
+                                          )
+                                        : CommonUi.emptySizeBox(),
                                     SizedBox(
                                       width: w * .02,
                                     ),
@@ -467,7 +527,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
                                     Text(
-                                      "Select 1-3 questions",
+                                      profileController.profileData.value.result
+                                                  ?.profile?.funFactsAboutMe ==
+                                              null
+                                          ? "Select 1-3 questions"
+                                          : '',
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
@@ -481,10 +545,21 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      "assets/icons/dangericon.png",
-                                      height: 17,
-                                    ),
+                                    profileController.profileData.value.result
+                                                    ?.profile ==
+                                                null ||
+                                            profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.funFactsAboutMe ==
+                                                null
+                                        ? Image.asset(
+                                            "assets/icons/dangericon.png",
+                                            height: 17,
+                                          )
+                                        : CommonUi.emptySizeBox(),
                                     SizedBox(
                                       width: w * .02,
                                     ),
@@ -524,7 +599,22 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
                                     Text(
-                                      "Click to verify (Optional)",
+                                      profileController
+                                                      .profileData
+                                                      .value
+                                                      .result
+                                                      ?.profile
+                                                      ?.verifyInstagram ==
+                                                  null ||
+                                              profileController
+                                                      .profileData
+                                                      .value
+                                                      .result
+                                                      ?.profile
+                                                      ?.verifyLinkedin ==
+                                                  null
+                                          ? "Click to verify (Optional)"
+                                          : 'Verified.',
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
@@ -538,10 +628,14 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      "assets/icons/dangericon.png",
-                                      height: 17,
-                                    ),
+                                    profileController.profileData.value.result
+                                                ?.profile ==
+                                            null
+                                        ? Image.asset(
+                                            "assets/icons/dangericon.png",
+                                            height: 17,
+                                          )
+                                        : CommonUi.emptySizeBox(),
                                     SizedBox(
                                       width: w * .02,
                                     ),
@@ -617,11 +711,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   child: Container(
                                     height: h * .14,
                                     width: w * .3,
-                                    decoration: BoxDecoration(
-                                        color: clrGrey,
-                                        image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/icons/dangericon.png'))),
+                                    color: clrGreyLight,
+                                    child: Image.asset(
+                                      'assets/icons/manicon.png',
+                                      color: clrGrey,
+                                    ),
                                   ),
                                 );
                               }),
@@ -878,8 +972,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          Text(profileController.profileData.value.result?.profile?.occupation != null ?
-                              "${profileController.profileData.value.result?.profile?.occupation}" : '',
+                          Text(
+                              profileController.profileData.value.result
+                                          ?.profile?.occupation !=
+                                      null
+                                  ? "${profileController.profileData.value.result?.profile?.occupation}"
+                                  : '',
                               style: TextStyle(color: clrGreyTextLight)),
                         ],
                       ),

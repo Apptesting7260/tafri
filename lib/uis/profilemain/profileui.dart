@@ -101,10 +101,8 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                               child: Container(
                                 height: h * .13,
                                 width: w * .28,
-                                decoration: BoxDecoration(
-                                    color: clrGrey,
-                                    image: DecorationImage(image: AssetImage('assets/icons/dangericon.png'))
-                                ),
+                                color: clrGreyLight,
+                                child: Image.asset('assets/icons/manicon.png',color: clrGrey),
                               ),
                             );
                           },
@@ -113,6 +111,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                       SizedBox(
                         height: Get.height * 0.02,
                       ),
+                      if(controller.profileData.value.result?.firstName != null && controller.profileData.value.result?.lastName != null)
                       Text(
                         "${controller.profileData.value.result?.firstName} ${controller.profileData.value.result?.lastName}",
                         style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
@@ -120,6 +119,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                       SizedBox(
                         height: Get.height * 0.005,
                       ),
+                      if(controller.profileData.value.result?.email != null)
                       Text(
                         "${controller.profileData.value.result?.email}",
                         style: const TextStyle(color: Colors.grey, fontSize: 15),

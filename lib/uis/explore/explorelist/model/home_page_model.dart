@@ -75,6 +75,7 @@ class Activity {
   String? profilePhoto;
   bool? isFav;
   RxInt? circleIndex;
+  String? formattedDate;
 
   Activity({
     this.id,
@@ -102,6 +103,7 @@ class Activity {
     this.hostName,
     this.profilePhoto,
     this.isFav,
+    this.formattedDate,
   RxInt? circleIndex,
   }) : circleIndex = circleIndex ?? 0.obs;
 
@@ -131,6 +133,7 @@ class Activity {
     hostName: json["host_name"],
     profilePhoto: json["profile_photo"],
     isFav: json["isFav"],
+    formattedDate: json['formatted_date']
   );
 
   Map<String, dynamic> toJson() => {
@@ -159,6 +162,7 @@ class Activity {
     "host_name": hostName,
     "profile_photo": profilePhoto,
     "isFav": isFav,
+    'formatted_date':formattedDate
   };
 }
 

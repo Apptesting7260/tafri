@@ -6,7 +6,7 @@ import 'package:plusone/utils/colors.dart';
 
 class CommonUi{
 
-  static fourDotLoading(){
+  static buttonLoading(){
    return LoadingAnimationWidget.fourRotatingDots(color: clrWhite, size: 45);
   }
 
@@ -17,7 +17,7 @@ class CommonUi{
     );
   }
 
-  static discreteCircleLoading({Color? color}){
+  static scaffoldLoading({Color? color}){
     return LoadingAnimationWidget.discreteCircle(color: color ?? clrGreyDark, size: 40);
   }
 
@@ -29,9 +29,9 @@ class CommonUi{
     return const SizedBox();
   }
 
-  static appBar(){
+  static appBar({void Function()? onTap}){
     return GestureDetector(
-      onTap: () {
+      onTap: onTap ?? () {
         Get.back();
       },
       child: Image.asset('assets/images/appbar icon.png',height: 40,width: 40,),

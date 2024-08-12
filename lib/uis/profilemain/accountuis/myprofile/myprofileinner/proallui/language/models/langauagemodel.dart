@@ -30,8 +30,9 @@ class Result {
   String? status;
   String? createdAt;
   String? updatedAt;
+  bool? isSelected;
 
-  Result({this.id, this.name, this.status, this.createdAt, this.updatedAt});
+  Result({this.id, this.name, this.status, this.createdAt, this.updatedAt,this.isSelected});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,6 +40,7 @@ class Result {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    isSelected = json['isSelected'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +50,7 @@ class Result {
     data['status'] = status;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['isSelected'] = isSelected;
     return data;
   }
 }

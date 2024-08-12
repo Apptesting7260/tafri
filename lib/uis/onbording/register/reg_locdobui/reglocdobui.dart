@@ -287,7 +287,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                                       },
                                       backgroundClr: clrBlacke,
                                       child: controller.loading.value
-                                          ? CommonUi.fourDotLoading()
+                                          ? CommonUi.buttonLoading()
                                           : Text(
                                         "Continue",
                                         style: TextStyle(

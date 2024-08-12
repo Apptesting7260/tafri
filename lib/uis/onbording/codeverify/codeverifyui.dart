@@ -226,7 +226,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                               backgroundClr: clrBlacke,
                               child: currentStep == 5
                                   ? (loginnoController.otpVerify.value
-                                      ? CommonUi.fourDotLoading()
+                                      ? CommonUi.buttonLoading()
                                       : Text(
                                           "Verify",
                                           style: TextStyle(
@@ -235,7 +235,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                               fontSize: 16),
                                         ))
                                   : (controller.otpVerify.value
-                                      ? CommonUi.fourDotLoading()
+                                      ? CommonUi.buttonLoading()
                                       : Text(
                                           "Verify",
                                           style: TextStyle(

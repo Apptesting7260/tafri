@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
 import '../../controller/myprofileinn_controller.dart';
 
-class BioUi extends GetWidget<MyprofileInnController>{
-    BioUi({super.key});
-  final _formState=GlobalKey<FormState>();
+class BioUi extends GetWidget<MyprofileInnController> {
+  BioUi({super.key});
+
+  final _formState = GlobalKey<FormState>();
+  final ProfilemainController profilemainController =
+      Get.find<ProfilemainController>();
+
   @override
   Widget build(BuildContext context) {
-    var h=Get.height;
-    var w=Get.width;
+    var h = Get.height;
+    var w = Get.width;
     return Scaffold(
-      body: SafeArea(child: Padding(
-        padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      body: SafeArea(
+          child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
-              const SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
@@ -29,51 +35,80 @@ class BioUi extends GetWidget<MyprofileInnController>{
                   "Bio",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                 ),
-                  SizedBox(
-                  width: w*.06,
+                SizedBox(
+                  width: w * .06,
                 ),
               ],
             ),
             SizedBox(
-              height: Get.height*0.03,
+              height: Get.height * 0.03,
             ),
             Expanded(
               child: Column(
                 children: [
-                  const Text("Share a bit about yourself helps members understand you better and find like-minded activity partners.",style: TextStyle(fontSize: 15),),
+                  const Text(
+                    "Share a bit about yourself helps members understand you better and find like-minded activity partners.",
+                    style: TextStyle(fontSize: 15),
+                  ),
                   SizedBox(
-                    height: Get.height*0.025,
+                    height: Get.height * 0.025,
                   ),
                   Form(
                     key: _formState,
                     child: TextFormField(
                       controller: controller.bioController,
-                      validator: (val){
-                        if(val==null || val.isEmpty || val==''){
+                      validator: (val) {
+                        if (val == null || val.isEmpty || val == '') {
                           return "Please tell about yourself";
+                        } else {
+                          return null;
                         }
                       },
-                      keyboardType:TextInputType.text,
+                      keyboardType: TextInputType.text,
                       maxLines: 8,
                       maxLength: 350,
                       decoration: InputDecoration(
                           hintText: "Introduce yourself...",
-                          hintStyle: TextStyle(fontWeight: FontWeight.w400,color: clrGreyTextLight),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                          hintStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: clrGreyTextLight),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
                           fillColor: clrGreyLight,
                           filled: true,
-                          border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(10))
-                      ),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10))),
                     ),
                   )
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustomElevatedButton(onTap: (){
-              // if(_formState.currentState!.validate()){
-              Get.back();
-              // }
-            } ,backgroundClr:clrBlacke, child: Text("Save",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            SizedBox(
+                height: Res.h_btn,
+                width: double.maxFinite,
+                child: CustomElevatedButton(
+                    onTap: () {
+                      // if(_formState.currentState!.validate()){
+
+                      profilemainController.profileData.value.result?.profile
+                          ?.bio = controller.bioController.value.text.trim();
+                      print(controller.bioController.value.text.trim());
+                      profilemainController.profileData.refresh();
+                      print(profilemainController
+                          .profileData.value.result?.profile?.bio);
+                      print(profilemainController.hashCode);
+                      Get.back();
+                      // }
+                    },
+                    backgroundClr: clrBlacke,
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                          color: clrWhite,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ))),
             const SizedBox(
               height: 10,
             ),

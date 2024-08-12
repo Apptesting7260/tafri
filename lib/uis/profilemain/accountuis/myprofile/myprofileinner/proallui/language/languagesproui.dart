@@ -12,8 +12,10 @@ import 'models/langauagemodel.dart';
 
 class LanguagesProUi extends GetWidget<MyprofileInnController> {
   LanguagesProUi({super.key});
+
   SingleSelectController cutoDropController = SingleSelectController(null);
   final _formState = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
@@ -22,7 +24,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
       body: Obx(() {
         return controller.isLanLoading.value == true
             ? Center(
-                child: CommonUi.loadingIndicator(),
+                child: CommonUi.scaffoldLoading(color: clrYellow),
               )
             : SafeArea(
                 child: Padding(
@@ -58,20 +60,6 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                           SizedBox(
                             height: Get.height * 0.025,
                           ),
-                          //   SizedBox(
-                          //   height: Res.h_btn,
-                          //   child: CustoDropDownBtn(onchange: (val){},itemList: [DropdownMenuItem(value: 1,child: Text("Hindi"),),DropdownMenuItem(value: 2,child: Text("English"),)], hindtext: "Select language"),
-                          // ),
-                          // CustomDropdown.multiSelectSearch(
-                          //   hintText: 'Select language',
-                          //   items: controller.langListData.value.result?.map((e){
-                          //     return e.name;
-                          //   }).toList(),
-                          //   onListChanged: (value) {
-                          //     log('changing value to: ${value}');
-                          //
-                          //   },
-                          // ),
                           CustomDropdown.search(
                             initialItem: null,
                             controller: cutoDropController,
@@ -80,20 +68,37 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                             closeDropDownOnClearFilterSearch: true,
                             hideSelectedFieldWhenExpanded: true,
                             decoration: CustomDropdownDecoration(
-                                closedSuffixIcon: const Icon(
-                                    Icons.arrow_drop_down_outlined),
+                                closedSuffixIcon:
+                                    const Icon(Icons.arrow_drop_down_outlined),
                                 expandedSuffixIcon:
                                     const Icon(Icons.arrow_drop_up),
                                 closedFillColor: clrGreyLight,
-                                closedBorderRadius:
-                                    BorderRadius.circular(100)),
+                                closedBorderRadius: BorderRadius.circular(100)),
                             hintText: 'Select language',
                             items: controller.langListData.value.result
-                                ?.map((e) {
+                                ?.where((language) => language.status == '1')
+                                .map((e) {
                               return e.name;
                             }).toList(),
                             excludeSelected: false,
                             onChanged: (value) {
+                              if (value != null) {
+                                var selectedLanguage = controller
+                                    .langListData.value.result
+                                    ?.firstWhere(
+                                        (language) => language.name == value);
+                                if (selectedLanguage != null) {
+                                  if (controller.selectedLanguageID
+                                      .contains(selectedLanguage.id)) {
+                                    // controller.selectedLanguageID
+                                    //     .remove(selectedLanguage.id);
+                                  } else {
+                                    controller.selectedLanguageID
+                                        .add(selectedLanguage.id.toString());
+                                  }
+                                }
+                                print('lan == ${controller.selectedLanguageID}');
+                              }
                               if (value != null) {
                                 if (controller.selectedLanguageList
                                     .any((map) => map.containsValue(value))) {
@@ -119,7 +124,15 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                               cutoDropController.value = null;
                             },
                           ),
-                          controller.isShowLangReqError.value? SizedBox(width: double.maxFinite,child: Text("Please select atleast one language",style: TextStyle(color: clrRedErr,fontSize: 12),)):SizedBox(),
+                          controller.isShowLangReqError.value
+                              ? SizedBox(
+                                  width: double.maxFinite,
+                                  child: Text(
+                                    "Please select atleast one language",
+                                    style: TextStyle(
+                                        color: clrRedErr, fontSize: 12),
+                                  ))
+                              : SizedBox(),
                           SizedBox(
                             height: h * .02,
                           ),

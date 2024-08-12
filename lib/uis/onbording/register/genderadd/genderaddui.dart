@@ -234,7 +234,7 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                                   backgroundClr: clrBlacke,
                                   child: Obx(
                                     () => controller.loading.value
-                                        ? CommonUi.fourDotLoading()
+                                        ? CommonUi.buttonLoading()
                                         : Text(
                                             "Continue",
                                             style: TextStyle(

@@ -2,49 +2,46 @@ class FunfactQuestModel {
   bool? status;
   List<Result>? result;
 
-  FunfactQuestModel({this.status, this.result});
+  FunfactQuestModel({
+    this.status,
+    this.result,
+  });
 
-  FunfactQuestModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    if (json['result'] != null) {
-      result = <Result>[];
-      json['result'].forEach((v) {
-        result!.add(new Result.fromJson(v));
-      });
-    }
-  }
+  factory FunfactQuestModel.fromJson(Map<String, dynamic> json) => FunfactQuestModel(
+    status: json["status"],
+    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    if (result != null) {
-      data['result'] = result!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
+  };
 }
 
 class Result {
   int? id;
-  String? title;
-  String? createdAt;
-  String? updatedAt;
+  String? question;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-  Result({this.id, this.title, this.createdAt, this.updatedAt});
+  Result({
+    this.id,
+    this.question,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-  Result.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
+    id: json["id"],
+    question: json["question"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "question": question,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+  };
 }

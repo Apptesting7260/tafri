@@ -204,7 +204,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                                             backgroundClr: clrBlacke,
                                             child: Obx(
                                               () => controller.loading.value
-                                                  ? CommonUi.fourDotLoading()
+                                                  ? CommonUi.buttonLoading()
                                                   : Text(
                                                       "Next",
                                                       style: TextStyle(

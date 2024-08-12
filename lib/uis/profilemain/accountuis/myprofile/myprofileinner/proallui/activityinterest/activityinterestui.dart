@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../../utils/colors.dart';
 import '../../../../../../../utils/size.dart';
@@ -22,7 +24,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
       body: SafeArea(child: Obx(() {
         return controller.isLoadingActivity.value
             ? Center(
-                child: CommonUi.loadingIndicator(),
+                child: CommonUi.scaffoldLoading(color: clrYellow),
               )
             : Padding(
                 padding:
@@ -30,7 +32,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height:15,
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,48 +64,50 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                           ),
                           Obx(() {
                             int len = controller
-                                    .activityListData.value.result?.length ??
+                                    .activityListData.value.result?.where((category) => category.status == '1',).length ??
                                 0;
                             return ListView.builder(
                                 itemCount: len,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  Result? categoryDeta = controller
-                                      .activityListData.value.result?[index];
+                                  List<Result>? categoryDeta = controller
+                                      .activityListData.value.result?.where((category) => category.status == '1',).toList();
                                   int subCategoryListLength =
-                                      categoryDeta?.subcategories?.length ?? 0;
+                                      categoryDeta?[index].subcategories?.where((subCategory) => subCategory.status == '1',).length ?? 0;
                                   List<Widget> wrapSubCatList = [];
                                   for (int i = 0;
                                       i < subCategoryListLength;
                                       i++) {
-                                    Subcategories? singleSubCatData =
-                                        categoryDeta?.subcategories?[i];
+                                    List<Subcategories>? singleSubCatData =
+                                        categoryDeta?[index].subcategories?.where((subCategory) => subCategory.status == '1',).toList();
                                     wrapSubCatList.add(SizedBox(
                                         height: 36,
                                         child: CustoFilterBtn(
                                           lable: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              CachedNetworkImage(
-                                                height: 18,
-                                                imageUrl: '${singleSubCatData?.icon}',
-                                                placeholder: (context, url) => Shimmer
-                                                    .fromColors(
-                                                  baseColor:
-                                                  grey300,
-                                                  highlightColor:
-                                                  grey100,
-                                                  child:
-                                                  Container(
-                                                    height:18,
-                                                    decoration:
-                                                    BoxDecoration(
-                                                      color:
-                                                      grey300,
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          18),
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(100),
+                                                child: CachedNetworkImage(
+                                                  height: 18,
+                                                  width: 18,
+                                                  fit: BoxFit.cover,
+                                                  imageUrl:
+                                                      '${singleSubCatData?[i].icon}',
+                                                  placeholder: (context, url) =>
+                                                      Shimmer.fromColors(
+                                                    baseColor: grey300,
+                                                    highlightColor: grey100,
+                                                    child: Container(
+                                                      height: 18,
+                                                      width: 18,
+                                                      decoration: BoxDecoration(
+                                                        color: grey300,
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                18),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -112,16 +116,25 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                                                 width: 3,
                                               ),
                                               Text(
-                                                "${singleSubCatData?.title}",
-                                                style:
-                                                    TextStyle(color:singleSubCatData?.isSelected==true?clrWhite : clrBlacke),
+                                                "${singleSubCatData?[i].title}",
+                                                style: TextStyle(
+                                                    color: singleSubCatData
+                                                                ?[i].isSelected ==
+                                                            true
+                                                        ? clrWhite
+                                                        : clrBlacke),
                                               )
                                             ],
                                           ),
                                           ontap: () {
-                                            controller.changeActivitySelect(index, categoryDeta?.id, i, singleSubCatData?.id, singleSubCatData?.isSelected==false?true:false);
+                                            singleSubCatData?[i].isSelected = !(singleSubCatData[i].isSelected ?? false);
+                                            controller.updateSelectedSubcategories(singleSubCatData?[i].categoryId.toString(), singleSubCatData?[i].id.toString(), singleSubCatData?[i].isSelected);
                                           },
-                                          backgroundClr:singleSubCatData?.isSelected==true?clrBlacke : clrWhite,
+                                          backgroundClr:
+                                              singleSubCatData?[i].isSelected ==
+                                                      true
+                                                  ? clrBlacke
+                                                  : clrWhite,
                                           borderClr: clrBlacke.withOpacity(0.2),
                                         )));
                                   }
@@ -130,7 +143,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${categoryDeta?.title}",
+                                        "${categoryDeta?[index].title}",
                                         style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700),
@@ -157,7 +170,13 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                         height: Res.h_btn,
                         width: double.maxFinite,
                         child: CustomElevatedButton(
-                            onTap: () {},
+                            onTap: () {
+                              if(controller.hasAtLeastThreeTotalValues(controller.selectedActivity)){
+                                Get.back();
+                              }else{
+                                showTostMsg('Select atleast three activity.',gravity: ToastGravity.CENTER);
+                              }
+                            },
                             backgroundClr: clrBlacke,
                             child: Text(
                               "Save",

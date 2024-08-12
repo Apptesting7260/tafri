@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class ActivityModel {
   bool? status;
   List<Result>? result;
@@ -81,7 +83,7 @@ class Subcategories {
   int? id;
   int? categoryId;
   String? title;
-  bool? isSelected; //gk
+  bool? isSelected;
   String? icon;
   String? slug;
   String? status;
@@ -102,7 +104,7 @@ class Subcategories {
   Subcategories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     categoryId = json['category_id'];
-    isSelected =false;
+    isSelected = json['isSelected'];
     title = json['title'];
     icon = json['icon'];
     slug = json['slug'];

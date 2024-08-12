@@ -173,7 +173,7 @@ class NameAddUi extends GetWidget<NameAddController> {
                                   },
                                   backgroundClr: clrBlacke,
                                   child: controller.loading.value
-                                      ? CommonUi.fourDotLoading()
+                                      ? CommonUi.buttonLoading()
                                       : Text(
                                           "Continue",
                                           style: TextStyle(
