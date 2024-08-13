@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/custom_switch.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/size.dart';
 import '../../../components/custoelevatedbtn.dart';
@@ -107,24 +106,9 @@ class SettingUi extends GetWidget<SettingController>{
                                   "Google",
                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
                                 ),
-                                SizedBox(
-                                    height: h*.04,
-                                    width: h*.055,
-                                    child: FittedBox(
-                                        fit: BoxFit.fill,
-                                        child: Obx((){
-                                          return Switch(
-                                              activeTrackColor: clrYellow,
-                                              value: controller.googleVal.value,
-                                              onChanged: (val) {
-                                                controller.changeGoogleVal();
-                                              },
-                                              activeColor: clrWhite,
-                                              focusColor: clrWhite,
-                                              trackOutlineColor:
-                                              WidgetStateProperty.all(
-                                                  clrTransparent));
-                                        })))
+                                Obx(() => CustomSwitch(value: controller.googleVal.value, onChanged: (val) {
+                                  controller.changeGoogleVal();
+                                },))
                               ],
                             ),
                           ),
@@ -140,25 +124,11 @@ class SettingUi extends GetWidget<SettingController>{
                               "Apple",
                               style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
-                                height: h*.04,
-                                width: h*.055,
-                                child: FittedBox(
-                                    fit: BoxFit.fill,
-                                    child:Obx((){
-                                      return Switch(
-                                          activeTrackColor: clrYellow,
-                                          value: controller.appleVal.value,
-                                          onChanged: (val) {
-                                            controller.changeAppleVal();
-                                          },
-                                          activeColor: clrWhite,
-                                          focusColor: clrWhite,
-                                          trackOutlineColor:
-                                          WidgetStateProperty.all(
-                                              clrTransparent));
-                                    }))),
-
+                            Obx((){
+                              return CustomSwitch(value: controller.appleVal.value, onChanged: (val) {
+                                controller.changeAppleVal();
+                              },);
+                            })
                           ],
                         ),
                         Divider(
@@ -310,4 +280,3 @@ class SettingUi extends GetWidget<SettingController>{
     ));
   }
 }
-

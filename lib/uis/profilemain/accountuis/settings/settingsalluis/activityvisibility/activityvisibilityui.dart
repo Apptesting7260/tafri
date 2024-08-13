@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/uis/profilemain/accountuis/settings/controller/setting_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/custom_switch.dart';
+import 'package:plusone/utils/size.dart';
 
 import '../../../../../../utils/colors.dart';
 
-class ActivityVisibility extends GetWidget{
+class ActivityVisibility extends GetWidget<SettingController> {
   const ActivityVisibility({super.key});
 
   @override
@@ -12,7 +15,7 @@ class ActivityVisibility extends GetWidget{
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13),
+          padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
               const SizedBox(
@@ -22,7 +25,10 @@ class ActivityVisibility extends GetWidget{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CommonUi.appBar(),
-                  const Text("Activities visibility",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19),),
+                  const Text(
+                    "Activities visibility",
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 19),
+                  ),
                   const SizedBox(
                     width: 20,
                   )
@@ -32,27 +38,50 @@ class ActivityVisibility extends GetWidget{
                 height: Get.height * 0.035,
               ),
               Expanded(
-                  child:Column(
+                  child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Flexible(child: Text("Show my upcoming activities to other members",style: TextStyle(fontSize: 16),)),
-                          SizedBox(height: 30,width: 40,child: FittedBox(fit: BoxFit.fill,child: Switch(activeTrackColor:clrYellow,value: true, onChanged: (val){},activeColor: clrWhite,focusColor: clrWhite,trackOutlineColor: WidgetStateProperty.all(clrTransparent))))
-                        ],
+                      const Flexible(
+                          child: Text(
+                        "Show my upcoming activities to other members",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )),
+                      const SizedBox(
+                        width: 10,
                       ),
-                      Divider(color: clrGreyLight,height: 25,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Flexible(child: Text("Show my previous activities to other members",style: TextStyle(fontSize: 16),)),
-                          SizedBox(height: 30,width: 40,child: FittedBox(fit: BoxFit.fill,child: Switch(activeTrackColor:clrYellow,value: false, onChanged: (val){},activeColor: clrWhite,focusColor: clrWhite,inactiveThumbColor: clrWhite,trackOutlineColor: WidgetStateProperty.all(clrTransparent),)))
-                        ],
-                      ),
-                      Divider(color: clrGreyLight,height: 25,),
+                      Obx(() => CustomSwitch(value: controller.upcomingVisibility.value, onChanged: (val) => controller.changeUpcomingVisibility(),),)
                     ],
-                  )
-              )
+                  ),
+                  Divider(
+                    color: clrGreyLight,
+                    height: 25,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Flexible(
+                          child: Text(
+                        "Show my previous activities to other members",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() => CustomSwitch(value: controller.previousVisibility.value, onChanged: (value) {
+                        controller.changePreviousVisibility();
+                      },),)
+                    ],
+                  ),
+                  Divider(
+                    color: clrGreyLight,
+                    height: 25,
+                  ),
+                ],
+              ))
             ],
           ),
         ),

@@ -281,33 +281,26 @@ class ChatUi extends GetWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                    width: Get.width * 0.74,
-                    height: Res.h_btn,
-                    child: CustoTextFormField(
-                      hintText: "Type your message",
-                      sufixIcon: InkWell(
-                          onTap: () async {
-                            final ImagePicker picker = ImagePicker();
-                            final XFile? photo = await picker.pickImage(
-                                source: ImageSource.camera);
-                          },
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: clrGrey,
-                          )),
-                    )),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: clrYellow),
-                  child: Center(
-                      child: Image.asset(
-                    "assets/icons/sendmsgicon.png",
-                    height: 22,
-                  )),
-                )
+                Flexible(
+                  child: SizedBox(
+                      width: double.maxFinite,
+                      height: Res.h_btn,
+                      child: CustoTextFormField(
+                        hintText: "Type your message",
+                        sufixIcon: InkWell(
+                            onTap: () async {
+                              final ImagePicker picker = ImagePicker();
+                              final XFile? photo = await picker.pickImage(
+                                  source: ImageSource.camera);
+                            },
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: clrGrey,
+                            )),
+                      )),
+                ),
+                const SizedBox(width: 8,),
+                Image.asset('assets/images/send.png',scale: 4,),
               ],
             ),
           ),

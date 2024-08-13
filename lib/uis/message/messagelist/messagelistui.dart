@@ -22,7 +22,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
       body: SafeArea(
           child: Container(
         child: Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10,left: 4,right: 4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -66,7 +66,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: Res.h_btn,
+                          height: Get.height*.07,
                           child: const CustoTextFormField(
                             hintText: "Search",
                             sufixIcon: Icon(Icons.search),
@@ -350,11 +350,12 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 20),
                                       margin:
-                                          const EdgeInsets.symmetric(vertical: 5),
+                                          const EdgeInsets.symmetric(vertical: 8),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(15),
                                           color: clrGreyLight),
                                       child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             clipBehavior: Clip.hardEdge,
@@ -400,7 +401,11 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 ),
                                               ],
                                             ),
-                                          )
+                                          ),
+                                          SizedBox(
+                                            width: Get.width * 0.02,
+                                          ),
+                                          Icon(Icons.more_vert,color: Color.fromRGBO(85, 92, 105, 1),)
                                         ],
                                       ),
                                     ),

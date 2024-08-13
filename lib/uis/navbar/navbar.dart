@@ -108,7 +108,7 @@ class Navbar extends GetWidget {
                       index == 0
                           ? "Explore"
                           : index == 1
-                              ? 'Message'
+                              ? 'Messages'
                               : index == 2
                                   ? "My Activities"
                                   : index == 3

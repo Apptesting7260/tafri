@@ -32,7 +32,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Row(
@@ -64,8 +64,8 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                         List listCat = exploreListController.categryList;
                         // debugPrint("listCat=${listCat[1]}");
                         return Wrap(
-                          spacing: 8,
-                          runSpacing: 10,
+                          spacing: 7,
+                          runSpacing: 9,
                           children: listCat.map((e) {
                             return SizedBox(
                               height: Res.h_filter_btn,
@@ -220,8 +220,8 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                       ),
                       Obx(() {
                         return Wrap(
-                          spacing: 8,
-                          runSpacing: 10,
+                          spacing: 7,
+                          runSpacing: 9,
                           children: [
                             SizedBox(
                               height: Res.h_filter_btn,
@@ -394,43 +394,41 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      SizedBox(
-                        height: Res.h_btn,
-                        child: Obx(() {
-                          // int val=exploreListController.timeFilter.value;
-                          return CustoDropDownBtn(
-                              val: exploreListController.timeFilter.value == 0
-                                  ? null
-                                  : exploreListController.timeFilter.value,
-                              onchange: (val) {
-                                exploreListController.changeTimeFilter(val);
-                              },
-                              prefixIcon: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 10),
-                                  child: const Image(
-                                    image: AssetImage(
-                                        "assets/icons/timericon.png"),
-                                    height: 3,
-                                    width: 3,
-                                  )),
-                              itemList: const [
-                                DropdownMenuItem(
-                                  value: 1,
-                                  child: Text("Morning (Before 12:00)"),
-                                ),
-                                DropdownMenuItem(
-                                  value: 2,
-                                  child: Text("Afternoon (12:00 - 18:00)"),
-                                ),
-                                DropdownMenuItem(
-                                  value: 3,
-                                  child: Text("Evening (After 18:00)"),
-                                )
-                              ],
-                              hindtext: "Select Time");
-                        }),
-                      ),
+                      Obx(() {
+                        // int val=exploreListController.timeFilter.value;
+                        return CustoDropDownBtn(
+                            val: exploreListController.timeFilter.value == 0
+                                ? null
+                                : exploreListController.timeFilter.value,
+                            onchange: (val) {
+                              exploreListController.changeTimeFilter(val);
+                            },
+                            prefixIcon: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
+                                child: const Image(
+                                  image: AssetImage(
+                                      "assets/icons/timericon.png"),
+                                  height: 3,
+                                  width: 3,
+                                )),
+                            suffix: Image.asset('assets/images/arrow down.png',scale: 4,),
+                            itemList: const [
+                              DropdownMenuItem(
+                                value: 1,
+                                child: Text("Morning (Before 12:00)"),
+                              ),
+                              DropdownMenuItem(
+                                value: 2,
+                                child: Text("Afternoon (12:00 - 18:00)"),
+                              ),
+                              DropdownMenuItem(
+                                value: 3,
+                                child: Text("Evening (After 18:00)"),
+                              )
+                            ],
+                            hindtext: "Select Time");
+                      }),
 
                       SizedBox(
                         height: Get.height * 0.025,
@@ -443,38 +441,36 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      SizedBox(
-                        height: Res.h_btn,
-                        child: Obx(() {
-                          return CustoDropDownBtn(
-                              val: exploreListController.genderFilter.value == 0
-                                  ? null
-                                  : exploreListController.genderFilter.value,
-                              onchange: (val) {
-                                exploreListController.changeGenderFilter(val);
-                              },
-                              prefixIcon: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 10),
-                                  child: const Image(
-                                    image: AssetImage(
-                                        "assets/icons/gendericon.png"),
-                                    height: 3,
-                                    width: 3,
-                                  )),
-                              itemList: const [
-                                const DropdownMenuItem(
-                                  value: 1,
-                                  child: Text("Same gender as me"),
-                                ),
-                                DropdownMenuItem(
-                                  value: 2,
-                                  child: Text("All"),
-                                )
-                              ],
-                              hindtext: "Select");
-                        }),
-                      ),
+                      Obx(() {
+                        return CustoDropDownBtn(
+                            val: exploreListController.genderFilter.value == 0
+                                ? null
+                                : exploreListController.genderFilter.value,
+                            onchange: (val) {
+                              exploreListController.changeGenderFilter(val);
+                            },
+                            suffix: Image.asset('assets/images/arrow down.png',scale: 4,),
+                            prefixIcon: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
+                                child: const Image(
+                                  image: AssetImage(
+                                      "assets/icons/gendericon.png"),
+                                  height: 3,
+                                  width: 3,
+                                )),
+                            itemList: const [
+                              const DropdownMenuItem(
+                                value: 1,
+                                child: Text("Same gender as me"),
+                              ),
+                              DropdownMenuItem(
+                                value: 2,
+                                child: Text("All"),
+                              )
+                            ],
+                            hindtext: "Select");
+                      }),
                       SizedBox(
                         height: Get.height * 0.02,
                       ),

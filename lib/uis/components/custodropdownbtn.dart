@@ -11,7 +11,10 @@ class CustoDropDownBtn extends StatefulWidget {
   final Color? borderClr;
   final dynamic val;
   final String? hindtext;
-  const CustoDropDownBtn({super.key,required this.itemList,this.onchange,this.val,this.prefixIcon,required this.hindtext,this.backClr,this.borderClr});
+  final Color? hintColor;
+  final Widget? suffix;
+  final DropdownButtonBuilder? selectedItemBuilder;
+  const CustoDropDownBtn({super.key,required this.itemList,this.onchange,this.val,this.prefixIcon,required this.hindtext,this.backClr,this.borderClr, this.hintColor, this.suffix, this.selectedItemBuilder});
 
   @override
   State<CustoDropDownBtn> createState() => _CustoDropDownBtnState();
@@ -29,18 +32,22 @@ class _CustoDropDownBtnState extends State<CustoDropDownBtn> {
       // isDense: true,
       hint: Align(
         alignment: Alignment.centerLeft,
-        child: Text(widget.hindtext??'',),
+        child: Text(widget.hindtext??'',style: TextStyle(
+          color: widget.hintColor
+        )),
       ),
+      icon: const SizedBox.shrink(),
+      selectedItemBuilder: widget.selectedItemBuilder,
       decoration: InputDecoration(
 
         alignLabelWithHint: true,
           prefixIcon: widget.prefixIcon,
-
+          suffixIcon: widget.suffix,
           hintStyle: TextStyle(
               fontWeight: FontWeight.w400,
               color: clrGreyTextLight),
           contentPadding: const EdgeInsets.symmetric(
-              horizontal: 15, vertical: 0),
+              horizontal: 15, vertical: 15),
           fillColor:widget.backClr?? clrGreyLight,
           filled: true,
           border:widget.borderClr!=null?OutlineInputBorder(

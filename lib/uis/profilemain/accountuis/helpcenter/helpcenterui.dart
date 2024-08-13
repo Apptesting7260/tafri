@@ -28,7 +28,7 @@ class HelpCenterUi extends GetWidget{
       backgroundColor: clrWhite,
       body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: Column(
               children: [
                 const SizedBox(
@@ -90,59 +90,68 @@ class HelpCenterUi extends GetWidget{
   }
   custoSupportAlert() async {
     Get.dialog(AlertDialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 0),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        content: SizedBox(
-          width: Get.width * 0.87,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: const Icon(
-                    Icons.close,
-                    size: 35,
-                  )),
-              Center(
-                child: Image.asset(
-                  "assets/icons/msgcustosupport.png",
-                  height:Get.height*.085,
-                ),
-              ),
-                SizedBox(
-                height:Get.height*.012,
-              ),
-              SizedBox(
-                width: double.maxFinite,
-                height: Res.h_btn,
-                child: CustomElevatedButton(onTap: () {
-                  Get.toNamed(Routes.poSupportChat);
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+                onTap: () {
+                  Get.back();
                 },
-                  backgroundClr: clrBlacke,
-                  child: Text("Chat with support",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),),),
+                child: const Icon(
+                  Icons.close,
+                  size: 35,
+                )),
+            SizedBox(
+              height: 5,
+            ),
+            Center(
+              child: Image.asset(
+                "assets/icons/msgcustosupport.png",
+                height:Get.height*.085,
               ),
-                SizedBox(
-                height: Get.height*.012,
+            ),
+              SizedBox(
+              height:Get.height*.015,
+            ),
+            SizedBox(
+              width: double.maxFinite,
+              height: Res.h_btn,
+              child: CustomElevatedButton(onTap: () {
+                Get.toNamed(Routes.poSupportChat);
+              },
+                backgroundClr: clrBlacke,
+                child: Text("Chat with support",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),),),
+            ),
+              SizedBox(
+              height: Get.height*.015,
+            ),
+            Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Or email us at",style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w500)),
+                  InkWell(onTap: (){},child: Text(" info@plusonesapp.com",style: TextStyle(color: darkYellow,fontWeight: FontWeight.w600),),)
+                ],
               ),
-              Center(
-                child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                        children: [
-                          TextSpan(text: "Or email us at",style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w500)),
-                          WidgetSpan(child: InkWell(onTap: (){},child: Text(" info@plusonesapp.com",style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w500),),))
-                        ]
-                    )),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+            ),
+            // Center(
+            //   child: RichText(
+            //       textAlign: TextAlign.center,
+            //       text: TextSpan(
+            //           children: [
+            //             TextSpan(text: "Or email us at",style: TextStyle(color: clrBlacke,fontWeight: FontWeight.w500)),
+            //             WidgetSpan(child: InkWell(onTap: (){},child: Text(" info@plusonesapp.com",style: TextStyle(color: clrYellowText,fontWeight: FontWeight.w500),),))
+            //           ]
+            //       )),
+            // ),
+            const SizedBox(
+              height: 30,
+            ),
 
-            ],
-          ),
+          ],
         )));
   }
 }

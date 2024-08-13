@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 Color clrYellow = Color(0xffFFC107);
 Color clrYellowText=Color(0xffB48800);
 Color darkYellow = Color.fromRGBO(225, 171, 8, 1);
+Color tabBarColor = Color.fromRGBO(180, 136, 0, 1);
 Color clrGreyLight=Color.fromRGBO(236, 236, 236, 1);
 Color clrGrey=Color(0xffAAADB4);
 Color clrGrey868380=Color(0xff868380);

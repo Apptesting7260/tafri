@@ -23,12 +23,16 @@ class Result {
   String? question;
   DateTime? createdAt;
   DateTime? updatedAt;
+  bool? isSelected;
+  String? answer;
 
   Result({
     this.id,
     this.question,
     this.createdAt,
     this.updatedAt,
+    this.isSelected,
+    this.answer,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -36,6 +40,8 @@ class Result {
     question: json["question"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    isSelected: json["isSelected"],
+    answer: json["answer"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +49,7 @@ class Result {
     "question": question,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
+    "isSelected": isSelected,
+    "answer": answer,
   };
 }

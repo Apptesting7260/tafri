@@ -161,6 +161,17 @@ class MyprofileInnController extends GetxController
         LanguageModel body = LanguageModel.fromJson(response.body);
         if (body.status == true) {
           langListData.value = body;
+          for(var i in langListData.value.result!){
+            if(i.status == '1' && i.isSelected == true){
+              selectedLanguageID.add(i.id);
+              selectedLanguageList.add({
+                'id': i.id,
+                "lang": i.name
+              });
+            }
+          }
+          print('id == ${selectedLanguageID}');
+          print('lang == ${selectedLanguageList}');
         } else {
           showTostMsg("Something went wrong");
         }
@@ -188,6 +199,41 @@ class MyprofileInnController extends GetxController
         ActivityModel body = ActivityModel.fromJson(response.body);
         if (body.status == true) {
           activityListData.value = body;
+
+          for (var activity in activityListData.value.result!) {
+            if (activity.status == '1') {
+              for (var subcategory in activity.subcategories!) {
+                if (subcategory.status == '1' && subcategory.isSelected == false) {
+                  String activityId = activity.id.toString();
+                  String subcategoryId = subcategory.id.toString();
+                  if (selectedActivity.containsKey(activityId)) {
+                    selectedActivity[activityId]?.add(subcategoryId);
+                  } else {
+                    selectedActivity[activityId] = [subcategoryId];
+                  }
+                }
+              }
+            }
+          }
+
+          // for(int i = 0;i < activityListData.value.result!.length;i++){
+          //   if(activityListData.value.result?[i].status == '1'){
+          //     for(int j = 0;j < activityListData.value.result![i].subcategories!.length;j++){
+          //       if(activityListData.value.result![i].subcategories?[j].status == '1' && activityListData.value.result![i].subcategories?[j].isSelected == true){
+          //         String activityId = activityListData.value.result![i].id.toString();
+          //         String subcategoryId = activityListData.value.result![i].subcategories![j].id.toString();
+          //         if (selectedActivity.containsKey(activityId)) {
+          //           selectedActivity[activityId]?.add(subcategoryId);
+          //         } else {
+          //           selectedActivity[activityId] = [subcategoryId];
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
+
+          print('selected activity == ${selectedActivity}');
+
           debugPrint("gk=====activity listdeta=${response.body}");
         } else {
           showTostMsg("Something went wrong");
@@ -260,10 +306,11 @@ class MyprofileInnController extends GetxController
 
 ///************************************************funfact ****************
   var funFactListDeta = [].obs;
+  var funFactListForApi = [].obs;
   RxList<DropdownMenuItem<int>> questionList = <DropdownMenuItem<int>>[].obs;
 
-  addFunFactDeta(String ques, String ans) {
-    funFactListDeta.add({"question": ques, "answer": ans});
+  addFunFactDeta(String ques, String ans, String id) {
+    funFactListDeta.add({"question": ques, "answer": ans, "id": id});
   }
 
   removeFunFactDeta(index) {
@@ -295,6 +342,16 @@ class MyprofileInnController extends GetxController
         print("questionList == ${questionList}");
         if (body.status == true) {
           funFactQuetionList.value = body;
+          for(var i in funFactQuetionList.value.result!){
+            if(i.isSelected == true){
+              funFactListDeta.add({
+                "question": i.question,
+                "answer": i.answer,
+                "id": i.id
+              });
+            }
+          }
+          print('selected ques == ${funFactListDeta}');
         } else {
           debugPrint("error=funfact statu false");
           showTostMsg("Something went wrong");

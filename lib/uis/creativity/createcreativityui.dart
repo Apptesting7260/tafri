@@ -8,6 +8,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/creativity/creativity_controller/creativityController.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/custom_switch.dart';
 import '../../utils/colors.dart';
 import '../../utils/size.dart';
 import '../components/custotextfield.dart';
@@ -46,11 +47,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                 height: h * 0.03,
               ),
               TabBar(
-                indicatorColor: darkYellow,
+                indicatorColor: tabBarColor,
                 dividerHeight: 0,
                 indicatorSize: TabBarIndicatorSize.tab,
                 unselectedLabelColor: clrBlacke,
-                labelColor: darkYellow,
+                labelColor: tabBarColor,
                 labelStyle:
                     const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 unselectedLabelStyle:
@@ -189,7 +190,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                     child: Text("Coffee"),
                                   ),
                                 ],
-                                hindtext: "Select Category"),
+                                hintColor: clrBlacke,
+                                hindtext: "Select Category",
+                              suffix: Image.asset('assets/images/arrow down.png',scale:4,),
+                            ),
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
@@ -230,14 +234,14 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             CustoTextFormField(
                               hintText: "Location",
                               sufixIcon: SizedBox(
-                                  height: h * .013,
-                                  width: h * .013,
+                                  height: h * .012,
+                                  width: h * .012,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(11.0),
+                                    padding: const EdgeInsets.all(13.0),
                                     child: Image.asset(
                                         "assets/icons/locationicon.png",
-                                        height: 10,
-                                        width: 10),
+                                        height: 8,
+                                        width: 8),
                                   )),
                             ),
                             SizedBox(
@@ -252,8 +256,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                               },
                               child: Container(
                                   padding: EdgeInsets.symmetric(
-                                      vertical: Get.height * .02,
-                                      horizontal: 13),
+                                      vertical: Get.height * .022,
+                                      horizontal: 15),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
                                       color: clrGreyLight),
@@ -261,7 +265,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                     children: [
                                       Image.asset(
                                         "assets/icons/calendericon.png",
-                                        height: 23,
+                                        height: 20,
                                       ),
                                       const SizedBox(
                                         width: 12,
@@ -289,30 +293,36 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 },
                                 child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
+                                        horizontal: 15,
                                         vertical: Get.height * .02),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
                                       color: clrGreyLight,
                                     ),
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Image.asset(
-                                          "assets/icons/timericon.png",
-                                          height: h * .035,
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/icons/timericon.png",
+                                              height: h * .032,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              controller.sTime == ''
+                                                  ? "Start At"
+                                                  : "${controller.sTime}",
+                                              style: TextStyle(
+                                                  color: controller.sTime == ''
+                                                      ? clrGreyDark
+                                                      : clrBlacke),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          controller.sTime == ''
-                                              ? "Start At"
-                                              : "${controller.sTime}",
-                                          style: TextStyle(
-                                              color: controller.sTime == ''
-                                                  ? clrGreyDark
-                                                  : clrBlacke),
-                                        )
+                                        Image.asset('assets/images/arrow down.png',scale:4,)
                                       ],
                                     )),
                               );
@@ -333,30 +343,36 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 },
                                 child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
+                                        horizontal: 15,
                                         vertical: Get.height * .02),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
                                       color: clrGreyLight,
                                     ),
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Image.asset(
-                                          "assets/icons/timericon.png",
-                                          height: h * .035,
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/icons/timericon.png",
+                                              height: h * .032,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              controller.eTime == ''
+                                                  ? "Ends At"
+                                                  : "${controller.eTime}",
+                                              style: TextStyle(
+                                                  color: controller.eTime == ''
+                                                      ? clrGreyDark
+                                                      : clrBlacke),
+                                            )
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          controller.eTime == ''
-                                              ? "Ends At"
-                                              : "${controller.eTime}",
-                                          style: TextStyle(
-                                              color: controller.eTime == ''
-                                                  ? clrGreyDark
-                                                  : clrBlacke),
-                                        )
+                                        Image.asset('assets/images/arrow down.png',scale:4,)
                                       ],
                                     )),
                               );
@@ -367,7 +383,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             ),
                             Container(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: Get.height * .02, horizontal: 13),
+                                    vertical: Get.height * .02, horizontal: 15),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
                                     color: clrGreyLight),
@@ -380,7 +396,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                         children: [
                                           Image.asset(
                                             "assets/icons/manicon.png",
-                                            height: 23,
+                                            height: 20,
                                           ),
                                           const SizedBox(
                                             width: 12,
@@ -420,64 +436,58 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            SizedBox(
-                              height: Res.h_btn,
-                              child: Obx(() {
-                                return CustoDropDownBtn(
-                                  val: controller.gender.value == 0
-                                      ? null
-                                      : controller.gender.value,
-                                  onchange: (val) {
-                                    controller.changeGenderFilter(val);
-                                  },
-                                  itemList: const [
-                                    DropdownMenuItem(
-                                      value: 1,
-                                      child: Text("Same gender as me"),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 2,
-                                      child: Text("All"),
-                                    )
-                                  ],
-                                  hindtext: "Gender preference (optional)",
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Image.asset(
-                                        "assets/icons/gendericon.png"),
+                            Obx(() {
+                              return CustoDropDownBtn(
+                                val: controller.gender.value == 0
+                                    ? null
+                                    : controller.gender.value,
+                                onchange: (val) {
+                                  controller.changeGenderFilter(val);
+                                },
+                                itemList: const [
+                                  DropdownMenuItem(
+                                    value: 1,
+                                    child: Text("Same gender as me"),
                                   ),
-                                );
-                              }),
-                            ),
+                                  DropdownMenuItem(
+                                    value: 2,
+                                    child: Text("All"),
+                                  )
+                                ],
+                                hindtext: "Gender preference (optional)",
+                                hintColor: clrBlacke,
+                                suffix: Image.asset('assets/images/arrow down.png',scale:4,),
+                                prefixIcon: Image.asset(
+                                    "assets/icons/gendericon.png",scale: 2,),
+                              );
+                            }),
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            SizedBox(
-                              height: Res.h_btn,
-                              child: Obx(() {
-                                var value = controller.gender.value;
-                                return CustoDropDownBtn(
-                                  val: controller.repeat?.value,
-                                  onchange: (val) {
-                                    return controller.changeRepeatVal(val);
-                                  },
-                                  backClr: clrWhite,
-                                  borderClr: clrGrey.withOpacity(0.6),
-                                  itemList: const [
-                                    DropdownMenuItem(
-                                      value: 1,
-                                      child: Text("Doesn’t repeat"),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 2,
-                                      child:
-                                          Text("Should have repeat schedule "),
-                                    ),
-                                  ],
-                                  hindtext: "Doesn’t repeat ",
-                                );
-                              }),
-                            ),
+                            Obx(() {
+                              var value = controller.gender.value;
+                              return CustoDropDownBtn(
+                                val: controller.repeat?.value,
+                                onchange: (val) {
+                                  return controller.changeRepeatVal(val);
+                                },
+                                backClr: clrWhite,
+                                borderClr: clrGrey.withOpacity(0.6),
+                                itemList: const [
+                                  DropdownMenuItem(
+                                    value: 1,
+                                    child: Text("Doesn’t repeat"),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 2,
+                                    child:
+                                        Text("Should have repeat schedule "),
+                                  ),
+                                ],
+                                hindtext: "Doesn’t repeat ",
+                                suffix: Image.asset('assets/images/arrow down.png',scale:4,),
+                              );
+                            }),
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
@@ -489,24 +499,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 Obx(() {
-                                  return SizedBox(
-                                      height: h * .04,
-                                      // width: 40,
-                                      child: FittedBox(
-                                          fit: BoxFit.fill,
-                                          child: Switch(
-                                            activeTrackColor: clrYellow,
-                                            value: controller.joinInstant.value,
-                                            onChanged: (val) {
-                                              controller.changejoinInstant();
-                                            },
-                                            activeColor: clrWhite,
-                                            focusColor: clrWhite,
-                                            inactiveThumbColor: clrWhite,
-                                            trackOutlineColor:
-                                                WidgetStateProperty.all(
-                                                    clrTransparent),
-                                          )));
+                                  return CustomSwitch(value: controller.joinInstant.value, onChanged: (p0) => controller.changejoinInstant(),);
                                 })
                               ],
                             ),

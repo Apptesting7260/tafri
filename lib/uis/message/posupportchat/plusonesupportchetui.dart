@@ -58,7 +58,7 @@ class PlusOneSupportChetUi extends GetWidget {
                   ],
                 ),
                 SizedBox(
-                  width: Get.width * 0.09,
+                  width: Get.width * 0.1,
                 )
               ],
             ),
@@ -196,40 +196,43 @@ class PlusOneSupportChetUi extends GetWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                    width: Get.width * 0.74,
-                    height: 50,
-                    child: CustoTextFormField(
-                      hintText: "Type your message",
-                      sufixIcon: InkWell(
-                          onTap: () async {
-                            final ImagePicker picker = ImagePicker();
-                            final XFile? photo = await picker.pickImage(
-                                source: ImageSource.camera);
-                          },
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: clrGrey,
-                          )),
-                    )),
-                // SizedBox(
-                //   width: Get.width * 0.005,
-                // ),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: clrYellow),
-                  child: Image.asset(
-                    "assets/icons/sendmsgicon.png",
-                    height: 22,
-                  ),
-                )
+                Flexible(
+                  child: SizedBox(
+                      width: double.maxFinite,
+                      height: 50,
+                      child: CustoTextFormField(
+                        hintText: "Type your message",
+                        sufixIcon: InkWell(
+                            onTap: () async {
+                              final ImagePicker picker = ImagePicker();
+                              final XFile? photo = await picker.pickImage(
+                                  source: ImageSource.camera);
+                            },
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: clrGrey,
+                            )),
+                      )),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Image.asset('assets/images/send.png',scale: 4,),
+                // Container(
+                //   padding: const EdgeInsets.all(12),
+                //   alignment: Alignment.center,
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(100),
+                //       color: clrYellow),
+                //   child: Image.asset(
+                //     "assets/icons/sendmsgicon.png",
+                //     height: 22,
+                //   ),
+                // )
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           )
         ],

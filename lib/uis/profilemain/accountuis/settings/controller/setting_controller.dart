@@ -14,4 +14,18 @@ class SettingController extends GetxController{
   changeAppleVal(){
     appleVal.value=!appleVal.value;
   }
+
+  var upcomingVisibility = false.obs;
+  var previousVisibility = false.obs;
+
+  changeUpcomingVisibility(){
+    upcomingVisibility.value = !upcomingVisibility.value;
+  }
+
+  changePreviousVisibility(){
+    previousVisibility.value = !previousVisibility.value;
+  }
+
+
+
 }

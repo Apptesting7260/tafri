@@ -70,7 +70,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
               children: [
                 Flexible(
                   child: SizedBox(
-                      height: Res.h_btn,
+                      height: Get.height*.07,
                       width: Get.width * 0.76,
                       child: const CustoTextFormField(
                         hintText: "Anywhere • any week",
@@ -84,17 +84,9 @@ class ExploreUi extends GetWidget<ExploreListController> {
                   onTap: () {
                     Get.toNamed(Routes.filterExploreUi);
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    margin: EdgeInsets.only(bottom: h * .006),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: clrBlacke),
-                    child: Image.asset(
-                      "assets/icons/filtericon.png",
-                      height: w * .07,
-                    ),
+                  child: Image.asset(
+                    "assets/images/filtericon.png",
+                    height: Get.height*.058,
                   ),
                 ),
               ],
@@ -180,8 +172,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                         () => Container(
                                           margin:
                                               const EdgeInsets.only(right: 7),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
+                                          padding: const EdgeInsets.only(left: 5,top: 1,bottom: 2,right: 10),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(100),
@@ -205,8 +196,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                           BorderRadius.circular(
                                                               100),
                                                       child: CachedNetworkImage(
-                                                        height: 24,
-                                                        width: 24,
+                                                        height: 30,
+                                                        width: 30,
                                                         fit: BoxFit.cover,
                                                         imageUrl:
                                                             '${categoryData?[index].icon}',

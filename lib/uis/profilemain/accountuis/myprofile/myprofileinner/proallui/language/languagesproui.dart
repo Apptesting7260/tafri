@@ -99,6 +99,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                                 }
                                 print('lan == ${controller.selectedLanguageID}');
                               }
+
                               if (value != null) {
                                 if (controller.selectedLanguageList
                                     .any((map) => map.containsValue(value))) {
@@ -120,7 +121,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                                   }
                                 }
                               }
-                              log('changing value to: $value');
+                              print('changing value to: ${controller.selectedLanguageList}');
                               cutoDropController.value = null;
                             },
                           ),
