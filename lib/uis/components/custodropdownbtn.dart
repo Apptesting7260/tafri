@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../utils/colors.dart';
 
 class CustoDropDownBtn extends StatefulWidget {
@@ -14,7 +12,19 @@ class CustoDropDownBtn extends StatefulWidget {
   final Color? hintColor;
   final Widget? suffix;
   final DropdownButtonBuilder? selectedItemBuilder;
-  const CustoDropDownBtn({super.key,required this.itemList,this.onchange,this.val,this.prefixIcon,required this.hindtext,this.backClr,this.borderClr, this.hintColor, this.suffix, this.selectedItemBuilder});
+
+  const CustoDropDownBtn(
+      {super.key,
+      required this.itemList,
+      this.onchange,
+      this.val,
+      this.prefixIcon,
+      required this.hindtext,
+      this.backClr,
+      this.borderClr,
+      this.hintColor,
+      this.suffix,
+      this.selectedItemBuilder});
 
   @override
   State<CustoDropDownBtn> createState() => _CustoDropDownBtnState();
@@ -23,46 +33,52 @@ class CustoDropDownBtn extends StatefulWidget {
 class _CustoDropDownBtnState extends State<CustoDropDownBtn> {
   @override
   Widget build(BuildContext context) {
+    dynamic dropdownValue = widget.val != null &&
+        widget.itemList.any((item) => item.value == widget.val)
+        ? widget.val
+        : null;
     return DropdownButtonFormField(
       // alignment: Alignment.center,
-      items: widget.itemList??[],
-      onChanged:widget.onchange,
-      value:widget.val ,
+      items: widget.itemList ?? [],
+      onChanged: widget.onchange,
+      value: dropdownValue,
       isExpanded: true,
       // isDense: true,
       hint: Align(
         alignment: Alignment.centerLeft,
-        child: Text(widget.hindtext??'',style: TextStyle(
-          color: widget.hintColor
-        )),
+        child: Text(widget.hindtext ?? '',
+            style: TextStyle(color: widget.hintColor)),
       ),
       icon: const SizedBox.shrink(),
       selectedItemBuilder: widget.selectedItemBuilder,
       decoration: InputDecoration(
-
         alignLabelWithHint: true,
-          prefixIcon: widget.prefixIcon,
-          suffixIcon: widget.suffix,
-          hintStyle: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: clrGreyTextLight),
-          contentPadding: const EdgeInsets.symmetric(
-              horizontal: 15, vertical: 15),
-          fillColor:widget.backClr?? clrGreyLight,
-          filled: true,
-          border:widget.borderClr!=null?OutlineInputBorder(
-              borderSide: BorderSide(color: widget.borderClr??clrBlacke),
-              borderRadius: BorderRadius.circular(30)) :OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(30)),
-        focusedBorder:widget.borderClr!=null? OutlineInputBorder(
-            borderSide: BorderSide(color: widget.borderClr??clrBlacke),
-            borderRadius: BorderRadius.circular(30)):null,
-        enabledBorder: widget.borderClr!=null? OutlineInputBorder(
-            borderSide: BorderSide(color: widget.borderClr??clrBlacke),
-            borderRadius: BorderRadius.circular(30)):null,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: widget.suffix,
+        hintStyle:
+            TextStyle(fontWeight: FontWeight.w400, color: clrGreyTextLight),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        fillColor: widget.backClr ?? clrGreyLight,
+        filled: true,
+        border: widget.borderClr != null
+            ? OutlineInputBorder(
+                borderSide: BorderSide(color: widget.borderClr ?? clrBlacke),
+                borderRadius: BorderRadius.circular(30))
+            : OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(30)),
+        focusedBorder: widget.borderClr != null
+            ? OutlineInputBorder(
+                borderSide: BorderSide(color: widget.borderClr ?? clrBlacke),
+                borderRadius: BorderRadius.circular(30))
+            : null,
+        enabledBorder: widget.borderClr != null
+            ? OutlineInputBorder(
+                borderSide: BorderSide(color: widget.borderClr ?? clrBlacke),
+                borderRadius: BorderRadius.circular(30))
+            : null,
       ),
-
     );
   }
 }

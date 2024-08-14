@@ -82,23 +82,6 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                             }).toList(),
                             excludeSelected: false,
                             onChanged: (value) {
-                              if (value != null) {
-                                var selectedLanguage = controller
-                                    .langListData.value.result
-                                    ?.firstWhere(
-                                        (language) => language.name == value);
-                                if (selectedLanguage != null) {
-                                  if (controller.selectedLanguageID
-                                      .contains(selectedLanguage.id)) {
-                                    // controller.selectedLanguageID
-                                    //     .remove(selectedLanguage.id);
-                                  } else {
-                                    controller.selectedLanguageID
-                                        .add(selectedLanguage.id.toString());
-                                  }
-                                }
-                                print('lan == ${controller.selectedLanguageID}');
-                              }
 
                               if (value != null) {
                                 if (controller.selectedLanguageList

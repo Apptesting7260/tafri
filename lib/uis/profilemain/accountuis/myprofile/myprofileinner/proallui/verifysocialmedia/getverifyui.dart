@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/custom_switch.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
 
@@ -85,28 +86,37 @@ class GetVerifyUi extends GetWidget<MyprofileInnController> {
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
-                                height: h * .044,
-                                child: FittedBox(child: Obx(() {
-                                  return Switch(
-                                    activeTrackColor: clrYellow,
-                                    value: controller.isInstaVerified.value == 1
-                                        ? true
-                                        : false,
-                                    onChanged: (val) {
-                                      controller.changeVerifyInsta(
-                                          controller.isInstaVerified.value == 1
-                                              ? 0
-                                              : 1);
-                                    },
-                                    activeColor: clrWhite,
-                                    focusColor: clrWhite,
-                                    inactiveThumbColor: clrWhite,
-                                    trackOutlineColor:
-                                        WidgetStateProperty.all(clrTransparent),
-                                    inactiveTrackColor: clrTrack,
-                                  );
-                                })))
+                            Obx(() {
+                              return CustomSwitch(
+                                value: controller.isInstaVerified.value == 1
+                                    ? true
+                                    : false,
+                                onChanged: (val) {
+                                  controller.changeVerifyInsta(
+                                      controller.isInstaVerified.value == 1
+                                          ? 0
+                                          : 1);
+                                },
+                              );
+                              //   Switch(
+                              //   activeTrackColor: clrYellow,
+                              //   value: controller.isInstaVerified.value == 1
+                              //       ? true
+                              //       : false,
+                              //   onChanged: (val) {
+                              //     controller.changeVerifyInsta(
+                              //         controller.isInstaVerified.value == 1
+                              //             ? 0
+                              //             : 1);
+                              //   },
+                              //   activeColor: clrWhite,
+                              //   focusColor: clrWhite,
+                              //   inactiveThumbColor: clrWhite,
+                              //   trackOutlineColor:
+                              //       WidgetStateProperty.all(clrTransparent),
+                              //   inactiveTrackColor: clrTrack,
+                              // );
+                            })
                           ],
                         ),
                       )
@@ -134,30 +144,39 @@ class GetVerifyUi extends GetWidget<MyprofileInnController> {
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
-                                height: h * .044,
-                                child: FittedBox(child: Obx(() {
-                                  return Switch(
-                                    activeTrackColor: clrYellow,
-                                    value:
-                                        controller.isLinkdinVerified.value == 1
-                                            ? true
-                                            : false,
-                                    onChanged: (val) {
-                                      controller.changeVerifyLinkdin(
-                                          controller.isLinkdinVerified.value ==
-                                                  1
-                                              ? 0
-                                              : 1);
-                                    },
-                                    activeColor: clrWhite,
-                                    trackOutlineColor:
-                                        WidgetStateProperty.all(clrTransparent),
-                                    focusColor: clrWhite,
-                                    inactiveThumbColor: clrWhite,
-                                    inactiveTrackColor: clrTrack,
-                                  );
-                                })))
+                            Obx(() {
+                              return CustomSwitch(
+                                value: controller.isLinkdinVerified.value == 1
+                                    ? true
+                                    : false,
+                                onChanged: (val) {
+                                  controller.changeVerifyLinkdin(
+                                      controller.isLinkdinVerified.value == 1
+                                          ? 0
+                                          : 1);
+                                },
+                              );
+                              //   Switch(
+                              //   activeTrackColor: clrYellow,
+                              //   value:
+                              //       controller.isLinkdinVerified.value == 1
+                              //           ? true
+                              //           : false,
+                              //   onChanged: (val) {
+                              //     controller.changeVerifyLinkdin(
+                              //         controller.isLinkdinVerified.value ==
+                              //                 1
+                              //             ? 0
+                              //             : 1);
+                              //   },
+                              //   activeColor: clrWhite,
+                              //   trackOutlineColor:
+                              //       WidgetStateProperty.all(clrTransparent),
+                              //   focusColor: clrWhite,
+                              //   inactiveThumbColor: clrWhite,
+                              //   inactiveTrackColor: clrTrack,
+                              // );
+                            })
                           ],
                         ),
                       )

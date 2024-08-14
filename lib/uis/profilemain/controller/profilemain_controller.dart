@@ -4,6 +4,7 @@ import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/model/profile_view_model.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProfilemainController extends GetxController{
   @override
@@ -11,6 +12,8 @@ class ProfilemainController extends GetxController{
     super.onInit();
     viewProfile();
   }
+
+  RefreshController refreshController = RefreshController(initialRefresh: false);
 
   final api = ApiServices();
 

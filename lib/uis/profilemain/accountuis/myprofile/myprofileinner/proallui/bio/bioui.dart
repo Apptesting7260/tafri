@@ -30,7 +30,12 @@ class BioUi extends GetWidget<MyprofileInnController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CommonUi.appBar(),
+                CommonUi.appBar(
+                  onTap: () {
+                    Get.back();
+                    Future.delayed(const Duration(milliseconds: 100),() => controller.bioController.text = profilemainController.profileData.value.result?.profile?.bio ?? '',);
+                  },
+                ),
                 const Text(
                   "Bio",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),

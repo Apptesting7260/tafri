@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 
@@ -12,6 +13,8 @@ class OccupationUi extends GetWidget<MyprofileInnController> {
   OccupationUi({super.key});
 
   final _formState = GlobalKey<FormState>();
+  final ProfilemainController profilemainController =
+  Get.find<ProfilemainController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,15 @@ class OccupationUi extends GetWidget<MyprofileInnController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CommonUi.appBar(),
+                CommonUi.appBar(
+                  onTap: () {
+                    Get.back();
+                    Future.delayed(const Duration(milliseconds: 100),(){
+                      controller.organiController.text = profilemainController.profileData.value.result?.profile?.organisationName ?? '';
+                      controller.ocupatController.text = profilemainController.profileData.value.result?.profile?.occupation ?? '';
+                    } ,);
+                  },
+                ),
                 const Text(
                   "Occupation",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),

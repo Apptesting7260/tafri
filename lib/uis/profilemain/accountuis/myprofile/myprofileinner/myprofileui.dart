@@ -263,7 +263,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
                                     Obx(() => Text(
-                                      "${profileController.profileData.value.result?.location}",
+                                      profileController.profileData.value.result?.location ?? '',
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: clrGreyTextLight),
@@ -659,18 +659,23 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     child: SizedBox(
                       height: Res.h_btn,
                       width: double.maxFinite,
-                      child: CustomElevatedButton(
-                          onTap: () {
-                            controller.myProfileSubmit();
-                          },
-                          backgroundClr: clrBlacke,
-                          child: Text(
-                            "Save",
-                            style: TextStyle(
-                                color: clrWhite,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          )),
+                      child: Obx(() => Opacity(
+                        opacity: controller.isLoadingProfile.value ? 0.5 : 1,
+                        child: CustomElevatedButton(
+                            onTap: () {
+                              if(!controller.isLoadingProfile.value) {
+                                controller.myProfileSubmit();
+                              }
+                            },
+                            backgroundClr: clrBlacke,
+                            child: controller.isLoadingProfile.value ? CommonUi.buttonLoading() : Text(
+                              "Save",
+                              style: TextStyle(
+                                  color: clrWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            )),
+                      ),),
                     ),
                   ),
                 ],
@@ -721,21 +726,21 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    profileController.profileData.value.result?.firstName != null ? SizedBox(
                       height: Get.height * 0.015,
-                    ),
+                    ) : CommonUi.emptySizeBox(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "${profileController.profileData.value.result?.firstName}",
+                          profileController.profileData.value.result?.firstName ?? '',
                           style: const TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18),
                         ),
                         const SizedBox(
                           width: 5,
                         ),
-                        InkWell(
+                        profileController.profileData.value.result?.firstName != null ? InkWell(
                             onTap: () {
                               verificationAlert();
                             },
@@ -743,17 +748,17 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                               Icons.verified,
                               color: clrYellow,
                               size: 16,
-                            ))
+                            )) : CommonUi.emptySizeBox()
                       ],
                     ),
-                    SizedBox(
+                    profileController.profileData.value.result?.firstName != null ? SizedBox(
                       height: Get.height * 0.008,
-                    ),
+                    ) : CommonUi.emptySizeBox(),
                     Center(
-                        child: Text(
-                      "${profileController.profileData.value.result?.age} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
+                        child: profileController.profileData.value.result?.firstName != null ? Text(
+                      "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
                       style: TextStyle(color: clrGreyTextLight, fontSize: 13),
-                    )),
+                    ) : CommonUi.emptySizeBox()),
                     SizedBox(
                       height: Get.height * 0.03,
                     ),
@@ -790,7 +795,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 //   },
                                 // ),
                                 Text(
-                                  '${profileController.profileData.value.result?.attendanceRate.toString()}',
+                                  '${profileController.profileData.value.result?.attendanceRate ?? 0}',
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -838,7 +843,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 //   },
                                 // ),
                                 Text(
-                                  '${profileController.profileData.value.result?.activitiesJoined.toString()}',
+                                  '${profileController.profileData.value.result?.activitiesJoined ?? 0}',
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -886,7 +891,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 //   },
                                 // ),
                                 Text(
-                                  '${profileController.profileData.value.result?.activitiesHosted.toString()}',
+                                  '${profileController.profileData.value.result?.activitiesHosted ?? 0}',
                                   style: TextStyle(
                                       color: clrYellowText.withOpacity(0.8),
                                       fontSize: 22,
@@ -948,7 +953,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Text(
-                              "${profileController.profileData.value.result?.location}",
+                              "${profileController.profileData.value.result?.location ?? ''}",
                               style: TextStyle(color: clrGreyTextLight)),
                         ],
                       ),
@@ -1086,7 +1091,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Fun facts about ${profileController.profileData.value.result?.firstName}",
+                            "Fun facts about ${profileController.profileData.value.result?.firstName ?? ''}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 15),
                           ),

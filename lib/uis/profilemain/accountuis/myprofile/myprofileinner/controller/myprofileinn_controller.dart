@@ -120,14 +120,10 @@ class MyprofileInnController extends GetxController
 
 ///************************************************language select code  ****************
   RxList selectedLanguageList = [].obs;
-  RxList selectedLanguageID = [].obs;
 
   removeSelectLan(index) {
     selectedLanguageList.removeAt(index);
-    selectedLanguageID.removeAt(index);
-    selectedLanguageID.reversed;
     selectedLanguageList.reversed;
-    print(selectedLanguageID);
   }
 
   Rx<bool> isShowLangReqError = false.obs;
@@ -163,14 +159,12 @@ class MyprofileInnController extends GetxController
           langListData.value = body;
           for(var i in langListData.value.result!){
             if(i.status == '1' && i.isSelected == true){
-              selectedLanguageID.add(i.id);
               selectedLanguageList.add({
                 'id': i.id,
                 "lang": i.name
               });
             }
           }
-          print('id == ${selectedLanguageID}');
           print('lang == ${selectedLanguageList}');
         } else {
           showTostMsg("Something went wrong");
@@ -203,7 +197,7 @@ class MyprofileInnController extends GetxController
           for (var activity in activityListData.value.result!) {
             if (activity.status == '1') {
               for (var subcategory in activity.subcategories!) {
-                if (subcategory.status == '1' && subcategory.isSelected == false) {
+                if (subcategory.status == '1' && subcategory.isSelected == true) {
                   String activityId = activity.id.toString();
                   String subcategoryId = subcategory.id.toString();
                   if (selectedActivity.containsKey(activityId)) {
@@ -306,10 +300,11 @@ class MyprofileInnController extends GetxController
 
 ///************************************************funfact ****************
   var funFactListDeta = [].obs;
-  var funFactListForApi = [].obs;
+  RxList<TextEditingController> textEditingList = <TextEditingController>[].obs;
+  Map<int, String> idToQuestionMap = {};
   RxList<DropdownMenuItem<int>> questionList = <DropdownMenuItem<int>>[].obs;
 
-  addFunFactDeta(String ques, String ans, String id) {
+  addFunFactDeta(String ques, String ans, int? id) {
     funFactListDeta.add({"question": ques, "answer": ans, "id": id});
   }
 
@@ -333,13 +328,16 @@ class MyprofileInnController extends GetxController
       if (response.statusCode == 200) {
         FunfactQuestModel body = FunfactQuestModel.fromJson(response.body);
         questionList.clear();
+        idToQuestionMap.clear();
         body.result?.forEach((e) {
+          idToQuestionMap[e.id!] = e.question!;
           questionList.add(DropdownMenuItem(
             value: e.id,
             child: Text(e.question.toString()),
           ));
         });
         print("questionList == ${questionList}");
+        print('question map == ${idToQuestionMap}');
         if (body.status == true) {
           funFactQuetionList.value = body;
           for(var i in funFactQuetionList.value.result!){
@@ -350,8 +348,10 @@ class MyprofileInnController extends GetxController
                 "id": i.id
               });
             }
+            textEditingList.add(TextEditingController(text: i.answer ?? ''));
           }
           print('selected ques == ${funFactListDeta}');
+          print('controller == ${textEditingList}');
         } else {
           debugPrint("error=funfact statu false");
           showTostMsg("Something went wrong");
@@ -381,14 +381,26 @@ class MyprofileInnController extends GetxController
       request.fields['bio'] = bioController.value.text.trim();
       request.fields['occupation'] = ocupatController.value.text.trim();
       request.fields['organisation_name'] = organiController.value.text.trim();
-      request.fields['language_id'] = jsonEncode(selectedLanguageID);
+      request.fields['language_id'] = jsonEncode(selectedLanguageList.map((element) => element['id'].toString(),).toList());
       if (addPhotoController.selectedImage.value != null) {
         request.files.add(await http.MultipartFile.fromPath(
             "profile_photo", addPhotoController.selectedImage.value!.path));
       }
+      request.fields["fun_facts_about_me"] = jsonEncode(funFactListDeta.map((element){
+        return {
+          "question": element['id'].toString(),
+          "answer": element['answer'].toString()
+        };
+      }).toList());
       request.fields['verify_instagram'] = jsonEncode(isInstaVerified.value);
       request.fields['verify_linkedin'] = jsonEncode(isLinkdinVerified.value);
-      print('send data ==  ${jsonEncode(int.parse(uid.toString()))} ==  ${bioController.value.text.trim()} == ${ocupatController.value.text.trim()} == ${organiController.value.text.trim()} == ${jsonEncode(selectedLanguageID)} == ${jsonEncode(isLinkdinVerified.value)} == ${jsonEncode(isInstaVerified.value)}');
+      request.fields['activity_interests'] = jsonEncode(selectedActivity);
+      print('send data ==  ${jsonEncode(int.parse(uid.toString()))} ==  ${bioController.value.text.trim()} == ${ocupatController.value.text.trim()} == ${organiController.value.text.trim()} == ${jsonEncode(selectedLanguageList.map((element) => element['id'].toString(),).toList())} == ${jsonEncode(isLinkdinVerified.value)} == ${jsonEncode(isInstaVerified.value)} == ${jsonEncode(funFactListDeta.map((element){
+        return {
+          "question": element['id'].toString(),
+          "answer": element['answer'].toString()
+        };
+      }).toList())} == ${jsonEncode(selectedActivity)}');
       var responseRes = await request.send();
       var resDeta = await responseRes.stream.toBytes();
       var responseString = String.fromCharCodes(resDeta);
