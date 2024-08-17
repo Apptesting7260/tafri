@@ -27,36 +27,39 @@ class ExploreViewController extends GetxController{
     Future.delayed(Duration.zero,(){
       Get.dialog(AlertDialog(
         scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        contentPadding: const EdgeInsets.symmetric(vertical: 22),
         content: SizedBox(
           width: double.maxFinite,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: const Icon(
-                        Icons.close,
-                        size: 25,
-                      )),
-                  const Flexible(
-                    child: Text(
-                      "Add a message",
-                      style: TextStyle(fontSize: 19
-                          , fontWeight: FontWeight.w800),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          size: 25,
+                        )),
+                    const Flexible(
+                      child: Text(
+                        "Add a message",
+                        style: TextStyle(fontSize: 19
+                            , fontWeight: FontWeight.w800),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 1,
-                  ),
-                ],
+                    const SizedBox(
+                      width: 1,
+                    ),
+                  ],
+                ),
               ),
                 SizedBox(
                 height: Get.height*.02,
@@ -67,18 +70,31 @@ class ExploreViewController extends GetxController{
                 SizedBox(
                 height: Get.height*.014,
               ),
-              const Text("Say hi to the host and share your interests in the activity. A personal touch makes all the difference! ",style: TextStyle(fontSize: 12),),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text("Say hi to the host and share your interests in the activity. A personal touch makes all the difference! ",style: TextStyle(fontSize: 12),),
+              ),
 
                 SizedBox(
                 height: Get.height*.014,
               ),
-              const CustoTextFormField(hintText: "Hi! I’d like to join you for...",maxLines: 5,),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: CustoTextFormField(
+                  hintText: "Hi! I’d like to join you for...",
+                  maxLines: 4,
+                  borderRadius: 15,
+                ),
+              ),
                 SizedBox(
                 height:  Get.height*.024,
               ),
-              SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
-                Get.back();
-              }, backgroundClr: clrBlacke, child: Text("Send Request",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
+                  Get.back();
+                }, backgroundClr: clrBlacke, child: Text("Send Request",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+              ),
                 SizedBox(
                 height:  Get.height*.014,
               ),
@@ -93,7 +109,7 @@ class ExploreViewController extends GetxController{
   alertRequestAccepted() {
     Get.dialog(AlertDialog(
       scrollable: true,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
       content: SizedBox(
         width: double.maxFinite,
@@ -135,7 +151,7 @@ class ExploreViewController extends GetxController{
   alertRequestNotAccepted() {
     Get.dialog(AlertDialog(
       scrollable: true,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
       content: SizedBox(
         width: double.maxFinite,
@@ -146,7 +162,7 @@ class ExploreViewController extends GetxController{
               SizedBox(
               height: Get.height*.007,
             ),
-            InkWell(onTap: (){Get.back();},child: Icon(Icons.close)),
+            InkWell(onTap: (){Get.back();},child: const Icon(Icons.close)),
             Center(child: Image.asset("assets/icons/iicon.png",height: 65,)),
               SizedBox(
               height: Get.height*.02,

@@ -133,8 +133,8 @@ class MyprofileInnController extends GetxController
   }
 
 ///************************************************Get verified code****************
-  Rx<int> isInstaVerified = 0.obs;
-  Rx<int> isLinkdinVerified = 0.obs;
+  Rx<int> isInstaVerified = (profileController.profileData.value.result?.profile?.verifyInstagram == null ? 0 : int.parse(profileController.profileData.value.result?.profile?.verifyInstagram)).obs;
+  Rx<int> isLinkdinVerified = (profileController.profileData.value.result?.profile?.verifyLinkedin == null ? 0 : int.parse(profileController.profileData.value.result?.profile?.verifyLinkedin)).obs;
 
   changeVerifyInsta(val) {
     isInstaVerified.value = val;
@@ -168,8 +168,10 @@ class MyprofileInnController extends GetxController
           print('lang == ${selectedLanguageList}');
         } else {
           showTostMsg("Something went wrong");
+          print('lang error ==');
         }
       } else {
+        print('lang error =');
         showTostMsg("Something went wrong");
       }
     } catch (e) {
@@ -230,9 +232,11 @@ class MyprofileInnController extends GetxController
 
           debugPrint("gk=====activity listdeta=${response.body}");
         } else {
+          print('act error ==');
           showTostMsg("Something went wrong");
         }
       } else {
+        print('act error');
         showTostMsg("Something went wrong");
       }
     } catch (e) {
@@ -353,6 +357,7 @@ class MyprofileInnController extends GetxController
           print('selected ques == ${funFactListDeta}');
           print('controller == ${textEditingList}');
         } else {
+          print('fun error ==');
           debugPrint("error=funfact statu false");
           showTostMsg("Something went wrong");
         }
@@ -381,6 +386,7 @@ class MyprofileInnController extends GetxController
       request.fields['bio'] = bioController.value.text.trim();
       request.fields['occupation'] = ocupatController.value.text.trim();
       request.fields['organisation_name'] = organiController.value.text.trim();
+      request.fields['location'] = locController.value.text.trim();
       request.fields['language_id'] = jsonEncode(selectedLanguageList.map((element) => element['id'].toString(),).toList());
       if (addPhotoController.selectedImage.value != null) {
         request.files.add(await http.MultipartFile.fromPath(
@@ -400,7 +406,7 @@ class MyprofileInnController extends GetxController
           "question": element['id'].toString(),
           "answer": element['answer'].toString()
         };
-      }).toList())} == ${jsonEncode(selectedActivity)}');
+      }).toList())} == ${jsonEncode(selectedActivity)} == ${locController.value.text.trim()}');
       var responseRes = await request.send();
       var resDeta = await responseRes.stream.toBytes();
       var responseString = String.fromCharCodes(resDeta);
@@ -408,11 +414,13 @@ class MyprofileInnController extends GetxController
       log("gk===responseString profile=${responseString}");
       var jsonResponse = jsonDecode(responseString);
       if (responseRes.statusCode == 200) {
+        await profileController.viewProfile();
         showTostMsg("${jsonResponse['message']}");
-      }
-      if (responseRes.statusCode == 401) {
+      } else if (responseRes.statusCode == 401) {
         showTostMsg("${jsonResponse['message']}");
+        print('submit error ==');
       } else {
+        print('submit error');
         showTostMsg("Something went wrong");
       }
     } catch (e) {

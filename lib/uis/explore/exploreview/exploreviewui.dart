@@ -10,6 +10,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../components/custotextfield.dart';
@@ -25,31 +26,32 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+          padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
-               SizedBox(
-                height: h*.01,
+               const SizedBox(
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      width: 40,
-                      height: 40,
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                          color: clrGreyLight,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Center(child: Icon(Icons.arrow_back_ios)),
-                    ),
-                  ),
+                  CommonUi.appBar(),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Get.back();
+                  //   },
+                  //   child: Container(
+                  //     clipBehavior: Clip.hardEdge,
+                  //     width: 40,
+                  //     height: 40,
+                  //     padding:
+                  //     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  //     decoration: BoxDecoration(
+                  //         color: clrGreyLight,
+                  //         borderRadius: BorderRadius.circular(10)),
+                  //     child: const Center(child: Icon(Icons.arrow_back_ios)),
+                  //   ),
+                  // ),
                   const Text("Activity",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
                   Row(
                     children: [
@@ -101,7 +103,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                 ],
               ),
               SizedBox(
-                height: Get.height*0.01,
+                height: Get.height*0.02,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -182,7 +184,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
-                                margin: EdgeInsets.only(bottom: 7),
+                                margin: const EdgeInsets.only(bottom: 7),
                                 height: 16,
                                 child: ListView.builder(
                                     itemCount: 3,

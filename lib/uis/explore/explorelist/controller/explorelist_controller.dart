@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -9,18 +7,28 @@ import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/explore/explorelist/model/home_page_model.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
-import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
 
 class ExploreListController extends GetxController {
 
+  ScrollController scrollController = ScrollController();
+  RxBool showRefreshIndicator = true.obs;
 
   @override
   void onInit() {
     super.onInit();
     homePageApi();
+    scrollController.addListener(() {
+      double currentScrollOffset = scrollController.offset;
+      if (currentScrollOffset <= 0) {
+        Future.delayed(const Duration(seconds: 1),() => showRefreshIndicator.value = true);
+      } else {
+        showRefreshIndicator.value = false;
+      }
+      print('ref == ${showRefreshIndicator.value}');
+    });
   }
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
@@ -94,62 +102,62 @@ class ExploreListController extends GetxController {
     isReqSent.value = intval;
   }
 
-  RxList<Map> exploreListData = [
-    {
-      "img": ["assets/images/cofee.png", "assets/images/cofee.png"],
-      "lable": "Coffee",
-      "isFav": false,
-      "title": "Picnic in the park",
-      "location": "Vondelpark",
-      "time": "13 March 2024 | 2:30 PM - 6:00PM",
-      "poststotal": "3",
-      "leftposts": "2",
-      "hostname": "Jenny",
-      "hostImg": "assets/images/girldp.png",
-      "des":
-          "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
-      "controller": CarouselController(),
-      "currentCroIndex": 0,
-    },
-    {
-      "img": ["assets/images/cofee.png"],
-      "lable": "Coffee",
-      "isFav": false,
-      "title": "Picnic in the park",
-      "location": "Vondelpark",
-      "time": "13 March 2024 | 2:30 PM - 6:00PM",
-      "poststotal": "3",
-      "leftposts": "2",
-      "hostname": "Jenny",
-      "hostImg": "assets/images/girldp.png",
-      "des":
-          "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
-      "controller": CarouselController(),
-      "currentCroIndex": 0,
-    },
-    {
-      "img": ["assets/images/cofee.png"],
-      "lable": "Coffee",
-      "isFav": false,
-      "title": "Picnic in the park",
-      "location": "Vondelpark",
-      "time": "13 March 2024 | 2:30 PM - 6:00PM",
-      "poststotal": "3",
-      "leftposts": "2",
-      "hostname": "Jenny",
-      "hostImg": "assets/images/girldp.png",
-      "des":
-          "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
-      "controller": CarouselController(),
-      "currentCroIndex": 0,
-    },
-  ].obs;
+  // RxList<Map> exploreListData = [
+  //   {
+  //     "img": ["assets/images/cofee.png", "assets/images/cofee.png"],
+  //     "lable": "Coffee",
+  //     "isFav": false,
+  //     "title": "Picnic in the park",
+  //     "location": "Vondelpark",
+  //     "time": "13 March 2024 | 2:30 PM - 6:00PM",
+  //     "poststotal": "3",
+  //     "leftposts": "2",
+  //     "hostname": "Jenny",
+  //     "hostImg": "assets/images/girldp.png",
+  //     "des":
+  //         "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
+  //     "controller": CarouselController(),
+  //     "currentCroIndex": 0,
+  //   },
+  //   {
+  //     "img": ["assets/images/cofee.png"],
+  //     "lable": "Coffee",
+  //     "isFav": false,
+  //     "title": "Picnic in the park",
+  //     "location": "Vondelpark",
+  //     "time": "13 March 2024 | 2:30 PM - 6:00PM",
+  //     "poststotal": "3",
+  //     "leftposts": "2",
+  //     "hostname": "Jenny",
+  //     "hostImg": "assets/images/girldp.png",
+  //     "des":
+  //         "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
+  //     "controller": CarouselController(),
+  //     "currentCroIndex": 0,
+  //   },
+  //   {
+  //     "img": ["assets/images/cofee.png"],
+  //     "lable": "Coffee",
+  //     "isFav": false,
+  //     "title": "Picnic in the park",
+  //     "location": "Vondelpark",
+  //     "time": "13 March 2024 | 2:30 PM - 6:00PM",
+  //     "poststotal": "3",
+  //     "leftposts": "2",
+  //     "hostname": "Jenny",
+  //     "hostImg": "assets/images/girldp.png",
+  //     "des":
+  //         "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
+  //     "controller": CarouselController(),
+  //     "currentCroIndex": 0,
+  //   },
+  // ].obs;
 
-  changeFav(index) {
-    exploreListData.value[index]['isFav'] =
-        !exploreListData.value[index]['isFav'];
-    exploreListData.refresh();
-  }
+  // changeFav(index) {
+  //   exploreListData.value[index]['isFav'] =
+  //       !exploreListData.value[index]['isFav'];
+  //   exploreListData.refresh();
+  // }
 
   changeIndicator(index, currentIndex) {
     homeData.value.result!.activities?[index].circleIndex?.value = currentIndex;

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
@@ -73,7 +72,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                       height: Get.height*.07,
                       width: Get.width * 0.76,
                       child: const CustoTextFormField(
-                        hintText: "Anywhere • any week",
+                        // hintText: "Anywhere • any week",
+                        hintText: 'Any activity',
                         sufixIcon: Icon(Icons.search),
                       )),
                 ),
@@ -124,8 +124,9 @@ class ExploreUi extends GetWidget<ExploreListController> {
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            SizedBox(
-                              height: h * .048,
+                            Container(
+                              // color: clrYellow,
+                              height: h * .046,
                               child: ListView.builder(
                                   padding: EdgeInsets.only(
                                       left: Res.Defalt_side_margin),
@@ -172,7 +173,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                         () => Container(
                                           margin:
                                               const EdgeInsets.only(right: 7),
-                                          padding: const EdgeInsets.only(left: 4.5,top: 4,bottom: 4,right: 10),
+                                          padding: const EdgeInsets.only(left: 5,top: 0,bottom: 0,right: 10),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(100),
@@ -196,8 +197,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                           BorderRadius.circular(
                                                               100),
                                                       child: CachedNetworkImage(
-                                                        height: 29,
-                                                        width: 29,
+                                                        height: 28,
+                                                        width: 28,
                                                         fit: BoxFit.cover,
                                                         imageUrl:
                                                             '${categoryData?[index].icon}',
@@ -246,6 +247,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                         controller.refreshController
                                             .refreshCompleted();
                                       },
+                                      enablePullDown: controller.showRefreshIndicator.value,
                                       header: WaterDropMaterialHeader(
                                         color: clrWhite,
                                         backgroundColor: clrYellow,
@@ -262,10 +264,11 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                       .where(
                                                         (element) =>
                                                             element.status ==
-                                                            '1',
+                                                            'approved',
                                                       )
                                                       .isNotEmpty
                                                   ? ListView.builder(
+                                            controller: controller.scrollController,
                                                       itemCount: controller
                                                           .homeData
                                                           .value
@@ -273,7 +276,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                           ?.activities
                                                           ?.where((activity) =>
                                                               activity.status ==
-                                                              '1')
+                                                              'approved')
                                                           .length,
                                                       shrinkWrap: true,
                                                       itemBuilder:
@@ -286,7 +289,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                             ?.where((activity) =>
                                                                 activity
                                                                     .status ==
-                                                                '1')
+                                                                'approved')
                                                             .toList();
                                                         return InkWell(
                                                           onTap: () {

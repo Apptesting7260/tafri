@@ -72,613 +72,789 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
             Expanded(
                 child:
                     TabBarView(controller: controller.tabController, children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        SizedBox(
-                          height: h * .035,
-                        ),
-                        SizedBox(
-                          child: Center(
-                            child: Stack(
-                              clipBehavior: Clip.none,
+              Obx(
+                () => profileController.profileLoading.value
+                    ? Center(
+                        child: CommonUi.scaffoldLoading(color: clrYellow),
+                      )
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: ListView(
                               children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: h * .135,
-                                      width: h * .135,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          color: clrGreyLight),
-                                      child: profileController.profileData.value
-                                                  .result?.profile ==
-                                              null || profileController.profileData.value
-                                          .result?.profile?.profilePhoto == null
-                                          ? Image.asset(
-                                              "assets/icons/manicon.png",
-                                              color: clrGrey,
-                                            )
-                                          : CachedNetworkImage(
-                                              imageUrl:
-                                                  '${profileController.profileData.value.result?.profile?.profilePhoto}'),
-                                    ),
-                                    SizedBox(
-                                      height: h * .02,
-                                    )
-                                  ],
+                                SizedBox(
+                                  height: h * .035,
                                 ),
-                                Positioned(
-                                  bottom: 0,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(
-                                        width: w * .04,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Get.toNamed(Routes.addPhotoProUi);
-                                        },
-                                        child: Container(
-                                          // height: 100,
-                                          // width: 100,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 4),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: clrYellow),
+                                SizedBox(
+                                  child: Center(
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Container(
+                                              height: h * .14,
+                                              width: w * .29,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  color: clrGreyLight),
+                                              child: profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile ==
+                                                          null ||
+                                                      profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile
+                                                              ?.profilePhoto ==
+                                                          null
+                                                  ? Image.asset(
+                                                      "assets/icons/manicon.png",
+                                                      color: clrGrey,
+                                                    )
+                                                  : ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            '${profileController.profileData.value.result?.profile?.profilePhoto}',
+                                                        fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          child: Container(
+                                                            height: h * .14,
+                                                            width: w * .29,
+                                                            color: clrGreyLight,
+                                                            child: Image.asset(
+                                                                'assets/icons/manicon.png',
+                                                                color: clrGrey),
+                                                          ),
+                                                        ),
+                                                        placeholder: (context, url) => Shimmer.fromColors(
+                                                            baseColor: grey300,
+                                                            highlightColor: grey100,
+                                                            child: ClipRRect(
+                                                              borderRadius: BorderRadius.circular(100),
+                                                              child: Container(
+                                                                height: h * .14,
+                                                                width: w * .29,
+                                                                color: clrGrey,
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                            ),
+                                            SizedBox(
+                                              height: h * .02,
+                                            )
+                                          ],
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          left: w*0.01,
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Icon(
-                                                Icons.camera_alt,
-                                                color: clrWhite,
+                                              SizedBox(
+                                                width: w * .04,
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(
+                                                      Routes.addPhotoProUi);
+                                                },
+                                                child: Container(
+                                                  // height: 100,
+                                                  // width: 100,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      color: clrYellow),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.camera_alt,
+                                                        color: clrWhite,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "Add",
+                                                        style: TextStyle(
+                                                            color: clrWhite),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                               const SizedBox(
                                                 width: 5,
                                               ),
-                                              Text(
-                                                "Add",
-                                                style:
-                                                    TextStyle(color: clrWhite),
-                                              )
+                                              profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile ==
+                                                          null ||
+                                                      profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile
+                                                              ?.profilePhoto ==
+                                                          null
+                                                  ? Image.asset(
+                                                      "assets/icons/dangericon.png",
+                                                      height: 15,
+                                                    )
+                                                  : CommonUi.emptySizeBox(),
                                             ],
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      profileController.profileData.value.result
-                                                  ?.profile ==
-                                              null
-                                          ? Image.asset(
-                                              "assets/icons/dangericon.png",
-                                              height: 15,
-                                            )
-                                          : CommonUi.emptySizeBox(),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .04,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.bioUi);
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: clrGreyLight),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Bio",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Obx(() => Text(
-                                      profileController.profileData.value.result
-                                          ?.profile?.bio ==
-                                          null
-                                          ? "Add a short bio (Optional)"
-                                          : '${profileController.profileData.value.result?.profile?.bio}',
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: clrGreyTextLight),
-                                    ),)
-                                  ],
-                                )),
                                 SizedBox(
-                                  width: w * .05,
+                                  height: Get.height * .04,
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    profileController.profileData.value.result
-                                                    ?.profile ==
-                                                null ||
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.bioUi);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: clrGreyLight),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Bio",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Obx(
+                                              () => Text(
+                                                profileController
+                                                            .profileData
+                                                            .value
+                                                            .result
+                                                            ?.profile
+                                                            ?.bio ==
+                                                        null
+                                                    ? "Add a short bio (Optional)"
+                                                    : '${profileController.profileData.value.result?.profile?.bio}',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: clrGreyTextLight),
+                                              ),
+                                            )
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: w * .05,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
                                             profileController.profileData.value
-                                                    .result?.profile?.bio ==
-                                                null
-                                        ? Image.asset(
-                                            "assets/icons/dangericon.png",
-                                            height: 17,
-                                          )
-                                        : CommonUi.emptySizeBox(),
-                                    SizedBox(
-                                      width: w * .02,
+                                                            .result?.profile ==
+                                                        null ||
+                                                    profileController
+                                                            .profileData
+                                                            .value
+                                                            .result
+                                                            ?.profile
+                                                            ?.bio ==
+                                                        null
+                                                ? Image.asset(
+                                                    "assets/icons/dangericon.png",
+                                                    height: 17,
+                                                  )
+                                                : CommonUi.emptySizeBox(),
+                                            SizedBox(
+                                              width: w * .02,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/arrow right.png',
+                                              height: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Image.asset(
-                                      'assets/icons/arrow right.png',
-                                      height: 14,
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .018,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.locationProUi);
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: clrGreyLight),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Location",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Obx(() => Text(
-                                      profileController.profileData.value.result?.location ?? '',
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: clrGreyTextLight),
-                                    ),),
-                                  ],
-                                )),
-                                SizedBox(
-                                  width: w * .05,
+                                  ),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Image.asset("assets/icons/dangericon.png",height: 25,),
-                                    // SizedBox(
-                                    //   width: 5,
-                                    // ),
-                                    Image.asset(
-                                      'assets/icons/arrow right.png',
-                                      height: 14,
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .018,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.occupationProUi);
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: clrGreyLight),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Occupation",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Text(
-                                      profileController.profileData.value.result
-                                                  ?.profile?.occupation ==
-                                              null
-                                          ? "Add your occupation"
-                                          : '${profileController.profileData.value.result?.profile?.occupation}',
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: clrGreyTextLight),
-                                    ),
-                                  ],
-                                )),
                                 SizedBox(
-                                  width: w * .05,
+                                  height: Get.height * .018,
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    profileController.profileData.value.result
-                                                    ?.profile ==
-                                                null ||
-                                            profileController
-                                                    .profileData
-                                                    .value
-                                                    .result
-                                                    ?.profile
-                                                    ?.occupation ==
-                                                null
-                                        ? Image.asset(
-                                            "assets/icons/dangericon.png",
-                                            height: 17,
-                                          )
-                                        : CommonUi.emptySizeBox(),
-                                    SizedBox(
-                                      width: w * .02,
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.locationProUi);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: clrGreyLight),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Location",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Obx(
+                                              () => Text(
+                                                profileController
+                                                        .profileData
+                                                        .value
+                                                        .result
+                                                        ?.location ??
+                                                    '',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: clrGreyTextLight),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: w * .05,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            // Image.asset("assets/icons/dangericon.png",height: 25,),
+                                            // SizedBox(
+                                            //   width: 5,
+                                            // ),
+                                            Image.asset(
+                                              'assets/icons/arrow right.png',
+                                              height: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Image.asset(
-                                      'assets/icons/arrow right.png',
-                                      height: 14,
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .018,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.languageProUi);
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: clrGreyLight),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Languages",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Text(
-                                      profileController.profileData.value.result
-                                                  ?.profile?.languageNames ==
-                                              null
-                                          ? "Select languages you speak"
-                                          : '${profileController.profileData.value.result?.profile?.languageNames}',
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: clrGreyTextLight),
-                                    ),
-                                  ],
-                                )),
+                                  ),
+                                ),
                                 SizedBox(
-                                  width: w * .05,
+                                  height: Get.height * .018,
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    profileController.profileData.value.result
-                                                ?.profile ==
-                                            null
-                                        ? Image.asset(
-                                            "assets/icons/dangericon.png",
-                                            height: 17,
-                                          )
-                                        : CommonUi.emptySizeBox(),
-                                    SizedBox(
-                                      width: w * .02,
-                                    ),
-                                    Image.asset(
-                                      'assets/icons/arrow right.png',
-                                      height: 14,
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .018,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.activityInterestUi);
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: clrGreyLight),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Activity interests",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Text(
-                                      profileController.profileData.value.result
-                                                  ?.profile?.activityTitles ==
-                                              null
-                                          ? "Add 3-10 activities"
-                                          : 'Click to adjust.',
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: clrGreyTextLight),
-                                    ),
-                                  ],
-                                )),
-                                SizedBox(
-                                  width: w * .05,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    profileController.profileData.value.result
-                                                    ?.profile ==
-                                                null ||
-                                            profileController
-                                                    .profileData
-                                                    .value
-                                                    .result
-                                                    ?.profile
-                                                    ?.activityTitles ==
-                                                null
-                                        ? Image.asset(
-                                            "assets/icons/dangericon.png",
-                                            height: 17,
-                                          )
-                                        : CommonUi.emptySizeBox(),
-                                    SizedBox(
-                                      width: w * .02,
-                                    ),
-                                    Image.asset(
-                                      'assets/icons/arrow right.png',
-                                      height: 14,
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .018,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.funfactProUi);
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: clrGreyLight),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Fun facts about me ",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Text(
-                                      profileController.profileData.value.result
-                                                  ?.profile?.funFactsAboutMe ==
-                                              null
-                                          ? "Select 1-3 questions"
-                                          : '',
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: clrGreyTextLight),
-                                    ),
-                                  ],
-                                )),
-                                SizedBox(
-                                  width: w * .05,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    profileController.profileData.value.result
-                                                    ?.profile ==
-                                                null ||
-                                            profileController
-                                                    .profileData
-                                                    .value
-                                                    .result
-                                                    ?.profile
-                                                    ?.funFactsAboutMe ==
-                                                null
-                                        ? Image.asset(
-                                            "assets/icons/dangericon.png",
-                                            height: 17,
-                                          )
-                                        : CommonUi.emptySizeBox(),
-                                    SizedBox(
-                                      width: w * .02,
-                                    ),
-                                    Image.asset(
-                                      'assets/icons/arrow right.png',
-                                      height: 14,
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .018,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.verifySocialMedProUi);
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: clrGreyLight),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Verify your social media",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Text(
-                                      profileController
-                                                      .profileData
-                                                      .value
-                                                      .result
-                                                      ?.profile
-                                                      ?.verifyInstagram ==
-                                                  null ||
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.occupationProUi);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: clrGreyLight),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Occupation",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Text(
                                               profileController
-                                                      .profileData
-                                                      .value
-                                                      .result
-                                                      ?.profile
-                                                      ?.verifyLinkedin ==
-                                                  null
-                                          ? "Click to verify (Optional)"
-                                          : 'Verified.',
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: clrGreyTextLight),
+                                                          .profileData
+                                                          .value
+                                                          .result
+                                                          ?.profile
+                                                          ?.occupation ==
+                                                      null
+                                                  ? "Add your occupation"
+                                                  : '${profileController.profileData.value.result?.profile?.occupation}',
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: clrGreyTextLight),
+                                            ),
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: w * .05,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            profileController.profileData.value
+                                                            .result?.profile ==
+                                                        null ||
+                                                    profileController
+                                                            .profileData
+                                                            .value
+                                                            .result
+                                                            ?.profile
+                                                            ?.occupation ==
+                                                        null
+                                                ? Image.asset(
+                                                    "assets/icons/dangericon.png",
+                                                    height: 17,
+                                                  )
+                                                : CommonUi.emptySizeBox(),
+                                            SizedBox(
+                                              width: w * .02,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/arrow right.png',
+                                              height: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                  ],
-                                )),
-                                SizedBox(
-                                  width: w * .05,
+                                  ),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    profileController.profileData.value.result
-                                                ?.profile ==
-                                            null
-                                        ? Image.asset(
-                                            "assets/icons/dangericon.png",
-                                            height: 17,
-                                          )
-                                        : CommonUi.emptySizeBox(),
-                                    SizedBox(
-                                      width: w * .02,
+                                SizedBox(
+                                  height: Get.height * .018,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.languageProUi);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: clrGreyLight),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Languages",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            profileController
+                                                        .profileData
+                                                        .value
+                                                        .result
+                                                        ?.profile
+                                                        ?.languageNames ==
+                                                    null
+                                                ? Text(
+                                                    "Select languages you speak",
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color:
+                                                            clrGreyTextLight),
+                                                  )
+                                                : Container(
+                                                    height: 20,
+                                                    child: ListView.separated(
+                                                        shrinkWrap: true,
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return Text(
+                                                              profileController
+                                                                  .profileData
+                                                                  .value
+                                                                  .result!
+                                                                  .profile!
+                                                                  .languageNames![
+                                                                      index]
+                                                                  .toString());
+                                                        },
+                                                        separatorBuilder:
+                                                            (context, index) {
+                                                          return const Text(
+                                                              ', ');
+                                                        },
+                                                        itemCount:
+                                                            profileController
+                                                                    .profileData
+                                                                    .value
+                                                                    .result!
+                                                                    .profile!
+                                                                    .languageNames
+                                                                    ?.length ??
+                                                                0),
+                                                  )
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: w * .05,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            profileController.profileData.value
+                                                        .result?.profile ==
+                                                    null
+                                                ? Image.asset(
+                                                    "assets/icons/dangericon.png",
+                                                    height: 17,
+                                                  )
+                                                : CommonUi.emptySizeBox(),
+                                            SizedBox(
+                                              width: w * .02,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/arrow right.png',
+                                              height: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Image.asset(
-                                      'assets/icons/arrow right.png',
-                                      height: 14,
-                                    )
-                                  ],
-                                )
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * .018,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.activityInterestUi);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: clrGreyLight),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Activity interests",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Text(
+                                              profileController
+                                                          .profileData
+                                                          .value
+                                                          .result
+                                                          ?.profile
+                                                          ?.activityTitles ==
+                                                      null
+                                                  ? "Add 3-10 activities"
+                                                  : 'Click to adjust.',
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: clrGreyTextLight),
+                                            ),
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: w * .05,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            profileController.profileData.value
+                                                            .result?.profile ==
+                                                        null ||
+                                                    profileController
+                                                            .profileData
+                                                            .value
+                                                            .result
+                                                            ?.profile
+                                                            ?.activityTitles ==
+                                                        null
+                                                ? Image.asset(
+                                                    "assets/icons/dangericon.png",
+                                                    height: 17,
+                                                  )
+                                                : CommonUi.emptySizeBox(),
+                                            SizedBox(
+                                              width: w * .02,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/arrow right.png',
+                                              height: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * .018,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.funfactProUi);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: clrGreyLight),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Fun facts about me ",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Text(
+                                              profileController
+                                                          .profileData
+                                                          .value
+                                                          .result
+                                                          ?.profile
+                                                          ?.funFactsAboutMe ==
+                                                      null
+                                                  ? "Select 1-3 questions"
+                                                  : '${profileController.profileData.value.result?.profile?.funFactsAboutMe?[0].question}',
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: clrGreyTextLight),
+                                            ),
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: w * .05,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            profileController.profileData.value
+                                                            .result?.profile ==
+                                                        null ||
+                                                    profileController
+                                                            .profileData
+                                                            .value
+                                                            .result
+                                                            ?.profile
+                                                            ?.funFactsAboutMe ==
+                                                        null
+                                                ? Image.asset(
+                                                    "assets/icons/dangericon.png",
+                                                    height: 17,
+                                                  )
+                                                : CommonUi.emptySizeBox(),
+                                            SizedBox(
+                                              width: w * .02,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/arrow right.png',
+                                              height: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * .018,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.verifySocialMedProUi);
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: clrGreyLight),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                                "Verify your social media",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            Text(
+                                              profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile
+                                                              ?.verifyInstagram ==
+                                                          null ||
+                                                      profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile
+                                                              ?.verifyLinkedin ==
+                                                          null ||
+                                                      profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile
+                                                              ?.verifyInstagram ==
+                                                          "0" ||
+                                                      profileController
+                                                              .profileData
+                                                              .value
+                                                              .result
+                                                              ?.profile
+                                                              ?.verifyLinkedin ==
+                                                          "0"
+                                                  ? "Click to verify (Optional)"
+                                                  : 'Verified.',
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: clrGreyTextLight),
+                                            ),
+                                          ],
+                                        )),
+                                        SizedBox(
+                                          width: w * .05,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            profileController.profileData.value
+                                                        .result?.profile ==
+                                                    null
+                                                ? Image.asset(
+                                                    "assets/icons/dangericon.png",
+                                                    height: 17,
+                                                  )
+                                                : CommonUi.emptySizeBox(),
+                                            SizedBox(
+                                              width: w * .02,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/arrow right.png',
+                                              height: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * .03,
+                                ),
                               ],
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: Get.height * .03,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: SizedBox(
-                      height: Res.h_btn,
-                      width: double.maxFinite,
-                      child: Obx(() => Opacity(
-                        opacity: controller.isLoadingProfile.value ? 0.5 : 1,
-                        child: CustomElevatedButton(
-                            onTap: () {
-                              if(!controller.isLoadingProfile.value) {
-                                controller.myProfileSubmit();
-                              }
-                            },
-                            backgroundClr: clrBlacke,
-                            child: controller.isLoadingProfile.value ? CommonUi.buttonLoading() : Text(
-                              "Save",
-                              style: TextStyle(
-                                  color: clrWhite,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
-                            )),
-                      ),),
-                    ),
-                  ),
-                ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: SizedBox(
+                              height: Res.h_btn,
+                              width: double.maxFinite,
+                              child: Obx(
+                                () => Opacity(
+                                  opacity: controller.isLoadingProfile.value
+                                      ? 0.5
+                                      : 1,
+                                  child: CustomElevatedButton(
+                                      onTap: () {
+                                        if (!controller
+                                            .isLoadingProfile.value) {
+                                          controller.myProfileSubmit();
+                                        }
+                                      },
+                                      backgroundClr: clrBlacke,
+                                      child: controller.isLoadingProfile.value
+                                          ? CommonUi.buttonLoading()
+                                          : Text(
+                                              "Save",
+                                              style: TextStyle(
+                                                  color: clrWhite,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700),
+                                            )),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
               ),
               SingleChildScrollView(
                 child: Column(
@@ -726,39 +902,55 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         ),
                       ),
                     ),
-                    profileController.profileData.value.result?.firstName != null ? SizedBox(
-                      height: Get.height * 0.015,
-                    ) : CommonUi.emptySizeBox(),
+                    profileController.profileData.value.result?.firstName !=
+                            null
+                        ? SizedBox(
+                            height: Get.height * 0.015,
+                          )
+                        : CommonUi.emptySizeBox(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          profileController.profileData.value.result?.firstName ?? '',
+                          profileController
+                                  .profileData.value.result?.firstName ??
+                              '',
                           style: const TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18),
                         ),
                         const SizedBox(
                           width: 5,
                         ),
-                        profileController.profileData.value.result?.firstName != null ? InkWell(
-                            onTap: () {
-                              verificationAlert();
-                            },
-                            child: Icon(
-                              Icons.verified,
-                              color: clrYellow,
-                              size: 16,
-                            )) : CommonUi.emptySizeBox()
+                        profileController.profileData.value.result?.firstName !=
+                                null
+                            ? InkWell(
+                                onTap: () {
+                                  verificationAlert();
+                                },
+                                child: Icon(
+                                  Icons.verified,
+                                  color: clrYellow,
+                                  size: 16,
+                                ))
+                            : CommonUi.emptySizeBox()
                       ],
                     ),
-                    profileController.profileData.value.result?.firstName != null ? SizedBox(
-                      height: Get.height * 0.008,
-                    ) : CommonUi.emptySizeBox(),
+                    profileController.profileData.value.result?.firstName !=
+                            null
+                        ? SizedBox(
+                            height: Get.height * 0.008,
+                          )
+                        : CommonUi.emptySizeBox(),
                     Center(
-                        child: profileController.profileData.value.result?.firstName != null ? Text(
-                      "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
-                      style: TextStyle(color: clrGreyTextLight, fontSize: 13),
-                    ) : CommonUi.emptySizeBox()),
+                        child: profileController
+                                    .profileData.value.result?.firstName !=
+                                null
+                            ? Text(
+                                "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
+                                style: TextStyle(
+                                    color: clrGreyTextLight, fontSize: 13),
+                              )
+                            : CommonUi.emptySizeBox()),
                     SizedBox(
                       height: Get.height * 0.03,
                     ),

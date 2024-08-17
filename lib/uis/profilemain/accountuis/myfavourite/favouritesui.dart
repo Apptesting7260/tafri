@@ -19,7 +19,7 @@ class FavouriteListUi extends GetWidget{
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+          padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
               const SizedBox(
@@ -100,6 +100,9 @@ class FavouriteListUi extends GetWidget{
                                             child: const Text("Coffee",style: TextStyle(fontWeight: FontWeight.w600),),
                                           ),
                                           InkWell(
+                                            onTap: () {
+
+                                            },
                                             child: Container(
                                               padding: const EdgeInsets.all(6),
                                               decoration: BoxDecoration(

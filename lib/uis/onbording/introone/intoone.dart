@@ -38,7 +38,7 @@ class IntroOneUi extends GetWidget<IntroController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: screenWidth * .50,
+                height: screenHeight * .26,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,

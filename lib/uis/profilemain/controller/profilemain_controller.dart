@@ -37,6 +37,7 @@ class ProfilemainController extends GetxController{
         var data = ProfileViewModel.fromJson(response.body);
         if(data.status == true){
           profileData.value = data;
+          interestList.clear();
           if(data.result?.profile?.activityTitles != null){
             for(var i in data.result!.profile!.activityTitles!){
               if (i.subcategories != null) {
@@ -51,10 +52,12 @@ class ProfilemainController extends GetxController{
 
           profileLoading.value = false;
         }else{
+          print('profile error ==');
           showTostMsg('Something went wrong');
           profileLoading.value = false;
         }
       }else{
+        print('profile error');
         showTostMsg('Something went wrong');
         profileLoading.value = false;
       }

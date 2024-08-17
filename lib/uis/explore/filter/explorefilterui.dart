@@ -7,6 +7,7 @@ import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/custom_switch.dart';
 import 'package:plusone/utils/size.dart';
 import 'controller/filterexp_controller.dart';
 
@@ -121,16 +122,13 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      SizedBox(
-                        height: Res.h_btn,
-                        child: CustoTextFormField(
-                          hintText: "Search Location",
-                          sufixIcon: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Image.asset(
-                              "assets/icons/locationicon.png",
-                              height: 15,
-                            ),
+                      CustoTextFormField(
+                        hintText: "Search Location",
+                        sufixIcon: Padding(
+                          padding: const EdgeInsets.all(13.0),
+                          child: Image.asset(
+                            "assets/icons/locationicon.png",
+                            height: 15,
                           ),
                         ),
                       ),
@@ -170,7 +168,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                   children: [
                                     Image.asset(
                                       "assets/icons/manicon.png",
-                                      height: 23,
+                                      height: 20,
                                     ),
                                     const SizedBox(
                                       width: 12,
@@ -276,6 +274,28 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                     firstDate: DateTime(1950),
                                     lastDate: DateTime.now(),
                                     context: context,
+                                    builder: (context, child) {
+                                      return Theme(
+                                        data: ThemeData.light().copyWith(
+                                          colorScheme: ColorScheme.light(
+                                            primary: clrYellow, // Circle color
+                                            onPrimary: clrBlacke, // Text color when selected
+                                            surface: clrBlacke, // Circle background color
+                                          ),
+                                          datePickerTheme: DatePickerThemeData(
+                                            rangeSelectionBackgroundColor: clrGrey
+                                          ),
+                                          dialogBackgroundColor: Colors.white, // Background color
+                                          inputDecorationTheme: InputDecorationTheme(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: clrYellow),
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                          ),
+                                        ),
+                                        child: child!,
+                                      );
+                                    },
                                     // initialDateRange: exploreListController.filterDateStart.value != '' &&
                                     //     exploreListController.filterDateCalenderEnd.value !=''?DateTime.parse("") : null
                                   );
@@ -482,25 +502,13 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 15)),
                           ),
-                          SizedBox(
-                              height: h * .05,
-                              child: FittedBox(child: Obx(() {
-                                return Switch(
-                                  activeTrackColor: clrYellow,
-                                  value: exploreListController
-                                      .hideWaitListAct.value,
-                                  onChanged: (val) {
-                                    exploreListController
-                                        .changeHideWaitListAct();
-                                  },
-                                  activeColor: clrWhite,
-                                  focusColor: clrWhite,
-                                  inactiveThumbColor: clrWhite,
-                                  trackOutlineColor:
-                                      WidgetStateProperty.all(clrTransparent),
-                                  inactiveTrackColor: clrTrack,
-                                );
-                              })))
+                          Obx(() {
+                            return CustomSwitch(value: exploreListController
+                                .hideWaitListAct.value, onChanged: (p0) {
+                              exploreListController
+                                  .changeHideWaitListAct();
+                                },);
+                          })
                         ],
                       ),
                       SizedBox(

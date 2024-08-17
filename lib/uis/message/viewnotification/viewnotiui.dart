@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/size.dart';
 import '../../../utils/colors.dart';
 
 class ViewNotiUi extends GetWidget{
@@ -12,31 +14,17 @@ class ViewNotiUi extends GetWidget{
     return Scaffold(
       body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: Get.height * 0.01,
+                const SizedBox(
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            color: clrGreyLight,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(child: Icon(Icons.arrow_back_ios)),
-                      ),
-                    ),
+                    CommonUi.appBar(),
                     const Text("PlusOnes",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20),),
                      SizedBox(
                       width: w*.07,

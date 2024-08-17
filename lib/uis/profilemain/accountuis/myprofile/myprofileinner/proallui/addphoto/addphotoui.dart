@@ -10,10 +10,12 @@ import 'controller/addphoto_controller.dart';
 
 class AddPhotoUi extends GetWidget<AddphotoController> {
   const AddPhotoUi({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Padding(
+      body: SafeArea(
+          child: Padding(
         padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
@@ -34,46 +36,58 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
               ],
             ),
             SizedBox(
-              height: Get.height*0.06,
+              height: Get.height * 0.06,
             ),
             Expanded(
               child: ListView(
                 children: [
-                  const Text("Upload a recent photo of yourself. Only members can see your profile photo.",style: TextStyle(fontSize: 16),),
+                  const Text(
+                    "Upload a recent photo of yourself. Only members can see your profile photo.",
+                    style: TextStyle(fontSize: 16),
+                  ),
                   SizedBox(
-                    height: Get.height*0.04,
+                    height: Get.height * 0.04,
                   ),
                   Center(
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
                         Column(
-
                           children: [
-                            Obx((){
+                            Obx(() {
                               return Container(
                                   clipBehavior: Clip.hardEdge,
                                   height: 180,
                                   width: 180,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
-                                      color: clrYellow.withOpacity(0.1)
-                                  ),
-                                  child:controller.selectedImage.value !=null ?Image.file(File(controller.selectedImage!.value!.path),fit: BoxFit.cover,): Image.asset("assets/icons/manicon.png",color: clrYellow.withOpacity(0.4),)
-                              );
+                                      color: clrYellow.withOpacity(0.1)),
+                                  child: controller.selectedImage.value != null
+                                      ? Image.file(
+                                          File(controller
+                                              .selectedImage!.value!.path),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          "assets/icons/manicon.png",
+                                          color: clrYellow.withOpacity(0.4),
+                                        ));
                             }),
-                            const SizedBox(height: 0,)
+                            const SizedBox(
+                              height: 0,
+                            )
                           ],
                         ),
                         Positioned(
                           bottom: 0,
                           right: 0,
                           child: InkWell(
-                            onTap: ()async{
+                            onTap: () async {
                               final ImagePicker picker = ImagePicker();
 // Pick an image.
-                              final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-                              if(image !=null){
+                              final XFile? image = await picker.pickImage(
+                                  source: ImageSource.gallery);
+                              if (image != null) {
                                 controller.changePhoto(image);
                               }
                             },
@@ -82,25 +96,43 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                               padding: const EdgeInsets.all(15),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  color: clrYellow
+                                  color: clrYellow),
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: clrWhite,
                               ),
-                              child: Icon(Icons.camera_alt,color: clrWhite,),
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: Get.height*0.04,
+                    height: Get.height * 0.04,
                   ),
-
-                  Text("Make sure your photo is clear and in focus, from the shoulders up, and only include yourself.",textAlign: TextAlign.center,style: TextStyle(color: clrGreyTextLight.withOpacity(0.7)),)
+                  Text(
+                    "Make sure your photo is clear and in focus, from the shoulders up, and only include yourself.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: clrGreyTextLight.withOpacity(0.7)),
+                  )
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,width: double.maxFinite,child: CustomElevatedButton(onTap: (){} ,backgroundClr:clrBlacke, child: Text("Upload Photo",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            SizedBox(
+                height: Res.h_btn,
+                width: double.maxFinite,
+                child: CustomElevatedButton(
+                    onTap: () {
+                      Get.back();
+                    },
+                    backgroundClr: clrBlacke,
+                    child: Text(
+                      "Upload Photo",
+                      style: TextStyle(
+                          color: clrWhite,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ))),
             const SizedBox(
               height: 10,
             ),
