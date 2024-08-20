@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/custom_switch.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
 
 class GetVerifyUi extends GetWidget<MyprofileInnController> {
-  const GetVerifyUi({super.key});
+  GetVerifyUi({super.key});
+
+  final ProfilemainController profilemainController = Get.find<ProfilemainController>();
 
   @override
   Widget build(BuildContext context) {
@@ -194,6 +197,11 @@ class GetVerifyUi extends GetWidget<MyprofileInnController> {
                 width: double.maxFinite,
                 child: CustomElevatedButton(
                     onTap: () {
+                      profilemainController.profileData.value.result?.profile?.verifyLinkedin = controller.isLinkdinVerified.value.toString();
+                      profilemainController.profileData.value.result?.profile?.verifyInstagram = controller.isInstaVerified.value.toString();
+                      print(profilemainController.profileData.value.result?.profile?.verifyInstagram);
+                      print(profilemainController.profileData.value.result?.profile?.verifyLinkedin);
+                      profilemainController.profileData.refresh();
                       Get.back();
                     },
                     backgroundClr: clrBlacke,

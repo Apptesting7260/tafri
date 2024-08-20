@@ -173,7 +173,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                         () => Container(
                                           margin:
                                               const EdgeInsets.only(right: 7),
-                                          padding: const EdgeInsets.only(left: 5,top: 0,bottom: 0,right: 10),
+                                          padding: const EdgeInsets.only(left: 4,top: 1.5,bottom: 1.5,right: 10),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(100),
@@ -197,8 +197,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                           BorderRadius.circular(
                                                               100),
                                                       child: CachedNetworkImage(
-                                                        height: 28,
-                                                        width: 28,
+                                                        height: 27,
+                                                        width: 27,
                                                         fit: BoxFit.cover,
                                                         imageUrl:
                                                             '${categoryData?[index].icon}',

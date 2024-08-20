@@ -13,11 +13,14 @@ class BioUi extends GetWidget<MyprofileInnController> {
   final _formState = GlobalKey<FormState>();
   final ProfilemainController profilemainController =
       Get.find<ProfilemainController>();
+  int maxLength = 350;
 
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
     var w = Get.width;
+    print(profilemainController
+        .profileData.value.result?.profile?.bio);
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -33,7 +36,13 @@ class BioUi extends GetWidget<MyprofileInnController> {
                 CommonUi.appBar(
                   onTap: () {
                     Get.back();
-                    Future.delayed(const Duration(milliseconds: 100),() => controller.bioController.text = profilemainController.profileData.value.result?.profile?.bio ?? '',);
+                    Future.delayed(
+                      const Duration(milliseconds: 100),
+                      () => controller.bioController.value.text =
+                          profilemainController
+                                  .profileData.value.result?.profile?.bio ??
+                              '',
+                    );
                   },
                 ),
                 const Text(
@@ -60,31 +69,52 @@ class BioUi extends GetWidget<MyprofileInnController> {
                   ),
                   Form(
                     key: _formState,
-                    child: TextFormField(
-                      controller: controller.bioController,
-                      validator: (val) {
-                        if (val == null || val.isEmpty || val == '') {
-                          return "Please tell about yourself";
-                        } else {
-                          return null;
-                        }
-                      },
-                      keyboardType: TextInputType.text,
-                      maxLines: 8,
-                      maxLength: 350,
-                      decoration: InputDecoration(
-                          hintText: "Introduce yourself...",
-                          hintStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: clrGreyTextLight),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          fillColor: clrGreyLight,
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10))),
-                    ),
+                    child: Obx(() {
+                      return Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          TextFormField(
+                            controller: controller.bioController.value,
+                            validator: (val) {
+                              if (val == null || val.isEmpty || val == '') {
+                                return "Please tell about yourself";
+                              } else {
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.text,
+                            maxLines: 8,
+                            maxLength: maxLength,
+                            decoration: InputDecoration(
+                              hintText: "Introduce yourself...",
+                              hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: clrGreyTextLight),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              fillColor: clrGreyLight,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(10)),
+                              counterText: '',
+                            ),
+                            onChanged: (value) {
+                              print(
+                                  'object == ${controller.bioController.value.text.length}');
+                            },
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.only(bottom: 15, right: 15),
+                              child: Text(
+                                '${controller.currentLength.value}/$maxLength',
+                                style: TextStyle(
+                                    fontSize: 13, color: clrGreyTextLight),
+                              )
+                          )
+                        ],
+                      );
+                    },),
                   )
                 ],
               ),
@@ -97,7 +127,7 @@ class BioUi extends GetWidget<MyprofileInnController> {
                       // if(_formState.currentState!.validate()){
 
                       profilemainController.profileData.value.result?.profile
-                          ?.bio = controller.bioController.value.text.trim();
+                          ?.bio = controller.bioController.value.value.text.trim();
                       print(controller.bioController.value.text.trim());
                       profilemainController.profileData.refresh();
                       print(profilemainController

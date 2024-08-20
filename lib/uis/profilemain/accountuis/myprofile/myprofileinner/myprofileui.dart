@@ -271,7 +271,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                             .result
                                                             ?.profile
                                                             ?.bio ==
-                                                        null
+                                                        null || profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    !.profile
+                                                    !.bio!.isEmpty
                                                     ? "Add a short bio (Optional)"
                                                     : '${profileController.profileData.value.result?.profile?.bio}',
                                                 style: TextStyle(
@@ -297,7 +302,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                             .result
                                                             ?.profile
                                                             ?.bio ==
-                                                        null
+                                                        null || profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                !.profile
+                                                !.bio!.isEmpty
                                                 ? Image.asset(
                                                     "assets/icons/dangericon.png",
                                                     height: 17,
@@ -415,7 +425,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                           .result
                                                           ?.profile
                                                           ?.occupation ==
-                                                      null
+                                                      null || profileController
+                                                  .profileData
+                                                  .value
+                                                  .result
+                                                  !.profile
+                                                  !.occupation!.isEmpty
                                                   ? "Add your occupation"
                                                   : '${profileController.profileData.value.result?.profile?.occupation}',
                                               style: TextStyle(
@@ -440,7 +455,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                             .result
                                                             ?.profile
                                                             ?.occupation ==
-                                                        null
+                                                        null || profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                !.profile
+                                                !.occupation!.isEmpty
                                                 ? Image.asset(
                                                     "assets/icons/dangericon.png",
                                                     height: 17,
@@ -493,7 +513,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                         .result
                                                         ?.profile
                                                         ?.languageNames ==
-                                                    null
+                                                    null || profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                !.profile
+                                                !.languageNames!.isEmpty
                                                 ? Text(
                                                     "Select languages you speak",
                                                     style: TextStyle(
@@ -545,7 +570,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           children: [
                                             profileController.profileData.value
                                                         .result?.profile ==
-                                                    null
+                                                    null || profileController.profileData.value
+                                                .result!.profile!.languageNames!.isEmpty
                                                 ? Image.asset(
                                                     "assets/icons/dangericon.png",
                                                     height: 17,
@@ -593,13 +619,18 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                     fontWeight:
                                                         FontWeight.w600)),
                                             Text(
-                                              profileController
+                                              (profileController
                                                           .profileData
                                                           .value
                                                           .result
                                                           ?.profile
                                                           ?.activityTitles ==
-                                                      null
+                                                      null || profileController
+                                                  .profileData
+                                                  .value
+                                                  .result
+                                                  !.profile
+                                                  !.activityTitles!.isEmpty) && controller.selectedActivity.isEmpty
                                                   ? "Add 3-10 activities"
                                                   : 'Click to adjust.',
                                               style: TextStyle(
@@ -615,7 +646,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            profileController.profileData.value
+                                           (profileController.profileData.value
                                                             .result?.profile ==
                                                         null ||
                                                     profileController
@@ -624,7 +655,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                             .result
                                                             ?.profile
                                                             ?.activityTitles ==
-                                                        null
+                                                        null || profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                !.profile
+                                                !.activityTitles!.isEmpty) && controller.selectedActivity.isEmpty
                                                 ? Image.asset(
                                                     "assets/icons/dangericon.png",
                                                     height: 17,
@@ -672,13 +708,18 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                     fontWeight:
                                                         FontWeight.w600)),
                                             Text(
-                                              profileController
+                                              (profileController
                                                           .profileData
                                                           .value
                                                           .result
                                                           ?.profile
                                                           ?.funFactsAboutMe ==
-                                                      null
+                                                      null || profileController
+                                                  .profileData
+                                                  .value
+                                                  .result
+                                                  !.profile
+                                                  !.funFactsAboutMe!.isEmpty) || controller.funFactListDeta.isEmpty
                                                   ? "Select 1-3 questions"
                                                   : '${profileController.profileData.value.result?.profile?.funFactsAboutMe?[0].question}',
                                               style: TextStyle(
@@ -694,7 +735,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            profileController.profileData.value
+                                            (profileController.profileData.value
                                                             .result?.profile ==
                                                         null ||
                                                     profileController
@@ -703,7 +744,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                             .result
                                                             ?.profile
                                                             ?.funFactsAboutMe ==
-                                                        null
+                                                        null || profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                !.profile
+                                                !.funFactsAboutMe!.isEmpty) && controller.funFactListDeta.isEmpty
                                                 ? Image.asset(
                                                     "assets/icons/dangericon.png",
                                                     height: 17,
@@ -797,7 +843,34 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           children: [
                                             profileController.profileData.value
                                                         .result?.profile ==
-                                                    null
+                                                    null || profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                ?.profile
+                                                ?.verifyInstagram ==
+                                                null ||
+                                                profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.verifyLinkedin ==
+                                                    null ||
+                                                profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.verifyInstagram ==
+                                                    "0" ||
+                                                profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.verifyLinkedin ==
+                                                    "0"
                                                 ? Image.asset(
                                                     "assets/icons/dangericon.png",
                                                     height: 17,
@@ -856,7 +929,9 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         ],
                       ),
               ),
-              SingleChildScrollView(
+              Obx(() => profileController.profileLoading.value ? Center(
+                child: CommonUi.scaffoldLoading(color: clrYellow),
+              ) : SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -865,11 +940,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     ),
                     Center(
                       child: Obx(
-                        () => ClipRRect(
+                            () => ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: CachedNetworkImage(
                               imageUrl:
-                                  '${profileController.profileData.value.result?.profile?.profilePhoto}',
+                              '${profileController.profileData.value.result?.profile?.profilePhoto}',
                               fit: BoxFit.cover,
                               height: h * .14,
                               width: w * .3,
@@ -903,17 +978,17 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                       ),
                     ),
                     profileController.profileData.value.result?.firstName !=
-                            null
+                        null
                         ? SizedBox(
-                            height: Get.height * 0.015,
-                          )
+                      height: Get.height * 0.015,
+                    )
                         : CommonUi.emptySizeBox(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           profileController
-                                  .profileData.value.result?.firstName ??
+                              .profileData.value.result?.firstName ??
                               '',
                           style: const TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18),
@@ -922,41 +997,42 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                           width: 5,
                         ),
                         profileController.profileData.value.result?.firstName !=
-                                null
+                            null
                             ? InkWell(
-                                onTap: () {
-                                  verificationAlert();
-                                },
-                                child: Icon(
-                                  Icons.verified,
-                                  color: clrYellow,
-                                  size: 16,
-                                ))
+                            onTap: () {
+                              verificationAlert();
+                            },
+                            child: Icon(
+                              Icons.verified,
+                              color: clrYellow,
+                              size: 16,
+                            ))
                             : CommonUi.emptySizeBox()
                       ],
                     ),
                     profileController.profileData.value.result?.firstName !=
-                            null
+                        null
                         ? SizedBox(
-                            height: Get.height * 0.008,
-                          )
+                      height: Get.height * 0.008,
+                    )
                         : CommonUi.emptySizeBox(),
                     Center(
                         child: profileController
-                                    .profileData.value.result?.firstName !=
-                                null
+                            .profileData.value.result?.firstName !=
+                            null
                             ? Text(
-                                "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
-                                style: TextStyle(
-                                    color: clrGreyTextLight, fontSize: 13),
-                              )
+                          "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
+                          style: TextStyle(
+                              color: clrGreyTextLight, fontSize: 13),
+                        )
                             : CommonUi.emptySizeBox()),
                     SizedBox(
                       height: Get.height * 0.03,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
+                        Expanded(
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 12),
@@ -994,7 +1070,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                       fontWeight: FontWeight.w700),
                                 ),
                                 const Text(
-                                  "Attendance Rate",
+                                  "Attendance",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 12),
+                                ), const Text(
+                                  "Rate",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 12),
                                 ),
@@ -1005,7 +1085,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         SizedBox(
                           width: Get.width * 0.028,
                         ),
-                        Flexible(
+                        Expanded(
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 12),
@@ -1042,7 +1122,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                       fontWeight: FontWeight.w700),
                                 ),
                                 const Text(
-                                  "Activities Joined",
+                                  "Activities",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 12),
+                                ),const Text(
+                                  "Joined",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 12),
                                 ),
@@ -1053,7 +1137,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         SizedBox(
                           width: Get.width * 0.028,
                         ),
-                        Flexible(
+                        Expanded(
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 12),
@@ -1089,7 +1173,10 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                       fontSize: 22,
                                       fontWeight: FontWeight.w700),
                                 ),
-                                const Text("Activities Hosted",
+                                const Text("Activities",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 12)),
+                                const Text("Hosted",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 12)),
                               ],
@@ -1116,13 +1203,10 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          Text(
-                              profileController.profileData.value.result
-                                          ?.profile?.bio !=
-                                      null
-                                  ? "${profileController.profileData.value.result?.profile?.bio}"
-                                  : '',
-                              style: TextStyle(color: clrGreyTextLight)),
+                          profileController.profileData.value.result
+                              ?.profile?.bio !=
+                              null ? Text("${profileController.profileData.value.result?.profile?.bio}",
+                              style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
                         ],
                       ),
                     ),
@@ -1168,13 +1252,10 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          Text(
-                              profileController.profileData.value.result
-                                          ?.profile?.occupation !=
-                                      null
-                                  ? "${profileController.profileData.value.result?.profile?.occupation}"
-                                  : '',
-                              style: TextStyle(color: clrGreyTextLight)),
+                          profileController.profileData.value.result
+                              ?.profile?.occupation !=
+                              null ? Text("${profileController.profileData.value.result?.profile?.occupation}",
+                              style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
                         ],
                       ),
                     ),
@@ -1246,7 +1327,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                               spacing: w * .02,
                               runSpacing: h * .01,
                               children: profileController.interestList.map(
-                                (e) {
+                                    (e) {
                                   return Container(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 13, vertical: 5),
@@ -1307,11 +1388,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                               ],
                             ),
                             itemCount: profileController.profileData.value
-                                    .result?.profile?.funFactsAboutMe?.length ??
+                                .result?.profile?.funFactsAboutMe?.length ??
                                 0,
                             shrinkWrap: true,
                             separatorBuilder: (context, index) =>
-                                const SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                           )
@@ -1324,7 +1405,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     const Text(
                       "Upcoming activities",
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     SizedBox(
                       height: Get.height * 0.015,
@@ -1376,10 +1457,10 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                         decoration: BoxDecoration(
                                             color: clrWhite,
                                             borderRadius:
-                                                BorderRadius.circular(5)),
+                                            BorderRadius.circular(5)),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             const Text(
                                               "10KM Vondelpark run",
@@ -1408,7 +1489,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     const Text(
                       "Previous activities",
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     SizedBox(
                       height: Get.height * 0.015,
@@ -1450,7 +1531,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             width: h * .075,
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                             ),
                                             child: Image.asset(
                                               "assets/images/parkimage.png",
@@ -1463,23 +1544,23 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           Expanded(
                                             child: Container(
                                               padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 10),
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 10),
                                               decoration: BoxDecoration(
                                                   color: clrWhite,
                                                   borderRadius:
-                                                      BorderRadius.circular(5)),
+                                                  BorderRadius.circular(5)),
                                               child: Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   const Text(
                                                     "Salsa night at Tulp",
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         fontWeight:
-                                                            FontWeight.w600),
+                                                        FontWeight.w600),
                                                   ),
                                                   Text("Confirm attendance",
                                                       style: TextStyle(
@@ -1502,7 +1583,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             width: h * .075,
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                             ),
                                             child: Image.asset(
                                               "assets/images/cofee.png",
@@ -1515,23 +1596,23 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           Expanded(
                                             child: Container(
                                               padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 10),
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 10),
                                               decoration: BoxDecoration(
                                                   color: clrWhite,
                                                   borderRadius:
-                                                      BorderRadius.circular(5)),
+                                                  BorderRadius.circular(5)),
                                               child: Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   const Text(
                                                     "Sunday morning coffee",
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         fontWeight:
-                                                            FontWeight.w600),
+                                                        FontWeight.w600),
                                                   ),
                                                   Text("Caffenation, Amsterdam",
                                                       style: TextStyle(
@@ -1555,7 +1636,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     ),
                   ],
                 ),
-              ),
+              ),),
             ]))
           ],
         ),

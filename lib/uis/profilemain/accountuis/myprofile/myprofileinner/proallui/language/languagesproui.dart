@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../../../../utils/colors.dart';
@@ -14,6 +15,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
   LanguagesProUi({super.key});
 
   SingleSelectController cutoDropController = SingleSelectController(null);
+  final ProfilemainController profilemainController = Get.find<ProfilemainController>();
   final _formState = GlobalKey<FormState>();
 
   @override
@@ -32,7 +34,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                     EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                 child: Column(
                   children: [
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -116,7 +118,7 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                                     style: TextStyle(
                                         color: clrRedErr, fontSize: 12),
                                   ))
-                              : SizedBox(),
+                              : const SizedBox(),
                           SizedBox(
                             height: h * .02,
                           ),
@@ -192,6 +194,8 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                                 controller.changeIsShowLangError(true);
                               } else {
                                 controller.changeIsShowLangError(false);
+                                profilemainController.profileData.value.result?.profile?.languageNames = controller.selectedLanguageList.map((element) => element['lang'].toString(),).toList();
+                                profilemainController.profileData.refresh();
                                 Get.back();
                               }
                             },

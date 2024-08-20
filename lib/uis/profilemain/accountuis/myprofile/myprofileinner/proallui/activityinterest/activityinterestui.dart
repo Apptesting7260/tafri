@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/controller/myprofileinn_controller.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
@@ -13,7 +14,9 @@ import '../../../../../../../utils/size.dart';
 import 'models/activitymodel.dart';
 
 class ActivityInterestUi extends GetWidget<MyprofileInnController> {
-  const ActivityInterestUi({super.key});
+  ActivityInterestUi({super.key});
+
+  final ProfilemainController profilemainController = Get.find<ProfilemainController>();
 
   @override
   Widget build(BuildContext context) {

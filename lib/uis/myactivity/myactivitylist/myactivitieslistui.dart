@@ -144,17 +144,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               const EdgeInsets
                                                                   .symmetric(
                                                                   vertical: 6),
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: 10,
-                                                                  horizontal:
-                                                                      10),
+                                                          padding: const EdgeInsets.only(
+                                                              top: 10,
+                                                              bottom: 15,
+                                                              left: 15,
+                                                              right: 15
+                                                          ),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          10),
+                                                                          15),
                                                               color:
                                                                   clrGreyLight),
                                                           child: Column(
@@ -171,7 +171,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               SizedBox(
                                                                 height:
                                                                     Get.height *
-                                                                        0.003,
+                                                                        0.005,
                                                               ),
                                                               Row(
                                                                 children: [
@@ -221,7 +221,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                           color:
                                                                               clrWhite,
                                                                           borderRadius:
-                                                                              BorderRadius.circular(5)),
+                                                                              BorderRadius.circular(7)),
                                                                       child:
                                                                           Column(
                                                                         crossAxisAlignment:
@@ -299,17 +299,22 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               const EdgeInsets
                                                                   .symmetric(
                                                                   vertical: 6),
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: 10,
-                                                                  horizontal:
-                                                                      10),
+                                                          padding: const EdgeInsets.only(
+                                                            top: 10,
+                                                            bottom: 15,
+                                                            left: 15,
+                                                            right: 15
+                                                          ),
+                                                              // const EdgeInsets
+                                                              //     .symmetric(
+                                                              //     vertical: 18,
+                                                              //     horizontal:
+                                                              //         15),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          10),
+                                                                          15),
                                                               color:
                                                                   clrGreyLight),
                                                           child: Column(
@@ -326,7 +331,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               SizedBox(
                                                                 height:
                                                                     Get.height *
-                                                                        0.003,
+                                                                        0.005,
                                                               ),
                                                               Column(
                                                                 children: [
@@ -379,7 +384,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               vertical: 10),
                                                                           decoration: BoxDecoration(
                                                                               color: clrWhite,
-                                                                              borderRadius: BorderRadius.circular(5)),
+                                                                              borderRadius: BorderRadius.circular(7)),
                                                                           child:
                                                                               Column(
                                                                             crossAxisAlignment:
@@ -414,7 +419,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   ),
                                                                   SizedBox(
                                                                     height: h *
-                                                                        .008,
+                                                                        .015,
                                                                   ),
                                                                   Row(
                                                                     children: [
@@ -428,7 +433,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           borderRadius:
-                                                                              BorderRadius.circular(10),
+                                                                              BorderRadius.circular(5),
                                                                         ),
                                                                         child: Image
                                                                             .asset(
@@ -450,7 +455,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               vertical: 10),
                                                                           decoration: BoxDecoration(
                                                                               color: clrWhite,
-                                                                              borderRadius: BorderRadius.circular(5)),
+                                                                              borderRadius: BorderRadius.circular(7)),
                                                                           child:
                                                                               Column(
                                                                             crossAxisAlignment:
@@ -458,7 +463,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                             children: [
                                                                               const Text(
                                                                                 "Padel with Joris",
-                                                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                                                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                                                               ),
                                                                               Text("Cancelled", style: TextStyle(color: clrGreyDark, fontSize: 12)),
                                                                             ],
@@ -551,17 +556,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               const EdgeInsets
                                                                   .symmetric(
                                                                   vertical: 6),
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: 10,
-                                                                  horizontal:
-                                                                      10),
+                                                          padding: const EdgeInsets.only(
+                                                              top: 10,
+                                                              bottom: 15,
+                                                              left: 15,
+                                                              right: 15
+                                                          ),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          10),
+                                                                          15),
                                                               color:
                                                                   clrGreyLight),
                                                           child: Column(
@@ -578,7 +583,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               SizedBox(
                                                                 height:
                                                                     Get.height *
-                                                                        0.003,
+                                                                        0.005,
                                                               ),
                                                               Row(
                                                                 crossAxisAlignment:
@@ -632,7 +637,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                           color:
                                                                               clrWhite,
                                                                           borderRadius:
-                                                                              BorderRadius.circular(5)),
+                                                                              BorderRadius.circular(7)),
                                                                       child:
                                                                           Column(
                                                                         crossAxisAlignment:
@@ -709,17 +714,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               const EdgeInsets
                                                                   .symmetric(
                                                                   vertical: 6),
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: 10,
-                                                                  horizontal:
-                                                                      10),
+                                                          padding: const EdgeInsets.only(
+                                                              top: 10,
+                                                              bottom: 15,
+                                                              left: 15,
+                                                              right: 15
+                                                          ),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          10),
+                                                                          15),
                                                               color:
                                                                   clrGreyLight),
                                                           child: Column(
@@ -736,7 +741,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               SizedBox(
                                                                 height:
                                                                     Get.height *
-                                                                        0.003,
+                                                                        0.005,
                                                               ),
                                                               Column(
                                                                 children: [
@@ -785,7 +790,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               vertical: 10),
                                                                           decoration: BoxDecoration(
                                                                               color: clrWhite,
-                                                                              borderRadius: BorderRadius.circular(5)),
+                                                                              borderRadius: BorderRadius.circular(7)),
                                                                           child:
                                                                               Column(
                                                                             crossAxisAlignment:
@@ -862,7 +867,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           borderRadius:
-                                                                              BorderRadius.circular(10),
+                                                                              BorderRadius.circular(5),
                                                                         ),
                                                                         child: Image
                                                                             .asset(
@@ -884,7 +889,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               vertical: 10),
                                                                           decoration: BoxDecoration(
                                                                               color: clrWhite,
-                                                                              borderRadius: BorderRadius.circular(5)),
+                                                                              borderRadius: BorderRadius.circular(7)),
                                                                           child:
                                                                               Column(
                                                                             crossAxisAlignment:

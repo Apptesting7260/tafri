@@ -156,7 +156,7 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
     id: json["id"],
     userId: json["user_id"],
-    bio: json["bio"],
+    bio: json["bio"] ?? '',
     occupation: json["occupation"],
     organisationName: json["organisation_name"],
     languageId: json["language_id"] == null ? [] : List<String>.from(json["language_id"]!.map((x) => x)),

@@ -102,6 +102,10 @@ class OccupationUi extends GetWidget<MyprofileInnController> {
                 child: CustomElevatedButton(
                     onTap: () {
                       if (_formState.currentState!.validate()) {
+                        profilemainController.profileData.value.result?.profile
+                            ?.occupation = controller.ocupatController.value.text.trim();
+                        profilemainController.profileData.value.result?.profile?.organisationName = controller.organiController.value.text.trim();
+                        profilemainController.profileData.refresh();
                         Get.back();
                       }
                     },

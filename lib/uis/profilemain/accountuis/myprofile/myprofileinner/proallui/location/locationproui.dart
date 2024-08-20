@@ -13,15 +13,16 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
   LocationProUi({super.key});
 
   final _formState = GlobalKey<FormState>();
-  final ProfilemainController profilemainController = Get.find<
-      ProfilemainController>();
+  final ProfilemainController profilemainController =
+      Get.find<ProfilemainController>();
 
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
     var w = Get.width;
     return Scaffold(
-      body: SafeArea(child: Padding(
+      body: SafeArea(
+          child: Padding(
         padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
@@ -34,7 +35,13 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                 CommonUi.appBar(
                   onTap: () {
                     Get.back();
-                    Future.delayed(const Duration(milliseconds: 100),() => controller.locController.text = profilemainController.profileData.value.result!.location.toString(),);
+                    Future.delayed(
+                      const Duration(milliseconds: 100),
+                      () => controller.locController.text =
+                          profilemainController
+                              .profileData.value.result!.location
+                              .toString(),
+                    );
                   },
                 ),
                 const Text(
@@ -54,7 +61,8 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                 children: [
                   const Text(
                     "Share where you are based to join activities nearby.",
-                    style: TextStyle(fontSize: 15),),
+                    style: TextStyle(fontSize: 15),
+                  ),
                   SizedBox(
                     height: Get.height * 0.025,
                   ),
@@ -84,8 +92,7 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 13),
                           child: const Image(
-                            image: AssetImage(
-                                "assets/icons/locationicon.png"),
+                            image: AssetImage("assets/icons/locationicon.png"),
                             height: 1,
                             width: 1,
                           )),
@@ -94,24 +101,31 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                 ],
               ),
             ),
-            SizedBox(height: Res.h_btn,
+            SizedBox(
+                height: Res.h_btn,
                 width: double.maxFinite,
-                child: CustomElevatedButton(onTap: () {
-                  if (_formState.currentState!.validate()) {
-                    profilemainController.profileData.value.result?.location =
-                        controller.locController.value.text.trim();
-                    profilemainController.profileData.refresh();
-                    print(profilemainController.profileData.value.result
-                        ?.location);
-                    print(profilemainController.hashCode);
+                child: CustomElevatedButton(
+                    onTap: () {
+                      if (_formState.currentState!.validate()) {
+                        profilemainController
+                                .profileData.value.result?.location =
+                            controller.locController.value.text.trim();
+                        profilemainController.profileData.refresh();
+                        print(profilemainController
+                            .profileData.value.result?.location);
+                        print(profilemainController.hashCode);
 
-                    Get.back();
-                  }
-                },
+                        Get.back();
+                      }
+                    },
                     backgroundClr: clrBlacke,
-                    child: Text("Save", style: TextStyle(color: clrWhite,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),))),
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                          color: clrWhite,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ))),
             const SizedBox(
               height: 10,
             ),

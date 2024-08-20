@@ -33,10 +33,14 @@ class MyprofileInnController extends GetxController
     activityGetDataApi();
     tabController = TabController(length: 2, vsync: this);
     profileAlertPopUp();
+    bioController.value.addListener(() {
+      currentLength.value = bioController.value.text.length;
+    });
     super.onInit();
   }
 
-  TextEditingController bioController = TextEditingController(text: profileController.profileData.value.result?.profile?.bio ?? '');
+  var bioController = TextEditingController(text: profileController.profileData.value.result?.profile?.bio ?? '').obs;
+  var currentLength = (profileController.profileData.value.result?.profile?.bio?.length ?? 0).obs;
   TextEditingController locController = TextEditingController(text: profileController.profileData.value.result?.location ?? '');
   TextEditingController ocupatController = TextEditingController(text: profileController.profileData.value.result?.profile?.occupation ?? '');
   TextEditingController organiController = TextEditingController(text: profileController.profileData.value.result?.profile?.organisationName ?? '');
