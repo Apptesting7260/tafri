@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
@@ -16,6 +17,8 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
 
   ExploreListController exploreListController =
       Get.find<ExploreListController>();
+
+  final PageController pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -268,43 +271,151 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             fontSize: 13))
                                   ],
                                 ),
-                                ontap: () async {
-                                  DateTimeRange? dateRange =
-                                      await showDateRangePicker(
-                                    firstDate: DateTime(1950),
-                                    lastDate: DateTime.now(),
-                                    context: context,
-                                    builder: (context, child) {
-                                      return Theme(
-                                        data: ThemeData.light().copyWith(
-                                          colorScheme: ColorScheme.light(
-                                            primary: clrYellow, // Circle color
-                                            onPrimary: clrBlacke, // Text color when selected
-                                            surface: clrBlacke, // Circle background color
-                                          ),
-                                          datePickerTheme: DatePickerThemeData(
-                                            rangeSelectionBackgroundColor: clrGrey
-                                          ),
-                                          dialogBackgroundColor: Colors.white, // Background color
-                                          inputDecorationTheme: InputDecorationTheme(
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: clrYellow),
-                                              borderRadius: BorderRadius.circular(8.0),
-                                            ),
-                                          ),
-                                        ),
-                                        child: child!,
-                                      );
-                                    },
-                                    // initialDateRange: exploreListController.filterDateStart.value != '' &&
-                                    //     exploreListController.filterDateCalenderEnd.value !=''?DateTime.parse("") : null
-                                  );
-                                  if (dateRange != null) {
-                                    print("gk=====$dateRange");
-                                    exploreListController
-                                        .changeFilterDate(dateRange);
-                                  }
-                                },
+                                // ontap: () async {
+                                //   DateTimeRange? dateRange =
+                                //       await showDateRangePicker(
+                                //     firstDate: DateTime(1950),
+                                //     lastDate: DateTime.now(),
+                                //     context: context,
+                                //     builder: (context, child) {
+                                //       return Theme(
+                                //         data: ThemeData.light().copyWith(
+                                //           colorScheme: ColorScheme.light(
+                                //             primary: clrYellow, // Circle color
+                                //             onPrimary: clrBlacke, // Text color when selected
+                                //             surface: clrBlacke, // Circle background color
+                                //           ),
+                                //           datePickerTheme: DatePickerThemeData(
+                                //             rangeSelectionBackgroundColor: clrGrey
+                                //           ),
+                                //           dialogBackgroundColor: Colors.white, // Background color
+                                //           inputDecorationTheme: InputDecorationTheme(
+                                //             focusedBorder: OutlineInputBorder(
+                                //               borderSide: BorderSide(color: clrYellow),
+                                //               borderRadius: BorderRadius.circular(8.0),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //         child: child!,
+                                //       );
+                                //     },
+                                //     // initialDateRange: exploreListController.filterDateStart.value != '' &&
+                                //     //     exploreListController.filterDateCalenderEnd.value !=''?DateTime.parse("") : null
+                                //   );
+                                //   if (dateRange != null) {
+                                //     print("gk=====$dateRange");
+                                //     exploreListController
+                                //         .changeFilterDate(dateRange);
+                                //   }
+                                // },
+                                
+                                
+                                // ontap: () async{
+                                //   showDialog(
+                                //       context: context,
+                                //       builder:  (BuildContext context){
+                                //         return Dialog(
+                                //           backgroundColor: clrWhite,
+                                //           insetPadding: EdgeInsets.all(0),
+                                //           child: Container(
+                                //             height: h * .6,
+                                //             width: w * .8,
+                                //             child: Column(
+                                //               children: [
+                                //                 Padding(
+                                //                   padding: const EdgeInsets.only(top: 24.0,left: 12),
+                                //                   child: Row(
+                                //                     children: [
+                                //                       Image.asset('assets/icons/close.png',scale: 4,),
+                                //                     ],
+                                //                   ),
+                                //                 )
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         );
+                                //       }
+                                //   );
+                                // },
+
+                                // ontap: () async{
+                                //   Get.dialog(
+                                //     AlertDialog(
+                                //       insetPadding: EdgeInsets.all(0),
+                                //       content: Container(
+                                //         height: 300,
+                                //         child: Column(
+                                //           children: [
+                                //             Row(
+                                //               children: [
+                                //                 Expanded(child: Image.asset('assets/icons/close.png',scale: 4,)),
+                                //                 Expanded(child: Text("August 2024")),
+                                //               ],
+                                //             )
+                                //           ],
+                                //         ),
+                                //       ),
+                                //     )
+                                //   );
+                                // },
+
+                                // ontap: () async {
+                                //   Get.dialog(
+                                //     AlertDialog(
+                                //       insetPadding: EdgeInsets.all(0),
+                                //       content: Center(
+                                //         child: Container(
+                                //           height: 300, // Adjust the height to ensure everything fits
+                                //           child: Column(
+                                //             children: [
+                                //               Row(
+                                //                 children: [
+                                //                   Expanded(
+                                //                     child: GestureDetector(
+                                //                       onTap: () => Get.back(),
+                                //                       child: Image.asset('assets/icons/close.png', scale: 4),
+                                //                     ),
+                                //                   ),
+                                //                   Expanded(
+                                //                     child: Center(
+                                //                       child: Text("Select Month", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                //                     ),
+                                //                   ),
+                                //                   Expanded(child: Container()), // Empty Expanded to balance the row
+                                //                 ],
+                                //               ),
+                                //               SizedBox(height: 20),
+                                //               Expanded(
+                                //                 child: PageView.builder(
+                                //                   controller: pageController,
+                                //                   onPageChanged: (index) {
+                                //                     controller.updatePage(index); // Using the controller method to update state
+                                //                   },
+                                //                   itemBuilder: (context, index) {
+                                //                     final year = (index ~/ 12);
+                                //                     final month = (index % 12) + 1;
+                                //                     final date = DateTime(year, month);
+                                //                     return Center(
+                                //                       child: Obx(() => Text(
+                                //                         DateFormat.yMMMM().format(date),
+                                //                         style: TextStyle(
+                                //                           fontSize: 18.09,
+                                //                           fontWeight: FontWeight.w500,
+                                //                           color: Color(0xff696565),
+                                //                         ),
+                                //                       )),
+                                //                     );
+                                //                   },
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   );
+                                // },
+
                                 borderClr: clrBlacke,
                                 backgroundClr: exploreListController
                                                 .filterDateStart.value !=

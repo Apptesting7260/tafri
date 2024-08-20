@@ -9,8 +9,16 @@ class Creativitycontroller extends GetxController with GetTickerProviderStateMix
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
+    textController.value.addListener(() {
+      currentLength.value = textController.value.text.length;
+    });
     super.onInit();
   }
+
+
+  var textController = TextEditingController().obs;
+  var currentLength = 0.obs;
+
   RxInt groupSize=1.obs;
   incGroupSize(){
     if(groupSize.value<6){
@@ -49,5 +57,8 @@ class Creativitycontroller extends GetxController with GetTickerProviderStateMix
   changeChoosePhotoVal(){
     choosePhotoCheck.value=!choosePhotoCheck.value;
   }
+
+  var text = ''.obs;
+  final int maxLength = 500;
 
 }
