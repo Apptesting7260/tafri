@@ -227,6 +227,9 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                             SizedBox(
                               height: Res.h_filter_btn,
                               child: CustoFilterBtn(
+                                ontap: () {
+
+                                },
                                 lable: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
