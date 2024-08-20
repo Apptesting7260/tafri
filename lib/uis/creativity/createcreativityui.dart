@@ -203,25 +203,67 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            TextFormField(
-                              maxLines: 4,
-                              maxLength: 500,
-                              decoration: InputDecoration(
-                                  hintText:
-                                      "Write a description (min. 30 characters)",
-                                  hintStyle: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15,
-                                      color: clrGreyTextLight),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: Get.height * .02),
-                                  fillColor: clrGreyLight,
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(15))),
-                            ),
+                            // TextFormField(
+                            //   maxLines: 4,
+                            //   maxLength: 500,
+                            //   decoration: InputDecoration(
+                            //       hintText:
+                            //           "Write a description (min. 30 characters)",
+                            //       hintStyle: TextStyle(
+                            //           fontWeight: FontWeight.w400,
+                            //           fontSize: 15,
+                            //           color: clrGreyTextLight),
+                            //       contentPadding: EdgeInsets.symmetric(
+                            //           horizontal: 15,
+                            //           vertical: Get.height * .02),
+                            //       fillColor: clrGreyLight,
+                            //       filled: true,
+                            //       border: OutlineInputBorder(
+                            //           borderSide: BorderSide.none,
+                            //           borderRadius: BorderRadius.circular(15))),
+                            // ),
+                            Obx((){
+                              return Stack(
+                                children: [
+                                  TextFormField(
+                                    controller: controller.textController.value,
+                                    maxLines: null,
+                                    minLines: 4,
+                                    maxLength: controller.maxLength,
+                                    decoration: InputDecoration(
+                                      hintText: "Write a description (min. 30 characters)",
+                                      hintStyle: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 15,
+                                        color: Colors.grey[600],
+                                      ),
+                                      contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 15,
+                                      ),
+                                      fillColor: Colors.grey[200],
+                                      filled: true,
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      counterText: "", // Remove the default counter
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 20,
+                                    bottom: 10,
+                                    child: Text(
+                                      '${controller.currentLength.value}/${controller.maxLength}',
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
                             // const CustoTextFormField(
                             //   hintText:
                             //   "Write a description (min. 30 characters)",
