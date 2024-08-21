@@ -19,4 +19,7 @@ class EndPoints{
   static String signupStep3 = '${baseUrl}signup-step3';
   static String signupStep4 = '${baseUrl}signup-step4';
 
+  static String changeFavurl = '${baseUrl}activity-fav-unfav';
+  static String favurl = '${baseUrl}my-favorites/';
+
 }

@@ -1,16 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/error_widget.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/size.dart';
 import '../../../explore/exploreview/exploreviewui.dart';
+import 'controller/myfavourite_controller.dart';
 
-class FavouriteListUi extends GetWidget{
-  const FavouriteListUi({super.key});
+class FavouriteListUi extends GetWidget<MyfavouriteController>{
+   FavouriteListUi({super.key});
+
+  final ExploreListController homeController = Get.find<ExploreListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +46,21 @@ class FavouriteListUi extends GetWidget{
                 height: Get.height * 0.015,
               ),
               Expanded(
-                child: ListView.builder(
-                    itemCount: 5,
+                child: Obx(() => controller.myfavouriteLoading.value ? Center(
+                  child: CommonUi.scaffoldLoading(color: clrYellow),
+                ) : controller.favError.value.isNotEmpty ? ErrorScreen() : ListView.builder(
+                    itemCount: controller.favData.value.result?.
+                    where((result) =>
+                    result.status == 'approved').length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      var  resultData = controller.favData.value.result?.
+                      where((result) =>
+                      result.status == 'approved').toList();
+
+                      var data = controller.favData.value.result![index];
+                      print('Circle Index for index $index: ${controller.favData.value.result?[index].circleIndex?.value}');
+
                       return InkWell(
                         onTap: () {
                           Get.toNamed(Routes.exploreView);
@@ -50,6 +68,7 @@ class FavouriteListUi extends GetWidget{
                         child: Container(
                           margin: const EdgeInsets.symmetric(vertical: 5),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                 height: h*.25,
@@ -58,26 +77,54 @@ class FavouriteListUi extends GetWidget{
                                   children: [
                                     CarouselSlider(
                                       options: CarouselOptions(
-                                          height: h*.25, viewportFraction: 1),
-                                      items: [1, 2, 3].map((i) {
+                                          height: h*.25,
+                                          viewportFraction: 1,
+                                          onPageChanged: (currIndex, CarouselPageChangedReason reason) {
+                                            controller.changeIndicator(index, currIndex);
+                                            debugPrint(" currIndex $currIndex reason=$reason");
+                                          }
+                                      ),
+                                      items:  data.banners?.map<Widget>((i) {
                                         return Builder(
                                           builder: (BuildContext context) {
+                                            // return Container(
+                                            //     clipBehavior: Clip.hardEdge,
+                                            //     width: MediaQuery.of(context).size.width,
+                                            //     height: double.maxFinite,
+                                            //     margin: const EdgeInsets.symmetric(
+                                            //         horizontal: 0),
+                                            //     decoration: BoxDecoration(
+                                            //         borderRadius:
+                                            //         BorderRadius.circular(18)),
+                                            //     child: Image.asset(
+                                            //       "assets/images/cofee.png",
+                                            //       fit: BoxFit.cover,
+                                            //       height: h*.25,
+                                            //       width: double.maxFinite,
+                                            //     ));
                                             return Container(
                                                 clipBehavior: Clip.hardEdge,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
+                                                width: MediaQuery.of(context).size.width,
                                                 height: double.maxFinite,
-                                                margin: const EdgeInsets.symmetric(
-                                                    horizontal: 0),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(18)),
-                                                child: Image.asset(
-                                                  "assets/images/cofee.png",
+                                                margin: const EdgeInsets.symmetric(horizontal: 0),
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                                                child: CachedNetworkImage(
                                                   fit: BoxFit.cover,
-                                                  height: h*.25,
+                                                  height: h * .26,
                                                   width: double.maxFinite,
+                                                  imageUrl: "$i",
+                                                  placeholder: (context, url) => Shimmer.fromColors(
+                                                    baseColor: grey300,
+                                                    highlightColor: grey100,
+                                                    child: Container(
+                                                      width: double.maxFinite,
+                                                      height: h * .26,
+                                                      decoration: BoxDecoration(
+                                                        color: grey300,
+                                                        borderRadius: BorderRadius.circular(18),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ));
                                           },
                                         );
@@ -97,11 +144,22 @@ class FavouriteListUi extends GetWidget{
                                                 color: clrWhite,
                                                 borderRadius:
                                                 BorderRadius.circular(20)),
-                                            child: const Text("Coffee",style: TextStyle(fontWeight: FontWeight.w600),),
+                                            child: Text(
+                                              data.subcategoryTitle.toString(),
+                                              style: TextStyle(fontWeight: FontWeight.w600),
+                                            ),
                                           ),
                                           InkWell(
-                                            onTap: () {
+                                            onTap: () async{
+                                              var id = resultData?[index].id.toString();
+                                              await controller.changeFavApi(id).then((value) {
+                                                if(value == true){
+                                                 homeController.homePageApi();
+                                                }
+                                              },
+                                              );
 
+                                              controller.favData.refresh();
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.all(6),
@@ -125,17 +183,19 @@ class FavouriteListUi extends GetWidget{
                                         margin: const EdgeInsets.only(bottom: 7),
                                         height: 16,
                                         child: ListView.builder(
-                                            itemCount: 3,
+                                            itemCount: data.banners?.length,
                                             shrinkWrap: true,
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (context, index) {
                                               return Padding(
                                                 padding: const EdgeInsets.symmetric(
                                                     horizontal: 1.5),
-                                                child: Icon(
-                                                  Icons.circle,
-                                                  color:index==0?clrYellow: clrWhite,
-                                                  size: 8,
+                                                child: Obx(
+                                                      () => Icon(
+                                                    Icons.circle,
+                                                    color: data.circleIndex?.value == index ? clrYellow : clrWhite,
+                                                    size: 8,
+                                                  ),
                                                 ),
                                               );
                                             }),
@@ -155,46 +215,90 @@ class FavouriteListUi extends GetWidget{
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          "Picnic in the park",
+                                         Text(
+                                           data.name.toString(),
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
-                                          "Vondelpark",
+                                          data.location.toString(),
                                           style: TextStyle(
                                               color: clrGreyDark),
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
-                                          "13 March 2024 | 2:30 PM - 6:00PM",
+                                          // "13 March 2024 | 2:30 PM - 6:00PM",
+                                          '${data.date} | ${data.startAt} - ${data.endAt}',
                                           style: TextStyle(
                                               color: clrGreyDark),
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
-                                          "Up to 3 people | 1 spot left",
+                                          "Up to ${data.maxPeople} people | 1 spot left",
                                           style: TextStyle(
                                               color: clrYellowText, fontSize: 13),
                                         ),
                                       ],
                                     ),
                                   ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
                                   Column(
                                     children: [
-                                      Container(
-                                          height: h*.05,
-                                          width: h*.05,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(100)),
-                                          child: Image.asset(
-                                            "assets/images/girldp.png",
-                                            fit: BoxFit.cover,
-                                          )),
-                                      const Text("Jenny",style: TextStyle(fontWeight: FontWeight.w700),)
+                                      // Container(
+                                      //     height: h*.05,
+                                      //     width: h*.05,
+                                      //     decoration: BoxDecoration(
+                                      //         borderRadius:
+                                      //         BorderRadius.circular(100)),
+                                      //     child: Image.network(
+                                      //       data.profilePhoto.toString(),
+                                      //       fit: BoxFit.cover,
+                                      //     )),
+                                      ClipRRect(
+                                        borderRadius:
+                                        BorderRadius.circular(100),
+                                        child:
+                                        CachedNetworkImage(
+                                          height:
+                                          38,
+                                          width:
+                                          38,
+                                          fit:
+                                          BoxFit.cover,
+                                          imageUrl:
+                                          '${data.profilePhoto}',
+                                          errorWidget: (context, url, error) =>
+                                              Container(
+                                                height: 38,
+                                                width: 38,
+                                                padding: const EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    color: clrGreyLight,
+                                                    shape: BoxShape.circle
+                                                ),
+                                                child: Image.asset("assets/icons/manicon.png",
+                                                  color: clrGrey,fit: BoxFit.cover,),
+                                              ),
+                                          placeholder: (context, url) =>
+                                              Shimmer.fromColors(
+                                                baseColor: grey300,
+                                                highlightColor: grey100,
+                                                child: Container(
+                                                  width: double.maxFinite,
+                                                  height: h * .05,
+                                                  decoration: BoxDecoration(
+                                                    color: grey300,
+                                                    borderRadius: BorderRadius.circular(18),
+                                                  ),
+                                                ),
+                                              ),
+                                        ),
+                                      ),
+                                      Text(data.hostName.toString(),style: TextStyle(fontWeight: FontWeight.w700),)
                                     ],
                                   )
                                 ],
@@ -203,7 +307,7 @@ class FavouriteListUi extends GetWidget{
                                 height: Get.height * 0.01,
                               ),
                               ReadMoreText(
-                                "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
+                                data.description.toString(),
                                 style: TextStyle(color: clrGreyDark),
                                 trimMode: TrimMode.Line,
                                 trimLines: 2,
@@ -219,6 +323,7 @@ class FavouriteListUi extends GetWidget{
                         ),
                       );
                     }),
+                ),
               )
             ],
           ),
