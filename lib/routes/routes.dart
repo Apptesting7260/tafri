@@ -154,7 +154,7 @@ class Routes{
     GetPage(name: verifySocialMedProUi, page:()=> GetVerifyUi(),binding: LanguageproBinding()),
     GetPage(name: bioUi, page:()=>BioUi(),binding: BioBinding()),
     GetPage(name: helpcenterProUi, page:()=>HelpCenterUi(),binding: HelpcenterBinding()),
-    GetPage(name: myfavProui, page:()=>const FavouriteListUi(),binding: MyfavouriteBinding()),
+    GetPage(name: myfavProui, page:()=> FavouriteListUi(),binding: MyfavouriteBinding()),
     GetPage(name: mymembershipProUi, page:()=>const MyMemberShipUi(),binding: MymembershipBinding()),
     GetPage(name: settingProUi, page:()=>const SettingUi(),binding: SettingBinding()),
     GetPage(name: referFrndProUi, page:()=>const ReferFrndUi(),binding: ReferFrndBinding()),

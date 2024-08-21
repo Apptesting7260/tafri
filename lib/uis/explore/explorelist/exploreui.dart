@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -268,20 +270,14 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                       )
                                                       .isNotEmpty
                                                   ? ListView.builder(
-                                            controller: controller.scrollController,
-                                                      itemCount: controller
-                                                          .homeData
-                                                          .value
-                                                          .result
-                                                          ?.activities
-                                                          ?.where((activity) =>
-                                                              activity.status ==
-                                                              'approved')
-                                                          .length,
+                                                      controller: controller.scrollController,
+                                                      itemCount: controller.homeData.value.result?.activities?.
+                                                        where((activity) =>
+                                                            activity.status == 'approved').length,
                                                       shrinkWrap: true,
                                                       itemBuilder:
                                                           (context, index) {
-                                                        var activityData = controller
+                                                        var  activityData = controller
                                                             .homeData
                                                             .value
                                                             .result
@@ -376,7 +372,15 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                               ),
                                                                             ),
                                                                             InkWell(
-                                                                              onTap: () {
+                                                                              onTap: () async{
+                                                                                var id = activityData?[index].id.toString();
+                                                                                await controller.changeFavApi(id).then((value) {
+                                                                                  if(value == true){
+                                                                                    activityData?[index].isFav = !activityData[index].isFav!;
+                                                                                  }
+                                                                                },);
+
+                                                                                controller.homeData.refresh();
                                                                                 // controller
                                                                                 //     .changeFav(
                                                                                 //         index);

@@ -159,6 +159,43 @@ class ExploreListController extends GetxController {
   //   exploreListData.refresh();
   // }
 
+
+  bool? isFavs = false;
+
+  Future<bool?> changeFavApi(String? id) async{
+
+    Map body = {
+      'activity_id': id,
+      'user_id': LocalStorage.getUid(),
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+
+    try{
+      final response = await api.post(EndPoints.changeFavurl, body,headers: header);
+      if(response.statusCode == 200){
+        isFavs = true;
+        print('change data == ${response.body}');
+        log(isFavs.toString());
+        return isFavs;
+      }else{
+        print('error == ${response.body}');
+        return false;
+      }
+    }catch(e){
+      print('changeFav api error == ${e.toString()}');
+      return false;
+
+    }
+     
+
+  }
+
   changeIndicator(index, currentIndex) {
     homeData.value.result!.activities?[index].circleIndex?.value = currentIndex;
   }
