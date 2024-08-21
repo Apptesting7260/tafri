@@ -197,8 +197,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                           BorderRadius.circular(
                                                               100),
                                                       child: CachedNetworkImage(
-                                                        height: 27,
-                                                        width: 27,
+                                                        height: 28,
+                                                        width: 28,
                                                         fit: BoxFit.cover,
                                                         imageUrl:
                                                             '${categoryData?[index].icon}',
