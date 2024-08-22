@@ -17,10 +17,11 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/error_widget.dart';
 import '../../components/custotextfield.dart';
+import '../explorelist/controller/explorelist_controller.dart';
 
 class ExploreViewUi extends GetWidget<ExploreViewController>{
   ExploreViewUi({super.key});
-  // ExploreViewController exploreViewController=Get.put(ExploreViewController());
+  ExploreListController exploreListController=Get.find<ExploreListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -232,6 +233,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                         await controller.changeFavApi(id).then((value) {
                                           if(value == true){
                                             controller.actData.value.activity!.isFav = !controller.actData.value.activity!.isFav!;
+                                            exploreListController.homePageApi();
                                           }
                                         },);
 
@@ -333,7 +335,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                   ),
                                   SizedBox(height: h * .005,),
                                   Text(
-                                    "Up to ${controller.actData.value.activity!.maxPeople} people | 1 spot left",
+                                    "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
                                     style: TextStyle(color: clrYellowText,fontSize: 13),
                                   ),
                                 ],
@@ -434,23 +436,104 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                           height: Get.height*0.03,
                         ),
                         Obx((){
-                          return controller.isReqSent.value==1? SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
-                            controller.changeReqSent(2);
-                          }, backgroundClr: clrBlacke, child: Text("Request to join",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))):SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){}, backgroundClr: clrGrey, child: Text("Pending Host Confirmation",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))) ;
-                        }),
+                          return controller.actData.value.activity!.requestStatus == 'pending'
+                              ? SizedBox(
+                                  width: double.maxFinite,
+                                  height: Res.h_btn,
+                                  child: CustomElevatedButton(
+                                      onTap: (){},
+                                      backgroundClr: clrGrey,
+                                      child: Text(
+                                        "Pending Host Confirmation",
+                                        style: TextStyle(
+                                            color: clrWhite,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700
+                                        ),
+                                      )
+                                  )
+                          ) : controller.actData.value.activity!.requestStatus == 'accept' ? SizedBox(
+                              width: double.maxFinite,
+                              height: Res.h_btn,
+                              child: CustomElevatedButton(
+                                  onTap: (){},
+                                  backgroundClr: clrBlacke,
+                                  child: Text(
+                                    "Join group chat",
+                                    style: TextStyle(
+                                        color: clrWhite,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700
+                                    ),
+                                  )
+                              )
+                          )  : SizedBox(
+                                width: double.maxFinite,
+                                height:Res.h_btn,
+                                child: CustomElevatedButton(
+                                    onTap: (){
+                                      controller.requestApi(controller.actData.value.activity!.id.toString()).then((value){
+                                        if(value == true){
+                                          // controller.actData.value.activity!.requestStatus = 'accept';
+                                          // controller.actData.refresh();
+                                        }
+                                      },);
+                                      // controller.changeReqSent(2);
+                                      // controller.alertRequestAccepted();
+                                    },
+                                    backgroundClr:  controller.isLoadingRequest.value
+                                        ? clrGreyLight : clrBlacke,
+                                    child: controller.isLoadingRequest.value
+                                        ? CommonUi.buttonLoading()
+                                        : Text(
+                                            "Request to join",
+                                            style: TextStyle(
+                                                color: clrWhite,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700
+                                            ),
+                                    )
+                                )
+                          );
+                        }
+                        ),
                         Obx((){
-                          return controller.isReqSent.value==2? Column(
+                          return controller.actData.value.activity!.requestStatus  == 'pending'
+                              ? Column(
+                                  children: [
+                                    SizedBox(
+                                      height: h*0.015,
+                                    ),
+                                    Center(
+                                        child: InkWell(
+                                        onTap: (){
+                                          alertCancelRequest();
+                                        },
+                                            child: const Text(
+                                              "Cancel Request",
+                                              style: TextStyle(decoration: TextDecoration.underline),
+                                            )
+                                        )
+                                    )
+                                  ],
+                          ) : controller.actData.value.activity!.requestStatus == 'accept' ? Column(
                             children: [
                               SizedBox(
                                 height: h*0.015,
                               ),
-                              Center(child: InkWell(
-                                  onTap: (){
-                                    alertCancelRequest();
-                                  }
-                                  ,child: const Text("Cancel Request",style: TextStyle(decoration: TextDecoration.underline),)))
+                              Center(
+                                  child: InkWell(
+                                      onTap: (){
+                                        alertCancelRequest();
+                                      },
+                                      child: const Text(
+                                        "Leave activity",
+                                        style: TextStyle(decoration: TextDecoration.underline,fontSize: 16),
+                                      )
+                                  )
+                              )
                             ],
-                          ) :const SizedBox() ;
+                          ) : const SizedBox();
                         }),
                         SizedBox(
                           height: Get.height*0.01,

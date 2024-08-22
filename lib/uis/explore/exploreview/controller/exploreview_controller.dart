@@ -1,10 +1,9 @@
 import 'dart:developer';
-
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:plusone/utils/size.dart';
-
 import '../../../../networking/apiservices.dart';
 import '../../../../networking/endpoints.dart';
 import '../../../../utils/colors.dart';
@@ -12,6 +11,7 @@ import '../../../../utils/local_storage.dart';
 import '../../../components/custoelevatedbtn.dart';
 import '../../../components/custotextfield.dart';
 import '../model/exploreviewui_model.dart';
+import '../model/requestmodel.dart';
 
 class ExploreViewController extends GetxController{
   @override
@@ -23,9 +23,7 @@ class ExploreViewController extends GetxController{
     super.onInit();
   }
   RxBool isFav=false.obs;
-  changeFav(){
-    isFav.value=!isFav.value;
-  }
+
   Rx<int> isReqSent=1.obs;  //1= not send, 2= sended
   changeReqSent(val){
     isReqSent.value=val;
@@ -71,6 +69,52 @@ class ExploreViewController extends GetxController{
 
 
 
+  var requestData = Requestmodel().obs;
+
+  Rx<bool> isLoadingRequest = false.obs;
+
+  Future<bool?> requestApi(String? id) async{
+    isLoadingRequest.value = true;
+
+    Map body = {
+      'activity_id': id,
+      'user_id': LocalStorage.getUid(),
+      'request_type': 'immediate_join',
+      'waitlist_message': null
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+
+    try{
+      final response = await api.post(EndPoints.requesttojoin, body,headers: header);
+      if(response.statusCode == 200){
+        print('change data == ${response.body}');
+        requestData.value = Requestmodel.fromJson(response.body);
+        actData.value.activity?.requestStatus = requestData.value.requestStatus;
+        actData.refresh();
+        // await actapi(id);
+        return true;
+      }else{
+        print('error == ${response.body}');
+        return false;
+      }
+    }catch(e){
+      print('changeFav api error == ${e.toString()}');
+      return false;
+
+    }
+
+    isLoadingRequest.value = false;
+
+  }
+
+
+
   changeIndicator(currentIndex) {
     actData.value.activity?.circleIndex?.value = currentIndex;
   }
@@ -78,7 +122,7 @@ class ExploreViewController extends GetxController{
 
   final api = ApiServices();
   var activitypage = false.obs;
-  var actData = actDataModal().obs;
+  var actData = ActDataModal().obs;
   var actError = ''.obs;
 
 
@@ -87,6 +131,7 @@ class ExploreViewController extends GetxController{
 
     Map body = {
       'id': id,
+      'user_id': LocalStorage.getUid()
     };
 
     print(body);
@@ -102,7 +147,7 @@ class ExploreViewController extends GetxController{
       if(response.statusCode == 200){
         actError.value = '';
         print('home data == ${response.body}');
-        actData.value = actDataModal.fromJson(response.body);
+        actData.value = ActDataModal.fromJson(response.body);
       }else{
         print('error == ${response.body}');
         actError.value = 'ERROR';

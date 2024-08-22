@@ -64,12 +64,12 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                       where((result) =>
                       result.status == 'approved').toList();
 
-                      var data = controller.favData.value.result![index];
+                      // var data = controller.favData.value.result![index];
                       print('Circle Index for index $index: ${controller.favData.value.result?[index].circleIndex?.value}');
 
                       return InkWell(
                         onTap: () {
-                          Get.toNamed(Routes.exploreView);
+                          Get.toNamed(Routes.exploreView,arguments: resultData[index].id.toString());
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(vertical: 5),
@@ -90,7 +90,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                             debugPrint(" currIndex $currIndex reason=$reason");
                                           }
                                       ),
-                                      items:  data.banners?.map<Widget>((i) {
+                                      items:  resultData?[index].banners?.map<Widget>((i) {
                                         return Builder(
                                           builder: (BuildContext context) {
                                             // return Container(
@@ -151,13 +151,13 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                                 borderRadius:
                                                 BorderRadius.circular(20)),
                                             child: Text(
-                                              data.subcategoryTitle.toString(),
+                                              resultData![index].subcategoryTitle.toString(),
                                               style: TextStyle(fontWeight: FontWeight.w600),
                                             ),
                                           ),
                                           InkWell(
                                             onTap: () async{
-                                              var id = resultData?[index].id.toString();
+                                              var id = resultData[index].id.toString();
                                               await controller.changeFavApi(id).then((value) {
                                                 if(value == true){
                                                  homeController.homePageApi();
@@ -189,7 +189,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                         margin: const EdgeInsets.only(bottom: 7),
                                         height: 16,
                                         child: ListView.builder(
-                                            itemCount: data.banners?.length,
+                                            itemCount: resultData[index].banners?.length,
                                             shrinkWrap: true,
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (context, index) {
@@ -199,7 +199,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                                 child: Obx(
                                                       () => Icon(
                                                     Icons.circle,
-                                                    color: data.circleIndex?.value == index ? clrYellow : clrWhite,
+                                                    color: resultData[index].circleIndex?.value == index ? clrYellow : clrWhite,
                                                     size: 8,
                                                   ),
                                                 ),
@@ -222,27 +222,27 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                       CrossAxisAlignment.start,
                                       children: [
                                          Text(
-                                           data.name.toString(),
+                                           resultData[index].name.toString(),
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
-                                          data.location.toString(),
+                                          resultData[index].location.toString(),
                                           style: TextStyle(
                                               color: clrGreyDark),
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
                                           // "13 March 2024 | 2:30 PM - 6:00PM",
-                                          '${data.date} | ${data.startAt} - ${data.endAt}',
+                                          '${resultData[index].date} | ${resultData[index].startAt} - ${resultData[index].endAt}',
                                           style: TextStyle(
                                               color: clrGreyDark),
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
-                                          "Up to ${data.maxPeople} people | 1 spot left",
+                                          "Up to ${resultData[index].maxPeople} people | 1 spot left",
                                           style: TextStyle(
                                               color: clrYellowText, fontSize: 13),
                                         ),
@@ -276,7 +276,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                           fit:
                                           BoxFit.cover,
                                           imageUrl:
-                                          '${data.profilePhoto}',
+                                          '${resultData[index].profilePhoto}',
                                           errorWidget: (context, url, error) =>
                                               Container(
                                                 height: 38,
@@ -304,7 +304,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                               ),
                                         ),
                                       ),
-                                      Text(data.hostName.toString(),style: TextStyle(fontWeight: FontWeight.w700),)
+                                      Text(resultData[index].hostName.toString(),style: TextStyle(fontWeight: FontWeight.w700),)
                                     ],
                                   )
                                 ],
@@ -313,7 +313,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                 height: Get.height * 0.01,
                               ),
                               ReadMoreText(
-                                data.description.toString(),
+                                resultData[index].description.toString(),
                                 style: TextStyle(color: clrGreyDark),
                                 trimMode: TrimMode.Line,
                                 trimLines: 2,

@@ -23,5 +23,6 @@ class EndPoints{
   static String favurl = '${baseUrl}my-favorites/';
 
   static String activitypage = '${baseUrl}activity-single-page';
+  static String requesttojoin = '${baseUrl}request-to-join-activity';
 
 }

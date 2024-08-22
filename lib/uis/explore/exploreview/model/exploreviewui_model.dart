@@ -1,15 +1,15 @@
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
-class actDataModal {
+class ActDataModal {
   bool? status;
   Activity? activity;
 
-  actDataModal({
+  ActDataModal({
     this.status,
     this.activity,
   });
 
-  factory actDataModal.fromJson(Map<String, dynamic> json) => actDataModal(
+  factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
     status: json["status"],
     activity: json["activity"] == null ? null : Activity.fromJson(json["activity"]),
   );
@@ -47,6 +47,9 @@ class Activity {
   String? formattedDate;
   bool? isFav;
   RxInt? circleIndex;
+  dynamic requestStatus;
+  int? spotLeft;
+  int? upToPeople;
 
   Activity({
     this.id,
@@ -74,6 +77,9 @@ class Activity {
     this.profilePhoto,
     this.formattedDate,
     this.isFav,
+    this.requestStatus,
+    this.spotLeft,
+    this.upToPeople,
     RxInt? circleIndex,
   }): circleIndex = circleIndex ?? 0.obs;
 
@@ -103,6 +109,9 @@ class Activity {
     profilePhoto: json["profile_photo"],
     formattedDate: json["formatted_date"],
     isFav: json["isFav"],
+    requestStatus: json["request_status"],
+    spotLeft: json["spot_left"],
+    upToPeople: json["up_to_people"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -131,5 +140,8 @@ class Activity {
     "profile_photo": profilePhoto,
     "formatted_date": formattedDate,
     "isFav": isFav,
+    "request_status": requestStatus,
+    "spot_left": spotLeft,
+    "up_to_people": upToPeople,
   };
 }
