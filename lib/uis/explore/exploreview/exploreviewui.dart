@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,16 +14,19 @@ import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../../utils/error_widget.dart';
 import '../../components/custotextfield.dart';
 
 class ExploreViewUi extends GetWidget<ExploreViewController>{
   ExploreViewUi({super.key});
-  ExploreViewController exploreViewController=Get.put(ExploreViewController());
+  // ExploreViewController exploreViewController=Get.put(ExploreViewController());
 
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
     var w=Get.width;
+    // var controller.actData.value.activity! = controller.controller.actData.value.activity!.value.activity!;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -106,205 +110,357 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                 height: Get.height*0.02,
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: h*.25,
-                        child: Stack(
-                          // clipBehavior: Clip.none,
-                          children: [
-                            CarouselSlider(
-                              options: CarouselOptions(
-                                  height:h*.25, viewportFraction: 1),
-                              items: [1, 2, 3].map((i) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                        clipBehavior: Clip.hardEdge,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: double.maxFinite,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 0),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(18)),
-                                        child: Image.asset(
-                                          "assets/images/cofee.png",
-                                          fit: BoxFit.cover,
-                                          height: h*.25,
-                                          width: double.maxFinite,
-                                        ));
-                                  },
-                                );
-                              }).toList(),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: clrWhite,
-                                        borderRadius:
-                                        BorderRadius.circular(20)),
-                                    child: const Text("Coffee",style: TextStyle(fontWeight: FontWeight.w700),),
-                                  ),
-                                  InkWell(
-                                    onTap: (){
-                                      // log("message");
-                                      return controller.changeFav();
-                                    },
-                                    child: Obx((){
-                                      return Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                            color: clrWhite,
-                                            borderRadius:
-                                            BorderRadius.circular(100)),
-                                        child: Icon(controller.isFav.value?Icons.favorite:
-                                        Icons.favorite_border,
-                                          size: 20,
-                                          color: controller.isFav.value?clrYellow:null,
-                                        ),
-                                      );
+                child: Obx(() => controller.activitypage.value ? Center(
+                  child: CommonUi.scaffoldLoading(color: clrYellow),
+                ) : controller.actError.value.isNotEmpty ? ErrorScreen() : SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: h*.25,
+                          child: Stack(
+                            // clipBehavior: Clip.none,
+                            children: [
+                              // CarouselSlider(
+                              //   options: CarouselOptions(
+                              //       height:h*.25, viewportFraction: 1),
+                              //   items: [1, 2, 3].map((i) {
+                              //     return Builder(
+                              //       builder: (BuildContext context) {
+                              //         return Container(
+                              //             clipBehavior: Clip.hardEdge,
+                              //             width: MediaQuery.of(context)
+                              //                 .size
+                              //                 .width,
+                              //             height: double.maxFinite,
+                              //             margin: const EdgeInsets.symmetric(
+                              //                 horizontal: 0),
+                              //             decoration: BoxDecoration(
+                              //                 borderRadius:
+                              //                 BorderRadius.circular(18)),
+                              //             child: Image.asset(
+                              //               "assets/images/cofee.png",
+                              //               fit: BoxFit.cover,
+                              //               height: h*.25,
+                              //               width: double.maxFinite,
+                              //             ));
+                              //       },
+                              //     );
+                              //   }).toList(),
+                              // ),
+                              CarouselSlider(
+                                options: CarouselOptions(
+                                    height: h * .26,
+                                    viewportFraction: 1,
+                                    onPageChanged: (currIndex, CarouselPageChangedReason reason) {
+                                      controller.changeIndicator(currIndex);
+                                      debugPrint(" currIndex $currIndex reason=$reason");
                                     }),
+                                items: controller.actData.value.activity!.banners?.map<Widget>((i) {
+                                  return Builder(
+                                    builder:
+                                        (BuildContext context) {
+                                      return Container(
+                                          clipBehavior: Clip.hardEdge,
+                                          width: MediaQuery.of(context).size.width,
+                                          height: double.maxFinite,
+                                          margin: const EdgeInsets.symmetric(horizontal: 0),
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                                          child: CachedNetworkImage(
+                                            fit: BoxFit.cover,
+                                            height: h * .26,
+                                            width: double.maxFinite,
+                                            imageUrl: "$i",
+                                            placeholder: (context, url) => Shimmer.fromColors(
+                                              baseColor: grey300,
+                                              highlightColor: grey100,
+                                              child: Container(
+                                                width: double.maxFinite,
+                                                height: h * .26,
+                                                decoration: BoxDecoration(
+                                                  color: grey300,
+                                                  borderRadius: BorderRadius.circular(18),
+                                                ),
+                                              ),
+                                            ),
+                                          ));
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      decoration: BoxDecoration(
+                                          color: clrWhite,
+                                          borderRadius:
+                                          BorderRadius.circular(20)),
+                                      child: Text(
+                                        controller.actData.value.activity!.subcategoryTitle.toString(),
+                                        style: TextStyle(fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
+                                    // InkWell(
+                                    //   onTap: (){
+                                    //     // log("message");
+                                    //     return controller.changeFav();
+                                    //   },
+                                    //   child: Obx((){
+                                    //     return Container(
+                                    //       padding: const EdgeInsets.all(6),
+                                    //       decoration: BoxDecoration(
+                                    //           color: clrWhite,
+                                    //           borderRadius:
+                                    //           BorderRadius.circular(100)),
+                                    //       child: Icon(
+                                    //         controller.isFav.value?Icons.favorite:
+                                    //       Icons.favorite_border,
+                                    //         size: 20,
+                                    //         color: controller.isFav.value?clrYellow:null,
+                                    //       ),
+                                    //     );
+                                    //   }),
+                                    // ),
+                                    InkWell(
+                                      onTap: () async{
+                                        var id = controller.actData.value.activity!.id.toString();
+                                        await controller.changeFavApi(id).then((value) {
+                                          if(value == true){
+                                            controller.actData.value.activity!.isFav = !controller.actData.value.activity!.isFav!;
+                                          }
+                                        },);
+
+                                        controller.actData.refresh();
+                                        // controller
+                                        //     .changeFav(
+                                        //         index);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(100)),
+                                        child: controller.actData.value.activity!.isFav == true
+                                            ? Icon(
+                                          Icons.favorite,
+                                          size: 20,
+                                          color: clrYellow,
+                                        )
+                                            : const Icon(
+                                          Icons.favorite_border,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Align(
+                              //   alignment: Alignment.bottomCenter,
+                              //   child: Container(
+                              //     margin: const EdgeInsets.only(bottom: 7),
+                              //     height: 16,
+                              //     child: ListView.builder(
+                              //         itemCount: 3,
+                              //         shrinkWrap: true,
+                              //         scrollDirection: Axis.horizontal,
+                              //         itemBuilder: (context, index) {
+                              //           return Padding(
+                              //             padding: const EdgeInsets.symmetric(
+                              //                 horizontal: 1.5),
+                              //             child: Icon(
+                              //               Icons.circle,
+                              //               color: clrWhite,
+                              //               size: 8,
+                              //             ),
+                              //           );
+                              //         }),
+                              //   ),
+                              // )
+                              Align(
+                                alignment:
+                                Alignment.bottomCenter,
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 7),
+                                  height: 16,
+                                  child: ListView.builder(
+                                      itemCount: controller.actData.value.activity!.banners?.length,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, indicatorIndex) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 1.5),
+                                          child: Obx(() => Icon(
+                                              Icons.circle,
+                                              color: controller.actData.value.activity!.circleIndex?.value == indicatorIndex
+                                                  ? clrYellow : clrWhite,
+                                              size: 8,
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    controller.actData.value.activity!.name.toString(),
+                                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(
+                                    controller.actData.value.activity!.location.toString(),
+                                    style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 3),
+                                    child: Text(
+                                      '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
+                                      style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 3),
+                                    child: Text("Up to ${controller.actData.value.activity!.maxPeople} people | 1 spot left",style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),),
                                   ),
                                 ],
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 7),
-                                height: 16,
-                                child: ListView.builder(
-                                    itemCount: 3,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 1.5),
-                                        child: Icon(
-                                          Icons.circle,
-                                          color: clrWhite,
-                                          size: 8,
-                                        ),
-                                      );
-                                    }),
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            InkWell(
+                              onTap: (){
+                                Get.toNamed(Routes.hostProfileUi);
+                              },
+                              child: Column(
+                                children: [
+                                  // Container(
+                                  //     height: h*.055,
+                                  //     width: h*.055,
+                                  //     decoration: BoxDecoration(
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(100)),
+                                  //     child: Image.asset(
+                                  //       "assets/images/girldp.png",
+                                  //       fit: BoxFit.cover,
+                                  //     )),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: CachedNetworkImage(
+                                      height: 38,
+                                      width: 38,
+                                      fit: BoxFit.cover,
+                                      imageUrl: '${controller.actData.value.activity!.profilePhoto}',
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                            height: 38,
+                                            width: 38,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: clrGreyLight,
+                                                shape: BoxShape.circle
+                                            ),
+                                            child: Image.asset(
+                                              "assets/icons/manicon.png",
+                                              color: clrGrey,fit: BoxFit.cover,),
+                                          ),
+                                      placeholder: (context, url) =>
+                                          Shimmer.fromColors(
+                                            baseColor: grey300,
+                                            highlightColor: grey100,
+                                            child: Container(
+                                              width: double.maxFinite,
+                                              height: h * .05,
+                                              decoration: BoxDecoration(
+                                                color: grey300,
+                                                borderRadius: BorderRadius.circular(18),
+                                              ),
+                                            ),
+                                          ),
+                                    ),
+                                  ),
+                                  Text(
+                                    controller.actData.value.activity!.hostName.toString(),
+                                    style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
+                                ],
                               ),
                             )
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.02,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text("Picnic in the park",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),),
-                                Text("Vondelpark",style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 3),
-                                  child: Text("13 March 2024 | 2:30 PM - 6:00PM",style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 3),
-                                  child: Text("Up to 3 people | 1 spot left",style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),),
-                                ),
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: (){
-                              Get.toNamed(Routes.hostProfileUi);
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: h*.055,
-                                    width: h*.055,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(100)),
-                                    child: Image.asset(
-                                      "assets/images/girldp.png",
-                                      fit: BoxFit.cover,
-                                    )),
-                                const Text("Jenny",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.01,
-                      ),
-                      Text("Hey guys! Looking to brighten up your morning? How about joining me for a coffee break at the local café around 10 AM? I'm extending an invite to three fellow coffee lovers to join the chat and caffeine boost. Let's turn strangers into friends over a cup of joe! Hope to see you there for a delightful break. ☕️👋",style: TextStyle(fontSize: 14,color:clrGrey5D5C5E),),
-                      SizedBox(
-                        height: Get.height * 0.01,
-                      ),
-                      const Text("Going",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                      SizedBox(
-                        height: Get.height*0.01,
-                      ),
-                      SizedBox(
-                        height: h*.065,
-                        child: ListView.builder(itemCount: 2,scrollDirection: Axis.horizontal,shrinkWrap: true,itemBuilder: (context,index){
-                          return Container(
-                            margin: const EdgeInsets.only(right: 5),
-                            clipBehavior: Clip.hardEdge,
-                            height: h*.065,
-                            width: h*.065,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Image.asset("assets/images/cofee.png",fit: BoxFit.cover,),
-                          ) ;
+                        SizedBox(
+                          height: Get.height * 0.01,
+                        ),
+                        Text(
+                          controller.actData.value.activity!.description.toString(),
+                          style: TextStyle(fontSize: 14,color:clrGrey5D5C5E),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.01,
+                        ),
+                        const Text("Going",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                        SizedBox(
+                          height: Get.height*0.01,
+                        ),
+                        SizedBox(
+                          height: h*.065,
+                          child: ListView.builder(itemCount: 2,scrollDirection: Axis.horizontal,shrinkWrap: true,itemBuilder: (context,index){
+                            return Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              clipBehavior: Clip.hardEdge,
+                              height: h*.065,
+                              width: h*.065,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Image.asset("assets/images/cofee.png",fit: BoxFit.cover,),
+                            ) ;
+                          }),
+                        ),
+                        SizedBox(
+                          height: Get.height*0.03,
+                        ),
+                        Obx((){
+                          return controller.isReqSent.value==1? SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
+                            controller.changeReqSent(2);
+                          }, backgroundClr: clrBlacke, child: Text("Request to join",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))):SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){}, backgroundClr: clrGrey, child: Text("Pending Host Confirmation",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))) ;
                         }),
-                      ),
-                      SizedBox(
-                        height: Get.height*0.03,
-                      ),
-                      Obx((){
-                        return exploreViewController.isReqSent.value==1? SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
-                          exploreViewController.changeReqSent(2);
-                        }, backgroundClr: clrBlacke, child: Text("Request to join",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))):SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){}, backgroundClr: clrGrey, child: Text("Pending Host Confirmation",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))) ;
-                      }),
-                      Obx((){
-                        return exploreViewController.isReqSent.value==2? Column(
-                          children: [
-                             SizedBox(
-                              height: h*0.015,
-                            ),
-                            Center(child: InkWell(
-                                onTap: (){
-                                  alertCancelRequest();
-                                }
-                                ,child: const Text("Cancel Request",style: TextStyle(decoration: TextDecoration.underline),)))
-                          ],
-                        ) :const SizedBox() ;
-                      }),
-                      SizedBox(
-                        height: Get.height*0.01,
-                      ),
-                    ],
+                        Obx((){
+                          return controller.isReqSent.value==2? Column(
+                            children: [
+                              SizedBox(
+                                height: h*0.015,
+                              ),
+                              Center(child: InkWell(
+                                  onTap: (){
+                                    alertCancelRequest();
+                                  }
+                                  ,child: const Text("Cancel Request",style: TextStyle(decoration: TextDecoration.underline),)))
+                            ],
+                          ) :const SizedBox() ;
+                        }),
+                        SizedBox(
+                          height: Get.height*0.01,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                )
               ),
             ],
           ),
@@ -498,7 +654,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                     Expanded(child: SizedBox(
                       height: Res.h_btn,
                       child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Yes",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
-                        exploreViewController.changeReqSent(1);
+                        controller.changeReqSent(1);
                         Get.back();
                       }, backgroundClr: Get.theme.scaffoldBackgroundColor),
                     )),
