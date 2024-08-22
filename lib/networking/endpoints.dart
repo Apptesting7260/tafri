@@ -22,4 +22,6 @@ class EndPoints{
   static String changeFavurl = '${baseUrl}activity-fav-unfav';
   static String favurl = '${baseUrl}my-favorites/';
 
+  static String activitypage = '${baseUrl}activity-single-page';
+
 }

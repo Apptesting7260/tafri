@@ -289,9 +289,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                             .toList();
                                                         return InkWell(
                                                           onTap: () {
-                                                            controller
-                                                                .showHomePop();
-                                                            // Get.toNamed(Routes.exploreView);
+                                                            // controller.showHomePop();
+                                                            Get.toNamed(Routes.exploreView,arguments: activityData?[index].id.toString());
                                                           },
                                                           child: Container(
                                                             margin:

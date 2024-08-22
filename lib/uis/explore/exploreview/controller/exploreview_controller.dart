@@ -1,17 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:plusone/utils/size.dart';
 
+import '../../../../networking/apiservices.dart';
+import '../../../../networking/endpoints.dart';
 import '../../../../utils/colors.dart';
+import '../../../../utils/local_storage.dart';
 import '../../../components/custoelevatedbtn.dart';
 import '../../../components/custotextfield.dart';
+import '../model/exploreviewui_model.dart';
 
 class ExploreViewController extends GetxController{
   @override
   void onInit() {
     // TODO: implement onInit
-    alertAddaMessage();
+    // alertAddaMessage();
+    String id = Get.arguments;
+    actapi(id);
     super.onInit();
   }
   RxBool isFav=false.obs;
@@ -22,6 +30,93 @@ class ExploreViewController extends GetxController{
   changeReqSent(val){
     isReqSent.value=val;
   }
+
+
+
+  bool? isFavs = false;
+
+  Future<bool?> changeFavApi(String? id) async{
+
+    Map body = {
+      'activity_id': id,
+      'user_id': LocalStorage.getUid(),
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+
+    try{
+      final response = await api.post(EndPoints.changeFavurl, body,headers: header);
+      if(response.statusCode == 200){
+        isFavs = true;
+        print('change data == ${response.body}');
+        log(isFavs.toString());
+        return isFavs;
+      }else{
+        print('error == ${response.body}');
+        return false;
+      }
+    }catch(e){
+      print('changeFav api error == ${e.toString()}');
+      return false;
+
+    }
+
+
+  }
+
+
+
+  changeIndicator(currentIndex) {
+    actData.value.activity?.circleIndex?.value = currentIndex;
+  }
+
+
+  final api = ApiServices();
+  var activitypage = false.obs;
+  var actData = actDataModal().obs;
+  var actError = ''.obs;
+
+
+  Future<void> actapi(String? id) async{
+
+
+    Map body = {
+      'id': id,
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    activitypage.value = true;
+
+    try{
+      final response = await api.post(EndPoints.activitypage, body, headers: header);
+      if(response.statusCode == 200){
+        actError.value = '';
+        print('home data == ${response.body}');
+        actData.value = actDataModal.fromJson(response.body);
+      }else{
+        print('error == ${response.body}');
+        actError.value = 'ERROR';
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+      actError.value = e.toString();
+    }
+
+    activitypage.value = false;
+
+  }
+  
+  
 
   alertAddaMessage() {
     Future.delayed(Duration.zero,(){
