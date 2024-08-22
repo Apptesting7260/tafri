@@ -351,16 +351,10 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                         }).toList(),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                10,
-                                                                            vertical:
-                                                                                10),
+                                                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                                                         child:
                                                                             Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceBetween,
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                           children: [
                                                                             Container(
                                                                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -403,15 +397,10 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                         ),
                                                                       ),
                                                                       Align(
-                                                                        alignment:
-                                                                            Alignment.bottomCenter,
-                                                                        child:
-                                                                            Container(
-                                                                          margin: const EdgeInsets
-                                                                              .only(
-                                                                              bottom: 7),
-                                                                          height:
-                                                                              16,
+                                                                        alignment: Alignment.bottomCenter,
+                                                                        child: Container(
+                                                                          margin: const EdgeInsets.only(bottom: 7),
+                                                                          height: 16,
                                                                           child: ListView.builder(
                                                                               itemCount: activityData?[index].banners?.length,
                                                                               shrinkWrap: true,
@@ -434,9 +423,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                   ),
                                                                 ),
                                                                 SizedBox(
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.02,
+                                                                  height: Get.height * 0.02,
                                                                 ),
                                                                 Row(
                                                                   mainAxisAlignment:
@@ -444,42 +431,28 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                           .spaceBetween,
                                                                   children: [
                                                                     Flexible(
-                                                                      child:
-                                                                          Column(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
+                                                                      child: Column(
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                                         children: [
                                                                           Text(
                                                                             "${activityData?[index].name}",
-                                                                            style:
-                                                                                const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                                                           ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                h * .005,
-                                                                          ),
+                                                                          SizedBox(height: h * .005,),
                                                                           Text(
                                                                             '${activityData?[index].location}',
                                                                             style:
                                                                                 TextStyle(color: clrGreyDark),
                                                                           ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                h * .005,
-                                                                          ),
+                                                                          SizedBox(height: h * .005,),
                                                                           Text(
                                                                             '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
-                                                                            style:
-                                                                                TextStyle(color: clrGreyDark),
+                                                                            style: TextStyle(color: clrGreyDark),
                                                                           ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                h * .005,
-                                                                          ),
+                                                                          SizedBox(height: h * .005,),
                                                                           Text(
                                                                             "Up to ${activityData?[index].maxPeople} people | 2 spot left",
-                                                                            style:
-                                                                                TextStyle(color: clrYellowText, fontSize: 13),
+                                                                            style: TextStyle(color: clrYellowText, fontSize: 13),
                                                                           ),
                                                                         ],
                                                                       ),

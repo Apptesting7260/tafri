@@ -189,15 +189,13 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                 }).toList(),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                       decoration: BoxDecoration(
                                           color: clrWhite,
                                           borderRadius:
@@ -321,28 +319,28 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                 children: [
                                   Text(
                                     controller.actData.value.activity!.name.toString(),
-                                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),
+                                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
                                   ),
+                                  SizedBox(height: h * .005,),
                                   Text(
                                     controller.actData.value.activity!.location.toString(),
-                                    style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),
+                                    style: TextStyle(color:clrGreyDark),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 3),
-                                    child: Text(
-                                      '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
-                                      style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),
-                                    ),
+                                  SizedBox(height: h * .005,),
+                                  Text(
+                                    '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
+                                    style: TextStyle(color:clrGreyTextLight),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 3),
-                                    child: Text("Up to ${controller.actData.value.activity!.maxPeople} people | 1 spot left",style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),),
+                                  SizedBox(height: h * .005,),
+                                  Text(
+                                    "Up to ${controller.actData.value.activity!.maxPeople} people | 1 spot left",
+                                    style: TextStyle(color: clrYellowText,fontSize: 13),
                                   ),
                                 ],
                               ),
                             ),
                             const SizedBox(
-                              width: 6,
+                              width: 5,
                             ),
                             InkWell(
                               onTap: (){
@@ -397,7 +395,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                   ),
                                   Text(
                                     controller.actData.value.activity!.hostName.toString(),
-                                    style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
+                                    style: TextStyle(fontWeight: FontWeight.w700),)
                                 ],
                               ),
                             )
