@@ -249,7 +249,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                         controller.refreshController
                                             .refreshCompleted();
                                       },
-                                      enablePullDown: controller.showRefreshIndicator.value,
+                                      // enablePullDown: controller.showRefreshIndicator.value,
                                       header: WaterDropMaterialHeader(
                                         color: clrWhite,
                                         backgroundColor: clrYellow,
@@ -270,7 +270,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                       )
                                                       .isNotEmpty
                                                   ? ListView.builder(
-                                                      controller: controller.scrollController,
+                                                      // controller: controller.scrollController,
                                                       itemCount: controller.homeData.value.result?.activities?.
                                                         where((activity) =>
                                                             activity.status == 'approved').length,

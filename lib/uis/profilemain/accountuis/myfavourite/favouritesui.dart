@@ -48,6 +48,12 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
               Expanded(
                 child: Obx(() => controller.myfavouriteLoading.value ? Center(
                   child: CommonUi.scaffoldLoading(color: clrYellow),
+                ) : controller.favData.value.result!.isEmpty ? Center(
+                  child: SizedBox(
+                    width: Get.width*0.7,
+                    height: Get.height*0.5,
+                    child: Image.asset('assets/images/empty fav.png'),
+                  ),
                 ) : controller.favError.value.isNotEmpty ? ErrorScreen() : ListView.builder(
                     itemCount: controller.favData.value.result?.
                     where((result) =>
