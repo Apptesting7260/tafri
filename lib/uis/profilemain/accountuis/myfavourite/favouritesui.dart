@@ -48,13 +48,13 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
               Expanded(
                 child: Obx(() => controller.myfavouriteLoading.value ? Center(
                   child: CommonUi.scaffoldLoading(color: clrYellow),
-                ) : controller.favData.value.result!.isEmpty ? Center(
+                ) : controller.favError.value.isNotEmpty ? ErrorScreen() : controller.favData.value.result!.isEmpty ? Center(
                   child: SizedBox(
                     width: Get.width*0.7,
                     height: Get.height*0.5,
                     child: Image.asset('assets/images/empty fav.png'),
                   ),
-                ) : controller.favError.value.isNotEmpty ? ErrorScreen() : ListView.builder(
+                )  : ListView.builder(
                     itemCount: controller.favData.value.result?.
                     where((result) =>
                     result.status == 'approved').length,
@@ -252,60 +252,65 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Column(
-                                    children: [
-                                      // Container(
-                                      //     height: h*.05,
-                                      //     width: h*.05,
-                                      //     decoration: BoxDecoration(
-                                      //         borderRadius:
-                                      //         BorderRadius.circular(100)),
-                                      //     child: Image.network(
-                                      //       data.profilePhoto.toString(),
-                                      //       fit: BoxFit.cover,
-                                      //     )),
-                                      ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.circular(100),
-                                        child:
-                                        CachedNetworkImage(
-                                          height:
-                                          38,
-                                          width:
-                                          38,
-                                          fit:
-                                          BoxFit.cover,
-                                          imageUrl:
-                                          '${resultData[index].profilePhoto}',
-                                          errorWidget: (context, url, error) =>
-                                              Container(
-                                                height: 38,
-                                                width: 38,
-                                                padding: const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    color: clrGreyLight,
-                                                    shape: BoxShape.circle
-                                                ),
-                                                child: Image.asset("assets/icons/manicon.png",
-                                                  color: clrGrey,fit: BoxFit.cover,),
-                                              ),
-                                          placeholder: (context, url) =>
-                                              Shimmer.fromColors(
-                                                baseColor: grey300,
-                                                highlightColor: grey100,
-                                                child: Container(
-                                                  width: double.maxFinite,
-                                                  height: h * .05,
+                                  InkWell(
+                                      onTap: (){
+                                        Get.toNamed(Routes.hostProfileUi,arguments: resultData[index].hostId.toString());
+                                      },
+                                    child: Column(
+                                      children: [
+                                        // Container(
+                                        //     height: h*.05,
+                                        //     width: h*.05,
+                                        //     decoration: BoxDecoration(
+                                        //         borderRadius:
+                                        //         BorderRadius.circular(100)),
+                                        //     child: Image.network(
+                                        //       data.profilePhoto.toString(),
+                                        //       fit: BoxFit.cover,
+                                        //     )),
+                                        ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(100),
+                                          child:
+                                          CachedNetworkImage(
+                                            height:
+                                            38,
+                                            width:
+                                            38,
+                                            fit:
+                                            BoxFit.cover,
+                                            imageUrl:
+                                            '${resultData[index].profilePhoto}',
+                                            errorWidget: (context, url, error) =>
+                                                Container(
+                                                  height: 38,
+                                                  width: 38,
+                                                  padding: const EdgeInsets.all(10),
                                                   decoration: BoxDecoration(
-                                                    color: grey300,
-                                                    borderRadius: BorderRadius.circular(18),
+                                                      color: clrGreyLight,
+                                                      shape: BoxShape.circle
+                                                  ),
+                                                  child: Image.asset("assets/icons/manicon.png",
+                                                    color: clrGrey,fit: BoxFit.cover,),
+                                                ),
+                                            placeholder: (context, url) =>
+                                                Shimmer.fromColors(
+                                                  baseColor: grey300,
+                                                  highlightColor: grey100,
+                                                  child: Container(
+                                                    width: double.maxFinite,
+                                                    height: h * .05,
+                                                    decoration: BoxDecoration(
+                                                      color: grey300,
+                                                      borderRadius: BorderRadius.circular(18),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                          ),
                                         ),
-                                      ),
-                                      Text(resultData[index].hostName.toString(),style: TextStyle(fontWeight: FontWeight.w700),)
-                                    ],
+                                        Text(resultData[index].hostName.toString(),style: TextStyle(fontWeight: FontWeight.w700),)
+                                      ],
+                                    ),
                                   )
                                 ],
                               ),
