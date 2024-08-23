@@ -464,7 +464,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                     ),
                                                                     InkWell(
                                                                       onTap: (){
-                                                                        Get.toNamed(Routes.hostProfileUi,arguments: activityData?[index].hostId.toString());
+                                                                        // Get.toNamed(Routes.hostProfileUi,arguments: activityData?[index].hostId.toString());
                                                                       },
                                                                       child: Column(
                                                                         children: [

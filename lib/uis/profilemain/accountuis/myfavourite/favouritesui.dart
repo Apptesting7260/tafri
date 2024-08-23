@@ -254,7 +254,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                   ),
                                   InkWell(
                                       onTap: (){
-                                        Get.toNamed(Routes.hostProfileUi,arguments: resultData[index].hostId.toString());
+                                        // Get.toNamed(Routes.hostProfileUi,arguments: resultData[index].hostId.toString());
                                       },
                                     child: Column(
                                       children: [
