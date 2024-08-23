@@ -26,5 +26,6 @@ class EndPoints{
   static String requesttojoin = '${baseUrl}request-to-join-activity';
 
   static String hostprofile = '${baseUrl}user-profile-view/';
+  static String reportuser = '${baseUrl}report-user';
 
 }

@@ -5,16 +5,18 @@ import 'package:get_storage/get_storage.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
+import '../../../utils/custom_radio.dart';
 import '../../../utils/error_widget.dart';
 import '../../../utils/size.dart';
 
 class HostProfileUi extends GetWidget<HostProfileController>{
-  const HostProfileUi({super.key});
+   HostProfileUi({super.key});
 
-
+  final formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -968,8 +970,8 @@ class HostProfileUi extends GetWidget<HostProfileController>{
   alertReport() {
     Get.dialog(AlertDialog(
       scrollable: true,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 13),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
       content: SizedBox(
         width: double.maxFinite,
         child: Column(
@@ -989,8 +991,8 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                     )),
                 const Text(
                   "Report user",
-                  style: TextStyle(fontSize: 19
-                      , fontWeight: FontWeight.w800),
+                  style: TextStyle(fontSize: 20
+                      , fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(
                   width: 1,
@@ -1002,54 +1004,137 @@ class HostProfileUi extends GetWidget<HostProfileController>{
             ),
             const Text(
               "Why are you reporting this user?",
-              style: TextStyle(fontWeight: FontWeight.w800),
+              style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),
             ),
             const SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                SizedBox(height: 30,child: Radio(splashRadius: 0,value: 1, groupValue: 2, onChanged: (val) {})),
-                const Text("Fake profile or spam")
-              ],
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Fake profile or spam",
+                    activeColor: clrYellow,
+                    value: 1,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
+            const SizedBox(
+              height: 10,
             ),
             Divider(
-              color: clrGreyLight,
-            ),
-            Row(
-              children: [
-                SizedBox(height: 30,child: Radio(value: 2, groupValue: 2, onChanged: (val) {})),
-                const Text("Inappropriate or offensive behaviour")
-              ],
-            ),
-            Divider(
-              color: clrGreyLight,
-            ),
-            Row(
-              children: [
-                SizedBox(height: 30,child: Radio(value: 3, groupValue: 2, onChanged: (val) {})),
-                const Text("Harrassment or abuse")
-              ],
-            ),
-            Divider(
-              color: clrGreyLight,
-            ),
-            Row(
-              children: [
-                SizedBox(height: 30,child: Radio(value: 4, groupValue: 2, onChanged: (val) {})),
-                const Text("Other")
-              ],
+              color: clrBlacke.withOpacity(.15),
             ),
             const SizedBox(
               height: 10,
             ),
-            const CustoTextFormField(hintText: "Please provide more details about what happened. We will review your report and take appropriate action.",maxLines: 5,),
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Inappropriate or offensive behaviour",
+                    activeColor: clrYellow,
+                    value: 2,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
+            const SizedBox(
+              height: 10,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Harrassment or abuse",
+                    activeColor: clrYellow,
+                    value: 3,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
+            const SizedBox(
+              height: 10,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Other",
+                    activeColor: clrYellow,
+                    value: 4,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
             const SizedBox(
               height: 20,
             ),
-            SizedBox(width: double.maxFinite,height: 45,child: CustomElevatedButton(child: Text("Submit",style: TextStyle(color: clrWhite),), onTap: (){
-              Get.back();
-            }, backgroundClr: clrBlacke)),
+            Form(
+              key: formkey,
+              child: CustoTextFormField(
+                validation: (value) {
+                  if(value == null || value.isEmpty){
+                    return 'Please enter something';
+                  }else{
+                    return null;
+                  }
+                },
+                controll: controller.reportDescriptionController,
+                hintText: "Please provide more details about what happened. We will review your report and take appropriate action.",
+                maxLines: 5,
+                borderRadius: 15,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() => Opacity(
+              opacity: controller.reportuserLoading.value ? 0.5 : 1,
+              child: SizedBox(
+                  width: double.maxFinite,
+                  height: Get.height * .07,
+                  child: CustomElevatedButton(
+                      onTap: (){
+                        if(controller.selectedValue.value == 4){
+                          if(formkey.currentState!.validate()){
+                            controller.reportUser(controller.hostData.value.result?.id.toString());
+                          }
+                        }else if(controller.selectedValue.value != 0){
+                          controller.reportUser(controller.hostData.value.result?.id.toString());
+                        }
+                        else{
+                          showTostMsg('Please select any reason');
+                        }
+                        // Get.back();
+                      },
+                      child: controller.reportuserLoading.value
+                          ? CommonUi.buttonLoading()
+                          : Text(
+                        "Submit",
+                        style: TextStyle(color: clrWhite,fontSize: 16),
+                      ),
+                      backgroundClr: clrBlacke
+                  )
+              ),
+            ),),
             const SizedBox(
               height: 10,
             ),
