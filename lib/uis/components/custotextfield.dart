@@ -13,8 +13,9 @@ class CustoTextFormField extends StatefulWidget {
   final Widget? sufixIcon;
   final TextInputType? textKType;
   final double? borderRadius;
+  final double? hintSize;
   final void Function(String)? onChanged;
-  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius});
+  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize});
 
   @override
   State<CustoTextFormField> createState() => _CustoTextFormFieldState();
@@ -33,7 +34,7 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
       decoration: InputDecoration(
           prefixIcon:widget.sufixIcon==null?null :widget.sufixIcon ,
           hintText: widget.hintText,
-          hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 15,color: clrGreyTextLight),
+          hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: widget.hintSize ?? 15,color: clrGreyTextLight),
           contentPadding:  EdgeInsets.symmetric(horizontal: 15,vertical: Get.height*.02),
           fillColor: clrGreyLight,
           filled: true,

@@ -20,950 +20,953 @@ class HostProfileUi extends GetWidget<HostProfileController>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonUi.appBar(),
-                    const Text(
-                      "Host profile",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(
-                      child: PopupMenuButton(
-                        elevation: 5,
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                            child: Text("Report"),
-                            value: 1,
-                          )
-                        ],
-                        onSelected: (val) {
-                          if (val == 1) {
-                            alertReport();
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: Get.height * 0.01,
-                ),
-                Obx(() => controller.hostLoading.value ? Expanded(
-                  child: Center(
-                    child: CommonUi.scaffoldLoading(color: clrYellow),
+    return GestureDetector(
+      onTap: () => alertReport(),
+      child: Scaffold(
+        body: SafeArea(
+            child: Padding(
+              padding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 15,
                   ),
-                ) : controller.hostError.value.isNotEmpty ? Expanded(
-                    child: Center(child: ErrorScreen())
-                ) : Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: Get.height * 0.03,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CommonUi.appBar(),
+                      const Text(
+                        "Host profile",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        child: PopupMenuButton(
+                          elevation: 5,
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              child: Text("Report"),
+                              value: 1,
+                            )
+                          ],
+                          onSelected: (val) {
+                            if (val == 1) {
+                              alertReport();
+                            }
+                          },
                         ),
-                        // Center(
-                        //   child: Container(
-                        //     clipBehavior: Clip.hardEdge,
-                        //     height: 100,
-                        //     width: 100,
-                        //     decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(100),
-                        //         image: const DecorationImage(
-                        //             image: AssetImage("assets/images/proimg.png"),
-                        //             fit: BoxFit.cover)
-                        //     ),
-                        //   ),
-                        // ),
-                        Center(
-                          child: Obx(
-                                () => ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: CachedNetworkImage(
-                                  imageUrl:
-                                  '${controller.hostData..value.result?.profile?.profilePhoto}',
-                                  fit: BoxFit.cover,
-                                  height: Get.height * .14,
-                                  width: Get.width * .3,
-                                  placeholder: (context, url) => Shimmer.fromColors(
-                                      baseColor: Colors.grey.shade300,
-                                      highlightColor: Colors.grey.shade100,
-                                      child: ClipRRect(
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.01,
+                  ),
+                  Obx(() => controller.hostLoading.value ? Expanded(
+                    child: Center(
+                      child: CommonUi.scaffoldLoading(color: clrYellow),
+                    ),
+                  ) : controller.hostError.value.isNotEmpty ? Expanded(
+                      child: Center(child: ErrorScreen())
+                  ) : Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: Get.height * 0.03,
+                          ),
+                          // Center(
+                          //   child: Container(
+                          //     clipBehavior: Clip.hardEdge,
+                          //     height: 100,
+                          //     width: 100,
+                          //     decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(100),
+                          //         image: const DecorationImage(
+                          //             image: AssetImage("assets/images/proimg.png"),
+                          //             fit: BoxFit.cover)
+                          //     ),
+                          //   ),
+                          // ),
+                          Center(
+                            child: Obx(
+                                  () => ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: CachedNetworkImage(
+                                    imageUrl:
+                                    '${controller.hostData..value.result?.profile?.profilePhoto}',
+                                    fit: BoxFit.cover,
+                                    height: Get.height * .14,
+                                    width: Get.width * .3,
+                                    placeholder: (context, url) => Shimmer.fromColors(
+                                        baseColor: Colors.grey.shade300,
+                                        highlightColor: Colors.grey.shade100,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(100),
+                                          child: Container(
+                                            height: Get.height * .14,
+                                            width: Get.width * .3,
+                                            color: clrGrey,
+                                          ),
+                                        )),
+                                    errorWidget: (context, url, error) {
+                                      print('error == $error');
+                                      return ClipRRect(
                                         borderRadius: BorderRadius.circular(100),
                                         child: Container(
                                           height: Get.height * .14,
                                           width: Get.width * .3,
-                                          color: clrGrey,
+                                          color: clrGreyLight,
+                                          child: Image.asset(
+                                            'assets/icons/manicon.png',
+                                            color: clrGrey,
+                                          ),
                                         ),
-                                      )),
-                                  errorWidget: (context, url, error) {
-                                    print('error == $error');
-                                    return ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Container(
-                                        height: Get.height * .14,
-                                        width: Get.width * .3,
-                                        color: clrGreyLight,
-                                        child: Image.asset(
-                                          'assets/icons/manicon.png',
-                                          color: clrGrey,
-                                        ),
-                                      ),
-                                    );
-                                  }),
+                                      );
+                                    }),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${controller.hostData.value.result?.firstName} ${controller.hostData.value.result?.lastName}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 16),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            InkWell(
-                                onTap: () {},
-                                child: Icon(
-                                  Icons.verified,
-                                  color: clrYellow,
-                                ))
-                          ],
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.007,
-                        ),
-                        Center(
-                            child: Text(
-                              "${controller.hostData.value.result?.age} years old |  ${controller.getPronoun(controller.hostData.value.result?.gender)}",
-                              style: TextStyle(color: clrGreyTextLight, fontSize: 14, fontWeight: FontWeight.w400),
-                            )),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        // Row(
-                        //   children: [
-                        //     Flexible(
-                        //       child: Container(
-                        //         padding: const EdgeInsets.symmetric(
-                        //             horizontal: 12, vertical: 12),
-                        //         decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(10),
-                        //             color: clrGreyLight),
-                        //         child: Column(
-                        //           children: [
-                        //             Text(
-                        //               controller.hostData.value.result!.attendanceRate.toString(),
-                        //               style: TextStyle(
-                        //                   color: clrYellowText.withOpacity(0.8),
-                        //                   fontSize: 19,
-                        //                   fontWeight: FontWeight.w800),
-                        //             ),
-                        //             const Text(
-                        //                 "Attendance Rate",
-                        //                 textAlign: TextAlign.center
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     SizedBox(
-                        //       width: Get.width * 0.02,
-                        //     ),
-                        //     Flexible(
-                        //       child: Container(
-                        //         padding: const EdgeInsets.symmetric(
-                        //             horizontal: 12, vertical: 12),
-                        //         decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(10),
-                        //             color: clrGreyLight),
-                        //         child: Column(
-                        //           children: [
-                        //             Text(
-                        //               controller.hostData.value.result!.activitiesJoined.toString(),
-                        //               style: TextStyle(
-                        //                   color: clrYellowText.withOpacity(0.8),
-                        //                   fontSize: 19,
-                        //                   fontWeight: FontWeight.w800),
-                        //             ),
-                        //             const Text(
-                        //               "Activities Joined",
-                        //               textAlign: TextAlign.center,
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     SizedBox(
-                        //       width: Get.width * 0.02,
-                        //     ),
-                        //     Flexible(
-                        //       child: Container(
-                        //         padding: const EdgeInsets.symmetric(
-                        //             horizontal: 12, vertical: 12),
-                        //         decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(10),
-                        //             color: clrGreyLight),
-                        //         child: Column(
-                        //           children: [
-                        //             Text(
-                        //               controller.hostData.value.result!.activitiesHosted.toString(),
-                        //               style: TextStyle(
-                        //                   color: clrYellowText.withOpacity(0.8),
-                        //                   fontSize: 19,
-                        //                   fontWeight: FontWeight.w800),
-                        //             ),
-                        //             const Text(
-                        //                 "Activities Hosted",
-                        //                 textAlign: TextAlign.center
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: clrGreyLight),
-                                child: Column(
-                                  children: [
-                                    // TweenAnimationBuilder<int>(
-                                    //   tween: IntTween(
-                                    //       begin: 0,
-                                    //       end: int.parse(profileController
-                                    //           .profileData
-                                    //           .value
-                                    //           .result!
-                                    //           .attendanceRate
-                                    //           .toString()
-                                    //           .split('%')[0])),
-                                    //   duration: const Duration(seconds: 1),
-                                    //   builder: (context, value, child) {
-                                    //     return Text(
-                                    //       '$value%',
-                                    //       style: TextStyle(
-                                    //           color: clrYellowText.withOpacity(0.8),
-                                    //           fontSize: 22,
-                                    //           fontWeight: FontWeight.w700),
-                                    //     );
-                                    //   },
-                                    // ),
-                                    Text(
-                                      '${controller.hostData.value.result?.attendanceRate ?? 0}',
-                                      style: TextStyle(
-                                          color: clrYellowText.withOpacity(0.8),
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    const Text(
-                                      "Attendance",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 12),
-                                    ), const Text(
-                                      "Rate",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: Get.width * 0.028,
-                            ),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: clrGreyLight),
-                                child: Column(
-                                  children: [
-                                    // TweenAnimationBuilder<int>(
-                                    //   tween: IntTween(
-                                    //       begin: 0,
-                                    //       end: int.parse(profileController
-                                    //           .profileData
-                                    //           .value
-                                    //           .result!
-                                    //           .activitiesJoined
-                                    //           .toString())),
-                                    //   duration: const Duration(seconds: 1),
-                                    //   builder: (context, value, child) {
-                                    //     return Text(
-                                    //       '$value',
-                                    //       style: TextStyle(
-                                    //           color: clrYellowText.withOpacity(0.8),
-                                    //           fontSize: 22,
-                                    //           fontWeight: FontWeight.w700),
-                                    //     );
-                                    //   },
-                                    // ),
-                                    Text(
-                                      '${controller.hostData.value.result?.activitiesJoined ?? 0}',
-                                      style: TextStyle(
-                                          color: clrYellowText.withOpacity(0.8),
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    const Text(
-                                      "Activities",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 12),
-                                    ),const Text(
-                                      "Joined",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: Get.width * 0.028,
-                            ),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: clrGreyLight),
-                                child: Column(
-                                  children: [
-                                    // TweenAnimationBuilder<int>(
-                                    //   tween: IntTween(
-                                    //       begin: 0,
-                                    //       end: int.parse(profileController
-                                    //           .profileData
-                                    //           .value
-                                    //           .result!
-                                    //           .activitiesHosted
-                                    //           .toString())),
-                                    //   duration: const Duration(seconds: 1),
-                                    //   builder: (context, value, child) {
-                                    //     return Text(
-                                    //       '$value',
-                                    //       style: TextStyle(
-                                    //           color: clrYellowText.withOpacity(0.8),
-                                    //           fontSize: 22,
-                                    //           fontWeight: FontWeight.w700),
-                                    //     );
-                                    //   },
-                                    // ),
-                                    Text(
-                                      '${controller.hostData.value.result?.activitiesHosted ?? 0}',
-                                      style: TextStyle(
-                                          color: clrYellowText.withOpacity(0.8),
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    const Text("Activities",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 12)),
-                                    const Text("Hosted",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 12)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        Container(
-                          width: double.maxFinite,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: clrGreyLight),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Bio",
-                                style: TextStyle(fontWeight: FontWeight.w800),
-                              ),
-                              controller.hostData.value.result
-                                  ?.profile?.bio !=
-                                  null ? Text("${controller.hostData.value.result?.profile?.bio}",
-                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
-                            ],
+                          SizedBox(
+                            height: Get.height * 0.01,
                           ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        Container(
-                          width: double.maxFinite,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: clrGreyLight),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                "Location",
-                                style: TextStyle(fontWeight: FontWeight.w800),
-                              ),
                               Text(
-                                  controller.hostData.value.result!.location.toString(),
-                                  style: TextStyle(color: clrGreyTextLight)
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        Container(
-                          width: double.maxFinite,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: clrGreyLight),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Job",
-                                style: TextStyle(fontWeight: FontWeight.w800),
-                              ),
-                              controller.hostData.value.result
-                                  ?.profile?.occupation !=
-                                  null ? Text("${controller.hostData.value.result?.profile?.occupation}",
-                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        Container(
-                          width: double.maxFinite,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: clrGreyLight),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Languages",
-                                style: TextStyle(fontWeight: FontWeight.w800),
+                                '${controller.hostData.value.result?.firstName} ${controller.hostData.value.result?.lastName}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 16),
                               ),
                               const SizedBox(
-                                height: 5,
+                                width: 5,
                               ),
-                              // Wrap(
-                              //   spacing: 8,
-                              //   runSpacing: 8,
-                              //   children: [
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: const Text("English"),
-                              //     ),
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: const Text("Spanish"),
-                              //     )
-                              //   ],
-                              // )
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  ...?controller.hostData.value.result
-                                      ?.profile?.languageNames
-                                      ?.map((language) {
-                                    return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 13, vertical: 5),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: clrWhite,
-                                      ),
-                                      child: Text(language),
-                                    );
-                                  }).toList(),
-                                ],
-                              )
+                              InkWell(
+                                  onTap: () {},
+                                  child: Icon(
+                                    Icons.verified,
+                                    color: clrYellow,
+                                  ))
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        Container(
-                          width: double.maxFinite,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: clrGreyLight),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          SizedBox(
+                            height: Get.height * 0.007,
+                          ),
+                          Center(
+                              child: Text(
+                                "${controller.hostData.value.result?.age} years old |  ${controller.getPronoun(controller.hostData.value.result?.gender)}",
+                                style: TextStyle(color: clrGreyTextLight, fontSize: 14, fontWeight: FontWeight.w400),
+                              )),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          // Row(
+                          //   children: [
+                          //     Flexible(
+                          //       child: Container(
+                          //         padding: const EdgeInsets.symmetric(
+                          //             horizontal: 12, vertical: 12),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(10),
+                          //             color: clrGreyLight),
+                          //         child: Column(
+                          //           children: [
+                          //             Text(
+                          //               controller.hostData.value.result!.attendanceRate.toString(),
+                          //               style: TextStyle(
+                          //                   color: clrYellowText.withOpacity(0.8),
+                          //                   fontSize: 19,
+                          //                   fontWeight: FontWeight.w800),
+                          //             ),
+                          //             const Text(
+                          //                 "Attendance Rate",
+                          //                 textAlign: TextAlign.center
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: Get.width * 0.02,
+                          //     ),
+                          //     Flexible(
+                          //       child: Container(
+                          //         padding: const EdgeInsets.symmetric(
+                          //             horizontal: 12, vertical: 12),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(10),
+                          //             color: clrGreyLight),
+                          //         child: Column(
+                          //           children: [
+                          //             Text(
+                          //               controller.hostData.value.result!.activitiesJoined.toString(),
+                          //               style: TextStyle(
+                          //                   color: clrYellowText.withOpacity(0.8),
+                          //                   fontSize: 19,
+                          //                   fontWeight: FontWeight.w800),
+                          //             ),
+                          //             const Text(
+                          //               "Activities Joined",
+                          //               textAlign: TextAlign.center,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: Get.width * 0.02,
+                          //     ),
+                          //     Flexible(
+                          //       child: Container(
+                          //         padding: const EdgeInsets.symmetric(
+                          //             horizontal: 12, vertical: 12),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(10),
+                          //             color: clrGreyLight),
+                          //         child: Column(
+                          //           children: [
+                          //             Text(
+                          //               controller.hostData.value.result!.activitiesHosted.toString(),
+                          //               style: TextStyle(
+                          //                   color: clrYellowText.withOpacity(0.8),
+                          //                   fontSize: 19,
+                          //                   fontWeight: FontWeight.w800),
+                          //             ),
+                          //             const Text(
+                          //                 "Activities Hosted",
+                          //                 textAlign: TextAlign.center
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "Interests",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w800, fontSize: 15),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: clrGreyLight),
+                                  child: Column(
+                                    children: [
+                                      // TweenAnimationBuilder<int>(
+                                      //   tween: IntTween(
+                                      //       begin: 0,
+                                      //       end: int.parse(profileController
+                                      //           .profileData
+                                      //           .value
+                                      //           .result!
+                                      //           .attendanceRate
+                                      //           .toString()
+                                      //           .split('%')[0])),
+                                      //   duration: const Duration(seconds: 1),
+                                      //   builder: (context, value, child) {
+                                      //     return Text(
+                                      //       '$value%',
+                                      //       style: TextStyle(
+                                      //           color: clrYellowText.withOpacity(0.8),
+                                      //           fontSize: 22,
+                                      //           fontWeight: FontWeight.w700),
+                                      //     );
+                                      //   },
+                                      // ),
+                                      Text(
+                                        '${controller.hostData.value.result?.attendanceRate ?? 0}',
+                                        style: TextStyle(
+                                            color: clrYellowText.withOpacity(0.8),
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      const Text(
+                                        "Attendance",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12),
+                                      ), const Text(
+                                        "Rate",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // const Text("Sports and fitness",
-                              //     style: TextStyle(
-                              //         fontSize: 13, fontWeight: FontWeight.w800)),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // Wrap(
-                              //   spacing: 8,
-                              //   runSpacing: 8,
-                              //   children: [
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: Row(
-                              //         mainAxisSize: MainAxisSize.min,
-                              //         children: [
-                              //           Image.asset(
-                              //             "assets/icons/cycleicon.png",
-                              //             height: 20,
-                              //           ),
-                              //           const SizedBox(
-                              //             width: 4,
-                              //           ),
-                              //           const Text("Cycling"),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // const Text("Social",
-                              //     style: TextStyle(
-                              //         fontSize: 13, fontWeight: FontWeight.w800)),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // Wrap(
-                              //   spacing: 8,
-                              //   runSpacing: 8,
-                              //   children: [
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: Row(
-                              //         mainAxisSize: MainAxisSize.min,
-                              //         children: [
-                              //           Image.asset(
-                              //             "assets/icons/dinner.png",
-                              //             height: 20,
-                              //           ),
-                              //           const SizedBox(
-                              //             width: 4,
-                              //           ),
-                              //           const Text("Dining out"),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // const Text(
-                              //   "Learning",
-                              //   style: TextStyle(
-                              //       fontSize: 13, fontWeight: FontWeight.w800),
-                              // ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // Wrap(
-                              //   spacing: 8,
-                              //   runSpacing: 8,
-                              //   children: [
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: Row(
-                              //         mainAxisSize: MainAxisSize.min,
-                              //         children: [
-                              //           Image.asset(
-                              //             "assets/icons/languagetrn.png",
-                              //             height: 20,
-                              //           ),
-                              //           const SizedBox(
-                              //             width: 4,
-                              //           ),
-                              //           const Text("Language exchange"),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                               SizedBox(
-                                height: Get.height * .008,
+                                width: Get.width * 0.028,
                               ),
-                              Wrap(
-                                  spacing: Get.width * .02,
-                                  runSpacing: Get.height * .01,
-                                  children: controller.interestList.map(
-                                        (e) {
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: clrGreyLight),
+                                  child: Column(
+                                    children: [
+                                      // TweenAnimationBuilder<int>(
+                                      //   tween: IntTween(
+                                      //       begin: 0,
+                                      //       end: int.parse(profileController
+                                      //           .profileData
+                                      //           .value
+                                      //           .result!
+                                      //           .activitiesJoined
+                                      //           .toString())),
+                                      //   duration: const Duration(seconds: 1),
+                                      //   builder: (context, value, child) {
+                                      //     return Text(
+                                      //       '$value',
+                                      //       style: TextStyle(
+                                      //           color: clrYellowText.withOpacity(0.8),
+                                      //           fontSize: 22,
+                                      //           fontWeight: FontWeight.w700),
+                                      //     );
+                                      //   },
+                                      // ),
+                                      Text(
+                                        '${controller.hostData.value.result?.activitiesJoined ?? 0}',
+                                        style: TextStyle(
+                                            color: clrYellowText.withOpacity(0.8),
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      const Text(
+                                        "Activities",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12),
+                                      ),const Text(
+                                        "Joined",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: Get.width * 0.028,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: clrGreyLight),
+                                  child: Column(
+                                    children: [
+                                      // TweenAnimationBuilder<int>(
+                                      //   tween: IntTween(
+                                      //       begin: 0,
+                                      //       end: int.parse(profileController
+                                      //           .profileData
+                                      //           .value
+                                      //           .result!
+                                      //           .activitiesHosted
+                                      //           .toString())),
+                                      //   duration: const Duration(seconds: 1),
+                                      //   builder: (context, value, child) {
+                                      //     return Text(
+                                      //       '$value',
+                                      //       style: TextStyle(
+                                      //           color: clrYellowText.withOpacity(0.8),
+                                      //           fontSize: 22,
+                                      //           fontWeight: FontWeight.w700),
+                                      //     );
+                                      //   },
+                                      // ),
+                                      Text(
+                                        '${controller.hostData.value.result?.activitiesHosted ?? 0}',
+                                        style: TextStyle(
+                                            color: clrYellowText.withOpacity(0.8),
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      const Text("Activities",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 12)),
+                                      const Text("Hosted",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 12)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          Container(
+                            width: double.maxFinite,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: clrGreyLight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Bio",
+                                  style: TextStyle(fontWeight: FontWeight.w800),
+                                ),
+                                controller.hostData.value.result
+                                    ?.profile?.bio !=
+                                    null ? Text("${controller.hostData.value.result?.profile?.bio}",
+                                    style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          Container(
+                            width: double.maxFinite,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: clrGreyLight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Location",
+                                  style: TextStyle(fontWeight: FontWeight.w800),
+                                ),
+                                Text(
+                                    controller.hostData.value.result!.location.toString(),
+                                    style: TextStyle(color: clrGreyTextLight)
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          Container(
+                            width: double.maxFinite,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: clrGreyLight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Job",
+                                  style: TextStyle(fontWeight: FontWeight.w800),
+                                ),
+                                controller.hostData.value.result
+                                    ?.profile?.occupation !=
+                                    null ? Text("${controller.hostData.value.result?.profile?.occupation}",
+                                    style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          Container(
+                            width: double.maxFinite,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: clrGreyLight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Languages",
+                                  style: TextStyle(fontWeight: FontWeight.w800),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                // Wrap(
+                                //   spacing: 8,
+                                //   runSpacing: 8,
+                                //   children: [
+                                //     Container(
+                                //       padding: const EdgeInsets.symmetric(
+                                //           horizontal: 13, vertical: 5),
+                                //       decoration: BoxDecoration(
+                                //           borderRadius: BorderRadius.circular(15),
+                                //           color: clrWhite),
+                                //       child: const Text("English"),
+                                //     ),
+                                //     Container(
+                                //       padding: const EdgeInsets.symmetric(
+                                //           horizontal: 13, vertical: 5),
+                                //       decoration: BoxDecoration(
+                                //           borderRadius: BorderRadius.circular(15),
+                                //           color: clrWhite),
+                                //       child: const Text("Spanish"),
+                                //     )
+                                //   ],
+                                // )
+                                Wrap(
+                                  spacing: 8,
+                                  runSpacing: 8,
+                                  children: [
+                                    ...?controller.hostData.value.result
+                                        ?.profile?.languageNames
+                                        ?.map((language) {
                                       return Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 13, vertical: 5),
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15),
-                                            color: Colors.white),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.network(
-                                              e.icon.toString(),
-                                              height: 20,
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(e.title.toString()),
-                                          ],
+                                          borderRadius: BorderRadius.circular(15),
+                                          color: clrWhite,
                                         ),
+                                        child: Text(language),
                                       );
-                                    },
-                                  ).toList())
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: clrGreyLight),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Fun facts about ${controller.hostData.value.result?.firstName}",
-                                style: TextStyle(fontWeight: FontWeight.w800),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              ListView.separated(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) => Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].question}",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 15),
-                                    ),
-                                    Text(
-                                        "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].answer}",
-                                        style: TextStyle(color: clrGreyTextLight)),
+                                    }).toList(),
                                   ],
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          Container(
+                            width: double.maxFinite,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: clrGreyLight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Interests",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w800, fontSize: 15),
                                 ),
-                                itemCount: controller.hostData.value
-                                    .result?.profile?.funFactsAboutMe?.length ??
-                                    0,
-                                shrinkWrap: true,
-                                separatorBuilder: (context, index) =>
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                // const Text("Sports and fitness",
+                                //     style: TextStyle(
+                                //         fontSize: 13, fontWeight: FontWeight.w800)),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                // Wrap(
+                                //   spacing: 8,
+                                //   runSpacing: 8,
+                                //   children: [
+                                //     Container(
+                                //       padding: const EdgeInsets.symmetric(
+                                //           horizontal: 13, vertical: 5),
+                                //       decoration: BoxDecoration(
+                                //           borderRadius: BorderRadius.circular(15),
+                                //           color: clrWhite),
+                                //       child: Row(
+                                //         mainAxisSize: MainAxisSize.min,
+                                //         children: [
+                                //           Image.asset(
+                                //             "assets/icons/cycleicon.png",
+                                //             height: 20,
+                                //           ),
+                                //           const SizedBox(
+                                //             width: 4,
+                                //           ),
+                                //           const Text("Cycling"),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                // const Text("Social",
+                                //     style: TextStyle(
+                                //         fontSize: 13, fontWeight: FontWeight.w800)),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                // Wrap(
+                                //   spacing: 8,
+                                //   runSpacing: 8,
+                                //   children: [
+                                //     Container(
+                                //       padding: const EdgeInsets.symmetric(
+                                //           horizontal: 13, vertical: 5),
+                                //       decoration: BoxDecoration(
+                                //           borderRadius: BorderRadius.circular(15),
+                                //           color: clrWhite),
+                                //       child: Row(
+                                //         mainAxisSize: MainAxisSize.min,
+                                //         children: [
+                                //           Image.asset(
+                                //             "assets/icons/dinner.png",
+                                //             height: 20,
+                                //           ),
+                                //           const SizedBox(
+                                //             width: 4,
+                                //           ),
+                                //           const Text("Dining out"),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                // const Text(
+                                //   "Learning",
+                                //   style: TextStyle(
+                                //       fontSize: 13, fontWeight: FontWeight.w800),
+                                // ),
+                                // const SizedBox(
+                                //   height: 5,
+                                // ),
+                                // Wrap(
+                                //   spacing: 8,
+                                //   runSpacing: 8,
+                                //   children: [
+                                //     Container(
+                                //       padding: const EdgeInsets.symmetric(
+                                //           horizontal: 13, vertical: 5),
+                                //       decoration: BoxDecoration(
+                                //           borderRadius: BorderRadius.circular(15),
+                                //           color: clrWhite),
+                                //       child: Row(
+                                //         mainAxisSize: MainAxisSize.min,
+                                //         children: [
+                                //           Image.asset(
+                                //             "assets/icons/languagetrn.png",
+                                //             height: 20,
+                                //           ),
+                                //           const SizedBox(
+                                //             width: 4,
+                                //           ),
+                                //           const Text("Language exchange"),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                SizedBox(
+                                  height: Get.height * .008,
+                                ),
+                                Wrap(
+                                    spacing: Get.width * .02,
+                                    runSpacing: Get.height * .01,
+                                    children: controller.interestList.map(
+                                          (e) {
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 13, vertical: 5),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(15),
+                                              color: Colors.white),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.network(
+                                                e.icon.toString(),
+                                                height: 20,
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Text(e.title.toString()),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ).toList())
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: clrGreyLight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Fun facts about ${controller.hostData.value.result?.firstName}",
+                                  style: TextStyle(fontWeight: FontWeight.w800),
+                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                              )
-                            ],
+                                ListView.separated(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) => Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].question}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15),
+                                      ),
+                                      Text(
+                                          "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].answer}",
+                                          style: TextStyle(color: clrGreyTextLight)),
+                                    ],
+                                  ),
+                                  itemCount: controller.hostData.value
+                                      .result?.profile?.funFactsAboutMe?.length ??
+                                      0,
+                                  shrinkWrap: true,
+                                  separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.015,
-                        ),
-                        const Text(
-                          "Upcoming activities",
-                          style: TextStyle(fontWeight: FontWeight.w800),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.015,
-                        ),
-                        ListView.builder(
-                            itemCount: 2,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: clrGreyLight),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "25 May",
-                                      style: TextStyle(color: clrGreyDark),
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.003,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          clipBehavior: Clip.hardEdge,
-                                          height: 57,
-                                          width: 57,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Image.asset(
-                                            "assets/images/parkimage.png",
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: Get.width * 0.02,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 10),
+                          SizedBox(
+                            height: Get.height * 0.015,
+                          ),
+                          const Text(
+                            "Upcoming activities",
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.015,
+                          ),
+                          ListView.builder(
+                              itemCount: 2,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: clrGreyLight),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "25 May",
+                                        style: TextStyle(color: clrGreyDark),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.003,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            clipBehavior: Clip.hardEdge,
+                                            height: 57,
+                                            width: 57,
                                             decoration: BoxDecoration(
-                                                color: clrWhite,
-                                                borderRadius:
-                                                BorderRadius.circular(5)),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  "10KM Vondelpark run",
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500),
-                                                ),
-                                                Text(
-                                                    "Padel next, 1055 AH, Amsterdam ",
-                                                    style: TextStyle(
-                                                        color: clrGreyDark,
-                                                        fontSize: 12)),
-                                              ],
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Image.asset(
+                                              "assets/images/parkimage.png",
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                        SizedBox(
-                          height: Get.height * 0.015,
-                        ),
-                        const Text(
-                          "Previous activities",
-                          style: TextStyle(fontWeight: FontWeight.w800),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.015,
-                        ),
-                        ListView.builder(
-                            itemCount: 1,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: clrGreyLight),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "20 May",
-                                      style: TextStyle(color: clrGreyDark),
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.003,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              clipBehavior: Clip.hardEdge,
-                                              height: 57,
-                                              width: 57,
+                                          SizedBox(
+                                            width: Get.width * 0.02,
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 10, vertical: 10),
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                              ),
-                                              child: Image.asset(
-                                                "assets/images/parkimage.png",
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: Get.width * 0.02,
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 10, vertical: 10),
-                                                decoration: BoxDecoration(
-                                                    color: clrWhite,
-                                                    borderRadius:
-                                                    BorderRadius.circular(5)),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      "Salsa night at Tulp",
+                                                  color: clrWhite,
+                                                  borderRadius:
+                                                  BorderRadius.circular(5)),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "10KM Vondelpark run",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500),
+                                                  ),
+                                                  Text(
+                                                      "Padel next, 1055 AH, Amsterdam ",
                                                       style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                          FontWeight.w500),
-                                                    ),
-                                                    Text("Confirm attendance",
-                                                        style: TextStyle(
-                                                            color: clrYellowText,
-                                                            fontSize: 12)),
-                                                  ],
+                                                          color: clrGreyDark,
+                                                          fontSize: 12)),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                          SizedBox(
+                            height: Get.height * 0.015,
+                          ),
+                          const Text(
+                            "Previous activities",
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.015,
+                          ),
+                          ListView.builder(
+                              itemCount: 1,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: clrGreyLight),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "20 May",
+                                        style: TextStyle(color: clrGreyDark),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.003,
+                                      ),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                clipBehavior: Clip.hardEdge,
+                                                height: 57,
+                                                width: 57,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10),
+                                                ),
+                                                child: Image.asset(
+                                                  "assets/images/parkimage.png",
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              clipBehavior: Clip.hardEdge,
-                                              height: 57,
-                                              width: 57,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.circular(10),
+                                              SizedBox(
+                                                width: Get.width * 0.02,
                                               ),
-                                              child: Image.asset(
-                                                "assets/images/cofee.png",
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: Get.width * 0.02,
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 10, vertical: 10),
-                                                decoration: BoxDecoration(
-                                                    color: clrWhite,
-                                                    borderRadius:
-                                                    BorderRadius.circular(5)),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      "Sunday morning coffee",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                          FontWeight.w500),
-                                                    ),
-                                                    Text("Cancelled",
+                                              Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 10, vertical: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: clrWhite,
+                                                      borderRadius:
+                                                      BorderRadius.circular(5)),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      const Text(
+                                                        "Salsa night at Tulp",
                                                         style: TextStyle(
-                                                            color: clrGreyTextLight,
-                                                            fontSize: 12)),
-                                                  ],
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                            FontWeight.w500),
+                                                      ),
+                                                      Text("Confirm attendance",
+                                                          style: TextStyle(
+                                                              color: clrYellowText,
+                                                              fontSize: 12)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                clipBehavior: Clip.hardEdge,
+                                                height: 57,
+                                                width: 57,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10),
+                                                ),
+                                                child: Image.asset(
+                                                  "assets/images/cofee.png",
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                      ],
+                                              SizedBox(
+                                                width: Get.width * 0.02,
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 10, vertical: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: clrWhite,
+                                                      borderRadius:
+                                                      BorderRadius.circular(5)),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      const Text(
+                                                        "Sunday morning coffee",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                            FontWeight.w500),
+                                                      ),
+                                                      Text("Cancelled",
+                                                          style: TextStyle(
+                                                              color: clrGreyTextLight,
+                                                              fontSize: 12)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                )
-              ],
-            ),
-          )),
+                  )
+                ],
+              ),
+            )),
+      ),
     );
   }
 
@@ -1007,7 +1010,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
               style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),
             ),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             Obx(() => SizedBox(
                 height: 30,
@@ -1022,13 +1025,13 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                 )
             ),),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Divider(
               color: clrBlacke.withOpacity(.15),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Obx(() => SizedBox(
                 height: 30,
@@ -1043,13 +1046,13 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                 )
             ),),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Divider(
               color: clrBlacke.withOpacity(.15),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Obx(() => SizedBox(
                 height: 30,
@@ -1064,13 +1067,13 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                 )
             ),),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Divider(
               color: clrBlacke.withOpacity(.15),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Obx(() => SizedBox(
                 height: 30,
@@ -1085,7 +1088,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                 )
             ),),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Form(
               key: formkey,
@@ -1101,6 +1104,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                 hintText: "Please provide more details about what happened. We will review your report and take appropriate action.",
                 maxLines: 5,
                 borderRadius: 15,
+                hintSize: 14,
               ),
             ),
             const SizedBox(
@@ -1123,13 +1127,12 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         else{
                           showTostMsg('Please select any reason');
                         }
-                        // Get.back();
                       },
                       child: controller.reportuserLoading.value
                           ? CommonUi.buttonLoading()
                           : Text(
                         "Submit",
-                        style: TextStyle(color: clrWhite,fontSize: 16),
+                        style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
                       ),
                       backgroundClr: clrBlacke
                   )

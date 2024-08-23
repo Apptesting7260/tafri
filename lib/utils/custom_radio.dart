@@ -9,7 +9,7 @@ class CustomRadioButton extends StatelessWidget {
   final Color inactiveColor;
   final double splashRadius;
 
-  const CustomRadioButton({
+  const CustomRadioButton({super.key,
     required this.value,
     required this.groupValue,
     required this.onChanged,
@@ -53,8 +53,8 @@ class CustomRadioButton extends StatelessWidget {
                 ),
               ) : null,
             ),
-            SizedBox(width: 5,),
-            Text(text,style:  TextStyle(fontSize: 15,fontWeight: FontWeight.w400),)
+            const SizedBox(width: 5,),
+            Text(text,style:  const TextStyle(fontSize: 15,fontWeight: FontWeight.w400),)
           ],
         ),
       ),
