@@ -1,14 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
+import '../../../utils/error_widget.dart';
 import '../../../utils/size.dart';
 
 class HostProfileUi extends GetWidget<HostProfileController>{
   const HostProfileUi({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                     CommonUi.appBar(),
                     const Text(
                       "Host profile",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
                     SizedBox(
                       child: PopupMenuButton(
@@ -50,7 +56,13 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                 SizedBox(
                   height: Get.height * 0.01,
                 ),
-                Expanded(
+                Obx(() => controller.hostLoading.value ? Expanded(
+                  child: Center(
+                    child: CommonUi.scaffoldLoading(color: clrYellow),
+                  ),
+                ) : controller.hostError.value.isNotEmpty ? Expanded(
+                    child: Center(child: ErrorScreen())
+                ) : Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,16 +70,56 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
+                        // Center(
+                        //   child: Container(
+                        //     clipBehavior: Clip.hardEdge,
+                        //     height: 100,
+                        //     width: 100,
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(100),
+                        //         image: const DecorationImage(
+                        //             image: AssetImage("assets/images/proimg.png"),
+                        //             fit: BoxFit.cover)
+                        //     ),
+                        //   ),
+                        // ),
                         Center(
-                          child: Container(
-                            clipBehavior: Clip.hardEdge,
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                image: const DecorationImage(
-                                    image: AssetImage("assets/images/proimg.png"),
-                                    fit: BoxFit.cover)),
+                          child: Obx(
+                                () => ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                  imageUrl:
+                                  '${controller.hostData..value.result?.profile?.profilePhoto}',
+                                  fit: BoxFit.cover,
+                                  height: Get.height * .14,
+                                  width: Get.width * .3,
+                                  placeholder: (context, url) => Shimmer.fromColors(
+                                      baseColor: Colors.grey.shade300,
+                                      highlightColor: Colors.grey.shade100,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(100),
+                                        child: Container(
+                                          height: Get.height * .14,
+                                          width: Get.width * .3,
+                                          color: clrGrey,
+                                        ),
+                                      )),
+                                  errorWidget: (context, url, error) {
+                                    print('error == $error');
+                                    return ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Container(
+                                        height: Get.height * .14,
+                                        width: Get.width * .3,
+                                        color: clrGreyLight,
+                                        child: Image.asset(
+                                          'assets/icons/manicon.png',
+                                          color: clrGrey,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -76,10 +128,10 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              "Kayla",
+                            Text(
+                              '${controller.hostData.value.result?.firstName} ${controller.hostData.value.result?.lastName}',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w800, fontSize: 16),
+                                  fontWeight: FontWeight.w700, fontSize: 16),
                             ),
                             const SizedBox(
                               width: 5,
@@ -97,15 +149,98 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         ),
                         Center(
                             child: Text(
-                              "25 years old | She/Her",
-                              style: TextStyle(color: clrGreyTextLight, fontSize: 13),
+                              "${controller.hostData.value.result?.age} years old |  ${controller.getPronoun(controller.hostData.value.result?.gender)}",
+                              style: TextStyle(color: clrGreyTextLight, fontSize: 14, fontWeight: FontWeight.w400),
                             )),
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
+                        // Row(
+                        //   children: [
+                        //     Flexible(
+                        //       child: Container(
+                        //         padding: const EdgeInsets.symmetric(
+                        //             horizontal: 12, vertical: 12),
+                        //         decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(10),
+                        //             color: clrGreyLight),
+                        //         child: Column(
+                        //           children: [
+                        //             Text(
+                        //               controller.hostData.value.result!.attendanceRate.toString(),
+                        //               style: TextStyle(
+                        //                   color: clrYellowText.withOpacity(0.8),
+                        //                   fontSize: 19,
+                        //                   fontWeight: FontWeight.w800),
+                        //             ),
+                        //             const Text(
+                        //                 "Attendance Rate",
+                        //                 textAlign: TextAlign.center
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     SizedBox(
+                        //       width: Get.width * 0.02,
+                        //     ),
+                        //     Flexible(
+                        //       child: Container(
+                        //         padding: const EdgeInsets.symmetric(
+                        //             horizontal: 12, vertical: 12),
+                        //         decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(10),
+                        //             color: clrGreyLight),
+                        //         child: Column(
+                        //           children: [
+                        //             Text(
+                        //               controller.hostData.value.result!.activitiesJoined.toString(),
+                        //               style: TextStyle(
+                        //                   color: clrYellowText.withOpacity(0.8),
+                        //                   fontSize: 19,
+                        //                   fontWeight: FontWeight.w800),
+                        //             ),
+                        //             const Text(
+                        //               "Activities Joined",
+                        //               textAlign: TextAlign.center,
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     SizedBox(
+                        //       width: Get.width * 0.02,
+                        //     ),
+                        //     Flexible(
+                        //       child: Container(
+                        //         padding: const EdgeInsets.symmetric(
+                        //             horizontal: 12, vertical: 12),
+                        //         decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(10),
+                        //             color: clrGreyLight),
+                        //         child: Column(
+                        //           children: [
+                        //             Text(
+                        //               controller.hostData.value.result!.activitiesHosted.toString(),
+                        //               style: TextStyle(
+                        //                   color: clrYellowText.withOpacity(0.8),
+                        //                   fontSize: 19,
+                        //                   fontWeight: FontWeight.w800),
+                        //             ),
+                        //             const Text(
+                        //                 "Activities Hosted",
+                        //                 textAlign: TextAlign.center
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Flexible(
+                            Expanded(
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 12),
@@ -114,50 +249,51 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                     color: clrGreyLight),
                                 child: Column(
                                   children: [
+                                    // TweenAnimationBuilder<int>(
+                                    //   tween: IntTween(
+                                    //       begin: 0,
+                                    //       end: int.parse(profileController
+                                    //           .profileData
+                                    //           .value
+                                    //           .result!
+                                    //           .attendanceRate
+                                    //           .toString()
+                                    //           .split('%')[0])),
+                                    //   duration: const Duration(seconds: 1),
+                                    //   builder: (context, value, child) {
+                                    //     return Text(
+                                    //       '$value%',
+                                    //       style: TextStyle(
+                                    //           color: clrYellowText.withOpacity(0.8),
+                                    //           fontSize: 22,
+                                    //           fontWeight: FontWeight.w700),
+                                    //     );
+                                    //   },
+                                    // ),
                                     Text(
-                                      "100%",
+                                      '${controller.hostData.value.result?.attendanceRate ?? 0}',
                                       style: TextStyle(
                                           color: clrYellowText.withOpacity(0.8),
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                    const Text("Attendance Rate",
-                                        textAlign: TextAlign.center),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: Get.width * 0.02,
-                            ),
-                            Flexible(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: clrGreyLight),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "20",
-                                      style: TextStyle(
-                                          color: clrYellowText.withOpacity(0.8),
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w800),
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700),
                                     ),
                                     const Text(
-                                      "Activities Joined",
+                                      "Attendance",
                                       textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 12),
+                                    ), const Text(
+                                      "Rate",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 12),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             SizedBox(
-                              width: Get.width * 0.02,
+                              width: Get.width * 0.028,
                             ),
-                            Flexible(
+                            Expanded(
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 12),
@@ -166,15 +302,91 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                     color: clrGreyLight),
                                 child: Column(
                                   children: [
+                                    // TweenAnimationBuilder<int>(
+                                    //   tween: IntTween(
+                                    //       begin: 0,
+                                    //       end: int.parse(profileController
+                                    //           .profileData
+                                    //           .value
+                                    //           .result!
+                                    //           .activitiesJoined
+                                    //           .toString())),
+                                    //   duration: const Duration(seconds: 1),
+                                    //   builder: (context, value, child) {
+                                    //     return Text(
+                                    //       '$value',
+                                    //       style: TextStyle(
+                                    //           color: clrYellowText.withOpacity(0.8),
+                                    //           fontSize: 22,
+                                    //           fontWeight: FontWeight.w700),
+                                    //     );
+                                    //   },
+                                    // ),
                                     Text(
-                                      "25",
+                                      '${controller.hostData.value.result?.activitiesJoined ?? 0}',
                                       style: TextStyle(
                                           color: clrYellowText.withOpacity(0.8),
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w800),
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700),
                                     ),
-                                    const Text("Activities Hosted",
-                                        textAlign: TextAlign.center),
+                                    const Text(
+                                      "Activities",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 12),
+                                    ),const Text(
+                                      "Joined",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: Get.width * 0.028,
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 12),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: clrGreyLight),
+                                child: Column(
+                                  children: [
+                                    // TweenAnimationBuilder<int>(
+                                    //   tween: IntTween(
+                                    //       begin: 0,
+                                    //       end: int.parse(profileController
+                                    //           .profileData
+                                    //           .value
+                                    //           .result!
+                                    //           .activitiesHosted
+                                    //           .toString())),
+                                    //   duration: const Duration(seconds: 1),
+                                    //   builder: (context, value, child) {
+                                    //     return Text(
+                                    //       '$value',
+                                    //       style: TextStyle(
+                                    //           color: clrYellowText.withOpacity(0.8),
+                                    //           fontSize: 22,
+                                    //           fontWeight: FontWeight.w700),
+                                    //     );
+                                    //   },
+                                    // ),
+                                    Text(
+                                      '${controller.hostData.value.result?.activitiesHosted ?? 0}',
+                                      style: TextStyle(
+                                          color: clrYellowText.withOpacity(0.8),
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    const Text("Activities",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12)),
+                                    const Text("Hosted",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 12)),
                                   ],
                                 ),
                               ),
@@ -182,7 +394,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                           ],
                         ),
                         SizedBox(
-                          height: Get.height * 0.01,
+                          height: Get.height * 0.02,
                         ),
                         Container(
                           width: double.maxFinite,
@@ -198,14 +410,15 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 "Bio",
                                 style: TextStyle(fontWeight: FontWeight.w800),
                               ),
-                              Text(
-                                  "Hi, I’m Kayla! I love exploring local cafes and meeting new people in the neighborhood. Whether it’s chatting over coffee, discovering new places, or planning community events, I’m always up for a good conversation. Looking forward to connecting with you! ☕️👋",
-                                  style: TextStyle(color: clrGreyTextLight)),
+                              controller.hostData.value.result
+                                  ?.profile?.bio !=
+                                  null ? Text("${controller.hostData.value.result?.profile?.bio}",
+                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: Get.height * 0.01,
+                          height: Get.height * 0.02,
                         ),
                         Container(
                           width: double.maxFinite,
@@ -221,13 +434,15 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 "Location",
                                 style: TextStyle(fontWeight: FontWeight.w800),
                               ),
-                              Text("Amsterdam, Netherlands",
-                                  style: TextStyle(color: clrGreyTextLight)),
+                              Text(
+                                  controller.hostData.value.result!.location.toString(),
+                                  style: TextStyle(color: clrGreyTextLight)
+                              ),
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: Get.height * 0.01,
+                          height: Get.height * 0.02,
                         ),
                         Container(
                           width: double.maxFinite,
@@ -243,13 +458,15 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 "Job",
                                 style: TextStyle(fontWeight: FontWeight.w800),
                               ),
-                              Text("Creative Strategist at YouTube",
-                                  style: TextStyle(color: clrGreyTextLight)),
+                              controller.hostData.value.result
+                                  ?.profile?.occupation !=
+                                  null ? Text("${controller.hostData.value.result?.profile?.occupation}",
+                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: Get.height * 0.01,
+                          height: Get.height * 0.02,
                         ),
                         Container(
                           width: double.maxFinite,
@@ -268,33 +485,52 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                               const SizedBox(
                                 height: 5,
                               ),
+                              // Wrap(
+                              //   spacing: 8,
+                              //   runSpacing: 8,
+                              //   children: [
+                              //     Container(
+                              //       padding: const EdgeInsets.symmetric(
+                              //           horizontal: 13, vertical: 5),
+                              //       decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(15),
+                              //           color: clrWhite),
+                              //       child: const Text("English"),
+                              //     ),
+                              //     Container(
+                              //       padding: const EdgeInsets.symmetric(
+                              //           horizontal: 13, vertical: 5),
+                              //       decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(15),
+                              //           color: clrWhite),
+                              //       child: const Text("Spanish"),
+                              //     )
+                              //   ],
+                              // )
                               Wrap(
                                 spacing: 8,
                                 runSpacing: 8,
                                 children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13, vertical: 5),
-                                    decoration: BoxDecoration(
+                                  ...?controller.hostData.value.result
+                                      ?.profile?.languageNames
+                                      ?.map((language) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 13, vertical: 5),
+                                      decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
-                                        color: clrWhite),
-                                    child: const Text("English"),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: clrWhite),
-                                    child: const Text("Spanish"),
-                                  )
+                                        color: clrWhite,
+                                      ),
+                                      child: Text(language),
+                                    );
+                                  }).toList(),
                                 ],
                               )
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: Get.height * 0.01,
+                          height: Get.height * 0.02,
                         ),
                         Container(
                           width: double.maxFinite,
@@ -311,118 +547,146 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 style: TextStyle(
                                     fontWeight: FontWeight.w800, fontSize: 15),
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text("Sports and fitness",
-                                  style: TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w800)),
-                              const SizedBox(
-                                height: 5,
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              // const Text("Sports and fitness",
+                              //     style: TextStyle(
+                              //         fontSize: 13, fontWeight: FontWeight.w800)),
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              // Wrap(
+                              //   spacing: 8,
+                              //   runSpacing: 8,
+                              //   children: [
+                              //     Container(
+                              //       padding: const EdgeInsets.symmetric(
+                              //           horizontal: 13, vertical: 5),
+                              //       decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(15),
+                              //           color: clrWhite),
+                              //       child: Row(
+                              //         mainAxisSize: MainAxisSize.min,
+                              //         children: [
+                              //           Image.asset(
+                              //             "assets/icons/cycleicon.png",
+                              //             height: 20,
+                              //           ),
+                              //           const SizedBox(
+                              //             width: 4,
+                              //           ),
+                              //           const Text("Cycling"),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              // const Text("Social",
+                              //     style: TextStyle(
+                              //         fontSize: 13, fontWeight: FontWeight.w800)),
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              // Wrap(
+                              //   spacing: 8,
+                              //   runSpacing: 8,
+                              //   children: [
+                              //     Container(
+                              //       padding: const EdgeInsets.symmetric(
+                              //           horizontal: 13, vertical: 5),
+                              //       decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(15),
+                              //           color: clrWhite),
+                              //       child: Row(
+                              //         mainAxisSize: MainAxisSize.min,
+                              //         children: [
+                              //           Image.asset(
+                              //             "assets/icons/dinner.png",
+                              //             height: 20,
+                              //           ),
+                              //           const SizedBox(
+                              //             width: 4,
+                              //           ),
+                              //           const Text("Dining out"),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              // const Text(
+                              //   "Learning",
+                              //   style: TextStyle(
+                              //       fontSize: 13, fontWeight: FontWeight.w800),
+                              // ),
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              // Wrap(
+                              //   spacing: 8,
+                              //   runSpacing: 8,
+                              //   children: [
+                              //     Container(
+                              //       padding: const EdgeInsets.symmetric(
+                              //           horizontal: 13, vertical: 5),
+                              //       decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(15),
+                              //           color: clrWhite),
+                              //       child: Row(
+                              //         mainAxisSize: MainAxisSize.min,
+                              //         children: [
+                              //           Image.asset(
+                              //             "assets/icons/languagetrn.png",
+                              //             height: 20,
+                              //           ),
+                              //           const SizedBox(
+                              //             width: 4,
+                              //           ),
+                              //           const Text("Language exchange"),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              SizedBox(
+                                height: Get.height * .008,
                               ),
                               Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: clrWhite),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.asset(
-                                          "assets/icons/cycleicon.png",
-                                          height: 20,
+                                  spacing: Get.width * .02,
+                                  runSpacing: Get.height * .01,
+                                  children: controller.interestList.map(
+                                        (e) {
+                                      return Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 13, vertical: 5),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15),
+                                            color: Colors.white),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Image.network(
+                                              e.icon.toString(),
+                                              height: 20,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(e.title.toString()),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        const Text("Cycling"),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text("Social",
-                                  style: TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w800)),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: clrWhite),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.asset(
-                                          "assets/icons/dinner.png",
-                                          height: 20,
-                                        ),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        const Text("Dining out"),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                "Learning",
-                                style: TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w800),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 13, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: clrWhite),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.asset(
-                                          "assets/icons/languagetrn.png",
-                                          height: 20,
-                                        ),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        const Text("Language exchange"),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                      );
+                                    },
+                                  ).toList())
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: Get.height * 0.01,
+                          height: Get.height * 0.02,
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -433,17 +697,38 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "Fun facts about Emma",
+                              Text(
+                                "Fun facts about ${controller.hostData.value.result?.firstName}",
                                 style: TextStyle(fontWeight: FontWeight.w800),
                               ),
-                              const Text(
-                                "Are you a morning person or night owl?",
-                                style: TextStyle(fontWeight: FontWeight.w700),
+                              const SizedBox(
+                                height: 10,
                               ),
-                              Text(
-                                  "I'm both! Whether it's sunrise or midnight, I'm always ready to roll.",
-                                  style: TextStyle(color: clrGreyTextLight)),
+                              ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].question}",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15),
+                                    ),
+                                    Text(
+                                        "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].answer}",
+                                        style: TextStyle(color: clrGreyTextLight)),
+                                  ],
+                                ),
+                                itemCount: controller.hostData.value
+                                    .result?.profile?.funFactsAboutMe?.length ??
+                                    0,
+                                shrinkWrap: true,
+                                separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -673,6 +958,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                     ),
                   ),
                 ),
+                )
               ],
             ),
           )),

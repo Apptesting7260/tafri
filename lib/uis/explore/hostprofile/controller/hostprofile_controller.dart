@@ -8,9 +8,20 @@ class HostProfileController extends GetxController{
   @override
   void onInit() {
     // TODO: implement onInit
-    var id = Get.arguments;
+    String id = Get.arguments;
     hostapi(id);
     super.onInit();
+  }
+
+
+  String getPronoun(String? gender) {
+    if (gender == "female") {
+      return "She/Her";
+    } else if (gender == "male") {
+      return "He/Him";
+    } else {
+      return "They/Them";
+    }
   }
 
 
@@ -18,6 +29,7 @@ class HostProfileController extends GetxController{
   var hostLoading = false.obs;
   var hostData = HostprofileModel().obs;
   var hostError = ''.obs;
+  List<Subcategory> interestList = [];
 
 
   Future<void> hostapi(String? id) async{
@@ -35,6 +47,18 @@ class HostProfileController extends GetxController{
         hostError.value = '';
         print('host data == ${response.body}');
         hostData.value = HostprofileModel.fromJson(response.body);
+        interestList.clear();
+        if(hostData.value.result?.profile?.activityTitles != null){
+          for(var i in hostData.value.result!.profile!.activityTitles!){
+            if (i.subcategories != null) {
+              interestList.addAll(i.subcategories!);
+            }
+          }
+        }
+
+        for (var subcategory in interestList) {
+          print('Title: ${subcategory.title}, Icon: ${subcategory.icon}');
+        }
       }else{
         print('error == ${response.body}');
         hostError.value = 'ERROR';

@@ -460,54 +460,53 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                     const SizedBox(
                                                                       width: 5,
                                                                     ),
-                                                                    Column(
-                                                                      children: [
-                                                                        ClipRRect(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(100),
-                                                                          child:
-                                                                              CachedNetworkImage(
-                                                                            height:
-                                                                                38,
-                                                                            width:
-                                                                                38,
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                            imageUrl:
-                                                                                '${activityData?[index].profilePhoto}',
-                                                                            errorWidget: (context, url, error) =>
-                                                                                Container(
-                                                                                  height: 38,
-                                                                                  width: 38,
-                                                                                  padding: const EdgeInsets.all(10),
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: clrGreyLight,
-                                                                                    shape: BoxShape.circle
+                                                                    InkWell(
+                                                                      onTap: (){
+                                                                        Get.toNamed(Routes.hostProfileUi,arguments: activityData?[index].hostId.toString());
+                                                                      },
+                                                                      child: Column(
+                                                                        children: [
+                                                                          ClipRRect(
+                                                                            borderRadius: BorderRadius.circular(100),
+                                                                            child: CachedNetworkImage(
+                                                                              height: 38,
+                                                                              width: 38,
+                                                                              fit: BoxFit.cover,
+                                                                              imageUrl: '${activityData?[index].profilePhoto}',
+                                                                              errorWidget: (context, url, error) =>
+                                                                                  Container(
+                                                                                    height: 38,
+                                                                                    width: 38,
+                                                                                    padding: const EdgeInsets.all(10),
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: clrGreyLight,
+                                                                                      shape: BoxShape.circle
+                                                                                    ),
+                                                                                    child: Image.asset("assets/icons/manicon.png",
+                                                                                      color: clrGrey,fit: BoxFit.cover,),
                                                                                   ),
-                                                                                  child: Image.asset("assets/icons/manicon.png",
-                                                                                    color: clrGrey,fit: BoxFit.cover,),
-                                                                                ),
-                                                                            placeholder: (context, url) =>
-                                                                                Shimmer.fromColors(
-                                                                              baseColor: grey300,
-                                                                              highlightColor: grey100,
-                                                                              child: Container(
-                                                                                width: double.maxFinite,
-                                                                                height: h * .05,
-                                                                                decoration: BoxDecoration(
-                                                                                  color: grey300,
-                                                                                  borderRadius: BorderRadius.circular(18),
+                                                                              placeholder: (context, url) =>
+                                                                                  Shimmer.fromColors(
+                                                                                baseColor: grey300,
+                                                                                highlightColor: grey100,
+                                                                                child: Container(
+                                                                                  width: double.maxFinite,
+                                                                                  height: h * .05,
+                                                                                  decoration: BoxDecoration(
+                                                                                    color: grey300,
+                                                                                    borderRadius: BorderRadius.circular(18),
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                        Text(
-                                                                          '${activityData?[index].hostName}',
-                                                                          style:
-                                                                              const TextStyle(fontWeight: FontWeight.w700),
-                                                                        )
-                                                                      ],
+                                                                          Text(
+                                                                            '${activityData?[index].hostName}',
+                                                                            style:
+                                                                                const TextStyle(fontWeight: FontWeight.w700),
+                                                                          )
+                                                                        ],
+                                                                      ),
                                                                     )
                                                                   ],
                                                                 ),
