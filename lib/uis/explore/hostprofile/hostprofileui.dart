@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/common.dart';
+import '../../../utils/size.dart';
 
-class HostProfileUi extends GetWidget{
+class HostProfileUi extends GetWidget<HostProfileController>{
   const HostProfileUi({super.key});
 
   @override
@@ -12,30 +15,16 @@ class HostProfileUi extends GetWidget{
     return Scaffold(
       body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13),
+            padding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: Column(
               children: [
                 const SizedBox(
-                  height: 8,
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            color: clrGreyLight,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(child: Icon(Icons.arrow_back_ios)),
-                      ),
-                    ),
+                    CommonUi.appBar(),
                     const Text(
                       "Host profile",
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),

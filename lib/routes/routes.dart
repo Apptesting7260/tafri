@@ -165,7 +165,7 @@ class Routes{
     GetPage(name: mapActivityUi, page:()=>const MapActivityUi(),binding: MapActivityBinding()),
     GetPage(name: filterExploreUi, page:()=> ExploreFilterUi(),binding:FilterExpBinding()),
     GetPage(name: exploreView, page:()=>ExploreViewUi(),binding:ExploreViewBindings()),
-    GetPage(name: hostProfileUi, page:()=>const HostProfileUi(),binding:HostProfileBinding()),
+    GetPage(name: hostProfileUi, page:()=>HostProfileUi(),binding:HostProfileBinding()),
     GetPage(name: chatUi, page:()=> ChatUi(),binding:ChatBinding()),
     GetPage(name: poSupportChat, page:()=> PlusOneSupportChetUi(),binding:PoSupportChatBinding()),
     GetPage(name: viewNotifiUi, page:()=> const ViewNotiUi(),binding:ViewnotifiBinding()),

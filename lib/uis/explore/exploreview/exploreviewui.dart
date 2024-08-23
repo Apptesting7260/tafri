@@ -346,7 +346,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                             ),
                             InkWell(
                               onTap: (){
-                                Get.toNamed(Routes.hostProfileUi);
+                                Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId);
                               },
                               child: Column(
                                 children: [
