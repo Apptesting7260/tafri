@@ -46,11 +46,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
               height: Get.height * 0.01,
             ),
             TabBar(
-              indicatorColor: darkYellow,
+              indicatorColor: tabBarColor,
               dividerHeight: 0,
               indicatorSize: TabBarIndicatorSize.tab,
               unselectedLabelColor: clrBlacke,
-              labelColor: darkYellow,
+              labelColor: tabBarColor,
               labelStyle:
                   const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
               unselectedLabelStyle:

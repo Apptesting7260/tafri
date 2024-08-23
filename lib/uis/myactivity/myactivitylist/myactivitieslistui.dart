@@ -93,11 +93,12 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         },
                                         controller: controller
                                             .attendingRefreshController,
-                                        header: WaterDropMaterialHeader(
-                                          color: clrWhite,
-                                          backgroundColor: clrYellow,
-                                          distance: 50,
-                                        ),
+                                        header: CommonUi.refreshHeader(),
+                                        // WaterDropMaterialHeader(
+                                        //   color: clrWhite,
+                                        //   backgroundColor: clrYellow,
+                                        //   distance: 50,
+                                        // ),
                                         child: controller.attendingError.value.isEmpty ? ListView(
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
@@ -505,11 +506,12 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         },
                                         controller:
                                             controller.hostingRefreshController,
-                                        header: WaterDropMaterialHeader(
-                                          color: clrWhite,
-                                          backgroundColor: clrYellow,
-                                          distance: 50,
-                                        ),
+                                        header: CommonUi.refreshHeader(),
+                                        // WaterDropMaterialHeader(
+                                        //   color: clrWhite,
+                                        //   backgroundColor: clrYellow,
+                                        //   distance: 50,
+                                        // ),
                                         child: controller.hostingError.isEmpty ? ListView(
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [

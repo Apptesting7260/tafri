@@ -113,11 +113,12 @@ class ExploreUi extends GetWidget<ExploreListController> {
                           controller.refreshController1.refreshCompleted();
                         },
                         controller: controller.refreshController1,
-                        header: WaterDropMaterialHeader(
-                          color: clrWhite,
-                          backgroundColor: clrYellow,
-                          distance: 50,
-                        ),
+                        header: CommonUi.refreshHeader(),
+                        // WaterDropMaterialHeader(
+                        //   color: clrWhite,
+                        //   backgroundColor: clrYellow,
+                        //   distance: 50,
+                        // ),
                         child: const Center(
                           child: ErrorScreen(),
                         ),
@@ -250,11 +251,12 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                             .refreshCompleted();
                                       },
                                       // enablePullDown: controller.showRefreshIndicator.value,
-                                      header: WaterDropMaterialHeader(
-                                        color: clrWhite,
-                                        backgroundColor: clrYellow,
-                                        distance: 50,
-                                      ),
+                                      header: CommonUi.refreshHeader(),
+                                      // WaterDropMaterialHeader(
+                                      //   color: clrWhite,
+                                      //   backgroundColor: clrYellow,
+                                      //   distance: 50,
+                                      // ),
                                       child:
                                           controller.homeData.value.result!
                                                   .activities!.isEmpty

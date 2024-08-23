@@ -9,6 +9,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/onbording/introone/intoone.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -32,11 +33,12 @@ class ProfileUi extends GetWidget<ProfilemainController> {
             await controller.viewProfile();
             controller.refreshController.refreshCompleted();
           },
-          header: WaterDropMaterialHeader(
-            color: clrWhite,
-            backgroundColor: clrYellow,
-            distance: 50,
-          ),
+          header: CommonUi.refreshHeader(),
+          // WaterDropMaterialHeader(
+          //   color: clrWhite,
+          //   backgroundColor: clrYellow,
+          //   distance: 50,
+          // ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
