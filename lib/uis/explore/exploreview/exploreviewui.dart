@@ -436,6 +436,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                           height: Get.height*0.03,
                         ),
                         Obx((){
+                          print('re');
                           return controller.actData.value.activity!.requestStatus == 'pending'
                               ? SizedBox(
                                   width: double.maxFinite,
@@ -467,33 +468,65 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                     ),
                                   )
                               )
-                          )  : SizedBox(
-                                width: double.maxFinite,
-                                height:Res.h_btn,
-                                child: CustomElevatedButton(
-                                    onTap: (){
-                                      controller.requestApi(controller.actData.value.activity!.id.toString()).then((value){
-                                        if(value == true){
-                                          // controller.actData.value.activity!.requestStatus = 'accept';
-                                          // controller.actData.refresh();
+                          ) : controller.actData.value.activity!.requestStatus == 'reject' ? SizedBox(
+                              width: double.maxFinite,
+                              height: Res.h_btn,
+                              child: CustomElevatedButton(
+                                  onTap: (){},
+                                  backgroundClr: clrBlacke,
+                                  child: Text(
+                                    "Request sent",
+                                    style: TextStyle(
+                                        color: clrWhite,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700
+                                    ),
+                                  )
+                              )
+                          ) : controller.actData.value.activity!.requestStatus == 'leave' ? SizedBox(
+                              width: double.maxFinite,
+                              height: Res.h_btn,
+                              child: CustomElevatedButton(
+                                  onTap: (){},
+                                  backgroundClr: clrBlacke,
+                                  child: Text(
+                                    "Request sent",
+                                    style: TextStyle(
+                                        color: clrWhite,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700
+                                    ),
+                                  )
+                              )
+                          ) : Opacity(
+                            opacity: controller.isLoadingRequest.value ? 0.5 : 1,
+                            child: SizedBox(
+                                  width: double.maxFinite,
+                                  height:Res.h_btn,
+                                  child: CustomElevatedButton(
+                                      onTap: (){
+                                        if(controller.actData.value.activity?.spotLeft == 0){
+                                          controller.alertAddaMessage(controller.actData.value.activity!
+                                              .id.toString());
+                                        }else {
+                                          controller.requestApi(
+                                              controller.actData.value.activity!
+                                                  .id.toString());
                                         }
-                                      },);
-                                      // controller.changeReqSent(2);
-                                      // controller.alertRequestAccepted();
-                                    },
-                                    backgroundClr:  controller.isLoadingRequest.value
-                                        ? clrGreyLight : clrBlacke,
-                                    child: controller.isLoadingRequest.value
-                                        ? CommonUi.buttonLoading()
-                                        : Text(
-                                            "Request to join",
-                                            style: TextStyle(
-                                                color: clrWhite,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700
-                                            ),
-                                    )
-                                )
+                                      },
+                                      backgroundClr: clrBlacke,
+                                      child: controller.isLoadingRequest.value
+                                          ? CommonUi.buttonLoading()
+                                          : Text( controller.actData.value.activity?.spotLeft == 0 ? 'Join waitlist' :
+                                              "Request to join",
+                                              style: TextStyle(
+                                                  color: clrWhite,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700
+                                              ),
+                                      )
+                                  )
+                            ),
                           );
                         }
                         ),
@@ -510,8 +543,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                           alertCancelRequest();
                                         },
                                             child: const Text(
-                                              "Cancel Request",
-                                              style: TextStyle(decoration: TextDecoration.underline),
+                                              "Cancel request",
+                                              style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.w600),
                                             )
                                         )
                                     )
