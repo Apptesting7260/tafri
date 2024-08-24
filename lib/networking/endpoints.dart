@@ -28,4 +28,6 @@ class EndPoints{
   static String hostprofile = '${baseUrl}user-profile-view/';
   static String reportuser = '${baseUrl}report-user';
 
+  static String reportactivity = '${baseUrl}report-activity';
+
 }

@@ -31,6 +31,69 @@ class ExploreViewController extends GetxController{
     isReqSent.value=val;
   }
 
+  var selectedValue = 0.obs;
+
+  void updateSelectedValue(int? value) {
+    selectedValue.value = value!;
+  }
+
+  TextEditingController reportDescriptionController = TextEditingController();
+
+  var reportactivityLoading = false.obs;
+
+  Future<void> reportActivity(String? id) async{
+
+
+    Map body = {
+      'activity_id': id,
+      'user_id': LocalStorage.getUid(),
+      'report_reason': getReportReason(selectedValue.value),
+      'report_description': reportDescriptionController.text.trim()
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    reportactivityLoading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.reportactivity, body, headers: header);
+      if(response.statusCode == 200){
+        print('home data == ${response.body}');
+        showTostMsg('Report has been submitted');
+        Get.back();
+        reportDescriptionController.clear();
+        selectedValue.value = 0;
+      }else{
+        print('error == ${response.body}');
+
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+
+    }
+
+    reportactivityLoading.value = false;
+
+  }
+
+  String getReportReason(int value) {
+    switch (value) {
+      case 1:
+        return 'Fake profile or spam';
+      case 2:
+        return 'Inappropriate or offensive behaviour';
+      case 3:
+        return 'Harassment or abuse';
+      case 4:
+        return 'Other';
+      default:
+        return 'Unknown';
+    }
+  }
 
 
   bool? isFavs = false;

@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +14,17 @@ import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../utils/custom_radio.dart';
 import '../../../utils/error_widget.dart';
+import '../../../utils/tostmsg.dart';
 import '../../components/custotextfield.dart';
 import '../explorelist/controller/explorelist_controller.dart';
 
 class ExploreViewUi extends GetWidget<ExploreViewController>{
   ExploreViewUi({super.key});
   ExploreListController exploreListController=Get.find<ExploreListController>();
+
+  final formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,10 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                   //     child: const Center(child: Icon(Icons.arrow_back_ios)),
                   //   ),
                   // ),
-                  const Text("Activity",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
+                  const Text(
+                    "Activity",
+                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),
+                  ),
                   Row(
                     children: [
                       InkWell(
@@ -74,7 +80,12 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Image.asset("assets/icons/uploadicon.png",color: clrWhite,height: w*.06,width: w*.06,), //
+                            child: Image.asset(
+                              "assets/icons/uploadicon.png",
+                              color: clrWhite,
+                              height: w*.06,
+                              width: w*.06,
+                            ), //
                           ),
                         ),
                       ),
@@ -582,13 +593,100 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
       ),
     );
   }
+
+
   alertActivityReport() {
     Get.dialog(AlertDialog(
       scrollable: true,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 13),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+      insetPadding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
       content: SizedBox(
         width: double.maxFinite,
+        // child: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         InkWell(
+        //             onTap: () {
+        //               Get.back();
+        //             },
+        //             child: const Icon(
+        //               Icons.close,
+        //               size: 25,
+        //             )),
+        //         const Flexible(
+        //           child: Text(
+        //             "Report activity",
+        //             style: TextStyle(fontSize: 19
+        //                 , fontWeight: FontWeight.w800),
+        //           ),
+        //         ),
+        //         const SizedBox(
+        //           width: 1,
+        //         ),
+        //       ],
+        //     ),
+        //       SizedBox(
+        //       height:Get.height*.02,
+        //     ),
+        //     const Text(
+        //       "Why are you reporting this activity?",
+        //       style: TextStyle(fontWeight: FontWeight.w800),
+        //     ),
+        //       SizedBox(
+        //       height: Get.height*.014,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(splashRadius: 0,value: 1, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Scam or fraud",style: TextStyle(fontSize: 15),)
+        //       ],
+        //     ),
+        //     Divider(
+        //       color: clrGreyLight,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(value: 2, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Inappropriate or misleading content",style: TextStyle(fontSize: 15))
+        //       ],
+        //     ),
+        //     Divider(
+        //       color: clrGreyLight,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(value: 3, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Harrassment or abuse",style: TextStyle(fontSize: 15))
+        //       ],
+        //     ),
+        //     Divider(
+        //       color: clrGreyLight,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(value: 4, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Other",style: TextStyle(fontSize: 15))
+        //       ],
+        //     ),
+        //     const SizedBox(
+        //       height: 10,
+        //     ),
+        //     const CustoTextFormField(hintText: "Please provide more details about what happened. We will review your report and take appropriate action.",maxLines: 5,),
+        //       SizedBox(
+        //       height: Get.height*.024,
+        //     ),
+        //     SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
+        //       Get.back();
+        //     }, backgroundClr: clrBlacke, child: Text("Submit",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+        //       SizedBox(
+        //       height: Get.height*.014,
+        //     ),
+        //   ],
+        // ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -604,79 +702,167 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                       Icons.close,
                       size: 25,
                     )),
-                const Flexible(
-                  child: Text(
-                    "Report activity",
-                    style: TextStyle(fontSize: 19
-                        , fontWeight: FontWeight.w800),
-                  ),
+                const Text(
+                  "Report activity",
+                  style: TextStyle(fontSize: 20
+                      , fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(
                   width: 1,
                 ),
               ],
             ),
-              SizedBox(
-              height:Get.height*.02,
-            ),
-            const Text(
-              "Why are you reporting this activity?",
-              style: TextStyle(fontWeight: FontWeight.w800),
-            ),
-              SizedBox(
-              height: Get.height*.014,
+            const SizedBox(
+              height: 15,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 30,child: Radio(splashRadius: 0,value: 1, groupValue: 2, onChanged: (val) {})),
-                const Text("Scam or fraud",style: TextStyle(fontSize: 15),)
-              ],
-            ),
-            Divider(
-              color: clrGreyLight,
-            ),
-            Row(
-              children: [
-                SizedBox(height: 30,child: Radio(value: 2, groupValue: 2, onChanged: (val) {})),
-                const Text("Inappropriate or misleading content",style: TextStyle(fontSize: 15))
-              ],
-            ),
-            Divider(
-              color: clrGreyLight,
-            ),
-            Row(
-              children: [
-                SizedBox(height: 30,child: Radio(value: 3, groupValue: 2, onChanged: (val) {})),
-                const Text("Harrassment or abuse",style: TextStyle(fontSize: 15))
-              ],
-            ),
-            Divider(
-              color: clrGreyLight,
-            ),
-            Row(
-              children: [
-                SizedBox(height: 30,child: Radio(value: 4, groupValue: 2, onChanged: (val) {})),
-                const Text("Other",style: TextStyle(fontSize: 15))
+                Text(
+                  "Why are you reporting this activity?",
+                  style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),
+                ),
               ],
             ),
             const SizedBox(
+              height: 15,
+            ),
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Fake profile or spam",
+                    activeColor: clrYellow,
+                    value: 1,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
+            const SizedBox(
+              height: 5,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Inappropriate or offensive behaviour",
+                    activeColor: clrYellow,
+                    value: 2,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
+            const SizedBox(
+              height: 5,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Harrassment or abuse",
+                    activeColor: clrYellow,
+                    value: 3,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
+            const SizedBox(
+              height: 5,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Obx(() => SizedBox(
+                height: 30,
+                child: CustomRadioButton(
+                    text: "Other",
+                    activeColor: clrYellow,
+                    value: 4,
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (val) {
+                      controller.updateSelectedValue(val);
+                    }
+                )
+            ),),
+            const SizedBox(
+              height: 15,
+            ),
+            Form(
+              key: formkey,
+              child: CustoTextFormField(
+                validation: (value) {
+                  if(value == null || value.isEmpty){
+                    return 'Please enter something';
+                  }else{
+                    return null;
+                  }
+                },
+                controll: controller.reportDescriptionController,
+                hintText: "Please provide more details about what happened. We will review your report and take appropriate action.",
+                maxLines: 5,
+                borderRadius: 15,
+                hintSize: 14,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() => Opacity(
+              opacity: controller.reportactivityLoading.value ? 0.5 : 1,
+              child: SizedBox(
+                  width: double.maxFinite,
+                  height: Get.height * .07,
+                  child: CustomElevatedButton(
+                      onTap: (){
+                        // if(controller.selectedValue.value == 4){
+                        //   if(formkey.currentState!.validate()){
+                        //     controller.reportActivity(controller.actData.value.activity?.id.toString());
+                        //   }
+                        // }else if(controller.selectedValue.value != 0){
+                        //   controller.reportActivity(controller.actData.value.activity?.id.toString());
+                        // }
+                        // else{
+                        //   showTostMsg('Please select any reason');
+                        // }
+                      },
+                      child: controller.reportactivityLoading.value
+                          ? CommonUi.buttonLoading()
+                          : Text(
+                        "Submit",
+                        style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
+                      ),
+                      backgroundClr: clrBlacke
+                  )
+              ),
+            ),),
+            const SizedBox(
               height: 10,
-            ),
-            const CustoTextFormField(hintText: "Please provide more details about what happened. We will review your report and take appropriate action.",maxLines: 5,),
-              SizedBox(
-              height: Get.height*.024,
-            ),
-            SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
-              Get.back();
-            }, backgroundClr: clrBlacke, child: Text("Submit",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
-              SizedBox(
-              height: Get.height*.014,
             ),
           ],
         ),
       ),
     ));
   }
+
+
   alertCancelRequest() {
     Future.delayed(Duration.zero,(){
       Get.dialog(AlertDialog(
