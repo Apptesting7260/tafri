@@ -215,6 +215,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Flexible(
                                     child: Column(
@@ -242,7 +243,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(
-                                          "Up to ${resultData[index].maxPeople} people | 1 spot left",
+                                          "Up to ${resultData[index].maxPeople} people | ${resultData[index].spotLeft} spot left",
                                           style: TextStyle(
                                               color: clrYellowText, fontSize: 13),
                                         ),
@@ -257,6 +258,8 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                         // Get.toNamed(Routes.hostProfileUi,arguments: resultData[index].hostId.toString());
                                       },
                                     child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         // Container(
                                         //     height: h*.05,
@@ -273,18 +276,16 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                           BorderRadius.circular(100),
                                           child:
                                           CachedNetworkImage(
-                                            height:
-                                            38,
-                                            width:
-                                            38,
+                                            height: 40,
+                                            width: 40,
                                             fit:
                                             BoxFit.cover,
                                             imageUrl:
                                             '${resultData[index].profilePhoto}',
                                             errorWidget: (context, url, error) =>
                                                 Container(
-                                                  height: 38,
-                                                  width: 38,
+                                                  height: 40,
+                                                  width: 40,
                                                   padding: const EdgeInsets.all(10),
                                                   decoration: BoxDecoration(
                                                       color: clrGreyLight,
@@ -298,8 +299,8 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                                   baseColor: grey300,
                                                   highlightColor: grey100,
                                                   child: Container(
-                                                    width: double.maxFinite,
-                                                    height: h * .05,
+                                                    height: 40,
+                                                    width: 40,
                                                     decoration: BoxDecoration(
                                                       color: grey300,
                                                       borderRadius: BorderRadius.circular(18),

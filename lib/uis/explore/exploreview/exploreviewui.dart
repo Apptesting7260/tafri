@@ -325,6 +325,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Flexible(
                               child: Column(
@@ -360,6 +361,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                 // Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
                               },
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   // Container(
                                   //     height: h*.055,
@@ -374,14 +377,14 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child: CachedNetworkImage(
-                                      height: 38,
-                                      width: 38,
+                                      height: 40,
+                                      width: 40,
                                       fit: BoxFit.cover,
                                       imageUrl: '${controller.actData.value.activity!.profilePhoto}',
                                       errorWidget: (context, url, error) =>
                                           Container(
-                                            height: 38,
-                                            width: 38,
+                                            height: 40,
+                                            width: 40,
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 color: clrGreyLight,
@@ -396,8 +399,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                             baseColor: grey300,
                                             highlightColor: grey100,
                                             child: Container(
-                                              width: double.maxFinite,
-                                              height: h * .05,
+                                              height: 40,
+                                              width: 40,
                                               decoration: BoxDecoration(
                                                 color: grey300,
                                                 borderRadius: BorderRadius.circular(18),

@@ -44,6 +44,8 @@ class Result {
   String? subcategoryTitle;
   String? hostName;
   String? profilePhoto;
+  int? spotLeft;
+  int? spotPeople;
   RxInt? circleIndex;
 
   Result({
@@ -70,6 +72,8 @@ class Result {
     this.subcategoryTitle,
     this.hostName,
     this.profilePhoto,
+    this.spotLeft,
+    this.spotPeople,
     RxInt? circleIndex,
   }): circleIndex = circleIndex ?? 0.obs;
 
@@ -97,6 +101,8 @@ class Result {
     subcategoryTitle: json["subcategory_title"],
     hostName: json["host_name"],
     profilePhoto: json["profile_photo"],
+    spotLeft: json['spot_left'],
+    spotPeople: json['spot_people']
   );
 
   Map<String, dynamic> toJson() => {
@@ -123,5 +129,7 @@ class Result {
     "subcategory_title": subcategoryTitle,
     "host_name": hostName,
     "profile_photo": profilePhoto,
+    'spot_people': spotPeople,
+    'spot_left': spotLeft
   };
 }
