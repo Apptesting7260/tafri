@@ -537,7 +537,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                   height: Get.height * 0.01,
                                 ),
                                 controller.actData.value.going!.isEmpty ? SizedBox() : SizedBox(
-                                  height: h * .065,
+                                  height: 55,
                                   child: ListView.builder(
                                       itemCount: controller.actData.value.going?.length,
                                       scrollDirection: Axis.horizontal,
