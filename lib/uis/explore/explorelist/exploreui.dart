@@ -431,6 +431,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .spaceBetween,
+                                                                  crossAxisAlignment: CrossAxisAlignment.end,
                                                                   children: [
                                                                     Flexible(
                                                                       child: Column(
@@ -453,7 +454,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                           ),
                                                                           SizedBox(height: h * .005,),
                                                                           Text(
-                                                                            "Up to ${activityData?[index].maxPeople} people | 2 spot left",
+                                                                            "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} spot left",
                                                                             style: TextStyle(color: clrYellowText, fontSize: 13),
                                                                           ),
                                                                         ],
@@ -467,18 +468,20 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                         // Get.toNamed(Routes.hostProfileUi,arguments: activityData?[index].hostId.toString());
                                                                       },
                                                                       child: Column(
+                                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                                         children: [
                                                                           ClipRRect(
                                                                             borderRadius: BorderRadius.circular(100),
                                                                             child: CachedNetworkImage(
-                                                                              height: 38,
-                                                                              width: 38,
+                                                                              height: 40,
+                                                                              width: 40,
                                                                               fit: BoxFit.cover,
                                                                               imageUrl: '${activityData?[index].profilePhoto}',
                                                                               errorWidget: (context, url, error) =>
                                                                                   Container(
-                                                                                    height: 38,
-                                                                                    width: 38,
+                                                                                    height: 40,
+                                                                                    width: 40,
                                                                                     padding: const EdgeInsets.all(10),
                                                                                     decoration: BoxDecoration(
                                                                                       color: clrGreyLight,
@@ -492,8 +495,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                                 baseColor: grey300,
                                                                                 highlightColor: grey100,
                                                                                 child: Container(
-                                                                                  width: double.maxFinite,
-                                                                                  height: h * .05,
+                                                                                  height: 40,
+                                                                                  width: 40,
                                                                                   decoration: BoxDecoration(
                                                                                     color: grey300,
                                                                                     borderRadius: BorderRadius.circular(18),
