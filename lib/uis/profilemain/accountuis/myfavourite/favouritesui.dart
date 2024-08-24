@@ -318,16 +318,19 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                               SizedBox(
                                 height: Get.height * 0.01,
                               ),
-                              ReadMoreText(
-                                resultData[index].description.toString(),
-                                style: TextStyle(color: clrGreyDark),
-                                trimMode: TrimMode.Line,
-                                trimLines: 2,
-                                colorClickableText: Colors.pink,
-                                trimCollapsedText: 'Learn more',
-                                trimExpandedText: 'Learn less',
-                                moreStyle:
-                                TextStyle(color: clrBlacke,fontWeight: FontWeight.w700),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 13),
+                                child: ReadMoreText(
+                                  resultData[index].description.toString(),
+                                  style: TextStyle(color: clrGreyDark),
+                                  trimMode: TrimMode.Line,
+                                  trimLines: 2,
+                                  colorClickableText: Colors.pink,
+                                  trimCollapsedText: 'Learn more',
+                                  trimExpandedText: 'Learn less',
+                                  moreStyle:
+                                  TextStyle(color: clrBlacke,fontWeight: FontWeight.w700),
+                                ),
                               ),
                               const SizedBox(height: 10,),
                             ],

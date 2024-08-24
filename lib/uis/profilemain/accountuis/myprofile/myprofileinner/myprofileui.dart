@@ -1248,7 +1248,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Job",
+                            "Occupation",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),

@@ -748,28 +748,31 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                       Get.height *
                                                                           0.015,
                                                                 ),
-                                                                ReadMoreText(
-                                                                  '${activityData?[index].description}',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          clrGreyDark),
-                                                                  trimMode:
-                                                                      TrimMode
-                                                                          .Line,
-                                                                  trimLines: 2,
-                                                                  colorClickableText:
-                                                                      Colors
-                                                                          .pink,
-                                                                  trimCollapsedText:
-                                                                      'Learn more',
-                                                                  trimExpandedText:
-                                                                      'Learn less',
-                                                                  moreStyle: TextStyle(
-                                                                      color:
-                                                                          clrBlacke,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(right: 13),
+                                                                  child: ReadMoreText(
+                                                                    '${activityData?[index].description}',
+                                                                    style: TextStyle(
+                                                                        color:
+                                                                            clrGreyDark),
+                                                                    trimMode:
+                                                                        TrimMode
+                                                                            .Line,
+                                                                    trimLines: 2,
+                                                                    colorClickableText:
+                                                                        Colors
+                                                                            .pink,
+                                                                    trimCollapsedText:
+                                                                        'Learn more',
+                                                                    trimExpandedText:
+                                                                        'Learn less',
+                                                                    moreStyle: TextStyle(
+                                                                        color:
+                                                                            clrBlacke,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w700),
+                                                                  ),
                                                                 )
                                                               ],
                                                             ),
