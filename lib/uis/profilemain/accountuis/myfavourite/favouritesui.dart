@@ -241,7 +241,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                           style: TextStyle(
                                               color: clrGreyDark),
                                         ),
-                                        const SizedBox(height: 5,),
+                                        SizedBox(height: h * .008,),
                                         Text(
                                           "Up to ${resultData[index].maxPeople} people | ${resultData[index].spotLeft} spot left",
                                           style: TextStyle(

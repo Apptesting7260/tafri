@@ -345,7 +345,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController>{
                                     '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
                                     style: TextStyle(color:clrGreyTextLight),
                                   ),
-                                  SizedBox(height: h * .005,),
+                                  SizedBox(height: h * .008,),
                                   Text(
                                     "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
                                     style: TextStyle(color: clrYellowText,fontSize: 13),

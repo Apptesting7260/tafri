@@ -308,7 +308,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                 ? clrBlacke
                                                 : clrGreyLight,
                                           ),
-                                          child: categoryData![categoryIndex].loading!.value
+                                          child: categoryData[categoryIndex].loading!.value
                                               ? CommonUi.fallingDot()
                                               : Row(
                                             children: [
@@ -318,14 +318,14 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                   height: 28,
                                                   width: 28,
                                                   fit: BoxFit.cover,
-                                                  imageUrl: '${categoryData?[categoryIndex].icon}',
+                                                  imageUrl: '${categoryData[categoryIndex].icon}',
                                                   errorWidget: (context, url, error) =>
                                                       Icon(Icons.error, color: clrBlacke),
                                                 ),
                                               ),
                                               const SizedBox(width: 5),
                                               Text(
-                                                '${categoryData?[categoryIndex].title}',
+                                                '${categoryData[categoryIndex].title}',
                                                 style: TextStyle(
                                                   color: controller.selectedIndex.value == index ? clrWhite : clrBlacke,
                                                   fontWeight: FontWeight.w700,
@@ -558,7 +558,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                             '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
                                                                             style: TextStyle(color: clrGreyDark),
                                                                           ),
-                                                                          SizedBox(height: h * .005,),
+                                                                          SizedBox(height: h * .008,),
                                                                           Text(
                                                                             "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} spot left",
                                                                             style: TextStyle(color: clrYellowText, fontSize: 13),
