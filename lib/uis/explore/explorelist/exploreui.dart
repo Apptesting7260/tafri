@@ -71,7 +71,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
               children: [
                 Flexible(
                   child: SizedBox(
-                      height: Get.height*.07,
+                      height: Get.height * .07,
                       width: Get.width * 0.76,
                       child: const CustoTextFormField(
                         // hintText: "Anywhere • any week",
@@ -88,7 +88,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                   },
                   child: Image.asset(
                     "assets/images/filtericon.png",
-                    height: Get.height*.058,
+                    height: Get.height * .058,
                   ),
                 ),
               ],
@@ -98,274 +98,348 @@ class ExploreUi extends GetWidget<ExploreListController> {
             height: Get.height * 0.022,
           ),
           Obx(
-            () => controller.homePageLoading.value &&
-                    controller.homeData.value.result == null
-                ? Expanded(
-                    child: Center(
-                      child: CommonUi.scaffoldLoading(color: clrYellow),
-                    ),
-                  )
-                : controller.homeError.value.isNotEmpty
+            () =>
+                controller.homePageLoading.value &&
+                        controller.homeData.value.result == null
                     ? Expanded(
-                        child: SmartRefresher(
-                        onRefresh: () async {
-                          await controller.homePageApi();
-                          controller.refreshController1.refreshCompleted();
-                        },
-                        controller: controller.refreshController1,
-                        header: CommonUi.refreshHeader(),
-                        // WaterDropMaterialHeader(
-                        //   color: clrWhite,
-                        //   backgroundColor: clrYellow,
-                        //   distance: 50,
-                        // ),
-                        child: const Center(
-                          child: ErrorScreen(),
+                        child: Center(
+                          child: CommonUi.scaffoldLoading(color: clrYellow),
                         ),
-                      ))
-                    : Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            // Container(
-                            //   // color: clrYellow,
-                            //   height: h * .046,
-                            //   child: ListView.builder(
-                            //       padding: EdgeInsets.only(
-                            //           left: Res.Defalt_side_margin),
-                            //       itemCount: controller
-                            //               .homeData.value.result?.categories
-                            //               ?.where((category) =>
-                            //                   category.status == '1')
-                            //               .length ??
-                            //           0,
-                            //       shrinkWrap: true,
-                            //       scrollDirection: Axis.horizontal,
-                            //       itemBuilder: (context, index) {
-                            //         var categoryData = controller
-                            //             .homeData.value.result?.categories
-                            //             ?.where((category) =>
-                            //                 category.status == '1')
-                            //             .toList();
-                            //         return GestureDetector(
-                            //           onTap: () async {
-                            //             if(controller.selectedIndex.value != index){
-                            //               controller.selectedIndex.value =
-                            //                   index;
-                            //               controller.categoryID.value =
-                            //                   categoryData?[index].id
-                            //                       .toString();
-                            //               controller
-                            //                   .homeData
-                            //                   .value
-                            //                   .result
-                            //                   ?.categories?[index]
-                            //                   .loading
-                            //                   ?.value = true;
-                            //               await controller.homePageApi();
-                            //               controller
-                            //                   .homeData
-                            //                   .value
-                            //                   .result
-                            //                   ?.categories?[index]
-                            //                   .loading
-                            //                   ?.value = false;
-                            //             }
-                            //           },
-                            //           child: Obx(
-                            //             () => Container(
-                            //               margin:
-                            //                   const EdgeInsets.only(right: 7),
-                            //               padding: const EdgeInsets.only(left: 4,top: 1.5,bottom: 1.5,right: 10),
-                            //               decoration: BoxDecoration(
-                            //                   borderRadius:
-                            //                       BorderRadius.circular(100),
-                            //                   color: controller.selectedIndex
-                            //                               .value ==
-                            //                           index
-                            //                       ? clrBlacke
-                            //                       : clrGreyLight),
-                            //               child: controller
-                            //                       .homeData
-                            //                       .value
-                            //                       .result!
-                            //                       .categories![index]
-                            //                       .loading!
-                            //                       .value
-                            //                   ? CommonUi.fallingDot()
-                            //                   : Row(
-                            //                       children: [
-                            //                         ClipRRect(
-                            //                           borderRadius:
-                            //                               BorderRadius.circular(
-                            //                                   100),
-                            //                           child: CachedNetworkImage(
-                            //                             height: 28,
-                            //                             width: 28,
-                            //                             fit: BoxFit.cover,
-                            //                             imageUrl:
-                            //                                 '${categoryData?[index].icon}',
-                            //                             errorWidget: (context,
-                            //                                     url, error) =>
-                            //                                 Icon(
-                            //                               Icons.error,
-                            //                               color: clrBlacke,
-                            //                             ),
-                            //                           ),
-                            //                         ),
-                            //                         const SizedBox(
-                            //                           width: 5,
-                            //                         ),
-                            //                         Text(
-                            //                           '${categoryData?[index].title}',
-                            //                           style: TextStyle(
-                            //                               color: controller
-                            //                                           .selectedIndex
-                            //                                           .value !=
-                            //                                       index
-                            //                                   ? clrBlacke
-                            //                                   : clrWhite,
-                            //                               fontWeight:
-                            //                                   FontWeight.w700),
-                            //                         ),
-                            //                       ],
-                            //                     ),
-                            //             ),
-                            //           ),
-                            //         );
-                            //       }),
+                      )
+                    : controller.homeError.value.isNotEmpty
+                        ? Expanded(
+                            child: SmartRefresher(
+                            onRefresh: () async {
+                              await controller.homePageApi();
+                              controller.refreshController1.refreshCompleted();
+                            },
+                            controller: controller.refreshController1,
+                            header: CommonUi.refreshHeader(),
+                            // WaterDropMaterialHeader(
+                            //   color: clrWhite,
+                            //   backgroundColor: clrYellow,
+                            //   distance: 50,
                             // ),
-                            Container(
-                              height: h * .046,
-                              child: ListView.builder(
-                                padding: EdgeInsets.only(left: Res.Defalt_side_margin),
-                                itemCount: (controller.homeData.value.result?.categories
-                                    ?.where((category) => category.status == '1')
-                                    .length ?? 0) + 1, // Adding +1 for the "All" container
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  if (index == 0) {
-                                    // "All" container
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        if (controller.selectedIndex.value != index) {
-                                          controller.selectedIndex.value = index;
-                                          controller.categoryID.value = ''; // Use a special ID for "All"
-                                          controller.allLoading.value = true;
-                                          await controller.homePageApi(); // Fetch all data
-                                          controller.allLoading.value = false;
-                                        }
-                                      },
-                                      child: Obx(
+                            child: const Center(
+                              child: ErrorScreen(),
+                            ),
+                          ))
+                        : Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                // Container(
+                                //   // color: clrYellow,
+                                //   height: h * .046,
+                                //   child: ListView.builder(
+                                //       padding: EdgeInsets.only(
+                                //           left: Res.Defalt_side_margin),
+                                //       itemCount: controller
+                                //               .homeData.value.result?.categories
+                                //               ?.where((category) =>
+                                //                   category.status == '1')
+                                //               .length ??
+                                //           0,
+                                //       shrinkWrap: true,
+                                //       scrollDirection: Axis.horizontal,
+                                //       itemBuilder: (context, index) {
+                                //         var categoryData = controller
+                                //             .homeData.value.result?.categories
+                                //             ?.where((category) =>
+                                //                 category.status == '1')
+                                //             .toList();
+                                //         return GestureDetector(
+                                //           onTap: () async {
+                                //             if(controller.selectedIndex.value != index){
+                                //               controller.selectedIndex.value =
+                                //                   index;
+                                //               controller.categoryID.value =
+                                //                   categoryData?[index].id
+                                //                       .toString();
+                                //               controller
+                                //                   .homeData
+                                //                   .value
+                                //                   .result
+                                //                   ?.categories?[index]
+                                //                   .loading
+                                //                   ?.value = true;
+                                //               await controller.homePageApi();
+                                //               controller
+                                //                   .homeData
+                                //                   .value
+                                //                   .result
+                                //                   ?.categories?[index]
+                                //                   .loading
+                                //                   ?.value = false;
+                                //             }
+                                //           },
+                                //           child: Obx(
+                                //             () => Container(
+                                //               margin:
+                                //                   const EdgeInsets.only(right: 7),
+                                //               padding: const EdgeInsets.only(left: 4,top: 1.5,bottom: 1.5,right: 10),
+                                //               decoration: BoxDecoration(
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(100),
+                                //                   color: controller.selectedIndex
+                                //                               .value ==
+                                //                           index
+                                //                       ? clrBlacke
+                                //                       : clrGreyLight),
+                                //               child: controller
+                                //                       .homeData
+                                //                       .value
+                                //                       .result!
+                                //                       .categories![index]
+                                //                       .loading!
+                                //                       .value
+                                //                   ? CommonUi.fallingDot()
+                                //                   : Row(
+                                //                       children: [
+                                //                         ClipRRect(
+                                //                           borderRadius:
+                                //                               BorderRadius.circular(
+                                //                                   100),
+                                //                           child: CachedNetworkImage(
+                                //                             height: 28,
+                                //                             width: 28,
+                                //                             fit: BoxFit.cover,
+                                //                             imageUrl:
+                                //                                 '${categoryData?[index].icon}',
+                                //                             errorWidget: (context,
+                                //                                     url, error) =>
+                                //                                 Icon(
+                                //                               Icons.error,
+                                //                               color: clrBlacke,
+                                //                             ),
+                                //                           ),
+                                //                         ),
+                                //                         const SizedBox(
+                                //                           width: 5,
+                                //                         ),
+                                //                         Text(
+                                //                           '${categoryData?[index].title}',
+                                //                           style: TextStyle(
+                                //                               color: controller
+                                //                                           .selectedIndex
+                                //                                           .value !=
+                                //                                       index
+                                //                                   ? clrBlacke
+                                //                                   : clrWhite,
+                                //                               fontWeight:
+                                //                                   FontWeight.w700),
+                                //                         ),
+                                //                       ],
+                                //                     ),
+                                //             ),
+                                //           ),
+                                //         );
+                                //       }),
+                                // ),
+                                Container(
+                                  height: h * .046,
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.only(
+                                        left: Res.Defalt_side_margin),
+                                    itemCount: (controller.homeData.value.result
+                                                ?.categories
+                                                ?.where((category) =>
+                                                    category.status == '1')
+                                                .length ??
+                                            0) +
+                                        1,
+                                    // Adding +1 for the "All" container
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      if (index == 0) {
+                                        // "All" container
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            if (controller
+                                                    .selectedIndex.value !=
+                                                index) {
+                                              controller.selectedIndex.value =
+                                                  index;
+                                              controller.categoryID.value =
+                                                  ''; // Use a special ID for "All"
+                                              controller.allLoading.value =
+                                                  true;
+                                              await controller
+                                                  .homePageApi(); // Fetch all data
+                                              controller.allLoading.value =
+                                                  false;
+                                            }
+                                          },
+                                          child: Obx(
                                             () => Container(
-                                          margin: const EdgeInsets.only(right: 7),
-                                          padding: EdgeInsets.symmetric(horizontal: 15,),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(100),
-                                            color: controller.selectedIndex.value == index
-                                                ? clrBlacke
-                                                : clrGreyLight,
-                                          ),
-                                          child: Center(
-                                            child: controller.allLoading.value
-                                                ? CommonUi.fallingDot()
-                                              : Text(
-                                              'All',
-                                              style: TextStyle(
-                                                color: controller.selectedIndex.value == index ? clrWhite : clrBlacke,
-                                                fontWeight: FontWeight.w700,
+                                              margin: const EdgeInsets.only(
+                                                  right: 7),
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 15,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                color: controller.selectedIndex
+                                                            .value ==
+                                                        index
+                                                    ? clrBlacke
+                                                    : clrGreyLight,
+                                              ),
+                                              child: Center(
+                                                child: controller
+                                                        .allLoading.value
+                                                    ? CommonUi.fallingDot()
+                                                    : Text(
+                                                        'All',
+                                                        style: TextStyle(
+                                                          color: controller
+                                                                      .selectedIndex
+                                                                      .value ==
+                                                                  index
+                                                              ? clrWhite
+                                                              : clrBlacke,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    // Other categories
-                                    var categoryData = controller.homeData.value.result?.categories
-                                        ?.where((category) => category.status == '1')
-                                        .toList();
-                                    var categoryIndex = index - 1; // Adjust index for the actual category
+                                        );
+                                      } else {
+                                        // Other categories
+                                        var categoryData = controller
+                                            .homeData.value.result?.categories
+                                            ?.where((category) =>
+                                                category.status == '1')
+                                            .toList();
+                                        var categoryIndex = index -
+                                            1; // Adjust index for the actual category
 
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        if (controller.selectedIndex.value != index) {
-                                          controller.selectedIndex.value = index;
-                                          controller.categoryID.value = categoryData?[categoryIndex].id.toString();
-                                          categoryData?[categoryIndex].loading?.value = true;
-                                          await controller.homePageApi();
-                                          categoryData?[categoryIndex].loading?.value = false;
-                                        }
-                                      },
-                                      child: Obx(
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            if (controller
+                                                    .selectedIndex.value !=
+                                                index) {
+                                              controller.selectedIndex.value =
+                                                  index;
+                                              controller.categoryID.value =
+                                                  categoryData?[categoryIndex]
+                                                      .id
+                                                      .toString();
+                                              categoryData?[categoryIndex]
+                                                  .loading
+                                                  ?.value = true;
+                                              await controller.homePageApi();
+                                              categoryData?[categoryIndex]
+                                                  .loading
+                                                  ?.value = false;
+                                            }
+                                          },
+                                          child: Obx(
                                             () => Container(
-                                          margin: const EdgeInsets.only(right: 7),
-                                          padding: categoryData![categoryIndex].loading!.value ? EdgeInsets.symmetric(horizontal: 15,) : EdgeInsets.only(left: 4, top: 1.5, bottom: 1.5, right: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(100),
-                                            color: controller.selectedIndex.value == index
-                                                ? clrBlacke
-                                                : clrGreyLight,
-                                          ),
-                                          child: categoryData[categoryIndex].loading!.value
-                                              ? CommonUi.fallingDot()
-                                              : Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(100),
-                                                child: CachedNetworkImage(
-                                                  height: 28,
-                                                  width: 28,
-                                                  fit: BoxFit.cover,
-                                                  imageUrl: '${categoryData[categoryIndex].icon}',
-                                                  errorWidget: (context, url, error) =>
-                                                      Icon(Icons.error, color: clrBlacke),
-                                                ),
+                                              margin: const EdgeInsets.only(
+                                                  right: 7),
+                                              padding:
+                                                  categoryData![categoryIndex]
+                                                          .loading!
+                                                          .value
+                                                      ? EdgeInsets.symmetric(
+                                                          horizontal: 15,
+                                                        )
+                                                      : EdgeInsets.only(
+                                                          left: 4,
+                                                          top: 1.5,
+                                                          bottom: 1.5,
+                                                          right: 10),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                color: controller.selectedIndex
+                                                            .value ==
+                                                        index
+                                                    ? clrBlacke
+                                                    : clrGreyLight,
                                               ),
-                                              const SizedBox(width: 5),
-                                              Text(
-                                                '${categoryData[categoryIndex].title}',
-                                                style: TextStyle(
-                                                  color: controller.selectedIndex.value == index ? clrWhite : clrBlacke,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ],
+                                              child: categoryData[categoryIndex]
+                                                      .loading!
+                                                      .value
+                                                  ? CommonUi.fallingDot()
+                                                  : Row(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            height: 28,
+                                                            width: 28,
+                                                            fit: BoxFit.cover,
+                                                            imageUrl:
+                                                                '${categoryData[categoryIndex].icon}',
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                Icon(
+                                                                    Icons.error,
+                                                                    color:
+                                                                        clrBlacke),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                        Text(
+                                                          '${categoryData[categoryIndex].title}',
+                                                          style: TextStyle(
+                                                            color: controller
+                                                                        .selectedIndex
+                                                                        .value ==
+                                                                    index
+                                                                ? clrWhite
+                                                                : clrBlacke,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                            ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
 
-                            SizedBox(
-                              height: Get.height * 0.013,
-                            ),
-                            Expanded(
-                              child: Obx(() {
-                                return Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: Res.Defalt_side_margin),
-                                  child: SmartRefresher(
-                                      controller: controller.refreshController,
-                                      onRefresh: () async {
-                                        await controller.homePageApi();
-                                        controller.refreshController
-                                            .refreshCompleted();
-                                      },
-                                      // enablePullDown: controller.showRefreshIndicator.value,
-                                      header: CommonUi.refreshHeader(),
-                                      // WaterDropMaterialHeader(
-                                      //   color: clrWhite,
-                                      //   backgroundColor: clrYellow,
-                                      //   distance: 50,
-                                      // ),
-                                      child:
-                                          controller.homeData.value.result!
-                                                  .activities!.isEmpty
+                                SizedBox(
+                                  height: Get.height * 0.013,
+                                ),
+                                Expanded(
+                                  child: Obx(() {
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: Res.Defalt_side_margin),
+                                      child: SmartRefresher(
+                                          controller:
+                                              controller.refreshController,
+                                          onRefresh: () async {
+                                            await controller.homePageApi();
+                                            controller.refreshController
+                                                .refreshCompleted();
+                                          },
+                                          // enablePullDown: controller.showRefreshIndicator.value,
+                                          header: CommonUi.refreshHeader(),
+                                          // WaterDropMaterialHeader(
+                                          //   color: clrWhite,
+                                          //   backgroundColor: clrYellow,
+                                          //   distance: 50,
+                                          // ),
+                                          child: controller.homeData.value
+                                                  .result!.activities!.isEmpty
                                               ? Center(
                                                   child: NoActivityScreen(),
                                                 )
@@ -379,13 +453,19 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                       .isNotEmpty
                                                   ? ListView.builder(
                                                       // controller: controller.scrollController,
-                                                      itemCount: controller.homeData.value.result?.activities?.
-                                                        where((activity) =>
-                                                            activity.status == 'approved').length,
+                                                      itemCount: controller
+                                                          .homeData
+                                                          .value
+                                                          .result
+                                                          ?.activities
+                                                          ?.where((activity) =>
+                                                              activity.status ==
+                                                              'approved')
+                                                          .length,
                                                       shrinkWrap: true,
                                                       itemBuilder:
                                                           (context, index) {
-                                                        var  activityData = controller
+                                                        var activityData = controller
                                                             .homeData
                                                             .value
                                                             .result
@@ -398,7 +478,14 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                         return InkWell(
                                                           onTap: () {
                                                             // controller.showHomePop();
-                                                            Get.toNamed(Routes.exploreView,arguments: activityData?[index].id.toString());
+                                                            Get.toNamed(
+                                                                Routes
+                                                                    .exploreView,
+                                                                arguments:
+                                                                    activityData?[
+                                                                            index]
+                                                                        .id
+                                                                        .toString());
                                                           },
                                                           child: Container(
                                                             margin:
@@ -459,10 +546,16 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                         }).toList(),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                10,
+                                                                            vertical:
+                                                                                10),
                                                                         child:
                                                                             Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
                                                                           children: [
                                                                             Container(
                                                                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -473,13 +566,15 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                               ),
                                                                             ),
                                                                             InkWell(
-                                                                              onTap: () async{
+                                                                              onTap: () async {
                                                                                 var id = activityData?[index].id.toString();
-                                                                                await controller.changeFavApi(id).then((value) {
-                                                                                  if(value == true){
-                                                                                    activityData?[index].isFav = !activityData[index].isFav!;
-                                                                                  }
-                                                                                },);
+                                                                                await controller.changeFavApi(id).then(
+                                                                                  (value) {
+                                                                                    if (value == true) {
+                                                                                      activityData?[index].isFav = !activityData[index].isFav!;
+                                                                                    }
+                                                                                  },
+                                                                                );
 
                                                                                 controller.homeData.refresh();
                                                                                 // controller
@@ -505,10 +600,15 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                         ),
                                                                       ),
                                                                       Align(
-                                                                        alignment: Alignment.bottomCenter,
-                                                                        child: Container(
-                                                                          margin: const EdgeInsets.only(bottom: 7),
-                                                                          height: 16,
+                                                                        alignment:
+                                                                            Alignment.bottomCenter,
+                                                                        child:
+                                                                            Container(
+                                                                          margin: const EdgeInsets
+                                                                              .only(
+                                                                              bottom: 7),
+                                                                          height:
+                                                                              16,
                                                                           child: ListView.builder(
                                                                               itemCount: activityData?[index].banners?.length,
                                                                               shrinkWrap: true,
@@ -531,37 +631,55 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                   ),
                                                                 ),
                                                                 SizedBox(
-                                                                  height: Get.height * 0.02,
+                                                                  height:
+                                                                      Get.height *
+                                                                          0.02,
                                                                 ),
                                                                 Row(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .spaceBetween,
-                                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .end,
                                                                   children: [
                                                                     Flexible(
-                                                                      child: Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      child:
+                                                                          Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
                                                                         children: [
                                                                           Text(
                                                                             "${activityData?[index].name}",
-                                                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                                            style:
+                                                                                const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                                                           ),
-                                                                          SizedBox(height: h * .005,),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                h * .005,
+                                                                          ),
                                                                           Text(
                                                                             '${activityData?[index].location}',
                                                                             style:
                                                                                 TextStyle(color: clrGreyDark),
                                                                           ),
-                                                                          SizedBox(height: h * .005,),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                h * .005,
+                                                                          ),
                                                                           Text(
                                                                             '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
-                                                                            style: TextStyle(color: clrGreyDark),
+                                                                            style:
+                                                                                TextStyle(color: clrGreyDark),
                                                                           ),
-                                                                          SizedBox(height: h * .008,),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                h * .008,
+                                                                          ),
                                                                           Text(
                                                                             "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} spot left",
-                                                                            style: TextStyle(color: clrYellowText, fontSize: 13),
+                                                                            style:
+                                                                                TextStyle(color: clrYellowText, fontSize: 13),
                                                                           ),
                                                                         ],
                                                                       ),
@@ -570,34 +688,38 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                       width: 5,
                                                                     ),
                                                                     InkWell(
-                                                                      onTap: (){
+                                                                      onTap:
+                                                                          () {
                                                                         // Get.toNamed(Routes.hostProfileUi,arguments: activityData?[index].hostId.toString());
                                                                       },
-                                                                      child: Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                      child:
+                                                                          Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
                                                                         children: [
                                                                           ClipRRect(
-                                                                            borderRadius: BorderRadius.circular(100),
-                                                                            child: CachedNetworkImage(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(100),
+                                                                            child:
+                                                                                CachedNetworkImage(
                                                                               height: 40,
                                                                               width: 40,
                                                                               fit: BoxFit.cover,
                                                                               imageUrl: '${activityData?[index].profilePhoto}',
-                                                                              errorWidget: (context, url, error) =>
-                                                                                  Container(
-                                                                                    height: 40,
-                                                                                    width: 40,
-                                                                                    padding: const EdgeInsets.all(10),
-                                                                                    decoration: BoxDecoration(
-                                                                                      color: clrGreyLight,
-                                                                                      shape: BoxShape.circle
-                                                                                    ),
-                                                                                    child: Image.asset("assets/icons/manicon.png",
-                                                                                      color: clrGrey,fit: BoxFit.cover,),
-                                                                                  ),
-                                                                              placeholder: (context, url) =>
-                                                                                  Shimmer.fromColors(
+                                                                              errorWidget: (context, url, error) => Container(
+                                                                                height: 40,
+                                                                                width: 40,
+                                                                                padding: const EdgeInsets.all(10),
+                                                                                decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                                                                child: Image.asset(
+                                                                                  "assets/icons/manicon.png",
+                                                                                  color: clrGrey,
+                                                                                  fit: BoxFit.cover,
+                                                                                ),
+                                                                              ),
+                                                                              placeholder: (context, url) => Shimmer.fromColors(
                                                                                 baseColor: grey300,
                                                                                 highlightColor: grey100,
                                                                                 child: Container(
@@ -657,15 +779,15 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                   : Center(
                                                       child: NoActivityScreen(),
                                                     )),
-                                );
-                              }),
+                                    );
+                                  }),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                )
+                              ],
                             ),
-                            const SizedBox(
-                              height: 20,
-                            )
-                          ],
-                        ),
-                      ),
+                          ),
           )
         ],
       )),

@@ -3,20 +3,24 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 class ActDataModal {
   bool? status;
   Activity? activity;
+  List<Going>? going;
 
   ActDataModal({
     this.status,
     this.activity,
+    this.going,
   });
 
   factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
     status: json["status"],
     activity: json["activity"] == null ? null : Activity.fromJson(json["activity"]),
+    going: json["going"] == null ? [] : List<Going>.from(json["going"]!.map((x) => Going.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "activity": activity?.toJson(),
+    "going": going == null ? [] : List<dynamic>.from(going!.map((x) => x.toJson())),
   };
 }
 
@@ -143,5 +147,26 @@ class Activity {
     "request_status": requestStatus,
     "spot_left": spotLeft,
     "up_to_people": spotPeople,
+  };
+}
+
+
+class Going {
+  int? userId;
+  String? profilePhoto;
+
+  Going({
+    this.userId,
+    this.profilePhoto,
+  });
+
+  factory Going.fromJson(Map<String, dynamic> json) => Going(
+    userId: json["user_id"],
+    profilePhoto: json["profile_photo"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "user_id": userId,
+    "profile_photo": profilePhoto,
   };
 }
