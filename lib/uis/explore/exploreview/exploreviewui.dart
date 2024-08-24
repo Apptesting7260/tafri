@@ -527,62 +527,86 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                 SizedBox(
                                   height: Get.height * 0.01,
                                 ),
-                                controller.actData.value.going!.isEmpty ? SizedBox() : Text(
-                                  "Going",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
-                                ),
+                                controller.actData.value.going!.isEmpty
+                                    ? SizedBox()
+                                    : Text(
+                                        "Going",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16),
+                                      ),
                                 SizedBox(
                                   height: Get.height * 0.01,
                                 ),
-                                controller.actData.value.going!.isEmpty ? SizedBox() : SizedBox(
-                                  height: 55,
-                                  child: ListView.builder(
-                                      itemCount: controller.actData.value.going?.length,
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(right: 8),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(100),
-                                            child: CachedNetworkImage(
-                                                height: 55,
-                                                width: 55,
-                                              fit: BoxFit.cover,
-                                              imageUrl: '${controller.actData.value.going?[index].profilePhoto}',
-                                                placeholder: (context, url) => Shimmer.fromColors(
-                                                    baseColor: Colors.grey.shade300,
-                                                    highlightColor: Colors.grey.shade100,
-                                                    child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(100),
-                                                      child: Container(
-                                                        height: 55,
-                                                        width: 55,
-                                                        color: clrGrey,
-                                                      ),
-                                                    )),
-                                                errorWidget: (context, url, error) {
-                                                  print('error == $error');
-                                                  return ClipRRect(
-                                                    borderRadius: BorderRadius.circular(100),
-                                                    child: Container(
+                                controller.actData.value.going!.isEmpty
+                                    ? SizedBox()
+                                    : SizedBox(
+                                        height: 55,
+                                        child: ListView.builder(
+                                            itemCount: controller
+                                                .actData.value.going?.length,
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  child: CachedNetworkImage(
                                                       height: 55,
                                                       width: 55,
-                                                      color: clrGreyLight,
-                                                      child: Image.asset(
-                                                        'assets/icons/manicon.png',
-                                                        color: clrGrey,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                ),
+                                                      fit: BoxFit.cover,
+                                                      imageUrl:
+                                                          '${controller.actData.value.going?[index].profilePhoto}',
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          Shimmer.fromColors(
+                                                              baseColor: Colors
+                                                                  .grey
+                                                                  .shade300,
+                                                              highlightColor:
+                                                                  Colors.grey
+                                                                      .shade100,
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            100),
+                                                                child:
+                                                                    Container(
+                                                                  height: 55,
+                                                                  width: 55,
+                                                                  color:
+                                                                      clrGrey,
+                                                                ),
+                                                              )),
+                                                      errorWidget: (context,
+                                                          url, error) {
+                                                        print(
+                                                            'error == $error');
+                                                        return ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          child: Container(
+                                                            height: 55,
+                                                            width: 55,
+                                                            color: clrGreyLight,
+                                                            child: Image.asset(
+                                                              'assets/icons/manicon.png',
+                                                              color: clrGrey,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }),
+                                                ),
+                                              );
+                                            }),
+                                      ),
                                 SizedBox(
                                   height: Get.height * 0.03,
                                 ),
@@ -1055,9 +1079,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
         content: SizedBox(
           width: double.maxFinite,
           child: Column(
@@ -1067,7 +1091,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               const Center(
                 child: Text(
                   "Cancel request",
-                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -1077,52 +1101,55 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               Center(
                   child: Text(
                 "Are you sure you want to cancel your request to join this activity?",
-                style: TextStyle(color: clrGreyTextLight),
+                style: TextStyle(color: clrGreyTextLight,fontSize: 15, fontWeight: FontWeight.w400),
                 textAlign: TextAlign.center,
               )),
               SizedBox(
                 height: Get.height * .024,
               ),
-              Row(children: [
-                Expanded(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Expanded(
+                      child: SizedBox(
+                    height: Res.h_btn,
+                    child: CustoFilterBtn(
+                        borderClr: clrBlacke,
+                        lable: Text(
+                          "Yes",
+                          style: TextStyle(
+                              color: clrBlacke,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        ontap: () {
+                          Get.back();
+                          alertCancelRequestConfirmation();
+                        },
+                        backgroundClr: Get.theme.scaffoldBackgroundColor),
+                  )),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  Expanded(
                     child: SizedBox(
-                  height: Res.h_btn,
-                  child: CustoFilterBtn(
-                      borderClr: clrBlacke,
-                      lable: Text(
-                        "Yes",
-                        style: TextStyle(
-                            color: clrBlacke,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      ontap: () {
-                        Get.back();
-                        alertCancelRequestConfirmation();
-                      },
-                      backgroundClr: Get.theme.scaffoldBackgroundColor),
-                )),
-                SizedBox(
-                  width: Get.width * 0.05,
-                ),
-                Expanded(
-                  child: SizedBox(
-                      width: double.maxFinite,
-                      height: Res.h_btn,
-                      child: CustomElevatedButton(
-                          onTap: () {
-                            Get.back();
-                          },
-                          backgroundClr: clrBlacke,
-                          child: Text(
-                            "No",
-                            style: TextStyle(
-                                color: clrWhite,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ))),
-                ),
-              ]),
+                        width: double.maxFinite,
+                        height: Res.h_btn,
+                        child: CustomElevatedButton(
+                            onTap: () {
+                              Get.back();
+                            },
+                            backgroundClr: clrBlacke,
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                  color: clrWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ))),
+                  ),
+                ]),
+              ),
               SizedBox(
                 height: Get.height * .014,
               ),
@@ -1137,9 +1164,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
         content: SizedBox(
           width: double.maxFinite,
           child: Column(
@@ -1149,7 +1176,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               const Center(
                 child: Text(
                   "Confirm cancellation",
-                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -1157,54 +1184,60 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                 height: Get.height * .014,
               ),
               Center(
-                  child: Text(
-                "Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",
-                style: TextStyle(color: clrGreyTextLight),
-                textAlign: TextAlign.center,
-              )),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                                    "Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",
+                                    style: TextStyle(color: clrGreyTextLight,fontSize: 15, fontWeight: FontWeight.w400),
+                                    textAlign: TextAlign.center,
+                                  ),
+                  )),
               SizedBox(
                 height: Get.height * .024,
               ),
-              Row(children: [
-                Expanded(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Expanded(
+                      child: SizedBox(
+                    height: Res.h_btn,
+                    child: CustoFilterBtn(
+                        borderClr: clrBlacke,
+                        lable: Text(
+                          "Yes",
+                          style: TextStyle(
+                              color: clrBlacke,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        ontap: () {
+                          controller.changeReqSent(1);
+                          Get.back();
+                        },
+                        backgroundClr: Get.theme.scaffoldBackgroundColor),
+                  )),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  Expanded(
                     child: SizedBox(
-                  height: Res.h_btn,
-                  child: CustoFilterBtn(
-                      borderClr: clrBlacke,
-                      lable: Text(
-                        "Yes",
-                        style: TextStyle(
-                            color: clrBlacke,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      ontap: () {
-                        controller.changeReqSent(1);
-                        Get.back();
-                      },
-                      backgroundClr: Get.theme.scaffoldBackgroundColor),
-                )),
-                SizedBox(
-                  width: Get.width * 0.05,
-                ),
-                Expanded(
-                  child: SizedBox(
-                      width: double.maxFinite,
-                      height: Res.h_btn,
-                      child: CustomElevatedButton(
-                          onTap: () {
-                            Get.back();
-                          },
-                          backgroundClr: clrBlacke,
-                          child: Text(
-                            "No",
-                            style: TextStyle(
-                                color: clrWhite,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ))),
-                ),
-              ]),
+                        width: double.maxFinite,
+                        height: Res.h_btn,
+                        child: CustomElevatedButton(
+                            onTap: () {
+                              Get.back();
+                            },
+                            backgroundClr: clrBlacke,
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                  color: clrWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ))),
+                  ),
+                ]),
+              ),
               SizedBox(
                 height: Get.height * .014,
               ),

@@ -30,4 +30,7 @@ class EndPoints{
 
   static String reportactivity = '${baseUrl}report-activity';
 
+  static String cancelactivity = '${baseUrl}request-to-cancel-activity';
+  static String leaveactivity = '${baseUrl}request-to-leave-activity';
+
 }

@@ -95,6 +95,85 @@ class ExploreViewController extends GetxController{
     }
   }
 
+  var cancelactivityLoading = false.obs;
+
+
+  Future<void> cancelActivity(String? id) async{
+
+
+    Map body = {
+      'activity_id': id,
+      'user_id': LocalStorage.getUid(),
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    cancelactivityLoading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.cancelactivity, body, headers: header);
+      if(response.statusCode == 200){
+        print('home data == ${response.body}');
+        showTostMsg('Activity has been cancelled');
+        Get.back();
+      }else{
+        print('error == ${response.body}');
+
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+
+    }
+
+    cancelactivityLoading.value = false;
+
+  }
+
+
+  var leaveactivityLoading = false.obs;
+
+
+  Future<void> leaveActivity(String? id) async{
+
+
+    Map body = {
+      'activity_id': id,
+      'user_id': LocalStorage.getUid(),
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    leaveactivityLoading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.leaveactivity, body, headers: header);
+      if(response.statusCode == 200){
+        print('home data == ${response.body}');
+        showTostMsg('You have successfuly left the Activity');
+        Get.back();
+      }else{
+        print('error == ${response.body}');
+
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+
+    }
+
+    leaveactivityLoading.value = false;
+
+  }
+
+
+
 
   bool? isFavs = false;
 
