@@ -42,6 +42,8 @@ class ExploreListController extends GetxController {
 
   var selectedIndex = 0.obs;
 
+  var allLoading = false.obs;
+
   Future<void> homePageApi() async{
 
     Map body = {

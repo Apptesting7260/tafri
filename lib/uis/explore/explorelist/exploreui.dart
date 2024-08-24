@@ -127,114 +127,220 @@ class ExploreUi extends GetWidget<ExploreListController> {
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
+                            // Container(
+                            //   // color: clrYellow,
+                            //   height: h * .046,
+                            //   child: ListView.builder(
+                            //       padding: EdgeInsets.only(
+                            //           left: Res.Defalt_side_margin),
+                            //       itemCount: controller
+                            //               .homeData.value.result?.categories
+                            //               ?.where((category) =>
+                            //                   category.status == '1')
+                            //               .length ??
+                            //           0,
+                            //       shrinkWrap: true,
+                            //       scrollDirection: Axis.horizontal,
+                            //       itemBuilder: (context, index) {
+                            //         var categoryData = controller
+                            //             .homeData.value.result?.categories
+                            //             ?.where((category) =>
+                            //                 category.status == '1')
+                            //             .toList();
+                            //         return GestureDetector(
+                            //           onTap: () async {
+                            //             if(controller.selectedIndex.value != index){
+                            //               controller.selectedIndex.value =
+                            //                   index;
+                            //               controller.categoryID.value =
+                            //                   categoryData?[index].id
+                            //                       .toString();
+                            //               controller
+                            //                   .homeData
+                            //                   .value
+                            //                   .result
+                            //                   ?.categories?[index]
+                            //                   .loading
+                            //                   ?.value = true;
+                            //               await controller.homePageApi();
+                            //               controller
+                            //                   .homeData
+                            //                   .value
+                            //                   .result
+                            //                   ?.categories?[index]
+                            //                   .loading
+                            //                   ?.value = false;
+                            //             }
+                            //           },
+                            //           child: Obx(
+                            //             () => Container(
+                            //               margin:
+                            //                   const EdgeInsets.only(right: 7),
+                            //               padding: const EdgeInsets.only(left: 4,top: 1.5,bottom: 1.5,right: 10),
+                            //               decoration: BoxDecoration(
+                            //                   borderRadius:
+                            //                       BorderRadius.circular(100),
+                            //                   color: controller.selectedIndex
+                            //                               .value ==
+                            //                           index
+                            //                       ? clrBlacke
+                            //                       : clrGreyLight),
+                            //               child: controller
+                            //                       .homeData
+                            //                       .value
+                            //                       .result!
+                            //                       .categories![index]
+                            //                       .loading!
+                            //                       .value
+                            //                   ? CommonUi.fallingDot()
+                            //                   : Row(
+                            //                       children: [
+                            //                         ClipRRect(
+                            //                           borderRadius:
+                            //                               BorderRadius.circular(
+                            //                                   100),
+                            //                           child: CachedNetworkImage(
+                            //                             height: 28,
+                            //                             width: 28,
+                            //                             fit: BoxFit.cover,
+                            //                             imageUrl:
+                            //                                 '${categoryData?[index].icon}',
+                            //                             errorWidget: (context,
+                            //                                     url, error) =>
+                            //                                 Icon(
+                            //                               Icons.error,
+                            //                               color: clrBlacke,
+                            //                             ),
+                            //                           ),
+                            //                         ),
+                            //                         const SizedBox(
+                            //                           width: 5,
+                            //                         ),
+                            //                         Text(
+                            //                           '${categoryData?[index].title}',
+                            //                           style: TextStyle(
+                            //                               color: controller
+                            //                                           .selectedIndex
+                            //                                           .value !=
+                            //                                       index
+                            //                                   ? clrBlacke
+                            //                                   : clrWhite,
+                            //                               fontWeight:
+                            //                                   FontWeight.w700),
+                            //                         ),
+                            //                       ],
+                            //                     ),
+                            //             ),
+                            //           ),
+                            //         );
+                            //       }),
+                            // ),
                             Container(
-                              // color: clrYellow,
                               height: h * .046,
                               child: ListView.builder(
-                                  padding: EdgeInsets.only(
-                                      left: Res.Defalt_side_margin),
-                                  itemCount: controller
-                                          .homeData.value.result?.categories
-                                          ?.where((category) =>
-                                              category.status == '1')
-                                          .length ??
-                                      0,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    var categoryData = controller
-                                        .homeData.value.result?.categories
-                                        ?.where((category) =>
-                                            category.status == '1')
-                                        .toList();
+                                padding: EdgeInsets.only(left: Res.Defalt_side_margin),
+                                itemCount: (controller.homeData.value.result?.categories
+                                    ?.where((category) => category.status == '1')
+                                    .length ?? 0) + 1, // Adding +1 for the "All" container
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  if (index == 0) {
+                                    // "All" container
                                     return GestureDetector(
                                       onTap: () async {
-                                        if(controller.selectedIndex.value != index){
-                                          controller.selectedIndex.value =
-                                              index;
-                                          controller.categoryID.value =
-                                              categoryData?[index].id
-                                                  .toString();
-                                          controller
-                                              .homeData
-                                              .value
-                                              .result
-                                              ?.categories?[index]
-                                              .loading
-                                              ?.value = true;
-                                          await controller.homePageApi();
-                                          controller
-                                              .homeData
-                                              .value
-                                              .result
-                                              ?.categories?[index]
-                                              .loading
-                                              ?.value = false;
+                                        if (controller.selectedIndex.value != index) {
+                                          controller.selectedIndex.value = index;
+                                          controller.categoryID.value = ''; // Use a special ID for "All"
+                                          controller.allLoading.value = true;
+                                          await controller.homePageApi(); // Fetch all data
+                                          controller.allLoading.value = false;
                                         }
                                       },
                                       child: Obx(
-                                        () => Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 7),
-                                          padding: const EdgeInsets.only(left: 4,top: 1.5,bottom: 1.5,right: 10),
+                                            () => Container(
+                                          margin: const EdgeInsets.only(right: 7),
+                                          padding: EdgeInsets.symmetric(horizontal: 15,),
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              color: controller.selectedIndex
-                                                          .value ==
-                                                      index
-                                                  ? clrBlacke
-                                                  : clrGreyLight),
-                                          child: controller
-                                                  .homeData
-                                                  .value
-                                                  .result!
-                                                  .categories![index]
-                                                  .loading!
-                                                  .value
-                                              ? CommonUi.fallingDot()
-                                              : Row(
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      child: CachedNetworkImage(
-                                                        height: 28,
-                                                        width: 28,
-                                                        fit: BoxFit.cover,
-                                                        imageUrl:
-                                                            '${categoryData?[index].icon}',
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: clrBlacke,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      '${categoryData?[index].title}',
-                                                      style: TextStyle(
-                                                          color: controller
-                                                                      .selectedIndex
-                                                                      .value !=
-                                                                  index
-                                                              ? clrBlacke
-                                                              : clrWhite,
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    ),
-                                                  ],
-                                                ),
+                                            borderRadius: BorderRadius.circular(100),
+                                            color: controller.selectedIndex.value == index
+                                                ? clrBlacke
+                                                : clrGreyLight,
+                                          ),
+                                          child: Center(
+                                            child: controller.allLoading.value
+                                                ? CommonUi.fallingDot()
+                                              : Text(
+                                              'All',
+                                              style: TextStyle(
+                                                color: controller.selectedIndex.value == index ? clrWhite : clrBlacke,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     );
-                                  }),
+                                  } else {
+                                    // Other categories
+                                    var categoryData = controller.homeData.value.result?.categories
+                                        ?.where((category) => category.status == '1')
+                                        .toList();
+                                    var categoryIndex = index - 1; // Adjust index for the actual category
+
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        if (controller.selectedIndex.value != index) {
+                                          controller.selectedIndex.value = index;
+                                          controller.categoryID.value = categoryData?[categoryIndex].id.toString();
+                                          categoryData?[categoryIndex].loading?.value = true;
+                                          await controller.homePageApi();
+                                          categoryData?[categoryIndex].loading?.value = false;
+                                        }
+                                      },
+                                      child: Obx(
+                                            () => Container(
+                                          margin: const EdgeInsets.only(right: 7),
+                                          padding: categoryData![categoryIndex].loading!.value ? EdgeInsets.symmetric(horizontal: 15,) : EdgeInsets.only(left: 4, top: 1.5, bottom: 1.5, right: 10),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(100),
+                                            color: controller.selectedIndex.value == index
+                                                ? clrBlacke
+                                                : clrGreyLight,
+                                          ),
+                                          child: categoryData![categoryIndex].loading!.value
+                                              ? CommonUi.fallingDot()
+                                              : Row(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(100),
+                                                child: CachedNetworkImage(
+                                                  height: 28,
+                                                  width: 28,
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: '${categoryData?[categoryIndex].icon}',
+                                                  errorWidget: (context, url, error) =>
+                                                      Icon(Icons.error, color: clrBlacke),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Text(
+                                                '${categoryData?[categoryIndex].title}',
+                                                style: TextStyle(
+                                                  color: controller.selectedIndex.value == index ? clrWhite : clrBlacke,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
                             ),
+
                             SizedBox(
                               height: Get.height * 0.013,
                             ),
