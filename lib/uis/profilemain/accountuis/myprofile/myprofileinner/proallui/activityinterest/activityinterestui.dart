@@ -169,25 +169,29 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                        height: Res.h_btn,
-                        width: double.maxFinite,
-                        child: CustomElevatedButton(
-                            onTap: () {
-                              if(controller.hasAtLeastThreeTotalValues(controller.selectedActivity)){
-                                Get.back();
-                              }else{
-                                showTostMsg('Select atleast three activity.',gravity: ToastGravity.CENTER);
-                              }
-                            },
-                            backgroundClr: clrBlacke,
-                            child: Text(
-                              "Save",
-                              style: TextStyle(
-                                  color: clrWhite,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
-                            ))),
+                    Obx(() => Opacity(
+                      opacity: controller.actintLoading.value ? .5 : 1,
+                      child: SizedBox(
+                          height: Res.h_btn,
+                          width: double.maxFinite,
+                          child: CustomElevatedButton(
+                              onTap: () async {
+                                if(controller.hasAtLeastThreeTotalValues(controller.selectedActivity)){
+                                  await controller.actintUpdate();
+                                  // Get.back();
+                                }else{
+                                  showTostMsg('Select atleast three activity.',gravity: ToastGravity.CENTER);
+                                }
+                              },
+                              backgroundClr: clrBlacke,
+                              child: controller.actintLoading.value ? CommonUi.buttonLoading() : Text(
+                                "Save",
+                                style: TextStyle(
+                                    color: clrWhite,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ))),
+                    ),),
                     const SizedBox(
                       height: 10,
                     ),

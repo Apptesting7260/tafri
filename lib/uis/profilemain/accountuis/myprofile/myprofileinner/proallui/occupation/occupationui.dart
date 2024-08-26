@@ -96,27 +96,33 @@ class OccupationUi extends GetWidget<MyprofileInnController> {
                 ],
               ),
             ),
-            SizedBox(
-                height: Res.h_btn,
-                width: double.maxFinite,
-                child: CustomElevatedButton(
-                    onTap: () {
-                      if (_formState.currentState!.validate()) {
-                        profilemainController.profileData.value.result?.profile
-                            ?.occupation = controller.ocupatController.value.text.trim();
-                        profilemainController.profileData.value.result?.profile?.organisationName = controller.organiController.value.text.trim();
-                        profilemainController.profileData.refresh();
-                        Get.back();
-                      }
-                    },
-                    backgroundClr: clrBlacke,
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          color: clrWhite,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    ))),
+            Obx(() => Opacity(
+              opacity: controller.occLoading.value ? .5 : 1,
+              child: SizedBox(
+                  height: Res.h_btn,
+                  width: double.maxFinite,
+                  child: CustomElevatedButton(
+                      onTap: () async{
+                        if (_formState.currentState!.validate()) {
+                          // profilemainController.profileData.value.result?.profile
+                          //     ?.occupation = controller.ocupatController.value.text.trim();
+                          // profilemainController.profileData.value.result?.profile?.organisationName = controller.organiController.value.text.trim();
+                          // profilemainController.profileData.refresh();
+                          // Get.back();
+
+                          await controller.occUpdate();
+
+                        }
+                      },
+                      backgroundClr: clrBlacke,
+                      child: controller.occLoading.value ? CommonUi.buttonLoading() : Text(
+                        "Save",
+                        style: TextStyle(
+                            color: clrWhite,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ))),
+            ),),
             const SizedBox(
               height: 10,
             ),

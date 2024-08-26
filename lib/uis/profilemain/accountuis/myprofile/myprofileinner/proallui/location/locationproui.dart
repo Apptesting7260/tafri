@@ -101,31 +101,37 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                 ],
               ),
             ),
-            SizedBox(
-                height: Res.h_btn,
-                width: double.maxFinite,
-                child: CustomElevatedButton(
-                    onTap: () {
-                      if (_formState.currentState!.validate()) {
-                        profilemainController
-                                .profileData.value.result?.location =
-                            controller.locController.value.text.trim();
-                        profilemainController.profileData.refresh();
-                        print(profilemainController
-                            .profileData.value.result?.location);
-                        print(profilemainController.hashCode);
+            Obx(() => Opacity(
+              opacity: controller.locationLoading.value ? .5 : 1,
+              child: SizedBox(
+                  height: Res.h_btn,
+                  width: double.maxFinite,
+                  child: CustomElevatedButton(
+                      onTap: () async{
+                        if (_formState.currentState!.validate()) {
+                          // profilemainController
+                          //         .profileData.value.result?.location =
+                          //     controller.locController.value.text.trim();
+                          // profilemainController.profileData.refresh();
+                          // print(profilemainController
+                          //     .profileData.value.result?.location);
+                          // print(profilemainController.hashCode);
+                          //
+                          // Get.back();
 
-                        Get.back();
-                      }
-                    },
-                    backgroundClr: clrBlacke,
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          color: clrWhite,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    ))),
+                          await controller.locationUpdate();
+
+                        }
+                      },
+                      backgroundClr: clrBlacke,
+                      child: controller.locationLoading.value ? CommonUi.buttonLoading() : Text(
+                        "Save",
+                        style: TextStyle(
+                            color: clrWhite,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ))),
+            ),),
             const SizedBox(
               height: 10,
             ),

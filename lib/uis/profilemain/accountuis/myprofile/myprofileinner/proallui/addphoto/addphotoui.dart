@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import '../../../../../../components/custoelevatedbtn.dart';
 import 'controller/addphoto_controller.dart';
 
@@ -118,21 +119,28 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                 ],
               ),
             ),
-            SizedBox(
-                height: Res.h_btn,
-                width: double.maxFinite,
-                child: CustomElevatedButton(
-                    onTap: () {
-                      Get.back();
-                    },
-                    backgroundClr: clrBlacke,
-                    child: Text(
-                      "Upload Photo",
-                      style: TextStyle(
-                          color: clrWhite,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    ))),
+           Obx(() =>  Opacity(
+             opacity: controller.photoLoading.value ? .5 : 1,
+             child: SizedBox(
+                 height: Res.h_btn,
+                 width: double.maxFinite,
+                 child: CustomElevatedButton(
+                     onTap: () {
+                       if(controller.selectedImage.value != null){
+                         controller.photoUpdate();
+                       }else{
+                         showTostMsg('Please Select an Image');
+                       }
+                     },
+                     backgroundClr: clrBlacke,
+                     child: controller.photoLoading.value ? CommonUi.buttonLoading() : Text(
+                       "Upload Photo",
+                       style: TextStyle(
+                           color: clrWhite,
+                           fontSize: 16,
+                           fontWeight: FontWeight.w700),
+                     ))),
+           ),),
             const SizedBox(
               height: 10,
             ),

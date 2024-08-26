@@ -1,9 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:plusone/networking/endpoints.dart';
+
+import '../../../../../../../../utils/local_storage.dart';
+import '../../../../../../../../utils/tostmsg.dart';
+import '../../../../../../controller/profilemain_controller.dart';
 
 class AddphotoController extends GetxController {
   // var selectedImage = Rx<XFile?>(null);
+  static ProfilemainController profileController =
+  Get.find<ProfilemainController>();
 
   @override
   void onInit() {
@@ -19,4 +29,45 @@ class AddphotoController extends GetxController {
       debugPrint("photo is null");
     }
   }
+
+  String? token = LocalStorage.getToken();
+  String? uid = LocalStorage.getUid();
+
+
+  var photoLoading = false.obs;
+
+  Future<void> photoUpdate() async {
+    photoLoading.value = true;
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(EndPoints.editphotoprofile));
+      request.headers['Authorization'] = 'Bearer $token';
+      request.fields['user_id'] = jsonEncode(int.parse(uid!));
+      if (selectedImage.value != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+            "profile_photo", selectedImage.value!.path));
+      }
+      var responseRes = await request.send();
+      var resDeta = await responseRes.stream.toBytes();
+      var responseString = String.fromCharCodes(resDeta);
+      var jsonResponse = jsonDecode(responseString);
+      if (responseRes.statusCode == 200) {
+        await profileController.viewProfile();
+        Get.back();
+        showTostMsg("${jsonResponse['message']}");
+      } else if (responseRes.statusCode == 401) {
+        showTostMsg("${jsonResponse['message']}");
+        print('submit error ==');
+      } else {
+        print('submit error');
+        showTostMsg("Something went wrong");
+      }
+    } catch (e) {
+      debugPrint("error==$e");
+      showTostMsg("Something went wrong");
+    }
+    photoLoading.value = false;
+  }
+
+
 }

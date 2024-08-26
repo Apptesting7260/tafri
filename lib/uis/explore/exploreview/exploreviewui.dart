@@ -443,7 +443,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        // Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
+                                        Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
                                       },
                                       child: Column(
                                         crossAxisAlignment:
@@ -503,6 +503,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               ),
                                             ),
                                           ),
+                                          SizedBox(height: 3,),
                                           Text(
                                             controller.actData.value.activity!
                                                 .hostName

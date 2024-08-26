@@ -192,26 +192,32 @@ class GetVerifyUi extends GetWidget<MyprofileInnController> {
                 ],
               ),
             ),
-            SizedBox(
-                height: Res.h_btn,
-                width: double.maxFinite,
-                child: CustomElevatedButton(
-                    onTap: () {
-                      profilemainController.profileData.value.result?.profile?.verifyLinkedin = controller.isLinkdinVerified.value.toString();
-                      profilemainController.profileData.value.result?.profile?.verifyInstagram = controller.isInstaVerified.value.toString();
-                      print(profilemainController.profileData.value.result?.profile?.verifyInstagram);
-                      print(profilemainController.profileData.value.result?.profile?.verifyLinkedin);
-                      profilemainController.profileData.refresh();
-                      Get.back();
-                    },
-                    backgroundClr: clrBlacke,
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          color: clrWhite,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    ))),
+            Obx(() => Opacity(
+              opacity: controller.socialLoading.value ? .5 : 1,
+              child: SizedBox(
+                  height: Res.h_btn,
+                  width: double.maxFinite,
+                  child: CustomElevatedButton(
+                      onTap: () {
+                        // profilemainController.profileData.value.result?.profile?.verifyLinkedin = controller.isLinkdinVerified.value.toString();
+                        // profilemainController.profileData.value.result?.profile?.verifyInstagram = controller.isInstaVerified.value.toString();
+                        // print(profilemainController.profileData.value.result?.profile?.verifyInstagram);
+                        // print(profilemainController.profileData.value.result?.profile?.verifyLinkedin);
+                        // profilemainController.profileData.refresh();
+                        // Get.back();
+
+                        controller.socialUpdate();
+
+                      },
+                      backgroundClr: clrBlacke,
+                      child: controller.socialLoading.value ? CommonUi.buttonLoading() : Text(
+                        "Save",
+                        style: TextStyle(
+                            color: clrWhite,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ))),
+            ),),
             const SizedBox(
               height: 10,
             ),

@@ -199,21 +199,24 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 13),
-                child: SizedBox(
-                    height: Res.h_btn,
-                    width: double.maxFinite,
-                    child: CustomElevatedButton(
-                        onTap: () {
-                          Get.back();
-                        },
-                        backgroundClr: clrBlacke,
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              color: clrWhite,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
-                        ))),
+                child: Obx(() => Opacity(
+                  opacity: controller.funfactLoading.value ? .5 : 1,
+                  child: SizedBox(
+                      height: Res.h_btn,
+                      width: double.maxFinite,
+                      child: CustomElevatedButton(
+                          onTap: () async{
+                            await controller.funfactUpdate();
+                          },
+                          backgroundClr: clrBlacke,
+                          child:  controller.funfactLoading.value ? CommonUi.buttonLoading() : Text(
+                            "Save",
+                            style: TextStyle(
+                                color: clrWhite,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700),
+                          ))),
+                ),)
               ),
               const SizedBox(
                 height: 10,

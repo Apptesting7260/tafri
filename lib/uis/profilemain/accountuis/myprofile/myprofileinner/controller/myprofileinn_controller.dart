@@ -435,6 +435,331 @@ class MyprofileInnController extends GetxController
   }
 
 
+
+
+  var bioLoading = false.obs;
+
+  Future<void> bioProfile() async{
+
+    String? token = LocalStorage.getToken();
+    String? uid = LocalStorage.getUid();
+    print('token == $token        $uid');
+
+    var body = {
+      'user_id' : uid,
+      'bio' : bioController.value.text.trim().toString()
+    };
+
+    var header = {"Authorization": "Bearer $token"};
+
+    bioLoading.value = true;
+    try{
+      final response = await api.post('${EndPoints.bioprofile}', jsonEncode(body), headers: header);
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        var data = response.body;
+        if(data['status'] == true){
+          bioLoading.value = false;
+          Get.back();
+          await profileController.viewProfile();
+        }else{
+          print('profile error ==');
+          showTostMsg('Something went wrong');
+          bioLoading.value = false;
+        }
+      }else{
+        print('profile error');
+        showTostMsg('Something went wrong');
+        bioLoading.value = false;
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      bioLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
+
+
+
+  var locationLoading = false.obs;
+
+  Future<void> locationUpdate() async{
+
+    String? token = LocalStorage.getToken();
+    String? uid = LocalStorage.getUid();
+    print('token == $token        $uid');
+
+    var body = {
+      'user_id' : uid,
+      'location' : locController.value.text.trim()
+    };
+
+    var header = {"Authorization": "Bearer $token"};
+
+    locationLoading.value = true;
+    try{
+      final response = await api.post('${EndPoints.locationprofile}', jsonEncode(body), headers: header);
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        var data = response.body;
+        if(data['status'] == true){
+          locationLoading.value = false;
+          Get.back();
+          await profileController.viewProfile();
+        }else{
+          print('profile error ==');
+          showTostMsg('Something went wrong');
+          locationLoading.value = false;
+        }
+      }else{
+        print('profile error');
+        showTostMsg('Something went wrong');
+        locationLoading.value = false;
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      locationLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
+
+
+
+  var occLoading = false.obs;
+
+  Future<void> occUpdate() async{
+
+    String? token = LocalStorage.getToken();
+    String? uid = LocalStorage.getUid();
+    print('token == $token        $uid');
+
+    var body = {
+      'user_id' : uid,
+      'occupation' : ocupatController.value.text.trim().toString(),
+      'organisation_name' : organiController.value.text.trim().toString(),
+    };
+
+    var header = {"Authorization": "Bearer $token"};
+
+    occLoading.value = true;
+    try{
+      final response = await api.post('${EndPoints.occupationprofile}', jsonEncode(body), headers: header);
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        var data = response.body;
+        if(data['status'] == true){
+          occLoading.value = false;
+          Get.back();
+          await profileController.viewProfile();
+        }else{
+          print('profile error ==');
+          showTostMsg('Something went wrong');
+          occLoading.value = false;
+        }
+      }else{
+        print('profile error');
+        showTostMsg('Something went wrong');
+        occLoading.value = false;
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      occLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
+
+
+
+  var langLoading = false.obs;
+
+  Future<void> langUpdate() async{
+
+    String? token = LocalStorage.getToken();
+    String? uid = LocalStorage.getUid();
+    print('token == $token        $uid');
+
+    var body = {
+      'user_id' : uid,
+      'language_id' : selectedLanguageList.map((element) => element['id'].toString(),).toList()
+    };
+
+    var header = {"Authorization": "Bearer $token"};
+
+    langLoading.value = true;
+    try{
+      final response = await api.post('${EndPoints.langprofile}', jsonEncode(body), headers: header);
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        var data = response.body;
+        if(data['status'] == true){
+          langLoading.value = false;
+          Get.back();
+          await profileController.viewProfile();
+        }else{
+          print('profile error ==');
+          showTostMsg('Something went wrong');
+          langLoading.value = false;
+        }
+      }else{
+        print('profile error');
+        showTostMsg('Something went wrong');
+        langLoading.value = false;
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      langLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
+
+
+
+  var actintLoading = false.obs;
+
+  Future<void> actintUpdate() async{
+
+    String? token = LocalStorage.getToken();
+    String? uid = LocalStorage.getUid();
+    print('token == $token        $uid');
+
+    var body = {
+      'user_id' : uid,
+      'activity_interests' :  selectedActivity
+    };
+
+    var header = {"Authorization": "Bearer $token"};
+
+    actintLoading.value = true;
+    try{
+      final response = await api.post('${EndPoints.actintprofile}', jsonEncode(body), headers: header);
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        var data = response.body;
+        if(data['status'] == true){
+          actintLoading.value = false;
+          Get.back();
+          await profileController.viewProfile();
+        }else{
+          print('profile error ==');
+          showTostMsg('Something went wrong');
+          actintLoading.value = false;
+        }
+      }else{
+        print('profile error');
+        showTostMsg('Something went wrong');
+        actintLoading.value = false;
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      actintLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
+
+
+
+  var funfactLoading = false.obs;
+
+  Future<void> funfactUpdate() async{
+
+    String? token = LocalStorage.getToken();
+    String? uid = LocalStorage.getUid();
+    print('token == $token        $uid');
+
+    var body = {
+      'user_id' : uid,
+      'fun_facts_about_me' : funFactListDeta.map((element){
+        return {
+          "question": element['id'].toString(),
+          "answer": element['answer'].toString()
+        };
+      }).toList()
+    };
+
+    var header = {"Authorization": "Bearer $token"};
+
+    funfactLoading.value = true;
+    try{
+      final response = await api.post('${EndPoints.funfactprofile}', jsonEncode(body), headers: header);
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        var data = response.body;
+        if(data['status'] == true){
+          funfactLoading.value = false;
+          Get.back();
+          await profileController.viewProfile();
+        }else{
+          print('profile error ==');
+          showTostMsg('Something went wrong');
+          funfactLoading.value = false;
+        }
+      }else{
+        print('profile error');
+        showTostMsg('Something went wrong');
+        funfactLoading.value = false;
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      funfactLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
+
+
+
+  var socialLoading = false.obs;
+
+  Future<void> socialUpdate() async{
+
+    String? token = LocalStorage.getToken();
+    String? uid = LocalStorage.getUid();
+    print('token == $token        $uid');
+
+    var body = {
+      'user_id' : uid,
+      'verify_instagram' : isInstaVerified.value,
+      'verify_linkedin' : isLinkdinVerified.value
+    };
+
+    var header = {"Authorization": "Bearer $token"};
+
+    socialLoading.value = true;
+    try{
+      final response = await api.post('${EndPoints.socialprofile}', jsonEncode(body), headers: header);
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        var data = response.body;
+        if(data['status'] == true){
+          socialLoading.value = false;
+          Get.back();
+          await profileController.viewProfile();
+        }else{
+          print('profile error ==');
+          showTostMsg('Something went wrong');
+          socialLoading.value = false;
+        }
+      }else{
+        print('profile error');
+        showTostMsg('Something went wrong');
+        socialLoading.value = false;
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      socialLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
+
+
+
+
  /// place api
   RxList<PlacesSearchResult> places = <PlacesSearchResult>[].obs;
   RxString _searchTerm = ''.obs;

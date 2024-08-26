@@ -33,4 +33,14 @@ class EndPoints{
   static String cancelactivity = '${baseUrl}request-to-cancel-activity';
   static String leaveactivity = '${baseUrl}request-to-leave-activity';
 
+
+  static String bioprofile = '${baseUrl}complete-bio';
+  static String locationprofile = '${baseUrl}complete-location';
+  static String occupationprofile = '${baseUrl}complete-occupation';
+  static String langprofile = '${baseUrl}complete-languages';
+  static String actintprofile = '${baseUrl}complete-activity-interests';
+  static String funfactprofile = '${baseUrl}complete-fun-facts-about-me';
+  static String socialprofile = '${baseUrl}complete-verification';
+  static String editphotoprofile = '${baseUrl}complete-photo';
+
 }

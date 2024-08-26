@@ -51,10 +51,13 @@ class ExploreUi extends GetWidget<ExploreListController> {
                   Text(
                     "Map",
                     style: TextStyle(
-                        color: clrBlacke, fontWeight: FontWeight.w600),
+                        color: clrBlacke,
+                        fontWeight: FontWeight.w600
+                    ),
                   )
                 ],
-              )),
+              )
+          ),
         ),
       ),
       body: SafeArea(
@@ -77,7 +80,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                         // hintText: "Anywhere • any week",
                         hintText: 'Any activity',
                         sufixIcon: Icon(Icons.search),
-                      )),
+                      )
+                  ),
                 ),
                 SizedBox(
                   width: w * .03,
@@ -240,7 +244,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                   height: h * .046,
                                   child: ListView.builder(
                                     padding: EdgeInsets.only(
-                                        left: Res.Defalt_side_margin),
+                                        left: Res.Defalt_side_margin
+                                    ),
                                     itemCount: (controller.homeData.value.result
                                                 ?.categories
                                                 ?.where((category) =>
@@ -294,12 +299,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                     : Text(
                                                         'All',
                                                         style: TextStyle(
-                                                          color: controller
-                                                                      .selectedIndex
-                                                                      .value ==
-                                                                  index
-                                                              ? clrWhite
-                                                              : clrBlacke,
+                                                          color: controller.selectedIndex.value == index
+                                                              ? clrWhite : clrBlacke,
                                                           fontWeight:
                                                               FontWeight.w700,
                                                         ),
@@ -320,22 +321,12 @@ class ExploreUi extends GetWidget<ExploreListController> {
 
                                         return GestureDetector(
                                           onTap: () async {
-                                            if (controller
-                                                    .selectedIndex.value !=
-                                                index) {
-                                              controller.selectedIndex.value =
-                                                  index;
-                                              controller.categoryID.value =
-                                                  categoryData?[categoryIndex]
-                                                      .id
-                                                      .toString();
-                                              categoryData?[categoryIndex]
-                                                  .loading
-                                                  ?.value = true;
+                                            if (controller.selectedIndex.value != index) {
+                                              controller.selectedIndex.value = index;
+                                              controller.categoryID.value = categoryData?[categoryIndex].id.toString();
+                                              categoryData?[categoryIndex].loading?.value = true;
                                               await controller.homePageApi();
-                                              categoryData?[categoryIndex]
-                                                  .loading
-                                                  ?.value = false;
+                                              categoryData?[categoryIndex].loading?.value = false;
                                             }
                                           },
                                           child: Obx(
@@ -343,9 +334,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                               margin: const EdgeInsets.only(
                                                   right: 7),
                                               padding:
-                                                  categoryData![categoryIndex]
-                                                          .loading!
-                                                          .value
+                                                  categoryData![categoryIndex].loading!.value
                                                       ? EdgeInsets.symmetric(
                                                           horizontal: 15,
                                                         )
@@ -353,13 +342,12 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                           left: 4,
                                                           top: 1.5,
                                                           bottom: 1.5,
-                                                          right: 10),
+                                                          right: 10
+                                                  ),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(100),
-                                                color: controller.selectedIndex
-                                                            .value ==
-                                                        index
+                                                color: controller.selectedIndex.value == index
                                                     ? clrBlacke
                                                     : clrGreyLight,
                                               ),
@@ -370,39 +358,31 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                   : Row(
                                                       children: [
                                                         ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100),
-                                                          child:
-                                                              CachedNetworkImage(
+                                                          borderRadius: BorderRadius.circular(
+                                                              100
+                                                          ),
+                                                          child: CachedNetworkImage(
                                                             height: 28,
                                                             width: 28,
                                                             fit: BoxFit.cover,
-                                                            imageUrl:
-                                                                '${categoryData[categoryIndex].icon}',
-                                                            errorWidget: (context,
-                                                                    url,
-                                                                    error) =>
+                                                            imageUrl: '${categoryData[categoryIndex].icon}',
+                                                            errorWidget: (context, url, error) =>
                                                                 Icon(
                                                                     Icons.error,
-                                                                    color:
-                                                                        clrBlacke),
+                                                                    color: clrBlacke
+                                                                ),
                                                           ),
                                                         ),
                                                         const SizedBox(
-                                                            width: 5),
+                                                            width: 5
+                                                        ),
                                                         Text(
                                                           '${categoryData[categoryIndex].title}',
                                                           style: TextStyle(
-                                                            color: controller
-                                                                        .selectedIndex
-                                                                        .value ==
-                                                                    index
+                                                            color: controller.selectedIndex.value == index
                                                                 ? clrWhite
                                                                 : clrBlacke,
-                                                            fontWeight:
-                                                                FontWeight.w700,
+                                                            fontWeight: FontWeight.w700,
                                                           ),
                                                         ),
                                                       ],
@@ -414,7 +394,6 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                     },
                                   ),
                                 ),
-
                                 SizedBox(
                                   height: Get.height * 0.013,
                                 ),
@@ -428,8 +407,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                               controller.refreshController,
                                           onRefresh: () async {
                                             await controller.homePageApi();
-                                            controller.refreshController
-                                                .refreshCompleted();
+                                            controller.refreshController.refreshCompleted();
                                           },
                                           // enablePullDown: controller.showRefreshIndicator.value,
                                           header: CommonUi.refreshHeader(),
@@ -438,30 +416,16 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                           //   backgroundColor: clrYellow,
                                           //   distance: 50,
                                           // ),
-                                          child: controller.homeData.value
-                                                  .result!.activities!.isEmpty
+                                          child: controller.homeData.value.result!.activities!.isEmpty
                                               ? Center(
                                                   child: NoActivityScreen(),
                                                 )
-                                              : controller.homeData.value
-                                                      .result!.activities!
-                                                      .where(
-                                                        (element) =>
-                                                            element.status ==
-                                                            'approved',
-                                                      )
-                                                      .isNotEmpty
+                                              : controller.homeData.value.result!.activities!
+                                                .where((element) => element.status == 'approved',).isNotEmpty
                                                   ? ListView.builder(
                                                       // controller: controller.scrollController,
-                                                      itemCount: controller
-                                                          .homeData
-                                                          .value
-                                                          .result
-                                                          ?.activities
-                                                          ?.where((activity) =>
-                                                              activity.status ==
-                                                              'approved')
-                                                          .length,
+                                                      itemCount: controller.homeData.value.result?.activities
+                                                          ?.where((activity) => activity.status == 'approved').length,
                                                       shrinkWrap: true,
                                                       itemBuilder:
                                                           (context, index) {
@@ -477,15 +441,21 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                             .toList();
                                                         return InkWell(
                                                           onTap: () {
-                                                            // controller.showHomePop();
-                                                            Get.toNamed(
-                                                                Routes
-                                                                    .exploreView,
-                                                                arguments:
-                                                                    activityData?[
-                                                                            index]
-                                                                        .id
-                                                                        .toString());
+                                                            if(controller.homeData.value.result?.profileComplete == false
+                                                                &&  controller.homeData.value.result?.membershipStatus == false) {
+                                                              controller.showHomePop();
+                                                            } else {
+                                                              Get.toNamed(
+                                                                  Routes
+                                                                      .exploreView,
+                                                                  arguments:
+                                                                  activityData?[
+                                                                  index]
+                                                                      .id
+                                                                      .toString());
+                                                            }
+
+
                                                           },
                                                           child: Container(
                                                             margin:
@@ -567,16 +537,22 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                             ),
                                                                             InkWell(
                                                                               onTap: () async {
-                                                                                var id = activityData?[index].id.toString();
-                                                                                await controller.changeFavApi(id).then(
-                                                                                  (value) {
-                                                                                    if (value == true) {
-                                                                                      activityData?[index].isFav = !activityData[index].isFav!;
-                                                                                    }
-                                                                                  },
-                                                                                );
+                                                                                if(controller.homeData.value.result?.profileComplete == false
+                                                                                    &&  controller.homeData.value.result?.membershipStatus == false) {
+                                                                                  controller.showHomePop();
+                                                                                } else {
+                                                                                  var id = activityData?[index].id.toString();
+                                                                                  await controller.changeFavApi(id).then(
+                                                                                        (value) {
+                                                                                      if (value == true) {
+                                                                                        activityData?[index].isFav = !activityData[index].isFav!;
+                                                                                      }
+                                                                                    },
+                                                                                  );
 
-                                                                                controller.homeData.refresh();
+                                                                                  controller.homeData.refresh();
+                                                                                }
+
                                                                                 // controller
                                                                                 //     .changeFav(
                                                                                 //         index);
@@ -733,6 +709,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                               ),
                                                                             ),
                                                                           ),
+                                                                          SizedBox(height: 3,),
                                                                           Text(
                                                                             '${activityData?[index].hostName}',
                                                                             style:

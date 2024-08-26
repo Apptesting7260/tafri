@@ -185,28 +185,34 @@ class LanguagesProUi extends GetWidget<MyprofileInnController> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                        height: Res.h_btn,
-                        width: double.maxFinite,
-                        child: CustomElevatedButton(
-                            onTap: () {
-                              if (controller.selectedLanguageList.isEmpty) {
-                                controller.changeIsShowLangError(true);
-                              } else {
-                                controller.changeIsShowLangError(false);
-                                profilemainController.profileData.value.result?.profile?.languageNames = controller.selectedLanguageList.map((element) => element['lang'].toString(),).toList();
-                                profilemainController.profileData.refresh();
-                                Get.back();
-                              }
-                            },
-                            backgroundClr: clrBlacke,
-                            child: Text(
-                              "Save",
-                              style: TextStyle(
-                                  color: clrWhite,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
-                            ))),
+                    Obx(() => Opacity(
+                      opacity: controller.langLoading.value ? .5 : 1,
+                      child: SizedBox(
+                          height: Res.h_btn,
+                          width: double.maxFinite,
+                          child: CustomElevatedButton(
+                              onTap: () async {
+                                if (controller.selectedLanguageList.isEmpty) {
+                                  controller.changeIsShowLangError(true);
+                                } else {
+                                  controller.changeIsShowLangError(false);
+                                  // profilemainController.profileData.value.result?.profile?.languageNames = controller.selectedLanguageList.map((element) => element['lang'].toString(),).toList();
+                                  // profilemainController.profileData.refresh();
+                                  // Get.back();
+
+                                  await controller.langUpdate();
+
+                                }
+                              },
+                              backgroundClr: clrBlacke,
+                              child: controller.langLoading.value ? CommonUi.buttonLoading() : Text(
+                                "Save",
+                                style: TextStyle(
+                                    color: clrWhite,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ))),
+                    ),),
                     const SizedBox(
                       height: 10,
                     ),

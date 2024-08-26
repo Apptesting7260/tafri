@@ -119,31 +119,39 @@ class BioUi extends GetWidget<MyprofileInnController> {
                 ],
               ),
             ),
-            SizedBox(
-                height: Res.h_btn,
-                width: double.maxFinite,
-                child: CustomElevatedButton(
-                    onTap: () {
-                      // if(_formState.currentState!.validate()){
-
-                      profilemainController.profileData.value.result?.profile
-                          ?.bio = controller.bioController.value.value.text.trim();
-                      print(controller.bioController.value.text.trim());
-                      profilemainController.profileData.refresh();
-                      print(profilemainController
-                          .profileData.value.result?.profile?.bio);
-                      print(profilemainController.hashCode);
-                      Get.back();
-                      // }
-                    },
-                    backgroundClr: clrBlacke,
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          color: clrWhite,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    ))),
+           Obx(() =>  Opacity(
+             opacity:  controller.bioLoading.value ? .5 : 1,
+             child: SizedBox(
+                 height: Res.h_btn,
+                 width: double.maxFinite,
+                 child: CustomElevatedButton(
+                     onTap: () async{
+                       // if(_formState.currentState!.validate()){
+             
+                       // profilemainController.profileData.value.result?.profile
+                       //     ?.bio = controller.bioController.value.value.text.trim();
+                       // print(controller.bioController.value.text.trim());
+                       // profilemainController.profileData.refresh();
+                       // print(profilemainController
+                       //     .profileData.value.result?.profile?.bio);
+                       // print(profilemainController.hashCode);
+             
+             
+                       await controller.bioProfile();
+             
+                       // }
+                     },
+                     backgroundClr: clrBlacke,
+                     child: controller.bioLoading.value
+                         ? CommonUi.buttonLoading()
+                         : Text(
+                       "Save",
+                       style: TextStyle(
+                           color: clrWhite,
+                           fontSize: 16,
+                           fontWeight: FontWeight.w700),
+                     ))),
+           ),),
             const SizedBox(
               height: 10,
             ),

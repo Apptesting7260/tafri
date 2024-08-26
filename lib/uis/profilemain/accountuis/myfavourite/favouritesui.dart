@@ -309,6 +309,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                                 ),
                                           ),
                                         ),
+                                        SizedBox(height: 3,),
                                         Text(resultData[index].hostName.toString(),style: TextStyle(fontWeight: FontWeight.w700),)
                                       ],
                                     ),

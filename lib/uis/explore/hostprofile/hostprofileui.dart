@@ -7,6 +7,7 @@ import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../routes/routes.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
 import '../../../utils/custom_radio.dart';
@@ -739,80 +740,382 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                           SizedBox(
                             height: Get.height * 0.015,
                           ),
-                          const Text(
+                          controller.hostData.value.result!.upcomingActivities!.isEmpty
+                              ? SizedBox()
+                              :  Text(
                             "Upcoming activities",
                             style: TextStyle(fontWeight: FontWeight.w800),
                           ),
                           SizedBox(
                             height: Get.height * 0.015,
                           ),
+                          // ListView.builder(
+                          //     itemCount: controller.hostData.value.result?.upcomingActivities?.length,
+                          //     physics: const NeverScrollableScrollPhysics(),
+                          //     shrinkWrap: true,
+                          //     itemBuilder: (context, index) {
+                          //       return Container(
+                          //         margin: const EdgeInsets.symmetric(vertical: 5),
+                          //         padding: const EdgeInsets.symmetric(
+                          //             vertical: 10, horizontal: 10),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(5),
+                          //             color: clrGreyLight),
+                          //         child: Column(
+                          //           crossAxisAlignment: CrossAxisAlignment.start,
+                          //           children: [
+                          //             Text(
+                          //               controller.hostData.value
+                          //                   .result?.upcomingActivities?[index].formattedDate ?? '',
+                          //               style: TextStyle(color: clrGreyDark),
+                          //             ),
+                          //             SizedBox(
+                          //               height: Get.height * 0.003,
+                          //             ),
+                          //             Row(
+                          //               children: [
+                          //                 Container(
+                          //                   clipBehavior: Clip.hardEdge,
+                          //                   height: 57,
+                          //                   width: 57,
+                          //                   decoration: BoxDecoration(
+                          //                     borderRadius: BorderRadius.circular(10),
+                          //                   ),
+                          //                   child: Image.asset(
+                          //                     "assets/images/parkimage.png",
+                          //                     fit: BoxFit.cover,
+                          //                   ),
+                          //                 ),
+                          //                 SizedBox(
+                          //                   width: Get.width * 0.02,
+                          //                 ),
+                          //                 Expanded(
+                          //                   child: Container(
+                          //                     padding: const EdgeInsets.symmetric(
+                          //                         horizontal: 10, vertical: 10),
+                          //                     decoration: BoxDecoration(
+                          //                         color: clrWhite,
+                          //                         borderRadius:
+                          //                         BorderRadius.circular(5)),
+                          //                     child: Column(
+                          //                       crossAxisAlignment:
+                          //                       CrossAxisAlignment.start,
+                          //                       children: [
+                          //                         const Text(
+                          //                           "10KM Vondelpark run",
+                          //                           style: TextStyle(
+                          //                               fontSize: 14,
+                          //                               fontWeight: FontWeight.w500),
+                          //                         ),
+                          //                         Text(
+                          //                             "Padel next, 1055 AH, Amsterdam ",
+                          //                             style: TextStyle(
+                          //                                 color: clrGreyDark,
+                          //                                 fontSize: 12)),
+                          //                       ],
+                          //                     ),
+                          //                   ),
+                          //                 )
+                          //               ],
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       );
+                          //     }),
+                          // SizedBox(
+                          //   height: Get.height * 0.015,
+                          // ),
+                          // const Text(
+                          //   "Previous activities",
+                          //   style: TextStyle(fontWeight: FontWeight.w800),
+                          // ),
+                          // SizedBox(
+                          //   height: Get.height * 0.015,
+                          // ),
+                          // ListView.builder(
+                          //     itemCount: 1,
+                          //     physics: const NeverScrollableScrollPhysics(),
+                          //     shrinkWrap: true,
+                          //     itemBuilder: (context, index) {
+                          //       return Container(
+                          //         margin: const EdgeInsets.symmetric(vertical: 5),
+                          //         padding: const EdgeInsets.symmetric(
+                          //             vertical: 10, horizontal: 10),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(5),
+                          //             color: clrGreyLight),
+                          //         child: Column(
+                          //           crossAxisAlignment: CrossAxisAlignment.start,
+                          //           children: [
+                          //             Text(
+                          //               "20 May",
+                          //               style: TextStyle(color: clrGreyDark),
+                          //             ),
+                          //             SizedBox(
+                          //               height: Get.height * 0.003,
+                          //             ),
+                          //             Column(
+                          //               children: [
+                          //                 Row(
+                          //                   children: [
+                          //                     Container(
+                          //                       clipBehavior: Clip.hardEdge,
+                          //                       height: 57,
+                          //                       width: 57,
+                          //                       decoration: BoxDecoration(
+                          //                         borderRadius:
+                          //                         BorderRadius.circular(10),
+                          //                       ),
+                          //                       child: Image.asset(
+                          //                         "assets/images/parkimage.png",
+                          //                         fit: BoxFit.cover,
+                          //                       ),
+                          //                     ),
+                          //                     SizedBox(
+                          //                       width: Get.width * 0.02,
+                          //                     ),
+                          //                     Expanded(
+                          //                       child: Container(
+                          //                         padding: const EdgeInsets.symmetric(
+                          //                             horizontal: 10, vertical: 10),
+                          //                         decoration: BoxDecoration(
+                          //                             color: clrWhite,
+                          //                             borderRadius:
+                          //                             BorderRadius.circular(5)),
+                          //                         child: Column(
+                          //                           crossAxisAlignment:
+                          //                           CrossAxisAlignment.start,
+                          //                           children: [
+                          //                             const Text(
+                          //                               "Salsa night at Tulp",
+                          //                               style: TextStyle(
+                          //                                   fontSize: 14,
+                          //                                   fontWeight:
+                          //                                   FontWeight.w500),
+                          //                             ),
+                          //                             Text("Confirm attendance",
+                          //                                 style: TextStyle(
+                          //                                     color: clrYellowText,
+                          //                                     fontSize: 12)),
+                          //                           ],
+                          //                         ),
+                          //                       ),
+                          //                     )
+                          //                   ],
+                          //                 ),
+                          //                 const SizedBox(
+                          //                   height: 8,
+                          //                 ),
+                          //                 Row(
+                          //                   children: [
+                          //                     Container(
+                          //                       clipBehavior: Clip.hardEdge,
+                          //                       height: 57,
+                          //                       width: 57,
+                          //                       decoration: BoxDecoration(
+                          //                         borderRadius:
+                          //                         BorderRadius.circular(10),
+                          //                       ),
+                          //                       child: Image.asset(
+                          //                         "assets/images/cofee.png",
+                          //                         fit: BoxFit.cover,
+                          //                       ),
+                          //                     ),
+                          //                     SizedBox(
+                          //                       width: Get.width * 0.02,
+                          //                     ),
+                          //                     Expanded(
+                          //                       child: Container(
+                          //                         padding: const EdgeInsets.symmetric(
+                          //                             horizontal: 10, vertical: 10),
+                          //                         decoration: BoxDecoration(
+                          //                             color: clrWhite,
+                          //                             borderRadius:
+                          //                             BorderRadius.circular(5)),
+                          //                         child: Column(
+                          //                           crossAxisAlignment:
+                          //                           CrossAxisAlignment.start,
+                          //                           children: [
+                          //                             const Text(
+                          //                               "Sunday morning coffee",
+                          //                               style: TextStyle(
+                          //                                   fontSize: 14,
+                          //                                   fontWeight:
+                          //                                   FontWeight.w500),
+                          //                             ),
+                          //                             Text("Cancelled",
+                          //                                 style: TextStyle(
+                          //                                     color: clrGreyTextLight,
+                          //                                     fontSize: 12)),
+                          //                           ],
+                          //                         ),
+                          //                       ),
+                          //                     )
+                          //                   ],
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       );
+                          //     }),
                           ListView.builder(
-                              itemCount: 2,
+                              itemCount: controller.hostData.value
+                                  .result?.upcomingActivities?.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: Get.height * 0.01),
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 10),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
+                                      borderRadius: BorderRadius.circular(10),
                                       color: clrGreyLight),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "25 May",
+                                        controller.hostData.value
+                                            .result?.upcomingActivities?[index].formattedDate ?? '',
                                         style: TextStyle(color: clrGreyDark),
                                       ),
                                       SizedBox(
                                         height: Get.height * 0.003,
                                       ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            clipBehavior: Clip.hardEdge,
-                                            height: 57,
-                                            width: 57,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            child: Image.asset(
-                                              "assets/images/parkimage.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: Get.width * 0.02,
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 10),
-                                              decoration: BoxDecoration(
-                                                  color: clrWhite,
-                                                  borderRadius:
-                                                  BorderRadius.circular(5)),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    "10KM Vondelpark run",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500),
+                                      // Row(
+                                      //   children: [
+                                      //     Container(
+                                      //       clipBehavior: Clip.hardEdge,
+                                      //       height: h * .075,
+                                      //       width: h * .075,
+                                      //       decoration: BoxDecoration(
+                                      //         borderRadius: BorderRadius.circular(10),
+                                      //       ),
+                                      //       child: Image.asset(
+                                      //         "assets/images/parkimage.png",
+                                      //         fit: BoxFit.cover,
+                                      //       ),
+                                      //     ),
+                                      //     SizedBox(
+                                      //       width: Get.width * 0.02,
+                                      //     ),
+                                      //     Expanded(
+                                      //       child: Container(
+                                      //         padding: const EdgeInsets.symmetric(
+                                      //             horizontal: 10, vertical: 10),
+                                      //         decoration: BoxDecoration(
+                                      //             color: clrWhite,
+                                      //             borderRadius:
+                                      //             BorderRadius.circular(5)),
+                                      //         child: Column(
+                                      //           crossAxisAlignment:
+                                      //           CrossAxisAlignment.start,
+                                      //           children: [
+                                      //             Text(
+                                      //               "10KM Vondelpark run",
+                                      //               style: TextStyle(
+                                      //                   fontSize: 14,
+                                      //                   fontWeight: FontWeight.w600),
+                                      //             ),
+                                      //             Text(
+                                      //                 "Padel next, 1055 AH, Amsterdam ",
+                                      //                 style: TextStyle(
+                                      //                     color: clrGreyDark,
+                                      //                     fontSize: 12)),
+                                      //           ],
+                                      //         ),
+                                      //       ),
+                                      //     )
+                                      //   ],
+                                      // ),
+                                      ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: controller.hostData.value
+                                            .result?.upcomingActivities?[index].activities?.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context,ind) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(top: 12),
+                                            child: Row(
+                                              children: [
+                                                // Container(
+                                                //   clipBehavior: Clip.hardEdge,
+                                                //   height: h * .075,
+                                                //   width: h * .075,
+                                                //   decoration: BoxDecoration(
+                                                //     borderRadius:
+                                                //     BorderRadius.circular(10),
+                                                //   ),
+                                                //   child: Image.asset(
+                                                //     "assets/images/parkimage.png",
+                                                //     fit: BoxFit.cover,
+                                                //   ),
+                                                // ),
+                                                Container(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  height: Get.height * .075,
+                                                  width: Get.height * .075,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
                                                   ),
-                                                  Text(
-                                                      "Padel next, 1055 AH, Amsterdam ",
-                                                      style: TextStyle(
-                                                          color: clrGreyDark,
-                                                          fontSize: 12)),
-                                                ],
-                                              ),
+                                                  child: controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].banners != null &&
+                                                      controller.hostData.value.result!.upcomingActivities![index].activities![ind].banners!.isNotEmpty
+                                                      ? CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                    imageUrl: controller.hostData.value.result!.upcomingActivities![index].activities![ind].banners![0],
+                                                    placeholder: (context, url) => Shimmer.fromColors(
+                                                      baseColor: grey300,
+                                                      highlightColor: grey100,
+                                                      child: Container(
+                                                        color: grey300,
+                                                      ),
+                                                    ),
+                                                  )
+                                                      : Image.asset(
+                                                    "assets/images/parkimage.png",
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: Get.width * 0.02,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
+                                                    decoration: BoxDecoration(
+                                                        color: clrWhite,
+                                                        borderRadius:
+                                                        BorderRadius.circular(5)),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].name.toString() ?? '',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                              FontWeight.w600),
+                                                        ),
+                                                        Text(
+                                                            controller.hostData.value.result!.upcomingActivities![index].activities![ind].location.toString() ?? '',
+                                                            style: TextStyle(
+                                                                color: clrGreyTextLight,
+                                                                fontSize: 12)
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        ],
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),
@@ -821,137 +1124,136 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                           SizedBox(
                             height: Get.height * 0.015,
                           ),
-                          const Text(
+                          controller.hostData.value.result!.previousActivities!.isEmpty
+                              ? SizedBox()
+                              :Text(
                             "Previous activities",
-                            style: TextStyle(fontWeight: FontWeight.w800),
+                            style:
+                            TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           SizedBox(
                             height: Get.height * 0.015,
                           ),
                           ListView.builder(
-                              itemCount: 1,
+                              itemCount: controller.hostData.value
+                                  .result?.previousActivities?.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 5),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: clrGreyLight),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "20 May",
-                                        style: TextStyle(color: clrGreyDark),
-                                      ),
-                                      SizedBox(
-                                        height: Get.height * 0.003,
-                                      ),
-                                      Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                clipBehavior: Clip.hardEdge,
-                                                height: 57,
-                                                width: 57,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(10),
-                                                ),
-                                                child: Image.asset(
-                                                  "assets/images/parkimage.png",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: Get.width * 0.02,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  padding: const EdgeInsets.symmetric(
-                                                      horizontal: 10, vertical: 10),
-                                                  decoration: BoxDecoration(
-                                                      color: clrWhite,
-                                                      borderRadius:
-                                                      BorderRadius.circular(5)),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      const Text(
-                                                        "Salsa night at Tulp",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                            FontWeight.w500),
+                                return InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.previousActivityUi,
+                                        arguments: {"isHost": false});
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(vertical: 5),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: clrGreyLight),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          controller.hostData.value.result!.previousActivities![index].formattedDate ?? '',
+                                          style: TextStyle(color: clrGreyDark),
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.003,
+                                        ),
+                                        ListView.builder(
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: controller.hostData.value
+                                              .result?.previousActivities?[index].activities?.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context,ind) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(top: 12),
+                                              child: Row(
+                                                children: [
+                                                  // Container(
+                                                  //   clipBehavior: Clip.hardEdge,
+                                                  //   height: h * .075,
+                                                  //   width: h * .075,
+                                                  //   decoration: BoxDecoration(
+                                                  //     borderRadius:
+                                                  //     BorderRadius.circular(10),
+                                                  //   ),
+                                                  //   child: Image.asset(
+                                                  //     "assets/images/parkimage.png",
+                                                  //     fit: BoxFit.cover,
+                                                  //   ),
+                                                  // ),
+                                                  Container(
+                                                    clipBehavior: Clip.hardEdge,
+                                                    height: Get.height * .075,
+                                                    width: Get.height * .075,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: controller.hostData.value.result?.previousActivities?[index].activities?[ind].banners != null &&
+                                                        controller.hostData.value.result!.previousActivities![index].activities![ind].banners!.isNotEmpty
+                                                        ? CachedNetworkImage(
+                                                      fit: BoxFit.cover,
+                                                      imageUrl: controller.hostData.value.result!.previousActivities![index].activities![ind].banners![0],
+                                                      placeholder: (context, url) => Shimmer.fromColors(
+                                                        baseColor: grey300,
+                                                        highlightColor: grey100,
+                                                        child: Container(
+                                                          color: grey300,
+                                                        ),
                                                       ),
-                                                      Text("Confirm attendance",
-                                                          style: TextStyle(
-                                                              color: clrYellowText,
-                                                              fontSize: 12)),
-                                                    ],
+                                                    )
+                                                        : Image.asset(
+                                                      "assets/images/parkimage.png",
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                clipBehavior: Clip.hardEdge,
-                                                height: 57,
-                                                width: 57,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(10),
-                                                ),
-                                                child: Image.asset(
-                                                  "assets/images/cofee.png",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: Get.width * 0.02,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  padding: const EdgeInsets.symmetric(
-                                                      horizontal: 10, vertical: 10),
-                                                  decoration: BoxDecoration(
-                                                      color: clrWhite,
-                                                      borderRadius:
-                                                      BorderRadius.circular(5)),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      const Text(
-                                                        "Sunday morning coffee",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                            FontWeight.w500),
+                                                  SizedBox(
+                                                    width: Get.width * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      padding:
+                                                      const EdgeInsets.symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 10),
+                                                      decoration: BoxDecoration(
+                                                          color: clrWhite,
+                                                          borderRadius:
+                                                          BorderRadius.circular(5)),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            controller.hostData.value.result?.previousActivities?[index].activities?[ind].name.toString() ?? '',
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                FontWeight.w600),
+                                                          ),
+                                                          Text(
+                                                              controller.hostData.value.result!.previousActivities![index].activities![ind].status.toString() ?? '',
+                                                              style: TextStyle(
+                                                                  color: clrGreyTextLight,
+                                                                  fontSize: 12)
+                                                          ),
+                                                        ],
                                                       ),
-                                                      Text("Cancelled",
-                                                          style: TextStyle(
-                                                              color: clrGreyTextLight,
-                                                              fontSize: 12)),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               }),

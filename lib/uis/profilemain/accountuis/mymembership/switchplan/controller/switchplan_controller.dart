@@ -6,4 +6,11 @@ class SwitchplanController extends GetxController{
     // TODO: implement onInit
     super.onInit();
   }
+
+  var selectedval = 0.obs;
+
+  void updateSelectedValue(int? value) {
+    selectedval.value = value!;
+  }
+
 }

@@ -8,6 +8,7 @@ class CustomRadioButton extends StatelessWidget {
   final String text;
   final Color inactiveColor;
   final double splashRadius;
+  final double width;
 
   const CustomRadioButton({super.key,
     required this.value,
@@ -17,6 +18,7 @@ class CustomRadioButton extends StatelessWidget {
     required this.text,
     this.inactiveColor = Colors.black,
     this.splashRadius = 15.0,
+    this.width = 1.0
   });
 
   @override
@@ -37,7 +39,8 @@ class CustomRadioButton extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: isSelected ? activeColor : inactiveColor,
-                  width: 1,
+                  width: width,
+
                 ),
                 // color: isSelected ? activeColor : Colors.transparent,
               ),
