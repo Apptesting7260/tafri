@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -9,15 +10,24 @@ import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousac
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../routes/routes.dart';
+import '../../../../../../utils/error_widget.dart';
+import '../../../../../explore/explorelist/controller/explorelist_controller.dart';
 import '../../addactreviewui.dart';
 import '../attendlist/attendlistui.dart';
 
 class PreviousActivityUi extends GetWidget<PreviousActiController>{
-  const PreviousActivityUi({super.key});
+  PreviousActivityUi({super.key});
 
   // ExploreViewController exploreViewController=Get.put(ExploreViewController());
+
+  ExploreListController exploreListController =
+  Get.find<ExploreListController>();
+
+  final formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
@@ -52,7 +62,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                   //   ),
                   // ),
                   CommonUi.appBar(),
-                  const Expanded(child: Center(child: Text("Activity",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),))),
+                  Expanded(child: Center(child: Text("Activity",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),))),
                   Row(
                     children: [
                       InkWell(
@@ -101,7 +111,14 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                 height: Get.height*0.01,
               ),
               Expanded(
-                child: SingleChildScrollView(
+                child:  Obx(
+                      () => controller.activitypage.value
+                      ? Center(
+                    child: CommonUi.scaffoldLoading(color: clrYellow),
+                  )
+                      : controller.actError.value.isNotEmpty
+                      ? ErrorScreen()
+                      : SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -110,10 +127,47 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         child: Stack(
                           // clipBehavior: Clip.none,
                           children: [
+                            // CarouselSlider(
+                            //   options: CarouselOptions(
+                            //       height:h*.25, viewportFraction: 1),
+                            //   items: [1, 2, 3].map((i) {
+                            //     return Builder(
+                            //       builder: (BuildContext context) {
+                            //         return Container(
+                            //             clipBehavior: Clip.hardEdge,
+                            //             width: MediaQuery.of(context)
+                            //                 .size
+                            //                 .width,
+                            //             height: double.maxFinite,
+                            //             margin: const EdgeInsets.symmetric(
+                            //                 horizontal: 0),
+                            //             decoration: BoxDecoration(
+                            //                 borderRadius:
+                            //                 BorderRadius.circular(18)),
+                            //             child: Image.asset(
+                            //               "assets/images/cofee.png",
+                            //               fit: BoxFit.cover,
+                            //               height: h*.25,
+                            //               width: double.maxFinite,
+                            //             ));
+                            //       },
+                            //     );
+                            //   }).toList(),
+                            // ),
                             CarouselSlider(
                               options: CarouselOptions(
-                                  height:h*.25, viewportFraction: 1),
-                              items: [1, 2, 3].map((i) {
+                                  height: h * .26,
+                                  viewportFraction: 1,
+                                  onPageChanged: (currIndex,
+                                      CarouselPageChangedReason
+                                      reason) {
+                                    controller
+                                        .changeIndicator(currIndex);
+                                    debugPrint(
+                                        " currIndex $currIndex reason=$reason");
+                                  }),
+                              items: controller
+                                  .actData.value.activity?.banners?.map<Widget>((i) {
                                 return Builder(
                                   builder: (BuildContext context) {
                                     return Container(
@@ -122,16 +176,34 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                             .size
                                             .width,
                                         height: double.maxFinite,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 0),
+                                        margin: const EdgeInsets
+                                            .symmetric(horizontal: 0),
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(18)),
-                                        child: Image.asset(
-                                          "assets/images/cofee.png",
+                                            BorderRadius.circular(
+                                                18)),
+                                        child: CachedNetworkImage(
                                           fit: BoxFit.cover,
-                                          height: h*.25,
+                                          height: h * .26,
                                           width: double.maxFinite,
+                                          imageUrl: "$i",
+                                          placeholder:
+                                              (context, url) =>
+                                              Shimmer.fromColors(
+                                                baseColor: grey300,
+                                                highlightColor: grey100,
+                                                child: Container(
+                                                  width: double.maxFinite,
+                                                  height: h * .26,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    color: grey300,
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(18),
+                                                  ),
+                                                ),
+                                              ),
                                         ));
                                   },
                                 );
@@ -151,39 +223,125 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                         color: clrWhite,
                                         borderRadius:
                                         BorderRadius.circular(20)),
-                                    child: const Text("Coffee",style: TextStyle(fontWeight: FontWeight.w700),),
+                                    child: Text(
+                                      controller.actData.value.activity?.subcategoryTitle.toString() ?? '',
+                                      style: TextStyle(fontWeight: FontWeight.w700),
+                                    ),
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                        color: clrWhite,
-                                        borderRadius:
-                                        BorderRadius.circular(100)),
-                                    child: const Icon(
-                                      Icons.favorite_border,
-                                      size: 20,
+                                  // Container(
+                                  //   padding: const EdgeInsets.all(6),
+                                  //   decoration: BoxDecoration(
+                                  //       color: clrWhite,
+                                  //       borderRadius:
+                                  //       BorderRadius.circular(100)),
+                                  //   child: const Icon(
+                                  //     Icons.favorite_border,
+                                  //     size: 20,
+                                  //   ),
+                                  // ),
+                                  InkWell(
+                                    onTap: () async {
+                                      var id = controller
+                                          .actData.value.activity!.id
+                                          .toString();
+                                      await controller
+                                          .changeFavApi(id)
+                                          .then(
+                                            (value) {
+                                          if (value == true) {
+                                            controller.actData.value
+                                                .activity?.isFav =
+                                            !controller
+                                                .actData
+                                                .value
+                                                .activity!.isFav!;
+                                            exploreListController
+                                                .homePageApi();
+                                          }
+                                        },
+                                      );
+
+                                      controller.actData.refresh();
+                                      // controller
+                                      //     .changeFav(
+                                      //         index);
+                                    },
+                                    child: Container(
+                                      padding:
+                                      const EdgeInsets.all(6),
+                                      decoration: BoxDecoration(
+                                          color: clrWhite,
+                                          borderRadius:
+                                          BorderRadius.circular(
+                                              100)),
+                                      child: controller.actData.value
+                                          .activity?.isFav ==
+                                          true
+                                          ? Icon(
+                                        Icons.favorite,
+                                        size: 20,
+                                        color: clrYellow,
+                                      )
+                                          : const Icon(
+                                        Icons.favorite_border,
+                                        size: 20,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
+                            // Align(
+                            //   alignment: Alignment.bottomCenter,
+                            //   child: Container(
+                            //     margin: EdgeInsets.only(bottom: 7),
+                            //     height: 16,
+                            //     child: ListView.builder(
+                            //         itemCount: 3,
+                            //         shrinkWrap: true,
+                            //         scrollDirection: Axis.horizontal,
+                            //         itemBuilder: (context, index) {
+                            //           return Padding(
+                            //             padding: const EdgeInsets.symmetric(
+                            //                 horizontal: 1.5),
+                            //             child: Icon(
+                            //               Icons.circle,
+                            //               color: clrWhite,
+                            //               size: 8,
+                            //             ),
+                            //           );
+                            //         }),
+                            //   ),
+                            // )
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
-                                margin: EdgeInsets.only(bottom: 7),
+                                margin:
+                                const EdgeInsets.only(bottom: 7),
                                 height: 16,
                                 child: ListView.builder(
-                                    itemCount: 3,
+                                    itemCount: controller.actData.value.activity?.banners?.length,
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
+                                    itemBuilder:
+                                        (context, indicatorIndex) {
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(
+                                        padding: const EdgeInsets
+                                            .symmetric(
                                             horizontal: 1.5),
-                                        child: Icon(
-                                          Icons.circle,
-                                          color: clrWhite,
-                                          size: 8,
+                                        child: Obx(
+                                              () => Icon(
+                                            Icons.circle,
+                                            color: controller
+                                                .actData
+                                                .value
+                                                .activity?.circleIndex
+                                                ?.value ==
+                                                indicatorIndex
+                                                ? clrYellow
+                                                : clrWhite,
+                                            size: 8,
+                                          ),
                                         ),
                                       );
                                     }),
@@ -341,6 +499,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       })
                     ],
                   ),
+                ),
                 ),
               ),
             ],

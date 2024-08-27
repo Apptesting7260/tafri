@@ -333,6 +333,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                     .previousActivityUi,
                                                                                 arguments: {
                                                                                   "isHost": false,
+                                                                                  "id": data?.activities?[ind].id.toString()
                                                                                 });
                                                                           },
                                                                           child: Row(
