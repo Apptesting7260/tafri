@@ -375,6 +375,7 @@ class LoginnoController extends GetxController {
           }else{
             showTostMsg('Something went wrong');
           }
+          print(e.toString());
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {

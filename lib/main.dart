@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,13 +14,22 @@ import 'package:plusone/utils/local_storage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try{
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: 'AIzaSyAeb1sP2mDZj5suUJWIZ-WNpKg-fjBfNic',
-            appId: '1:396232712466:android:ab306fc1cb994f1ccd53cb',
-            messagingSenderId: '396232712466',
-            projectId: 'plusones-28b9f')
-    );
+    if(Platform.isAndroid) {
+      await Firebase.initializeApp(
+          options: const FirebaseOptions(
+              apiKey: 'AIzaSyAeb1sP2mDZj5suUJWIZ-WNpKg-fjBfNic',
+              appId: '1:396232712466:android:ab306fc1cb994f1ccd53cb',
+              messagingSenderId: '396232712466',
+              projectId: 'plusones-28b9f')
+      );
+    }else{
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(apiKey: 'AIzaSyAeb1sP2mDZj5suUJWIZ-WNpKg-fjBfNic',
+         appId: '1:396232712466:ios:a7d2ee3743d8aae9cd53cb',
+          messagingSenderId: '396232712466',
+           projectId: 'plusones-28b9f')
+      );
+    }
   }catch(e){
     print('firebase error == ${e.toString()}');
   }

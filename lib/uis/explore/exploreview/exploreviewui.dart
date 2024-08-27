@@ -100,6 +100,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         child: Center(
                           child: PopupMenuButton(
                             splashRadius: 0.1,
+                            icon: Icon(Icons.more_vert,size: 30,),
                             elevation: 5,
                             itemBuilder: (context) => [
                               const PopupMenuItem(

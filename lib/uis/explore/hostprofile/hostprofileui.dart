@@ -43,6 +43,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                       SizedBox(
                         child: PopupMenuButton(
                           elevation: 5,
+                          icon: Icon(Icons.more_vert,size: 30,),
                           itemBuilder: (context) => [
                             const PopupMenuItem(
                               child: Text("Report"),
