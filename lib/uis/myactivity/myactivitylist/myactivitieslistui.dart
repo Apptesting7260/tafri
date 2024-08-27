@@ -541,52 +541,48 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               .result
                                                               ?.upcomingActivities?[
                                                           index];
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          Get.toNamed(Routes
-                                                              .hostUpcommingActiview);
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: 6),
-                                                          padding: const EdgeInsets.only(
-                                                              top: 10,
-                                                              bottom: 15,
-                                                              left: 15,
-                                                              right: 15
-                                                          ),
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15),
-                                                              color:
-                                                                  clrGreyLight),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                "${data?.formattedDate}",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        clrGreyDark),
-                                                              ),
-                                                              SizedBox(
-                                                                height:
-                                                                    Get.height *
-                                                                        0.005,
-                                                              ),
-                                                              ListView.builder(
-                                                                  physics: NeverScrollableScrollPhysics(),
-                                                                  itemCount: data?.activities?.length,
-                                                                  shrinkWrap: true,
-                                                                  itemBuilder: (context, ind){
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(top: 12),
+                                                      return Container(
+                                                        margin: const EdgeInsets.symmetric(vertical: 6),
+                                                        padding: const EdgeInsets.only(
+                                                            top: 10,
+                                                            bottom: 15,
+                                                            left: 15,
+                                                            right: 15
+                                                        ),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                            color:
+                                                                clrGreyLight),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "${data?.formattedDate}",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      clrGreyDark),
+                                                            ),
+                                                            SizedBox(
+                                                              height:
+                                                                  Get.height *
+                                                                      0.005,
+                                                            ),
+                                                            ListView.builder(
+                                                                physics: NeverScrollableScrollPhysics(),
+                                                                itemCount: data?.activities?.length,
+                                                                shrinkWrap: true,
+                                                                itemBuilder: (context, ind){
+                                                                  return Padding(
+                                                                    padding: const EdgeInsets.only(top: 12),
+                                                                      child: InkWell(
+                                                                        onTap: () {
+                                                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: data?.activities?[ind].id.toString());
+                                                                        },
                                                                         child: Row(
                                                                           crossAxisAlignment:
                                                                           CrossAxisAlignment
@@ -659,10 +655,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                             )
                                                                           ],
                                                                         ),
-                                                                    );
-                                                              })
-                                                            ],
-                                                          ),
+                                                                      ),
+                                                                  );
+                                                            })
+                                                          ],
                                                         ),
                                                       );
                                                     })

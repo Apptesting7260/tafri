@@ -6,4 +6,13 @@ class PushnotisettingController extends GetxController{
     // TODO: implement onInit
     super.onInit();
   }
+
+  RxBool notificationsVal=false.obs;
+  RxBool emailVal=false.obs;
+  changenotificationsVal(){
+    notificationsVal.value=!notificationsVal.value;
+  }
+  changeemailVal(){
+    emailVal.value=!emailVal.value;
+  }
 }

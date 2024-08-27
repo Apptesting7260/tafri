@@ -2,21 +2,82 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:plusone/utils/size.dart';
+import '../../../../../../../networking/apiservices.dart';
+import '../../../../../../../networking/endpoints.dart';
 import '../../../../../../../utils/colors.dart';
+import '../../../../../../../utils/local_storage.dart';
 import '../../../../../../components/custoelevatedbtn.dart';
+import '../../../../../../explore/exploreview/model/exploreviewui_model.dart';
 
 class HostUpcomiActiController extends GetxController  with GetTickerProviderStateMixin{
   late TabController tabController;
+
+
   @override
   void onInit() {
-    alertActivityPending();
+    // alertActivityPending();
+    var id = Get.arguments;
+    hostactapi(id);
     tabController=TabController(length: 2, vsync: this);
     super.onInit();
   }
+
+  changeIndicator(currentIndex) {
+    actData.value.activity?.circleIndex?.value = currentIndex;
+  }
+
+
+  final api = ApiServices();
+  var activityLoading = false.obs;
+  var actData = ActDataModal().obs;
+  var actError = ''.obs;
+
+  Future<void> hostactapi(String? id) async{
+
+    Map body = {
+      'id': id,
+      'user_id': LocalStorage.getUid()
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    activityLoading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.activitypage, body, headers: header);
+      if(response.statusCode == 200){
+        actError.value = '';
+        print('home data == ${response.body}');
+        actData.value = ActDataModal.fromJson(response.body);
+        if(actData.value.activity?.requestStatus == 'reject'){
+          // alertRequestNotAccepted();
+        }
+      }else{
+        print('error == ${response.body}');
+        actError.value = 'ERROR';
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+      actError.value = e.toString();
+    }
+
+    activityLoading.value = false;
+
+  }
+
+
+
   RxInt selectedTab=1.obs;
   changeSlectedTab(val){
     selectedTab.value=val;
   }
+
+
+
 
   alertActivityPending() {
     Future.delayed(Duration.zero,(){

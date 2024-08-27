@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,11 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../../utils/colors.dart';
+import '../../../../../../utils/error_widget.dart';
 import '../../../../../components/custoelevatedbtn.dart';
 import '../../../../../components/custofilterbtn.dart';
 import '../../../../../explore/hostprofile/hostprofileui.dart';
@@ -32,22 +36,23 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      width:h*.05,
-                      height:h*.05,
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                          color: clrGreyLight,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Center(child: Icon(Icons.arrow_back_ios)),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Get.back();
+                  //   },
+                  //   child: Container(
+                  //     clipBehavior: Clip.hardEdge,
+                  //     width:h*.05,
+                  //     height:h*.05,
+                  //     padding:
+                  //     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  //     decoration: BoxDecoration(
+                  //         color: clrGreyLight,
+                  //         borderRadius: BorderRadius.circular(10)),
+                  //     child: const Center(child: Icon(Icons.arrow_back_ios)),
+                  //   ),
+                  // ),
+                  CommonUi.appBar(),
                   const Text("Your Activity",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
                   Row(
                     children: [
@@ -71,15 +76,20 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
 
                     ],
                   ),
-
-
                 ],
               ),
               SizedBox(
-                height: Get.height*0.01,
+                height: Get.height*0.02,
               ),
               Expanded(
-                child: SingleChildScrollView(
+                child: Obx(
+                      () => controller.activityLoading.value
+                      ? Center(
+                    child: CommonUi.scaffoldLoading(color: clrYellow),
+                  )
+                      : controller.actError.value.isNotEmpty
+                      ? ErrorScreen()
+                      : SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -88,10 +98,48 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                         child: Stack(
                           // clipBehavior: Clip.none,
                           children: [
+                            // CarouselSlider(
+                            //   options: CarouselOptions(
+                            //       height:h*.25, viewportFraction: 1),
+                            //   items: [1, 2, 3].map((i) {
+                            //     return Builder(
+                            //       builder: (BuildContext context) {
+                            //         return Container(
+                            //             clipBehavior: Clip.hardEdge,
+                            //             width: MediaQuery.of(context)
+                            //                 .size
+                            //                 .width,
+                            //             height: double.maxFinite,
+                            //             margin: const EdgeInsets.symmetric(
+                            //                 horizontal: 0),
+                            //             decoration: BoxDecoration(
+                            //                 borderRadius:
+                            //                 BorderRadius.circular(18)),
+                            //             child: Image.asset(
+                            //               "assets/images/cofee.png",
+                            //               fit: BoxFit.cover,
+                            //               height: h*.25,
+                            //               width: double.maxFinite,
+                            //             ));
+                            //       },
+                            //     );
+                            //   }).toList(),
+                            // ),
                             CarouselSlider(
                               options: CarouselOptions(
-                                  height:h*.25, viewportFraction: 1),
-                              items: [1, 2, 3].map((i) {
+                                  height: h * .26,
+                                  viewportFraction: 1,
+                                  onPageChanged: (currIndex,
+                                      CarouselPageChangedReason
+                                      reason) {
+                                    controller
+                                        .changeIndicator(currIndex);
+                                    debugPrint(
+                                        " currIndex $currIndex reason=$reason");
+                                  }),
+                              items: controller
+                                  .actData.value.activity!.banners
+                                  ?.map<Widget>((i) {
                                 return Builder(
                                   builder: (BuildContext context) {
                                     return Container(
@@ -100,16 +148,34 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                                             .size
                                             .width,
                                         height: double.maxFinite,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 0),
+                                        margin: const EdgeInsets
+                                            .symmetric(horizontal: 0),
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(18)),
-                                        child: Image.asset(
-                                          "assets/images/cofee.png",
+                                            BorderRadius.circular(
+                                                18)),
+                                        child: CachedNetworkImage(
                                           fit: BoxFit.cover,
-                                          height: h*.25,
+                                          height: h * .26,
                                           width: double.maxFinite,
+                                          imageUrl: "$i",
+                                          placeholder:
+                                              (context, url) =>
+                                              Shimmer.fromColors(
+                                                baseColor: grey300,
+                                                highlightColor: grey100,
+                                                child: Container(
+                                                  width: double.maxFinite,
+                                                  height: h * .26,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    color: grey300,
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(18),
+                                                  ),
+                                                ),
+                                              ),
                                         ));
                                   },
                                 );
@@ -129,29 +195,71 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                                         color: clrWhite,
                                         borderRadius:
                                         BorderRadius.circular(20)),
-                                    child: const Text("Coffee",style: TextStyle(fontWeight: FontWeight.w700),),
+                                    child: Text( controller.actData.value
+                                        .activity!.subcategoryTitle
+                                        .toString(),style: TextStyle(fontWeight: FontWeight.w700),),
                                   ),
                                   const SizedBox(),
                                 ],
                               ),
                             ),
+                            // Align(
+                            //   alignment: Alignment.bottomCenter,
+                            //   child: Container(
+                            //     margin: EdgeInsets.only(bottom: 7),
+                            //     height: 16,
+                            //     child: ListView.builder(
+                            //         itemCount: 3,
+                            //         shrinkWrap: true,
+                            //         scrollDirection: Axis.horizontal,
+                            //         itemBuilder: (context, index) {
+                            //           return Padding(
+                            //             padding: const EdgeInsets.symmetric(
+                            //                 horizontal: 1.5),
+                            //             child: Icon(
+                            //               Icons.circle,
+                            //               color: clrWhite,
+                            //               size: 8,
+                            //             ),
+                            //           );
+                            //         }),
+                            //   ),
+                            // )
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
-                                margin: EdgeInsets.only(bottom: 7),
+                                margin:
+                                const EdgeInsets.only(bottom: 7),
                                 height: 16,
                                 child: ListView.builder(
-                                    itemCount: 3,
+                                    itemCount: controller
+                                        .actData
+                                        .value
+                                        .activity!
+                                        .banners
+                                        ?.length,
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
+                                    itemBuilder:
+                                        (context, indicatorIndex) {
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(
+                                        padding: const EdgeInsets
+                                            .symmetric(
                                             horizontal: 1.5),
-                                        child: Icon(
-                                          Icons.circle,
-                                          color: clrWhite,
-                                          size: 8,
+                                        child: Obx(
+                                              () => Icon(
+                                            Icons.circle,
+                                            color: controller
+                                                .actData
+                                                .value
+                                                .activity!
+                                                .circleIndex
+                                                ?.value ==
+                                                indicatorIndex
+                                                ? clrYellow
+                                                : clrWhite,
+                                            size: 8,
+                                          ),
                                         ),
                                       );
                                     }),
@@ -166,34 +274,150 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // Flexible(
+                          //   child: Column(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     children: [
+                          //       const Text("Picnic in the park",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),),
+                          //       Text("Vondelpark",style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),),
+                          //       Text("13 March 2024 | 2:30 PM - 6:00PM",style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),),
+                          //       Text("Up to 3 people | 1 spot left",style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),),
+                          //     ],
+                          //   ),
+                          // ),
                           Flexible(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
                               children: [
-                                const Text("Picnic in the park",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),),
-                                Text("Vondelpark",style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),),
-                                Text("13 March 2024 | 2:30 PM - 6:00PM",style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),),
-                                Text("Up to 3 people | 1 spot left",style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),),
+                                Text(
+                                  controller
+                                      .actData.value.activity!.name
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: h * .005,
+                                ),
+                                Text(
+                                  controller.actData.value.activity!
+                                      .location
+                                      .toString(),
+                                  style:
+                                  TextStyle(color: clrGreyDark),
+                                ),
+                                SizedBox(
+                                  height: h * .005,
+                                ),
+                                Text(
+                                  '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
+                                  style: TextStyle(
+                                      color: clrGreyTextLight),
+                                ),
+                                SizedBox(
+                                  height: h * .008,
+                                ),
+                                Text(
+                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
+                                  style: TextStyle(
+                                      color: clrYellowText,
+                                      fontSize: 13),
+                                ),
                               ],
                             ),
                           ),
+                          // InkWell(
+                          //   onTap: (){
+                          //     Get.toNamed(Routes.hostProfileUi);
+                          //   },
+                          //   child: Column(
+                          //     children: [
+                          //       Container(
+                          //           height: h*.055,
+                          //           width: h*.055,
+                          //           decoration: BoxDecoration(
+                          //               borderRadius:
+                          //               BorderRadius.circular(100)),
+                          //           child: Image.asset(
+                          //             "assets/images/girldp.png",
+                          //             fit: BoxFit.cover,
+                          //           )),
+                          //       const Text("Jenny",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
+                          //     ],
+                          //   ),
+                          // )
                           InkWell(
-                            onTap: (){
-                              Get.toNamed(Routes.hostProfileUi);
+                            onTap: () {
+                              Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
                             },
                             child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
                               children: [
-                                Container(
-                                    height: h*.055,
-                                    width: h*.055,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(100)),
-                                    child: Image.asset(
-                                      "assets/images/girldp.png",
-                                      fit: BoxFit.cover,
-                                    )),
-                                const Text("Jenny",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
+                                // Container(
+                                //     height: h*.055,
+                                //     width: h*.055,
+                                //     decoration: BoxDecoration(
+                                //         borderRadius:
+                                //         BorderRadius.circular(100)),
+                                //     child: Image.asset(
+                                //       "assets/images/girldp.png",
+                                //       fit: BoxFit.cover,
+                                //     )),
+                                ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(100),
+                                  child: CachedNetworkImage(
+                                    height: 40,
+                                    width: 40,
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                    '${controller.actData.value.activity!.profilePhoto}',
+                                    errorWidget:
+                                        (context, url, error) =>
+                                        Container(
+                                          height: 40,
+                                          width: 40,
+                                          padding:
+                                          const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: clrGreyLight,
+                                              shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            "assets/icons/manicon.png",
+                                            color: clrGrey,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                          baseColor: grey300,
+                                          highlightColor: grey100,
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              color: grey300,
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  18),
+                                            ),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                                SizedBox(height: 3,),
+                                Text(
+                                  controller.actData.value.activity!
+                                      .hostName
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700),
+                                )
                               ],
                             ),
                           )
@@ -202,7 +426,10 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      Text("Hey guys! Looking to brighten up your morning? How about joining me for a coffee break at the local café around 10 AM? I'm extending an invite to three fellow coffee lovers to join the chat and caffeine boost. Let's turn strangers into friends over a cup of joe! Hope to see you there for a delightful break. ☕️👋",style: TextStyle(fontSize: 14,color:clrGreyTextLight),),
+                      Text(
+                          controller.actData.value.activity!.description.toString(),
+                        style: TextStyle(fontSize: 14,color:clrGreyTextLight),
+                      ),
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
@@ -409,6 +636,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                   ),
                 ),
               ),
+              )
             ],
           ),
         ),
