@@ -15,6 +15,7 @@ import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 
 import '../../../routes/routes.dart';
+import '../../../utils/error_widget.dart';
 import '../../components/custotextfield.dart';
 
 class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
@@ -88,7 +89,14 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                 height: 20,
               ),
               Expanded(
-                child: SingleChildScrollView(
+                child: Obx(
+                      () => controller.activityLoading.value
+                      ? Center(
+                    child: CommonUi.scaffoldLoading(color: clrYellow),
+                  )
+                      : controller.actError.value.isNotEmpty
+                      ? ErrorScreen()
+                      : SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -138,7 +146,10 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                         color: clrWhite,
                                         borderRadius:
                                         BorderRadius.circular(20)),
-                                    child: const Text("Coffee",style: TextStyle(fontWeight: FontWeight.w700),),
+                                    child: Text(
+                                      controller.actData.value.activity!.subcategoryTitle.toString(),
+                                      style: TextStyle(fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                   Container(
                                     padding: const EdgeInsets.all(6),
@@ -266,6 +277,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                     ],
                   ),
                 ),
+                )
               ),
             ],
           ),

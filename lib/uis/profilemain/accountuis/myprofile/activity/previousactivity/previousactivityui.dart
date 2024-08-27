@@ -7,6 +7,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/explore/hostprofile/hostprofileui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/controller/previousacti_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 
 import '../../../../../../routes/routes.dart';
@@ -25,7 +26,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
 
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13),
+          padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
                 SizedBox(
@@ -34,22 +35,23 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      width: h*.05,
-                      height: h*.05,
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                          color: clrGreyLight,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Center(child: Icon(Icons.arrow_back_ios)),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Get.back();
+                  //   },
+                  //   child: Container(
+                  //     clipBehavior: Clip.hardEdge,
+                  //     width: h*.05,
+                  //     height: h*.05,
+                  //     padding:
+                  //     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  //     decoration: BoxDecoration(
+                  //         color: clrGreyLight,
+                  //         borderRadius: BorderRadius.circular(10)),
+                  //     child: const Center(child: Icon(Icons.arrow_back_ios)),
+                  //   ),
+                  // ),
+                  CommonUi.appBar(),
                   const Expanded(child: Center(child: Text("Activity",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),))),
                   Row(
                     children: [
