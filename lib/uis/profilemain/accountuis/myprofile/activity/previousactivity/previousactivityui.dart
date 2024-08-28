@@ -13,9 +13,13 @@ import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../routes/routes.dart';
+import '../../../../../../utils/custom_radio.dart';
 import '../../../../../../utils/error_widget.dart';
+import '../../../../../../utils/tostmsg.dart';
+import '../../../../../components/custofilterbtn.dart';
+import '../../../../../components/custotextfield.dart';
 import '../../../../../explore/explorelist/controller/explorelist_controller.dart';
-import '../../addactreviewui.dart';
+import '../../addactreview/addactreviewui.dart';
 import '../attendlist/attendlistui.dart';
 
 class PreviousActivityUi extends GetWidget<PreviousActiController>{
@@ -70,41 +74,61 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
-                          width: 30,
-                          height: 32,
+                          width: w * .1,
+                          height: h * .05,
                           decoration: BoxDecoration(
                             color: clrBlacke,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
-                            child: Image.asset("assets/icons/uploadicon.png",color: clrWhite,height: 20,width: 20,),//
+                            child: Image.asset("assets/icons/uploadicon.png",color: clrWhite, height: h * .06,
+                              width: w * .06,),//
                           ),
                         ),
                       ),
 
+                      // SizedBox(
+                      //   width: 20,
+                      //   child: PopupMenuButton(
+                      //
+                      //     elevation: 5,
+                      //     itemBuilder: (context) => [
+                      //       const PopupMenuItem(
+                      //         value: 1,
+                      //         child: Text("Report"),
+                      //       )
+                      //     ],
+                      //     onSelected: (val) {
+                      //       if (val == 1) {
+                      //         alertActivityReport();
+                      //       }
+                      //     },
+                      //   ),
+                      // ),
                       SizedBox(
-                        width: 20,
-                        child: PopupMenuButton(
-
-                          elevation: 5,
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                              value: 1,
-                              child: Text("Report"),
-                            )
-                          ],
-                          onSelected: (val) {
-                            if (val == 1) {
-                              // alertActivityReport();
-                            }
-                          },
+                        width: w * 0.07,
+                        child: Center(
+                          child: PopupMenuButton(
+                            splashRadius: 0.1,
+                            icon: Icon(Icons.more_vert,size: 30,),
+                            elevation: 5,
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 1,
+                                child: Text("Report"),
+                              )
+                            ],
+                            onSelected: (val) {
+                              if (val == 1) {
+                                alertActivityReport();
+                              }
+                            },
+                          ),
                         ),
                       ),
                     ],
                   ),
-
-
                 ],
               ),
               SizedBox(
@@ -355,35 +379,128 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Flexible(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Picnic in the park",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),),
-                                Text("Vondelpark",style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),),
-                                Text("13 March 2024 | 2:30 PM - 6:00PM",style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),),
-                                Text("Up to 3 people | 1 spot left",style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),),
+                                Text(
+                                  controller.actData.value.activity!.name.toString(),
+                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.01,
+                                ),
+                                Text(
+                                  controller.actData.value.activity!.location.toString(),
+                                  style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.01,
+                                ),
+                                Text(
+                                  "${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}",
+                                  style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.01,
+                                ),
+                                Text(
+                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
+                                  style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),
+                                ),
                               ],
                             ),
                           ),
+                          // InkWell(
+                          //   onTap: (){
+                          //     Get.toNamed(Routes.hostProfileUi);
+                          //   },
+                          //   child: Column(
+                          //     children: [
+                          //       Container(
+                          //           height: h*.055,
+                          //           width: h*.055,
+                          //           decoration: BoxDecoration(
+                          //               borderRadius:
+                          //               BorderRadius.circular(100)),
+                          //           child: Image.asset(
+                          //             "assets/images/girldp.png",
+                          //             fit: BoxFit.cover,
+                          //           )),
+                          //       Text("Jenny",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
+                          //     ],
+                          //   ),
+                          // )
                           InkWell(
-                            onTap: (){
-                              Get.toNamed(Routes.hostProfileUi);
+                            onTap: () {
+                              Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity?.hostId.toString());
                             },
                             child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
                               children: [
-                                Container(
-                                    height: h*.055,
-                                    width: h*.055,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(100)),
-                                    child: Image.asset(
-                                      "assets/images/girldp.png",
-                                      fit: BoxFit.cover,
-                                    )),
-                                const Text("Jenny",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
+                                // Container(
+                                //     height: h*.055,
+                                //     width: h*.055,
+                                //     decoration: BoxDecoration(
+                                //         borderRadius:
+                                //         BorderRadius.circular(100)),
+                                //     child: Image.asset(
+                                //       "assets/images/girldp.png",
+                                //       fit: BoxFit.cover,
+                                //     )),
+                                ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(100),
+                                  child: CachedNetworkImage(
+                                    height: 40,
+                                    width: 40,
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                    '${controller.actData.value.activity!.profilePhoto}',
+                                    errorWidget:
+                                        (context, url, error) =>
+                                        Container(
+                                          height: 40,
+                                          width: 40,
+                                          padding:
+                                          const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: clrGreyLight,
+                                              shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            "assets/icons/manicon.png",
+                                            color: clrGrey,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                          baseColor: grey300,
+                                          highlightColor: grey100,
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              color: grey300,
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  18),
+                                            ),
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                                SizedBox(height: 3,),
+                                Text(
+                                  controller.actData.value.activity!.hostName.toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700),
+                                )
                               ],
                             ),
                           )
@@ -392,111 +509,294 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      Text("Hey guys! Looking to brighten up your morning? How about joining me for a coffee break at the local café around 10 AM? I'm extending an invite to three fellow coffee lovers to join the chat and caffeine boost. Let's turn strangers into friends over a cup of joe! Hope to see you there for a delightful break. ☕️👋",style: TextStyle(fontSize: 14,color:clrGreyTextLight),),
+                      Text(
+                        // "Hey guys! Looking to brighten up your morning? How about joining me for a coffee break at the local café around 10 AM? I'm extending an invite to three fellow coffee lovers to join the chat and caffeine boost. Let's turn strangers into friends over a cup of joe! Hope to see you there for a delightful break. ☕️👋",
+                        controller.actData.value.activity!.description.toString(),
+                        style: TextStyle(fontSize: 14,color:clrGreyTextLight),
+                      ),
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Going",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                          Get.arguments['isHost'] ==true? InkWell(onTap: (){
-                            Get.toNamed(Routes.attendList);
-                            
-                          },child: Text("See All",style: TextStyle(color: clrYellow,fontWeight: FontWeight.w600,fontSize: 16),)):SizedBox(
-                          )
-                        ],
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     const Text("Going",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                      //     Get.arguments['isHost'] ==true? InkWell(onTap: (){
+                      //       Get.toNamed(Routes.attendList);
+                      //
+                      //     },child: Text("See All",style: TextStyle(color: clrYellow,fontWeight: FontWeight.w600,fontSize: 16),)):SizedBox()
+                      //   ],
+                      // ),
+                      // SizedBox(
+                      //   height: Get.height*0.01,
+                      // ),
+                      // SizedBox(
+                      //   height: h*.075,
+                      //   child: ListView.builder(itemCount: 2,scrollDirection: Axis.horizontal,shrinkWrap: true,itemBuilder: (context,index){
+                      //     return Container(
+                      //       margin: const EdgeInsets.only(right: 5),
+                      //       clipBehavior: Clip.hardEdge,
+                      //       height: h*.075,
+                      //       width: h*.075,
+                      //       decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(100),
+                      //       ),
+                      //       child: Image.asset("assets/images/cofee.png",fit: BoxFit.cover,),
+                      //     ) ;
+                      //   }),
+                      // ),
+                      controller.actData.value.going!.isEmpty
+                          ? SizedBox()
+                          : Text(
+                        "Going",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
                       ),
                       SizedBox(
-                        height: Get.height*0.01,
+                        height: Get.height * 0.01,
                       ),
-                      SizedBox(
-                        height: h*.075,
-                        child: ListView.builder(itemCount: 2,scrollDirection: Axis.horizontal,shrinkWrap: true,itemBuilder: (context,index){
-                          return Container(
-                            margin: const EdgeInsets.only(right: 5),
-                            clipBehavior: Clip.hardEdge,
-                            height: h*.075,
-                            width: h*.075,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Image.asset("assets/images/cofee.png",fit: BoxFit.cover,),
-                          ) ;
-                        }),
+                      controller.actData.value.going!.isEmpty
+                          ? SizedBox()
+                          : SizedBox(
+                        height: 55,
+                        child: ListView.builder(
+                            itemCount: controller
+                                .actData.value.going?.length,
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 8),
+                                child: ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                      100),
+                                  child: CachedNetworkImage(
+                                      height: 55,
+                                      width: 55,
+                                      fit: BoxFit.cover,
+                                      imageUrl:
+                                      '${controller.actData.value.going?[index].profilePhoto}',
+                                      placeholder: (context,
+                                          url) =>
+                                          Shimmer.fromColors(
+                                              baseColor: Colors
+                                                  .grey
+                                                  .shade300,
+                                              highlightColor:
+                                              Colors.grey
+                                                  .shade100,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(
+                                                    100),
+                                                child:
+                                                Container(
+                                                  height: 55,
+                                                  width: 55,
+                                                  color:
+                                                  clrGrey,
+                                                ),
+                                              )),
+                                      errorWidget: (context,
+                                          url, error) {
+                                        print(
+                                            'error == $error');
+                                        return ClipRRect(
+                                          borderRadius:
+                                          BorderRadius
+                                              .circular(
+                                              100),
+                                          child: Container(
+                                            height: 55,
+                                            width: 55,
+                                            color: clrGreyLight,
+                                            child: Image.asset(
+                                              'assets/icons/manicon.png',
+                                              color: clrGrey,
+                                              scale: 1.2,
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                ),
+                              );
+                            }),
                       ),
                       SizedBox(
                         height: Get.height*0.03,
                       ),
-                      SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
+                      controller.actData.value.activity?.status == 'completed' ? SizedBox(
+                          width: double.maxFinite,
+                          height: Res.h_btn,
+                          child: CustomElevatedButton(
+                              onTap: (){
                         // Get.toNamed(Routes.adda);
-                        Get.to((){
-                          return const AddActReviewUi() ;
-                        });
-                      }, backgroundClr: clrBlacke, child: Text("Add review",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+                        Get.toNamed(
+                            Routes.addReviewUi,
+                            arguments: {
+                              'id': controller.actData.value.activity?.id.toString(),
+                              'hostimg': controller.actData.value.activity?.profilePhoto,
+                              'goingimg': controller.actData.value.going
+                            });
+                      },
+                              backgroundClr: clrBlacke,
+                              child: Text(
+                                "Add review",
+                                style: TextStyle(
+                                    color: clrWhite,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              )
+                          )
+                      ) : SizedBox(),
                       SizedBox(
                         height: Get.height * 0.03,
                       ),
-                      const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+                      controller.showreviewData.value.result == null ? SizedBox() : Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
                       SizedBox(
                         height: Get.height*0.01,
                       ),
-                      ListView.builder(itemCount: 2,shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),itemBuilder: (context,index){
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                      ListView.separated(
+                          itemCount: controller.showreviewData.value.result?.length ?? 0,
+                          shrinkWrap: true,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin:
+                              const EdgeInsets.only(bottom: 20),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 5),
-                                    clipBehavior: Clip.hardEdge,
-                                    height: h*.055,
-                                    width: h*.055,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Image.asset("assets/images/cofee.png",fit: BoxFit.cover,),
-                                  ),
-                                  SizedBox(
-                                    width: Get.width*0.01,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  Row(
                                     children: [
-                                      const Text("Jone Due",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                                      RatingBar(
-                                        // tapOnlyMode:true
-                                        ignoreGestures: true,
-                                        initialRating: 4.5,
-                                        allowHalfRating: true,
-                                        itemSize: 20,
-                                        ratingWidget:RatingWidget(full: Icon(
-                                          Icons.star,
-                                          color: clrYellow,
-                                          size: 20,
-                                        ), half: Icon(
-                                          Icons.star_half,
-                                          color: clrYellow,
-                                          size: 20,
+                                      // Container(
+                                      //   margin:
+                                      //   const EdgeInsets.only(right: 5),
+                                      //   clipBehavior: Clip.hardEdge,
+                                      //   height: h * .055,
+                                      //   width: h * .055,
+                                      //   decoration: BoxDecoration(
+                                      //     borderRadius: BorderRadius.circular(100),
+                                      //   ),
+                                      //   child: Image.asset(
+                                      //     "assets/images/cofee.png",
+                                      //     fit: BoxFit.cover,
+                                      //   ),
+                                      // ),
+                                      ClipRRect(
+                                        borderRadius:
+                                        BorderRadius.circular(100),
+                                        child:
+                                        CachedNetworkImage(
+                                          height: 40,
+                                          width: 40,
+                                          fit: BoxFit.cover,
+                                          imageUrl: '${controller.showreviewData.value.result?[index].profilePhoto}',
+                                          errorWidget: (context, url, error) => Container(
+                                            height: 40,
+                                            width: 40,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                            child: Image.asset(
+                                              "assets/icons/manicon.png",
+                                              color: clrGrey,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          placeholder: (context, url) => Shimmer.fromColors(
+                                            baseColor: grey300,
+                                            highlightColor: grey100,
+                                            child: Container(
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                color: grey300,
+                                                borderRadius: BorderRadius.circular(18),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                          empty: Icon(
-                                            Icons.star_border,
-                                            color: clrYellow,
-                                            size: 20,
-                                          ),) , onRatingUpdate: (rating) {
-                                        print(rating);
-                                      },),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            '${controller.showreviewData.value.result?[index].firstName}  ${controller.showreviewData.value.result?[index].lastName}',
+                                            style: TextStyle(
+                                                fontWeight:
+                                                FontWeight.w600,
+                                                fontSize: 16),
+                                          ),
+                                          RatingBar(
+                                            // tapOnlyMode:true
+                                            ignoreGestures: true,
+                                            initialRating: 4.5,
+                                            allowHalfRating: true,
+                                            itemSize: 20,
+                                            ratingWidget:
+                                            RatingWidget(
+                                              full: Icon(
+                                                Icons.star,
+                                                color: clrYellow,
+                                                size: 20,
+                                              ),
+                                              half: Stack(
+                                                children: [
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.grey.shade400, // Light grey for the right side
+                                                    size: 20,
+                                                  ),
+                                                  ClipRect(
+                                                    child: Align(
+                                                      alignment: Alignment.centerLeft,
+                                                      widthFactor: 0.5, // Clip the star to show only the left half
+                                                      child: Icon(
+                                                        Icons.star,
+                                                        color: clrYellow, // Yellow for the left side
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              empty: Icon(
+                                                Icons.star_border,
+                                                color: clrYellow,
+                                                size: 20,
+                                              ),
+                                            ),
+                                            onRatingUpdate:
+                                                (rating) {
+                                              print(rating);
+                                              },
+                                          ),
+                                        ],
+                                      )
                                     ],
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Text(
+                                    // "Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                  '${controller.showreviewData.value.result?[index].review}',
+                                    style: TextStyle(
+                                        color: clrGreyTextLight,fontSize: 14,fontWeight: FontWeight.w400),
                                   )
                                 ],
                               ),
-                              Text("Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",style: TextStyle(color: clrGreyTextLight),)
-                            ],
-                          ),
-                        ) ;
-                      })
+                            );
+                          }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },)
                     ],
                   ),
                 ),
@@ -508,5 +808,452 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
       ),
     );
   }
+
+
+
+  alertActivityReport() {
+    Get.dialog(AlertDialog(
+      scrollable: true,
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+      content: SizedBox(
+        width: double.maxFinite,
+        // child: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         InkWell(
+        //             onTap: () {
+        //               Get.back();
+        //             },
+        //             child: const Icon(
+        //               Icons.close,
+        //               size: 25,
+        //             )),
+        //         const Flexible(
+        //           child: Text(
+        //             "Report activity",
+        //             style: TextStyle(fontSize: 19
+        //                 , fontWeight: FontWeight.w800),
+        //           ),
+        //         ),
+        //         const SizedBox(
+        //           width: 1,
+        //         ),
+        //       ],
+        //     ),
+        //       SizedBox(
+        //       height:Get.height*.02,
+        //     ),
+        //     const Text(
+        //       "Why are you reporting this activity?",
+        //       style: TextStyle(fontWeight: FontWeight.w800),
+        //     ),
+        //       SizedBox(
+        //       height: Get.height*.014,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(splashRadius: 0,value: 1, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Scam or fraud",style: TextStyle(fontSize: 15),)
+        //       ],
+        //     ),
+        //     Divider(
+        //       color: clrGreyLight,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(value: 2, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Inappropriate or misleading content",style: TextStyle(fontSize: 15))
+        //       ],
+        //     ),
+        //     Divider(
+        //       color: clrGreyLight,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(value: 3, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Harrassment or abuse",style: TextStyle(fontSize: 15))
+        //       ],
+        //     ),
+        //     Divider(
+        //       color: clrGreyLight,
+        //     ),
+        //     Row(
+        //       children: [
+        //         SizedBox(height: 30,child: Radio(value: 4, groupValue: 2, onChanged: (val) {})),
+        //         const Text("Other",style: TextStyle(fontSize: 15))
+        //       ],
+        //     ),
+        //     const SizedBox(
+        //       height: 10,
+        //     ),
+        //     const CustoTextFormField(hintText: "Please provide more details about what happened. We will review your report and take appropriate action.",maxLines: 5,),
+        //       SizedBox(
+        //       height: Get.height*.024,
+        //     ),
+        //     SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
+        //       Get.back();
+        //     }, backgroundClr: clrBlacke, child: Text("Submit",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+        //       SizedBox(
+        //       height: Get.height*.014,
+        //     ),
+        //   ],
+        // ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(
+                      Icons.close,
+                      size: 25,
+                    )),
+                const Text(
+                  "Report activity",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(
+                  width: 1,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Why are you reporting this activity?",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Obx(
+                  () => SizedBox(
+                  height: 30,
+                  child: CustomRadioButton(
+                      text: "Fake profile or spam",
+                      activeColor: clrYellow,
+                      value: 1,
+                      groupValue: controller.selectedValue.value,
+                      onChanged: (val) {
+                        controller.updateSelectedValue(val);
+                      })),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Obx(
+                  () => SizedBox(
+                  height: 30,
+                  child: CustomRadioButton(
+                      text: "Inappropriate or offensive behaviour",
+                      activeColor: clrYellow,
+                      value: 2,
+                      groupValue: controller.selectedValue.value,
+                      onChanged: (val) {
+                        controller.updateSelectedValue(val);
+                      })),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Obx(
+                  () => SizedBox(
+                  height: 30,
+                  child: CustomRadioButton(
+                      text: "Harrassment or abuse",
+                      activeColor: clrYellow,
+                      value: 3,
+                      groupValue: controller.selectedValue.value,
+                      onChanged: (val) {
+                        controller.updateSelectedValue(val);
+                      })),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Divider(
+              color: clrBlacke.withOpacity(.15),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Obx(
+                  () => SizedBox(
+                  height: 30,
+                  child: CustomRadioButton(
+                      text: "Other",
+                      activeColor: clrYellow,
+                      value: 4,
+                      groupValue: controller.selectedValue.value,
+                      onChanged: (val) {
+                        controller.updateSelectedValue(val);
+                      })),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Form(
+              key: formkey,
+              child: CustoTextFormField(
+                validation: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter something';
+                  } else {
+                    return null;
+                  }
+                },
+                controll: controller.reportDescriptionController,
+                hintText:
+                "Please provide more details about what happened. We will review your report and take appropriate action.",
+                maxLines: 5,
+                borderRadius: 15,
+                hintSize: 14,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(
+                  () => Opacity(
+                opacity: controller.reportactivityLoading.value ? 0.5 : 1,
+                child: SizedBox(
+                    width: double.maxFinite,
+                    height: Get.height * .07,
+                    child: CustomElevatedButton(
+                        onTap: () {
+                          if(controller.selectedValue.value == 4){
+                            if(formkey.currentState!.validate()){
+                              controller.reportActivity(controller.actData.value.activity?.id.toString());
+                            }
+                          }else if(controller.selectedValue.value != 0){
+                            controller.reportActivity(controller.actData.value.activity?.id.toString());
+                          }
+                          else{
+                            showTostMsg('Please select any reason');
+                          }
+                        },
+                        child: controller.reportactivityLoading.value
+                            ? CommonUi.buttonLoading()
+                            : Text(
+                          "Submit",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        backgroundClr: clrBlacke)),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  alertCancelRequest() {
+    Future.delayed(Duration.zero, () {
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child: Text(
+                  "Cancel request",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                  child: Text(
+                    "Are you sure you want to cancel your request to join this activity?",
+                    style: TextStyle(color: clrGreyTextLight,fontSize: 15, fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
+                  )),
+              SizedBox(
+                height: Get.height * .024,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Expanded(
+                      child: SizedBox(
+                        height: Res.h_btn,
+                        child: CustoFilterBtn(
+                            borderClr: clrBlacke,
+                            lable: Text(
+                              "Yes",
+                              style: TextStyle(
+                                  color: clrBlacke,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            ontap: () {
+                              Get.back();
+                              alertCancelRequestConfirmation();
+                            },
+                            backgroundClr: Get.theme.scaffoldBackgroundColor),
+                      )),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                        width: double.maxFinite,
+                        height: Res.h_btn,
+                        child: CustomElevatedButton(
+                            onTap: () {
+                              Get.back();
+                            },
+                            backgroundClr: clrBlacke,
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                  color: clrWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ))),
+                  ),
+                ]),
+              ),
+              SizedBox(
+                height: Get.height * .014,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
+
+  alertCancelRequestConfirmation() {
+    Future.delayed(Duration.zero, () {
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child: Text(
+                  "Confirm cancellation",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                height: Get.height * .014,
+              ),
+              Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",
+                      style: TextStyle(color: clrGreyTextLight,fontSize: 15, fontWeight: FontWeight.w400),
+                      textAlign: TextAlign.center,
+                    ),
+                  )),
+              SizedBox(
+                height: Get.height * .024,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Expanded(
+                      child: SizedBox(
+                        height: Res.h_btn,
+                        child: CustoFilterBtn(
+                            borderClr: clrBlacke,
+                            lable: Text(
+                              "Yes",
+                              style: TextStyle(
+                                  color: clrBlacke,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            ontap: () {
+                              controller.changeReqSent(1);
+                              Get.back();
+                            },
+                            backgroundClr: Get.theme.scaffoldBackgroundColor),
+                      )),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                        width: double.maxFinite,
+                        height: Res.h_btn,
+                        child: CustomElevatedButton(
+                            onTap: () {
+                              Get.back();
+                            },
+                            backgroundClr: clrBlacke,
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                  color: clrWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ))),
+                  ),
+                ]),
+              ),
+              SizedBox(
+                height: Get.height * .014,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
+
+
 
 }

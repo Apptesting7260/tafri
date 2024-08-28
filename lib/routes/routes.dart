@@ -66,6 +66,8 @@ import '../uis/membership/plans/plansui.dart';
 import '../uis/myactivity/myactivitylist/myactivitieslistui.dart';
 import '../uis/onbording/codeverify/codeverifyui.dart';
 import '../uis/onbording/login/loginwithnoui.dart';
+import '../uis/profilemain/accountuis/myprofile/addactreview/addactreviewui.dart';
+import '../uis/profilemain/accountuis/myprofile/addactreview/binding/addactreview_binding.dart';
 import '../uis/profilemain/accountuis/myprofile/myprofileinner/myprofileui.dart';
 import '../uis/profilemain/accountuis/myprofile/myprofileinner/proallui/activityinterest/activityinterestui.dart';
 import '../uis/profilemain/accountuis/myprofile/myprofileinner/proallui/activityinterest/bindings/activinterest_binding.dart';
@@ -129,6 +131,7 @@ class Routes{
   static String attendList='/attend_list';
   static String hostUpcommingActiview='/hostupcommin_activityview';
   static String attendReviewUi='/attend_reviewui';
+  static String addReviewUi='/add_reviewui';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -174,5 +177,6 @@ class Routes{
     GetPage(name: attendList, page:()=>  const AttendListUi(),binding:AttendlistBinding()),
     GetPage(name: hostUpcommingActiview, page:()=>  HostUpcomActivityViewUi(),binding:HostUpcommiActiBindings()),
     GetPage(name: attendReviewUi, page:()=> const AttendanceReviewUi(),binding:AttendReviewBinding()),
+    GetPage(name: addReviewUi, page:()=>  AddActReviewUi(),binding:AddactreviewBinding()),
   ];
 }

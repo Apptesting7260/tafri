@@ -43,4 +43,7 @@ class EndPoints{
   static String socialprofile = '${baseUrl}complete-verification';
   static String editphotoprofile = '${baseUrl}complete-photo';
 
+  static String showactreview = '${baseUrl}show-activity-review';
+  static String addactreview = '${baseUrl}add-activity-review';
+
 }

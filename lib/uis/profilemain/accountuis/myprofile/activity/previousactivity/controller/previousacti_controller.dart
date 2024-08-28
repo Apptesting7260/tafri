@@ -13,7 +13,8 @@ import '../../../../../../components/custoelevatedbtn.dart';
 import '../../../../../../components/custotextfield.dart';
 import '../../../../../../explore/exploreview/model/exploreviewui_model.dart';
 import '../../../../../../explore/exploreview/model/requestmodel.dart';
-import '../../../addactreviewui.dart';
+import '../../../addactreview/addactreviewui.dart';
+import '../model/showreviewmodel.dart';
 
 class PreviousActiController extends GetxController{
 
@@ -29,6 +30,7 @@ class PreviousActiController extends GetxController{
     isHost = args["isHost"] ?? false;
     id = args["id"]?.toString();
     actapi(id);
+    showapi(id);
 
     super.onInit();
   }
@@ -243,6 +245,51 @@ class PreviousActiController extends GetxController{
     }
 
     activitypage.value = false;
+
+  }
+
+
+
+  var showLoading = false.obs;
+  var showreviewData = ShowReviewModel().obs;
+  var showError = ''.obs;
+
+
+  Future<void> showapi(String? id) async{
+
+
+    Map body = {
+      'activity_id': id,
+      // 'user_id': LocalStorage.getUid()
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    showLoading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.showactreview, body, headers: header);
+      if(response.statusCode == 200){
+        showError.value = '';
+        print('home data == ${response.body}');
+        showreviewData.value = ShowReviewModel.fromJson(response.body);
+        if(actData.value.activity?.requestStatus == 'reject'){
+          alertRequestNotAccepted();
+        }
+      }else{
+        print('error == ${response.body}');
+        showError.value = 'ERROR';
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+      showError.value = e.toString();
+    }
+
+    showLoading.value = false;
 
   }
 
@@ -552,7 +599,7 @@ class PreviousActiController extends GetxController{
               SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
                 Get.back();
                 Get.to((){
-                  return const AddActReviewUi() ;
+                  return AddActReviewUi() ;
                 });
               }, backgroundClr: clrBlacke, child: Text("Add review",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
                 SizedBox(

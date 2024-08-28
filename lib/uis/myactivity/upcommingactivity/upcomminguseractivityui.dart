@@ -354,6 +354,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Flexible(
                                       child: Column(

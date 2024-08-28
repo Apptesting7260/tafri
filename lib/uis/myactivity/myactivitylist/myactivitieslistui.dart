@@ -164,18 +164,13 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   color:
                                                                       clrGreyDark),
                                                             ),
-                                                            SizedBox(
-                                                              height:
-                                                                  Get.height *
-                                                                      0.005,
-                                                            ),
-                                                            ListView.builder(
+                                                            ListView.separated(
                                                                 physics: NeverScrollableScrollPhysics(),
-                                                                itemCount: data?.activities?.length,
+                                                                itemCount: data!.activities!.length,
                                                                 shrinkWrap: true,
                                                                 itemBuilder: (context, ind){
                                                                   return Padding(
-                                                                    padding: const EdgeInsets.only(top: 12),
+                                                                    padding: const EdgeInsets.only(top: 5),
                                                                     child: InkWell(
                                                                       onTap: () {
                                                                         Get.toNamed(
@@ -234,7 +229,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       ),
                                                                     ),
                                                                   );
-                                                                }),
+                                                                }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },),
                                                           ],
                                                         ),
                                                       );
@@ -312,20 +307,15 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   color:
                                                                       clrGreyDark),
                                                             ),
-                                                            SizedBox(
-                                                              height:
-                                                                  Get.height *
-                                                                      0.005,
-                                                            ),
                                                             Column(
                                                               children: [
-                                                                ListView.builder(
+                                                                ListView.separated(
                                                                     physics: NeverScrollableScrollPhysics(),
-                                                                    itemCount: data?.activities?.length,
+                                                                    itemCount: data!.activities!.length,
                                                                     shrinkWrap: true,
                                                                     itemBuilder: (context, ind){
                                                                       return Padding(
-                                                                        padding: const EdgeInsets.only(top: 12),
+                                                                        padding: const EdgeInsets.only(top: 5),
                                                                         child: InkWell(
                                                                           onTap: () {
                                                                             Get.toNamed(
@@ -411,7 +401,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                           ),
                                                                         ),
                                                                       );
-                                                                    }),
+                                                                    }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },),
                                                                 SizedBox(
                                                                   height: h *
                                                                       .015,
@@ -567,18 +557,13 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   color:
                                                                       clrGreyDark),
                                                             ),
-                                                            SizedBox(
-                                                              height:
-                                                                  Get.height *
-                                                                      0.005,
-                                                            ),
-                                                            ListView.builder(
+                                                            ListView.separated(
                                                                 physics: NeverScrollableScrollPhysics(),
-                                                                itemCount: data?.activities?.length,
+                                                                itemCount: data!.activities!.length,
                                                                 shrinkWrap: true,
                                                                 itemBuilder: (context, ind){
                                                                   return Padding(
-                                                                    padding: const EdgeInsets.only(top: 12),
+                                                                    padding: const EdgeInsets.only(top: 5),
                                                                       child: InkWell(
                                                                         onTap: () {
                                                                           Get.toNamed(Routes.hostUpcommingActiview, arguments: data?.activities?[ind].id.toString());
@@ -657,7 +642,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                         ),
                                                                       ),
                                                                   );
-                                                            })
+                                                            }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },)
                                                           ],
                                                         ),
                                                       );
@@ -738,20 +723,15 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                     color:
                                                                         clrGreyDark),
                                                               ),
-                                                              SizedBox(
-                                                                height:
-                                                                    Get.height *
-                                                                        0.005,
-                                                              ),
                                                               Column(
                                                                 children: [
-                                                                  ListView.builder(
+                                                                  ListView.separated(
                                                                       physics: NeverScrollableScrollPhysics(),
-                                                                      itemCount: data?.activities?.length,
+                                                                      itemCount: data!.activities!.length,
                                                                       shrinkWrap: true,
                                                                       itemBuilder: (context, ind){
                                                                         return Padding(
-                                                                          padding: const EdgeInsets.only(top: 12),
+                                                                          padding: const EdgeInsets.only(top: 5),
                                                                           child: Row(
                                                                               crossAxisAlignment:
                                                                                   CrossAxisAlignment.start,
@@ -846,7 +826,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               ],
                                                                             ),
                                                                         );
-                                                                        }
+                                                                        }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 8,

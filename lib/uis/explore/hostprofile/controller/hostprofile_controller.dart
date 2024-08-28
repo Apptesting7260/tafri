@@ -11,6 +11,7 @@ class HostProfileController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     String id = Get.arguments;
+    print(id);
     hostapi(id);
     super.onInit();
   }

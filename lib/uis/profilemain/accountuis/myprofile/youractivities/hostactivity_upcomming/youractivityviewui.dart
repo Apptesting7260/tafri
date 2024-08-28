@@ -353,10 +353,9 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                               Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
                             },
                             child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
                               mainAxisAlignment:
                               MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 // Container(
                                 //     height: h*.055,

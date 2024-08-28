@@ -76,7 +76,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         child: Container(
                           clipBehavior: Clip.hardEdge,
                           width: w * .1,
-                          height: w * .1,
+                          height: h * .05,
                           decoration: BoxDecoration(
                             color: clrBlacke,
                             borderRadius: BorderRadius.circular(10),
@@ -86,7 +86,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                             child: Image.asset(
                               "assets/icons/uploadicon.png",
                               color: clrWhite,
-                              height: w * .06,
+                              height: h * .06,
                               width: w * .06,
                             ), //
                           ),
