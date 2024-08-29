@@ -1420,16 +1420,16 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                   height: Get.height * .07,
                   child: CustomElevatedButton(
                       onTap: (){
-                        // if(controller.selectedValue.value == 4){
-                        //   if(formkey.currentState!.validate()){
-                        //     controller.reportUser(controller.hostData.value.result?.id.toString());
-                        //   }
-                        // }else if(controller.selectedValue.value != 0){
-                        //   controller.reportUser(controller.hostData.value.result?.id.toString());
-                        // }
-                        // else{
-                        //   showTostMsg('Please select any reason');
-                        // }
+                        if(controller.selectedValue.value == 4){
+                          if(formkey.currentState!.validate()){
+                            controller.reportUser(controller.hostData.value.result?.id.toString());
+                          }
+                        }else if(controller.selectedValue.value != 0){
+                          controller.reportUser(controller.hostData.value.result?.id.toString());
+                        }
+                        else{
+                          showTostMsg('Please select any reason');
+                        }
                       },
                       child: controller.reportuserLoading.value
                           ? CommonUi.buttonLoading()

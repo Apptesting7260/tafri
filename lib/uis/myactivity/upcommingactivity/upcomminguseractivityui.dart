@@ -1291,16 +1291,16 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                     height: Get.height * .07,
                     child: CustomElevatedButton(
                         onTap: () {
-                          // if(controller.selectedValue.value == 4){
-                          //   if(formkey.currentState!.validate()){
-                          //     controller.reportActivity(controller.actData.value.activity?.id.toString());
-                          //   }
-                          // }else if(controller.selectedValue.value != 0){
-                          //   controller.reportActivity(controller.actData.value.activity?.id.toString());
-                          // }
-                          // else{
-                          //   showTostMsg('Please select any reason');
-                          // }
+                          if(controller.selectedValue.value == 4){
+                            if(formkey.currentState!.validate()){
+                              controller.reportActivity(controller.actData.value.activity?.id.toString());
+                            }
+                          }else if(controller.selectedValue.value != 0){
+                            controller.reportActivity(controller.actData.value.activity?.id.toString());
+                          }
+                          else{
+                            showTostMsg('Please select any reason');
+                          }
                         },
                         child: controller.reportactivityLoading.value
                             ? CommonUi.buttonLoading()
