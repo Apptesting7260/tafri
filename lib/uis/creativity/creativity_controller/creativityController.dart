@@ -13,6 +13,7 @@ import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
 import 'package:plusone/uis/creativity/model/category_model.dart';
 import 'package:plusone/utils/local_storage.dart';
+import 'package:plusone/utils/tostmsg.dart';
 
 class Creativitycontroller extends GetxController
     with GetTickerProviderStateMixin {
@@ -65,15 +66,19 @@ class Creativitycontroller extends GetxController
   }
 
   RxString sTime = "".obs;
+  var sTimeForApi = ''.obs;
 
   changeStime(TimeOfDay stime) {
     sTime.value = "${stime.hour}:${stime.minute}";
+    sTimeForApi.value = '${stime.hour > 12 ? stime.hour - 12 : stime.hour}:${stime.minute} ${stime.period == DayPeriod.am ? "AM" : "PM"}';
   }
 
   RxString eTime = "".obs;
+  var eTimeForAPi = ''.obs;
 
   changeEtime(TimeOfDay etime) {
     eTime.value = "${etime.hour}:${etime.minute}";
+    eTimeForAPi.value = '${etime.hour > 12 ? etime.hour - 12 : etime.hour}:${etime.minute} ${etime.period == DayPeriod.am ? "AM" : "PM"}';
   }
 
   var date = ''.obs;
@@ -119,7 +124,7 @@ class Creativitycontroller extends GetxController
   RxList<DropdownMenuItem<int>> subcategoryList = <DropdownMenuItem<int>>[].obs;
 
   void getSubCat(int catID){
-    subCatID.value = null;
+    subCatID.value = '';
     subcategoryList.clear();
     for(int i = 0; i<catData.value.result!.length;i++){
       if(catData.value.result![i].id == catID){
@@ -160,7 +165,7 @@ class Creativitycontroller extends GetxController
   }
 
   var catID = ''.obs;
-  Rx<String?> subCatID = Rx<String?>(null);
+  var subCatID = ''.obs;
   var titleController = TextEditingController();
   var locController = TextEditingController();
   var desController = TextEditingController().obs;
@@ -169,56 +174,99 @@ class Creativitycontroller extends GetxController
   Future<void> createActivity() async {
     loading.value = true;
     try {
-      var url = Uri.parse(EndPoints.createActivity);
-      var request = await http.MultipartRequest('POST', url);
-      if(!choosePhotoCheck.value) {
-        if (galleryImages.isNotEmpty) {
-          for (File image in galleryImages) {
+
+      if(!choosePhotoCheck.value){
+        if(galleryImages.isEmpty){
+          showTostMsg('Please select Image');
+        }
+      }else if(catID.value.isEmpty){
+        showTostMsg('Please select Category');
+      }else if(subCatID.value.isEmpty){
+        showTostMsg('Please select SubCategory');
+      }else if(titleController.value.text.isEmpty){
+        showTostMsg('Please Enter title');
+      }else if(desController.value.text.isEmpty){
+        showTostMsg('Please Enter Description');
+      }else if(locController.value.text.isEmpty){
+        showTostMsg('Please Enter Location');
+      }else if(date.value.isEmpty){
+        showTostMsg('Please Select date');
+      }else if(sTimeForApi.value.isEmpty){
+        showTostMsg('Please Select start time');
+      }else if(eTimeForAPi.value.isEmpty){
+        showTostMsg('Please Select end time');
+      }else if(groupSize.value < 2){
+        showTostMsg('Please add more people');
+      }else {
+        var url = Uri.parse(EndPoints.createActivity);
+        var request = await http.MultipartRequest('POST', url);
+        if(!choosePhotoCheck.value) {
+          if (galleryImages.isNotEmpty) {
+            for (File image in galleryImages) {
+              var stream = http.ByteStream(image.openRead());
+              var length = await image.length();
+              var multipartFile = http.MultipartFile(
+                  'gallery_img[]', stream, length,
+                  filename: image.path
+                      .split('/')
+                      .last);
+              request.files.add(multipartFile);
+              print(
+                  'File name: ${multipartFile.filename}, Length: ${multipartFile
+                      .length}');
+            }
+          }
+        }
+
+        if (!choosePhotoCheck.value) {
+          if (galleryImages.isNotEmpty) {
+            File image = galleryImages.first;
             var stream = http.ByteStream(image.openRead());
             var length = await image.length();
             var multipartFile = http.MultipartFile(
-                'gallery_img[]', stream, length,
-                filename: image.path
-                    .split('/')
-                    .last);
+              'feature_img', stream, length,
+              filename: image.path.split('/').last,
+            );
             request.files.add(multipartFile);
-            print(
-                'File name: ${multipartFile.filename}, Length: ${multipartFile
-                    .length}');
           }
+        }
+
+        request.fields["category_id"] = catID.value;
+        request.fields['subcategory_id'] = subCatID.value;
+        request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
+        request.fields['description'] = desController.value.value.text.trim();
+        request.fields['location'] = locController.value.text.trim();
+        request.fields['date'] = date.value;
+        request.fields['name'] = titleController.value.text.trim();
+        request.fields['start_at'] = sTimeForApi.value;
+        request.fields['end_at'] = eTimeForAPi.value;
+        request.fields['max_people'] = groupSize.value.toString();
+        request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
+        request.fields['repeat_status'] = 'repeats';
+        request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+        request.fields["host_id"] = uid;
+        request.headers['Authorization'] = "Bearer $token";
+
+        // Send the request and get the response
+        final streamedResponse = await request.send();
+        var response = await http.Response.fromStream(streamedResponse);
+        var responseBody = jsonDecode(response.body);
+
+        print(responseBody);
+        // Check the response status
+        if (response.statusCode == 200) {
+          loading.value = false;
+          showTostMsg('Activity created successfully');
+          Get.back();
+        } else {
+          showTostMsg('Something went wrong');
+          loading.value = false;
         }
       }
 
-      request.fields["category_id"] = catID.value;
-      request.fields['subcategory_id'] = subCatID.value!;
-      request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
-      request.fields['description'] = desController.value.value.text.trim();
-      request.fields['location'] = locController.value.text.trim();
-      request.fields['date'] = date.value;
-      request.fields['name'] = titleController.value.text.trim();
-      request.fields['start_at'] = sTime.value;
-      request.fields['end_at'] = eTime.value;
-      request.fields['max_people'] = groupSize.value.toString();
-      request.fields['gender'] = gender.value == 1 ? 'Same gender as me' : 'all';
-      request.fields['repeat_status'] = 'repeats';
-      request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
-      request.fields["host_id"] = uid;
-      request.headers['Authorization'] = "Bearer $token";
 
-      // Send the request and get the response
-      final streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-      var responseBody = jsonDecode(response.body);
-
-      print(responseBody);
-      // Check the response status
-      if (response.statusCode == 200) {
-        loading.value = false;
-        Get.back();
-      } else {
-        loading.value = false;
-      }
     } catch (e) {
+      showTostMsg('Something went wrong');
       loading.value = false;
       print(e);
     } finally {

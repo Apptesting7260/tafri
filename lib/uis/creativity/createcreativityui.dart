@@ -266,9 +266,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 child: const CustoDropDownBtn(itemList: [], hindtext: 'Select',)) : CustoDropDownBtn(
                               onchange: (val) {
                                 controller.catID.value = val.toString();
-                                controller.subCatID.value = null;
                                 controller.getSubCat(val);
-                                print(controller.catID.value);
                               },
                               itemList: controller.categoryList,
                               hintColor: clrBlacke,
@@ -282,55 +280,36 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             Obx(() => controller.catID.isEmpty ? SizedBox() : SizedBox(
                               height: Get.height * 0.02,
                             ),),
-                            Obx(() => controller.catID.isEmpty ? SizedBox() :
-                            // DropdownButtonFormField(
-                            //   items: controller.subcategoryList,
-                            //   onChanged: (value) {
-                            //     controller.subCatID.value = value.toString();
-                            //     print(controller.subCatID.value);
-                            //   },
-                            //   value: controller.subCatID.value,
-                            //   isExpanded: true,
-                            //   hint: Align(
-                            //     alignment: Alignment.centerLeft,
-                            //     child: Text('Select Subcategory',
-                            //         style: TextStyle(color: clrBlacke )),
-                            //   ),
-                            //   icon: const SizedBox.shrink(),
-                            //   // selectedItemBuilder: widget.selectedItemBuilder,
-                            //   decoration: InputDecoration(
-                            //     alignLabelWithHint: true,
-                            //     // prefixIcon: widget.prefixIcon,
-                            //     suffixIcon: Image.asset(
-                            //       'assets/images/arrow down.png',
-                            //       scale: 4,
-                            //     ),
-                            //     hintStyle:
-                            //     TextStyle(fontWeight: FontWeight.w400, color: clrGreyTextLight),
-                            //     contentPadding:
-                            //     const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                            //     fillColor: clrGreyLight,
-                            //     filled: true,
-                            //     border: OutlineInputBorder(
-                            //         borderSide: BorderSide.none,
-                            //         borderRadius: BorderRadius.circular(30)),
-                            //     focusedBorder: null,
-                            //     enabledBorder: null,
-                            //   ),
-                            // )
-                            CustoDropDownBtn(
-                              onchange: (val) {
-                                controller.subCatID.value = val.toString();
-                                print(controller.subCatID.value);
+                            Obx(() => controller.catID.isEmpty
+                                ? SizedBox()
+                                : FutureBuilder(
+                              future: Future.delayed(Duration(seconds: 1)),  // Simulate delay
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return Shimmer.fromColors(
+                                      baseColor: Colors.grey.shade300,
+                                      highlightColor: Colors.grey.shade100,
+                                      child: Container(height: 50,decoration: BoxDecoration(
+                                        color: clrGrey,
+                                        borderRadius: BorderRadius.circular(100)
+                                      ),));  // Show loading indicator
+                                } else {
+                                  return CustoDropDownBtn(
+                                    onchange: (val) {
+                                      controller.subCatID.value = val.toString();
+                                      print(controller.subCatID.value);
+                                    },
+                                    val: controller.subCatID.value,
+                                    itemList: controller.subcategoryList,
+                                    hintColor: clrBlacke,
+                                    hindtext: "Select Subcategory",
+                                    suffix: Image.asset(
+                                      'assets/images/arrow down.png',
+                                      scale: 4,
+                                    ),
+                                  );
+                                }
                               },
-                              val: controller.subCatID.value,
-                              itemList: controller.subcategoryList,
-                              hintColor: clrBlacke,
-                              hindtext: "Select Subcategory",
-                              suffix: Image.asset(
-                                'assets/images/arrow down.png',
-                                scale: 4,
-                              ),
                             ),
                             ),
                             SizedBox(
@@ -535,11 +514,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               width: 10,
                                             ),
                                             Text(
-                                              controller.sTime.value == ''
+                                              controller.sTimeForApi.value == ''
                                                   ? "Start At"
-                                                  : "${controller.sTime}",
+                                                  : "${controller.sTimeForApi}",
                                               style: TextStyle(
-                                                  color: controller.sTime.value == ''
+                                                  color: controller.sTimeForApi.value == ''
                                                       ? clrGreyDark
                                                       : clrBlacke),
                                             ),
@@ -592,11 +571,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               width: 10,
                                             ),
                                             Text(
-                                              controller.eTime.value == ''
+                                              controller.eTimeForAPi.value == ''
                                                   ? "Ends At"
-                                                  : "${controller.eTime.value}",
+                                                  : controller.eTimeForAPi.value,
                                               style: TextStyle(
-                                                  color: controller.eTime.value == ''
+                                                  color: controller.eTimeForAPi.value == ''
                                                       ? clrGreyDark
                                                       : clrBlacke),
                                             )
@@ -754,22 +733,27 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: SizedBox(
-                          width: double.maxFinite,
-                          height: Res.h_btn,
-                          child: CustomElevatedButton(
-                              onTap: () {},
-                              backgroundClr: clrBlacke,
-                              child: Text(
-                                "Post Activity",
-                                style: TextStyle(
-                                    color: clrWhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ))),
+                      child: Obx(() => Opacity(
+                        opacity: controller.loading.value ? 0.5 : 1,
+                        child: SizedBox(
+                            width: double.maxFinite,
+                            height: Res.h_btn,
+                            child: CustomElevatedButton(
+                                onTap: () {
+                                  controller.createActivity();
+                                },
+                                backgroundClr: clrBlacke,
+                                child: controller.loading.value ? CommonUi.buttonLoading() : Text(
+                                  "Post Activity",
+                                  style: TextStyle(
+                                      color: clrWhite,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700),
+                                ))),
+                      ),),
                     ),
                   ]),
-////////////////////////////////////////////////////preview ui
+    ////////////////////////////////////////////////////preview ui
                   Column(
                     children: [
                       Container(
