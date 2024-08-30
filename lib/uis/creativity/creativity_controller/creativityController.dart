@@ -83,10 +83,18 @@ class Creativitycontroller extends GetxController
 
   var date = ''.obs;
   var dateForPicker = ''.obs;
-  changeDate(DateTime dateTime){
+  changeDate(DateTime dateTime) {
     dateForPicker.value = dateTime.toString();
-    date.value = '${dateTime.day}-${dateTime.month}-${dateTime.year}';
+
+    String formattedMonth = dateTime.month.toString().padLeft(2, '0');
+    String formattedDay = dateTime.day.toString().padLeft(2, '0');
+
+    date.value = '${dateTime.year}-$formattedMonth-$formattedDay';
   }
+  // changeDate(DateTime dateTime){
+  //   dateForPicker.value = dateTime.toString();
+  //   date.value = '${dateTime.year}-${dateTime.month}-${dateTime.day}';
+  // }
 
   Rx<bool> choosePhotoCheck = false.obs;
 
@@ -173,13 +181,12 @@ class Creativitycontroller extends GetxController
 
   Future<void> createActivity() async {
     loading.value = true;
+
     try {
 
-      if(!choosePhotoCheck.value){
-        if(galleryImages.isEmpty){
+      if(!choosePhotoCheck.value && galleryImages.isEmpty) {
           showTostMsg('Please select Image');
-        }
-      }else if(catID.value.isEmpty){
+      } else if(catID.value.isEmpty){
         showTostMsg('Please select Category');
       }else if(subCatID.value.isEmpty){
         showTostMsg('Please select SubCategory');
