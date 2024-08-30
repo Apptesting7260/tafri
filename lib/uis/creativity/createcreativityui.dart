@@ -6,9 +6,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
+import 'package:plusone/uis/components/location_form_field.dart';
 import 'package:plusone/uis/creativity/creativity_controller/creativityController.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/custom_switch.dart';
+import 'package:plusone/utils/error_widget.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../utils/colors.dart';
 import '../../utils/size.dart';
 import '../components/custotextfield.dart';
@@ -22,7 +25,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
     var w = Get.width;
     return Scaffold(
       backgroundColor: clrWhite,
-      body: SafeArea(
+      body: Obx(() => controller.catLoading.value ? Center(
+        child: CommonUi.scaffoldLoading(
+          color: clrYellow
+        ),
+      ) : controller.catError.value.isNotEmpty ? Center(child: ErrorScreen()) : SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
@@ -53,9 +60,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                 unselectedLabelColor: clrBlacke,
                 labelColor: tabBarColor,
                 labelStyle:
-                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 unselectedLabelStyle:
-                    const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+                const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                 tabs: const [
                   Padding(
                     padding: EdgeInsets.only(bottom: 10),
@@ -75,89 +82,160 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
               ),
               Expanded(
                 child:
-                    TabBarView(controller: controller.tabController, children: [
+                TabBarView(controller: controller.tabController, children: [
                   Column(children: [
                     Expanded(
                       child: ListView(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
+                        // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: InkWell(
-                                  onTap: () {
-                                    alertRepeatSchedule();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 1),
-                                    child: DottedBorder(
-                                        color: clrGrey,
-                                        dashPattern: const [6, 3],
-                                        borderType: BorderType.RRect,
-                                        strokeWidth: 2,
-                                        radius: const Radius.circular(12),
-                                        child: Container(
-                                          clipBehavior: Clip.hardEdge,
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 40,
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: clrGreyLight,
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          child: Center(
-                                              child: Image.asset(
-                                            "assets/icons/imgicon.png",
-                                            height: 30,
-                                            color: clrGreyDark.withOpacity(0.8),
-                                          )),
-                                        )),
-                                  ),
-                                )),
-                                SizedBox(
-                                  width: w * .04,
-                                ),
-                                Expanded(
-                                    child: Padding(
-                                  padding: const EdgeInsets.only(right: 1),
-                                  child: DottedBorder(
-                                      color: clrGrey,
-                                      dashPattern: const [6],
-                                      borderType: BorderType.RRect,
-                                      strokeWidth: 2,
-                                      radius: const Radius.circular(12),
-                                      child: Container(
-                                        clipBehavior: Clip.hardEdge,
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 30,
+                            SizedBox(
+                              height: 120,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Obx(
+                                      () => Opacity(
+                                    opacity: controller.choosePhotoCheck.value
+                                        ? 0.3
+                                        : 1,
+                                    child: Row(
+                                      children: [
+                                        Obx(
+                                              () => ListView.separated(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () {
+                                                    if (!controller
+                                                        .choosePhotoCheck
+                                                        .value) {
+                                                      controller.pickImage();
+                                                    }
+                                                    // alertRepeatSchedule();
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets.only(
+                                                        left: 1),
+                                                    child: DottedBorder(
+                                                        color: clrGrey,
+                                                        dashPattern: const [
+                                                          6,
+                                                          3
+                                                        ],
+                                                        borderType:
+                                                        BorderType.RRect,
+                                                        strokeWidth: 2,
+                                                        radius: const Radius
+                                                            .circular(12),
+                                                        child: Container(
+                                                          clipBehavior:
+                                                          Clip.hardEdge,
+                                                          width: Get.width*0.4,
+                                                          height: 120,
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                              clrGreyLight,
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  15)),
+                                                          child: Obx(() => index <
+                                                              controller
+                                                                  .galleryImages
+                                                                  .length
+                                                              ? Image.file(
+                                                            controller
+                                                                .galleryImages[
+                                                            index],
+                                                            fit: BoxFit
+                                                                .cover,
+                                                          )
+                                                              : Center(
+                                                            child: Image
+                                                                .asset(
+                                                              "assets/icons/imgicon.png",
+                                                              height: 30,
+                                                              color: clrGreyDark
+                                                                  .withOpacity(
+                                                                  0.8),
+                                                            ),
+                                                          )),
+                                                        )),
+                                                  ),
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (context, index) {
+                                                return const SizedBox(
+                                                  width: 10,
+                                                );
+                                              },
+                                              itemCount: controller
+                                                  .containerList.length +
+                                                  1),
                                         ),
-                                        decoration: BoxDecoration(
-                                            color: clrGreyLight,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Center(
-                                            child: Column(
-                                          children: [
-                                            Icon(
-                                              Icons.add,
-                                              size: 30,
-                                              color:
-                                                  clrGreyDark.withOpacity(0.8),
-                                            ),
-                                            Text(
-                                              "Add more",
-                                              style: TextStyle(
-                                                  color: clrGreyDark
-                                                      .withOpacity(0.8)),
-                                            )
-                                          ],
-                                        )),
-                                      )),
-                                )),
-                              ],
+                                        SizedBox(
+                                          width: w * .04,
+                                        ),
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.only(right: 1),
+                                          child: InkWell(
+                                            onTap: () {
+                                              if (!controller
+                                                  .choosePhotoCheck.value) {
+                                                controller.addContainer();
+                                              }
+                                            },
+                                            child: DottedBorder(
+                                                color: clrGrey,
+                                                dashPattern: const [6],
+                                                borderType: BorderType.RRect,
+                                                strokeWidth: 2,
+                                                radius:
+                                                const Radius.circular(12),
+                                                child: Container(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  width: Get.width*0.4,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 30,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      color: clrGreyLight,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                                  child: Center(
+                                                      child: Column(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.add,
+                                                            size: 30,
+                                                            color: clrGreyDark
+                                                                .withOpacity(0.8),
+                                                          ),
+                                                          Text(
+                                                            "Add more",
+                                                            style: TextStyle(
+                                                                color: clrGreyDark
+                                                                    .withOpacity(
+                                                                    0.8)),
+                                                          )
+                                                        ],
+                                                      )),
+                                                )),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                             SizedBox(
                               height: Get.height * 0.01,
@@ -182,23 +260,85 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             SizedBox(
                               height: Get.height * 0.01,
                             ),
+                            Obx(() => controller.catLoading.value ? Shimmer.fromColors(
+                                baseColor: Colors.grey.shade300,
+                                highlightColor: Colors.grey.shade100,
+                                child: const CustoDropDownBtn(itemList: [], hindtext: 'Select',)) : CustoDropDownBtn(
+                              onchange: (val) {
+                                controller.catID.value = val.toString();
+                                controller.subCatID.value = null;
+                                controller.getSubCat(val);
+                                print(controller.catID.value);
+                              },
+                              itemList: controller.categoryList,
+                              hintColor: clrBlacke,
+                              hindtext: "Select Category",
+                              suffix: Image.asset(
+                                'assets/images/arrow down.png',
+                                scale: 4,
+                              ),
+                            ),
+                            ),
+                            Obx(() => controller.catID.isEmpty ? SizedBox() : SizedBox(
+                              height: Get.height * 0.02,
+                            ),),
+                            Obx(() => controller.catID.isEmpty ? SizedBox() :
+                            // DropdownButtonFormField(
+                            //   items: controller.subcategoryList,
+                            //   onChanged: (value) {
+                            //     controller.subCatID.value = value.toString();
+                            //     print(controller.subCatID.value);
+                            //   },
+                            //   value: controller.subCatID.value,
+                            //   isExpanded: true,
+                            //   hint: Align(
+                            //     alignment: Alignment.centerLeft,
+                            //     child: Text('Select Subcategory',
+                            //         style: TextStyle(color: clrBlacke )),
+                            //   ),
+                            //   icon: const SizedBox.shrink(),
+                            //   // selectedItemBuilder: widget.selectedItemBuilder,
+                            //   decoration: InputDecoration(
+                            //     alignLabelWithHint: true,
+                            //     // prefixIcon: widget.prefixIcon,
+                            //     suffixIcon: Image.asset(
+                            //       'assets/images/arrow down.png',
+                            //       scale: 4,
+                            //     ),
+                            //     hintStyle:
+                            //     TextStyle(fontWeight: FontWeight.w400, color: clrGreyTextLight),
+                            //     contentPadding:
+                            //     const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                            //     fillColor: clrGreyLight,
+                            //     filled: true,
+                            //     border: OutlineInputBorder(
+                            //         borderSide: BorderSide.none,
+                            //         borderRadius: BorderRadius.circular(30)),
+                            //     focusedBorder: null,
+                            //     enabledBorder: null,
+                            //   ),
+                            // )
                             CustoDropDownBtn(
-                                onchange: (val) {},
-                                itemList: const [
-                                  DropdownMenuItem(
-                                    value: 1,
-                                    child: Text("Coffee"),
-                                  ),
-                                ],
-                                hintColor: clrBlacke,
-                                hindtext: "Select Category",
-                              suffix: Image.asset('assets/images/arrow down.png',scale:4,),
+                              onchange: (val) {
+                                controller.subCatID.value = val.toString();
+                                print(controller.subCatID.value);
+                              },
+                              val: controller.subCatID.value,
+                              itemList: controller.subcategoryList,
+                              hintColor: clrBlacke,
+                              hindtext: "Select Subcategory",
+                              suffix: Image.asset(
+                                'assets/images/arrow down.png',
+                                scale: 4,
+                              ),
+                            ),
                             ),
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            const CustoTextFormField(
+                            CustoTextFormField(
                               hintText: "Activity name (title)",
+                              controll: controller.titleController,
                             ),
                             SizedBox(
                               height: Get.height * 0.02,
@@ -222,16 +362,17 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             //           borderSide: BorderSide.none,
                             //           borderRadius: BorderRadius.circular(15))),
                             // ),
-                            Obx((){
+                            Obx(() {
                               return Stack(
                                 children: [
                                   TextFormField(
-                                    controller: controller.textController.value,
+                                    controller: controller.desController.value,
                                     maxLines: null,
                                     minLines: 4,
                                     maxLength: controller.maxLength,
                                     decoration: InputDecoration(
-                                      hintText: "Write a description (min. 30 characters)",
+                                      hintText:
+                                      "Write a description (min. 30 characters)",
                                       hintStyle: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 15,
@@ -247,7 +388,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                         borderSide: BorderSide.none,
                                         borderRadius: BorderRadius.circular(15),
                                       ),
-                                      counterText: "", // Remove the default counter
+                                      counterText:
+                                      "", // Remove the default counter
                                     ),
                                   ),
                                   Positioned(
@@ -273,28 +415,62 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             SizedBox(
                               height: Get.height * 0.02,
                             ),
-                            CustoTextFormField(
+                            CustomLocationField(
+                              itemBuilder: (context, suggestion) {
+                                return ListTile(
+                                  title: Text(suggestion.name.toString()),
+                                );
+                              },
+                              suggestionsCallback: (value) async {
+                                return controller.searchPlaces(value);
+                              },
                               hintText: "Location",
-                              sufixIcon: SizedBox(
-                                  height: h * .012,
-                                  width: h * .012,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(13.0),
-                                    child: Image.asset(
-                                        "assets/icons/locationicon.png",
-                                        height: 8,
-                                        width: 8),
+                              controller: controller.locController,
+                              validation: (val) {
+                                if (val == null || val.isEmpty || val == '') {
+                                  return "Location is required";
+                                }
+                                return null;
+                              },
+                              onSelected: (value) {
+                                controller.locController.text = value.name;
+                              },
+                              sufixIcon: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 13),
+                                  child: const Image(
+                                    image: AssetImage("assets/icons/locationicon.png"),
+                                    height: 1,
+                                    width: 1,
                                   )),
                             ),
+                            // CustoTextFormField(
+                            //   hintText: "Location",
+                            //   sufixIcon: SizedBox(
+                            //       height: h * .012,
+                            //       width: h * .012,
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.all(13.0),
+                            //         child: Image.asset(
+                            //             "assets/icons/locationicon.png",
+                            //             height: 8,
+                            //             width: 8),
+                            //       )),
+                            // ),
                             SizedBox(
                               height: h * 0.02,
                             ),
                             InkWell(
-                              onTap: () {
-                                showDatePicker(
+                              onTap: () async{
+                                DateTime? date = await showDatePicker(
                                     context: context,
                                     firstDate: DateTime.now(),
-                                    lastDate: DateTime(2025));
+                                    lastDate: DateTime(2025),
+                                  currentDate: controller.dateForPicker.value.isNotEmpty ? DateTime.parse(controller.dateForPicker.value) : DateTime.now()
+                                );
+                                if(date != null){
+                                  controller.changeDate(date);
+                                }
                               },
                               child: Container(
                                   padding: EdgeInsets.symmetric(
@@ -312,11 +488,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                       const SizedBox(
                                         width: 12,
                                       ),
-                                      Text(
-                                        "DD/MM/YYYY",
+                                      Obx(() => Text(
+                                        controller.date.value.isNotEmpty ? controller.date.value : "DD/MM/YYYY",
                                         style:
-                                            TextStyle(color: clrGreyTextLight),
-                                      )
+                                        TextStyle(color:controller.date.value.isNotEmpty ? clrBlacke : clrGreyTextLight),
+                                      ),)
                                     ],
                                   )),
                             ),
@@ -328,7 +504,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 onTap: () async {
                                   TimeOfDay? stime = await showTimePicker(
                                       context: context,
-                                      initialTime: TimeOfDay.now());
+                                      initialTime: controller.sTime.value.isNotEmpty ? TimeOfDay(
+                                        hour: int.parse(controller.sTime.value.split(":")[0]),
+                                        minute: int.parse(controller.sTime.value.split(":")[1]),
+                                      ) : TimeOfDay.now(),
+                                  );
                                   if (stime != null) {
                                     controller.changeStime(stime);
                                   }
@@ -342,7 +522,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                       color: clrGreyLight,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
@@ -354,17 +535,20 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               width: 10,
                                             ),
                                             Text(
-                                              controller.sTime == ''
+                                              controller.sTime.value == ''
                                                   ? "Start At"
                                                   : "${controller.sTime}",
                                               style: TextStyle(
-                                                  color: controller.sTime == ''
+                                                  color: controller.sTime.value == ''
                                                       ? clrGreyDark
                                                       : clrBlacke),
                                             ),
                                           ],
                                         ),
-                                        Image.asset('assets/images/arrow down.png',scale:4,)
+                                        Image.asset(
+                                          'assets/images/arrow down.png',
+                                          scale: 4,
+                                        )
                                       ],
                                     )),
                               );
@@ -378,7 +562,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 onTap: () async {
                                   TimeOfDay? etime = await showTimePicker(
                                       context: context,
-                                      initialTime: TimeOfDay.now());
+                                      initialTime: controller.eTime.value.isNotEmpty ? TimeOfDay(
+                                        hour: int.parse(controller.eTime.value.split(":")[0]),
+                                        minute: int.parse(controller.eTime.value.split(":")[1]),
+                                      ) : TimeOfDay.now());
                                   if (etime != null) {
                                     controller.changeEtime(etime);
                                   }
@@ -392,7 +579,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                       color: clrGreyLight,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
@@ -404,17 +592,20 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               width: 10,
                                             ),
                                             Text(
-                                              controller.eTime == ''
+                                              controller.eTime.value == ''
                                                   ? "Ends At"
-                                                  : "${controller.eTime}",
+                                                  : "${controller.eTime.value}",
                                               style: TextStyle(
-                                                  color: controller.eTime == ''
+                                                  color: controller.eTime.value == ''
                                                       ? clrGreyDark
                                                       : clrBlacke),
                                             )
                                           ],
                                         ),
-                                        Image.asset('assets/images/arrow down.png',scale:4,)
+                                        Image.asset(
+                                          'assets/images/arrow down.png',
+                                          scale: 4,
+                                        )
                                       ],
                                     )),
                               );
@@ -431,7 +622,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                     color: clrGreyLight),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
                                       child: Row(
@@ -445,12 +636,12 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                           ),
                                           Flexible(
                                               child: Text(
-                                            "Max 6 people (incl. you)",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                color: clrGreyTextLight),
-                                          ))
+                                                "Max 10 people (incl. you)",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: clrGreyTextLight),
+                                              ))
                                         ],
                                       ),
                                     ),
@@ -498,9 +689,14 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 ],
                                 hindtext: "Gender preference (optional)",
                                 hintColor: clrBlacke,
-                                suffix: Image.asset('assets/images/arrow down.png',scale:4,),
+                                suffix: Image.asset(
+                                  'assets/images/arrow down.png',
+                                  scale: 4,
+                                ),
                                 prefixIcon: Image.asset(
-                                    "assets/icons/gendericon.png",scale: 2,),
+                                  "assets/icons/gendericon.png",
+                                  scale: 2,
+                                ),
                               );
                             }),
                             SizedBox(
@@ -522,12 +718,14 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                   ),
                                   DropdownMenuItem(
                                     value: 2,
-                                    child:
-                                        Text("Should have repeat schedule "),
+                                    child: Text("Should have repeat schedule "),
                                   ),
                                 ],
                                 hindtext: "Doesn’t repeat ",
-                                suffix: Image.asset('assets/images/arrow down.png',scale:4,),
+                                suffix: Image.asset(
+                                  'assets/images/arrow down.png',
+                                  scale: 4,
+                                ),
                               );
                             }),
                             SizedBox(
@@ -541,7 +739,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 Obx(() {
-                                  return CustomSwitch(value: controller.joinInstant.value, onChanged: (p0) => controller.changejoinInstant(),);
+                                  return CustomSwitch(
+                                    value: controller.joinInstant.value,
+                                    onChanged: (p0) =>
+                                        controller.changejoinInstant(),
+                                  );
                                 })
                               ],
                             ),
@@ -595,12 +797,12 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   .width,
                                               height: double.maxFinite,
                                               margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 0),
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 0),
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          18)),
+                                                  BorderRadius.circular(
+                                                      18)),
                                               child: Image.asset(
                                                 "assets/images/cofee.png",
                                                 fit: BoxFit.cover,
@@ -616,7 +818,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                         horizontal: 10, vertical: 10),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           padding: const EdgeInsets.symmetric(
@@ -624,7 +826,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                           decoration: BoxDecoration(
                                               color: clrWhite,
                                               borderRadius:
-                                                  BorderRadius.circular(20)),
+                                              BorderRadius.circular(20)),
                                           child: const Text(
                                             "Coffee",
                                             style: TextStyle(
@@ -647,8 +849,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 1.5),
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 1.5),
                                               child: Icon(
                                                 Icons.circle,
                                                 color: index == 0
@@ -672,7 +874,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 Flexible(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       const Text(
                                         "Picnic in the park",
@@ -712,7 +914,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                         width: h * .05,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(100)),
+                                            BorderRadius.circular(100)),
                                         child: Image.asset(
                                           "assets/images/girldp.png",
                                           fit: BoxFit.cover,
@@ -744,7 +946,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
             ],
           ),
         ),
-      ),
+      ),),
     );
   }
 
