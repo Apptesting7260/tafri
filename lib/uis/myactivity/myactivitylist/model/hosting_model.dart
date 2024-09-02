@@ -217,9 +217,11 @@ class ActivityElement {
   DateTime? createdAt;
   DateTime? updatedAt;
   String? formattedDate;
+  String? featureImg;
 
   ActivityElement({
     this.id,
+    this.featureImg,
     this.banners,
     this.pickPhotoForMe,
     this.categoryId,
@@ -243,6 +245,7 @@ class ActivityElement {
 
   factory ActivityElement.fromJson(Map<String, dynamic> json) => ActivityElement(
     id: json["id"],
+    featureImg: json["feature_img"],
     banners: json["banners"] == null ? [] : List<String>.from(json["banners"]!.map((x) => x)),
     pickPhotoForMe: json["pick_photo_for_me"],
     categoryId: json["category_id"],
@@ -267,6 +270,7 @@ class ActivityElement {
   Map<String, dynamic> toJson() => {
     "id": id,
     "banners": banners == null ? [] : List<dynamic>.from(banners!.map((x) => x)),
+    "feature_img": featureImg,
     "pick_photo_for_me": pickPhotoForMe,
     "category_id": categoryId,
     "subcategory_id": subcategoryId,
