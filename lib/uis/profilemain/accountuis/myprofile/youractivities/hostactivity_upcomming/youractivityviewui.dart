@@ -27,7 +27,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13),
+          padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
                 SizedBox(
@@ -273,6 +273,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           // Flexible(
                           //   child: Column(
@@ -320,13 +321,21 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController>{
                                   height: h * .008,
                                 ),
                                 Text(
-                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
-                                  style: TextStyle(
-                                      color: clrYellowText,
-                                      fontSize: 13),
+                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! > 1 ? 'spots left' : 'spot left'}",
+                                  style: TextStyle(color: clrYellowText, fontSize: 13),
                                 ),
+
+                                // Text(
+                                //   "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
+                                //   style: TextStyle(
+                                //       color: clrYellowText,
+                                //       fontSize: 13),
+                                // ),
                               ],
                             ),
+                          ),
+                          SizedBox(
+                            width: 5,
                           ),
                           // InkWell(
                           //   onTap: (){

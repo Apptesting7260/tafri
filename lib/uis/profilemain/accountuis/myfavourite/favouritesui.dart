@@ -54,7 +54,9 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                     height: Get.height*0.5,
                     child: Image.asset('assets/images/empty fav.png'),
                   ),
-                )  : ListView.builder(
+                ) : controller.favData.value.result!.
+                where((result) =>
+                result.status == 'approved').isNotEmpty ? ListView.builder(
                     itemCount: controller.favData.value.result?.
                     where((result) =>
                     result.status == 'approved').length,
@@ -243,10 +245,15 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                         ),
                                         SizedBox(height: h * .008,),
                                         Text(
-                                          "Up to ${resultData[index].maxPeople} people | ${resultData[index].spotLeft} spot left",
-                                          style: TextStyle(
-                                              color: clrYellowText, fontSize: 13),
+                                          "Up to ${resultData[index].maxPeople} people | ${resultData[index].spotLeft} ${resultData[index].spotLeft! > 1 ? 'spots left' : 'spot left'}",
+                                          style: TextStyle(color: clrYellowText, fontSize: 13),
                                         ),
+
+                                        // Text(
+                                        //   "Up to ${resultData[index].maxPeople} people | ${resultData[index].spotLeft} spot left",
+                                        //   style: TextStyle(
+                                        //       color: clrYellowText, fontSize: 13),
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -338,7 +345,13 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                           ),
                         ),
                       );
-                    }),
+                    }) : Center(
+                  child: SizedBox(
+                    width: Get.width*0.7,
+                    height: Get.height*0.5,
+                    child: Image.asset('assets/images/empty fav.png'),
+                  ),
+                ),
                 ),
               )
             ],

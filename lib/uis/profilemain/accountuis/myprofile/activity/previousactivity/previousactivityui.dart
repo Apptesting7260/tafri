@@ -132,7 +132,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                 ],
               ),
               SizedBox(
-                height: Get.height*0.01,
+                height: Get.height*0.025,
               ),
               Expanded(
                 child:  Obx(
@@ -407,9 +407,14 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                   height: Get.height * 0.01,
                                 ),
                                 Text(
-                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
-                                  style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),
+                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! > 1 ? 'spots left' : 'spot left'}",
+                                  style: TextStyle(color: clrYellowText, fontSize: 13),
                                 ),
+
+                                // Text(
+                                //   "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
+                                //   style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),
+                                // ),
                               ],
                             ),
                           ),

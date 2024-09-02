@@ -392,12 +392,17 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                             height: 5,
                                           ),
                                           Text(
-                                            "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
-                                            style: TextStyle(
-                                                color: clrYellowText,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
+                                            "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! > 1 ? 'spots left' : 'spot left'}",
+                                            style: TextStyle(color: clrYellowText, fontSize: 13),
                                           ),
+
+                                          // Text(
+                                          //   "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
+                                          //   style: TextStyle(
+                                          //       color: clrYellowText,
+                                          //       fontSize: 14,
+                                          //       fontWeight: FontWeight.w500),
+                                          // ),
                                         ],
                                       ),
                                     ),

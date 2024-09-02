@@ -118,8 +118,8 @@ class ExploreViewController extends GetxController{
       final response = await api.post(EndPoints.cancelactivity, body, headers: header);
       if(response.statusCode == 200){
         print('home data == ${response.body}');
-        showTostMsg('Activity has been cancelled');
-        Get.back();
+        showTostMsg('Activity request has been cancelled');
+        // Get.back();
       }else{
         print('error == ${response.body}');
 
@@ -158,7 +158,7 @@ class ExploreViewController extends GetxController{
       if(response.statusCode == 200){
         print('home data == ${response.body}');
         showTostMsg('You have successfuly left the Activity');
-        Get.back();
+        // Get.back();
       }else{
         print('error == ${response.body}');
 

@@ -431,11 +431,16 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                             height: h * .008,
                                           ),
                                           Text(
-                                            "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
-                                            style: TextStyle(
-                                                color: clrYellowText,
-                                                fontSize: 13),
+                                            "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! > 1 ? 'spots left' : 'spot left'}",
+                                            style: TextStyle(color: clrYellowText, fontSize: 13),
                                           ),
+
+                                          // Text(
+                                          //   "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
+                                          //   style: TextStyle(
+                                          //       color: clrYellowText,
+                                          //       fontSize: 13),
+                                          // ),
                                         ],
                                       ),
                                     ),
@@ -755,7 +760,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                             Center(
                                                 child: InkWell(
                                                     onTap: () {
-                                                      alertCancelRequest();
+                                                      alertCancelRequest(controller.actData.value.activity!.id.toString());
                                                     },
                                                     child: const Text(
                                                       "Cancel request",
@@ -779,7 +784,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                 Center(
                                                     child: InkWell(
                                                         onTap: () {
-                                                          alertCancelRequest();
+                                                          alertCancelRequestConfirmation(controller.actData.value.activity!.id.toString(),true);
                                                         },
                                                         child: const Text(
                                                           "Leave activity",
@@ -1077,7 +1082,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
     ));
   }
 
-  alertCancelRequest() {
+  alertCancelRequest(String id) {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
@@ -1126,7 +1131,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         ),
                         ontap: () {
                           Get.back();
-                          alertCancelRequestConfirmation();
+                          alertCancelRequestConfirmation(id,false);
                         },
                         backgroundClr: Get.theme.scaffoldBackgroundColor),
                   )),
@@ -1162,7 +1167,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
     });
   }
 
-  alertCancelRequestConfirmation() {
+  alertCancelRequestConfirmation(String id,bool isLeave) {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
@@ -1212,9 +1217,17 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
                         ),
-                        ontap: () {
-                          controller.changeReqSent(1);
-                          Get.back();
+                        ontap: () async{
+                          // controller.changeReqSent(1);
+                          if(isLeave){
+                            Get.back();
+                            await controller.leaveActivity(id);
+                            await controller.actapi(id);
+                          }else {
+                            Get.back();
+                            await controller.cancelActivity(id);
+                            await controller.actapi(id);
+                          }
                         },
                         backgroundClr: Get.theme.scaffoldBackgroundColor),
                   )),

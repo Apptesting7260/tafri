@@ -34,7 +34,7 @@ class MyactiController extends GetxController with GetTickerProviderStateMixin{
       'Authorization': 'Bearer $token'
     };
     try{
-      final response = await api.get("${EndPoints.attendingUrl}1",headers: header);
+      final response = await api.get("${EndPoints.attendingUrl}$uid",headers: header);
       print(response.statusCode);
       print(response.body);
       if(response.statusCode == 200){

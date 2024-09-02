@@ -656,10 +656,15 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                                   h * .008,
                                                                             ),
                                                                             Text(
-                                                                              "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} spot left",
-                                                                              style:
-                                                                                  TextStyle(color: clrYellowText, fontSize: 13),
+                                                                              "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} ${activityData![index].spotLeft! > 1 ? 'spots left' : 'spot left'}",
+                                                                              style: TextStyle(color: clrYellowText, fontSize: 13),
                                                                             ),
+
+                                                                            // Text(
+                                                                            //   "Up to ${activityData?[index].maxPeople} people | "${activityData?[index].spotLeft} ${activityData?[index].spotLeft > 1 ? 'spots left' : 'spot left'}"
+                                                                            //     style:
+                                                                            //       TextStyle(color: clrYellowText, fontSize: 13),
+                                                                            // ),
                                                                           ],
                                                                         ),
                                                                       ),

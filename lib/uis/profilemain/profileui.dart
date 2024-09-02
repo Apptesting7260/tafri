@@ -142,6 +142,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                       }),
                       SizedBox(
                         height: Get.height * 0.03,
+
                       ),
                       InkWell(
                         onTap: () {

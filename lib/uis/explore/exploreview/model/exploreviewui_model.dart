@@ -39,7 +39,7 @@ class Activity {
   String? endAt;
   int? maxPeople;
   String? gender;
-  int? repeatStatus;
+  String? repeatStatus;
   String? joinInstantly;
   String? status;
   DateTime? createdAt;
