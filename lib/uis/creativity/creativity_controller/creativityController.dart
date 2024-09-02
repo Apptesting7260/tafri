@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -28,6 +29,12 @@ class Creativitycontroller extends GetxController
     getCategory();
     super.onInit();
   }
+
+  List dayList = ['M','T','W','T','F','S','S'];
+  List monthList = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var monthIndex = (-1).obs;
+  var dayIndex = (-1).obs;
+  var groupValue = (-1).obs;
 
   var currentLength = 0.obs;
 
@@ -81,6 +88,12 @@ class Creativitycontroller extends GetxController
     eTimeForAPi.value = '${etime.hour > 12 ? etime.hour - 12 : etime.hour}:${etime.minute} ${etime.period == DayPeriod.am ? "AM" : "PM"}';
   }
 
+  bool checkTime(TimeOfDay stime, TimeOfDay etime) {
+    int startTimeInMinutes = stime.hour * 60 + stime.minute;
+    int endTimeInMinutes = etime.hour * 60 + etime.minute;
+    return endTimeInMinutes > startTimeInMinutes;
+  }
+
   var date = ''.obs;
   var dateForPicker = ''.obs;
   changeDate(DateTime dateTime) {
@@ -121,6 +134,17 @@ class Creativitycontroller extends GetxController
     print(containerList.length);
   }
 
+  void removeContainer(){
+    if(galleryImages.length > 1) {
+      containerList.length--;
+    }
+  }
+
+  var circleIndex = 0.obs;
+  changeIndicator(int currentIndex) {
+    circleIndex.value = currentIndex;
+  }
+
   var loading = false.obs;
 
   String uid = LocalStorage.getUid().toString();
@@ -130,17 +154,34 @@ class Creativitycontroller extends GetxController
   var catData = CategoryModel().obs;
   RxList<DropdownMenuItem<int>> categoryList = <DropdownMenuItem<int>>[].obs;
   RxList<DropdownMenuItem<int>> subcategoryList = <DropdownMenuItem<int>>[].obs;
+  var subcategoryNameList = <Map<String, dynamic>>[].obs;
 
   void getSubCat(int catID){
     subCatID.value = '';
     subcategoryList.clear();
+    subcategoryNameList.clear();
     for(int i = 0; i<catData.value.result!.length;i++){
       if(catData.value.result![i].id == catID){
         catData.value.result![i].subcategories?.forEach((e) {
           subcategoryList.add(DropdownMenuItem(value: e.id,child: Text(e.title.toString())));
+          subcategoryNameList.add({
+            'id':e.id,
+            'title':e.title
+          });
         },);
       }
     }
+  }
+
+  var subCatName = ''.obs;
+
+  void getSubCatName(int subCatID){
+    subCatName.value = '';
+    subcategoryNameList.forEach((element) {
+      if(element['id'] == subCatID){
+        subCatName.value = element['title'];
+      }
+    },);
   }
 
   var catLoading = false.obs;
@@ -174,36 +215,62 @@ class Creativitycontroller extends GetxController
 
   var catID = ''.obs;
   var subCatID = ''.obs;
-  var titleController = TextEditingController();
-  var locController = TextEditingController();
+  var titleController = TextEditingController().obs;
+  var locController = TextEditingController().obs;
   var desController = TextEditingController().obs;
 
+
+  bool isValidImageFormat(File imageFile) {
+    String extension = imageFile.path.split('.').last.toLowerCase();
+    return extension == 'jpg' || extension == 'jpeg' || extension == 'png';
+  }
+
+  bool checkGalleryImagesFormat(List<File> galleryImages) {
+    var isValid = true.obs;
+    for (var image in galleryImages) {
+      if (!isValidImageFormat(image)) {
+        isValid.value = false;
+        return isValid.value;
+      }
+    }
+    return isValid.value;
+  }
 
   Future<void> createActivity() async {
     loading.value = true;
 
     try {
-
+      print("=== ${checkGalleryImagesFormat(galleryImages)}");
       if(!choosePhotoCheck.value && galleryImages.isEmpty) {
-          showTostMsg('Please select Image');
+          showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
+      }else if(!checkGalleryImagesFormat(galleryImages)){
+        showTostMsg('Image should be in .png, .jpg format.',gravity: ToastGravity.CENTER);
       } else if(catID.value.isEmpty){
-        showTostMsg('Please select Category');
+        showTostMsg('Please select Category',gravity: ToastGravity.CENTER);
       }else if(subCatID.value.isEmpty){
-        showTostMsg('Please select SubCategory');
-      }else if(titleController.value.text.isEmpty){
-        showTostMsg('Please Enter title');
+        showTostMsg('Please select SubCategory',gravity: ToastGravity.CENTER);
+      }else if(titleController.value.value.text.isEmpty){
+        showTostMsg('Please Enter title',gravity: ToastGravity.CENTER);
       }else if(desController.value.text.isEmpty){
-        showTostMsg('Please Enter Description');
-      }else if(locController.value.text.isEmpty){
-        showTostMsg('Please Enter Location');
+        showTostMsg('Please Enter Description',gravity: ToastGravity.CENTER);
+      }else if(locController.value.value.text.isEmpty){
+        showTostMsg('Please Enter Location',gravity: ToastGravity.CENTER);
       }else if(date.value.isEmpty){
-        showTostMsg('Please Select date');
+        showTostMsg('Please Select date',gravity: ToastGravity.CENTER);
       }else if(sTimeForApi.value.isEmpty){
-        showTostMsg('Please Select start time');
+        showTostMsg('Please Select start time',gravity: ToastGravity.CENTER);
       }else if(eTimeForAPi.value.isEmpty){
-        showTostMsg('Please Select end time');
+        showTostMsg('Please Select end time',gravity: ToastGravity.CENTER);
+      }else if(!checkTime(TimeOfDay(
+        hour: int.parse(sTime.value.split(":")[0]),
+        minute: int.parse(sTime.value.split(":")[1]),
+      ),TimeOfDay(
+        hour: int.parse(eTime.value.split(":")[0]),
+        minute: int.parse(eTime.value.split(":")[1]),
+      ))){
+        showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
       }else if(groupSize.value < 2){
-        showTostMsg('Please add more people');
+        showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
       }else {
         var url = Uri.parse(EndPoints.createActivity);
         var request = await http.MultipartRequest('POST', url);
@@ -242,9 +309,9 @@ class Creativitycontroller extends GetxController
         request.fields['subcategory_id'] = subCatID.value;
         request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
         request.fields['description'] = desController.value.value.text.trim();
-        request.fields['location'] = locController.value.text.trim();
+        request.fields['location'] = locController.value.value.text.trim();
         request.fields['date'] = date.value;
-        request.fields['name'] = titleController.value.text.trim();
+        request.fields['name'] = titleController.value.value.text.trim();
         request.fields['start_at'] = sTimeForApi.value;
         request.fields['end_at'] = eTimeForAPi.value;
         request.fields['max_people'] = groupSize.value.toString();

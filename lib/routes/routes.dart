@@ -164,7 +164,7 @@ class Routes{
     GetPage(name: switchPlanProUi, page:()=>const SwitchPlanUi(),binding: SwitchplanBindings()),
     GetPage(name: activityVisibilitySettingUi, page:()=>const ActivityVisibility(),binding: ActivityvisibilityBinding()),
     GetPage(name: pushNotiSettingUi, page:()=>const NotificationProUi(),binding: PushnotifisettingBinding()),
-    GetPage(name: createActivityUi, page:()=>const CreateActivityUi(),binding: CreativityBinding()),
+    GetPage(name: createActivityUi, page:()=> CreateActivityUi(),bindings: [CreativityBinding(),ProfilemainBindings()]),
     GetPage(name: mapActivityUi, page:()=>const MapActivityUi(),binding: MapActivityBinding()),
     GetPage(name: filterExploreUi, page:()=> ExploreFilterUi(),binding:FilterExpBinding()),
     GetPage(name: exploreView, page:()=>ExploreViewUi(),binding:ExploreViewBindings()),
