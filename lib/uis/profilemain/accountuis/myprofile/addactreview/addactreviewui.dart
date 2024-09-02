@@ -133,7 +133,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                       SizedBox(
                         height: Get.height * 0.03,
                       ),
-                      Text("Hosted by",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
+                      hostImg!.isEmpty  ? SizedBox() : Text("Hosted by",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
@@ -154,7 +154,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                       //       fit: BoxFit.cover,
                       //     ),
                       // ),
-                      ClipRRect(
+                      hostImg!.isEmpty  ? SizedBox() : ClipRRect(
                         borderRadius:
                         BorderRadius.circular(100),
                         child: CachedNetworkImage(
@@ -199,11 +199,11 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                       SizedBox(
                         height: Get.height * 0.02,
                       ),
-                      Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
+                      goingImg!.isEmpty ? SizedBox() : Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
-                      SizedBox(
+                      goingImg!.isEmpty ? SizedBox() : SizedBox(
                         height: 52,
                         child: ListView.separated(
                             itemCount: goingImg?.length ?? 0,

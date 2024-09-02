@@ -23,7 +23,7 @@ class PreviousActiController extends GetxController{
 
   @override
   void onInit() {
-    // alertActivityCompleted();
+
 
     final args = Get.arguments as Map<String, dynamic>;
 
@@ -31,8 +31,14 @@ class PreviousActiController extends GetxController{
     id = args["id"]?.toString();
     actapi(id);
     showapi(id);
-
     super.onInit();
+  }
+
+
+
+  RxInt selectedTab=1.obs;
+  changeSlectedTab(val){
+    selectedTab.value=val;
   }
 
 
@@ -234,6 +240,10 @@ class PreviousActiController extends GetxController{
         actData.value = ActDataModal.fromJson(response.body);
         if(actData.value.activity?.requestStatus == 'reject'){
           alertRequestNotAccepted();
+        }if(actData.value.activity?.status == 'not_approved'){
+          alertRequestNotAccepted();
+        }else if(actData.value.activity?.status == 'pending'){
+          alertActivitypending();
         }
       }else{
         print('error == ${response.body}');
@@ -277,9 +287,7 @@ class PreviousActiController extends GetxController{
         showError.value = '';
         print('home data == ${response.body}');
         showreviewData.value = ShowReviewModel.fromJson(response.body);
-        if(actData.value.activity?.requestStatus == 'reject'){
-          alertRequestNotAccepted();
-        }
+
       }else{
         print('error == ${response.body}');
         showError.value = 'ERROR';
@@ -611,4 +619,61 @@ class PreviousActiController extends GetxController{
       ));
     });
   }
+
+
+  alertActivitypending() {
+    Future.delayed(Duration.zero,(){
+      return Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height:Get.height*.007,
+              ),
+              InkWell(onTap: (){Get.back();},child: const Icon(Icons.close)),
+              Center(child: Image.asset("assets/icons/congratesicon.png",height: 65,)),
+              SizedBox(
+                height: Get.height*.02,
+              ),
+              const Center(
+                child:  Text(
+                  "Activity pending review",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+
+              SizedBox(
+                height: Get.height*.014,
+              ),
+              Center(child: Padding(
+                padding:  EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text("Your activity is being reviewed for compliance with our community guidelines. You will be notified once it is approved.",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,),
+              )),
+              SizedBox(
+                height: Get.height*.024,
+              ),
+              SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
+                Get.back();
+                Get.to((){
+                  // return AddActReviewUi();
+                });
+              }, backgroundClr: clrBlacke, child: Text("View Activity",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+              SizedBox(
+                height: Get.height*.014,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
+
+
 }

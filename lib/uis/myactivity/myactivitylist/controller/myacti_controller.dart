@@ -62,7 +62,7 @@ class MyactiController extends GetxController with GetTickerProviderStateMixin{
       'Authorization': 'Bearer $token'
     };
     try{
-      final response = await api.get('${EndPoints.hostingUrl}$uid',headers: header);
+      final response = await api.get('${EndPoints.hostingUrl}1',headers: header);
       if(response.statusCode == 200){
         hostingError.value = '';
         hostingData.value = HostingActivityModel.fromJson(response.body);

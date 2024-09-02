@@ -174,7 +174,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                     child: InkWell(
                                                                       onTap: () {
                                                                         Get.toNamed(
-                                                                            Routes.upcommingUserActiUi,
+                                                                            Routes.exploreView,
                                                                             arguments: data?.activities?[ind].id.toString()
                                                                         );
                                                                       },
@@ -754,8 +754,19 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                         borderRadius: BorderRadius.circular(5),
                                                                                       ),
                                                                                       child: CachedNetworkImage(
-                                                                                        imageUrl: '${data?.activities?[ind].banners?[0]}',
+                                                                                        imageUrl: '${data?.activities?[ind].featureImg}',
                                                                                         fit: BoxFit.cover,
+                                                                                        errorWidget: (context, url, error) => Container(
+                                                                                          height: 40,
+                                                                                          width: 40,
+                                                                                          padding: const EdgeInsets.all(10),
+                                                                                          decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                                                                          child: Image.asset(
+                                                                                            "assets/icons/manicon.png",
+                                                                                            color: clrGrey,
+                                                                                            fit: BoxFit.cover,
+                                                                                          ),
+                                                                                        ),
                                                                                         placeholder: (context, url) => Shimmer.fromColors(
                                                                                             baseColor: grey300,
                                                                                             highlightColor: grey100,

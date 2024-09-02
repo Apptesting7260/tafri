@@ -46,7 +46,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                 SizedBox(
                 height: h*.012,
               ),
-              Row(
+              Obx(() => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // InkWell(
@@ -66,8 +66,19 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                   //   ),
                   // ),
                   CommonUi.appBar(),
-                  Expanded(child: Center(child: Text("Activity",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),))),
-                  Row(
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                            "Activity",
+                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
+                          )
+                      )
+                  ),
+                  controller.actData.value.activity?.status == 'pending' ?  InkWell(
+                    onTap: () {
+                    },
+                    child: Image.asset("assets/icons/edits.png",height: 34,width: 34,),
+                  ) : Row(
                     children: [
                       InkWell(
                         onTap: () {
@@ -130,6 +141,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                     ],
                   ),
                 ],
+              ),
               ),
               SizedBox(
                 height: Get.height*0.025,
@@ -550,6 +562,266 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       //     ) ;
                       //   }),
                       // ),
+
+                      SizedBox(
+                        height: Get.height * 0.04,
+                      ),
+                      controller.actData.value.activity?.status == 'approved' ? Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
+                          : controller.actData.value.activity?.status == 'pending' ? SizedBox(
+                          width: double.maxFinite,
+                          height: Res.h_btn,
+                          child: CustomElevatedButton(
+                              onTap: () {},
+                              backgroundClr: clrGrey,
+                              child: Text(
+                                "Pending content review",
+                                style: TextStyle(
+                                    color: clrWhite,
+                                    fontSize: 16,
+                                    fontWeight:
+                                    FontWeight.w700),
+                              ))) : SizedBox(),
+                      controller.actData.value.activity?.status == 'approved' ? SizedBox(
+                        height: 10,
+                      ) : SizedBox(),
+
+                      // controller.actData.value.activity?.status == 'approved' ? Divider() : SizedBox(),
+
+                      controller.actData.value.activity?.status == 'approved' ?  SizedBox(
+                          width: double.maxFinite,
+                          height: Res.h_btn,
+                          child: CustomElevatedButton(
+                              onTap: () {},
+                              backgroundClr: clrBlacke,
+                              child: Text(
+                                "Message Group",
+                                style: TextStyle(
+                                    color: clrWhite,
+                                    fontSize: 16,
+                                    fontWeight:
+                                    FontWeight.w700),
+                              )
+                          )
+                      ) : SizedBox(),
+
+                      controller.actData.value.activity?.status == 'approved' ? SizedBox(
+                        height: 10,
+                      ) : SizedBox(),
+
+
+                      controller.actData.value.activity?.status == 'completed' ?  Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),) : SizedBox(),
+                      controller.actData.value.activity?.status == 'completed' ?SizedBox(
+                        height: Get.height * 0.01,
+                      ) : SizedBox(),
+                      controller.actData.value.activity?.status == 'completed' ?  SizedBox(
+                        height: 52,
+                        child: ListView.separated(
+                          itemCount: 4,
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemBuilder: (context,index){
+                            // return ClipRRect(
+                            //   borderRadius:
+                            //   BorderRadius.circular(100),
+                            //   child: CachedNetworkImage(
+                            //     height: 52,
+                            //     width: 52,
+                            //     fit: BoxFit.cover,
+                            //     imageUrl:
+                            //     profilePhoto.toString(),
+                            //     errorWidget:
+                            //         (context, url, error) =>
+                            //         Container(
+                            //           height: 52,
+                            //           width: 52,
+                            //           padding:
+                            //           const EdgeInsets.all(10),
+                            //           decoration: BoxDecoration(
+                            //               color: clrGreyLight,
+                            //               shape: BoxShape.circle),
+                            //           child: Image.asset(
+                            //             "assets/icons/manicon.png",
+                            //             color: clrGrey,
+                            //             fit: BoxFit.cover,
+                            //             scale: 1.2,
+                            //           ),
+                            //         ),
+                            //     placeholder: (context, url) =>
+                            //         Shimmer.fromColors(
+                            //           baseColor: grey300,
+                            //           highlightColor: grey100,
+                            //           child: Container(
+                            //             height: 52,
+                            //             width: 52,
+                            //             decoration: BoxDecoration(
+                            //               color: grey300,
+                            //               borderRadius:
+                            //               BorderRadius.circular(
+                            //                   18),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //   ),
+                            // );
+                            return Container();
+                          }, separatorBuilder: (BuildContext context, int index) {return SizedBox(width: 10,); },),
+                      ) : SizedBox() ,
+
+                      controller.showreviewData.value.result == null ? SizedBox() : Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+                      controller.showreviewData.value.result == null ? SizedBox() : SizedBox(
+                        height: Get.height*0.01,
+                      ),
+                      controller.showreviewData.value.result == null ? SizedBox() : ListView.separated(
+                        itemCount: controller.showreviewData.value.result?.length ?? 0,
+                        shrinkWrap: true,
+                        physics:
+                        const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin:
+                            const EdgeInsets.only(bottom: 20),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    // Container(
+                                    //   margin:
+                                    //   const EdgeInsets.only(right: 5),
+                                    //   clipBehavior: Clip.hardEdge,
+                                    //   height: h * .055,
+                                    //   width: h * .055,
+                                    //   decoration: BoxDecoration(
+                                    //     borderRadius: BorderRadius.circular(100),
+                                    //   ),
+                                    //   child: Image.asset(
+                                    //     "assets/images/cofee.png",
+                                    //     fit: BoxFit.cover,
+                                    //   ),
+                                    // ),
+                                    ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(100),
+                                      child:
+                                      CachedNetworkImage(
+                                        height: 40,
+                                        width: 40,
+                                        fit: BoxFit.cover,
+                                        imageUrl: '${controller.showreviewData.value.result?[index].profilePhoto}',
+                                        errorWidget: (context, url, error) => Container(
+                                          height: 40,
+                                          width: 40,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            "assets/icons/manicon.png",
+                                            color: clrGrey,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        placeholder: (context, url) => Shimmer.fromColors(
+                                          baseColor: grey300,
+                                          highlightColor: grey100,
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              color: grey300,
+                                              borderRadius: BorderRadius.circular(18),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          '${controller.showreviewData.value.result?[index].firstName}  ${controller.showreviewData.value.result?[index].lastName}',
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.w600,
+                                              fontSize: 16),
+                                        ),
+                                        RatingBar(
+                                          // tapOnlyMode:true
+                                          ignoreGestures: true,
+                                          initialRating: 4.5,
+                                          allowHalfRating: true,
+                                          itemSize: 20,
+                                          ratingWidget:
+                                          RatingWidget(
+                                            full: Icon(
+                                              Icons.star,
+                                              color: clrYellow,
+                                              size: 20,
+                                            ),
+                                            half: Stack(
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.grey.shade400, // Light grey for the right side
+                                                  size: 20,
+                                                ),
+                                                ClipRect(
+                                                  child: Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    widthFactor: 0.5, // Clip the star to show only the left half
+                                                    child: Icon(
+                                                      Icons.star,
+                                                      color: clrYellow, // Yellow for the left side
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            empty: Icon(
+                                              Icons.star_border,
+                                              color: clrYellow,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          onRatingUpdate:
+                                              (rating) {
+                                            print(rating);
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10,),
+                                Text(
+                                  // "Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                  '${controller.showreviewData.value.result?[index].review}',
+                                  style: TextStyle(
+                                      color: clrGreyTextLight,fontSize: 14,fontWeight: FontWeight.w400),
+                                )
+                              ],
+                            ),
+                          );
+                        }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },),
+
+
+                      SizedBox(
+                        height: 10,
+                      ),
+                      controller.actData.value.activity?.status == 'completed' ?  SizedBox() :  Center(child: InkWell(
+                          onTap: (){
+                            alertDeleteActivity();
+                          }
+                          ,child: const Text("Delete activity",style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.w600),))
+                      ),
+
+
+
                       controller.actData.value.going!.isEmpty
                           ? SizedBox()
                           : Text(
@@ -634,7 +906,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: Get.height*0.03,
                       ),
-                      controller.actData.value.activity?.status == 'completed' ? SizedBox(
+                      (controller.actData.value.activity?.status == 'completed' && controller.isHost == false) ? SizedBox(
                           width: double.maxFinite,
                           height: Res.h_btn,
                           child: CustomElevatedButton(
@@ -661,147 +933,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: Get.height * 0.03,
                       ),
-                      controller.showreviewData.value.result == null ? SizedBox() : Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                      SizedBox(
-                        height: Get.height*0.01,
-                      ),
-                      ListView.separated(
-                          itemCount: controller.showreviewData.value.result?.length ?? 0,
-                          shrinkWrap: true,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin:
-                              const EdgeInsets.only(bottom: 20),
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      // Container(
-                                      //   margin:
-                                      //   const EdgeInsets.only(right: 5),
-                                      //   clipBehavior: Clip.hardEdge,
-                                      //   height: h * .055,
-                                      //   width: h * .055,
-                                      //   decoration: BoxDecoration(
-                                      //     borderRadius: BorderRadius.circular(100),
-                                      //   ),
-                                      //   child: Image.asset(
-                                      //     "assets/images/cofee.png",
-                                      //     fit: BoxFit.cover,
-                                      //   ),
-                                      // ),
-                                      ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.circular(100),
-                                        child:
-                                        CachedNetworkImage(
-                                          height: 40,
-                                          width: 40,
-                                          fit: BoxFit.cover,
-                                          imageUrl: '${controller.showreviewData.value.result?[index].profilePhoto}',
-                                          errorWidget: (context, url, error) => Container(
-                                            height: 40,
-                                            width: 40,
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
-                                            child: Image.asset(
-                                              "assets/icons/manicon.png",
-                                              color: clrGrey,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          placeholder: (context, url) => Shimmer.fromColors(
-                                            baseColor: grey300,
-                                            highlightColor: grey100,
-                                            child: Container(
-                                              height: 40,
-                                              width: 40,
-                                              decoration: BoxDecoration(
-                                                color: grey300,
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment
-                                            .start,
-                                        children: [
-                                          Text(
-                                            '${controller.showreviewData.value.result?[index].firstName}  ${controller.showreviewData.value.result?[index].lastName}',
-                                            style: TextStyle(
-                                                fontWeight:
-                                                FontWeight.w600,
-                                                fontSize: 16),
-                                          ),
-                                          RatingBar(
-                                            // tapOnlyMode:true
-                                            ignoreGestures: true,
-                                            initialRating: 4.5,
-                                            allowHalfRating: true,
-                                            itemSize: 20,
-                                            ratingWidget:
-                                            RatingWidget(
-                                              full: Icon(
-                                                Icons.star,
-                                                color: clrYellow,
-                                                size: 20,
-                                              ),
-                                              half: Stack(
-                                                children: [
-                                                  Icon(
-                                                    Icons.star,
-                                                    color: Colors.grey.shade400, // Light grey for the right side
-                                                    size: 20,
-                                                  ),
-                                                  ClipRect(
-                                                    child: Align(
-                                                      alignment: Alignment.centerLeft,
-                                                      widthFactor: 0.5, // Clip the star to show only the left half
-                                                      child: Icon(
-                                                        Icons.star,
-                                                        color: clrYellow, // Yellow for the left side
-                                                        size: 20,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              empty: Icon(
-                                                Icons.star_border,
-                                                color: clrYellow,
-                                                size: 20,
-                                              ),
-                                            ),
-                                            onRatingUpdate:
-                                                (rating) {
-                                              print(rating);
-                                              },
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 10,),
-                                  Text(
-                                    // "Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                  '${controller.showreviewData.value.result?[index].review}',
-                                    style: TextStyle(
-                                        color: clrGreyTextLight,fontSize: 14,fontWeight: FontWeight.w400),
-                                  )
-                                ],
-                              ),
-                            );
-                          }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },)
+
                     ],
                   ),
                 ),
@@ -1259,6 +1391,232 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
     });
   }
 
+  alertDeleteActivity() {
+    Future.delayed(Duration.zero,(){
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child:  Text(
+                  "Are you sure?",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+
+              SizedBox(
+                height: Get.height*.012,
+              ),
+              Center(child: Text("Are you sure you want to delete this activity?",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,)),
+
+
+              SizedBox(
+                height:Get.height*.024,
+              ),
+              Row(
+                  children: [
+                    Expanded(child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Go back",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
+                        Get.back();
+                        // alertCancelRequestConfirmation();
+                      }, backgroundClr:Get.theme.scaffoldBackgroundColor),
+                    )),
+                    SizedBox(
+                      width: Get.width*0.05,
+                    ),
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
+                      Get.back();
+                      alertConfirmCancelActivityFees();
+                    }, backgroundClr: clrBlacke, child: Text("Delete",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
+                  ]
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
+
+  alertConfirmCancelActivityFees() {
+    Future.delayed(Duration.zero,(){
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child:  Text(
+                  "Confirm cancellation",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+
+              SizedBox(
+                height:Get.height*.013,
+              ),
+              Center(child: Text("Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,)),
+
+
+              SizedBox(
+                height: Get.height*.025,
+              ),
+              Row(
+                  children: [
+                    Expanded(child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Yes, cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
+                        Get.back();
+                        alertConfCancelActiAttendies();
+                      }, backgroundClr:Get.theme.scaffoldBackgroundColor),
+                    )),
+                    SizedBox(
+                      width: Get.width*0.05,
+                    ),
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
+                      Get.back();
+                    }, backgroundClr: clrBlacke, child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
+
+
+                  ]
+              ),
+              SizedBox(
+                height: Get.width*0.015,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
+  alertConfCancelActiAttendies() {
+    Future.delayed(Duration.zero,(){
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child:  Text(
+                  "Confirm cancellation",
+                  style: TextStyle(fontSize: 20
+                      , fontWeight: FontWeight.w700),textAlign: TextAlign.center,
+                ),
+              ),
+
+              SizedBox(
+                height: Get.width*0.013,
+              ),
+              Center(child: Text("There are already attendees joining your activity. Are you sure you want to cancel?",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,)),
+
+
+              SizedBox(
+                height: Get.width*0.025,
+              ),
+              Row(
+                  children: [
+                    Expanded(child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Yes, cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
+                        Get.back();
+                        alertConfirmCancelActivity();
+                      }, backgroundClr: Get.theme.scaffoldBackgroundColor),
+                    )),
+                    SizedBox(
+                      width: Get.width*0.05,
+                    ),
+                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
+                      Get.back();
+                    }, backgroundClr: clrBlacke, child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
+                  ]
+              ),
+              SizedBox(
+                height: Get.width*0.014,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
+  alertConfirmCancelActivity() {
+    Future.delayed(Duration.zero,(){
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child:  Text(
+                  "Confirm cancellation",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+              Center(child: Text("Are you sure you want to cancel?",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,)),
+
+
+              SizedBox(
+                height: Get.height*0.025,
+              ),
+              Row(
+                  children: [
+                    Expanded(child: SizedBox(
+                      height:Res.h_btn,
+                      child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Yes, cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
+                        Get.back();
+                        // alertCancelRequestConfirmation();
+                      }, backgroundClr:Get.theme.scaffoldBackgroundColor),
+                    )),
+                    SizedBox(
+                      width: Get.width*0.05,
+                    ),
+                    Expanded(child: SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
+                      Get.back();
+                    }, backgroundClr: clrBlacke, child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
+
+
+                  ]
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
 
 
 }
