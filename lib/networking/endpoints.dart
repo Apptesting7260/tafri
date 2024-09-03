@@ -47,4 +47,10 @@ class EndPoints{
   static String addactreview = '${baseUrl}add-activity-review';
   static String createActivity = '${baseUrl}create-activity';
 
+
+  static String acceptuser = '${baseUrl}request-to-accept-activity';
+  static String rejectuser = '${baseUrl}request-to-reject-activity';
+  static String removeuser = '${baseUrl}request-to-remove-going-member-activity';
+  static String deleteact = '${baseUrl}delete-activity/';
+
 }

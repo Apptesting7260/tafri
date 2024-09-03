@@ -4,23 +4,27 @@ class ActDataModal {
   bool? status;
   Activity? activity;
   List<Going>? going;
+  List<Request>? requests;
 
   ActDataModal({
     this.status,
     this.activity,
     this.going,
+    this.requests,
   });
 
   factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
     status: json["status"],
     activity: json["activity"] == null ? null : Activity.fromJson(json["activity"]),
     going: json["going"] == null ? [] : List<Going>.from(json["going"]!.map((x) => Going.fromJson(x))),
+    requests: json["requests"] == null ? [] : List<Request>.from(json["requests"]!.map((x) => Request.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "activity": activity?.toJson(),
     "going": going == null ? [] : List<dynamic>.from(going!.map((x) => x.toJson())),
+    "requests": requests == null ? [] : List<dynamic>.from(requests!.map((x) => x.toJson())),
   };
 }
 
@@ -154,19 +158,55 @@ class Activity {
 class Going {
   int? userId;
   String? profilePhoto;
+  String? firstName;
+  String? lastName;
 
   Going({
     this.userId,
     this.profilePhoto,
+    this.firstName,
+    this.lastName,
   });
 
   factory Going.fromJson(Map<String, dynamic> json) => Going(
     userId: json["user_id"],
     profilePhoto: json["profile_photo"],
+    firstName: json["first_name"],
+    lastName: json["last_name"],
   );
 
   Map<String, dynamic> toJson() => {
     "user_id": userId,
     "profile_photo": profilePhoto,
+    "first_name": firstName,
+    "last_name": lastName,
+  };
+}
+
+class Request {
+  int? userId;
+  String? profilePhoto;
+  String? firstName;
+  String? lastName;
+
+  Request({
+    this.userId,
+    this.profilePhoto,
+    this.firstName,
+    this.lastName,
+  });
+
+  factory Request.fromJson(Map<String, dynamic> json) => Request(
+    userId: json["user_id"],
+    profilePhoto: json["profile_photo"],
+    firstName: json["first_name"],
+    lastName: json["last_name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "user_id": userId,
+    "profile_photo": profilePhoto,
+    "first_name": firstName,
+    "last_name": lastName,
   };
 }

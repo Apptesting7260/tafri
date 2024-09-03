@@ -589,7 +589,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                 child:
                                                                                 CachedNetworkImage(
                                                                                   imageUrl:
-                                                                                  '${data?.activities?[ind].banners?[0]}',
+                                                                                  '${data?.activities?[ind].featureImg}',
                                                                                   fit: BoxFit
                                                                                       .cover,
                                                                                   placeholder: (context, url) => Shimmer.fromColors(

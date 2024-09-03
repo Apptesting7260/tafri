@@ -620,7 +620,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                             .spaceBetween,
                                                                     crossAxisAlignment:
                                                                         CrossAxisAlignment
-                                                                            .end,
+                                                                            .center,
                                                                     children: [
                                                                       Flexible(
                                                                         child:

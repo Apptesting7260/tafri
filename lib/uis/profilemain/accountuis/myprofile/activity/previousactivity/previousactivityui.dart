@@ -391,7 +391,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Flexible(
                             child: Column(
@@ -1595,15 +1595,20 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       height:Res.h_btn,
                       child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Yes, cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
                         Get.back();
+                        controller.deleteactapi(controller.actData.value.activity?.id.toString());
                         // alertCancelRequestConfirmation();
                       }, backgroundClr:Get.theme.scaffoldBackgroundColor),
                     )),
                     SizedBox(
                       width: Get.width*0.05,
                     ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height:Res.h_btn,child: CustomElevatedButton(onTap: (){
-                      Get.back();
-                    }, backgroundClr: clrBlacke, child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
+                    Expanded(child: SizedBox(width: double.maxFinite,height:Res.h_btn,
+                        child: CustomElevatedButton(
+                            onTap: (){
+                              Get.back();
+                              },
+                            backgroundClr: clrBlacke,
+                            child: Text("Go back",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
 
 
                   ]

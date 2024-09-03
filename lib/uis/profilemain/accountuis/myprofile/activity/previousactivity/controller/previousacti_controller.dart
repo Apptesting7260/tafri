@@ -13,6 +13,7 @@ import '../../../../../../components/custoelevatedbtn.dart';
 import '../../../../../../components/custotextfield.dart';
 import '../../../../../../explore/exploreview/model/exploreviewui_model.dart';
 import '../../../../../../explore/exploreview/model/requestmodel.dart';
+import '../../../../../../myactivity/myactivitylist/controller/myacti_controller.dart';
 import '../../../addactreview/addactreviewui.dart';
 import '../model/showreviewmodel.dart';
 
@@ -32,6 +33,48 @@ class PreviousActiController extends GetxController{
     actapi(id);
     showapi(id);
     super.onInit();
+  }
+
+
+  final MyactiController myactiController = Get.find<MyactiController>();
+
+  var delLoading = false.obs;
+  var delData = ActDataModal().obs;
+  var delError = ''.obs;
+
+  Future<void> deleteactapi(String? id) async{
+
+
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    delLoading.value = true;
+
+    try{
+      final response = await api.delete('${EndPoints.deleteact}$id' , headers: header);
+      if(response.statusCode == 200){
+        delError.value = '';
+        print('home data == ${response.body}');
+        delData.value = ActDataModal.fromJson(response.body);
+        Get.back();
+        showTostMsg('Your activity has been deleted');
+        myactiController.attendingActivity();
+        myactiController.hostingActivity();
+
+      }else{
+        print('error == ${response.body}');
+        delError.value = 'ERROR';
+        showTostMsg('there has been some error try again');
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+      delError.value = e.toString();
+    }
+
+    delLoading.value = false;
+
   }
 
 
