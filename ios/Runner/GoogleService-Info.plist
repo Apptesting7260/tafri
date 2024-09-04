@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>396232712466-5am1kdm3jste33v4tah0nniick709dd7.apps.googleusercontent.com</string>
+	<string>396232712466-epp9v5qag8d2r0vq8hqs2sj4qq7svfni.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.396232712466-5am1kdm3jste33v4tah0nniick709dd7</string>
+	<string>com.googleusercontent.apps.396232712466-epp9v5qag8d2r0vq8hqs2sj4qq7svfni</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>396232712466-c5ao39sl2lh0a5pui1539dg2kdkna5ml.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,22 +15,22 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.plusone</string>
+	<string>com.example.plusones</string>
 	<key>PROJECT_ID</key>
 	<string>plusones-28b9f</string>
 	<key>STORAGE_BUCKET</key>
 	<string>plusones-28b9f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:396232712466:ios:a7d2ee3743d8aae9cd53cb</string>
+	<string>1:396232712466:ios:94b6b60828824257cd53cb</string>
 </dict>
 </plist>

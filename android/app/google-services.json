@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:396232712466:android:ab306fc1cb994f1ccd53cb",
+        "mobilesdk_app_id": "1:396232712466:android:dc6facfeb7e7d2e9cd53cb",
         "android_client_info": {
-          "package_name": "com.example.plusone"
+          "package_name": "com.example.plusones"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "396232712466-c5ao39sl2lh0a5pui1539dg2kdkna5ml.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.plusone",
-            "certificate_hash": "c62f766bc136fcf202e96dba7358261fff21b4e6"
-          }
-        },
         {
           "client_id": "396232712466-rliafup7t2c6p4a8ruspc8qrjogf0b59.apps.googleusercontent.com",
           "client_type": 3
@@ -42,7 +34,7 @@
               "client_id": "396232712466-5am1kdm3jste33v4tah0nniick709dd7.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.plusone"
+                "bundle_id": "com.example.plusones"
               }
             }
           ]
