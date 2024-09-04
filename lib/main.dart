@@ -18,14 +18,14 @@ Future<void> main() async {
       await Firebase.initializeApp(
           options: const FirebaseOptions(
               apiKey: 'AIzaSyAeb1sP2mDZj5suUJWIZ-WNpKg-fjBfNic',
-              appId: '1:396232712466:android:ab306fc1cb994f1ccd53cb',
+              appId: '1:396232712466:android:dc6facfeb7e7d2e9cd53cb',
               messagingSenderId: '396232712466',
               projectId: 'plusones-28b9f')
       );
     }else{
       await Firebase.initializeApp(
-        options: const FirebaseOptions(apiKey: 'AIzaSyAeb1sP2mDZj5suUJWIZ-WNpKg-fjBfNic',
-         appId: '1:396232712466:ios:a7d2ee3743d8aae9cd53cb',
+        options: const FirebaseOptions(apiKey: 'AIzaSyASa_0oM2J4ORmJZB5wln3qPv9OmOj6qWA',
+         appId: '1:396232712466:ios:94b6b60828824257cd53cb',
           messagingSenderId: '396232712466',
            projectId: 'plusones-28b9f')
       );
