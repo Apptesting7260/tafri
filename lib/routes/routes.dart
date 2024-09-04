@@ -176,7 +176,7 @@ class Routes{
     GetPage(name: previousActivityUi, page:()=>   PreviousActivityUi(),binding:PreviousActiBindings()),
     GetPage(name: attendList, page:()=>  const AttendListUi(),binding:AttendlistBinding()),
     GetPage(name: hostUpcommingActiview, page:()=>  HostUpcomActivityViewUi(),binding:HostUpcommiActiBindings()),
-    GetPage(name: attendReviewUi, page:()=> const AttendanceReviewUi(),binding:AttendReviewBinding()),
+    GetPage(name: attendReviewUi, page:()=>  AttendanceReviewUi(),binding:AttendReviewBinding()),
     GetPage(name: addReviewUi, page:()=>  AddActReviewUi(),binding:AddactreviewBinding()),
   ];
 }

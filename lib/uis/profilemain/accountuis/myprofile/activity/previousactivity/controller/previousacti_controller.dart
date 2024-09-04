@@ -15,6 +15,7 @@ import '../../../../../../explore/exploreview/model/exploreviewui_model.dart';
 import '../../../../../../explore/exploreview/model/requestmodel.dart';
 import '../../../../../../myactivity/myactivitylist/controller/myacti_controller.dart';
 import '../../../addactreview/addactreviewui.dart';
+import '../../attendlist/model/attendlist_model.dart';
 import '../model/showreviewmodel.dart';
 
 class PreviousActiController extends GetxController{
@@ -32,6 +33,7 @@ class PreviousActiController extends GetxController{
     id = args["id"]?.toString();
     actapi(id);
     showapi(id);
+    attlistapi(id);
     super.onInit();
   }
 
@@ -263,7 +265,7 @@ class PreviousActiController extends GetxController{
 
 
     Map body = {
-      'id': id,
+      'id': 13,
       'user_id': LocalStorage.getUid()
     };
 
@@ -300,6 +302,49 @@ class PreviousActiController extends GetxController{
     activitypage.value = false;
 
   }
+
+
+
+  var attLoading = false.obs;
+  var attData = AttendancelistModel().obs;
+  var attError = ''.obs;
+
+  Future<void> attlistapi(String? actid) async{
+
+    Map body = {
+      'activity_id': actid,
+      // 'user_id': LocalStorage.getUid()
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    attLoading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.attlist, body, headers: header);
+      if(response.statusCode == 200){
+        attError.value = '';
+        print('home data == ${response.body}');
+        attData.value = AttendancelistModel.fromJson(response.body);
+      }else{
+        print('error == ${response.body}');
+        attError.value = 'ERROR';
+      }
+    }catch(e){
+      print('home api error == ${e.toString()}');
+      attError.value = e.toString();
+    }
+
+    attLoading.value = false;
+
+  }
+
+
+
 
 
 

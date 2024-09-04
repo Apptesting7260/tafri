@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../../utils/colors.dart';
+import 'controller/attendlist_controller.dart';
 
-class AttendListUi extends GetWidget{
+class AttendListUi extends GetWidget<AttendlistController>{
   const AttendListUi({super.key});
 
   @override

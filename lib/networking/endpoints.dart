@@ -53,4 +53,8 @@ class EndPoints{
   static String removeuser = '${baseUrl}request-to-remove-going-member-activity';
   static String deleteact = '${baseUrl}delete-activity/';
 
+
+  static String attlist = '${baseUrl}attendance-list';
+  static String attconfirm = '${baseUrl}confirm-attendance';
+
 }

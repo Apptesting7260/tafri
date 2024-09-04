@@ -5,12 +5,14 @@ class ActDataModal {
   Activity? activity;
   List<Going>? going;
   List<Request>? requests;
+  bool? markAttendance;
 
   ActDataModal({
     this.status,
     this.activity,
     this.going,
     this.requests,
+    this.markAttendance,
   });
 
   factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
@@ -18,6 +20,7 @@ class ActDataModal {
     activity: json["activity"] == null ? null : Activity.fromJson(json["activity"]),
     going: json["going"] == null ? [] : List<Going>.from(json["going"]!.map((x) => Going.fromJson(x))),
     requests: json["requests"] == null ? [] : List<Request>.from(json["requests"]!.map((x) => Request.fromJson(x))),
+    markAttendance: json["mark_attendance"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +28,7 @@ class ActDataModal {
     "activity": activity?.toJson(),
     "going": going == null ? [] : List<dynamic>.from(going!.map((x) => x.toJson())),
     "requests": requests == null ? [] : List<dynamic>.from(requests!.map((x) => x.toJson())),
+    "mark_attendance": markAttendance,
   };
 }
 
@@ -160,12 +164,14 @@ class Going {
   String? profilePhoto;
   String? firstName;
   String? lastName;
+  bool? userAttendance;
 
   Going({
     this.userId,
     this.profilePhoto,
     this.firstName,
     this.lastName,
+    this.userAttendance,
   });
 
   factory Going.fromJson(Map<String, dynamic> json) => Going(
@@ -173,6 +179,7 @@ class Going {
     profilePhoto: json["profile_photo"],
     firstName: json["first_name"],
     lastName: json["last_name"],
+    userAttendance: json["user_attendance"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -180,6 +187,7 @@ class Going {
     "profile_photo": profilePhoto,
     "first_name": firstName,
     "last_name": lastName,
+    "user_attendance": userAttendance,
   };
 }
 

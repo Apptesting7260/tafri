@@ -1,48 +1,80 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../../utils/colors.dart';
+import '../../../../../../utils/common.dart';
 import '../../../../../components/custoelevatedbtn.dart';
 import '../../../../../components/custofilterbtn.dart';
+import '../../activity/previousactivity/controller/previousacti_controller.dart';
+import 'controller/attend_review_controller.dart';
 
-class AttendanceReviewUi extends GetWidget{
-  const AttendanceReviewUi({super.key});
+class AttendanceReviewUi extends GetWidget<AttendReviewController>{
+   AttendanceReviewUi({super.key});
+
+  final PreviousActiController pcontroller = Get.find<PreviousActiController>();
 
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
     var w=Get.width;
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        leadingWidth: 55,
-        leading: InkWell(
-          onTap: () {
-            Get.back();
-          },
-          child: Container(
-            margin: EdgeInsets.only(left: 13, bottom: 7, top: 7),
-            clipBehavior: Clip.hardEdge,
-            width: h*.04,
-            height: h*.04,
-            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 0),
-            decoration: BoxDecoration(
-                color: clrGreyLight, borderRadius: BorderRadius.circular(10)),
-            child: const Center(child: Icon(Icons.arrow_back_ios)),
-          ),
-        ),
-        centerTitle: true,
-        title: Text(
-          "Attendance review",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-        ),
-      ),
+      // appBar: AppBar(
+      //   scrolledUnderElevation: 0,
+      //   leadingWidth: 55,
+      //   leading: InkWell(
+      //     onTap: () {
+      //       Get.back();
+      //     },
+      //     child: Container(
+      //       margin: EdgeInsets.only(left: 13, bottom: 7, top: 7),
+      //       clipBehavior: Clip.hardEdge,
+      //       width: h*.04,
+      //       height: h*.04,
+      //       padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 0),
+      //       decoration: BoxDecoration(
+      //           color: clrGreyLight, borderRadius: BorderRadius.circular(10)),
+      //       child: const Center(child: Icon(Icons.arrow_back_ios)),
+      //     ),
+      //   ),
+      //   centerTitle: true,
+      //   title: Text(
+      //     "Attendance review",
+      //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+      //   ),
+      // ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13),
+        padding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 35,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CommonUi.appBar(
+                    onTap: () async{
+                      Get.back();
+                      await pcontroller.actapi(controller.actid);
+                    },
+                  ),
+                  const Text(
+                    "Attendance review",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 20),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Text(
                 "Please tell us who attended your activity.",
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
@@ -56,7 +88,7 @@ class AttendanceReviewUi extends GetWidget{
               ),
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 3,
+                  itemCount: controller.goinglist?.length,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Container(
@@ -70,28 +102,135 @@ class AttendanceReviewUi extends GetWidget{
                               Flexible(
                                 child: Row(
                                   children: [
-                                    Container(
-                                        height: h*.05,
-                                        width: h*.05,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(100)),
-                                        child: Image.asset(
-                                          "assets/images/girldp.png",
-                                          fit: BoxFit.cover,
-                                        )),
+                                    // Container(
+                                    //     height: h*.05,
+                                    //     width: h*.05,
+                                    //     decoration: BoxDecoration(
+                                    //         borderRadius:
+                                    //         BorderRadius.circular(100)),
+                                    //     child: Image.asset(
+                                    //       "assets/images/girldp.png",
+                                    //       fit: BoxFit.cover,
+                                    //     )),
+                                    Center(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(100),
+                                        child: CachedNetworkImage(
+                                            imageUrl:
+                                            '${controller.goinglist![index].profilePhoto}',
+                                            fit: BoxFit.cover,
+                                            height: 46,
+                                            width: 46,
+                                            placeholder: (context, url) => Shimmer.fromColors(
+                                                baseColor: Colors.grey.shade300,
+                                                highlightColor: Colors.grey.shade100,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(100),
+                                                  child: Container(
+                                                    height: 46,
+                                                    width:46,
+                                                    color: clrGrey,
+                                                  ),
+                                                )),
+                                            errorWidget: (context, url, error) {
+                                              print('error == $error');
+                                              return ClipRRect(
+                                                borderRadius: BorderRadius.circular(100),
+                                                child: Container(
+                                                  height: 46,
+                                                  width:46,
+                                                  color: clrGreyLight,
+                                                  child: Image.asset(
+                                                    'assets/icons/manicon.png',
+                                                    color: clrGrey,
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                      ),
+                                    ),
                                     SizedBox(
                                       width: Get.width * 0.02,
                                     ),
-                                    Flexible(child: Text("Isabelle Wilson",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),))
+                                    Flexible(
+                                        child: Text(
+                                         '${ controller.goinglist![index].firstName.toString()} ${ controller.goinglist![index].lastName.toString()}',
+                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),
+                                        )
+                                    )
                                   ],
                                 ),
                               ),
-                              Row(
+                              controller.goinglist![index].userAttendance == false ? Row(
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      alertRemove();
+                                      // alertRemove();
+                                      Future.delayed(Duration.zero,(){
+                                        Get.dialog(AlertDialog(
+                                          scrollable: true,
+                                          insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+                                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+                                          content: SizedBox(
+                                            width: double.maxFinite,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Center(
+                                                  child:  Text(
+                                                    "Are you sure?",
+                                                    style: TextStyle(fontSize: 19
+                                                        , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+
+                                                SizedBox(
+                                                  height: Get.height*.013,
+                                                ),
+                                                Center(child: Text("Are you sure Geraldine couldn't make it? They'll be notified and charged with a no-show fee.",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,)),
+                                                SizedBox(
+                                                  height: Get.height*.023,
+                                                ),
+                                                controller.goinglist?[index].userAttendance == false ?  Row(
+                                                    children: [
+                                                      Expanded(child: SizedBox(
+                                                        height: Res.h_btn,
+                                                        child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
+                                                          Get.back();
+                                                          // alertCancelRequestConfirmation();
+                                                        }, backgroundClr: Get.theme.scaffoldBackgroundColor),
+                                                      )),
+                                                      SizedBox(
+                                                        width: Get.width*0.05,
+                                                      ),
+                                                      Expanded(
+                                                        child: SizedBox(width: double.maxFinite,height: Res.h_btn,
+                                                            child: CustomElevatedButton(
+                                                                onTap: (){
+                                                                  Get.back();
+                                                                  controller.attapi(controller.actid, controller.goinglist?[index].userId.toString() , true);
+                                                                },
+                                                                backgroundClr: clrBlacke,
+                                                                child: Text(
+                                                                  "Yes, no-show",
+                                                                  style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
+                                                                )
+                                                            )
+                                                        ),
+                                                      ),
+
+
+                                                    ]
+                                                ) : SizedBox(),
+                                                SizedBox(
+                                                  height:Get.height*.013,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ));
+                                      });
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(4),
@@ -111,6 +250,10 @@ class AttendanceReviewUi extends GetWidget{
                                     width: Get.width * 0.02,
                                   ),
                                   InkWell(
+                                    onTap: () {
+                                      // alertRemove();
+                                      controller.attapi(controller.actid, controller.goinglist?[index].userId.toString() , false);
+                                    },
                                     child: Container(
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
@@ -126,7 +269,7 @@ class AttendanceReviewUi extends GetWidget{
                                     ),
                                   )
                                 ],
-                              )
+                              ) : SizedBox(),
                             ],
                           ),
                           SizedBox(
@@ -149,61 +292,75 @@ class AttendanceReviewUi extends GetWidget{
       ),
     );
   }
-  alertRemove() {
-    Future.delayed(Duration.zero,(){
-      Get.dialog(AlertDialog(
-        scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Center(
-                child:  Text(
-                  "Are you sure?",
-                  style: TextStyle(fontSize: 19
-                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
-                ),
-              ),
-
-                SizedBox(
-                height: Get.height*.013,
-              ),
-              Center(child: Text("Are you sure Geraldine couldn't make it? They'll be notified and charged with a no-show fee.",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,)),
 
 
-                SizedBox(
-                height: Get.height*.023,
-              ),
-              Row(
-                  children: [
-                    Expanded(child: SizedBox(
-                      height: Res.h_btn,
-                      child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
-                        Get.back();
-                        // alertCancelRequestConfirmation();
-                      }, backgroundClr: Get.theme.scaffoldBackgroundColor),
-                    )),
-                    SizedBox(
-                      width: Get.width*0.05,
-                    ),
-                    Expanded(child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
-                      Get.back();
-                    }, backgroundClr: clrBlacke, child: Text("Yes, no-show",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),),
+  // alertRemove() {
+  //   Future.delayed(Duration.zero,(){
+  //     Get.dialog(AlertDialog(
+  //       scrollable: true,
+  //       insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+  //       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+  //       content: SizedBox(
+  //         width: double.maxFinite,
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             const Center(
+  //               child:  Text(
+  //                 "Are you sure?",
+  //                 style: TextStyle(fontSize: 19
+  //                     , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+  //               ),
+  //             ),
+  //
+  //             SizedBox(
+  //               height: Get.height*.013,
+  //             ),
+  //             Center(child: Text("Are you sure Geraldine couldn't make it? They'll be notified and charged with a no-show fee.",style: TextStyle(color: clrGreyTextLight,fontSize: 15),textAlign: TextAlign.center,)),
+  //             SizedBox(
+  //               height: Get.height*.023,
+  //             ),
+  //             Row(
+  //                 children: [
+  //                   Expanded(child: SizedBox(
+  //                     height: Res.h_btn,
+  //                     child: CustoFilterBtn(borderClr: clrBlacke,lable: Text("Cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),), ontap: (){
+  //                       Get.back();
+  //                       // alertCancelRequestConfirmation();
+  //                     }, backgroundClr: Get.theme.scaffoldBackgroundColor),
+  //                   )),
+  //                   SizedBox(
+  //                     width: Get.width*0.05,
+  //                   ),
+  //                   Expanded(
+  //                     child: SizedBox(width: double.maxFinite,height: Res.h_btn,
+  //                         child: CustomElevatedButton(
+  //                             onTap: (){
+  //                               // Get.back();
+  //                               controller.attapi(controller.goinglist?[index].userId.toString() , 0 as String?);
+  //                             },
+  //                             backgroundClr: clrBlacke,
+  //                             child: Text(
+  //                               "Yes, no-show",
+  //                               style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
+  //                             )
+  //                         )
+  //                     ),
+  //                   ),
+  //
+  //
+  //                 ]
+  //             ),
+  //             SizedBox(
+  //               height:Get.height*.013,
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ));
+  //   });
+  // }
 
-
-                  ]
-              ),
-                SizedBox(
-                height:Get.height*.013,
-              ),
-            ],
-          ),
-        ),
-      ));
-    });
-  }
+  
 }
