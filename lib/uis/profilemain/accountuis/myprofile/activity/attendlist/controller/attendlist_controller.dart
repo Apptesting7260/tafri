@@ -1,18 +1,17 @@
 import 'package:get/get.dart';
-import '../../../../../../../networking/apiservices.dart';
-import '../../../../../../../networking/endpoints.dart';
-import '../../../../../../../utils/local_storage.dart';
-import '../../../../../../explore/exploreview/model/exploreviewui_model.dart';
-import '../model/attendlist_model.dart';
+import 'package:plusone/networking/apiservices.dart';
+import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist/model/attendlist_model.dart';
+import 'package:plusone/utils/local_storage.dart';
 
 class AttendlistController extends GetxController{
 
-  String? id;
+  // String? id;
 
   @override
   void onInit() {
     // TODO: implement onInit
-    id = Get.arguments;
+    String? id = Get.arguments;
     attlistapi(id);
     super.onInit();
   }

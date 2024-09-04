@@ -128,7 +128,7 @@ class Routes{
   static String viewNotifiUi='/viewnotification_ui';
   static String upcommingUserActiUi='/upcomminguser_activityui';
   static String previousActivityUi='/previousactivity_ui';
-  static String attendList='/attend_list';
+  static String attendList='/attendList';
   static String hostUpcommingActiview='/hostupcommin_activityview';
   static String attendReviewUi='/attend_reviewui';
   static String addReviewUi='/add_reviewui';
@@ -174,7 +174,7 @@ class Routes{
     GetPage(name: viewNotifiUi, page:()=> const ViewNotiUi(),binding:ViewnotifiBinding()),
     GetPage(name: upcommingUserActiUi, page:()=>  UpcommingUserActivityUi(),binding:UpCommingActiUserBinding()),
     GetPage(name: previousActivityUi, page:()=>   PreviousActivityUi(),binding:PreviousActiBindings()),
-    GetPage(name: attendList, page:()=>   AttendListUi(),binding:AttendlistBinding()),
+    GetPage(name: attendList, page:()=> AttendListUi(),binding:AttendlistBinding()),
     GetPage(name: hostUpcommingActiview, page:()=>  HostUpcomActivityViewUi(),binding:HostUpcommiActiBindings()),
     GetPage(name: attendReviewUi, page:()=>  AttendanceReviewUi(),binding:AttendReviewBinding()),
     GetPage(name: addReviewUi, page:()=>  AddActReviewUi(),binding:AddactreviewBinding()),

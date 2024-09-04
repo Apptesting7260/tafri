@@ -313,7 +313,7 @@ class PreviousActiController extends GetxController{
   Future<void> attlistapi(String? actid) async{
 
     Map body = {
-      'activity_id': actid,
+      'activity_id': 13,
       // 'user_id': LocalStorage.getUid()
     };
 
@@ -329,7 +329,7 @@ class PreviousActiController extends GetxController{
       final response = await api.post(EndPoints.attlist, body, headers: header);
       if(response.statusCode == 200){
         attError.value = '';
-        print('home data == ${response.body}');
+        print('attendees data == ${response.body}');
         attData.value = AttendancelistModel.fromJson(response.body);
       }else{
         print('error == ${response.body}');

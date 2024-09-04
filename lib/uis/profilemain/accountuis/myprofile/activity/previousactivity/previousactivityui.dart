@@ -4,30 +4,28 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/components/custofilterbtn.dart';
+import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/explore/hostprofile/hostprofileui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/controller/previousacti_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/custom_radio.dart';
+import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../../routes/routes.dart';
-import '../../../../../../utils/custom_radio.dart';
-import '../../../../../../utils/error_widget.dart';
-import '../../../../../../utils/tostmsg.dart';
-import '../../../../../components/custofilterbtn.dart';
-import '../../../../../components/custotextfield.dart';
-import '../../../../../explore/explorelist/controller/explorelist_controller.dart';
-import '../../addactreview/addactreviewui.dart';
-import '../attendlist/attendlistui.dart';
 
 class PreviousActivityUi extends GetWidget<PreviousActiController>{
   PreviousActivityUi({super.key});
 
   // ExploreViewController exploreViewController=Get.put(ExploreViewController());
 
-  ExploreListController exploreListController =
+  final ExploreListController exploreListController =
   Get.find<ExploreListController>();
 
   final formkey = GlobalKey<FormState>();
@@ -618,7 +616,8 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                          (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true')
                              ? InkWell(
                                 onTap: () {
-                                  Get.toNamed(Routes.attendList,);
+                                  // Get.to(()=>AttendListUi());
+                                  Get.toNamed(Routes.attendList,arguments: controller.actData.value.activity!.id.toString());
                                   // Get.back();
                                 },
                                 child: Text("See All",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: clrYellowText,decoration: TextDecoration.underline,decorationColor: clrYellowText,),))

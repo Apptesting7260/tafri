@@ -8,7 +8,7 @@ import '../../../../../../utils/common.dart';
 import '../../../../../../utils/size.dart';
 import 'controller/attendlist_controller.dart';
 
-class AttendListUi extends GetWidget<AttendlistController>{
+class AttendListUi extends GetView<AttendlistController>{
   const AttendListUi({super.key});
 
   @override
