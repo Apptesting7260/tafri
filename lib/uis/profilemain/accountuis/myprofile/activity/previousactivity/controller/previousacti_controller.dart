@@ -265,7 +265,7 @@ class PreviousActiController extends GetxController{
 
 
     Map body = {
-      'id': 13,
+      'id': id,
       'user_id': LocalStorage.getUid()
     };
 
