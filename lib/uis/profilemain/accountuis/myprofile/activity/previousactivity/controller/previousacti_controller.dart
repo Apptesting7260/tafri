@@ -313,7 +313,7 @@ class PreviousActiController extends GetxController{
   Future<void> attlistapi(String? actid) async{
 
     Map body = {
-      'activity_id': 5,
+      'activity_id': actid,
       // 'user_id': LocalStorage.getUid()
     };
 
