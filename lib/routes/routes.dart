@@ -174,7 +174,7 @@ class Routes{
     GetPage(name: viewNotifiUi, page:()=> const ViewNotiUi(),binding:ViewnotifiBinding()),
     GetPage(name: upcommingUserActiUi, page:()=>  UpcommingUserActivityUi(),binding:UpCommingActiUserBinding()),
     GetPage(name: previousActivityUi, page:()=>   PreviousActivityUi(),binding:PreviousActiBindings()),
-    GetPage(name: attendList, page:()=>  const AttendListUi(),binding:AttendlistBinding()),
+    GetPage(name: attendList, page:()=>   AttendListUi(),binding:AttendlistBinding()),
     GetPage(name: hostUpcommingActiview, page:()=>  HostUpcomActivityViewUi(),binding:HostUpcommiActiBindings()),
     GetPage(name: attendReviewUi, page:()=>  AttendanceReviewUi(),binding:AttendReviewBinding()),
     GetPage(name: addReviewUi, page:()=>  AddActReviewUi(),binding:AddactreviewBinding()),

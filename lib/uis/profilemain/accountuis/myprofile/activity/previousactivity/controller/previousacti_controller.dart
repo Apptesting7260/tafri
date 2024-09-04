@@ -283,6 +283,7 @@ class PreviousActiController extends GetxController{
         actError.value = '';
         print('home data == ${response.body}');
         actData.value = ActDataModal.fromJson(response.body);
+        print(actData.value.activity?.id);
         if(actData.value.activity?.requestStatus == 'reject'){
           alertRequestNotAccepted();
         }if(actData.value.activity?.status == 'not_approved'){
@@ -312,7 +313,7 @@ class PreviousActiController extends GetxController{
   Future<void> attlistapi(String? actid) async{
 
     Map body = {
-      'activity_id': actid,
+      'activity_id': 5,
       // 'user_id': LocalStorage.getUid()
     };
 

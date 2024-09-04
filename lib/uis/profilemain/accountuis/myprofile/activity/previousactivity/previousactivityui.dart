@@ -609,7 +609,22 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       ) : SizedBox(),
 
 
-                      (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true') ?  Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),) : SizedBox(),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true')
+                             ?  Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),)
+                             : SizedBox(),
+                         (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true')
+                             ? InkWell(
+                                onTap: () {
+                                  Get.toNamed(Routes.attendList,);
+                                  // Get.back();
+                                },
+                                child: Text("See All",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: clrYellowText,decoration: TextDecoration.underline,decorationColor: clrYellowText,),))
+                             : SizedBox(),
+                       ],
+                     ),
                       (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true') ?SizedBox(
                         height: Get.height * 0.01,
                       ) : SizedBox(),

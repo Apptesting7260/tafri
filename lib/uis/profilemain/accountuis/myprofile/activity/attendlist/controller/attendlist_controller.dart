@@ -6,9 +6,14 @@ import '../../../../../../explore/exploreview/model/exploreviewui_model.dart';
 import '../model/attendlist_model.dart';
 
 class AttendlistController extends GetxController{
+
+  String? id;
+
   @override
   void onInit() {
     // TODO: implement onInit
+    id = Get.arguments;
+    attlistapi(id);
     super.onInit();
   }
 
