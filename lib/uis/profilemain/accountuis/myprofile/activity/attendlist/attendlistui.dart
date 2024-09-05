@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/utils/error_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../utils/colors.dart';
 import '../../../../../../utils/common.dart';
@@ -40,7 +41,7 @@ class AttendListUi extends GetView<AttendlistController>{
       //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
       //   ),
       // ),
-      body: Padding(
+      body: Obx(() => controller.activityLoading.value ? Center(child: CommonUi.scaffoldLoading(color: clrYellow)) : controller.attError.value.isNotEmpty? const Center(child: ErrorScreen()) :  Padding(
         padding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         child: Column(
           children: [
@@ -65,7 +66,7 @@ class AttendListUi extends GetView<AttendlistController>{
               height: 10,
             ),
             ListView.builder(
-              padding: EdgeInsets.symmetric(vertical:  h*.02,),
+                padding: EdgeInsets.symmetric(vertical:  h*.02,),
                 shrinkWrap: true,
                 itemCount: controller.attData.value.result?.attendanceList?.length,
                 itemBuilder: (context, index) {
@@ -136,7 +137,7 @@ class AttendListUi extends GetView<AttendlistController>{
                                   ),
                                   Flexible(child: Text(
                                     '${controller.attData.value.result?.attendanceList?[index].firstName} ${controller.attData.value.result?.attendanceList?[index].lastName}',
-                                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),))
+                                    style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),))
                                 ],
                               ),
                             ),
@@ -174,7 +175,7 @@ class AttendListUi extends GetView<AttendlistController>{
                 }),
           ],
         ),
-      ),
+      ),),
     );
   }
 }
