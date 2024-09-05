@@ -297,6 +297,7 @@ class IntroController extends GetxController {
           await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
+          print('firebase error == ${e.toString()}');
           if (e.code == 'invalid-phone-number') {
             print('${e.code}');
             showTostMsg('The provided phone number is not valid.');
