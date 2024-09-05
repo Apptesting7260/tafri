@@ -858,12 +858,12 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
 
                       controller.actData.value.activity?.status == 'completed'
                           ? SizedBox()
-                          : Text(
+                          : controller.actData.value.going!.isNotEmpty ? Text(
                         "Going",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16),
-                      ),
+                      ) : SizedBox(),
                       SizedBox(
                         height: Get.height * 0.01,
                       ),

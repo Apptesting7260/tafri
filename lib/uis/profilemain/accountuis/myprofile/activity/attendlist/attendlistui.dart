@@ -141,7 +141,9 @@ class AttendListUi extends GetView<AttendlistController>{
                                 ],
                               ),
                             ),
-                            controller.attData.value.result?.attendanceList?[index].userAttendance == 'Joined' ? Image.asset('assets/icons/joined.png') : Image.asset('assets/icons/notjoined.png')
+                            controller.attData.value.result?.attendanceList?[index].userAttendance == 'Joined'
+                                ? Image.asset('assets/icons/joined.png',scale: 4,)
+                                : Image.asset('assets/icons/notjoined.png',scale: 4)
                             // index >=0? Container(
                             //   padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
                             //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),

@@ -26,6 +26,7 @@ class Result {
   DateTime? createdAt;
   DateTime? updatedAt;
   List<Subcategory>? subcategories;
+  bool isSelected;
 
   Result({
     this.id,
@@ -35,6 +36,7 @@ class Result {
     this.createdAt,
     this.updatedAt,
     this.subcategories,
+    this.isSelected = false
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
