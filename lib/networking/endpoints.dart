@@ -57,4 +57,6 @@ class EndPoints{
   static String attlist = '${baseUrl}attendance-list';
   static String attconfirm = '${baseUrl}confirm-attendance';
 
+  static String filter = '${baseUrl}filter-activity';
+
 }
