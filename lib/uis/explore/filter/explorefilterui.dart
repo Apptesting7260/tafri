@@ -18,9 +18,7 @@ import 'controller/filterexp_controller.dart';
 
 class ExploreFilterUi extends GetWidget<FilterExpController> {
   ExploreFilterUi({super.key});
-
-  ExploreListController exploreListController =
-      Get.find<ExploreListController>();
+  
 
   final PageController pageController = PageController();
 
@@ -50,7 +48,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
 
     if (selectedDate != null) {
       // Handle selected date
-      exploreListController.filterDateStart.value =
+      controller.filterDateStart.value =
           DateFormat('yyyy-MM-dd').format(selectedDate).toString();
       print("Selected date: $selectedDate");
     }
@@ -116,60 +114,128 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       SizedBox(
                                         height: Get.height * 0.015,
                                       ),
+                                      // Obx(() {
+                                      //   return Wrap(
+                                      //     spacing: 7,
+                                      //     runSpacing: 9,
+                                      //     children: controller
+                                      //         .catData.value.result!
+                                      //         .map((e) {
+                                      //       return SizedBox(
+                                      //         height: Res.h_filter_btn,
+                                      //         child: CustoFilterBtn(
+                                      //           borderClr: clrBlacke,
+                                      //           lable: Row(
+                                      //             mainAxisSize:
+                                      //                 MainAxisSize.min,
+                                      //             children: [
+                                      //               SizedBox(
+                                      //                   child: e.icon == null
+                                      //                       ? null
+                                      //                       : CachedNetworkImage(
+                                      //                           imageUrl:
+                                      //                               '${e.icon}',
+                                      //                           scale: 1,
+                                      //                           // color: e.isSelected
+                                      //                           //     ? clrWhite
+                                      //                           //     : clrBlacke,
+                                      //                         )
+                                      //               ),
+                                      //               const SizedBox(
+                                      //                 width: 5,
+                                      //               ),
+                                      //               Text(e.title.toString(),
+                                      //                   style: TextStyle(
+                                      //                       color: e.isSelected
+                                      //                           ? clrWhite
+                                      //                           : clrBlacke,
+                                      //                       fontSize: 13,
+                                      //                       fontWeight:
+                                      //                           e.isSelected
+                                      //                               ? FontWeight
+                                      //                                   .w700
+                                      //                               : FontWeight
+                                      //                                   .w400))
+                                      //             ],
+                                      //           ),
+                                      //           ontap: () {
+                                      //             controller.selectCategory(e.id!);
+                                      //           },
+                                      //           backgroundClr: e.isSelected
+                                      //               ? clrBlacke
+                                      //               : clrWhite,
+                                      //         ),
+                                      //       );
+                                      //     }).toList(),
+                                      //   );
+                                      // }),
                                       Obx(() {
-                                        // List<Result> listCat = controller.catData.value.result!.toList();
-                                        // debugPrint("listCat=${listCat[1]}");
-                                        return Wrap(
-                                          spacing: 7,
-                                          runSpacing: 9,
-                                          children: controller
-                                              .catData.value.result!
-                                              .map((e) {
+                                        List<Widget> items = [
+                                          ...controller.catData.value.result!.map((e) {
                                             return SizedBox(
                                               height: Res.h_filter_btn,
                                               child: CustoFilterBtn(
                                                 borderClr: clrBlacke,
                                                 lable: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    SizedBox(
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 2,right: 2),
+                                                      child: SizedBox(
                                                         child: e.icon == null
                                                             ? null
                                                             : CachedNetworkImage(
-                                                                imageUrl:
-                                                                    '${e.icon}',
-                                                                scale: 1,
-                                                                // color: e.isSelected
-                                                                //     ? clrBlacke
-                                                                //     : clrWhite,
-                                                              )),
-                                                    const SizedBox(
-                                                      width: 5,
+                                                          imageUrl: '${e.icon}',
+                                                          scale: 1,
+                                                        ),
+                                                      ),
                                                     ),
-                                                    Text(e.title.toString(),
-                                                        style: TextStyle(
-                                                            color: e.isSelected
-                                                                ? clrWhite
-                                                                : clrBlacke,
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                                e.isSelected
-                                                                    ? FontWeight
-                                                                        .w700
-                                                                    : FontWeight
-                                                                        .w400))
+                                                    const SizedBox(width: 5),
+                                                    Text(
+                                                      e.title.toString(),
+                                                      style: TextStyle(
+                                                        color: e.isSelected ? clrWhite : clrBlacke,
+                                                        fontSize: 13,
+                                                        fontWeight: e.isSelected ? FontWeight.w700 : FontWeight.w400,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                                 ontap: () {
                                                   controller.selectCategory(e.id!);
                                                 },
-                                                backgroundClr: e.isSelected
-                                                    ? clrBlacke
-                                                    : clrWhite,
+                                                backgroundClr: e.isSelected ? clrBlacke : clrWhite,
                                               ),
                                             );
                                           }).toList(),
+                                          SizedBox(
+                                            height: Res.h_filter_btn,
+                                            child: CustoFilterBtn(
+                                              borderClr: clrBlacke,
+                                              lable: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    "All",
+                                                    style: TextStyle(
+                                                      color: clrBlacke,
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ontap: () {
+                                                controller.categoryid.value = true;
+                                              },
+                                              backgroundClr: clrWhite,
+                                            ),
+                                          ),
+                                        ];
+                                        return Wrap(
+                                          spacing: 7,
+                                          runSpacing: 9,
+                                          children: items,
                                         );
                                       }),
                                       SizedBox(
@@ -186,6 +252,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                         height: Get.height * 0.01,
                                       ),
                                       CustoTextFormField(
+                                        controll: controller.locController,
                                         hintText: "Search Location",
                                         sufixIcon: Padding(
                                           padding: const EdgeInsets.all(13.0),
@@ -254,7 +321,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               ),
                                               InkWell(
                                                   onTap: () {
-                                                    exploreListController
+                                                    controller
                                                         .decGroupSize();
                                                   },
                                                   child:
@@ -264,14 +331,14 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               ),
                                               Obx(() {
                                                 return Text(
-                                                    "${exploreListController.groupSize}");
+                                                    "${controller.groupSize}");
                                               }),
                                               SizedBox(
                                                 width: w * .01,
                                               ),
                                               InkWell(
                                                   onTap: () {
-                                                    exploreListController
+                                                    controller
                                                         .incGroupSize();
                                                   },
                                                   child: const Icon(Icons.add))
@@ -301,11 +368,11 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                   // _showCustomDateRangePicker(context);
                                                   _showCustomDatePicker(
                                                       context,
-                                                      DateTime.parse(exploreListController
+                                                      DateTime.parse(controller
                                                                   .filterDateStart
                                                                   .value !=
                                                               ''
-                                                          ? exploreListController
+                                                          ? controller
                                                               .filterDateStart
                                                               .value
                                                           : DateTime.now()
@@ -319,11 +386,11 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                         child: Image.asset(
                                                       "assets/icons/calendericon.png",
                                                       height: h * .02,
-                                                      color: exploreListController
+                                                      color: controller
                                                                       .filterDateStart
                                                                       .value !=
                                                                   '' ||
-                                                              exploreListController
+                                                              controller
                                                                       .filterDateCalenderEnd
                                                                       .value !=
                                                                   ''
@@ -335,21 +402,21 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                     ),
                                                     Obx(
                                                       () => Text(
-                                                          exploreListController.filterDateStart
+                                                          controller.filterDateStart
                                                                           .value !=
                                                                       '' ||
-                                                                  exploreListController
+                                                                  controller
                                                                           .filterDateCalenderEnd
                                                                           .value !=
                                                                       ''
-                                                              ? "${exploreListController.filterDateStart.value}"
+                                                              ? "${controller.filterDateStart.value}"
                                                               : "Pick a date",
                                                           style: TextStyle(
-                                                              color: exploreListController
+                                                              color: controller
                                                                               .filterDateStart
                                                                               .value !=
                                                                           '' ||
-                                                                      exploreListController
+                                                                      controller
                                                                               .filterDateCalenderEnd
                                                                               .value !=
                                                                           ''
@@ -387,12 +454,12 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                 //         child: child!,
                                                 //       );
                                                 //     },
-                                                //     // initialDateRange: exploreListController.filterDateStart.value != '' &&
-                                                //     //     exploreListController.filterDateCalenderEnd.value !=''?DateTime.parse("") : null
+                                                //     // initialDateRange: controller.filterDateStart.value != '' &&
+                                                //     //     controller.filterDateCalenderEnd.value !=''?DateTime.parse("") : null
                                                 //   );
                                                 //   if (dateRange != null) {
                                                 //     print("gk=====$dateRange");
-                                                //     exploreListController
+                                                //     controller
                                                 //         .changeFilterDate(dateRange);
                                                 //   }
                                                 // },
@@ -504,11 +571,11 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                 // },
 
                                                 borderClr: clrBlacke,
-                                                backgroundClr: exploreListController
+                                                backgroundClr: controller
                                                                 .filterDateStart
                                                                 .value !=
                                                             '' ||
-                                                        exploreListController
+                                                        controller
                                                                 .filterDateCalenderEnd
                                                                 .value !=
                                                             ''
@@ -521,20 +588,19 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               child: CustoFilterBtn(
                                                 lable: Text("today",
                                                     style: TextStyle(
-                                                        color: exploreListController
-                                                                    .dateFilter[
+                                                        color: controller.dateFilter[
                                                                 'today']
                                                             ? clrWhite
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
-                                                  exploreListController
+                                                  controller
                                                       .changeDateFilter(
                                                           "today");
                                                 },
                                                 borderClr: clrBlacke,
                                                 backgroundClr:
-                                                    exploreListController
+                                                    controller
                                                             .dateFilter
                                                             .value['today']
                                                         ? clrBlacke
@@ -546,7 +612,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               child: CustoFilterBtn(
                                                 lable: Text("tomorrow",
                                                     style: TextStyle(
-                                                        color: exploreListController
+                                                        color: controller
                                                                     .dateFilter
                                                                     .value[
                                                                 'tomorrow']
@@ -554,13 +620,13 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
-                                                  exploreListController
+                                                  controller
                                                       .changeDateFilter(
                                                           "tomorrow");
                                                 },
                                                 borderClr: clrBlacke,
                                                 backgroundClr:
-                                                    exploreListController
+                                                    controller
                                                             .dateFilter
                                                             .value['tomorrow']
                                                         ? clrBlacke
@@ -573,19 +639,19 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                 lable: Text("This week",
                                                     style: TextStyle(
                                                         color:
-                                                            exploreListController
+                                                            controller
                                                                     .dateFilter
                                                                     .value['week']
                                                                 ? clrWhite
                                                                 : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
-                                                  exploreListController
+                                                  controller
                                                       .changeDateFilter("week");
                                                 },
                                                 borderClr: clrBlacke,
                                                 backgroundClr:
-                                                    exploreListController
+                                                    controller
                                                             .dateFilter
                                                             .value['week']
                                                         ? clrBlacke
@@ -597,7 +663,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               child: CustoFilterBtn(
                                                 lable: Text("This weekend",
                                                     style: TextStyle(
-                                                        color: exploreListController
+                                                        color: controller
                                                                     .dateFilter
                                                                     .value[
                                                                 'weekend']
@@ -605,13 +671,13 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
-                                                  exploreListController
+                                                  controller
                                                       .changeDateFilter(
                                                           "weekend");
                                                 },
                                                 borderClr: clrBlacke,
                                                 backgroundClr:
-                                                    exploreListController
+                                                    controller
                                                             .dateFilter
                                                             .value['weekend']
                                                         ? clrBlacke
@@ -634,16 +700,16 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                         height: Get.height * 0.01,
                                       ),
                                       Obx(() {
-                                        // int val=exploreListController.timeFilter.value;
+                                        // int val=controller.timeFilter.value;
                                         return CustoDropDownBtn(
-                                            val: exploreListController
+                                            val: controller
                                                         .timeFilter.value ==
                                                     0
                                                 ? null
-                                                : exploreListController
+                                                : controller
                                                     .timeFilter.value,
                                             onchange: (val) {
-                                              exploreListController
+                                              controller
                                                   .changeTimeFilter(val);
                                             },
                                             prefixIcon: Container(
@@ -695,14 +761,14 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       ),
                                       Obx(() {
                                         return CustoDropDownBtn(
-                                            val: exploreListController
+                                            val: controller
                                                         .genderFilter.value ==
                                                     0
                                                 ? null
-                                                : exploreListController
+                                                : controller
                                                     .genderFilter.value,
                                             onchange: (val) {
-                                              exploreListController
+                                              controller
                                                   .changeGenderFilter(val);
                                             },
                                             suffix: Image.asset(
@@ -749,10 +815,10 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                           ),
                                           Obx(() {
                                             return CustomSwitch(
-                                              value: exploreListController
+                                              value: controller
                                                   .hideWaitListAct.value,
                                               onChanged: (p0) {
-                                                exploreListController
+                                                controller
                                                     .changeHideWaitListAct();
                                               },
                                             );
@@ -783,7 +849,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               fontWeight: FontWeight.w700),
                                         ),
                                         ontap: () {
-                                          exploreListController.resetForm();
+                                          controller.resetForm();
                                         },
                                         backgroundClr: clrWhite,
                                         borderClr: clrBlacke,
@@ -796,7 +862,11 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                         child: SizedBox(
                                       height: Res.h_btn,
                                       child: CustomElevatedButton(
-                                          onTap: () {},
+                                          onTap: () {
+                                            controller.filterActivity(
+
+                                            );
+                                          },
                                           backgroundClr: clrBlacke,
                                           child: Text("Apply filter",
                                               style: TextStyle(
