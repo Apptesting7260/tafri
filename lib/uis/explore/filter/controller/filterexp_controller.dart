@@ -156,17 +156,26 @@ class FilterExpController extends GetxController{
   }
 
   RxMap dateFilter = {
-    "pickRange": false,
+    "Pick a date": false,
     "today": false,
     "tomorrow": false,
     "week": false,
     "weekend": false,
   }.obs;
 
-  changeDateFilter(name) {
-    dateFilter.value[name] = !dateFilter.value[name];
+  // changeDateFilter(name) {
+  //   dateFilter.value[name] = true;
+  //   dateFilter.refresh();
+  // }
+
+  void changeDateFilter(String name) {
+    dateFilter.updateAll((key, value) => false);
+    if (dateFilter.containsKey(name)) {
+      dateFilter[name] = true;
+    }
     dateFilter.refresh();
   }
+
 
   RxInt timeFilter = 0.obs;
 
@@ -224,10 +233,9 @@ class FilterExpController extends GetxController{
 
 
   resetForm() {
-    catData.value.result?.map((e) {
-      e.isSelected = false;
-      print(e.isSelected);
-    });
+    for (var category in catData.value.result!) {
+      category.isSelected = false;
+    }
     catData.refresh();
     categryList.value = catData.value.result!;
     selectedList.value = List.filled(catData.value.result!.length, false);
@@ -247,8 +255,6 @@ class FilterExpController extends GetxController{
     filterDateCalenderStart.value = "";
     filterDateEnd.value = "";
     filterDateCalenderEnd.value = "";
-    print('id==>${selectedList.value}');
-    print('id==>${categryList[2].isSelected}');
   }
 
 

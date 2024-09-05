@@ -218,7 +218,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                   Text(
                                                     "All",
                                                     style: TextStyle(
-                                                      color: clrBlacke,
+                                                      color: controller.categoryid.value ? clrWhite : clrBlacke,
                                                       fontSize: 13,
                                                       fontWeight: FontWeight.w700,
                                                     ),
@@ -226,9 +226,9 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                 ],
                                               ),
                                               ontap: () {
-                                                controller.categoryid.value = true;
+                                                controller.categoryid.value = !controller.categoryid.value;
                                               },
-                                              backgroundClr: clrWhite,
+                                              backgroundClr: controller.categoryid.value ? clrBlacke : clrWhite,
                                             ),
                                           ),
                                         ];
