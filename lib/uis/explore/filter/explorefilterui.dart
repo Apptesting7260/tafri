@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
@@ -18,7 +19,7 @@ import 'controller/filterexp_controller.dart';
 
 class ExploreFilterUi extends GetWidget<FilterExpController> {
   ExploreFilterUi({super.key});
-  
+
 
   final PageController pageController = PageController();
 
@@ -36,6 +37,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
   //   // }
   // }
 
+
   void _showCustomDatePicker(BuildContext context, DateTime? date) async {
     DateTime? selectedDate = await showDialog(
       context: context,
@@ -47,12 +49,33 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
     );
 
     if (selectedDate != null) {
-      // Handle selected date
-      controller.filterDateStart.value =
-          DateFormat('yyyy-MM-dd').format(selectedDate).toString();
-      print("Selected date: $selectedDate");
+      // Use the formatted date in the controller
+      String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate).toString();
+      controller.filterDateStart.value = formattedDate;
+      controller.filterDate.value = formattedDate; // Ensure both are updated
+      print("Selected date: $formattedDate");
     }
   }
+
+
+  // void _showCustomDatePicker(BuildContext context, DateTime? date) async {
+  //   DateTime? selectedDate = await showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return CustomDateRangePicker(
+  //         date: date,
+  //       );
+  //     },
+  //   );
+  //
+  //   if (selectedDate != null) {
+  //     // Handle selected date
+  //     controller.filterDateStart.value =
+  //         DateFormat('yyyy-MM-dd').format(selectedDate).toString();
+  //     print("Selected date: $selectedDate");
+  //     controller.filterDate.value = selectedDate.toString();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -376,7 +399,11 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                               .filterDateStart
                                                               .value
                                                           : DateTime.now()
-                                                              .toString()));
+                                                              .toString())
+                                                  );
+                                                  controller
+                                                      .changeDateFilter(
+                                                      "Pick a date");
                                                 },
                                                 lable: Row(
                                                   mainAxisSize:
@@ -864,7 +891,6 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       child: CustomElevatedButton(
                                           onTap: () {
                                             controller.filterActivity(
-
                                             );
                                           },
                                           backgroundClr: clrBlacke,

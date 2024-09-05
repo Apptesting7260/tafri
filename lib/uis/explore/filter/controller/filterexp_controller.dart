@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:plusone/utils/tostmsg.dart';
 
 import '../../../../networking/apiservices.dart';
 import '../../../../networking/endpoints.dart';
@@ -177,6 +178,7 @@ class FilterExpController extends GetxController{
   }
 
 
+
   RxInt timeFilter = 0.obs;
 
   changeTimeFilter(val) {
@@ -190,15 +192,42 @@ class FilterExpController extends GetxController{
     print(genderFilter.value);
   }
 
+  var filterDate = "".obs;
+
   Future<void> filterActivity() async{
 
+    var date = '';
+
+
+    if (dateFilter['Pick a date'] == true) {
+      date = filterDate.value;
+    } else if (dateFilter['today'] == true) {
+      date = 'today';
+    } else if (dateFilter['tomorrow'] == true) {
+      date = 'tomorrow';
+    } else if (dateFilter['week'] == true) {
+      date = 'this_week';
+    } else if (dateFilter['weekend'] == true) {
+      date = 'this_weekend';
+    }
+
+    print('date ==> ${date}');
+
+    // Validation to ensure at least one of the fields has a value
+    if (selected.isEmpty && locController.text.isEmpty && date.isEmpty
+        && groupSize.value <= 1 && categoryid == false
+        && genderFilter.value == 0
+    ) {
+      showTostMsg('Please select at least one filter.');
+      return;
+    }
 
     Map body = {
       'user_id': LocalStorage.getUid(),
       'category_id': categoryid == true ? '' : selected,
       'location': locController.text.toString(),
       'max_people': groupSize.value,
-      'date': LocalStorage.getUid(),
+      'date': date,
       'start_at': LocalStorage.getUid(),
       'end_at': LocalStorage.getUid(),
       'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '',
@@ -237,11 +266,12 @@ class FilterExpController extends GetxController{
       category.isSelected = false;
     }
     catData.refresh();
+    categoryid.value = false;
     categryList.value = catData.value.result!;
     selectedList.value = List.filled(catData.value.result!.length, false);
     selected.clear();
     dateFilter.value = <String, bool>{
-      "pickRange": false,
+      "Pick a date": false,
       "today": false,
       "tomorrow": false,
       "week": false,
@@ -255,6 +285,7 @@ class FilterExpController extends GetxController{
     filterDateCalenderStart.value = "";
     filterDateEnd.value = "";
     filterDateCalenderEnd.value = "";
+    locController.clear();
   }
 
 
