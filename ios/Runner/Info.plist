@@ -20,6 +20,10 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to provide better services.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to allow you to select and upload images to enhance your experience.</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
