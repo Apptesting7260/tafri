@@ -270,7 +270,7 @@ class FilterExpController extends GetxController{
        if(date.isNotEmpty) 'date': date,
        if(selectedTime.value.isNotEmpty) 'time_slot': selectedTime.value,
        if(genderFilter.value != 0) 'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '' ,
-       if(hideWaitListAct.value == true) 'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
+       'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
     };
 
     print(body);
