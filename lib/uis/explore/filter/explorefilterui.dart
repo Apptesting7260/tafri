@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
@@ -229,6 +230,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                 ),
                                                 onTap: () {
                                                   controller.selectCategory(e.id!);
+                                                  controller.categoryid.value = false;
                                                 },
                                                 backgroundClr: e.isSelected ? clrBlacke : clrWhite,
                                               ),
@@ -253,6 +255,10 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               ),
                                               ontap: () {
                                                 controller.categoryid.value = !controller.categoryid.value;
+                                                for (var category in controller.catData.value.result!) {
+                                                  category.isSelected = false;
+                                                }
+                                                controller.selected.clear();
                                               },
                                               backgroundClr: controller.categoryid.value ? clrBlacke : clrWhite,
                                             ),
@@ -732,15 +738,25 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       Obx(() {
                                         // int val=controller.timeFilter.value;
                                         return CustoDropDownBtn(
-                                            val: controller
-                                                        .timeFilter.value ==
-                                                    0
+                                            val: controller.timeFilter.value == 0
                                                 ? null
-                                                : controller
-                                                    .timeFilter.value,
+                                                : controller.timeFilter.value,
                                             onchange: (val) {
-                                              controller
-                                                  .changeTimeFilter(val);
+
+                                              switch (val) {
+                                                case 1:
+                                                  controller.selectedTime.value = "morning";
+                                                  break;
+                                                case 2:
+                                                  controller.selectedTime.value = "afternoon";
+                                                  break;
+                                                case 3:
+                                                  controller.selectedTime.value = "evening";
+                                                  break;
+                                                default:
+                                                  controller.selectedTime.value = "";
+                                              }
+                                              controller.changeTimeFilter(val);
                                             },
                                             prefixIcon: Container(
                                                 padding:
@@ -893,8 +909,8 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       height: Res.h_btn,
                                       child: CustomElevatedButton(
                                           onTap: () {
-                                            controller.filterActivity(
-                                            );
+                                            controller.filterActivity();
+                                            Get.toNamed(Routes.filterActUi);
                                           },
                                           backgroundClr: clrBlacke,
                                           child: Text("Apply filter",
