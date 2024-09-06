@@ -253,6 +253,8 @@ class Creativitycontroller extends GetxController
         showTostMsg('Please Enter title',gravity: ToastGravity.CENTER);
       }else if(desController.value.text.isEmpty){
         showTostMsg('Please Enter Description',gravity: ToastGravity.CENTER);
+      }else if(desController.value.text.length < 30){
+        showTostMsg('Description length should be greater than 30 character.',gravity: ToastGravity.CENTER);
       }else if(locController.value.value.text.isEmpty){
         showTostMsg('Please Enter Location',gravity: ToastGravity.CENTER);
       }else if(date.value.isEmpty){

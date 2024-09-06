@@ -147,15 +147,10 @@ class RegEmailUi extends GetWidget<RegemailController> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  width: Get.width * 0.8,
-                                  child: Text(
-                                      "Your email will not be visible to other members",
-                                      style: TextStyle(color: clrBlacke))),
-                            ],
+                          Flexible(
+                            child: Text(
+                                "Your email will not be visible to other members",
+                                style: TextStyle(color: clrBlacke)),
                           )
                         ],
                       )

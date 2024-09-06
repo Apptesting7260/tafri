@@ -38,7 +38,17 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
           contentPadding:  EdgeInsets.symmetric(horizontal: 15,vertical: Get.height*.02),
           fillColor: clrGreyLight,
           filled: true,
-          border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(widget.borderRadius ?? 100))
+          border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(widget.borderRadius ?? 100)),
+        // Error border
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          borderRadius: BorderRadius.circular(widget.borderRadius ?? 100),
+        ),
+        // Error border when focused
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          borderRadius: BorderRadius.circular(widget.borderRadius ?? 100),
+        ),
       ),
     );
   }

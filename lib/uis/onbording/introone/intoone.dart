@@ -185,7 +185,18 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                   borderSide: BorderSide.none,
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          50))),
+                                                          50)),
+                                            // Error border
+                                            errorBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                              borderRadius: BorderRadius.circular(100),
+                                            ),
+                                            // Error border when focused
+                                            focusedErrorBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                              borderRadius: BorderRadius.circular(100),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       SizedBox(height: Get.height * 0.025),

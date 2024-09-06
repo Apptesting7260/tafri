@@ -197,18 +197,15 @@ class NameAddUi extends GetWidget<NameAddController> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  width: Get.width * 0.8,
-                                  child: Text(
-                                      "Only your first name will be visible to other members",
-                                      style: TextStyle(
-                                          color: clrBlacke,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400))),
-                            ],
+                          Flexible(
+                            child: SizedBox(
+                                width: Get.width * 0.8,
+                                child: Text(
+                                    "Only your first name will be visible to other members",
+                                    style: TextStyle(
+                                        color: clrBlacke,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400))),
                           )
                         ],
                       )

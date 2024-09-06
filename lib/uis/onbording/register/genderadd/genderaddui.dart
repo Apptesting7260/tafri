@@ -159,7 +159,18 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide.none,
                                         borderRadius:
-                                            BorderRadius.circular(100))),
+                                            BorderRadius.circular(100)),
+                                  // Error border
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  // Error border when focused
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                ),
                               ),
                             ));
                           }),
@@ -259,15 +270,10 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  width: Get.width * 0.8,
-                                  child: Text(
-                                      "Your gender will be visible to other members",
-                                      style: TextStyle(color: clrBlacke))),
-                            ],
+                          Flexible(
+                            child: Text(
+                                "Your gender will be visible to other members",
+                                style: TextStyle(color: clrBlacke)),
                           )
                         ],
                       )

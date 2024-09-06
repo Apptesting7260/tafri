@@ -98,6 +98,16 @@ class BioUi extends GetWidget<MyprofileInnController> {
                                   borderSide: BorderSide.none,
                                   borderRadius: BorderRadius.circular(10)),
                               counterText: '',
+                              // Error border
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              // Error border when focused
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                             onChanged: (value) {
                               print(
@@ -135,9 +145,10 @@ class BioUi extends GetWidget<MyprofileInnController> {
                        // print(profilemainController
                        //     .profileData.value.result?.profile?.bio);
                        // print(profilemainController.hashCode);
-             
-             
-                       await controller.bioProfile();
+
+                       if(_formState.currentState!.validate()) {
+                         await controller.bioProfile();
+                       }
              
                        // }
                      },

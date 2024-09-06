@@ -203,7 +203,18 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        30))),
+                                                                        30)),
+                                                      // Error border
+                                                      errorBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                                        borderRadius: BorderRadius.circular(100),
+                                                      ),
+                                                      // Error border when focused
+                                                      focusedErrorBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                                        borderRadius: BorderRadius.circular(100),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                                 SizedBox(

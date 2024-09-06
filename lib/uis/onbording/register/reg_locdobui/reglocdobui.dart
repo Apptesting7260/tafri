@@ -204,7 +204,10 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                                 vertical: 7, horizontal: 5),
                             decoration: BoxDecoration(
                                 color: clrGreyLight,
-                                borderRadius: BorderRadius.circular(30)),
+                                borderRadius: BorderRadius.circular(100),
+                              border: controller.dob.value == '' &&
+                                  controller.isShowDobErr.value ? Border.all(color: Colors.red) : null
+                            ),
                             child: Row(
                               children: [
                                 Container(
@@ -311,15 +314,10 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  width: Get.width * 0.8,
-                                  child: Text(
-                                      "Your location and age will be visible to other members",
-                                      style: TextStyle(color: clrBlacke))),
-                            ],
+                          Flexible(
+                            child: Text(
+                                "Your location and age will be visible to other members",
+                                style: TextStyle(color: clrBlacke)),
                           )
                         ],
                       )

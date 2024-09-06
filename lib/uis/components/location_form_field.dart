@@ -76,7 +76,18 @@ class _CustomLocationFieldState extends State<CustomLocationField> {
               filled: true,
               border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(100))),
+                  borderRadius: BorderRadius.circular(100)),
+            // Error border
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 1.5),
+              borderRadius: BorderRadius.circular(100),
+            ),
+            // Error border when focused
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 1.5),
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
         );
       },
       itemBuilder: widget.itemBuilder,
