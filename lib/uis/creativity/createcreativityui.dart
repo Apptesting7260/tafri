@@ -50,13 +50,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CommonUi.appBar(),
-                              InkWell(
-                                onTap: () => alertRepeatSchedule(),
-                                child: const Text(
-                                  "Create activity",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700, fontSize: 20),
-                                ),
+                              const Text(
+                                "Create activity",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20),
                               ),
                               SizedBox(
                                 width: h * .024,
@@ -149,57 +146,56 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                             left:
                                                                                 1),
                                                                         child:
-                                                                            Obx(() => Stack(
-                                                                              alignment:
-                                                                              Alignment.topRight,
-                                                                              children: [
-                                                                                DottedBorder(
-                                                                                    color:
-                                                                                    clrGrey,
-                                                                                    dashPattern: const [
-                                                                                      6,
-                                                                                      3
-                                                                                    ],
-                                                                                    borderType: BorderType.RRect,
-                                                                                    strokeWidth: 2,
-                                                                                    radius: const Radius.circular(12),
-                                                                                    child: Container(
-                                                                                      clipBehavior: Clip.hardEdge,
-                                                                                      width: Get.width * 0.4,
-                                                                                      height: 120,
-                                                                                      decoration: BoxDecoration(color: clrGreyLight, borderRadius: BorderRadius.circular(15)),
-                                                                                      child: Obx(() => index < controller.galleryImages.length
-                                                                                          ? Image.file(
-                                                                                        controller.galleryImages[index],
-                                                                                        fit: BoxFit.cover,
-                                                                                      )
-                                                                                          : Center(
-                                                                                        child: Image.asset(
-                                                                                          "assets/icons/imgicon.png",
-                                                                                          height: 30,
-                                                                                          color: clrGreyDark.withOpacity(0.8),
-                                                                                        ),
-                                                                                      )),
-                                                                                    )),
-                                                                                controller.galleryImages.length > 0 && index < controller.galleryImages.length
-                                                                                    ? GestureDetector(
-                                                                                  onTap: () {
-                                                                                    controller.removeContainer();
-                                                                                    controller.galleryImages.removeAt(index);
-                                                                                  },
-                                                                                  child: CircleAvatar(
-                                                                                      radius: 10,
-                                                                                      backgroundColor: clrRedErr,
-                                                                                      child: Center(
-                                                                                          child: Icon(
+                                                                            Obx(
+                                                                          () =>
+                                                                              Stack(
+                                                                            alignment:
+                                                                                Alignment.topRight,
+                                                                            children: [
+                                                                              DottedBorder(
+                                                                                  color: clrGrey,
+                                                                                  dashPattern: const [6, 3],
+                                                                                  borderType: BorderType.RRect,
+                                                                                  strokeWidth: 2,
+                                                                                  radius: const Radius.circular(12),
+                                                                                  child: Container(
+                                                                                    clipBehavior: Clip.hardEdge,
+                                                                                    width: Get.width * 0.4,
+                                                                                    height: 120,
+                                                                                    decoration: BoxDecoration(color: clrGreyLight, borderRadius: BorderRadius.circular(15)),
+                                                                                    child: Obx(() => index < controller.galleryImages.length
+                                                                                        ? Image.file(
+                                                                                            controller.galleryImages[index],
+                                                                                            fit: BoxFit.cover,
+                                                                                          )
+                                                                                        : Center(
+                                                                                            child: Image.asset(
+                                                                                              "assets/icons/imgicon.png",
+                                                                                              height: 30,
+                                                                                              color: clrGreyDark.withOpacity(0.8),
+                                                                                            ),
+                                                                                          )),
+                                                                                  )),
+                                                                              controller.galleryImages.length > 0 && index < controller.galleryImages.length
+                                                                                  ? GestureDetector(
+                                                                                      onTap: () {
+                                                                                        controller.removeContainer();
+                                                                                        controller.galleryImages.removeAt(index);
+                                                                                      },
+                                                                                      child: CircleAvatar(
+                                                                                          radius: 10,
+                                                                                          backgroundColor: clrRedErr,
+                                                                                          child: Center(
+                                                                                              child: Icon(
                                                                                             Icons.close,
                                                                                             size: 15,
                                                                                             color: clrWhite,
                                                                                           ))),
-                                                                                )
-                                                                                    : const SizedBox()
-                                                                              ],
-                                                                            ),),
+                                                                                    )
+                                                                                  : const SizedBox()
+                                                                            ],
+                                                                          ),
+                                                                        ),
                                                                       ),
                                                                     );
                                                                   },
@@ -340,7 +336,12 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                       },
                                                       itemList: controller
                                                           .categoryList,
-                                                val: controller.catID.value == '' ? null : int.parse(controller.catID.value),
+                                                      val: controller.catID
+                                                                  .value ==
+                                                              ''
+                                                          ? null
+                                                          : int.parse(controller
+                                                              .catID.value),
                                                       hintColor: clrBlacke,
                                                       hindtext:
                                                           "Select Category",
@@ -362,7 +363,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   ? const SizedBox()
                                                   : FutureBuilder(
                                                       future: Future.delayed(
-                                                          const Duration(seconds: 1)),
+                                                          const Duration(
+                                                              seconds: 1)),
                                                       // Simulate delay
                                                       builder:
                                                           (context, snapshot) {
@@ -398,11 +400,19 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                               print(controller
                                                                   .subCatID
                                                                   .value);
-                                                              controller.getSubCatName(val);
+                                                              controller
+                                                                  .getSubCatName(
+                                                                      val);
                                                             },
                                                             val: controller
-                                                                .subCatID.value == '' ? null : int.parse(controller
-                                                                .subCatID.value),
+                                                                        .subCatID
+                                                                        .value ==
+                                                                    ''
+                                                                ? null
+                                                                : int.parse(
+                                                                    controller
+                                                                        .subCatID
+                                                                        .value),
                                                             itemList: controller
                                                                 .subcategoryList,
                                                             hintColor:
@@ -468,7 +478,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         color: Colors.grey[600],
                                                       ),
                                                       contentPadding:
-                                                          const EdgeInsets.symmetric(
+                                                          const EdgeInsets
+                                                              .symmetric(
                                                         horizontal: 15,
                                                         vertical: 15,
                                                       ),
@@ -904,14 +915,14 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
-                                            Obx(() {
-                                              var value =
-                                                  controller.gender.value;
-                                              return CustoDropDownBtn(
+                                            CustoDropDownBtn(
                                                 val: controller.repeat?.value,
                                                 onchange: (val) {
-                                                  return controller
+                                                  controller
                                                       .changeRepeatVal(val);
+                                                  if (val == 2) {
+                                                    alertRepeatSchedule();
+                                                  }
                                                 },
                                                 backClr: clrWhite,
                                                 borderClr:
@@ -933,8 +944,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   'assets/images/arrow down.png',
                                                   scale: 4,
                                                 ),
-                                              );
-                                            }),
+                                              ),
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
@@ -1139,13 +1149,20 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                   BorderRadius
                                                                       .circular(
                                                                           20)),
-                                                          child: Obx(() => Text(
-                                                            controller.subCatName.value.isEmpty ? "Coffee" : '${controller.subCatName.value}',
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                          ),),
+                                                          child: Obx(
+                                                            () => Text(
+                                                              controller
+                                                                      .subCatName
+                                                                      .value
+                                                                      .isEmpty
+                                                                  ? "Coffee"
+                                                                  : '${controller.subCatName.value}',
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                          ),
                                                         ),
                                                         const SizedBox()
                                                       ],
@@ -1473,7 +1490,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                 children: [
                   Text(
                     "Repeat every",
-                    style: TextStyle(color: clrGreyTextLight,fontSize: 15),
+                    style: TextStyle(color: clrGreyTextLight, fontSize: 15),
                     textAlign: TextAlign.center,
                   ),
                   Container(
@@ -1486,25 +1503,83 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                   ),
                   Column(
                     children: [
-                      Image.asset('assets/images/arrow up.png',scale: 4,),
-                      const SizedBox(height: 8,),
-                      Image.asset('assets/images/arrow down new.png',scale: 4,)
+                      Image.asset(
+                        'assets/images/arrow up.png',
+                        scale: 4,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Image.asset(
+                        'assets/images/arrow down new.png',
+                        scale: 4,
+                      )
                     ],
                   ),
-                  Container(
-                    padding:
-                        const EdgeInsets.only(left: 20,right: 10, top: 8,bottom: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: clrGreyLight),
-                    child: const Row(
-                      children: [
-                        Text("week"),
-                        SizedBox(width: 5,),
-                        Icon(Icons.arrow_drop_down_sharp)
-                      ],
-                    ),
-                  ),
+                  SizedBox(
+                      height: 40,
+                      width: Get.width * 0.25,
+                      child: DropdownButtonFormField(
+                        value: controller.wmValue.value == 0 ? null : controller.wmValue.value,
+                        items: const [
+                          DropdownMenuItem(
+                            value: 1,
+                            child: Text("Week",style: TextStyle(
+                              fontSize: 12
+                            ),),
+                          ),
+                          DropdownMenuItem(
+                            value: 2,
+                            child: Text("Month",style: TextStyle(
+                                fontSize: 12
+                            ),),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          controller.monthIndex.value = (-1);
+                          controller.dayIndex.value = (-1);
+                          controller.wmValue.value = value!;
+                        },
+                        isExpanded: true,
+                        hint: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('Week',
+                                style: TextStyle(color: clrBlacke,fontSize: 12)),
+                          ),
+                        ),
+                        icon: const SizedBox.shrink(),
+                        decoration: InputDecoration(
+                          alignLabelWithHint: true,
+                          suffixIcon: Image.asset(
+                            'assets/images/arrow down.png',
+                            scale: 6,
+                          ),
+                          hintStyle:
+                          TextStyle(fontWeight: FontWeight.w400, color: clrGreyTextLight),
+                          contentPadding: EdgeInsets.only(left: controller.wmValue.value == 0 ? 0 : 6),
+                          fillColor: clrGreyLight,
+                          filled: true,
+                          border:OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(30)),
+                        ),
+                      ))
+                  // Container(
+                  //   padding:
+                  //       const EdgeInsets.only(left: 20,right: 10, top: 8,bottom: 8),
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(50),
+                  //       color: clrGreyLight),
+                  //   child: const Row(
+                  //     children: [
+                  //       Text("week"),
+                  //       SizedBox(width: 5,),
+                  //       Icon(Icons.arrow_drop_down_sharp)
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -1515,7 +1590,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 "Repeat on",
-                style: TextStyle(color: clrGreyTextLight,fontSize: 15),
+                style: TextStyle(color: clrGreyTextLight, fontSize: 15),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -1523,34 +1598,87 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
               height: 5,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                height: 40,
-                child: ListView.separated(itemCount: controller.dayList.length,shrinkWrap: true,scrollDirection: Axis.horizontal,itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      controller.dayIndex.value = index;
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  height: 40,
+                  child: Obx(() => controller.wmValue.value == 2 ? ListView.separated(
+                    itemCount: controller.monthList.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          controller.monthIndex.value = index;
+                        },
+                        child: Obx(
+                              () => Container(
+                            padding: const EdgeInsets.all(5),
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: controller.monthIndex.value == index
+                                    ? clrYellow
+                                    : clrGreyLight),
+                            child: Center(
+                              child: FittedBox(
+                                child: Text(
+                                  controller.monthList[index],
+                                  style: TextStyle(
+                                      color: controller.monthIndex.value == index
+                                          ? clrWhite
+                                          : clrBlacke),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
                     },
-                    child: Obx(() => Container(
-                      padding: const EdgeInsets.all(5),
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: controller.dayIndex.value == index ? clrYellow : clrGreyLight
-                      ),
-                      child: Center(
-                        child: Text(controller.dayList[index],style: TextStyle(
-                            color: controller.dayIndex.value == index ? clrWhite : clrBlacke
-                        ),),
-                      ),
-                    ),),
-                  );
-                }, separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(width: 10,);
-                },),
-              )
-            ),
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        width: 10,
+                      );
+                    },
+                  ) : ListView.separated(
+                    itemCount: controller.dayList.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          controller.dayIndex.value = index;
+                        },
+                        child: Obx(
+                              () => Container(
+                            padding: const EdgeInsets.all(5),
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: controller.dayIndex.value == index
+                                    ? clrYellow
+                                    : clrGreyLight),
+                            child: Center(
+                              child: Text(
+                                controller.dayList[index],
+                                style: TextStyle(
+                                    color: controller.dayIndex.value == index
+                                        ? clrWhite
+                                        : clrBlacke),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        width: 10,
+                      );
+                    },
+                  ),),
+                )),
             const SizedBox(
               height: 10,
             ),
@@ -1558,11 +1686,13 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 "Ends",
-                style: TextStyle(color: clrGreyTextLight,fontSize: 15),
+                style: TextStyle(color: clrGreyTextLight, fontSize: 15),
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GestureDetector(
@@ -1571,8 +1701,12 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                 },
                 child: Row(
                   children: [
-                    Obx(() => customRadioButton(1,controller.groupValue.value),),
-                    const SizedBox(width: 5,),
+                    Obx(
+                      () => customRadioButton(1, controller.groupValue.value),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     Text(
                       "Never",
                       style: TextStyle(color: clrGreyTextLight),
@@ -1595,8 +1729,13 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                     },
                     child: Row(
                       children: [
-                        Obx(() => customRadioButton(2,controller.groupValue.value),),
-                        const SizedBox(width: 5,),
+                        Obx(
+                          () =>
+                              customRadioButton(2, controller.groupValue.value),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           "On",
                           style: TextStyle(color: clrGreyTextLight),
@@ -1605,25 +1744,34 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 40,),
-                  Obx(() => Opacity(
-                    opacity: controller.groupValue.value == 1 ? 0.5 : 1,
-                    child: Container(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(70),
-                          color: clrGreyLight),
-                      child: Text(
-                        "18 Sep 2024",
-                        style: TextStyle(color: clrGreyTextLight),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Obx(
+                    () => Opacity(
+                      opacity: controller.groupValue.value == 1 ||
+                              controller.groupValue.value == 3
+                          ? 0.5
+                          : 1,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(70),
+                            color: clrGreyLight),
+                        child: Text(
+                          "18 Sep 2024",
+                          style: TextStyle(color: clrGreyTextLight),
+                        ),
                       ),
                     ),
-                  ),),
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -1634,8 +1782,13 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                     },
                     child: Row(
                       children: [
-                       Obx(() =>  customRadioButton(3,controller.groupValue.value),),
-                        const SizedBox(width: 5,),
+                        Obx(
+                          () =>
+                              customRadioButton(3, controller.groupValue.value),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           "After",
                           style: TextStyle(color: clrGreyTextLight),
@@ -1644,36 +1797,56 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 30,),
+                  const SizedBox(
+                    width: 30,
+                  ),
                   Flexible(
-                    child: Obx(() => Opacity(
-                      opacity: controller.groupValue.value == 1 ? 0.5 : 1,
-                      child: Container(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 25, vertical: 8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(70),
-                            color: clrGreyLight),
-                        child: Text(
-                          "3 occurrences",
-                          style: TextStyle(color: clrGreyTextLight),
+                    child: Obx(
+                      () => Opacity(
+                        opacity: controller.groupValue.value == 1 ||
+                                controller.groupValue.value == 2
+                            ? 0.5
+                            : 1,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(70),
+                              color: clrGreyLight),
+                          child: Text(
+                            "${controller.maxOcc.value} occurrences",
+                            style: TextStyle(color: clrGreyTextLight),
+                          ),
                         ),
                       ),
-                    ),),
+                    ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  Obx(() => Opacity(
-                    opacity: controller.groupValue.value == 1 ? 0.5 : 1,
-                    child: Column(
-                      children: [
-                        Image.asset('assets/images/arrow up.png',scale: 4,),
-                        const SizedBox(height: 8,),
-                        Image.asset('assets/images/arrow down new.png',scale: 4,)
-                      ],
+                  Obx(
+                    () => Opacity(
+                      opacity: controller.groupValue.value == 1 ||
+                              controller.groupValue.value == 2
+                          ? 0.5
+                          : 1,
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/images/arrow up.png',
+                            scale: 4,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Image.asset(
+                            'assets/images/arrow down new.png',
+                            scale: 4,
+                          )
+                        ],
+                      ),
                     ),
-                  ),)
+                  )
                 ],
               ),
             ),
@@ -1721,27 +1894,23 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
     ));
   }
 
-  Widget customRadioButton(int value,int groupValue){
+  Widget customRadioButton(int value, int groupValue) {
     bool isSelected = value == groupValue;
     return Container(
       height: 20,
       width: 20,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: isSelected ? clrYellow : clrBlacke,
-          width: 1.5
-        )
-      ),
-      child: isSelected ? Container(
-        margin: const EdgeInsets.all(2.2),
-        decoration: BoxDecoration(
-            color: clrYellow,
-            shape: BoxShape.circle
-        ),
-        child: const SizedBox(),
-      ) : null,
+          shape: BoxShape.circle,
+          border: Border.all(
+              color: isSelected ? clrYellow : clrBlacke, width: 1.5)),
+      child: isSelected
+          ? Container(
+              margin: const EdgeInsets.all(2.2),
+              decoration:
+                  BoxDecoration(color: clrYellow, shape: BoxShape.circle),
+              child: const SizedBox(),
+            )
+          : null,
     );
   }
-
 }

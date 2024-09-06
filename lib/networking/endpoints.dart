@@ -58,5 +58,6 @@ class EndPoints{
   static String attconfirm = '${baseUrl}confirm-attendance';
 
   static String filter = '${baseUrl}filter-activity';
+  static String maxOcc = '${baseUrl}get-max-occurrences';
 
 }

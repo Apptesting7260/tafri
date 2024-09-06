@@ -12,6 +12,8 @@ class CustoDropDownBtn extends StatefulWidget {
   final Color? hintColor;
   final Widget? suffix;
   final DropdownButtonBuilder? selectedItemBuilder;
+  final EdgeInsetsGeometry? contentPadding;
+  final double? hintSize;
 
   const CustoDropDownBtn(
       {super.key,
@@ -24,7 +26,7 @@ class CustoDropDownBtn extends StatefulWidget {
       this.borderClr,
       this.hintColor,
       this.suffix,
-      this.selectedItemBuilder});
+      this.selectedItemBuilder, this.contentPadding, this.hintSize});
 
   @override
   State<CustoDropDownBtn> createState() => _CustoDropDownBtnState();
@@ -47,7 +49,7 @@ class _CustoDropDownBtnState extends State<CustoDropDownBtn> {
       hint: Align(
         alignment: Alignment.centerLeft,
         child: Text(widget.hindtext ?? '',
-            style: TextStyle(color: widget.hintColor)),
+            style: TextStyle(color: widget.hintColor,fontSize: widget.hintSize)),
       ),
       icon: const SizedBox.shrink(),
       selectedItemBuilder: widget.selectedItemBuilder,
@@ -57,7 +59,7 @@ class _CustoDropDownBtnState extends State<CustoDropDownBtn> {
         suffixIcon: widget.suffix,
         hintStyle:
             TextStyle(fontWeight: FontWeight.w400, color: clrGreyTextLight),
-        contentPadding:
+        contentPadding: widget.contentPadding ??
             const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         fillColor: widget.backClr ?? clrGreyLight,
         filled: true,

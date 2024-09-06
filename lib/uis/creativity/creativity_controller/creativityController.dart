@@ -27,6 +27,7 @@ class Creativitycontroller extends GetxController
       currentLength.value = desController.value.text.length;
     });
     getCategory();
+    getMaxOcc();
     super.onInit();
   }
 
@@ -34,7 +35,8 @@ class Creativitycontroller extends GetxController
   List monthList = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var monthIndex = (-1).obs;
   var dayIndex = (-1).obs;
-  var groupValue = (-1).obs;
+  var groupValue = 0.obs;
+  var wmValue = 0.obs;
 
   var currentLength = 0.obs;
 
@@ -351,6 +353,27 @@ class Creativitycontroller extends GetxController
   }
 
 
+  var maxOcc = 0.obs;
+  Future<void> getMaxOcc() async{
+
+    var header = {
+      'Authorization': 'Bearer $token'
+    };
+    try{
+      var response = await api.get('${EndPoints.maxOcc}',headers: header);
+      if(response.statusCode == 200){
+        maxOcc.value = response.body['max_occurrences'];
+        print(maxOcc.value);
+      }else{
+
+      }
+    }catch(e){
+      print('occ error == ${e.toString()}');
+    }
+
+  }
+
+
 
   /// place api
   RxList<PlacesSearchResult> places = <PlacesSearchResult>[].obs;
@@ -380,7 +403,5 @@ class Creativitycontroller extends GetxController
     }
   }
 ///
-
-
 
 }
