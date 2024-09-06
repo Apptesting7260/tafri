@@ -288,7 +288,7 @@ class FilterExpController extends GetxController{
         print('home data == ${response.body}');
         filterActData.value = FilteractivityModel.fromJson(response.body);
         // resetForm();
-
+        Get.toNamed(Routes.filterActUi);
       }else{
         filterError.value = 'ERROR';
         print('error == ${response.body}');

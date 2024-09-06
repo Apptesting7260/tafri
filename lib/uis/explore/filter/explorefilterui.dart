@@ -910,15 +910,15 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       child: CustomElevatedButton(
                                           onTap: () {
                                             controller.filterActivity();
-                                            Get.toNamed(Routes.filterActUi);
                                           },
-                                          backgroundClr: clrBlacke,
-                                          child: Text("Apply filter",
+                                          backgroundClr: controller.filterLoading.value ? clrGrey : clrBlacke,
+                                          child: controller.filterLoading.value
+                                              ? CommonUi.buttonLoading()
+                                              : Text("Apply filter",
                                               style: TextStyle(
                                                   color: clrWhite,
                                                   fontSize: 16,
-                                                  fontWeight:
-                                                      FontWeight.w700))),
+                                                  fontWeight: FontWeight.w700))),
                                     )),
                                   ],
                                 ),
