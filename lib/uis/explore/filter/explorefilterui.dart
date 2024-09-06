@@ -197,7 +197,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                           ...controller.catData.value.result!.map((e) {
                                             return SizedBox(
                                               height: Res.h_filter_btn,
-                                              child: CustoFilterBtn(
+                                              child: catButton(
                                                 borderClr: clrBlacke,
                                                 lable: Row(
                                                   mainAxisSize: MainAxisSize.min,
@@ -214,17 +214,20 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                       ),
                                                     ),
                                                     const SizedBox(width: 5),
-                                                    Text(
-                                                      e.title.toString(),
-                                                      style: TextStyle(
-                                                        color: e.isSelected ? clrWhite : clrBlacke,
-                                                        fontSize: 13,
-                                                        fontWeight: e.isSelected ? FontWeight.w700 : FontWeight.w400,
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right: 8),
+                                                      child: Text(
+                                                        e.title.toString(),
+                                                        style: TextStyle(
+                                                          color: e.isSelected ? clrWhite : clrBlacke,
+                                                          fontSize: 13,
+                                                          fontWeight: e.isSelected ? FontWeight.w700 : FontWeight.w400,
+                                                        ),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                                ontap: () {
+                                                onTap: () {
                                                   controller.selectCategory(e.id!);
                                                 },
                                                 backgroundClr: e.isSelected ? clrBlacke : clrWhite,
@@ -911,4 +914,15 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
           )),
     );
   }
+
+  Widget catButton({Color? borderClr,required dynamic Function() onTap,required Color backgroundClr, required Widget lable}){
+    return CustomElevatedButton(
+        borderClr: borderClr,
+        paddingHz: 2,
+        paddingVr: 3,
+        onTap: onTap,
+        backgroundClr: backgroundClr,
+        child: lable);
+  }
+
 }
