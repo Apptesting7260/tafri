@@ -15,7 +15,9 @@ class CustoTextFormField extends StatefulWidget {
   final double? borderRadius;
   final double? hintSize;
   final void Function(String)? onChanged;
-  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize});
+  final void Function()? onTap;
+  final bool? readonly;
+  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize, this.readonly, this.onTap});
 
   @override
   State<CustoTextFormField> createState() => _CustoTextFormFieldState();
@@ -25,6 +27,8 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: widget.onTap,
+      readOnly: widget.readonly ?? false,
       validator:widget.validation,
       controller: widget.controll,
       maxLines: widget.maxLines,

@@ -76,7 +76,11 @@ class ExploreUi extends GetWidget<ExploreListController> {
                   child: SizedBox(
                       height: Get.height * .07,
                       width: Get.width * 0.76,
-                      child: const CustoTextFormField(
+                      child:  CustoTextFormField(
+                        onTap: () {
+                          Get.toNamed(Routes.searchActUi);
+                        },
+                        readonly: true,
                         // hintText: "Anywhere • any week",
                         hintText: 'Any activity',
                         sufixIcon: Icon(Icons.search),

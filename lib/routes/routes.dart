@@ -11,6 +11,8 @@ import 'package:plusone/uis/explore/hostprofile/bindings/hostprofile_binding.dar
 import 'package:plusone/uis/explore/hostprofile/hostprofileui.dart';
 import 'package:plusone/uis/explore/map/bindings/mapactivity_binding.dart';
 import 'package:plusone/uis/explore/map/mapui.dart';
+import 'package:plusone/uis/explore/search/bindings/searchact_binding.dart';
+import 'package:plusone/uis/explore/search/searchactui.dart';
 import 'package:plusone/uis/membership/plans/bindings/plan_binding.dart';
 import 'package:plusone/uis/message/chats/bindings/chat_binding.dart';
 import 'package:plusone/uis/message/chats/chatui.dart';
@@ -135,6 +137,7 @@ class Routes{
   static String attendReviewUi='/attend_reviewui';
   static String addReviewUi='/add_reviewui';
   static String filterActUi='/filterActui';
+  static String searchActUi='/searchActUi';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -182,5 +185,6 @@ class Routes{
     GetPage(name: attendReviewUi, page:()=>  AttendanceReviewUi(),binding:AttendReviewBinding()),
     GetPage(name: addReviewUi, page:()=>  AddActReviewUi(),binding:AddactreviewBinding()),
     GetPage(name: filterActUi, page:()=>  FilterActUi(),binding:FilterActBinding()),
+    GetPage(name: searchActUi, page:()=>  SearchActui(),binding:SearchActBinding()),
   ];
 }
