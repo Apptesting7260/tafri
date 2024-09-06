@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/tostmsg.dart';
 
 import '../../../../networking/apiservices.dart';
 import '../../../../networking/endpoints.dart';
+import '../../../../utils/colors.dart';
 import '../../../../utils/local_storage.dart';
+import '../../../../utils/size.dart';
 import '../../../creativity/model/category_model.dart';
 import '../../explorelist/controller/explorelist_controller.dart';
+import '../filteractivity/model/filteractivity_model.dart';
 
 class FilterExpController extends GetxController{
   @override
@@ -116,7 +120,7 @@ class FilterExpController extends GetxController{
 
   var categoryid = false.obs;
 
-  var filterLoading = false.obs;
+
 
   TextEditingController locController = TextEditingController();
 
@@ -194,6 +198,20 @@ class FilterExpController extends GetxController{
 
   var filterDate = "".obs;
 
+  var selectedTime = ''.obs;
+
+
+  var filterLoading = false.obs;
+  var filterError = "".obs;
+  var filterActData = FilteractivityModel().obs;
+
+
+
+  changeIndicator(index, currentIndex) {
+    filterActData.value.result!.activities?[index].circleIndex?.value = currentIndex;
+  }
+
+
   Future<void> filterActivity() async{
 
     var date = '';
@@ -216,22 +234,43 @@ class FilterExpController extends GetxController{
     // Validation to ensure at least one of the fields has a value
     if (selected.isEmpty && locController.text.isEmpty && date.isEmpty
         && groupSize.value <= 1 && categoryid == false
-        && genderFilter.value == 0
+        && genderFilter.value == 0 && selectedTime.isEmpty
     ) {
       showTostMsg('Please select at least one filter.');
       return;
     }
 
-    Map body = {
+    // Map body;
+
+    // if(selected.isEmpty && locController.text.isEmpty && date.isEmpty
+    //     && groupSize.value <= 1 && categoryid == true
+    //     && genderFilter.value == 0 && selectedTime.isEmpty){
+    //    body = {
+    //     'user_id': LocalStorage.getUid(),
+    //      'category_id': ''
+    //    };
+    // } else{
+    //    body = {
+    //     'user_id': LocalStorage.getUid(),
+    //     'category_id': categoryid == true ? '' : selected,
+    //      locController.value.text.isNotEmpty ? 'location': locController.value.text.toString() : null,
+    //     'max_people': groupSize.value <2 ? '' : groupSize.value.toString(),
+    //     'date': date,
+    //     'time_slot': selectedTime.value,
+    //     'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '',
+    //     'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
+    //   };
+    // }
+
+     Map body = {
       'user_id': LocalStorage.getUid(),
-      'category_id': categoryid == true ? '' : selected,
-      'location': locController.text.toString(),
-      'max_people': groupSize.value,
-      'date': date,
-      'start_at': LocalStorage.getUid(),
-      'end_at': LocalStorage.getUid(),
-      'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '',
-      'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
+       if(categoryid == true) 'category_id': categoryid == true ? '' : selected,
+       if(locController.value.text.isNotEmpty) 'location': locController.value.text.toString(),
+       if(groupSize.value >1) 'max_people': groupSize.value.toString(),
+       if(date.isNotEmpty) 'date': date,
+       if(selectedTime.value.isNotEmpty) 'time_slot': selectedTime.value,
+       if(genderFilter.value != 0) 'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '' ,
+       if(hideWaitListAct.value == true) 'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
     };
 
     print(body);
@@ -245,19 +284,21 @@ class FilterExpController extends GetxController{
     try{
       final response = await api.post(EndPoints.filter, body, headers: header);
       if(response.statusCode == 200){
+        filterError.value = '';
         print('home data == ${response.body}');
+        filterActData.value = FilteractivityModel.fromJson(response.body);
+        // resetForm();
 
       }else{
+        filterError.value = 'ERROR';
         print('error == ${response.body}');
 
       }
     }catch(e){
-      print('home api error == ${e.toString()}');
+      print('filter api error == ${e.toString()}');
 
     }
-
     filterLoading.value = false;
-
   }
 
 
@@ -285,9 +326,170 @@ class FilterExpController extends GetxController{
     filterDateCalenderStart.value = "";
     filterDateEnd.value = "";
     filterDateCalenderEnd.value = "";
+    selectedTime.value = "";
     locController.clear();
   }
 
+
+
+  bool? isFavs = false;
+
+  Future<bool?> changeFavApi(String? id) async{
+
+    Map body = {
+      'activity_id': id,
+      'user_id': LocalStorage.getUid(),
+    };
+
+    print(body);
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    try{
+      final response = await api.post(EndPoints.changeFavurl, body,headers: header);
+      if(response.statusCode == 200){
+        isFavs = true;
+        print('change data == ${response.body}');
+        log(isFavs.toString());
+        return isFavs;
+      }else{
+        print('error == ${response.body}');
+        return false;
+      }
+    }catch(e){
+      print('changeFav api error == ${e.toString()}');
+      return false;
+    }
+  }
+
+  showHomePop() async {
+    Future.delayed(Duration.zero, () {
+      return Get.dialog(AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+          contentPadding:
+          const EdgeInsets.only(left: 18,right: 18, top: 20,bottom: 30),
+          content: SizedBox(
+            width: Get.width * 0.87,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(
+                      Icons.close,
+                      size: 35,
+                    )),
+                Center(
+                  child: Image.asset(
+                    "assets/icons/hifyicon.png",
+                    height: 49,
+                    width: 90,
+                  ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                const Center(
+                    child: Text(
+                      "Welcome! Let’s get started",
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                    )),
+                SizedBox(
+                  height: Get.height * 0.012,
+                ),
+                const Center(
+                  child: Text(
+                    "To join activities, please become a PlusOnes member and complete your profile.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Nunito'),
+                  ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.025,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.planMemUi);
+                  },
+                  child: Container(
+                    width: double.maxFinite,
+                    padding: const EdgeInsets.only(left: 18,right: 10,top: 12,bottom: 12,),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: clrGreyLight),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/icons/tajicon.png",
+                          height: Get.height * 0.03,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Flexible(
+                                  child: Text(
+                                    "Become a member",
+                                    style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
+                                  )),
+                              Image.asset('assets/icons/arrow right.png',height: 14,)
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.myprofileInnUi);
+                  },
+                  child: Container(
+                    width: double.maxFinite,
+                    padding: const EdgeInsets.only(left: 18,right: 10,top: 12,bottom: 12,),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: clrGreyLight),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/icons/person.png",
+                          height: Get.height * 0.03,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Flexible(
+                                  child: Text("Complete profile",
+                                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400))),
+                              Image.asset('assets/icons/arrow right.png',height: 14)
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )));
+    });
+  }
 
 
 }
