@@ -326,7 +326,7 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                           height: h * .008,
                                                         ),
                                                         Text(
-                                                          "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} ${activityData![index].spotLeft! > 1 ? 'spots left' : 'spot left'}",
+                                                          "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} ${activityData![index].spotLeft! > 1 ? 'spots left' : 'spots left'}",
                                                           style: TextStyle(
                                                               color: clrYellowText,
                                                               fontSize: 13),
