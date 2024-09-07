@@ -417,7 +417,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                   height: Get.height * 0.01,
                                 ),
                                 Text(
-                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! > 1 ? 'spots left' : 'spots left'}",
+                                  "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! == 1 ? 'spot left' : 'spots left'}",
                                   style: TextStyle(color: clrYellowText, fontSize: 13),
                                 ),
 

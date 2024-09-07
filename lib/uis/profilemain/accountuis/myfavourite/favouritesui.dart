@@ -245,7 +245,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                         ),
                                         SizedBox(height: h * .008,),
                                         Text(
-                                          "Up to ${resultData[index].maxPeople} people | ${resultData[index].spotLeft} ${resultData[index].spotLeft! > 1 ? 'spots left' : 'spots left'}",
+                                          "Up to ${resultData[index].maxPeople} people | ${resultData[index].spotLeft} ${resultData[index].spotLeft! == 1 ? 'spot left' : 'spots left'}",
                                           style: TextStyle(color: clrYellowText, fontSize: 13),
                                         ),
 

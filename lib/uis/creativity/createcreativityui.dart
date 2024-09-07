@@ -1307,7 +1307,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                       ),
                                                       Obx(
                                                         () => Text(
-                                                          "${controller.groupSize.value > 1 ? 'Up to ${controller.groupSize.value} people' : 'Up to 3 people'} | 1 spots left",
+                                                          "${controller.groupSize.value > 1 ? 'Up to ${controller.groupSize.value} people' : 'Up to 3 people'} | 1 spot left",
                                                           style: TextStyle(
                                                               color:
                                                                   clrYellowText,
