@@ -86,7 +86,7 @@ class ReglocdobController extends GetxController{
 
 
 // places api
-  RxList<PlacesSearchResult> places = <PlacesSearchResult>[].obs;
+  RxList<String?> places = <String?>[].obs;
   RxString _searchTerm = ''.obs;
   final placesApi = GoogleMapsPlaces(apiKey: 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM');
 
@@ -101,13 +101,17 @@ class ReglocdobController extends GetxController{
     }
   }
 
-  Future<List<PlacesSearchResult>> searchPlaces(String searchTerm) async {
-    final response = await placesApi.searchByText(
-      searchTerm,
-    );
+  Future<List<String?>> searchPlaces(String searchTerm) async {
+    // final response = await placesApi.searchByText(
+    //   searchTerm,
+    // );
+    final response = await placesApi.autocomplete(searchTerm);
+    // if(data.isOkay){
+    //   print("=== ${data.predictions[0].id}  ${data.predictions[0].description}  ${data.predictions[0].matchedSubstrings}");
+    // }
     if (response.isOkay) {
-      print('location == ${response.results}');
-      return response.results;
+      print('location == ${response.predictions}');
+      return response.predictions.map((e) => e.description,).toList();
     } else {
       return [];
     }

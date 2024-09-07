@@ -108,7 +108,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                         CustomLocationField(
                           itemBuilder: (context, suggestion) {
                             return ListTile(
-                              title: Text(suggestion.name.toString()),
+                              title: Text(suggestion.toString()),
                             );
                           },
                           suggestionsCallback: (value) async{
@@ -124,7 +124,7 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                             }
                           },
                           onSelected: (value) {
-                            controller.locationController.text = value.name;
+                            controller.locationController.text = value.toString();
                           },
                           sufixIcon: Container(
                               padding: const EdgeInsets.symmetric(

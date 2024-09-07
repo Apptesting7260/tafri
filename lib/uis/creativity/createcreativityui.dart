@@ -525,8 +525,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               itemBuilder:
                                                   (context, suggestion) {
                                                 return ListTile(
-                                                  title: Text(suggestion.name
-                                                      .toString()),
+                                                  title: Text(suggestion.toString()),
                                                 );
                                               },
                                               suggestionsCallback:
@@ -547,7 +546,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               },
                                               onSelected: (value) {
                                                 controller.locController.value
-                                                    .text = value.name;
+                                                    .text = value.toString();
                                               },
                                               sufixIcon: Container(
                                                   padding: const EdgeInsets

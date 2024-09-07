@@ -71,7 +71,7 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                     child: CustomLocationField(
                       itemBuilder: (context, suggestion) {
                         return ListTile(
-                          title: Text(suggestion.name.toString()),
+                          title: Text(suggestion.toString()),
                         );
                       },
                       suggestionsCallback: (value) async {
@@ -86,7 +86,7 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                         return null;
                       },
                       onSelected: (value) {
-                        controller.locController.text = value.name;
+                        controller.locController.text = value.toString();
                       },
                       sufixIcon: Container(
                           padding: const EdgeInsets.symmetric(
