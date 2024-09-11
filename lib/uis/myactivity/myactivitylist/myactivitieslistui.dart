@@ -175,7 +175,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       onTap: () {
                                                                         Get.toNamed(
                                                                             Routes.exploreView,
-                                                                            arguments: data?.activities?[ind].id.toString()
+                                                                            arguments: data.activities?[ind].id.toString()
                                                                         );
                                                                       },
                                                                       child: Row(
@@ -188,7 +188,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                 borderRadius: BorderRadius.circular(5),
                                                                               ),
                                                                               child: CachedNetworkImage(
-                                                                                imageUrl: '${data?.activities?[ind].banners?[0]}',
+                                                                                imageUrl: '${data.activities?[ind].banners?[0]}',
                                                                                 errorWidget: (context, url, error) =>
                                                                                     Icon(
                                                                                         Icons.error,
@@ -217,10 +217,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Text(
-                                                                                    "${data?.activities?[ind].name}",
+                                                                                    "${data.activities?[ind].name}",
                                                                                     style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                                                                   ),
-                                                                                  Text("${data?.activities?[ind].location}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
+                                                                                  Text("${data.activities?[ind].location}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
                                                                                 ],
                                                                               ),
                                                                             ),
@@ -323,7 +323,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                     .previousActivityUi,
                                                                                 arguments: {
                                                                                   "isHost": false,
-                                                                                  "id": data?.activities?[ind].id.toString()
+                                                                                  "id": data.activities?[ind].id.toString()
                                                                                 });
                                                                           },
                                                                           child: Row(
@@ -337,7 +337,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                   borderRadius: BorderRadius.circular(5),
                                                                                 ),
                                                                                 child: CachedNetworkImage(
-                                                                                  imageUrl: '${data?.activities?[ind].banners?[0]}',
+                                                                                  imageUrl: '${data.activities?[ind].banners?[0]}',
                                                                                   fit: BoxFit.cover,
                                                                                   placeholder: (context, url) => Shimmer.fromColors(
                                                                                       baseColor: grey300,
@@ -363,14 +363,14 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     children: [
                                                                                       Text(
-                                                                                        "${data?.activities?[ind].name.toString()}",
+                                                                                        "${data.activities?[ind].name.toString()}",
                                                                                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                                                                       ),
                                                                                       Text(
-                                                                                          "${data?.activities?[ind].status.toString()}",
+                                                                                          "${data.activities?[ind].status.toString()}",
                                                                                           style: TextStyle(color: clrGreyDark, fontSize: 12)
                                                                                       ),
-                                                                                      data?.activities?[ind].status.toString() == 'completed' ? Padding(
+                                                                                      data.activities?[ind].status.toString() == 'completed' ? Padding(
                                                                                         padding: const EdgeInsets.symmetric(vertical: 3),
                                                                                         child: Row(
                                                                                           children: [
@@ -566,7 +566,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                     padding: const EdgeInsets.only(top: 5),
                                                                       child: InkWell(
                                                                         onTap: () {
-                                                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: data?.activities?[ind].id.toString());
+                                                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: data.activities?[ind].id.toString());
                                                                         },
                                                                         child: Row(
                                                                           crossAxisAlignment:
@@ -589,7 +589,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                 child:
                                                                                 CachedNetworkImage(
                                                                                   imageUrl:
-                                                                                  '${data?.activities?[ind].featureImg}',
+                                                                                  '${data.activities?[ind].featureImg}',
                                                                                   fit: BoxFit
                                                                                       .cover,
                                                                                   placeholder: (context, url) => Shimmer.fromColors(
@@ -627,12 +627,12 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                   CrossAxisAlignment.start,
                                                                                   children: [
                                                                                     Text(
-                                                                                      "${data?.activities?[ind].name.toString()}",
+                                                                                      "${data.activities?[ind].name.toString()}",
                                                                                       style:
                                                                                       const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                                                                     ),
                                                                                     Text(
-                                                                                        "${data?.activities?[ind].location.toString()}",
+                                                                                        "${data.activities?[ind].location.toString()}",
                                                                                         style: TextStyle(color: clrGreyDark, fontSize: 12)),
                                                                                   ],
                                                                                 ),
@@ -730,6 +730,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       itemCount: data!.activities!.length,
                                                                       shrinkWrap: true,
                                                                       itemBuilder: (context, ind){
+                                                                        var actdatas = data.activities?[ind];
                                                                         return Padding(
                                                                           padding: const EdgeInsets.only(top: 5),
                                                                           child: GestureDetector(
@@ -754,7 +755,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                         borderRadius: BorderRadius.circular(5),
                                                                                       ),
                                                                                       child: CachedNetworkImage(
-                                                                                        imageUrl: '${data?.activities?[ind].featureImg}',
+                                                                                        imageUrl: '${data.activities?[ind].featureImg}',
                                                                                         fit: BoxFit.cover,
                                                                                         errorWidget: (context, url, error) => Container(
                                                                                           height: 40,
@@ -795,11 +796,11 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                                                                   children: [
                                                                                                     Text(
-                                                                                                      "${data?.activities?[ind].name.toString()}",
+                                                                                                      "${data.activities?[ind].name.toString()}",
                                                                                                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                                                                                     ),
                                                                                                     Text(
-                                                                                                        "${data?.activities?[ind].status.toString()}",
+                                                                                                        "${data.activities?[ind].status.toString()}",
                                                                                                         style: TextStyle(color: clrGreyDark, fontSize: 12)
                                                                                                     ),
                                                                                                   ],
@@ -808,7 +809,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                               SizedBox(
                                                                                                 height: 23,
                                                                                                 child: CustomElevatedButton(
-                                                                                                    onTap: () {},
+                                                                                                    onTap: () {
+                                                                                                      Get.toNamed(
+                                                                                                          Routes.repeatActUi,
+                                                                                                          arguments: controller
+                                                                                                              .hostingData
+                                                                                                              .value
+                                                                                                              .result
+                                                                                                              ?.previousActivities?[index]
+                                                                                                              .activities?[ind]
+                                                                                                      );
+                                                                                                    },
                                                                                                     backgroundClr: clrGreyLight,
                                                                                                     paddingHz: 10,
                                                                                                     child: Row(
@@ -826,7 +837,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                               )
                                                                                             ],
                                                                                           ),
-                                                                                          data?.activities?[ind].status.toString() == 'completed' ? Padding(
+                                                                                          data.activities?[ind].status.toString() == 'completed' ? Padding(
                                                                                             padding: const EdgeInsets.symmetric(vertical: 3),
                                                                                             child: Row(
                                                                                               crossAxisAlignment: CrossAxisAlignment.center,

@@ -191,9 +191,13 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime.now(),
                                 initialDate: controller.dob.value == ''
-                                    ? DateTime.now()
-                                    : DateTime.parse(controller.dobForCalender
-                                    .value)); //controller.dob.value
+                                    ? DateTime.now().subtract(Duration(days: 18 * 365))
+                                    : DateTime.parse(controller.dobForCalender.value),
+                              selectableDayPredicate: (DateTime day) {
+                                return day.isBefore(DateTime.now().subtract(Duration(days: 18 * 365)))
+                                    || day.isAtSameMomentAs(DateTime.now().subtract(Duration(days: 18 * 365)));
+                              },
+                            ); //controller.dob.value
                             if (dob != null) {
                               print("gk=====$dob");
                               controller.changeDob(dob);

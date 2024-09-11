@@ -38,7 +38,7 @@ class PreviousActiController extends GetxController{
   }
 
 
-  final MyactiController myactiController = Get.find<MyactiController>();
+  final MyactiController myactiController = Get.put(MyactiController());
 
   var delLoading = false.obs;
   var delData = ActDataModal().obs;

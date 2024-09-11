@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
-import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
@@ -1489,83 +1488,92 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                       .result?.upcomingActivities?[index].activities?.length,
                                   shrinkWrap: true,
                                   itemBuilder: (context,ind) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(top: 12),
-                                      child: Row(
-                                        children: [
-                                          // Container(
-                                          //   clipBehavior: Clip.hardEdge,
-                                          //   height: h * .075,
-                                          //   width: h * .075,
-                                          //   decoration: BoxDecoration(
-                                          //     borderRadius:
-                                          //     BorderRadius.circular(10),
-                                          //   ),
-                                          //   child: Image.asset(
-                                          //     "assets/images/parkimage.png",
-                                          //     fit: BoxFit.cover,
-                                          //   ),
-                                          // ),
-                                          Container(
-                                            clipBehavior: Clip.hardEdge,
-                                            height: h * .075,
-                                            width: h * .075,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(10),
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.toNamed(Routes.previousActivityUi,
+                                            arguments: {
+                                              "isHost": false,
+                                              "id": profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].id.toString()
+                                            });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 12),
+                                        child: Row(
+                                          children: [
+                                            // Container(
+                                            //   clipBehavior: Clip.hardEdge,
+                                            //   height: h * .075,
+                                            //   width: h * .075,
+                                            //   decoration: BoxDecoration(
+                                            //     borderRadius:
+                                            //     BorderRadius.circular(10),
+                                            //   ),
+                                            //   child: Image.asset(
+                                            //     "assets/images/parkimage.png",
+                                            //     fit: BoxFit.cover,
+                                            //   ),
+                                            // ),
+                                            Container(
+                                              clipBehavior: Clip.hardEdge,
+                                              height: h * .075,
+                                              width: h * .075,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].banners != null &&
+                                                  profileController.profileData.value.result!.upcomingActivities![index].activities![ind].banners!.isNotEmpty
+                                                  ? CachedNetworkImage(
+                                                fit: BoxFit.cover,
+                                                imageUrl: profileController.profileData.value.result!.upcomingActivities![index].activities![ind].banners![0],
+                                                placeholder: (context, url) => Shimmer.fromColors(
+                                                  baseColor: grey300,
+                                                  highlightColor: grey100,
+                                                  child: Container(
+                                                    color: grey300,
+                                                  ),
+                                                ),
+                                              )
+                                                  : Image.asset(
+                                                "assets/images/parkimage.png",
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                            child: profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].banners != null &&
-                                                profileController.profileData.value.result!.upcomingActivities![index].activities![ind].banners!.isNotEmpty
-                                                ? CachedNetworkImage(
-                                              fit: BoxFit.cover,
-                                              imageUrl: profileController.profileData.value.result!.upcomingActivities![index].activities![ind].banners![0],
-                                              placeholder: (context, url) => Shimmer.fromColors(
-                                                baseColor: grey300,
-                                                highlightColor: grey100,
-                                                child: Container(
-                                                  color: grey300,
+                                            SizedBox(
+                                              width: Get.width * 0.02,
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 10),
+                                                decoration: BoxDecoration(
+                                                    color: clrWhite,
+                                                    borderRadius:
+                                                    BorderRadius.circular(5)),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].name.toString() ?? '',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                          FontWeight.w600),
+                                                    ),
+                                                    Text(
+                                                        profileController.profileData.value.result!.upcomingActivities![index].activities![ind].location.toString() ?? '',
+                                                        style: TextStyle(
+                                                            color: clrGreyTextLight,
+                                                            fontSize: 12)
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             )
-                                                : Image.asset(
-                                              "assets/images/parkimage.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: Get.width * 0.02,
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              padding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 10),
-                                              decoration: BoxDecoration(
-                                                  color: clrWhite,
-                                                  borderRadius:
-                                                  BorderRadius.circular(5)),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].name.toString() ?? '',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                        FontWeight.w600),
-                                                  ),
-                                                  Text(
-                                                      profileController.profileData.value.result!.upcomingActivities![index].activities![ind].location.toString() ?? '',
-                                                      style: TextStyle(
-                                                          color: clrGreyTextLight,
-                                                          fontSize: 12)
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },
@@ -1593,35 +1601,37 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.previousActivityUi,
-                                  arguments: {"isHost": false});
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: clrGreyLight),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    profileController.profileData.value.result!.previousActivities![index].formattedDate ?? '',
-                                    style: TextStyle(color: clrGreyDark),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.003,
-                                  ),
-                                  ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: profileController.profileData.value
-                                        .result?.previousActivities?[index].activities?.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context,ind) {
-                                     return Padding(
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: clrGreyLight),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  profileController.profileData.value.result!.previousActivities![index].formattedDate ?? '',
+                                  style: TextStyle(color: clrGreyDark),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.003,
+                                ),
+                                ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: profileController.profileData.value
+                                      .result?.previousActivities?[index].activities?.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context,ind) {
+                                   return InkWell(
+                                     onTap: () {
+                                       Get.toNamed(Routes.previousActivityUi,
+                                           arguments: {
+                                             "isHost": false,
+                                             "id": profileController.profileData.value.result?.previousActivities?[index].activities?[ind].id.toString()
+                                           });
+                                     },
+                                     child: Padding(
                                        padding: const EdgeInsets.only(top: 12),
                                        child: Row(
                                           children: [
@@ -1699,14 +1709,14 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             )
                                           ],
                                         ),
-                                     );
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                ],
-                              ),
+                                     ),
+                                   );
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                              ],
                             ),
                           );
                         }),

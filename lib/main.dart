@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:plusone/networking/checkconnection.dart';
+import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/onbording/introone/binding/intro_binding.dart';
 import 'package:plusone/utils/colors.dart';
@@ -36,6 +37,7 @@ Future<void> main() async {
   InternetService();
   await GetStorage.init();
   runApp(const MyApp());
+  await FirebaseApi().initNotifications();
 }
 
 class MyApp extends StatelessWidget {

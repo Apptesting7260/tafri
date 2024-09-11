@@ -1,14 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/state_manager.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
@@ -16,21 +11,71 @@ import 'package:http/http.dart' as http;
 import 'package:plusone/uis/creativity/model/category_model.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import '../../myactivitylist/model/hosting_model.dart';
 
-class Creativitycontroller extends GetxController
+class Repeatcreativitycontroller extends GetxController
     with GetTickerProviderStateMixin {
   late TabController tabController;
 
+  ActivityElement? activities;
+
+
   @override
   void onInit() {
+    activities = Get.arguments;
+    print('act == ${activities!.categoryId}');
+    print('act == ${activities!.subcategoryId}');
     tabController = TabController(length: 2, vsync: this);
     desController.value.addListener(() {
       currentLength.value = desController.value.text.length;
     });
     getCategory();
     getMaxOcc();
+    repeatadd();
     super.onInit();
   }
+
+  void repeatadd(){
+    if (activities != null) {
+      desController.value.text = activities?.description ?? '';
+      catID.value = activities?.categoryId.toString() ?? '';
+      subCatID.value = activities?.subcategoryId.toString() ?? '';
+      print('Selected subcategoryssss ID: ${subCatID.value}');
+      getSubCatid(subCatID.value);
+      // getSubCatName(int.parse(subCatID.value));
+      titleController.value.text = activities?.name ?? '';
+      locController.value.text = activities?.location ?? '';
+      sTimeForApi.value = activities?.startAt.toString() ?? '';
+      eTimeForAPi.value = activities?.endAt.toString() ?? '';
+      groupSize.value = activities?.maxPeople ?? 1;
+      gender.value = activities?.gender == 'same' ? 1 : activities?.gender == 'all' ? 2 : 0;
+      repeats.value = activities?.repeatStatus == 'repeats' ? true : false;
+      joinInstant.value = activities?.joinInstantly == 1 ? true : false;
+      updateGalleryImages();
+    }
+  }
+
+  Future<void> getSubCatid(String val) async {
+    // Simulate fetching data and updating subCatID
+    subCatID.value = val;
+    print('Current subCatID in Controller: ${subCatID.value}');
+  }
+
+  void updateGalleryImages() {
+    if (activities?.banners != null) {
+      galleryImages.clear();
+      for (var banner in activities!.banners!) {
+        galleryImages.add(banner);
+      }
+      containerList.length = activities!.banners!.length - 1;
+      debugPrint("galleryImages updated: ${galleryImages.length} images added");
+      debugPrint("container updated: ${containerList.length} images added");
+    } else {
+      debugPrint("No banners available in activities.");
+    }
+  }
+
+
 
 
   RxInt counter = 1.obs;
@@ -73,16 +118,6 @@ class Creativitycontroller extends GetxController
 
   List dayList = ['M','T','W','T','F','S','S'];
 
-  // List daysList = ['monday','tuesday','wednesday','thursday','friday','staurday','sunday'];
-  //
-  // RxString repeatday = ''.obs;
-  //
-  // changeday(val) {
-  //   daysList[val] = repeatday.value;
-  //   debugPrint("dayslist==>${repeatday.value}");
-  // }
-
-
   List daysList = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   RxString repeatday = ''.obs;
 
@@ -120,7 +155,6 @@ class Creativitycontroller extends GetxController
       debugPrint("Invalid index: $val");
     }
   }
-
 
   List monthsList = [
     'january', 'february', 'march', 'april', 'may', 'june',
@@ -179,14 +213,11 @@ class Creativitycontroller extends GetxController
     }
   }
 
-
-
   List monthList = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var monthIndex = (-1).obs;
   var dayIndex = (-1).obs;
   var groupValue = 0.obs;
   var wmValue = 0.obs;
-
   var currentLength = 0.obs;
 
   RxInt groupSize = 1.obs;
@@ -197,7 +228,7 @@ class Creativitycontroller extends GetxController
     }
   }
 
-  decGroupSize() {
+   decGroupSize() {
     if (groupSize.value > 1) {
       groupSize.value -= 1;
     }
@@ -255,6 +286,7 @@ class Creativitycontroller extends GetxController
 
   var date = ''.obs;
   var dateForPicker = ''.obs;
+
   changeDate(DateTime dateTime) {
     dateForPicker.value = dateTime.toString();
 
@@ -277,7 +309,7 @@ class Creativitycontroller extends GetxController
   var text = ''.obs;
   final int maxLength = 500;
 
-  RxList<File> galleryImages = <File>[].obs;
+  RxList galleryImages = [].obs;
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -316,7 +348,7 @@ class Creativitycontroller extends GetxController
   var subcategoryNameList = <Map<String, dynamic>>[].obs;
 
   void getSubCat(int catID){
-    subCatID.value = '';
+    // subCatID.value = '';
     subcategoryList.clear();
     subcategoryNameList.clear();
     for(int i = 0; i<catData.value.result!.length;i++){
@@ -362,6 +394,7 @@ class Creativitycontroller extends GetxController
             child: Text(e.title.toString()),
           ));
         });
+        getSubCat(int.parse(activities!.categoryId.toString()));
       }else{
         catError.value = 'Error';
       }
@@ -384,7 +417,7 @@ class Creativitycontroller extends GetxController
     return extension == 'jpg' || extension == 'jpeg' || extension == 'png';
   }
 
-  bool checkGalleryImagesFormat(List<File> galleryImages) {
+  bool checkGalleryImagesFormat(List galleryImages) {
     var isValid = true.obs;
     for (var image in galleryImages) {
       if (!isValidImageFormat(image)) {
@@ -399,12 +432,14 @@ class Creativitycontroller extends GetxController
     loading.value = true;
 
     try {
-      print("=== ${checkGalleryImagesFormat(galleryImages)}");
+      // print("=== ${checkGalleryImagesFormat(galleryImages)}");
       if(!choosePhotoCheck.value && galleryImages.isEmpty) {
-          showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
-      }else if(!checkGalleryImagesFormat(galleryImages)){
+        showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
+      }
+      else if(!checkGalleryImagesFormat(galleryImages)){
         showTostMsg('Image should be in .png, .jpg format.',gravity: ToastGravity.CENTER);
-      } else if(catID.value.isEmpty){
+      }
+      else if(catID.value.isEmpty){
         showTostMsg('Please select Category',gravity: ToastGravity.CENTER);
       }else if(subCatID.value.isEmpty){
         showTostMsg('Please select SubCategory',gravity: ToastGravity.CENTER);
@@ -423,13 +458,13 @@ class Creativitycontroller extends GetxController
       }else if(eTimeForAPi.value.isEmpty){
         showTostMsg('Please Select end time',gravity: ToastGravity.CENTER);
       }else if(
-        !checkTime(TimeOfDay(
+      !checkTime(TimeOfDay(
         hour: int.parse(sTime.value.split(":")[0]),
         minute: int.parse(sTime.value.split(":")[1]),
-        ),TimeOfDay(
+      ),TimeOfDay(
         hour: int.parse(eTime.value.split(":")[0]),
         minute: int.parse(eTime.value.split(":")[1]),
-        ))
+      ))
       ){
         showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
       }else if(groupSize.value < 2){
@@ -444,7 +479,7 @@ class Creativitycontroller extends GetxController
             showTostMsg('Please select the month',gravity: ToastGravity.CENTER);
           }
         }else if(groupValue.value == 0){
-            showTostMsg('Please select the ends',gravity: ToastGravity.CENTER);
+          showTostMsg('Please select the ends',gravity: ToastGravity.CENTER);
         }else if(groupValue.value == 2){
           if(Rdate.value.isEmpty){
             showTostMsg('Please select the date',gravity: ToastGravity.CENTER);

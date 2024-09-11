@@ -525,7 +525,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               itemBuilder:
                                                   (context, suggestion) {
                                                 return ListTile(
-                                                  title: Text(suggestion.toString()),
+                                                  title: Text(
+                                                      suggestion.toString()),
                                                 );
                                               },
                                               suggestionsCallback:
@@ -915,35 +916,35 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               height: Get.height * 0.02,
                                             ),
                                             CustoDropDownBtn(
-                                                val: controller.repeat?.value,
-                                                onchange: (val) {
-                                                  controller
-                                                      .changeRepeatVal(val);
-                                                  if (val == 2) {
-                                                    alertRepeatSchedule();
-                                                  }
-                                                },
-                                                backClr: clrWhite,
-                                                borderClr:
-                                                    clrGrey.withOpacity(0.6),
-                                                itemList: const [
-                                                  DropdownMenuItem(
-                                                    value: 1,
-                                                    child:
-                                                        Text("Doesn’t repeat"),
-                                                  ),
-                                                  DropdownMenuItem(
-                                                    value: 2,
-                                                    child: Text(
-                                                        "Should have repeat schedule "),
-                                                  ),
-                                                ],
-                                                hindtext: "Doesn’t repeat ",
-                                                suffix: Image.asset(
-                                                  'assets/images/arrow down.png',
-                                                  scale: 4,
+                                              val: controller.repeat?.value,
+                                              onchange: (val) {
+                                                controller.changeRepeatVal(val);
+                                                if (val == 2) {
+                                                  alertRepeatSchedule(context);
+                                                } else if (val == 1) {
+                                                  controller.repeatRefresh();
+                                                }
+                                              },
+                                              backClr: clrWhite,
+                                              borderClr:
+                                                  clrGrey.withOpacity(0.6),
+                                              itemList: const [
+                                                DropdownMenuItem(
+                                                  value: 1,
+                                                  child: Text("Doesn’t repeat"),
                                                 ),
+                                                DropdownMenuItem(
+                                                  value: 2,
+                                                  child: Text(
+                                                      "Should have repeat schedule "),
+                                                ),
+                                              ],
+                                              hindtext: "Doesn’t repeat ",
+                                              suffix: Image.asset(
+                                                'assets/images/arrow down.png',
+                                                scale: 4,
                                               ),
+                                            ),
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
@@ -1437,7 +1438,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
     );
   }
 
-  alertRepeatSchedule() {
+  alertRepeatSchedule(BuildContext context) {
     Get.dialog(AlertDialog(
       backgroundColor: clrWhite,
       scrollable: true,
@@ -1482,104 +1483,124 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
             const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Repeat every",
-                    style: TextStyle(color: clrGreyTextLight, fontSize: 15),
-                    textAlign: TextAlign.center,
-                  ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: clrGreyLight),
-                    child: const Text("1"),
-                  ),
-                  Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/arrow up.png',
-                        scale: 4,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Image.asset(
-                        'assets/images/arrow down new.png',
-                        scale: 4,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                      height: 40,
-                      width: Get.width * 0.25,
-                      child: DropdownButtonFormField(
-                        value: controller.wmValue.value == 0 ? null : controller.wmValue.value,
-                        items: const [
-                          DropdownMenuItem(
-                            value: 1,
-                            child: Text("Week",style: TextStyle(
-                              fontSize: 12
-                            ),),
-                          ),
-                          DropdownMenuItem(
-                            value: 2,
-                            child: Text("Month",style: TextStyle(
-                                fontSize: 12
-                            ),),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          controller.monthIndex.value = (-1);
-                          controller.dayIndex.value = (-1);
-                          controller.wmValue.value = value!;
-                        },
-                        isExpanded: true,
-                        hint: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('Week',
-                                style: TextStyle(color: clrBlacke,fontSize: 12)),
+            Obx(
+              () => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Repeat every",
+                      style: TextStyle(color: clrGreyTextLight, fontSize: 15),
+                      textAlign: TextAlign.center,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: clrGreyLight),
+                      child: Text(controller.counter.toString()),
+                    ),
+                    Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            controller.increment();
+                          },
+                          child: Image.asset(
+                            'assets/images/arrow up.png',
+                            scale: 4,
                           ),
                         ),
-                        icon: const SizedBox.shrink(),
-                        decoration: InputDecoration(
-                          alignLabelWithHint: true,
-                          suffixIcon: Image.asset(
-                            'assets/images/arrow down.png',
-                            scale: 6,
-                          ),
-                          hintStyle:
-                          TextStyle(fontWeight: FontWeight.w400, color: clrGreyTextLight),
-                          contentPadding: EdgeInsets.only(left: controller.wmValue.value == 0 ? 0 : 6),
-                          fillColor: clrGreyLight,
-                          filled: true,
-                          border:OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(30)),
+                        const SizedBox(
+                          height: 8,
                         ),
-                      ))
-                  // Container(
-                  //   padding:
-                  //       const EdgeInsets.only(left: 20,right: 10, top: 8,bottom: 8),
-                  //   decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(50),
-                  //       color: clrGreyLight),
-                  //   child: const Row(
-                  //     children: [
-                  //       Text("week"),
-                  //       SizedBox(width: 5,),
-                  //       Icon(Icons.arrow_drop_down_sharp)
-                  //     ],
-                  //   ),
-                  // ),
-                ],
+                        InkWell(
+                          onTap: () {
+                            controller.decrement();
+                          },
+                          child: Image.asset(
+                            'assets/images/arrow down new.png',
+                            scale: 4,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                        height: 40,
+                        width: Get.width * 0.25,
+                        child: DropdownButtonFormField(
+                          value: controller.wmValue.value == 0
+                              ? null
+                              : controller.wmValue.value,
+                          items: const [
+                            DropdownMenuItem(
+                              value: 1,
+                              child: Text(
+                                "Week",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: 2,
+                              child: Text(
+                                "Month",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            controller.monthIndex.value = (-1);
+                            controller.dayIndex.value = (-1);
+                            controller.wmValue.value = value!;
+                            print('vmvalue ==> ${controller.wmValue.value}');
+                          },
+                          isExpanded: true,
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('Week',
+                                  style: TextStyle(
+                                      color: clrBlacke, fontSize: 12)),
+                            ),
+                          ),
+                          icon: const SizedBox.shrink(),
+                          decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            suffixIcon: Image.asset(
+                              'assets/images/arrow down.png',
+                              scale: 6,
+                            ),
+                            hintStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: clrGreyTextLight),
+                            contentPadding: EdgeInsets.only(
+                                left: controller.wmValue.value == 0 ? 0 : 6),
+                            fillColor: clrGreyLight,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                        ))
+                    // Container(
+                    //   padding:
+                    //       const EdgeInsets.only(left: 20,right: 10, top: 8,bottom: 8),
+                    //   decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(50),
+                    //       color: clrGreyLight),
+                    //   child: const Row(
+                    //     children: [
+                    //       Text("week"),
+                    //       SizedBox(width: 5,),
+                    //       Icon(Icons.arrow_drop_down_sharp)
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -1600,83 +1621,97 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(
                   height: 40,
-                  child: Obx(() => controller.wmValue.value == 2 ? ListView.separated(
-                    itemCount: controller.monthList.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          controller.monthIndex.value = index;
-                        },
-                        child: Obx(
-                              () => Container(
-                            padding: const EdgeInsets.all(5),
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: controller.monthIndex.value == index
-                                    ? clrYellow
-                                    : clrGreyLight),
-                            child: Center(
-                              child: FittedBox(
-                                child: Text(
-                                  controller.monthList[index],
-                                  style: TextStyle(
-                                      color: controller.monthIndex.value == index
-                                          ? clrWhite
-                                          : clrBlacke),
+                  child: Obx(
+                    () => controller.wmValue.value == 2
+                        ? ListView.separated(
+                            itemCount: controller.monthList.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  controller.monthIndex.value = index;
+                                  controller.changemonth(index);
+                                },
+                                child: Obx(
+                                  () => Container(
+                                    padding: const EdgeInsets.all(5),
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color:
+                                            controller.monthIndex.value == index
+                                                ? clrYellow
+                                                : clrGreyLight),
+                                    child: Center(
+                                      child: FittedBox(
+                                        child: Text(
+                                          controller.monthList[index],
+                                          style: TextStyle(
+                                              color:
+                                                  controller.monthIndex.value ==
+                                                          index
+                                                      ? clrWhite
+                                                      : clrBlacke),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: 10,
+                              );
+                            },
+                          )
+                        : ListView.separated(
+                            itemCount: controller.dayList.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  controller.dayIndex.value = index;
+                                  print('day==> ${controller.dayIndex.value}');
+                                  controller.changeday(index);
+                                },
+                                child: Obx(
+                                  () => Container(
+                                    padding: const EdgeInsets.all(5),
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color:
+                                            controller.dayIndex.value == index
+                                                ? clrYellow
+                                                : clrGreyLight),
+                                    child: Center(
+                                      child: Text(
+                                        controller.dayList[index],
+                                        style: TextStyle(
+                                            color: controller.dayIndex.value ==
+                                                    index
+                                                ? clrWhite
+                                                : clrBlacke),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: 10,
+                              );
+                            },
                           ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: 10,
-                      );
-                    },
-                  ) : ListView.separated(
-                    itemCount: controller.dayList.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          controller.dayIndex.value = index;
-                        },
-                        child: Obx(
-                              () => Container(
-                            padding: const EdgeInsets.all(5),
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: controller.dayIndex.value == index
-                                    ? clrYellow
-                                    : clrGreyLight),
-                            child: Center(
-                              child: Text(
-                                controller.dayList[index],
-                                style: TextStyle(
-                                    color: controller.dayIndex.value == index
-                                        ? clrWhite
-                                        : clrBlacke),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: 10,
-                      );
-                    },
-                  ),),
+                  ),
                 )),
             const SizedBox(
               height: 10,
@@ -1752,17 +1787,62 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                               controller.groupValue.value == 3
                           ? 0.5
                           : 1,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(70),
-                            color: clrGreyLight),
-                        child: Text(
-                          "18 Sep 2024",
-                          style: TextStyle(color: clrGreyTextLight),
-                        ),
-                      ),
+                      // child: Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 15, vertical: 8),
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(70),
+                      //       color: clrGreyLight),
+                      //   child: Text(
+                      //     "18 Sep 2024",
+                      //     style: TextStyle(color: clrGreyTextLight),
+                      //   ),
+                      // ),
+                      child: controller.groupValue.value == 1 ||
+                              controller.groupValue.value == 3
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(70),
+                                  color: clrGreyLight),
+                              child: Text(
+                                "18 Sep 2024",
+                                style: TextStyle(color: clrGreyTextLight),
+                              ),
+                            )
+                          : InkWell(
+                              onTap: () async {
+                                DateTime? date = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(2025),
+                                    currentDate: controller
+                                            .RdateForPicker.value.isNotEmpty
+                                        ? DateTime.parse(
+                                            controller.RdateForPicker.value)
+                                        : DateTime.now());
+                                if (date != null) {
+                                  controller.RchangeDate(date);
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(70),
+                                    color: clrGreyLight),
+                                child: Text(
+                                  controller.Rdate.value.isNotEmpty
+                                      ? controller.Rdate.value
+                                      : "DD/MM/YYYY",
+                                  style: TextStyle(
+                                      color: controller.Rdate.value.isNotEmpty
+                                          ? clrBlacke
+                                          : clrGreyTextLight),
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -1813,7 +1893,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                               borderRadius: BorderRadius.circular(70),
                               color: clrGreyLight),
                           child: Text(
-                            "${controller.maxOcc.value} occurrences",
+                            "${controller.occs.value} occurrences",
                             style: TextStyle(color: clrGreyTextLight),
                           ),
                         ),
@@ -1831,16 +1911,32 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                           : 1,
                       child: Column(
                         children: [
-                          Image.asset(
-                            'assets/images/arrow up.png',
-                            scale: 4,
+                          InkWell(
+                            onTap: () {
+                              controller.groupValue.value == 1 ||
+                                      controller.groupValue.value == 2
+                                  ? null
+                                  : controller.occsincrement();
+                            },
+                            child: Image.asset(
+                              'assets/images/arrow up.png',
+                              scale: 4,
+                            ),
                           ),
                           const SizedBox(
                             height: 8,
                           ),
-                          Image.asset(
-                            'assets/images/arrow down new.png',
-                            scale: 4,
+                          InkWell(
+                            onTap: () {
+                              controller.groupValue.value == 1 ||
+                                      controller.groupValue.value == 2
+                                  ? null
+                                  : controller.occsdecrement();
+                            },
+                            child: Image.asset(
+                              'assets/images/arrow down new.png',
+                              scale: 4,
+                            ),
                           )
                         ],
                       ),
@@ -1865,6 +1961,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                         borderClr: clrBlacke,
                         ontap: () {
                           Get.back();
+                          controller.repeatRefresh();
                         },
                         backgroundClr: Get.theme.scaffoldBackgroundColor),
                   ),

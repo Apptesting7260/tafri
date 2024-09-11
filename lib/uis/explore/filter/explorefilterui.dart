@@ -398,17 +398,42 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               child: CustoFilterBtn(
                                                 ontap: () {
                                                   // _showCustomDateRangePicker(context);
-                                                  _showCustomDatePicker(
-                                                      context,
-                                                      DateTime.parse(controller
-                                                                  .filterDateStart
-                                                                  .value !=
-                                                              ''
-                                                          ? controller
-                                                              .filterDateStart
-                                                              .value
-                                                          : DateTime.now()
-                                                              .toString())
+                                                  // _showCustomDatePicker(
+                                                  //     context,
+                                                  //     DateTime.parse(controller
+                                                  //                 .filterDateStart
+                                                  //                 .value !=
+                                                  //             ''
+                                                  //         ? controller
+                                                  //             .filterDateStart
+                                                  //              .value
+                                                  //         : DateTime.now()
+                                                  //             .toString())
+                                                  // );
+                                                  showDateRangePicker(
+                                                    context: context,
+                                                    firstDate: DateTime.now(),
+                                                    lastDate: DateTime(2031),
+                                                    builder: (BuildContext context, Widget? child) {
+                                                      return Theme(
+                                                        data: ThemeData.light().copyWith(
+                                                          primaryColor: clrBlacke,
+                                                          scaffoldBackgroundColor: Colors.white,
+                                                          appBarTheme: AppBarTheme(
+                                                            color: clrBlacke,
+                                                          ),
+                                                          colorScheme: ColorScheme.light(
+                                                            primary: clrYellow,
+                                                            onPrimary: Colors.white,
+                                                            surface: clrBlacke,
+                                                            onSurface: clrBlacke,
+                                                            secondary: Colors.yellow
+                                                          ),
+                                                          dialogBackgroundColor: Colors.white,
+                                                        ),
+                                                        child: child!,
+                                                      );
+                                                    },
                                                   );
                                                   controller
                                                       .changeDateFilter(

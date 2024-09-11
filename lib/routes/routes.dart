@@ -23,6 +23,8 @@ import 'package:plusone/uis/message/posupportchat/plusonesupportchetui.dart';
 import 'package:plusone/uis/message/viewnotification/bindings/viewnotifi_binding.dart';
 import 'package:plusone/uis/message/viewnotification/viewnotiui.dart';
 import 'package:plusone/uis/myactivity/myactivitylist/bindings/myact_binding.dart';
+import 'package:plusone/uis/myactivity/repeatactivity/binding/repeatactivity_bindings.dart';
+import 'package:plusone/uis/myactivity/repeatactivity/repeatactivity.dart';
 import 'package:plusone/uis/myactivity/upcommingactivity/binding/upcommingactiuser_binding.dart';
 import 'package:plusone/uis/myactivity/upcommingactivity/upcomminguseractivityui.dart';
 import 'package:plusone/uis/navbar/bindings/navbar_binding.dart';
@@ -138,6 +140,7 @@ class Routes{
   static String addReviewUi='/add_reviewui';
   static String filterActUi='/filterActui';
   static String searchActUi='/searchActUi';
+  static String repeatActUi='/repeatActUi';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -186,5 +189,6 @@ class Routes{
     GetPage(name: addReviewUi, page:()=>  AddActReviewUi(),binding:AddactreviewBinding()),
     GetPage(name: filterActUi, page:()=>  FilterActUi(),binding:FilterActBinding()),
     GetPage(name: searchActUi, page:()=>  SearchActui(),binding:SearchActBinding()),
+    GetPage(name: repeatActUi, page:()=>  RepeatcreateActivityUi(),binding:RepeatcreativityBinding()),
   ];
 }
