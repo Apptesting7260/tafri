@@ -61,6 +61,7 @@ class ExploreListController extends GetxController {
 
     try{
       final response = await api.post(EndPoints.homePage, body,headers: header);
+      print(response.statusCode);
       if(response.statusCode == 200){
         homeError.value = '';
         print('home data == ${response.body}');
