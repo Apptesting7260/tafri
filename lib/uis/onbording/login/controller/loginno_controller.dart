@@ -358,13 +358,16 @@ class LoginnoController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   RxString verificationID = ''.obs;
 
+  var resendToken = 0.obs;
+
   Future<bool> sendOtp() async {
     Completer<bool> completer = Completer<bool>();
-
+    print('re == ${resendToken.value}');
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+        forceResendingToken: resendToken.value != 0 ? resendToken.value : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
         },
@@ -380,6 +383,11 @@ class LoginnoController extends GetxController {
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           print('codesent');
+          resendToken.value = forceResendingToken!;
+          Timer(const Duration(seconds: 59), () {
+            resendToken.value = 0;
+            print('token == ${resendToken.value}');
+          },);
           verificationID.value = verificationId;
           completer.complete(true);
         },
