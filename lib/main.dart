@@ -37,7 +37,7 @@ Future<void> main() async {
   InternetService();
   await GetStorage.init();
   runApp(const MyApp());
-  await FirebaseApi().initNotifications();
+  await FirebaseApi().initializeNotification();
 }
 
 class MyApp extends StatelessWidget {
