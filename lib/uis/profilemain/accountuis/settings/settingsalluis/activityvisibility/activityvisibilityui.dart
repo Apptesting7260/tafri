@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/controller/setting_controller.dart';
+import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/activityvisibility/controller/activityvisibility_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/custom_switch.dart';
 import 'package:plusone/utils/size.dart';
 
 import '../../../../../../utils/colors.dart';
 
-class ActivityVisibility extends GetWidget<SettingController> {
+class ActivityVisibility extends GetWidget<ActivityvisibilityController> {
   const ActivityVisibility({super.key});
 
   @override
@@ -52,7 +53,12 @@ class ActivityVisibility extends GetWidget<SettingController> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Obx(() => CustomSwitch(value: controller.upcomingVisibility.value, onChanged: (val) => controller.changeUpcomingVisibility(),),)
+                      Obx(() => CustomSwitch(
+                        value: controller.upcomingVisibility.value,
+                        onChanged: (val) {
+                          controller.changeUpcomingVisibility();
+                        }
+                      ),)
                     ],
                   ),
                   Divider(
@@ -71,9 +77,12 @@ class ActivityVisibility extends GetWidget<SettingController> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Obx(() => CustomSwitch(value: controller.previousVisibility.value, onChanged: (value) {
-                        controller.changePreviousVisibility();
-                      },),)
+                      Obx(() => CustomSwitch(
+                        value: controller.previousVisibility.value,
+                        onChanged: (value) {
+                          controller.changePreviousVisibility();
+                          },
+                      ),)
                     ],
                   ),
                   Divider(

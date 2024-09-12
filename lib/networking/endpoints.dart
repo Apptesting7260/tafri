@@ -60,4 +60,6 @@ class EndPoints{
   static String filter = '${baseUrl}filter-activity';
   static String maxOcc = '${baseUrl}get-max-occurrences';
 
+  static String actVis = '${baseUrl}activity-visibility';
+
 }

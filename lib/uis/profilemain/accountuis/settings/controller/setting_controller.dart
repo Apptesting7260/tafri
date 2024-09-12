@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:get/get.dart';
+import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/activityvisibility/controller/activityvisibility_controller.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 
 class SettingController extends GetxController{
   @override
@@ -6,6 +10,8 @@ class SettingController extends GetxController{
     // TODO: implement onInit
     super.onInit();
   }
+
+
   RxBool googleVal=false.obs;
   RxBool appleVal=false.obs;
   changeGoogleVal(){
@@ -15,16 +21,7 @@ class SettingController extends GetxController{
     appleVal.value=!appleVal.value;
   }
 
-  var upcomingVisibility = false.obs;
-  var previousVisibility = false.obs;
 
-  changeUpcomingVisibility(){
-    upcomingVisibility.value = !upcomingVisibility.value;
-  }
-
-  changePreviousVisibility(){
-    previousVisibility.value = !previousVisibility.value;
-  }
 
 
 

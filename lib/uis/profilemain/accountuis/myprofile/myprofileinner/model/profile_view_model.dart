@@ -1,4 +1,4 @@
-class ProfileViewModel {
+  class ProfileViewModel {
   bool? status;
   Result? result;
 
@@ -34,6 +34,8 @@ class Result {
   String? userType;
   String? subscriptionStatus;
   String? currentStep;
+  String? upcommingActivityStatus;
+  String? previousActivityStatus;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? age;
@@ -60,6 +62,8 @@ class Result {
     this.userType,
     this.subscriptionStatus,
     this.currentStep,
+    this.upcommingActivityStatus,
+    this.previousActivityStatus,
     this.createdAt,
     this.updatedAt,
     this.age,
@@ -87,6 +91,8 @@ class Result {
     userType: json["user_type"],
     subscriptionStatus: json["subscription_status"],
     currentStep: json["current_step"],
+    upcommingActivityStatus: json["upcomming_activity_status"],
+    previousActivityStatus: json["previous_activity_status"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     age: json["age"],
@@ -114,6 +120,8 @@ class Result {
     "user_type": userType,
     "subscription_status": subscriptionStatus,
     "current_step": currentStep,
+    "upcomming_activity_status": upcommingActivityStatus,
+    "previous_activity_status": previousActivityStatus,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "age": age,
