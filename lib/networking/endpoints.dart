@@ -61,5 +61,6 @@ class EndPoints{
   static String maxOcc = '${baseUrl}get-max-occurrences';
 
   static String actVis = '${baseUrl}activity-visibility';
+  static String helpcenter = '${baseUrl}help-center';
 
 }
