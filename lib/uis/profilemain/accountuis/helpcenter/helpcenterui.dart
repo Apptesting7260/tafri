@@ -3,23 +3,17 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/customexpension.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/profilemain/accountuis/helpcenter/controller/helpcenter_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/error_widget.dart';
+import 'package:plusone/utils/no_activity.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
 
-class HelpCenterUi extends GetWidget{
+class HelpCenterUi extends GetWidget<HelpcenterController>{
   HelpCenterUi({super.key});
   bool isOpen=false;
-  List listExpension=[
-    {'isOpen':false},
-    {'isOpen':false},
-    {'isOpen':false},
-    {'isOpen':false},
-    {'isOpen':false},
-    {'isOpen':false},
-    {'isOpen':false},
-  ];
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
@@ -45,32 +39,51 @@ class HelpCenterUi extends GetWidget{
                   ],
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: Get.height * 0.03,
+                      ),
                         SizedBox(
-                          height: Get.height * 0.03,
-                        ),
-                          SizedBox(
-                          height: Res.h_btn,
-                          child: const CustoTextFormField(sufixIcon: Icon(Icons.search),hintText: "Search",),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        const Text("FAQs",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-
-                        const CustomExpansionWidget(title: Text("What is Plus Ones? ",style: TextStyle(fontSize: 15),), body: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.",style: TextStyle(fontSize: 15))),
-                        SizedBox(
-                          height: Get.height * 0.013,
-                        ),
-                        const CustomExpansionWidget(title: Text("Can you explain your membership? ",style: TextStyle(fontSize: 15)), body: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.",style: TextStyle(fontSize: 15))),
-                      ],
-                    ),
+                        height: Res.h_btn,
+                        child: const CustoTextFormField(sufixIcon: Icon(Icons.search),hintText: "Search",),
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.02,
+                      ),
+                      const Text("FAQs",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),
+                      SizedBox(
+                        height: Get.height * 0.01,
+                      ),
+                      Obx(() => controller.activityLoading.value
+                          ? Expanded(child: Center(child: CommonUi.scaffoldLoading(color: clrYellow)))
+                          : controller.attError.value.isNotEmpty
+                          ? Expanded(child: Center(child: ErrorScreen()))
+                          : controller.helpData.value.result == null
+                          ? Expanded(child: Center(child: NoActivityScreen()))
+                          : Expanded(
+                        child: ListView.separated(
+                          itemCount: controller.helpData.value.result!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return CustomExpansionWidget(
+                                title: Text(
+                                  controller.helpData.value.result![index].name.toString(),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                body: Text(
+                                    controller.helpData.value.result![index].description.toString(),
+                                    style: TextStyle(fontSize: 15)
+                                )
+                            );
+                          }, separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: 20,);
+                        },),
+                      )),
+                      SizedBox(
+                        height: Get.height * 0.013,
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
