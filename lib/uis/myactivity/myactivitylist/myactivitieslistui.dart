@@ -165,7 +165,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       clrGreyDark),
                                                             ),
                                                             ListView.separated(
-                                                                physics: NeverScrollableScrollPhysics(),
+                                                                physics: const NeverScrollableScrollPhysics(),
                                                                 itemCount: data!.activities!.length,
                                                                 shrinkWrap: true,
                                                                 itemBuilder: (context, ind){
@@ -229,7 +229,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       ),
                                                                     ),
                                                                   );
-                                                                }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },),
+                                                                }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },),
                                                           ],
                                                         ),
                                                       );
@@ -310,7 +310,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                             Column(
                                                               children: [
                                                                 ListView.separated(
-                                                                    physics: NeverScrollableScrollPhysics(),
+                                                                    physics: const NeverScrollableScrollPhysics(),
                                                                     itemCount: data!.activities!.length,
                                                                     shrinkWrap: true,
                                                                     itemBuilder: (context, ind){
@@ -392,7 +392,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                             )
                                                                                           ],
                                                                                         ),
-                                                                                      ) : SizedBox(),
+                                                                                      ) : const SizedBox(),
                                                                                     ],
                                                                                   ),
                                                                                 ),
@@ -401,7 +401,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                           ),
                                                                         ),
                                                                       );
-                                                                    }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },),
+                                                                    }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },),
                                                                 SizedBox(
                                                                   height: h *
                                                                       .015,
@@ -558,7 +558,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       clrGreyDark),
                                                             ),
                                                             ListView.separated(
-                                                                physics: NeverScrollableScrollPhysics(),
+                                                                physics: const NeverScrollableScrollPhysics(),
                                                                 itemCount: data!.activities!.length,
                                                                 shrinkWrap: true,
                                                                 itemBuilder: (context, ind){
@@ -642,7 +642,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                         ),
                                                                       ),
                                                                   );
-                                                            }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },)
+                                                            }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },)
                                                           ],
                                                         ),
                                                       );
@@ -726,7 +726,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               Column(
                                                                 children: [
                                                                   ListView.separated(
-                                                                      physics: NeverScrollableScrollPhysics(),
+                                                                      physics: const NeverScrollableScrollPhysics(),
                                                                       itemCount: data!.activities!.length,
                                                                       shrinkWrap: true,
                                                                       itemBuilder: (context, ind){
@@ -806,7 +806,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                   ],
                                                                                                 ),
                                                                                               ),
-                                                                                              SizedBox(
+                                                                                              data.activities?[ind].status.toString() == 'completed' ? SizedBox(
                                                                                                 height: 23,
                                                                                                 child: CustomElevatedButton(
                                                                                                     onTap: () {
@@ -834,7 +834,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                         Text("Repeat", style: TextStyle(color: clrBlacke, fontSize: 10))
                                                                                                       ],
                                                                                                     )),
-                                                                                              )
+                                                                                              ) : const SizedBox()
                                                                                             ],
                                                                                           ),
                                                                                           data.activities?[ind].status.toString() == 'completed' ? Padding(
@@ -850,7 +850,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                 )
                                                                                               ],
                                                                                             ),
-                                                                                          ) : SizedBox(),
+                                                                                          ) : const SizedBox(),
                                                                                         ],
                                                                                       ),
                                                                                     ),
@@ -859,7 +859,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               ),
                                                                           ),
                                                                         );
-                                                                        }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },
+                                                                        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 8,

@@ -583,7 +583,7 @@ class Repeatcreativitycontroller extends GetxController
         // Check the response status
         if (response.statusCode == 200) {
           loading.value = false;
-          showTostMsg('Activity created successfully');
+          showTostMsg('Activity created successfully.Your activity is under review.');
           Get.back();
         } else {
           showTostMsg('Something went wrong');

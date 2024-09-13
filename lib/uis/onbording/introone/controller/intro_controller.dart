@@ -257,6 +257,7 @@ class IntroController extends GetxController {
           await sendOtp().then((value) {
             print('sent value == ${value}');
             if(value == true){
+              Get.back();
                 Get.toNamed(Routes.codeVerify, arguments: {
                   'current step': int.parse(body.currentStep.toString()),
                 });

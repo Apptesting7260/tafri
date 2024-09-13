@@ -244,6 +244,7 @@ class LoginnoController extends GetxController {
           debugPrint("gk======token==${body.token}");
           await sendOtp().then((value){
             if(value == true){
+              Get.back();
               Get.toNamed(Routes.codeVerify, arguments: {
                 'current step': 5,
                 'token': body.token,
