@@ -38,52 +38,61 @@ class HelpCenterUi extends GetWidget<HelpcenterController>{
                     )
                   ],
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: Get.height * 0.03,
-                      ),
+                Obx(() => controller.activityLoading.value
+                    ? Expanded(child: Center(child: CommonUi.scaffoldLoading(color: clrYellow)))
+                    : controller.attError.value.isNotEmpty
+                    ? Expanded(child: Center(child: ErrorScreen()))
+                    : controller.helpData.value.result == null
+                    ? Expanded(child: Center(child: NoActivityScreen()))
+                    : Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         SizedBox(
-                        height: Res.h_btn,
-                        child: const CustoTextFormField(sufixIcon: Icon(Icons.search),hintText: "Search",),
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.02,
-                      ),
-                      const Text("FAQs",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),
-                      SizedBox(
-                        height: Get.height * 0.01,
-                      ),
-                      Obx(() => controller.activityLoading.value
-                          ? Expanded(child: Center(child: CommonUi.scaffoldLoading(color: clrYellow)))
-                          : controller.attError.value.isNotEmpty
-                          ? Expanded(child: Center(child: ErrorScreen()))
-                          : controller.helpData.value.result == null
-                          ? Expanded(child: Center(child: NoActivityScreen()))
-                          : Expanded(
-                        child: ListView.separated(
-                          itemCount: controller.helpData.value.result!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return CustomExpansionWidget(
-                                title: Text(
-                                  controller.helpData.value.result![index].name.toString(),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                body: Text(
-                                    controller.helpData.value.result![index].description.toString(),
-                                    style: TextStyle(fontSize: 15)
-                                )
-                            );
-                          }, separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(height: 20,);
-                        },),
-                      )),
-                      SizedBox(
-                        height: Get.height * 0.013,
-                      ),
-                    ],
+                          height: Get.height * 0.03,
+                        ),
+                          SizedBox(
+                          height: Res.h_btn,
+                          child: CustoTextFormField(
+                            sufixIcon: Icon(Icons.search),
+                            hintText: "Search",
+                            onChanged: (val){
+                              controller.searchQuery.value = val;
+                              controller.filterHelpData();
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
+                        const Text("FAQs",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),
+                        SizedBox(
+                          height: Get.height * 0.01,
+                        ),
+                        Expanded(
+                          child: ListView.separated(
+                            itemCount: controller.filteredHelpData.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var item = controller.filteredHelpData[index];
+                              return CustomExpansionWidget(
+                                  title: Text(
+                                    item.name.toString(),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  body: Text(
+                                      item.description.toString(),
+                                      style: TextStyle(fontSize: 15)
+                                  )
+                              );
+                            }, separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(height: 20,);
+                          },),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.013,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
