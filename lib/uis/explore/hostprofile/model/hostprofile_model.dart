@@ -38,6 +38,8 @@ class Result {
   String? currentStep;
   dynamic otp;
   String? otpVerifyStatus;
+  String? upcommingActivityStatus;
+  String? previousActivityStatus;
   DateTime? createdAt;
   DateTime? updatedAt;
   dynamic deletedAt;
@@ -67,6 +69,8 @@ class Result {
     this.userType,
     this.subscriptionStatus,
     this.currentStep,
+    this.upcommingActivityStatus,
+    this.previousActivityStatus,
     this.otp,
     this.otpVerifyStatus,
     this.createdAt,
@@ -99,6 +103,8 @@ class Result {
     userType: json["user_type"],
     subscriptionStatus: json["subscription_status"],
     currentStep: json["current_step"],
+    upcommingActivityStatus: json["upcomming_activity_status"],
+    previousActivityStatus: json["previous_activity_status"],
     otp: json["otp"],
     otpVerifyStatus: json["otp_verify_status"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
@@ -133,6 +139,8 @@ class Result {
     "current_step": currentStep,
     "otp": otp,
     "otp_verify_status": otpVerifyStatus,
+    "upcomming_activity_status": upcommingActivityStatus,
+    "previous_activity_status": previousActivityStatus,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "deleted_at": deletedAt,

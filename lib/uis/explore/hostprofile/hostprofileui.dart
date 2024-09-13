@@ -741,10 +741,11 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         ),
                         controller.hostData.value.result!.upcomingActivities!.isEmpty
                             ? SizedBox()
-                            :  Text(
+                            :  controller.hostData.value.result!.upcommingActivityStatus == 1
+                            ? Text(
                           "Upcoming activities",
                           style: TextStyle(fontWeight: FontWeight.w800),
-                        ),
+                        ) : SizedBox(),
                         SizedBox(
                           height: Get.height * 0.015,
                         ),
@@ -958,7 +959,10 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         //         ),
                         //       );
                         //     }),
-                        ListView.builder(
+                        controller.hostData.value.result!.upcomingActivities!.isEmpty
+                            ? SizedBox()
+                            : controller.hostData.value.result!.upcommingActivityStatus == 1
+                            ? ListView.builder(
                             itemCount: controller.hostData.value
                                 .result?.upcomingActivities?.length,
                             physics: const NeverScrollableScrollPhysics(),
@@ -1128,21 +1132,25 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                   ],
                                 ),
                               );
-                            }),
+                            }) : SizedBox(),
                         SizedBox(
                           height: Get.height * 0.015,
                         ),
                         controller.hostData.value.result!.previousActivities!.isEmpty
                             ? SizedBox()
-                            :Text(
+                            : controller.hostData.value.result!.previousActivityStatus == 1
+                            ? Text(
                           "Previous activities",
                           style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                        ),
+                        ) : SizedBox(),
                         SizedBox(
                           height: Get.height * 0.015,
                         ),
-                        ListView.builder(
+                        controller.hostData.value.result!.previousActivities!.isEmpty
+                            ? SizedBox()
+                            : controller.hostData.value.result!.previousActivityStatus == 1
+                            ? ListView.builder(
                             itemCount: controller.hostData.value
                                 .result?.previousActivities?.length,
                             physics: const NeverScrollableScrollPhysics(),
@@ -1267,7 +1275,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                   ],
                                 ),
                               );
-                            }),
+                            }) : SizedBox(),
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
