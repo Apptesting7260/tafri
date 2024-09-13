@@ -17,6 +17,8 @@ class HelpcenterController extends GetxController{
   var activityLoading = false.obs;
   var helpData = HelpCenterModel().obs;
   var attError = ''.obs;
+  var filteredHelpData = <Result>[].obs;
+  var searchQuery = ''.obs;
 
   Future<void> helpCenter(String? name) async{
 
@@ -38,6 +40,8 @@ class HelpcenterController extends GetxController{
         attError.value = '';
         print('home data == ${response.body}');
         helpData.value = HelpCenterModel.fromJson(response.body);
+        filteredHelpData.value = helpData.value.result!;
+        filterHelpData();
       }else{
         print('error == ${response.body}');
         attError.value = 'ERROR';
@@ -49,6 +53,16 @@ class HelpcenterController extends GetxController{
 
     activityLoading.value = false;
 
+  }
+
+  void filterHelpData() {
+    if (searchQuery.value.isEmpty) {
+      filteredHelpData.value = helpData.value.result!;
+    } else {
+      filteredHelpData.value = helpData.value.result!.where((item) {
+        return item.name!.toLowerCase().contains(searchQuery.value.toLowerCase());
+      }).toList();
+    }
   }
 
 
