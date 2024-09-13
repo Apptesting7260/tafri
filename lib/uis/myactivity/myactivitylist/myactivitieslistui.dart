@@ -187,7 +187,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(5),
                                                                               ),
-                                                                              child: CachedNetworkImage(
+                                                                              child: data.activities![ind].banners!.isNotEmpty ? CachedNetworkImage(
                                                                                 imageUrl: '${data.activities?[ind].banners?[0]}',
                                                                                 errorWidget: (context, url, error) =>
                                                                                     Icon(
@@ -204,7 +204,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                       decoration: BoxDecoration(color: clrGrey, borderRadius: BorderRadius.circular(5)),
                                                                                     )
                                                                                 ),
-                                                                              )
+                                                                              ) :  Container(
+                                                                                height: 40,
+                                                                                width: 40,
+                                                                                padding: const EdgeInsets.all(10),
+                                                                                decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                                                                child: Image.asset(
+                                                                                  "assets/icons/manicon.png",
+                                                                                  color: clrGrey,
+                                                                                  fit: BoxFit.cover,
+                                                                                ),
+                                                                              ),
                                                                           ),
                                                                           SizedBox(
                                                                             width: Get.width * 0.02,
@@ -336,7 +346,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                 decoration: BoxDecoration(
                                                                                   borderRadius: BorderRadius.circular(5),
                                                                                 ),
-                                                                                child: CachedNetworkImage(
+                                                                                child: data.activities![ind].banners!.isNotEmpty ? CachedNetworkImage(
                                                                                   imageUrl: '${data.activities?[ind].banners?[0]}',
                                                                                   fit: BoxFit.cover,
                                                                                   placeholder: (context, url) => Shimmer.fromColors(
@@ -350,7 +360,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                           color: clrGrey,
                                                                                         ),
                                                                                       )),
-                                                                                ),
+                                                                                ) :  Container(
+                                                                            height: 40,
+                                                                            width: 40,
+                                                                            padding: const EdgeInsets.all(10),
+                                                                            decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                                                            child: Image.asset(
+                                                                              "assets/icons/manicon.png",
+                                                                              color: clrGrey,
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
                                                                               ),
                                                                               SizedBox(
                                                                                 width: Get.width * 0.02,
@@ -587,9 +607,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                   BorderRadius.circular(5),
                                                                                 ),
                                                                                 child:
+                                                                                data.activities![ind].banners!.isNotEmpty ?
                                                                                 CachedNetworkImage(
                                                                                   imageUrl:
-                                                                                  '${data.activities?[ind].featureImg}',
+                                                                                  '${data.activities?[ind].banners?[0]}',
                                                                                   fit: BoxFit
                                                                                       .cover,
                                                                                   placeholder: (context, url) => Shimmer.fromColors(
@@ -601,7 +622,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                           height: h * .075,
                                                                                           width: h * .075,
                                                                                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: clrGrey))),
-                                                                                )),
+                                                                                ) : Container(
+                                                                                  height: 40,
+                                                                                  width: 40,
+                                                                                  padding: const EdgeInsets.all(10),
+                                                                                  decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                                                                  child: Image.asset(
+                                                                                    "assets/icons/manicon.png",
+                                                                                    color: clrGrey,
+                                                                                    fit: BoxFit.cover,
+                                                                                  ),
+                                                                                ),),
                                                                             SizedBox(
                                                                               width:
                                                                               Get.width *
@@ -754,8 +785,8 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                       decoration: BoxDecoration(
                                                                                         borderRadius: BorderRadius.circular(5),
                                                                                       ),
-                                                                                      child: CachedNetworkImage(
-                                                                                        imageUrl: '${data.activities?[ind].featureImg}',
+                                                                                      child: data.activities![ind].banners!.isNotEmpty ? CachedNetworkImage(
+                                                                                        imageUrl: '${data.activities?[ind].banners?[0]}',
                                                                                         fit: BoxFit.cover,
                                                                                         errorWidget: (context, url, error) => Container(
                                                                                           height: 40,
@@ -776,7 +807,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                               width: h * .075,
                                                                                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: clrGrey),
                                                                                             )),
-                                                                                      )),
+                                                                                      ) :  Container(
+                                                                                        height: 40,
+                                                                                        width: 40,
+                                                                                        padding: const EdgeInsets.all(10),
+                                                                                        decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                                                                        child: Image.asset(
+                                                                                          "assets/icons/manicon.png",
+                                                                                          color: clrGrey,
+                                                                                          fit: BoxFit.cover,
+                                                                                        ),
+                                                                                      ),),
                                                                                   SizedBox(
                                                                                     width: Get.width * 0.02,
                                                                                   ),

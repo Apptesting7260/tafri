@@ -34,7 +34,7 @@ class MyfavouriteController extends GetxController{
       final response = await api.get('${EndPoints.favurl}${LocalStorage.getUid()}', headers: header);
       if(response.statusCode == 200){
         favError.value = '';
-        print('home data == ${response.body}');
+        print('fav data == ${response.body}');
         favData.value = MyfavouriteModal.fromJson(response.body);
       }else{
         print('error == ${response.body}');
