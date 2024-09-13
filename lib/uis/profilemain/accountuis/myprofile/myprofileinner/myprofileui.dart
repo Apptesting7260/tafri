@@ -1403,19 +1403,17 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                     ),
                     profileController.profileData.value.result!.upcomingActivities!.isEmpty
                         ? SizedBox()
-                        : profileController.profileData.value.result!.upcommingActivityStatus == 1
-                        ? Text(
+                        :  Text(
                       "Upcoming activities",
                       style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                    ) : SizedBox(),
+                    ),
                     SizedBox(
                       height: Get.height * 0.015,
                     ),
                     profileController.profileData.value.result!.upcomingActivities!.isEmpty
                         ? SizedBox()
-                        : profileController.profileData.value.result!.upcommingActivityStatus == 1
-                        ? ListView.builder(
+                        : ListView.builder(
                         itemCount: profileController.profileData.value
                             .result?.upcomingActivities?.length,
                         physics: const NeverScrollableScrollPhysics(),
@@ -1585,7 +1583,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                               ],
                             ),
                           );
-                        }) : SizedBox(),
+                        }),
                     SizedBox(
                       height: Get.height * 0.015,
                     ),
