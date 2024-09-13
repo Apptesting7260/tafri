@@ -506,18 +506,18 @@ class Repeatcreativitycontroller extends GetxController
           }
         }
 
-        if (!choosePhotoCheck.value) {
-          if (galleryImages.isNotEmpty) {
-            File image = galleryImages.first;
-            var stream = http.ByteStream(image.openRead());
-            var length = await image.length();
-            var multipartFile = http.MultipartFile(
-              'feature_img', stream, length,
-              filename: image.path.split('/').last,
-            );
-            request.files.add(multipartFile);
-          }
-        }
+        // if (!choosePhotoCheck.value) {
+        //   if (galleryImages.isNotEmpty) {
+        //     File image = galleryImages.first;
+        //     var stream = http.ByteStream(image.openRead());
+        //     var length = await image.length();
+        //     var multipartFile = http.MultipartFile(
+        //       'feature_img', stream, length,
+        //       filename: image.path.split('/').last,
+        //     );
+        //     request.files.add(multipartFile);
+        //   }
+        // }
 
         request.fields["category_id"] = catID.value;
         request.fields['subcategory_id'] = subCatID.value;

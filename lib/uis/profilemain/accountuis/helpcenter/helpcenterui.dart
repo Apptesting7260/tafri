@@ -42,9 +42,7 @@ class HelpCenterUi extends GetWidget<HelpcenterController>{
                     ? Expanded(child: Center(child: CommonUi.scaffoldLoading(color: clrYellow)))
                     : controller.attError.value.isNotEmpty
                     ? Expanded(child: Center(child: ErrorScreen()))
-                    : controller.helpData.value.result == null
-                    ? Expanded(child: Center(child: NoActivityScreen()))
-                    : Expanded(
+                    :  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -69,7 +67,9 @@ class HelpCenterUi extends GetWidget<HelpcenterController>{
                         SizedBox(
                           height: Get.height * 0.01,
                         ),
-                        Expanded(
+                        controller.filteredHelpData.isEmpty
+                            ? const Expanded(child: Center(child: Text('No help data found',style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19))))
+                            : Expanded(
                           child: ListView.separated(
                             itemCount: controller.filteredHelpData.length,
                             itemBuilder: (BuildContext context, int index) {
