@@ -93,7 +93,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                               borderRadius: BorderRadius.circular(100),
                               child: CachedNetworkImage(
                                   imageUrl:
-                                  '${controller.hostData..value.result?.profile?.profilePhoto}',
+                                  '${controller.hostData.value.result?.profile?.profilePhoto}',
                                   fit: BoxFit.cover,
                                   height: Get.height * .14,
                                   width: Get.width * .3,
