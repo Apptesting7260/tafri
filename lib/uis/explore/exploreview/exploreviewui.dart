@@ -11,6 +11,7 @@ import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -100,7 +101,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         child: Center(
                           child: PopupMenuButton(
                             splashRadius: 0.1,
-                            icon: Icon(Icons.more_vert,size: 30,),
+                            icon: const Icon(Icons.more_vert,size: 30,),
                             elevation: 5,
                             itemBuilder: (context) => [
                               const PopupMenuItem(
@@ -130,7 +131,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         child: CommonUi.scaffoldLoading(color: clrYellow),
                       )
                     : controller.actError.value.isNotEmpty
-                        ? ErrorScreen()
+                        ? const ErrorScreen()
                         : SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,7 +245,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                 controller.actData.value
                                                     .activity!.subcategoryTitle
                                                     .toString(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight:
                                                         FontWeight.w700),
                                               ),
@@ -405,7 +406,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                             controller
                                                 .actData.value.activity!.name
                                                 .toString(),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600),
                                           ),
@@ -509,12 +510,12 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 3,),
+                                          const SizedBox(height: 3,),
                                           Text(
                                             controller.actData.value.activity!
                                                 .hostName
                                                 .toString(),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w700),
                                           )
                                         ],
@@ -535,8 +536,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                   height: Get.height * 0.01,
                                 ),
                                 controller.actData.value.going!.isEmpty
-                                    ? SizedBox()
-                                    : Text(
+                                    ? const SizedBox()
+                                    : const Text(
                                         "Going",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600,
@@ -546,7 +547,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                   height: Get.height * 0.01,
                                 ),
                                 controller.actData.value.going!.isEmpty
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : SizedBox(
                                         height: 55,
                                         child: ListView.builder(
@@ -696,7 +697,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                         FontWeight
                                                                             .w700),
                                                               )))
-                                                  : Opacity(
+                                                  : int.parse(LocalStorage.getUid()!) != controller
+                                      .actData
+                                      .value.activity?.hostId ? Opacity(
                                                       opacity: controller
                                                               .isLoadingRequest
                                                               .value
@@ -746,7 +749,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                               fontSize: 16,
                                                                               fontWeight: FontWeight.w700),
                                                                         ))),
-                                                    );
+                                                    ) : const Center(child: Text('You created this activity.',style: TextStyle(
+                                    fontWeight: FontWeight.w600,fontSize: 16
+                                  ),));
                                 }),
                                 Obx(() {
                                   return controller.actData.value.activity!
@@ -931,7 +936,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
             const SizedBox(
               height: 15,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(

@@ -398,6 +398,8 @@ class Creativitycontroller extends GetxController
   Future<void> createActivity() async {
     loading.value = true;
 
+    print('test == ${groupValue.value}  ${repeats.value}  ${wmValue.value}  ${repeatday.value}  ${wmValue.value}  ${repeatMonth.value}');
+
     try {
       print("=== ${checkGalleryImagesFormat(galleryImages)}");
       if(!choosePhotoCheck.value && galleryImages.isEmpty) {
