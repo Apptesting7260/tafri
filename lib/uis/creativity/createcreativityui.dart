@@ -1545,7 +1545,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             DropdownMenuItem(
                               value: 2,
                               child: Text(
-                                "Month",
+                                "Day",
                                 style: TextStyle(fontSize: 12),
                               ),
                             ),
@@ -1584,7 +1584,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(30)),
                           ),
-                        ))
+                        )
+                    )
                     // Container(
                     //   padding:
                     //       const EdgeInsets.only(left: 20,right: 10, top: 8,bottom: 8),
@@ -1603,119 +1604,129 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Repeat on",
-                style: TextStyle(color: clrGreyTextLight, fontSize: 15),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SizedBox(
-                  height: 40,
-                  child: Obx(
-                    () => controller.wmValue.value == 2
-                        ? ListView.separated(
-                            itemCount: controller.monthList.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  controller.monthIndex.value = index;
-                                  controller.changemonth(index);
-                                },
-                                child: Obx(
-                                  () => Container(
-                                    padding: const EdgeInsets.all(5),
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color:
-                                            controller.monthIndex.value == index
-                                                ? clrYellow
-                                                : clrGreyLight),
-                                    child: Center(
-                                      child: FittedBox(
+
+            Obx( ()=> controller.wmValue.value == 2  ? SizedBox()
+                : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Repeat on",
+                      style: TextStyle(color: clrGreyTextLight, fontSize: 15),
+                      textAlign: TextAlign.center,
+                    ),),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: SizedBox(
+                          height: 40,
+                          child: Obx(
+                                () => controller.wmValue.value == 2
+                            // ? ListView.separated(
+                            //     itemCount: controller.monthList.length,
+                            //     shrinkWrap: true,
+                            //     scrollDirection: Axis.horizontal,
+                            //     itemBuilder: (context, index) {
+                            //       return GestureDetector(
+                            //         onTap: () {
+                            //           controller.monthIndex.value = index;
+                            //           controller.changemonth(index);
+                            //         },
+                            //         child: Obx(
+                            //           () => Container(
+                            //             padding: const EdgeInsets.all(5),
+                            //             height: 30,
+                            //             width: 30,
+                            //             decoration: BoxDecoration(
+                            //                 shape: BoxShape.circle,
+                            //                 color:
+                            //                     controller.monthIndex.value == index
+                            //                         ? clrYellow
+                            //                         : clrGreyLight),
+                            //             child: Center(
+                            //               child: FittedBox(
+                            //                 child: Text(
+                            //                   controller.monthList[index],
+                            //                   style: TextStyle(
+                            //                       color:
+                            //                           controller.monthIndex.value ==
+                            //                                   index
+                            //                               ? clrWhite
+                            //                               : clrBlacke),
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       );
+                            //     },
+                            //     separatorBuilder:
+                            //         (BuildContext context, int index) {
+                            //       return const SizedBox(
+                            //         width: 10,
+                            //       );
+                            //     },
+                            //   )
+                                ? SizedBox()
+                                : ListView.separated(
+                              itemCount: controller.dayList.length,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    controller.dayIndex.value = index;
+                                    print('day==> ${controller.dayIndex.value}');
+                                    controller.changeday(index);
+                                  },
+                                  child: Obx(
+                                        () => Container(
+                                      padding: const EdgeInsets.all(5),
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:
+                                          controller.dayIndex.value == index
+                                              ? clrYellow
+                                              : clrGreyLight),
+                                      child: Center(
                                         child: Text(
-                                          controller.monthList[index],
+                                          controller.dayList[index],
                                           style: TextStyle(
-                                              color:
-                                                  controller.monthIndex.value ==
-                                                          index
-                                                      ? clrWhite
-                                                      : clrBlacke),
+                                              color: controller.dayIndex.value ==
+                                                  index
+                                                  ? clrWhite
+                                                  : clrBlacke),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                width: 10,
-                              );
-                            },
-                          )
-                        : ListView.separated(
-                            itemCount: controller.dayList.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  controller.dayIndex.value = index;
-                                  print('day==> ${controller.dayIndex.value}');
-                                  controller.changeday(index);
-                                },
-                                child: Obx(
-                                  () => Container(
-                                    padding: const EdgeInsets.all(5),
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color:
-                                            controller.dayIndex.value == index
-                                                ? clrYellow
-                                                : clrGreyLight),
-                                    child: Center(
-                                      child: Text(
-                                        controller.dayList[index],
-                                        style: TextStyle(
-                                            color: controller.dayIndex.value ==
-                                                    index
-                                                ? clrWhite
-                                                : clrBlacke),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                width: 10,
-                              );
-                            },
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const SizedBox(
+                                  width: 10,
+                                );
+                              },
+                            ),
                           ),
-                  ),
-                )),
-            const SizedBox(
-              height: 10,
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
             ),
+
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(

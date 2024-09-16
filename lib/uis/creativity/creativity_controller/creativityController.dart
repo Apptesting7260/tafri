@@ -518,8 +518,10 @@ class Creativitycontroller extends GetxController
         request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
         if(repeats.value == true){
           request.fields['repeat_every'] = counter.value.toString();
-          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'month' ;
-          request.fields['repeat_on'] = wmValue.value == 1 ? repeatday.value : repeatMonth.value;
+          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
+          if(wmValue.value == 1 ){
+            request.fields['repeat_on'] = repeatday.value;
+          }
           if(groupValue.value == 1){
             request.fields['end_type'] = 'never';
             debugPrint("end_type set to 'never'");

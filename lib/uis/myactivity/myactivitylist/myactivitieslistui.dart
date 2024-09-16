@@ -76,8 +76,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                         controller: controller.tabController,
                         children: [
                           Obx(
-                            () =>
-                                controller.attendingLoading.value &&
+                            () => controller.attendingData.value.result!.upcomingActivities!.isEmpty
+                                    && controller.attendingData.value.result!.upcomingActivities!.isEmpty
+                                    ?  const Center(child: ErrorScreen())
+                                : controller.attendingLoading.value &&
                                         controller.attendingData.value.result ==
                                             null
                                     ? Center(
@@ -481,8 +483,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                           ),
                           /// -------Upcoming activities(for host)------- ///
                           Obx(
-                            () =>
-                                controller.hostingLoading.value &&
+                            () => controller.hostingData.value.result!.upcomingActivities!.isEmpty
+                                && controller.hostingData.value.result!.upcomingActivities!.isEmpty
+                                ?  const Center(child: ErrorScreen())
+                                : controller.hostingLoading.value &&
                                         controller.hostingData.value.result ==
                                             null
                                     ? Center(

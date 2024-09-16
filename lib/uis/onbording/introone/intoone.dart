@@ -229,6 +229,46 @@ class IntroOneUi extends GetWidget<IntroController> {
                                       SizedBox(
                                         height: Get.height * 0.025,
                                       ),
+                                      Center(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.back();
+                                            controller.mobnoController.clear();
+                                            controller.initialSelection.value = 'NL';
+                                            controller.countryCode.value = '+31';
+                                            Get.toNamed(Routes.loginWithMobNo);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text:
+                                                      "Already have a Account ?",
+                                                      style: TextStyle(
+                                                          color: clrGreyDark,
+                                                          fontWeight:
+                                                          FontWeight.w300,
+                                                          fontSize: 12)),
+                                                  const TextSpan(text: ' '),
+                                                  TextSpan(
+                                                      text: "Login",
+                                                      style: TextStyle(
+                                                          color: clrYellowText,
+                                                          fontWeight:
+                                                          FontWeight.w300,
+                                                          fontSize: 12,
+                                                          decoration: TextDecoration
+                                                              .underline)),
+                                                ])),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.025,
+                                      ),
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20),
