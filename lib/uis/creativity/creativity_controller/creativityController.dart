@@ -185,7 +185,7 @@ class Creativitycontroller extends GetxController
   var monthIndex = (-1).obs;
   var dayIndex = (-1).obs;
   var groupValue = 0.obs;
-  var wmValue = 0.obs;
+  var wmValue = 1.obs;
 
   var currentLength = 0.obs;
 
@@ -210,13 +210,16 @@ class Creativitycontroller extends GetxController
     debugPrint("gender=${gender.value}");
   }
 
-  RxInt? repeat;
+  RxInt repeat = 0.obs;
 
   changeRepeatVal(val) {
-    repeat?.value = val;
-    debugPrint("repeat=${repeat?.value}==incomming=${val}");
+    repeat.value = val;
+    debugPrint("repeat=${repeat.value!}==incomming=${val}");
     if(val == 2){
-      changerepeats();
+      repeats.value = true;
+      print("repeat value == ${repeats.value}");
+    }else{
+      repeats.value = false;
     }
   }
 
@@ -227,9 +230,7 @@ class Creativitycontroller extends GetxController
     joinInstant.value = !joinInstant.value;
   }
 
-  changerepeats() {
-    repeats.value = !repeats.value;
-  }
+
 
   RxString sTime = "".obs;
   var sTimeForApi = ''.obs;
@@ -437,21 +438,144 @@ class Creativitycontroller extends GetxController
       }else if(groupSize.value < 2){
         showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
       }else if(repeats.value == true){
-        if(wmValue.value == 1){
-          if(repeatday.value.isEmpty){
-            showTostMsg('Please select the weekday',gravity: ToastGravity.CENTER);
+        if(wmValue.value == 0){
+          showTostMsg('select',gravity: ToastGravity.CENTER);
+          return;
+        } else if(wmValue.value == 1){
+          if(repeatday.value.isEmpty || groupValue.value == 0){
+            showTostMsg('Please select the weekday and ends.',gravity: ToastGravity.CENTER);
+            return;
+          }else if(repeatday.value.isEmpty || groupValue.value == 2){
+            if(Rdate.value.isEmpty){
+              showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+              return;
+            }
           }
         }else if(wmValue.value == 2){
-          if(repeatMonth.value.isEmpty){
-            showTostMsg('Please select the month',gravity: ToastGravity.CENTER);
-          }
-        }else if(groupValue.value == 0){
-            showTostMsg('Please select the ends',gravity: ToastGravity.CENTER);
-        }else if(groupValue.value == 2){
-          if(Rdate.value.isEmpty){
-            showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+          if(repeatMonth.value.isEmpty || groupValue.value == 0){
+            showTostMsg('Please select the month and ends.',gravity: ToastGravity.CENTER);
+            return;
+          }else if(repeatMonth.value.isEmpty || groupValue.value == 2){
+            if(Rdate.value.isEmpty){
+              showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+              return;
+            }
           }
         }
+        // else if(groupValue.value == 2){
+        //   if(Rdate.value.isEmpty){
+        //     showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+        //     return;
+        //   }
+        // }
+
+
+        var url = Uri.parse(EndPoints.createActivity);
+        var request = await http.MultipartRequest('POST', url);
+        if(!choosePhotoCheck.value) {
+          if (galleryImages.isNotEmpty) {
+            for (File image in galleryImages) {
+              var stream = http.ByteStream(image.openRead());
+              var length = await image.length();
+              var multipartFile = http.MultipartFile(
+                  'gallery_img[]', stream, length,
+                  filename: image.path
+                      .split('/')
+                      .last);
+              request.files.add(multipartFile);
+              print(
+                  'File name: ${multipartFile.filename}, Length: ${multipartFile
+                      .length}');
+            }
+          }
+        }
+
+        // if (!choosePhotoCheck.value) {
+        //   if (galleryImages.isNotEmpty) {
+        //     File image = galleryImages.first;
+        //     var stream = http.ByteStream(image.openRead());
+        //     var length = await image.length();
+        //     var multipartFile = http.MultipartFile(
+        //       'feature_img', stream, length,
+        //       filename: image.path.split('/').last,
+        //     );
+        //     request.files.add(multipartFile);
+        //   }
+        // }
+
+        request.fields["category_id"] = catID.value;
+        request.fields['subcategory_id'] = subCatID.value;
+        request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
+        request.fields['description'] = desController.value.value.text.trim();
+        request.fields['location'] = locController.value.value.text.trim();
+        request.fields['date'] = date.value;
+        request.fields['name'] = titleController.value.value.text.trim();
+        request.fields['start_at'] = sTimeForApi.value;
+        request.fields['end_at'] = eTimeForAPi.value;
+        request.fields['max_people'] = groupSize.value.toString();
+        request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
+        request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
+        request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+        if(repeats.value == true){
+          request.fields['repeat_every'] = counter.value.toString();
+          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'month' ;
+          request.fields['repeat_on'] = wmValue.value == 1 ? repeatday.value : repeatMonth.value;
+          if(groupValue.value == 1){
+            request.fields['end_type'] = 'never';
+            debugPrint("end_type set to 'never'");
+          }
+          else if(groupValue.value == 2){
+            request.fields['end_type'] = 'on_date';
+            request.fields['end_date'] = Rdate.value;
+            debugPrint("end_type set to 'on_date'");
+            debugPrint("end_date set to: ${Rdate.value}");
+          }
+          else if(groupValue.value == 3){
+            request.fields['end_type'] = 'after_occurrences';
+            request.fields['occurrences'] = occs.value.toString();
+            debugPrint("end_type set to 'after_occurrences'");
+            debugPrint("occurrences set to: ${occs.value.toString()}");
+          }
+        }
+        request.fields["host_id"] = uid;
+        request.headers['Authorization'] = "Bearer $token";
+
+        print("Category ID: ${catID.value}");
+        print("Subcategory ID: ${subCatID.value}");
+        print("Pick Photo For Me: ${choosePhotoCheck.value ? '1' : '0'}");
+        print("Description: ${desController.value.value.text.trim()}");
+        print("Location: ${locController.value.value.text.trim()}");
+        print("Date: ${date.value}");
+        print("Name: ${titleController.value.value.text.trim()}");
+        print("Start At: ${sTimeForApi.value}");
+        print("End At: ${eTimeForAPi.value}");
+        print("Max People: ${groupSize.value}");
+        print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
+        print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
+        print("Repeat Every: ${counter.value}");
+        print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'month'}");
+        print("groupValue: ${groupValue.value}");
+
+
+
+        // Send the request and get the response
+        final streamedResponse = await request.send();
+        var response = await http.Response.fromStream(streamedResponse);
+        var responseBody = jsonDecode(response.body);
+
+        print(responseBody);
+        // Check the response status
+        if (response.statusCode == 200) {
+          loading.value = false;
+          showTostMsg('Activity created successfully.Your activity is under review.');
+          Get.back();
+        } else {
+          showTostMsg('Something went wrong');
+          loading.value = false;
+        }
+
+
+
       }else {
         var url = Uri.parse(EndPoints.createActivity);
         var request = await http.MultipartRequest('POST', url);

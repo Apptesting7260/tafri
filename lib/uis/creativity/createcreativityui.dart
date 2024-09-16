@@ -624,7 +624,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                   .isNotEmpty
                                                               ? controller
                                                                   .date.value
-                                                              : "DD/MM/YYYY",
+                                                              : "YYYY/MM/DD",
                                                           style: TextStyle(
                                                               color: controller
                                                                       .date
@@ -916,7 +916,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               height: Get.height * 0.02,
                                             ),
                                             CustoDropDownBtn(
-                                              val: controller.repeat?.value,
+                                              val: controller.repeat.value == 0 ? null : controller.repeat.value,
                                               onchange: (val) {
                                                 controller.changeRepeatVal(val);
                                                 if (val == 2) {
