@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -248,7 +249,7 @@ class IntroController extends GetxController {
         // loading.value = false;
         if (body.message == 'Mobile number exists' && body.currentStep == '4') {
           showTostMsg('Mobile number exists. Please login to continue');
-          Get.back();
+          // Get.back();
           mobnoController.clear();
           countryCode.value = '+31';
           initialSelection.value = 'NL';
@@ -295,7 +296,7 @@ class IntroController extends GetxController {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobnoController.value.text.trim().toString()}',
-        forceResendingToken: resendToken.value != 0 ? resendToken.value : null,
+        forceResendingToken: !Platform.isIOS ? (resendToken.value != 0 ? resendToken.value : null) : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
         },
@@ -312,10 +313,12 @@ class IntroController extends GetxController {
         codeSent: (String verificationId, int? forceResendingToken) {
           print('codesent');
           verificationID.value = verificationId;
-          resendToken.value = forceResendingToken!;
-          Timer(const Duration(seconds: 59), () {
-            resendToken.value = 0;
-          },);
+          if(!Platform.isIOS){
+            resendToken.value = forceResendingToken!;
+            Timer(const Duration(seconds: 59), () {
+              resendToken.value = 0;
+            },);
+          }
           completer.complete(true);
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
