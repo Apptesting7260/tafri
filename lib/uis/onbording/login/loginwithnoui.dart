@@ -22,7 +22,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
       resizeToAvoidBottomInset: false,
       body: Obx(
         () => Opacity(
-          opacity: controller.googleLoading.value ? 0.3 : 1,
+          opacity: controller.googleLoading.value || controller.appleLoading.value ? 0.3 : 1,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -324,14 +324,19 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                           SizedBox(
                             width: w * 0.04,
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(13),
-                            decoration: BoxDecoration(
-                                color: clrWhite,
-                                borderRadius: BorderRadius.circular(100)),
-                            child: Image.asset(
-                              "assets/icons/appleicon.png",
-                              height: 18,
+                          GestureDetector(
+                            onTap: () {
+                              controller.appleSignIn(context);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(13),
+                              decoration: BoxDecoration(
+                                  color: clrWhite,
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: Image.asset(
+                                "assets/icons/appleicon.png",
+                                height: 18,
+                              ),
                             ),
                           ),
                         ],
@@ -343,7 +348,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                   ),
                 ),
               ),
-              controller.googleLoading.value
+              controller.googleLoading.value || controller.appleLoading.value
                   ? CommonUi.scaffoldLoading(color: clrYellow)
                   : CommonUi.emptySizeBox(),
             ],
