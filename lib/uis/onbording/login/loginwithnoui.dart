@@ -189,7 +189,6 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                   .value,
                                                           favorite: [
                                                             '+31',
-                                                            '+39'
                                                           ],
                                                           showCountryOnly:
                                                               false,
