@@ -349,27 +349,11 @@ class LoginnoController extends GetxController {
           '${credential.email} , ${credential.givenName} , ${credential.familyName} , ${credential.identityToken} , ${credential.userIdentifier} , ${credential.authorizationCode}');
       print('credientals');
 
-      String? displayName = credential.givenName;
-      String firstName = '';
-      String lastName = '';
-
-      if (displayName != null) {
-        List<String> nameParts = displayName.split(' ');
-        print(nameParts);
-        if (nameParts.length > 1) {
-          firstName = nameParts.first;
-          lastName = nameParts.sublist(1).join(' ');
-        } else {
-          firstName = displayName;
-        }
-      }
-
-
       Map body = {
         'socailite_type': 'apple',
         'socailite_id': '${credential.userIdentifier}',
-        'first_name': firstName,
-        'last_name': lastName,
+        'first_name': credential.givenName,
+        'last_name': credential.familyName,
         'email': '${credential.email}',
       };
 
@@ -423,6 +407,7 @@ class LoginnoController extends GetxController {
             showTostMsg('Something went wrong');
           }
           print(e.toString());
+
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
