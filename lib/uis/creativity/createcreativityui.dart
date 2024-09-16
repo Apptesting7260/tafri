@@ -418,7 +418,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                             hintColor:
                                                                 clrBlacke,
                                                             hindtext:
-                                                                "Select Subcategory",
+                                                            controller
+                                                                .subcategoryList.isEmpty ? 'Subcategory not found' : "Select Subcategory",
                                                             suffix: Image.asset(
                                                               'assets/images/arrow down.png',
                                                               scale: 4,

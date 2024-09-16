@@ -76,10 +76,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                         controller: controller.tabController,
                         children: [
                           Obx(
-                            () => controller.attendingData.value.result!.upcomingActivities!.isEmpty
-                                    && controller.attendingData.value.result!.upcomingActivities!.isEmpty
-                                    ?  const Center(child: ErrorScreen())
-                                : controller.attendingLoading.value &&
+                            () => controller.attendingLoading.value &&
                                         controller.attendingData.value.result ==
                                             null
                                     ? Center(
@@ -101,7 +98,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         //   backgroundColor: clrYellow,
                                         //   distance: 50,
                                         // ),
-                                        child: controller.attendingError.value.isEmpty ? ListView(
+                                        child: controller.attendingError.value.isEmpty ? controller.attendingData.value.result!.upcomingActivities!.isEmpty
+                                            && controller.attendingData.value.result!.previousActivities!.isEmpty
+                                            ?   Center(child: NoActivityScreen())
+                                            :  ListView(
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             const Text(
@@ -483,10 +483,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                           ),
                           /// -------Upcoming activities(for host)------- ///
                           Obx(
-                            () => controller.hostingData.value.result!.upcomingActivities!.isEmpty
-                                && controller.hostingData.value.result!.upcomingActivities!.isEmpty
-                                ?  const Center(child: ErrorScreen())
-                                : controller.hostingLoading.value &&
+                            () =>  controller.hostingLoading.value &&
                                         controller.hostingData.value.result ==
                                             null
                                     ? Center(
@@ -508,7 +505,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         //   backgroundColor: clrYellow,
                                         //   distance: 50,
                                         // ),
-                                        child: controller.hostingError.isEmpty ? ListView(
+                                        child: controller.hostingError.isEmpty ? controller.hostingData.value.result!.upcomingActivities!.isEmpty
+                                            && controller.hostingData.value.result!.previousActivities!.isEmpty
+                                            ?   Center(child: NoActivityScreen())
+                                            : ListView(
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             const Text(

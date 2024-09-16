@@ -175,7 +175,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                 },
                                                 initialSelection: controller
                                                     .initialSelection.value,
-                                                favorite: ['+31', '+39'],
+                                                favorite: ['+31'],
                                                 showCountryOnly: false,
                                                 showOnlyCountryWhenClosed:
                                                     false,
