@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -317,10 +318,10 @@ class LoginnoController extends GetxController {
           LocalStorage.saveUid(data.data!.userId.toString());
           Get.offAllNamed(Routes.navbarUi);
         }else{
-          showTostMsg('Something went wrong');
+          showTostMsg('Login failed.');
         }
       }else{
-        showTostMsg('Something went wrong');
+        showTostMsg('Login failed.');
       }
 
       googleLoading.value = false;
@@ -328,7 +329,7 @@ class LoginnoController extends GetxController {
     } catch (e) {
       googleLoading.value = false;
       print('error == ${e.toString()}');
-      showTostMsg('Something went wrong.');
+      showTostMsg('Login failed. Please try again.');
     }
   }
 
@@ -342,15 +343,56 @@ class LoginnoController extends GetxController {
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName
       ]);
+
       print('credientals');
       print(
           '${credential.email} , ${credential.givenName} , ${credential.familyName} , ${credential.identityToken} , ${credential.userIdentifier} , ${credential.authorizationCode}');
       print('credientals');
 
+      String? displayName = credential.givenName;
+      String firstName = '';
+      String lastName = '';
+
+      if (displayName != null) {
+        List<String> nameParts = displayName.split(' ');
+        print(nameParts);
+        if (nameParts.length > 1) {
+          firstName = nameParts.first;
+          lastName = nameParts.sublist(1).join(' ');
+        } else {
+          firstName = displayName;
+        }
+      }
+
+
+      Map body = {
+        'socailite_type': 'apple',
+        'socailite_id': '${credential.userIdentifier}',
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': '${credential.email}',
+      };
+
+      final response = await api.post(EndPoints.socialLoginUrl, body);
+      if(response.statusCode == 200){
+        var data = SocialLoginModel.fromJson(response.body);
+        if(data.status == true){
+          LocalStorage.saveToken(data.data!.accessToken.toString());
+          LocalStorage.saveUid(data.data!.userId.toString());
+          Get.offAllNamed(Routes.navbarUi);
+        }else{
+          showTostMsg('Login failed.');
+        }
+      }else{
+        showTostMsg('Login failed.');
+      }
+
     } catch (e) {
       appleLoading.value = false;
+      showTostMsg('Login failed. Please try again.');
       print('apple error ---  ${e.toString()}');
     }
+    appleLoading.value = false;
   }
 
 
@@ -364,11 +406,12 @@ class LoginnoController extends GetxController {
   Future<bool> sendOtp() async {
     Completer<bool> completer = Completer<bool>();
     print('re == ${resendToken.value}');
+    print('no == ${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
-        forceResendingToken: resendToken.value != 0 ? resendToken.value : null,
+        forceResendingToken: !Platform.isIOS ? (resendToken.value != 0 ? resendToken.value : null) : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
         },
@@ -384,11 +427,14 @@ class LoginnoController extends GetxController {
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           print('codesent');
-          resendToken.value = forceResendingToken!;
-          Timer(const Duration(seconds: 59), () {
-            resendToken.value = 0;
-            print('token == ${resendToken.value}');
-          },);
+          if(!Platform.isIOS){
+            print(forceResendingToken);
+            resendToken.value = forceResendingToken!;
+            Timer(const Duration(seconds: 59), () {
+              resendToken.value = 0;
+              print('token == ${resendToken.value}');
+            },);
+          }
           verificationID.value = verificationId;
           completer.complete(true);
         },
