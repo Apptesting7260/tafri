@@ -25,10 +25,11 @@ Future<void> main() async {
       );
     }else{
       await Firebase.initializeApp(
-        options: const FirebaseOptions(apiKey: 'AIzaSyASa_0oM2J4ORmJZB5wln3qPv9OmOj6qWA',
-         appId: '1:396232712466:ios:94b6b60828824257cd53cb',
-          messagingSenderId: '396232712466',
-           projectId: 'plusones-28b9f')
+
+        // options: const FirebaseOptions(apiKey: 'AIzaSyASa_0oM2J4ORmJZB5wln3qPv9OmOj6qWA',
+        //  appId: '1:396232712466:ios:94b6b60828824257cd53cb',
+        //   messagingSenderId: '396232712466',
+        //    projectId: 'plusones-28b9f')
       );
     }
   }catch(e){
