@@ -62,6 +62,7 @@ class FilterExpController extends GetxController{
     };
     try{
       final response = await api.get("${EndPoints.getCategoryApiUrl}$uid",headers: header);
+      print(response.body);
       if(response.statusCode == 200){
         catError.value = '';
         catData.value = CategoryModel.fromJson(response.body);
@@ -123,6 +124,7 @@ class FilterExpController extends GetxController{
 
 
   TextEditingController locController = TextEditingController();
+  var groupSizeController = TextEditingController();
 
   RxInt groupSize = 1.obs;
 
@@ -233,7 +235,7 @@ class FilterExpController extends GetxController{
 
     // Validation to ensure at least one of the fields has a value
     if (selected.isEmpty && locController.text.isEmpty && date.isEmpty
-        && groupSize.value <= 1 && categoryid == false
+        && groupSizeController.text.isEmpty && categoryid == false
         && genderFilter.value == 0 && selectedTime.isEmpty
     ) {
       showTostMsg('Please select at least one filter.');
@@ -266,7 +268,7 @@ class FilterExpController extends GetxController{
       'user_id': LocalStorage.getUid(),
        if(categoryid == true) 'category_id': categoryid == true ? '' : selected,
        if(locController.value.text.isNotEmpty) 'location': locController.value.text.toString(),
-       if(groupSize.value >1) 'max_people': groupSize.value.toString(),
+       if(groupSizeController.value.text.isNotEmpty) 'max_people': groupSizeController.value.text.toString(),
        if(date.isNotEmpty) 'date': date,
        if(selectedTime.value.isNotEmpty) 'time_slot': selectedTime.value,
        if(genderFilter.value != 0) 'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '' ,
@@ -318,7 +320,7 @@ class FilterExpController extends GetxController{
       "week": false,
       "weekend": false,
     };
-    groupSize.value = 1;
+    // groupSize.value = 1;
     timeFilter.value = 0;
     genderFilter.value = 0;
     hideWaitListAct.value = false;
@@ -328,6 +330,7 @@ class FilterExpController extends GetxController{
     filterDateCalenderEnd.value = "";
     selectedTime.value = "";
     locController.clear();
+    groupSizeController.clear();
   }
 
 

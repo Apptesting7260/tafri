@@ -10,6 +10,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
@@ -237,7 +238,7 @@ class Creativitycontroller extends GetxController
 
   changeStime(TimeOfDay stime) {
     sTime.value = "${stime.hour}:${stime.minute}";
-    sTimeForApi.value = '${stime.hour > 12 ? stime.hour - 12 : stime.hour}:${stime.minute} ${stime.period == DayPeriod.am ? "AM" : "PM"}';
+    sTimeForApi.value = '${stime.hour > 12 ? stime.hour - 12 : stime.hour}:${stime.minute.toString().padLeft(2,'0')} ${stime.period == DayPeriod.am ? "AM" : "PM"}';
   }
 
   RxString eTime = "".obs;
@@ -245,7 +246,7 @@ class Creativitycontroller extends GetxController
 
   changeEtime(TimeOfDay etime) {
     eTime.value = "${etime.hour}:${etime.minute}";
-    eTimeForAPi.value = '${etime.hour > 12 ? etime.hour - 12 : etime.hour}:${etime.minute} ${etime.period == DayPeriod.am ? "AM" : "PM"}';
+    eTimeForAPi.value = '${etime.hour > 12 ? etime.hour - 12 : etime.hour}:${etime.minute.toString().padLeft(2,'0')} ${etime.period == DayPeriod.am ? "AM" : "PM"}';
   }
 
   bool checkTime(TimeOfDay stime, TimeOfDay etime) {
@@ -255,6 +256,15 @@ class Creativitycontroller extends GetxController
   }
 
   var date = ''.obs;
+
+
+  String formatDate(String date) {
+    DateTime parsedDate = DateTime.parse(date); // Assuming date is in yyyy-MM-dd format
+    String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+    return formattedDate;
+  }
+
+
   var dateForPicker = ''.obs;
   changeDate(DateTime dateTime) {
     dateForPicker.value = dateTime.toString();

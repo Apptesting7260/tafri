@@ -583,6 +583,19 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 DateTime? date =
                                                     await showDatePicker(
                                                         context: context,
+                                                      builder: (BuildContext context, Widget? child) {
+                                                        return Theme(
+                                                          data: ThemeData.light().copyWith(
+                                                            colorScheme: ColorScheme.light(
+                                                              primary: clrYellow, // Change the color to yellow
+                                                              onPrimary: Colors.black, // Text color on selected date
+                                                              onSurface: Colors.black, // Text color on unselected dates
+                                                            ),
+                                                            dialogBackgroundColor: Colors.white, // Background color of the date picker
+                                                          ),
+                                                          child: child!,
+                                                        );
+                                                      },
                                                         firstDate:
                                                             DateTime.now(),
                                                         lastDate:
@@ -623,9 +636,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         () => Text(
                                                           controller.date.value
                                                                   .isNotEmpty
-                                                              ? controller
-                                                                  .date.value
-                                                              : "YYYY/MM/DD",
+                                                              ? controller.formatDate(controller
+                                                                  .date.value)
+                                                              : "DD/MM/YYYY",
                                                           style: TextStyle(
                                                               color: controller
                                                                       .date
@@ -647,6 +660,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   TimeOfDay? stime =
                                                       await showTimePicker(
                                                     context: context,
+                                                    initialEntryMode: TimePickerEntryMode.input,
                                                     initialTime: controller
                                                             .sTime
                                                             .value
@@ -664,6 +678,22 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                         ":")[1]),
                                                           )
                                                         : TimeOfDay.now(),
+                                                        builder: (BuildContext context, Widget? child) {
+                                                          return Theme(
+                                                            data: ThemeData.light().copyWith(
+                                                              colorScheme: ColorScheme.light(
+                                                                primary: clrYellow, // Change the color to yellow
+                                                                onPrimary: Colors.black, // Text color on selected time
+                                                                onSurface: Colors.black, // Text color on unselected items
+                                                              ),
+                                                              timePickerTheme: TimePickerThemeData(
+                                                                backgroundColor: Colors.white, // Background color of the time picker
+                                                                hourMinuteTextColor: Colors.black, // Text color of the hour and minute
+                                                              ),
+                                                            ),
+                                                            child: child!,
+                                                          );
+                                                        },
                                                   );
                                                   if (stime != null) {
                                                     controller
@@ -731,25 +761,31 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   TimeOfDay? etime =
                                                       await showTimePicker(
                                                           context: context,
+                                                        initialEntryMode: TimePickerEntryMode.input,
                                                           initialTime:
-                                                              controller
-                                                                      .eTime
-                                                                      .value
-                                                                      .isNotEmpty
+                                                              controller.eTime.value.isNotEmpty
                                                                   ? TimeOfDay(
-                                                                      hour: int.parse(controller
-                                                                          .eTime
-                                                                          .value
-                                                                          .split(
-                                                                              ":")[0]),
-                                                                      minute: int.parse(controller
-                                                                          .eTime
-                                                                          .value
-                                                                          .split(
-                                                                              ":")[1]),
+                                                                      hour: int.parse(controller.eTime.value.split(":")[0]),
+                                                                      minute: int.parse(controller.eTime.value.split(":")[1]),
                                                                     )
-                                                                  : TimeOfDay
-                                                                      .now());
+                                                                  : TimeOfDay.now(),
+                                                        builder: (BuildContext context, Widget? child) {
+                                                          return Theme(
+                                                            data: ThemeData.light().copyWith(
+                                                              colorScheme: ColorScheme.light(
+                                                                primary: clrYellow, // Change the color to yellow
+                                                                onPrimary: Colors.black, // Text color on selected time
+                                                                onSurface: Colors.black, // Text color on unselected items
+                                                              ),
+                                                              timePickerTheme: TimePickerThemeData(
+                                                                backgroundColor: Colors.white, // Background color of the time picker
+                                                                hourMinuteTextColor: Colors.black, // Text color of the hour and minute
+                                                              ),
+                                                            ),
+                                                            child: child!,
+                                                          );
+                                                        },
+                                                      );
                                                   if (etime != null) {
                                                     controller
                                                         .changeEtime(etime);
@@ -1577,8 +1613,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             hintStyle: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: clrGreyTextLight),
-                            contentPadding: EdgeInsets.only(
-                                left: controller.wmValue.value == 0 ? 0 : 6),
+                            // contentPadding: EdgeInsets.only(
+                            //     left: controller.wmValue.value == 0 ? 0 : 6),
+                            contentPadding: EdgeInsets.only(left: 16),
                             fillColor: clrGreyLight,
                             filled: true,
                             border: OutlineInputBorder(
@@ -1829,6 +1866,19 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                     context: context,
                                     firstDate: DateTime.now(),
                                     lastDate: DateTime(2025),
+                                    builder: (BuildContext context, Widget? child) {
+                                      return Theme(
+                                        data: ThemeData.light().copyWith(
+                                          colorScheme: ColorScheme.light(
+                                            primary: clrYellow, // Change the color to yellow
+                                            onPrimary: Colors.black, // Text color on selected date
+                                            onSurface: Colors.black, // Text color on unselected dates
+                                          ),
+                                          dialogBackgroundColor: Colors.white, // Background color of the date picker
+                                        ),
+                                        child: child!,
+                                      );
+                                    },
                                     currentDate: controller
                                             .RdateForPicker.value.isNotEmpty
                                         ? DateTime.parse(

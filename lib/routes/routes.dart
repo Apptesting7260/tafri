@@ -156,7 +156,7 @@ class Routes{
     GetPage(name: messageListUi, page:()=>const MessageListUi(),binding: MsglistBinding()),
     GetPage(name: myactList, page:()=>const MyActivitiesListUi(),binding: MyactBinding()),
     GetPage(name: planMemUi, page:()=>const PlansUi(),binding: PlanBinding()),
-    GetPage(name: myprofileInnUi, page:()=>MyProfileUi(),binding: MyprofileInnbinding()),
+    GetPage(name: myprofileInnUi, page:()=>MyProfileUi(),bindings: [MyprofileInnbinding(),ProfilemainBindings()]),
     GetPage(name: addPhotoProUi, page:()=>const AddPhotoUi(),binding: AddphotoBinding()),
     GetPage(name: activityInterestUi, page:()=> ActivityInterestUi(),binding: ActivinterestBinding()),
     GetPage(name: locationProUi, page:()=>LocationProUi(),binding: LocationBinding()),

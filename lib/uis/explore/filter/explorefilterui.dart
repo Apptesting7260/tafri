@@ -129,6 +129,32 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       SizedBox(
                                         height: Get.height * 0.025,
                                       ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Flexible(
+                                            child: Text(
+                                                "Hide waitlist-only activities",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15)),
+                                          ),
+                                          Obx(() {
+                                            return CustomSwitch(
+                                              value: controller
+                                                  .hideWaitListAct.value,
+                                              onChanged: (p0) {
+                                                controller
+                                                    .changeHideWaitListAct();
+                                              },
+                                            );
+                                          })
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.02,
+                                      ),
                                       const Text(
                                         "Category",
                                         style: TextStyle(
@@ -316,66 +342,132 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       //     ),
                                       //   ),
                                       // ),
-                                      Container(
-                                          height: Res.h_btn,
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 13),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              color: clrGreyLight),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Flexible(
-                                                child: Row(
-                                                  children: [
-                                                    Image.asset(
-                                                      "assets/icons/manicon.png",
-                                                      height: 20,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Flexible(
-                                                        child: Text(
-                                                      "Up to 10 (incl. you)",
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          color:
-                                                              clrGreyTextLight),
-                                                    ))
-                                                  ],
-                                                ),
-                                              ),
-                                              InkWell(
-                                                  onTap: () {
-                                                    controller
-                                                        .decGroupSize();
-                                                  },
-                                                  child:
-                                                      const Icon(Icons.remove)),
-                                              SizedBox(
-                                                width: w * .01,
-                                              ),
-                                              Obx(() {
-                                                return Text(
-                                                    "${controller.groupSize}");
-                                              }),
-                                              SizedBox(
-                                                width: w * .01,
-                                              ),
-                                              InkWell(
-                                                  onTap: () {
-                                                    controller
-                                                        .incGroupSize();
-                                                  },
-                                                  child: const Icon(Icons.add))
-                                            ],
-                                          )),
+
+                                      CustoTextFormField(
+                                        controll: controller.groupSizeController,
+                                        hintText: "Up to 10 (incl. you)",
+                                        sufixIcon: Padding(
+                                          padding: const EdgeInsets.all(13.0),
+                                          child: Image.asset(
+                                            "assets/icons/manicon.png",
+                                            height: 20,
+                                          ),
+                                        ),
+                                        textKType: TextInputType.number,
+                                      ),
+                                      // Container(
+                                      //   height: Res.h_btn,
+                                      //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
+                                      //   decoration: BoxDecoration(
+                                      //     borderRadius: BorderRadius.circular(100),
+                                      //     color: clrGreyLight,
+                                      //   ),
+                                      //   child: Row(
+                                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      //     children: [
+                                      //       Flexible(
+                                      //         child: Row(
+                                      //           children: [
+                                      //             Image.asset(
+                                      //               "assets/icons/manicon.png",
+                                      //               height: 20,
+                                      //             ),
+                                      //           ],
+                                      //         ),
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: w * .01,
+                                      //       ),
+                                      //       Flexible(
+                                      //         child: Obx(() {
+                                      //           return TextField(
+                                      //             controller: TextEditingController(
+                                      //               text: controller.groupSize.value == 1 ? '' : "${controller.groupSize.value}",
+                                      //             ),
+                                      //             onChanged: (value) {
+                                      //               if (value.isNotEmpty) {
+                                      //                 controller.groupSize.value = int.tryParse(value) ?? 1;
+                                      //               }
+                                      //             },
+                                      //             keyboardType: TextInputType.number,
+                                      //             textAlign: TextAlign.center,
+                                      //             decoration: InputDecoration(
+                                      //               hintText: 'Up to 10 (incl. you)',
+                                      //               border: InputBorder.none,
+                                      //               contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                                      //             ),
+                                      //             style: const TextStyle(fontSize: 16),
+                                      //           );
+                                      //         }),
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: w * .01,
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
+
+
+                                      // Container(
+                                      //     height: Res.h_btn,
+                                      //     padding: const EdgeInsets.symmetric(
+                                      //         vertical: 10, horizontal: 13),
+                                      //     decoration: BoxDecoration(
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(100),
+                                      //         color: clrGreyLight),
+                                      //     child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.spaceBetween,
+                                      //       children: [
+                                      //         Flexible(
+                                      //           child: Row(
+                                      //             children: [
+                                      //               Image.asset(
+                                      //                 "assets/icons/manicon.png",
+                                      //                 height: 20,
+                                      //               ),
+                                      //               const SizedBox(
+                                      //                 width: 12,
+                                      //               ),
+                                      //               Flexible(
+                                      //                   child: Text(
+                                      //                 "Up to 10 (incl. you)",
+                                      //                 maxLines: 1,
+                                      //                 overflow:
+                                      //                     TextOverflow.ellipsis,
+                                      //                 style: TextStyle(
+                                      //                     color:
+                                      //                         clrGreyTextLight),
+                                      //               ))
+                                      //             ],
+                                      //           ),
+                                      //         ),
+                                      //         InkWell(
+                                      //             onTap: () {
+                                      //               controller
+                                      //                   .decGroupSize();
+                                      //             },
+                                      //             child:
+                                      //                 const Icon(Icons.remove)),
+                                      //         SizedBox(
+                                      //           width: w * .01,
+                                      //         ),
+                                      //         Obx(() {
+                                      //           return Text(
+                                      //               "${controller.groupSize}");
+                                      //         }),
+                                      //         SizedBox(
+                                      //           width: w * .01,
+                                      //         ),
+                                      //         InkWell(
+                                      //             onTap: () {
+                                      //               controller
+                                      //                   .incGroupSize();
+                                      //             },
+                                      //             child: const Icon(Icons.add))
+                                      //       ],
+                                      //     )),
                                       SizedBox(
                                         height: Get.height * 0.025,
                                       ),
@@ -396,7 +488,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             SizedBox(
                                               height: Res.h_filter_btn,
                                               child: CustoFilterBtn(
-                                                ontap: () {
+                                                ontap: () async {
                                                   // _showCustomDateRangePicker(context);
                                                   // _showCustomDatePicker(
                                                   //     context,
@@ -410,7 +502,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                   //         : DateTime.now()
                                                   //             .toString())
                                                   // );
-                                                  showDateRangePicker(
+                                                  DateTimeRange? picked = await showDateRangePicker(
                                                     context: context,
                                                     firstDate: DateTime.now(),
                                                     lastDate: DateTime(2031),
@@ -427,7 +519,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             onPrimary: Colors.white,
                                                             surface: clrBlacke,
                                                             onSurface: clrBlacke,
-                                                            secondary: Colors.yellow
+                                                            secondary: clrGreyLight
                                                           ),
                                                           dialogBackgroundColor: Colors.white,
                                                         ),
@@ -435,9 +527,19 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                       );
                                                     },
                                                   );
-                                                  controller
-                                                      .changeDateFilter(
-                                                      "Pick a date");
+
+                                                  // controller
+                                                  //     .changeDateFilter(
+                                                  //     "Pick a date");
+                                                  if (picked != null) {
+                                                    controller.filterDateStart.value =
+                                                    "${picked.start.day}/${picked.start.month}/${picked.start.year}";
+                                                    controller.filterDateCalenderEnd.value =
+                                                    "${picked.end.day}/${picked.end.month}/${picked.end.year}";
+
+                                                    // This will update the label with the selected date range
+                                                    controller.changeDateFilter("Pick a date");
+                                                  }
                                                 },
                                                 lable: Row(
                                                   mainAxisSize:
@@ -470,7 +572,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                                           .filterDateCalenderEnd
                                                                           .value !=
                                                                       ''
-                                                              ? "${controller.filterDateStart.value}"
+                                                              ? "${controller.filterDateStart.value} - ${controller.filterDateCalenderEnd.value}"
                                                               : "Pick a date",
                                                           style: TextStyle(
                                                               color: controller
@@ -870,32 +972,6 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             ],
                                             hindtext: "Select");
                                       }),
-                                      SizedBox(
-                                        height: Get.height * 0.02,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Flexible(
-                                            child: Text(
-                                                "Hide waitlist-only activities",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 15)),
-                                          ),
-                                          Obx(() {
-                                            return CustomSwitch(
-                                              value: controller
-                                                  .hideWaitListAct.value,
-                                              onChanged: (p0) {
-                                                controller
-                                                    .changeHideWaitListAct();
-                                              },
-                                            );
-                                          })
-                                        ],
-                                      ),
                                       SizedBox(
                                         height: Get.height * 0.005,
                                       ),
