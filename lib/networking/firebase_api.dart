@@ -96,6 +96,8 @@
 //
 
 
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -103,15 +105,20 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
-  if (message.notification != null) {
+  if (message.data.containsKey('content-available')) {
+    print('Silent background notification received');
+    // Perform any background tasks here
+  } else if (message.notification != null) {
     FirebaseApi().showNotification(message);
     print(
         'message ===  ${message.data}  ===   ${message.notification?.body}   ====   ${message.notification?.title}');
   }
 }
 
+
 class FirebaseApi {
   static String? fcmToken;
+  static String? apnToken;
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
@@ -126,20 +133,24 @@ class FirebaseApi {
 
   Future<void> _requestPermission() async {
     await _firebaseMessaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-      announcement: true,
+      // alert: true,
+      // badge: true,
+      // sound: true,
+      // announcement: true,
     );
   }
 
   Future<void> _getToken() async {
     fcmToken = await _firebaseMessaging.getToken();
+    if(Platform.isIOS) {
+      apnToken = await _firebaseMessaging.getAPNSToken();
+    }
     print(
         '==========================   fcmToken   ==============================');
     print('  ${fcmToken}');
     print(
         '==========================   fcmToken   ==============================');
+    print(" APNS token is -> $apnToken");
   }
 
   // Future<void> _initializeLocalNotification() async {

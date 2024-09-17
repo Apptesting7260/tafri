@@ -358,6 +358,7 @@ class LoginnoController extends GetxController {
       };
 
       final response = await api.post(EndPoints.socialLoginUrl, body);
+      print(response.body);
       if(response.statusCode == 200){
         var data = SocialLoginModel.fromJson(response.body);
         if(data.status == true){
@@ -395,7 +396,7 @@ class LoginnoController extends GetxController {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
-        forceResendingToken: !Platform.isIOS ? (resendToken.value != 0 ? resendToken.value : null) : null,
+        // forceResendingToken: !Platform.isIOS ? (resendToken.value != 0 ? resendToken.value : null) : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
         },
