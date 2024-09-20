@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/uis/onbording/introone/controller/intro_controller.dart';
 import 'package:plusone/uis/onbording/register/regemail/model/register_email_model.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -23,7 +24,8 @@ class RegemailController extends GetxController{
     Map body = {
       'email': emailController.value.text.trim(),
       'mobile': introController.mobnoController.value.text.trim(),
-      'country_code': introController.countryCode.value
+      'country_code': introController.countryCode.value,
+      'fcm_token': FirebaseApi.fcmToken
     };
     print('body == ${body}');
     try{

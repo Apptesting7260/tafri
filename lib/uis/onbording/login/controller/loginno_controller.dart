@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/uis/onbording/login/model/LoginModel.dart';
 import 'package:plusone/uis/onbording/login/model/social_login_model.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -236,7 +237,8 @@ class LoginnoController extends GetxController {
     try {
       Map detaBody = {
         'mobile': mobNoCon.value.text.trim(),
-        "country_code": countryCode.value
+        "country_code": countryCode.value,
+        'fcm_token': FirebaseApi.fcmToken
       };
       final response = await api.post(EndPoints.loginApiUrl, detaBody);
       LoginModel body = LoginModel.fromJson(response.body);
@@ -308,6 +310,7 @@ class LoginnoController extends GetxController {
         'first_name': firstName,
         'last_name': lastName,
         'email': '${googleUser?.email}',
+        'fcm_token': FirebaseApi.fcmToken
       };
 
       final response = await api.post(EndPoints.socialLoginUrl, body);
@@ -355,6 +358,7 @@ class LoginnoController extends GetxController {
         'first_name': credential.givenName,
         'last_name': credential.familyName,
         'email': '${credential.email}',
+        'fcm_token': FirebaseApi.fcmToken
       };
 
       final response = await api.post(EndPoints.socialLoginUrl, body);

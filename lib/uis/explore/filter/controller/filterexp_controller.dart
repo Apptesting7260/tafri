@@ -235,7 +235,7 @@ class FilterExpController extends GetxController{
 
     // Validation to ensure at least one of the fields has a value
     if (selected.isEmpty && locController.text.isEmpty && date.isEmpty
-        && groupSizeController.text.isEmpty && categoryid == false
+        && groupSizeController.text.isEmpty && categoryid.value == false
         && genderFilter.value == 0 && selectedTime.isEmpty
     ) {
       showTostMsg('Please select at least one filter.');
