@@ -763,7 +763,7 @@ class Creativitycontroller extends GetxController
 
 
   /// place api
-  RxList<String?> places = <String?>[].obs;
+  RxList<Map<String, dynamic>> places = <Map<String,dynamic>>[].obs;
   RxString _searchTerm = ''.obs;
   final placesApi = GoogleMapsPlaces(apiKey: 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM');
 
@@ -778,7 +778,7 @@ class Creativitycontroller extends GetxController
     }
   }
 
-  Future<List<String?>> searchPlaces(String searchTerm) async {
+  Future<List<Map<String,dynamic>>> searchPlaces(String searchTerm) async {
     // final response = await placesApi.searchByText(
     //   searchTerm,
     // );
@@ -788,7 +788,8 @@ class Creativitycontroller extends GetxController
     // }
     if (response.isOkay) {
       print('location == ${response.predictions}');
-      return response.predictions.map((e) => e.description,).toList();
+      print('location id == ${response.predictions.map((e) => e.placeId,)}');
+      return response.predictions.map((e) => {'des':e.description,'id':e.placeId},).toList();
     } else {
       return [];
     }
@@ -948,6 +949,95 @@ class Creativitycontroller extends GetxController
   }
 
 
+
+
+    final String apiKey = 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM';
+
+  Future<void> getLatLang(var placeId) async {
+    if (placeId != null) {
+      var placeDetails = await getPlaceDetails(placeId!);
+      updateLatLong(placeDetails['lat'], placeDetails['lng']);
+      print("place Id ${placeId}");
+      print('Latitude: ${placeDetails['lat']}');
+      print('Longitude: ${placeDetails['lng']}');
+      print('House Number: ${placeDetails['houseNumber']}');
+      print('Street Name: ${placeDetails['streetName']}');
+      print('Street Type: ${placeDetails['streetType']}');
+      print('City: ${placeDetails['city']}');
+      print('Postal Code: ${placeDetails['postalCode']}');
+      print(
+          'State (Administrative Area): ${placeDetails['administrativeArea']}');
+
+      print('Country: ${placeDetails['country']}');
+    }
+  }
+
+  Future<Map<String, dynamic>> getPlaceDetails(String placeId) async {
+    final url =
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=AIzaSyCPAaERVd6ZlHs_EVKdaBixFIoYWW_-SL0';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final result = json['result'];
+      final geometry = result['geometry']['location'];
+      final addressComponents = result['address_components'];
+
+      print('Full Address Components: $addressComponents');
+
+      double lat = geometry['lat'];
+      double lng = geometry['lng'];
+      String houseNumber = '';
+      String streetName = '';
+      String streetType = '';
+      String city = '';
+      String postalCode = '';
+      String administrativeArea = '';
+      String country = '';
+
+      // Loop through addressComponents to extract the details
+      addressComponents.forEach((component) {
+        List types = component['types'];
+
+        print('Component Types: $types'); // Print types for each component
+
+        if (types.contains('street_number')) {
+          houseNumber = component['long_name'];
+        } else if (types.contains('route')) {
+          streetName = component['long_name'];
+        } else if (types.contains('locality')) {
+          city = component['long_name'];
+        } else if (types.contains('postal_code')) {
+          postalCode = component['long_name'];
+        } else if (types.contains('administrative_area_level_1')) {
+          administrativeArea = component['long_name'];
+        } else if (types.contains('country')) {
+          country = component['long_name'];
+        }
+      });
+
+      return {
+        'lat': lat,
+        'lng': lng,
+        'houseNumber': houseNumber,
+        'streetName': streetName,
+        'streetType': streetType, // Optional if you extract it
+        'city': city,
+        'postalCode': postalCode,
+        'administrativeArea': administrativeArea,
+        'country': country,
+      };
+    } else {
+      throw Exception('Failed to load place details');
+    }
+  }
+
+  void updateLatLong(double lat, double long) {
+    latitude.value = lat.toString();
+    longitude.value = long.toString();
+    print('lat == ${latitude.value}   lon == ${longitude.value}');
+  }
 
 
 

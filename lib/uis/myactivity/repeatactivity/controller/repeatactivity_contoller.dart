@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart' as loc;
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
@@ -51,6 +53,8 @@ class Repeatcreativitycontroller extends GetxController
       gender.value = activities?.gender == 'same' ? 1 : activities?.gender == 'all' ? 2 : 0;
       repeats.value = activities?.repeatStatus == 'repeats' ? true : false;
       joinInstant.value = activities?.joinInstantly == 1 ? true : false;
+      latitude.value = activities?.latitude.toString() ?? '';
+      longitude.value = activities?.longitude.toString() ?? '';
       updateGalleryImages();
     }
   }
@@ -428,18 +432,196 @@ class Repeatcreativitycontroller extends GetxController
     return isValid.value;
   }
 
+  // Future<void> createActivity() async {
+  //   loading.value = true;
+  //
+  //   try {
+  //     // print("=== ${checkGalleryImagesFormat(galleryImages)}");
+  //     if(!choosePhotoCheck.value && galleryImages.isEmpty) {
+  //       showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
+  //     }
+  //     else if(!checkGalleryImagesFormat(galleryImages)){
+  //       showTostMsg('Image should be in .png, .jpg format.',gravity: ToastGravity.CENTER);
+  //     }
+  //     else if(catID.value.isEmpty){
+  //       showTostMsg('Please select Category',gravity: ToastGravity.CENTER);
+  //     }else if(subCatID.value.isEmpty){
+  //       showTostMsg('Please select SubCategory',gravity: ToastGravity.CENTER);
+  //     }else if(titleController.value.value.text.isEmpty){
+  //       showTostMsg('Please Enter title',gravity: ToastGravity.CENTER);
+  //     }else if(desController.value.text.isEmpty){
+  //       showTostMsg('Please Enter Description',gravity: ToastGravity.CENTER);
+  //     }else if(desController.value.text.length < 30){
+  //       showTostMsg('Description length should be greater than 30 character.',gravity: ToastGravity.CENTER);
+  //     }else if(locController.value.value.text.isEmpty){
+  //       showTostMsg('Please Enter Location',gravity: ToastGravity.CENTER);
+  //     }else if(date.value.isEmpty){
+  //       showTostMsg('Please Select date',gravity: ToastGravity.CENTER);
+  //     }else if(sTimeForApi.value.isEmpty){
+  //       showTostMsg('Please Select start time',gravity: ToastGravity.CENTER);
+  //     }else if(eTimeForAPi.value.isEmpty){
+  //       showTostMsg('Please Select end time',gravity: ToastGravity.CENTER);
+  //     }else if(
+  //     !checkTime(TimeOfDay(
+  //       hour: int.parse(sTime.value.split(":")[0]),
+  //       minute: int.parse(sTime.value.split(":")[1]),
+  //     ),TimeOfDay(
+  //       hour: int.parse(eTime.value.split(":")[0]),
+  //       minute: int.parse(eTime.value.split(":")[1]),
+  //     ))
+  //     ){
+  //       showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
+  //     }else if(groupSize.value < 2){
+  //       showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
+  //     }else if(repeats.value == true){
+  //       if(wmValue.value == 1){
+  //         if(repeatday.value.isEmpty){
+  //           showTostMsg('Please select the weekday',gravity: ToastGravity.CENTER);
+  //         }
+  //       }else if(wmValue.value == 2){
+  //         if(repeatMonth.value.isEmpty){
+  //           showTostMsg('Please select the month',gravity: ToastGravity.CENTER);
+  //         }
+  //       }else if(groupValue.value == 0){
+  //         showTostMsg('Please select the ends',gravity: ToastGravity.CENTER);
+  //       }else if(groupValue.value == 2){
+  //         if(Rdate.value.isEmpty){
+  //           showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+  //         }
+  //       }
+  //     }else {
+  //       var url = Uri.parse(EndPoints.createActivity);
+  //       var request = await http.MultipartRequest('POST', url);
+  //       if(!choosePhotoCheck.value) {
+  //         if (galleryImages.isNotEmpty) {
+  //           for (File image in galleryImages) {
+  //             var stream = http.ByteStream(image.openRead());
+  //             var length = await image.length();
+  //             var multipartFile = http.MultipartFile(
+  //                 'gallery_img[]', stream, length,
+  //                 filename: image.path
+  //                     .split('/')
+  //                     .last);
+  //             request.files.add(multipartFile);
+  //             print(
+  //                 'File name: ${multipartFile.filename}, Length: ${multipartFile
+  //                     .length}');
+  //           }
+  //         }
+  //       }
+  //
+  //       // if (!choosePhotoCheck.value) {
+  //       //   if (galleryImages.isNotEmpty) {
+  //       //     File image = galleryImages.first;
+  //       //     var stream = http.ByteStream(image.openRead());
+  //       //     var length = await image.length();
+  //       //     var multipartFile = http.MultipartFile(
+  //       //       'feature_img', stream, length,
+  //       //       filename: image.path.split('/').last,
+  //       //     );
+  //       //     request.files.add(multipartFile);
+  //       //   }
+  //       // }
+  //
+  //       request.fields["category_id"] = catID.value;
+  //       request.fields['subcategory_id'] = subCatID.value;
+  //       request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
+  //       request.fields['description'] = desController.value.value.text.trim();
+  //       request.fields['location'] = locController.value.value.text.trim();
+  //       request.fields['date'] = date.value;
+  //       request.fields['name'] = titleController.value.value.text.trim();
+  //       request.fields['start_at'] = sTimeForApi.value;
+  //       request.fields['end_at'] = eTimeForAPi.value;
+  //       request.fields['max_people'] = groupSize.value.toString();
+  //       request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
+  //       request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
+  //       request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+  //       if(repeats.value == true){
+  //         request.fields['repeat_every'] = counter.value.toString();
+  //         request.fields['repeat_type'] = wmValue.value == 1 ? 'Week' : 'Month' ;
+  //         request.fields['repeat_on'] = wmValue.value == 1 ? repeatday.value : repeatMonth.value;
+  //         if(groupValue.value == 1){
+  //           request.fields['end_type'] = 'never';
+  //           debugPrint("end_type set to 'never'");
+  //         }
+  //         else if(groupValue.value == 2){
+  //           request.fields['end_type'] = 'on_date';
+  //           request.fields['end_date'] = Rdate.value;
+  //           debugPrint("end_type set to 'on_date'");
+  //           debugPrint("end_date set to: ${Rdate.value}");
+  //         }
+  //         else if(groupValue.value == 3){
+  //           request.fields['end_type'] = 'after_occurrences';
+  //           request.fields['occurrences'] = occs.value.toString();
+  //           debugPrint("end_type set to 'after_occurrences'");
+  //           debugPrint("occurrences set to: ${occs.value.toString()}");
+  //         }
+  //       }
+  //       request.fields["host_id"] = uid;
+  //       request.headers['Authorization'] = "Bearer $token";
+  //
+  //       print("Category ID: ${catID.value}");
+  //       print("Subcategory ID: ${subCatID.value}");
+  //       print("Pick Photo For Me: ${choosePhotoCheck.value ? '1' : '0'}");
+  //       print("Description: ${desController.value.value.text.trim()}");
+  //       print("Location: ${locController.value.value.text.trim()}");
+  //       print("Date: ${date.value}");
+  //       print("Name: ${titleController.value.value.text.trim()}");
+  //       print("Start At: ${sTimeForApi.value}");
+  //       print("End At: ${eTimeForAPi.value}");
+  //       print("Max People: ${groupSize.value}");
+  //       print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
+  //       print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
+  //       print("Repeat Every: ${counter.value}");
+  //       print("Repeat Type: ${wmValue.value == 1 ? 'Week' : 'Month'}");
+  //       print("groupValue: ${groupValue.value}");
+  //
+  //
+  //
+  //       // Send the request and get the response
+  //       final streamedResponse = await request.send();
+  //       var response = await http.Response.fromStream(streamedResponse);
+  //       var responseBody = jsonDecode(response.body);
+  //
+  //       print(responseBody);
+  //       // Check the response status
+  //       if (response.statusCode == 200) {
+  //         loading.value = false;
+  //         showTostMsg('Activity created successfully.Your activity is under review.');
+  //         Get.back();
+  //       } else {
+  //         showTostMsg('Something went wrong');
+  //         loading.value = false;
+  //       }
+  //     }
+  //
+  //
+  //   } catch (e) {
+  //     showTostMsg('Something went wrong');
+  //     loading.value = false;
+  //     print(e);
+  //   } finally {
+  //     loading.value = false;
+  //   }
+  // }
+
+
+
   Future<void> createActivity() async {
     loading.value = true;
+    print("Latitude: ${latitude.value}");
+    print("Longitude: ${longitude.value}");
+
+
+    print('test == ${groupValue.value}  ${repeats.value}  ${wmValue.value}  ${repeatday.value}  ${wmValue.value}  ${repeatMonth.value}');
 
     try {
-      // print("=== ${checkGalleryImagesFormat(galleryImages)}");
+      print("=== ${checkGalleryImagesFormat(galleryImages)}");
       if(!choosePhotoCheck.value && galleryImages.isEmpty) {
         showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
-      }
-      else if(!checkGalleryImagesFormat(galleryImages)){
+      }else if(!checkGalleryImagesFormat(galleryImages)){
         showTostMsg('Image should be in .png, .jpg format.',gravity: ToastGravity.CENTER);
-      }
-      else if(catID.value.isEmpty){
+      } else if(catID.value.isEmpty){
         showTostMsg('Please select Category',gravity: ToastGravity.CENTER);
       }else if(subCatID.value.isEmpty){
         showTostMsg('Please select SubCategory',gravity: ToastGravity.CENTER);
@@ -451,6 +633,12 @@ class Repeatcreativitycontroller extends GetxController
         showTostMsg('Description length should be greater than 30 character.',gravity: ToastGravity.CENTER);
       }else if(locController.value.value.text.isEmpty){
         showTostMsg('Please Enter Location',gravity: ToastGravity.CENTER);
+      }else if (latitude.value.isEmpty) {
+        showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
+        return;
+      }else if (longitude.value.isEmpty) {
+        showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
+        return;
       }else if(date.value.isEmpty){
         showTostMsg('Please Select date',gravity: ToastGravity.CENTER);
       }else if(sTimeForApi.value.isEmpty){
@@ -470,21 +658,149 @@ class Repeatcreativitycontroller extends GetxController
       }else if(groupSize.value < 2){
         showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
       }else if(repeats.value == true){
-        if(wmValue.value == 1){
-          if(repeatday.value.isEmpty){
-            showTostMsg('Please select the weekday',gravity: ToastGravity.CENTER);
+        if(wmValue.value == 0){
+          showTostMsg('select',gravity: ToastGravity.CENTER);
+          return;
+        } else if(wmValue.value == 1){
+          if(repeatday.value.isEmpty || groupValue.value == 0){
+            showTostMsg('Please select the weekday and ends.',gravity: ToastGravity.CENTER);
+            return;
+          }else if(repeatday.value.isEmpty || groupValue.value == 2){
+            if(Rdate.value.isEmpty){
+              showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+              return;
+            }
           }
         }else if(wmValue.value == 2){
-          if(repeatMonth.value.isEmpty){
-            showTostMsg('Please select the month',gravity: ToastGravity.CENTER);
-          }
-        }else if(groupValue.value == 0){
-          showTostMsg('Please select the ends',gravity: ToastGravity.CENTER);
-        }else if(groupValue.value == 2){
-          if(Rdate.value.isEmpty){
-            showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+          if(groupValue.value == 0){
+            showTostMsg('Please select the month and ends.',gravity: ToastGravity.CENTER);
+            return;
+          }else if(groupValue.value == 2){
+            if(Rdate.value.isEmpty){
+              showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+              return;
+            }
           }
         }
+        // else if(groupValue.value == 2){
+        //   if(Rdate.value.isEmpty){
+        //     showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+        //     return;
+        //   }
+        // }
+
+
+        var url = Uri.parse(EndPoints.createActivity);
+        var request = await http.MultipartRequest('POST', url);
+        if(!choosePhotoCheck.value) {
+          if (galleryImages.isNotEmpty) {
+            for (File image in galleryImages) {
+              var stream = http.ByteStream(image.openRead());
+              var length = await image.length();
+              var multipartFile = http.MultipartFile(
+                  'gallery_img[]', stream, length,
+                  filename: image.path
+                      .split('/')
+                      .last);
+              request.files.add(multipartFile);
+              print(
+                  'File name: ${multipartFile.filename}, Length: ${multipartFile
+                      .length}');
+            }
+          }
+        }
+
+        // if (!choosePhotoCheck.value) {
+        //   if (galleryImages.isNotEmpty) {
+        //     File image = galleryImages.first;
+        //     var stream = http.ByteStream(image.openRead());
+        //     var length = await image.length();
+        //     var multipartFile = http.MultipartFile(
+        //       'feature_img', stream, length,
+        //       filename: image.path.split('/').last,
+        //     );
+        //     request.files.add(multipartFile);
+        //   }
+        // }
+
+        request.fields["category_id"] = catID.value;
+        request.fields['subcategory_id'] = subCatID.value;
+        request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
+        request.fields['description'] = desController.value.value.text.trim();
+        request.fields['location'] = locController.value.value.text.trim();
+        request.fields['latitude'] = latitude.value.toString();
+        request.fields['longitude'] = longitude.value.toString();
+        request.fields['date'] = date.value;
+        request.fields['name'] = titleController.value.value.text.trim();
+        request.fields['start_at'] = sTimeForApi.value;
+        request.fields['end_at'] = eTimeForAPi.value;
+        request.fields['max_people'] = groupSize.value.toString();
+        request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
+        request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
+        request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+        if(repeats.value == true){
+          request.fields['repeat_every'] = counter.value.toString();
+          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
+          if(wmValue.value == 1 ){
+            request.fields['repeat_on'] = repeatday.value;
+          }
+          if(groupValue.value == 1){
+            request.fields['end_type'] = 'never';
+            debugPrint("end_type set to 'never'");
+          }
+          else if(groupValue.value == 2){
+            request.fields['end_type'] = 'on_date';
+            request.fields['end_date'] = Rdate.value;
+            debugPrint("end_type set to 'on_date'");
+            debugPrint("end_date set to: ${Rdate.value}");
+          }
+          else if(groupValue.value == 3){
+            request.fields['end_type'] = 'after_occurrences';
+            request.fields['occurrences'] = occs.value.toString();
+            debugPrint("end_type set to 'after_occurrences'");
+            debugPrint("occurrences set to: ${occs.value.toString()}");
+          }
+        }
+        request.fields["host_id"] = uid;
+        request.headers['Authorization'] = "Bearer $token";
+
+        print("Category ID: ${catID.value}");
+        print("Subcategory ID: ${subCatID.value}");
+        print("Pick Photo For Me: ${choosePhotoCheck.value ? '1' : '0'}");
+        print("Description: ${desController.value.value.text.trim()}");
+        print("Location: ${locController.value.value.text.trim()}");
+        print("Date: ${date.value}");
+        print("Name: ${titleController.value.value.text.trim()}");
+        print("Start At: ${sTimeForApi.value}");
+        print("End At: ${eTimeForAPi.value}");
+        print("Max People: ${groupSize.value}");
+        print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
+        print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
+        print("Repeat Every: ${counter.value}");
+        print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'month'}");
+        print("groupValue: ${groupValue.value}");
+
+
+
+
+        // Send the request and get the response
+        final streamedResponse = await request.send();
+        var response = await http.Response.fromStream(streamedResponse);
+        var responseBody = jsonDecode(response.body);
+
+        print(responseBody);
+        // Check the response status
+        if (response.statusCode == 200) {
+          loading.value = false;
+          showTostMsg('Activity created successfully.Your activity is under review.');
+          Get.back();
+        } else {
+          showTostMsg('Something went wrong');
+          loading.value = false;
+        }
+
+
+
       }else {
         var url = Uri.parse(EndPoints.createActivity);
         var request = await http.MultipartRequest('POST', url);
@@ -524,6 +840,8 @@ class Repeatcreativitycontroller extends GetxController
         request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
         request.fields['description'] = desController.value.value.text.trim();
         request.fields['location'] = locController.value.value.text.trim();
+        request.fields['latitude'] = latitude.value.toString();
+        request.fields['longitude'] = longitude.value.toString();
         request.fields['date'] = date.value;
         request.fields['name'] = titleController.value.value.text.trim();
         request.fields['start_at'] = sTimeForApi.value;
@@ -534,8 +852,10 @@ class Repeatcreativitycontroller extends GetxController
         request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
         if(repeats.value == true){
           request.fields['repeat_every'] = counter.value.toString();
-          request.fields['repeat_type'] = wmValue.value == 1 ? 'Week' : 'Month' ;
-          request.fields['repeat_on'] = wmValue.value == 1 ? repeatday.value : repeatMonth.value;
+          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
+          if(wmValue.value == 1 ){
+            request.fields['repeat_on'] = repeatday.value;
+          }
           if(groupValue.value == 1){
             request.fields['end_type'] = 'never';
             debugPrint("end_type set to 'never'");
@@ -571,6 +891,8 @@ class Repeatcreativitycontroller extends GetxController
         print("Repeat Every: ${counter.value}");
         print("Repeat Type: ${wmValue.value == 1 ? 'Week' : 'Month'}");
         print("groupValue: ${groupValue.value}");
+        print("lat: ${latitude.value.toString()}");
+        print("long: ${longitude.value.toString()}");
 
 
 
@@ -637,8 +959,43 @@ class Repeatcreativitycontroller extends GetxController
 
 
 
+  // /// place api
+  // RxList<String?> places = <String?>[].obs;
+  // RxString _searchTerm = ''.obs;
+  // final placesApi = GoogleMapsPlaces(apiKey: 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM');
+  //
+  // void onSearchChanged(String value, BuildContext context) async {
+  //   print(value);
+  //   _searchTerm.value = value;
+  //   if (_searchTerm.isNotEmpty) {
+  //     final results = await searchPlaces(
+  //       _searchTerm.value,
+  //     );
+  //     places.value = results;
+  //   }
+  // }
+  //
+  // Future<List<String?>> searchPlaces(String searchTerm) async {
+  //   // final response = await placesApi.searchByText(
+  //   //   searchTerm,
+  //   // );
+  //   final response = await placesApi.autocomplete(searchTerm);
+  //   // if(data.isOkay){
+  //   //   print("=== ${data.predictions[0].id}  ${data.predictions[0].description}  ${data.predictions[0].matchedSubstrings}");
+  //   // }
+  //   if (response.isOkay) {
+  //     print('location == ${response.predictions}');
+  //     return response.predictions.map((e) => e.description,).toList();
+  //   } else {
+  //     return [];
+  //   }
+  // }
+
+
+
+
   /// place api
-  RxList<String?> places = <String?>[].obs;
+  RxList<Map<String, dynamic>> places = <Map<String,dynamic>>[].obs;
   RxString _searchTerm = ''.obs;
   final placesApi = GoogleMapsPlaces(apiKey: 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM');
 
@@ -653,7 +1010,7 @@ class Repeatcreativitycontroller extends GetxController
     }
   }
 
-  Future<List<String?>> searchPlaces(String searchTerm) async {
+  Future<List<Map<String,dynamic>>> searchPlaces(String searchTerm) async {
     // final response = await placesApi.searchByText(
     //   searchTerm,
     // );
@@ -663,11 +1020,260 @@ class Repeatcreativitycontroller extends GetxController
     // }
     if (response.isOkay) {
       print('location == ${response.predictions}');
-      return response.predictions.map((e) => e.description,).toList();
+      print('location id == ${response.predictions.map((e) => e.placeId,)}');
+      return response.predictions.map((e) => {'des':e.description,'id':e.placeId},).toList();
     } else {
       return [];
     }
   }
-///
+  ///
+
+//
+// ///////////////     Google Map     /////////////////////
+//
+//
+//   GoogleMapController? mapController;
+//   Rxn<loc.LocationData> currentLocation = Rxn<loc.LocationData>();
+//
+//   // Initial map position (default to somewhere)
+//   final LatLng initialPosition = LatLng(52.3731, 4.8922);
+//   RxSet<Marker> markers = <Marker>{}.obs;
+//
+//
+//   Future<void> getUserLocation() async {
+//     loc.Location location = loc.Location();
+//
+//     bool serviceEnabled;
+//     loc.PermissionStatus permissionGranted;
+//
+//
+//     serviceEnabled = await location.serviceEnabled();
+//     if (!serviceEnabled) {
+//       serviceEnabled = await location.requestService();
+//       if (!serviceEnabled) {
+//         return;
+//       }
+//     }
+//
+//     permissionGranted = await location.hasPermission();
+//     if (permissionGranted == loc.PermissionStatus.denied) {
+//       permissionGranted = await location.requestPermission();
+//       if (permissionGranted != loc.PermissionStatus.granted) {
+//         return;
+//       }
+//     }
+//
+//     final userLocation = await location.getLocation();
+//       currentLocation.value = userLocation;
+//
+//     // Move the camera to the user's location
+//     mapController?.animateCamera(
+//       CameraUpdate.newCameraPosition(
+//         CameraPosition(
+//           target: LatLng(userLocation.latitude!, userLocation.longitude!),
+//           zoom: 15,
+//         ),
+//       ),
+//     );
+//   }
+//
+//
+//
+//   void handleTap(LatLng tappedPoint) {
+//       markers.clear();
+//       markers.add(
+//         Marker(
+//           markerId: MarkerId(tappedPoint.toString()),
+//           position: tappedPoint,
+//           infoWindow: InfoWindow(
+//             title: 'Selected Location',
+//             snippet: '${tappedPoint.latitude}, ${tappedPoint.longitude}',
+//           ),
+//         ),
+//       );
+//   }
+
+  GoogleMapController? mapController;
+  Rxn<loc.LocationData> currentLocation = Rxn<loc.LocationData>();
+  final LatLng initialPosition = LatLng(52.3731, 4.8922);
+  RxSet<Marker> markers = <Marker>{}.obs;
+
+  Future<void> getUserLocation() async {
+    loc.Location location = loc.Location();
+
+    bool serviceEnabled;
+    loc.PermissionStatus permissionGranted;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == loc.PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != loc.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final userLocation = await location.getLocation();
+    currentLocation.value = userLocation;
+
+    // Move the camera to the user's location
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(userLocation.latitude!, userLocation.longitude!),
+          zoom: 15,
+        ),
+      ),
+    );
+  }
+
+  Rx<String> address =  ''.obs;
+  RxString latitude = ''.obs;
+  RxString longitude = ''.obs;
+
+  void handleTap(LatLng tappedPoint) async{
+    markers.clear();
+    markers.add(
+      Marker(
+        markerId: MarkerId(tappedPoint.toString()),
+        position: tappedPoint,
+        infoWindow: InfoWindow(
+          title: 'Selected Location',
+          snippet: '${tappedPoint.latitude}, ${tappedPoint.longitude}',
+        ),
+      ),
+    );
+
+    latitude.value = tappedPoint.latitude.toString();
+    longitude.value = tappedPoint.longitude.toString();
+
+    String apiKey = 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM'; // Add your API key here
+    String url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=${tappedPoint.latitude},${tappedPoint.longitude}&key=$apiKey';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK') {
+          // address.value = data['results'][0]['formatted_address'];
+          address.value = data['results'][0]['formatted_address'];
+          print(address.value);
+          print('lat and long ${tappedPoint.latitude}, ${tappedPoint.longitude}');
+        } else {
+
+        }
+      } else {
+        print('Failed to fetch place details.');
+      }
+    } catch (e) {
+      print('Error fetching place details: $e');
+    }
+
+    update(); // Notify listeners
+  }
+
+
+
+
+  final String apiKey = 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM';
+
+  Future<void> getLatLang(var placeId) async {
+    if (placeId != null) {
+      var placeDetails = await getPlaceDetails(placeId!);
+      updateLatLong(placeDetails['lat'], placeDetails['lng']);
+      print("place Id ${placeId}");
+      print('Latitude: ${placeDetails['lat']}');
+      print('Longitude: ${placeDetails['lng']}');
+      print('House Number: ${placeDetails['houseNumber']}');
+      print('Street Name: ${placeDetails['streetName']}');
+      print('Street Type: ${placeDetails['streetType']}');
+      print('City: ${placeDetails['city']}');
+      print('Postal Code: ${placeDetails['postalCode']}');
+      print(
+          'State (Administrative Area): ${placeDetails['administrativeArea']}');
+
+      print('Country: ${placeDetails['country']}');
+    }
+  }
+
+  Future<Map<String, dynamic>> getPlaceDetails(String placeId) async {
+    final url =
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=AIzaSyCPAaERVd6ZlHs_EVKdaBixFIoYWW_-SL0';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final result = json['result'];
+      final geometry = result['geometry']['location'];
+      final addressComponents = result['address_components'];
+
+      print('Full Address Components: $addressComponents');
+
+      double lat = geometry['lat'];
+      double lng = geometry['lng'];
+      String houseNumber = '';
+      String streetName = '';
+      String streetType = '';
+      String city = '';
+      String postalCode = '';
+      String administrativeArea = '';
+      String country = '';
+
+      // Loop through addressComponents to extract the details
+      addressComponents.forEach((component) {
+        List types = component['types'];
+
+        print('Component Types: $types'); // Print types for each component
+
+        if (types.contains('street_number')) {
+          houseNumber = component['long_name'];
+        } else if (types.contains('route')) {
+          streetName = component['long_name'];
+        } else if (types.contains('locality')) {
+          city = component['long_name'];
+        } else if (types.contains('postal_code')) {
+          postalCode = component['long_name'];
+        } else if (types.contains('administrative_area_level_1')) {
+          administrativeArea = component['long_name'];
+        } else if (types.contains('country')) {
+          country = component['long_name'];
+        }
+      });
+
+      return {
+        'lat': lat,
+        'lng': lng,
+        'houseNumber': houseNumber,
+        'streetName': streetName,
+        'streetType': streetType, // Optional if you extract it
+        'city': city,
+        'postalCode': postalCode,
+        'administrativeArea': administrativeArea,
+        'country': country,
+      };
+    } else {
+      throw Exception('Failed to load place details');
+    }
+  }
+
+  void updateLatLong(double lat, double long) {
+    latitude.value = lat.toString();
+    longitude.value = long.toString();
+    print('lat == ${latitude.value}   lon == ${longitude.value}');
+  }
+
+
+
+
+
 
 }

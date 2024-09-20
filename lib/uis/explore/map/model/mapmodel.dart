@@ -1,7 +1,7 @@
 class MapModel {
   bool? status;
   String? message;
-  List<Result>? result;
+  List<MapResult>? result;
 
   MapModel({
     this.status,
@@ -12,7 +12,7 @@ class MapModel {
   factory MapModel.fromJson(Map<String, dynamic> json) => MapModel(
     status: json["status"],
     message: json["message"],
-    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+    result: json["result"] == null ? [] : List<MapResult>.from(json["result"]!.map((x) => MapResult.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -22,14 +22,14 @@ class MapModel {
   };
 }
 
-class Result {
+class MapResult {
   bool? status;
   String? name;
   String? latitude;
   String? longitude;
   String? icon;
 
-  Result({
+  MapResult({
     this.status,
     this.name,
     this.latitude,
@@ -37,7 +37,7 @@ class Result {
     this.icon,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory MapResult.fromJson(Map<String, dynamic> json) => MapResult(
     status: json["status"],
     name: json["name"],
     latitude: json["latitude"],
