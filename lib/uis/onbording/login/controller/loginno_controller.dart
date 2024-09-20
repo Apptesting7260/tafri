@@ -314,6 +314,7 @@ class LoginnoController extends GetxController {
       };
 
       final response = await api.post(EndPoints.socialLoginUrl, body);
+      print(response.body);
       if(response.statusCode == 200){
         var data = SocialLoginModel.fromJson(response.body);
         if(data.status == true){

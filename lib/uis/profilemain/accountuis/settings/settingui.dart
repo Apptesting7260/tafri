@@ -137,8 +137,8 @@ class SettingUi extends GetWidget<SettingController>{
                                       value: controller.appleVal.value,
                                       onChanged: (val) async{
                                         if(!controller.appleVal.value) {
-                                          await controller.appleSignIn(context);
-                                          Get.back();
+                                          controller.changeAppleVal();
+                                          // await controller.appleSignIn(context);
                                         }
                                       },
                                     );
@@ -283,7 +283,8 @@ class SettingUi extends GetWidget<SettingController>{
                   height: 45,
                   child: CustomElevatedButton(
                     onTap: () async{
-                      await controller.signInWithGoogle(context);
+                      // await controller.signInWithGoogle(context);
+                      controller.changeGoogleVal();
                       Get.back();
                     },
                     backgroundClr: clrBlacke,
