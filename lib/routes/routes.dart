@@ -170,7 +170,7 @@ class Routes{
     GetPage(name: helpcenterProUi, page:()=>HelpCenterUi(),binding: HelpcenterBinding()),
     GetPage(name: myfavProui, page:()=> FavouriteListUi(),binding: MyfavouriteBinding()),
     GetPage(name: mymembershipProUi, page:()=>const MyMemberShipUi(),binding: MymembershipBinding()),
-    GetPage(name: settingProUi, page:()=>const SettingUi(),binding: SettingBinding()),
+    GetPage(name: settingProUi, page:()=> SettingUi(),binding: SettingBinding()),
     GetPage(name: referFrndProUi, page:()=>const ReferFrndUi(),binding: ReferFrndBinding()),
     GetPage(name: switchPlanProUi, page:()=>const SwitchPlanUi(),binding: SwitchplanBindings()),
     GetPage(name: activityVisibilitySettingUi, page:()=>const ActivityVisibility(),binding: ActivityvisibilityBinding()),
