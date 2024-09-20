@@ -27,6 +27,8 @@ class Result {
   String? gender;
   String? location;
   DateTime? dob;
+  dynamic googleId;
+  dynamic appleId;
   String? email;
   dynamic emailVerifiedAt;
   String? status;
@@ -57,6 +59,8 @@ class Result {
     this.gender,
     this.location,
     this.dob,
+    this.googleId,
+    this.appleId,
     this.email,
     this.emailVerifiedAt,
     this.status,
@@ -88,6 +92,8 @@ class Result {
     gender: json["gender"],
     location: json["location"],
     dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
+    googleId: json["google_id"],
+    appleId: json["apple_id"],
     email: json["email"],
     emailVerifiedAt: json["email_verified_at"],
     status: json["status"],
@@ -119,6 +125,8 @@ class Result {
     "gender": gender,
     "location": location,
     "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+    "google_id": googleId,
+    "apple_id": appleId,
     "email": email,
     "email_verified_at": emailVerifiedAt,
     "status": status,

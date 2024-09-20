@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -323,7 +325,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                           SizedBox(
                             width: w * 0.04,
                           ),
-                          GestureDetector(
+                          Platform.isIOS ? GestureDetector(
                             onTap: () {
                               controller.appleSignIn(context);
                             },
@@ -337,7 +339,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                 height: 18,
                               ),
                             ),
-                          ),
+                          ) : SizedBox(),
                         ],
                       ),
                       SizedBox(
