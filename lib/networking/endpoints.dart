@@ -63,4 +63,6 @@ class EndPoints{
   static String actVis = '${baseUrl}activity-visibility';
   static String helpcenter = '${baseUrl}help-center';
 
+  static String mapicons = '${baseUrl}get-google-map-activity';
+
 }

@@ -995,8 +995,9 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                         const SizedBox(
                           width: 5,
                         ),
-                        profileController.profileData.value.result?.firstName !=
-                            null
+                        profileController.profileData.value.result?.profile?.verifyInstagram ==
+                            '1' && profileController.profileData.value.result?.profile?.verifyLinkedin ==
+                            '1'
                             ? InkWell(
                             onTap: () {
                               verificationAlert();
@@ -1251,10 +1252,19 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          profileController.profileData.value.result
-                              ?.profile?.occupation !=
-                              null ? Text("${profileController.profileData.value.result?.profile?.occupation}",
-                              style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                          Row(
+                            children: [
+                              profileController.profileData.value.result
+                                  ?.profile?.occupation !=
+                                  null ? Text("${profileController.profileData.value.result?.profile?.occupation}",
+                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                              profileController.profileData.value.result
+                                  ?.profile?.organisationName !=
+                                  null ? Text(", ${profileController.profileData.value.result?.profile?.organisationName}",
+                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                            ],
+                          )
+
                         ],
                       ),
                     ),
@@ -1741,6 +1751,9 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
 
   verificationAlert() {
     return Get.dialog(AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5)
+      ),
       insetPadding: const EdgeInsets.symmetric(horizontal: 65),
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       content: Column(

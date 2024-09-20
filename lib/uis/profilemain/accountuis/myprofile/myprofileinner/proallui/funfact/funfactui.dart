@@ -134,7 +134,7 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
                                       ],
                                     ),
                                   ),
-                                  Positioned(
+                                  controller.funFactListDeta.length > 1 ? Positioned(
                                     right: 15,
                                     top: -5,
                                     child: InkWell(
@@ -154,7 +154,7 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
                                             size: 19,
                                           )),
                                     ),
-                                  ),
+                                  ) : SizedBox(),
                                 ],
                               ),
                             ],

@@ -35,7 +35,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
           child: CustomElevatedButton(
               paddingHz: 10,
               onTap: () {
-                Get.toNamed(Routes.mapActivityUi);
+                Get.toNamed(Routes.mapActivityUi,arguments: controller.homeData);
               },
               backgroundClr: clrWhite,
               child: Row(

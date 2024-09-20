@@ -190,6 +190,22 @@ class RegLocDOBUi extends GetWidget<ReglocdobController> {
                                 context: context,
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime.now(),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData.light().copyWith(
+                                    colorScheme: ColorScheme.light(
+                                      primary: clrYellow, // Change the color to yellow
+                                      onPrimary: Colors.black, // Text color on selected time
+                                      onSurface: Colors.black, // Text color on unselected items
+                                    ),
+                                    timePickerTheme: TimePickerThemeData(
+                                      backgroundColor: Colors.white, // Background color of the time picker
+                                      hourMinuteTextColor: Colors.black, // Text color of the hour and minute
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
                                 initialDate: controller.dob.value == ''
                                     ? DateTime.now().subtract(Duration(days: (18 * 365) + 5 ))
                                     : DateTime.parse(controller.dobForCalender.value),

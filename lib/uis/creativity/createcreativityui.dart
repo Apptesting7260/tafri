@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
@@ -575,6 +576,23 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             //             width: 8),
                                             //       )),
                                             // ),
+                                            SizedBox(
+                                              height: h * 0.01,
+                                            ),
+                                            Row(
+                                                mainAxisAlignment : MainAxisAlignment.end,
+                                                children:[
+                                                  InkWell(
+                                                    onTap: (){
+                                                      Get.toNamed(Routes.mapui);
+                                                    },
+                                                    child: Text(
+                                                        'Choose on Map',
+                                                        style: TextStyle(color: clrYellowText,fontWeight: FontWeight.bold)
+                                                    ),
+                                                  )
+                                                ]
+                                            ),
                                             SizedBox(
                                               height: h * 0.02,
                                             ),

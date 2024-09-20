@@ -314,11 +314,13 @@ class MyprofileInnController extends GetxController
 
   addFunFactDeta(String ques, String ans, int? id) {
     funFactListDeta.add({"question": ques, "answer": ans, "id": id});
+    textEditingList.add(TextEditingController());
   }
 
   removeFunFactDeta(index) {
     if (index >= 0 && index < funFactListDeta.length) {
       funFactListDeta.removeAt(index);
+      textEditingList.removeAt(index);
     } else {
       print('Index out of range');
     }
@@ -330,6 +332,7 @@ class MyprofileInnController extends GetxController
 
   Future<void> funfactQuestionApi() async {
     isLoadingFunFactQuest.value = true;
+    print('uid == ${uid}');
     try {
       final response = await api.get("${EndPoints.funFactQestiApiUrl}$uid",
           headers: {"Authorization": "Bearer $token"});
@@ -337,6 +340,7 @@ class MyprofileInnController extends GetxController
         FunfactQuestModel body = FunfactQuestModel.fromJson(response.body);
         questionList.clear();
         idToQuestionMap.clear();
+        textEditingList.clear();
         body.result?.forEach((e) {
           idToQuestionMap[e.id!] = e.question!;
           questionList.add(DropdownMenuItem(
@@ -355,11 +359,13 @@ class MyprofileInnController extends GetxController
                 "answer": i.answer,
                 "id": i.id
               });
+              textEditingList.add(TextEditingController(text: i.answer ?? ''));
             }
-            textEditingList.add(TextEditingController(text: i.answer ?? ''));
+            // textEditingList.add(TextEditingController(text: i.answer ?? ''));
           }
           print('selected ques == ${funFactListDeta}');
           print('controller == ${textEditingList}');
+          print('length == ${textEditingList.length}');
         } else {
           print('fun error ==');
           debugPrint("error=funfact statu false");
@@ -712,6 +718,8 @@ class MyprofileInnController extends GetxController
   }
 
 
+  TextEditingController instaurl = TextEditingController(text: profileController.profileData.value.result?.profile?.instagramUrl ?? '');
+  TextEditingController linkurl = TextEditingController(text: profileController.profileData.value.result?.profile?.linkedinUrl ?? '');
 
   var socialLoading = false.obs;
 
@@ -724,7 +732,9 @@ class MyprofileInnController extends GetxController
     var body = {
       'user_id' : uid,
       'verify_instagram' : isInstaVerified.value,
-      'verify_linkedin' : isLinkdinVerified.value
+      'verify_linkedin' : isLinkdinVerified.value,
+      if(isInstaVerified.value == 1 )"instagram_url": instaurl.value.text.trim(),
+      if(isLinkdinVerified.value == 1 )"linkedin_url": linkurl.value.text.trim(),
     };
 
     var header = {"Authorization": "Bearer $token"};
@@ -732,13 +742,19 @@ class MyprofileInnController extends GetxController
     socialLoading.value = true;
     try{
       final response = await api.post('${EndPoints.socialprofile}', jsonEncode(body), headers: header);
-      print(response.statusCode);
+      print(response.body);
       if(response.statusCode == 200){
         var data = response.body;
         if(data['status'] == true){
           socialLoading.value = false;
           Get.back();
           await profileController.viewProfile();
+          if(isInstaVerified.value == 0 ){
+            instaurl.clear();
+          }
+          if(isLinkdinVerified.value == 0){
+            linkurl.clear();
+          }
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');
