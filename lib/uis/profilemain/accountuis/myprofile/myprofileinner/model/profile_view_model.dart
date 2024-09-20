@@ -262,6 +262,8 @@ class Profile {
   List<FunFactsAboutMe>? funFactsAboutMe;
   dynamic verifyInstagram;
   dynamic verifyLinkedin;
+  dynamic instagramUrl;
+  dynamic linkedinUrl;
   String? profilePhoto;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -279,6 +281,8 @@ class Profile {
     this.funFactsAboutMe,
     this.verifyInstagram,
     this.verifyLinkedin,
+    this.instagramUrl,
+    this.linkedinUrl,
     this.profilePhoto,
     this.createdAt,
     this.updatedAt,
@@ -297,6 +301,8 @@ class Profile {
     funFactsAboutMe: json["fun_facts_about_me"] == null ? [] : List<FunFactsAboutMe>.from(json["fun_facts_about_me"]!.map((x) => FunFactsAboutMe.fromJson(x))),
     verifyInstagram: json["verify_instagram"],
     verifyLinkedin: json["verify_linkedin"],
+    instagramUrl: json["instagram_url"],
+    linkedinUrl: json["linkedin_url"],
     profilePhoto: json["profile_photo"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
@@ -315,6 +321,8 @@ class Profile {
     "fun_facts_about_me": funFactsAboutMe == null ? [] : List<dynamic>.from(funFactsAboutMe!.map((x) => x.toJson())),
     "verify_instagram": verifyInstagram,
     "verify_linkedin": verifyLinkedin,
+    "instagram_url": instagramUrl,
+    "linkedin_url": linkedinUrl,
     "profile_photo": profilePhoto,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),

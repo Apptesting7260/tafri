@@ -4,13 +4,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart' as loc;
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
@@ -30,6 +33,7 @@ class Creativitycontroller extends GetxController
     });
     getCategory();
     getMaxOcc();
+    getUserLocation();
     super.onInit();
   }
 
@@ -408,6 +412,9 @@ class Creativitycontroller extends GetxController
 
   Future<void> createActivity() async {
     loading.value = true;
+    print("Latitude: ${latitude.value}");
+    print("Longitude: ${longitude.value}");
+
 
     print('test == ${groupValue.value}  ${repeats.value}  ${wmValue.value}  ${repeatday.value}  ${wmValue.value}  ${repeatMonth.value}');
 
@@ -429,6 +436,12 @@ class Creativitycontroller extends GetxController
         showTostMsg('Description length should be greater than 30 character.',gravity: ToastGravity.CENTER);
       }else if(locController.value.value.text.isEmpty){
         showTostMsg('Please Enter Location',gravity: ToastGravity.CENTER);
+      }else if (latitude.value.isEmpty) {
+        showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
+        return;
+      }else if (longitude.value.isEmpty) {
+        showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
+        return;
       }else if(date.value.isEmpty){
         showTostMsg('Please Select date',gravity: ToastGravity.CENTER);
       }else if(sTimeForApi.value.isEmpty){
@@ -462,10 +475,10 @@ class Creativitycontroller extends GetxController
             }
           }
         }else if(wmValue.value == 2){
-          if(repeatMonth.value.isEmpty || groupValue.value == 0){
+          if(groupValue.value == 0){
             showTostMsg('Please select the month and ends.',gravity: ToastGravity.CENTER);
             return;
-          }else if(repeatMonth.value.isEmpty || groupValue.value == 2){
+          }else if(groupValue.value == 2){
             if(Rdate.value.isEmpty){
               showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
               return;
@@ -518,6 +531,8 @@ class Creativitycontroller extends GetxController
         request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
         request.fields['description'] = desController.value.value.text.trim();
         request.fields['location'] = locController.value.value.text.trim();
+        request.fields['latitude'] = latitude.value.toString();
+        request.fields['longitude'] = longitude.value.toString();
         request.fields['date'] = date.value;
         request.fields['name'] = titleController.value.value.text.trim();
         request.fields['start_at'] = sTimeForApi.value;
@@ -567,6 +582,7 @@ class Creativitycontroller extends GetxController
         print("Repeat Every: ${counter.value}");
         print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'month'}");
         print("groupValue: ${groupValue.value}");
+
 
 
 
@@ -627,6 +643,8 @@ class Creativitycontroller extends GetxController
         request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
         request.fields['description'] = desController.value.value.text.trim();
         request.fields['location'] = locController.value.value.text.trim();
+        request.fields['latitude'] = latitude.value.toString();
+        request.fields['longitude'] = longitude.value.toString();
         request.fields['date'] = date.value;
         request.fields['name'] = titleController.value.value.text.trim();
         request.fields['start_at'] = sTimeForApi.value;
@@ -637,8 +655,10 @@ class Creativitycontroller extends GetxController
         request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
         if(repeats.value == true){
           request.fields['repeat_every'] = counter.value.toString();
-          request.fields['repeat_type'] = wmValue.value == 1 ? 'Week' : 'Month' ;
-          request.fields['repeat_on'] = wmValue.value == 1 ? repeatday.value : repeatMonth.value;
+          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
+          if(wmValue.value == 1 ){
+            request.fields['repeat_on'] = repeatday.value;
+          }
           if(groupValue.value == 1){
             request.fields['end_type'] = 'never';
             debugPrint("end_type set to 'never'");
@@ -674,6 +694,8 @@ class Creativitycontroller extends GetxController
         print("Repeat Every: ${counter.value}");
         print("Repeat Type: ${wmValue.value == 1 ? 'Week' : 'Month'}");
         print("groupValue: ${groupValue.value}");
+        print("lat: ${latitude.value.toString()}");
+        print("long: ${longitude.value.toString()}");
 
 
 
@@ -772,5 +794,161 @@ class Creativitycontroller extends GetxController
     }
   }
 ///
+
+//
+// ///////////////     Google Map     /////////////////////
+//
+//
+//   GoogleMapController? mapController;
+//   Rxn<loc.LocationData> currentLocation = Rxn<loc.LocationData>();
+//
+//   // Initial map position (default to somewhere)
+//   final LatLng initialPosition = LatLng(52.3731, 4.8922);
+//   RxSet<Marker> markers = <Marker>{}.obs;
+//
+//
+//   Future<void> getUserLocation() async {
+//     loc.Location location = loc.Location();
+//
+//     bool serviceEnabled;
+//     loc.PermissionStatus permissionGranted;
+//
+//
+//     serviceEnabled = await location.serviceEnabled();
+//     if (!serviceEnabled) {
+//       serviceEnabled = await location.requestService();
+//       if (!serviceEnabled) {
+//         return;
+//       }
+//     }
+//
+//     permissionGranted = await location.hasPermission();
+//     if (permissionGranted == loc.PermissionStatus.denied) {
+//       permissionGranted = await location.requestPermission();
+//       if (permissionGranted != loc.PermissionStatus.granted) {
+//         return;
+//       }
+//     }
+//
+//     final userLocation = await location.getLocation();
+//       currentLocation.value = userLocation;
+//
+//     // Move the camera to the user's location
+//     mapController?.animateCamera(
+//       CameraUpdate.newCameraPosition(
+//         CameraPosition(
+//           target: LatLng(userLocation.latitude!, userLocation.longitude!),
+//           zoom: 15,
+//         ),
+//       ),
+//     );
+//   }
+//
+//
+//
+//   void handleTap(LatLng tappedPoint) {
+//       markers.clear();
+//       markers.add(
+//         Marker(
+//           markerId: MarkerId(tappedPoint.toString()),
+//           position: tappedPoint,
+//           infoWindow: InfoWindow(
+//             title: 'Selected Location',
+//             snippet: '${tappedPoint.latitude}, ${tappedPoint.longitude}',
+//           ),
+//         ),
+//       );
+//   }
+
+  GoogleMapController? mapController;
+  Rxn<loc.LocationData> currentLocation = Rxn<loc.LocationData>();
+  final LatLng initialPosition = LatLng(52.3731, 4.8922);
+  RxSet<Marker> markers = <Marker>{}.obs;
+
+  Future<void> getUserLocation() async {
+    loc.Location location = loc.Location();
+
+    bool serviceEnabled;
+    loc.PermissionStatus permissionGranted;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == loc.PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != loc.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final userLocation = await location.getLocation();
+    currentLocation.value = userLocation;
+
+    // Move the camera to the user's location
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(userLocation.latitude!, userLocation.longitude!),
+          zoom: 15,
+        ),
+      ),
+    );
+  }
+
+  Rx<String> address =  ''.obs;
+  RxString latitude = ''.obs;
+  RxString longitude = ''.obs;
+
+  void handleTap(LatLng tappedPoint) async{
+    markers.clear();
+    markers.add(
+      Marker(
+        markerId: MarkerId(tappedPoint.toString()),
+        position: tappedPoint,
+        infoWindow: InfoWindow(
+          title: 'Selected Location',
+          snippet: '${tappedPoint.latitude}, ${tappedPoint.longitude}',
+        ),
+      ),
+    );
+
+    latitude.value = tappedPoint.latitude.toString();
+    longitude.value = tappedPoint.longitude.toString();
+
+    String apiKey = 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM'; // Add your API key here
+    String url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=${tappedPoint.latitude},${tappedPoint.longitude}&key=$apiKey';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK') {
+          // address.value = data['results'][0]['formatted_address'];
+          address.value = data['results'][0]['formatted_address'];
+          print(address.value);
+          print('lat and long ${tappedPoint.latitude}, ${tappedPoint.longitude}');
+        } else {
+
+        }
+      } else {
+        print('Failed to fetch place details.');
+      }
+    } catch (e) {
+      print('Error fetching place details: $e');
+    }
+
+    update(); // Notify listeners
+  }
+
+
+
+
 
 }
