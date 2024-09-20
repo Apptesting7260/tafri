@@ -1260,7 +1260,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
                               profileController.profileData.value.result
                                   ?.profile?.organisationName !=
-                                  null ? Text(", ${profileController.profileData.value.result?.profile?.organisationName}",
+                                  null && profileController.profileData.value.result
+                                  !.profile!.organisationName!.isNotEmpty ? Text(", ${profileController.profileData.value.result?.profile?.organisationName}",
                                   style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
                             ],
                           )
