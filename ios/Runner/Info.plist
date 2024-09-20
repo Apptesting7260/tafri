@@ -18,6 +18,17 @@
 	<string>plusones</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app requires access to your location while in use to provide better services.</string>
+
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app requires access to your location at all times for optimal functionality.</string>
+
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app requires access to your location even in the background for specific features.</string>
+
+
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
