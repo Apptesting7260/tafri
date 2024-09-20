@@ -506,6 +506,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                     context: context,
                                                     firstDate: DateTime.now(),
                                                     lastDate: DateTime(2031),
+                                                    initialDateRange: controller.initialRange?.value,
                                                     builder: (BuildContext context, Widget? child) {
                                                       return Theme(
                                                         data: ThemeData.light().copyWith(
@@ -532,10 +533,13 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                   //     .changeDateFilter(
                                                   //     "Pick a date");
                                                   if (picked != null) {
-                                                    controller.filterDateStart.value =
-                                                    "${picked.start.day}/${picked.start.month}/${picked.start.year}";
-                                                    controller.filterDateCalenderEnd.value =
-                                                    "${picked.end.day}/${picked.end.month}/${picked.end.year}";
+                                                    controller.changeFilterDate(picked);
+                                                    controller.initialRange?.value = picked;
+                                                    // controller.filterDateStart.value =
+                                                    // "${picked.start.day}/${picked.start.month}/${picked.start.year}";
+                                                    // controller.filterDateEnd.value =
+                                                    // controller.filterDateCalenderEnd.value =
+                                                    // "${picked.end.day}/${picked.end.month}/${picked.end.year}";
 
                                                     // This will update the label with the selected date range
                                                     controller.changeDateFilter("Pick a date");
@@ -572,7 +576,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                                           .filterDateCalenderEnd
                                                                           .value !=
                                                                       ''
-                                                              ? "${controller.filterDateStart.value} - ${controller.filterDateCalenderEnd.value}"
+                                                              ? "${controller.filterDateCalenderStart.value} - ${controller.filterDateCalenderEnd.value}"
                                                               : "Pick a date",
                                                           style: TextStyle(
                                                               color: controller

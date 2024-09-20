@@ -147,14 +147,20 @@ class FilterExpController extends GetxController{
   Rx<String> filterDateCalenderEnd = "".obs;
 
   changeFilterDate(DateTimeRange newDob) {
-    log("gk newDob=${newDob}");
-    filterDateStart.value = DateFormat("dd/MM/yyyy").format(newDob.start);
+    filterDateStart.value = DateFormat("yyyy-MM-dd").format(newDob.start);
+    print('start date == ${filterDateStart.value}');
     filterDateCalenderStart.value =
-        DateFormat("yyyy-MM-dd").format(newDob.start);
+        DateFormat("dd-MM-yyyy").format(newDob.start);
 
-    filterDateEnd.value = DateFormat("dd/MM/yyyy").format(newDob.end);
-    filterDateCalenderEnd.value = DateFormat("yyyy-MM-dd").format(newDob.end);
+    filterDateEnd.value = DateFormat("yyyy-MM-dd").format(newDob.end);
+    print('end date == ${filterDateEnd.value}');
+    filterDateCalenderEnd.value = DateFormat("dd-MM-yyyy").format(newDob.end);
   }
+
+  Rx<DateTimeRange>? initialRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now(),
+  ).obs;
 
   RxBool hideWaitListAct = false.obs;
 
@@ -234,7 +240,7 @@ class FilterExpController extends GetxController{
     print('date ==> ${date}');
 
     // Validation to ensure at least one of the fields has a value
-    if (selected.isEmpty && locController.text.isEmpty && date.isEmpty
+    if (selected.isEmpty && locController.text.isEmpty && filterDateStart.isEmpty
         && groupSizeController.text.isEmpty && categoryid.value == false
         && genderFilter.value == 0 && selectedTime.isEmpty
     ) {
@@ -269,7 +275,9 @@ class FilterExpController extends GetxController{
        if(categoryid == true) 'category_id': categoryid == true ? '' : selected,
        if(locController.value.text.isNotEmpty) 'location': locController.value.text.toString(),
        if(groupSizeController.value.text.isNotEmpty) 'max_people': groupSizeController.value.text.toString(),
-       if(date.isNotEmpty) 'date': date,
+       if(filterDateStart.value.isNotEmpty)'start_date': filterDateStart.value,
+       if(filterDateEnd.value.isNotEmpty)'end_date': filterDateEnd.value,
+       // if(date.isNotEmpty) 'date': date,
        if(selectedTime.value.isNotEmpty) 'time_slot': selectedTime.value,
        if(genderFilter.value != 0) 'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '' ,
        'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',

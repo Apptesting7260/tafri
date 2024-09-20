@@ -65,101 +65,108 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
                     SizedBox(
                       height: Get.height * 0.015,
                     ),
-                    ListView.builder(
-                        itemCount: controller.funFactListDeta.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          if (controller.funFactListDeta.length <= index) {
-                            controller.funFactListDeta.add({'id': null, 'answer': ''});
-                            print('--- ${controller.funFactListDeta}');
-                          }
-                          print('--- ${controller.funFactListDeta[index]['id']}');
-                          print('--- ${controller.funFactListDeta}');
-                          return Column(
-                            children: [
-                              SizedBox(
-                                height: Get.height * 0.02,
-                              ),
-                              Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: Res.Defalt_side_margin),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 15),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: clrGreyLight),
-                                    child: Column(
-                                      children: [
-                                        CustoDropDownBtn(
-                                            onchange: (val) {
-                                              final selectedId = int.parse(val.toString());
-                                              final existingItemIndex = controller.funFactListDeta.indexWhere(
-                                                    (item) => item['id'] == selectedId,
-                                              );
-                                              print(existingItemIndex);
-                                              if(existingItemIndex != -1){
-                                                showTostMsg('Question already selected.',gravity: ToastGravity.CENTER);
-                                              }else{
-                                                final selectedQuestion = controller.idToQuestionMap[selectedId] ?? '';
+                   Obx(() =>  ListView.builder(
+                       itemCount: controller.funFactListDeta.length,
+                       physics: const NeverScrollableScrollPhysics(),
+                       shrinkWrap: true,
+                       itemBuilder: (context, index) {
+                         if (controller.funFactListDeta.length <= index) {
+                           controller.funFactListDeta.add({'id': null, 'answer': ''});
+                           print('--- ${controller.funFactListDeta}');
+                         }
+                         print('--- ${controller.funFactListDeta[index]['id']}');
+                         print('--- ${controller.funFactListDeta}');
+                         return Column(
+                           children: [
+                             SizedBox(
+                               height: Get.height * 0.02,
+                             ),
+                             Stack(
+                               clipBehavior: Clip.none,
+                               children: [
+                                 Container(
+                                   margin: EdgeInsets.symmetric(
+                                       horizontal: Res.Defalt_side_margin),
+                                   padding: const EdgeInsets.symmetric(
+                                       horizontal: 10, vertical: 15),
+                                   decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(15),
+                                       color: clrGreyLight),
+                                   child: Column(
+                                     children: [
+                                       CustoDropDownBtn(
+                                         onchange: (val) {
+                                           final selectedId = int.parse(val.toString());
+                                           controller.existingItemIndex.value = controller.funFactListDeta.indexWhere(
+                                                 (item) => item['id'] == selectedId,
+                                           );
 
-                                                controller.funFactListDeta[index]['question'] = selectedQuestion;
-                                                controller.funFactListDeta[index]['id'] = val;
-                                                print(controller.funFactListDeta[index]['question']);
-                                              }
-                                            },
-                                            itemList: controller.questionList,
-                                            hindtext: "Select Question",
-                                          suffix: Image.asset('assets/images/arrow down.png',scale: 4,),
-                                          val: controller.funFactListDeta[index]['id'],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Divider(
-                                            color: clrGrey.withOpacity(0.4),
-                                          ),
-                                        ),
-                                        CustoTextFormField(
-                                          hintText: "Enter your answer",
-                                          maxLines: 3,
-                                          onChanged: (value) {
-                                            controller.funFactListDeta[index]['answer'] = value.toString();
-                                            controller.textEditingList[index].text = value.toString();
-                                          },
-                                          controll: controller.textEditingList[index],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  controller.funFactListDeta.length > 1 ? Positioned(
-                                    right: 15,
-                                    top: -5,
-                                    child: InkWell(
-                                      onTap: () {
-                                        log("gk-==$index");
-                                        controller.removeFunFactDeta(index);
-                                      },
-                                      child: Container(
-                                          padding: const EdgeInsets.all(2),
-                                          decoration: BoxDecoration(
-                                              color: clrBlacke,
-                                              borderRadius:
-                                                  BorderRadius.circular(100)),
-                                          child: Icon(
-                                            Icons.close,
-                                            color: clrWhite,
-                                            size: 19,
-                                          )),
-                                    ),
-                                  ) : SizedBox(),
-                                ],
-                              ),
-                            ],
-                          );
-                        }),
+                                           // if (!controller.existingItemIndexList
+                                           //     .any((map) => map.containsKey(selectedId))) {
+                                           //   controller.existingItemIndexList
+                                           //       .add({selectedId: controller.existingItemIndex.value});
+                                           //   print('---- ${controller.existingItemIndexList}');
+                                           // }
+
+                                           print(controller.existingItemIndex.value);
+                                           if(controller.existingItemIndex.value != -1){
+                                             showTostMsg('Question already selected.',gravity: ToastGravity.CENTER);
+                                           }else{
+                                             final selectedQuestion = controller.idToQuestionMap[selectedId] ?? '';
+                                             controller.funFactListDeta[index]['question'] = selectedQuestion;
+                                             controller.funFactListDeta[index]['id'] = val;
+                                             print(controller.funFactListDeta[index]['question']);
+                                           }
+                                         },
+                                         itemList: controller.questionList,
+                                         hindtext: "Select Question",
+                                         suffix: Image.asset('assets/images/arrow down.png',scale: 4,),
+                                         val: controller.funFactListDeta[index]['id'] ?? '',
+                                       ),
+                                       Padding(
+                                         padding: const EdgeInsets.symmetric(horizontal: 10),
+                                         child: Divider(
+                                           color: clrGrey.withOpacity(0.4),
+                                         ),
+                                       ),
+                                       CustoTextFormField(
+                                         hintText: "Enter your answer",
+                                         maxLines: 3,
+                                         onChanged: (value) {
+                                           controller.funFactListDeta[index]['answer'] = value.toString();
+                                           controller.textEditingList[index].text = value.toString();
+                                         },
+                                         controll: controller.textEditingList[index],
+                                       )
+                                     ],
+                                   ),
+                                 ),
+                                 controller.funFactListDeta.length > 1 ? Positioned(
+                                   right: 15,
+                                   top: -5,
+                                   child: InkWell(
+                                     onTap: () {
+                                       log("gk-==$index");
+                                       controller.removeFunFactDeta(index);
+                                     },
+                                     child: Container(
+                                         padding: const EdgeInsets.all(2),
+                                         decoration: BoxDecoration(
+                                             color: clrBlacke,
+                                             borderRadius:
+                                             BorderRadius.circular(100)),
+                                         child: Icon(
+                                           Icons.close,
+                                           color: clrWhite,
+                                           size: 19,
+                                         )),
+                                   ),
+                                 ) : SizedBox(),
+                               ],
+                             ),
+                           ],
+                         );
+                       }),),
                     SizedBox(
                       height: Get.height * 0.015,
                     ),

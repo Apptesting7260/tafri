@@ -100,7 +100,37 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         // ),
                                         child: controller.attendingError.value.isEmpty ? controller.attendingData.value.result!.upcomingActivities!.isEmpty
                                             && controller.attendingData.value.result!.previousActivities!.isEmpty
-                                            ?   Center(child: NoActivityScreen())
+                                            ?   Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                NoActivityScreen(
+                                                  height: Get.height*0.31,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.offAllNamed(Routes.navbarUi);
+                                                  },
+                                                  child: Container(
+                                                    // height: 50,
+                                                    padding: const EdgeInsets.symmetric(
+                                                      vertical: 12,
+                                                    ),
+                                                    margin: EdgeInsets.symmetric(horizontal: Get.width*0.2),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(100),
+                                                          color:clrYellow,
+                                                    ),
+                                                      child: Center(child: FittedBox(
+                                                        child: Text('Start exploring',style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 15,
+                                                          color: clrWhite
+                                                        ),),
+                                                      ))),
+                                                )
+                                              ],
+                                            )
                                             :  ListView(
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
@@ -507,7 +537,36 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         // ),
                                         child: controller.hostingError.isEmpty ? controller.hostingData.value.result!.upcomingActivities!.isEmpty
                                             && controller.hostingData.value.result!.previousActivities!.isEmpty
-                                            ?   Center(child: NoActivityScreen())
+                                            ?   Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            NoActivityScreen(
+                                              height: Get.height*0.31,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.offAllNamed(Routes.navbarUi);
+                                              },
+                                              child: Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                    vertical: 12,
+                                                  ),
+                                                  margin: EdgeInsets.symmetric(horizontal: Get.width*0.2),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(100),
+                                                    color:clrYellow,
+                                                  ),
+                                                  child: Center(child: FittedBox(
+                                                    child: Text('Start exploring',style: TextStyle(
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: 15,
+                                                        color: clrWhite
+                                                    ),),
+                                                  ))),
+                                            )
+                                          ],
+                                        )
                                             : ListView(
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [

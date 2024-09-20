@@ -1736,9 +1736,9 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             ),
                           );
                         }) : SizedBox(),
-                    SizedBox(
+                    profileController.profileData.value.result!.previousActivities!.isNotEmpty || profileController.profileData.value.result!.upcomingActivities!.isNotEmpty ? SizedBox(
                       height: Get.height * 0.02,
-                    ),
+                    ) : SizedBox(),
                   ],
                 ),
               ),),
@@ -1752,28 +1752,31 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
   verificationAlert() {
     return Get.dialog(AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5)
+        borderRadius: BorderRadius.circular(10)
       ),
       insetPadding: const EdgeInsets.symmetric(horizontal: 65),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-              onTap: () {
-                return Get.back();
-              },
-              child: const Icon(
-                Icons.close,
-                size: 25,
-              )),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10,),
+            child: InkWell(
+                onTap: () {
+                  return Get.back();
+                },
+                child: const Icon(
+                  Icons.close,
+                  size: 25,
+                )),
+          ),
           SizedBox(
             height: Get.height * .013,
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
               child: Icon(
                 Icons.verified,
                 color: clrYellow,
@@ -1781,10 +1784,10 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
               ),
             ),
           ),
-          Center(
+          const Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: Get.width * .05),
-              child: const Text(
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: Text(
                 "Social media account verified",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
@@ -1792,7 +1795,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
             ),
           ),
           const SizedBox(
-            height: 15,
+            height: 20,
           ),
         ],
       ),

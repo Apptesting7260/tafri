@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/addphoto/controller/addphoto_controller.dart';
@@ -668,6 +669,26 @@ class MyprofileInnController extends GetxController
   }
 
 
+  bool validateTextFields() {
+    for (var controller in textEditingList) {
+      if (controller.value.text.isEmpty) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool validateQuestion(){
+    for(var i in funFactListDeta){
+      if(i['id'] == null){
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+  Rxn<int> existingItemIndex = Rxn<int>();
 
   var funfactLoading = false.obs;
 
@@ -676,6 +697,14 @@ class MyprofileInnController extends GetxController
     String? token = LocalStorage.getToken();
     String? uid = LocalStorage.getUid();
     print('token == $token        $uid');
+
+    if(!validateTextFields()){
+      showTostMsg('Please enter your answer',gravity: ToastGravity.CENTER);
+      return;
+    } else if(!validateQuestion()){
+      showTostMsg('Please remove duplicate questions.', gravity: ToastGravity.CENTER);
+      return;
+    }
 
     var body = {
       'user_id' : uid,

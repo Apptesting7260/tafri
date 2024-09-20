@@ -338,6 +338,12 @@ class FavouriteListUi extends GetWidget<MyfavouriteController>{
                                   trimExpandedText: 'Learn less',
                                   moreStyle:
                                   TextStyle(color: clrBlacke,fontWeight: FontWeight.w700),
+                                    lessStyle: TextStyle(
+                                        color:
+                                        clrBlacke,
+                                        fontWeight:
+                                        FontWeight
+                                            .w700)
                                 ),
                               ),
                               const SizedBox(height: 10,),
