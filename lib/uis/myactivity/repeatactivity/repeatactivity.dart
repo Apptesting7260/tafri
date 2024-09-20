@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
@@ -496,7 +497,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                         (context, suggestion) {
                                       return ListTile(
                                         title: Text(
-                                            suggestion.toString()),
+                                            suggestion['des'].toString()),
                                       );
                                     },
                                     suggestionsCallback:
@@ -515,9 +516,10 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                       }
                                       return null;
                                     },
-                                    onSelected: (value) {
+                                    onSelected: (value) async {
                                       controller.locController.value
-                                          .text = value.toString();
+                                          .text = value['des'].toString();
+                                      await controller.getLatLang(value['id']);
                                     },
                                     sufixIcon: Container(
                                         padding: const EdgeInsets
@@ -544,6 +546,23 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                   //             width: 8),
                                   //       )),
                                   // ),
+                                  SizedBox(
+                                    height: h * 0.01,
+                                  ),
+                                  Row(
+                                      mainAxisAlignment : MainAxisAlignment.end,
+                                      children:[
+                                        InkWell(
+                                          onTap: (){
+                                            Get.toNamed(Routes.mapui);
+                                          },
+                                          child: Text(
+                                              'Choose on Map',
+                                              style: TextStyle(color: clrYellowText,fontWeight: FontWeight.bold)
+                                          ),
+                                        )
+                                      ]
+                                  ),
                                   SizedBox(
                                     height: h * 0.02,
                                   ),

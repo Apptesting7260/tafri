@@ -320,9 +320,9 @@ class MapActivityUi extends GetWidget<MapActivityController>{
     var h = Get.height;
     var w = Get.width;
     return DraggableScrollableSheet(
-      initialChildSize: 0.4,
-      minChildSize: 0.2,
-      maxChildSize: 0.5,
+      initialChildSize: 0.5,
+      minChildSize: 0.4,
+      maxChildSize: 0.7,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           decoration: BoxDecoration(
@@ -335,8 +335,11 @@ class MapActivityUi extends GetWidget<MapActivityController>{
               Container(
                 height: 20,
                 child: Container(
-                  child: Icon(Icons.density_medium),
-                ),
+                  width: 80,
+                  child: Divider(
+                    height: 3,
+                  ),
+                )
               ),
               SizedBox(height: 5,),
               Expanded(
@@ -666,6 +669,12 @@ class MapActivityUi extends GetWidget<MapActivityController>{
                                     trimExpandedText:
                                     'Learn less',
                                     moreStyle: TextStyle(
+                                        color:
+                                        clrBlacke,
+                                        fontWeight:
+                                        FontWeight
+                                            .w700),
+                                    lessStyle: TextStyle(
                                         color:
                                         clrBlacke,
                                         fontWeight:

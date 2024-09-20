@@ -528,7 +528,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   (context, suggestion) {
                                                 return ListTile(
                                                   title: Text(
-                                                      suggestion.toString()),
+                                                      suggestion['des'].toString()),
                                                 );
                                               },
                                               suggestionsCallback:
@@ -547,9 +547,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 }
                                                 return null;
                                               },
-                                              onSelected: (value) {
+                                              onSelected: (value) async{
+                                                print('bjkjl=>>>>${value['id']}');
                                                 controller.locController.value
-                                                    .text = value.toString();
+                                                    .text = value['des'].toString();
+                                                await controller.getLatLang(value['id']);
                                               },
                                               sufixIcon: Container(
                                                   padding: const EdgeInsets

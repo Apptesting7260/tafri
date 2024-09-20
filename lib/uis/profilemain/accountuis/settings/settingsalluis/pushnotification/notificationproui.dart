@@ -42,9 +42,11 @@ class NotificationProUi extends GetWidget<PushnotisettingController>{
                         children: [
                           const Text("Push notifications",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                           Obx(() => CustomSwitch(
-                              value: controller.notificationsVal.value,
+                              value: controller.notificationsVal.value == 1 ? true : false,
                               onChanged: (val){
-                                controller.changenotificationsVal();
+                                controller.changenotificationsVal(
+                                    controller.notificationsVal.value == 1 ? 0 : 1
+                                );
                               }
                           ),),
                           // Container(height: 30,width: 40,child: FittedBox(fit: BoxFit.fill,child: Switch(activeTrackColor:clrYellow,value: true, onChanged: (val){},activeColor: clrWhite,focusColor: clrWhite,trackOutlineColor: WidgetStateProperty.all(clrTransparent))))
@@ -56,9 +58,11 @@ class NotificationProUi extends GetWidget<PushnotisettingController>{
                         children: [
                           const Text("Email",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                           Obx(() => CustomSwitch(
-                              value: controller.emailVal.value,
+                              value: controller.emailVal.value == 1 ? true : false,
                               onChanged: (val){
-                                controller.changeemailVal();
+                                controller.changeemailVal(
+                                    controller.emailVal.value == 1 ? 0 : 1
+                                );
                               }
                           ),),
                           // Container(height: 30,width: 40,child: FittedBox(fit: BoxFit.fill,child: Switch(activeTrackColor:clrYellow,value: false, onChanged: (val){},activeColor: clrWhite,focusColor: clrWhite,inactiveThumbColor: clrWhite,trackOutlineColor: WidgetStateProperty.all(clrTransparent),)))

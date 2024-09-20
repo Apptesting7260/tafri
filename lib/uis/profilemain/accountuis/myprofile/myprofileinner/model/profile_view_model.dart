@@ -36,6 +36,8 @@ class Result {
   String? currentStep;
   String? upcommingActivityStatus;
   String? previousActivityStatus;
+  String? pushNotificaions;
+  String? emailNotifications;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? age;
@@ -64,6 +66,8 @@ class Result {
     this.currentStep,
     this.upcommingActivityStatus,
     this.previousActivityStatus,
+    this.pushNotificaions,
+    this.emailNotifications,
     this.createdAt,
     this.updatedAt,
     this.age,
@@ -93,6 +97,8 @@ class Result {
     currentStep: json["current_step"],
     upcommingActivityStatus: json["upcomming_activity_status"],
     previousActivityStatus: json["previous_activity_status"],
+    pushNotificaions: json["push_notificaions"],
+    emailNotifications: json["email_notifications"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     age: json["age"],
@@ -122,6 +128,8 @@ class Result {
     "current_step": currentStep,
     "upcomming_activity_status": upcommingActivityStatus,
     "previous_activity_status": previousActivityStatus,
+    "push_notificaions": pushNotificaions,
+    "email_notifications": emailNotifications,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "age": age,

@@ -761,6 +761,12 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                           fontWeight:
                                                                               FontWeight
                                                                                   .w700),
+                                                                      lessStyle: TextStyle(
+                                                                          color:
+                                                                          clrBlacke,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .w700),
                                                                     ),
                                                                   ),
                                                                 ],
