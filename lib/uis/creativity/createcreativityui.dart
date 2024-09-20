@@ -707,6 +707,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                 onSurface: Colors.black, // Text color on unselected items
                                                               ),
                                                               timePickerTheme: TimePickerThemeData(
+                                                                dayPeriodColor: MaterialStateColor.resolveWith((states) =>
+                                                                states.contains(MaterialState.selected) ? clrYellow : clrWhite),
                                                                 backgroundColor: Colors.white, // Background color of the time picker
                                                                 hourMinuteTextColor: Colors.black, // Text color of the hour and minute
                                                               ),
@@ -798,6 +800,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                 onSurface: Colors.black, // Text color on unselected items
                                                               ),
                                                               timePickerTheme: TimePickerThemeData(
+                                                                dayPeriodColor: MaterialStateColor.resolveWith((states) =>
+                                                                states.contains(MaterialState.selected) ? clrYellow : clrWhite),
                                                                 backgroundColor: Colors.white, // Background color of the time picker
                                                                 hourMinuteTextColor: Colors.black, // Text color of the hour and minute
                                                               ),
@@ -1585,65 +1589,122 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                       ],
                     ),
                     SizedBox(
-                        height: 40,
-                        width: Get.width * 0.25,
-                        child: DropdownButtonFormField(
-                          value: controller.wmValue.value == 0
-                              ? null
-                              : controller.wmValue.value,
-                          items: const [
-                            DropdownMenuItem(
-                              value: 1,
-                              child: Text(
-                                "Week",
-                                style: TextStyle(fontSize: 12),
-                              ),
+                      height: 40,
+                      width: Get.width * 0.25,
+                      child: PopupMenuButton<int>(
+                        onSelected: (value) {
+                          controller.wmValue.value = value;
+                          controller.monthIndex.value = (-1);
+                          controller.dayIndex.value = (-1);
+                        },
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: 1,
+                            child: Text(
+                              "Week",
+                              style: TextStyle(fontSize: 12),
                             ),
-                            DropdownMenuItem(
-                              value: 2,
-                              child: Text(
-                                "Day",
-                                style: TextStyle(fontSize: 12),
-                              ),
+                          ),
+                          const PopupMenuItem(
+                            value: 2,
+                            child: Text(
+                              "Day",
+                              style: TextStyle(fontSize: 12),
                             ),
-                          ],
-                          onChanged: (value) {
-                            controller.monthIndex.value = (-1);
-                            controller.dayIndex.value = (-1);
-                            controller.wmValue.value = value!;
-                            print('vmvalue ==> ${controller.wmValue.value}');
-                          },
-                          isExpanded: true,
-                          hint: Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text('Week',
+                          ),
+                        ],
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: clrGreyLight,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Obx(() {
+                                return Text(
+                                  controller.wmValue.value == 1
+                                      ? "Week"
+                                      : controller.wmValue.value == 2
+                                      ? "Day"
+                                      : "Week", // Default value
                                   style: TextStyle(
-                                      color: clrBlacke, fontSize: 12)),
-                            ),
+                                    fontSize: 12,
+                                    color: clrBlacke,
+                                  ),
+                                );
+                              }),
+                              const SizedBox(width: 7,),
+                              Image.asset(
+                                'assets/images/arrow down.png',
+                                scale: 6,
+                              ),
+                            ],
                           ),
-                          icon: const SizedBox.shrink(),
-                          decoration: InputDecoration(
-                            alignLabelWithHint: true,
-                            suffixIcon: Image.asset(
-                              'assets/images/arrow down.png',
-                              scale: 6,
-                            ),
-                            hintStyle: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: clrGreyTextLight),
-                            // contentPadding: EdgeInsets.only(
-                            //     left: controller.wmValue.value == 0 ? 0 : 6),
-                            contentPadding: EdgeInsets.only(left: 16),
-                            fillColor: clrGreyLight,
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(30)),
-                          ),
-                        )
+                        ),
+                      ),
                     )
+                    // SizedBox(
+                    //     height: 40,
+                    //     width: Get.width * 0.25,
+                    //     child: DropdownButtonFormField(
+                    //       value: controller.wmValue.value == 0
+                    //           ? null
+                    //           : controller.wmValue.value,
+                    //       items: const [
+                    //         DropdownMenuItem(
+                    //           value: 1,
+                    //           child: Text(
+                    //             "Week",
+                    //             style: TextStyle(fontSize: 12),
+                    //           ),
+                    //         ),
+                    //         DropdownMenuItem(
+                    //           value: 2,
+                    //           child: Text(
+                    //             "Day",
+                    //             style: TextStyle(fontSize: 12),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //       onChanged: (value) {
+                    //         controller.monthIndex.value = (-1);
+                    //         controller.dayIndex.value = (-1);
+                    //         controller.wmValue.value = value!;
+                    //         print('vmvalue ==> ${controller.wmValue.value}');
+                    //       },
+                    //       isExpanded: true,
+                    //       hint: Padding(
+                    //         padding: const EdgeInsets.only(left: 10),
+                    //         child: Align(
+                    //           alignment: Alignment.centerLeft,
+                    //           child: Text('Week',
+                    //               style: TextStyle(
+                    //                   color: clrBlacke, fontSize: 12)),
+                    //         ),
+                    //       ),
+                    //       icon: const SizedBox.shrink(),
+                    //       decoration: InputDecoration(
+                    //         alignLabelWithHint: true,
+                    //         suffixIcon: Image.asset(
+                    //           'assets/images/arrow down.png',
+                    //           scale: 6,
+                    //         ),
+                    //         hintStyle: TextStyle(
+                    //             fontWeight: FontWeight.w400,
+                    //             color: clrGreyTextLight),
+                    //         // contentPadding: EdgeInsets.only(
+                    //         //     left: controller.wmValue.value == 0 ? 0 : 6),
+                    //         contentPadding: EdgeInsets.only(left: 16),
+                    //         fillColor: clrGreyLight,
+                    //         filled: true,
+                    //         border: OutlineInputBorder(
+                    //             borderSide: BorderSide.none,
+                    //             borderRadius: BorderRadius.circular(30)),
+                    //       ),
+                    //     )
+                    // )
                     // Container(
                     //   padding:
                     //       const EdgeInsets.only(left: 20,right: 10, top: 8,bottom: 8),
