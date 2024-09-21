@@ -617,7 +617,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         );
                                                       },
                                                         firstDate:
-                                                            DateTime.now(),
+                                                            DateTime.now().add(Duration(days: 1)),
                                                         lastDate:
                                                             DateTime(2025),
                                                         currentDate: controller
