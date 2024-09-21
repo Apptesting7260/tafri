@@ -76,7 +76,8 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                         controller: controller.tabController,
                         children: [
                           Obx(
-                            () => controller.attendingLoading.value &&
+                            () =>
+                                controller.attendingLoading.value &&
                                         controller.attendingData.value.result ==
                                             null
                                     ? Center(
@@ -98,422 +99,468 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         //   backgroundColor: clrYellow,
                                         //   distance: 50,
                                         // ),
-                                        child: controller.attendingError.value.isEmpty ? controller.attendingData.value.result!.upcomingActivities!.isEmpty
-                                            && controller.attendingData.value.result!.previousActivities!.isEmpty
-                                            ?   Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                NoActivityScreen(
-                                                  height: Get.height*0.31,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    Get.offAllNamed(Routes.navbarUi);
-                                                  },
-                                                  child: Container(
-                                                    // height: 50,
-                                                    padding: const EdgeInsets.symmetric(
-                                                      vertical: 12,
-                                                    ),
-                                                    margin: EdgeInsets.symmetric(horizontal: Get.width*0.2),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(100),
-                                                          color:clrYellow,
-                                                    ),
-                                                      child: Center(child: FittedBox(
-                                                        child: Text('Start exploring',style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 15,
-                                                          color: clrWhite
-                                                        ),),
-                                                      ))),
-                                                )
-                                              ],
-                                            )
-                                            :  ListView(
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Upcoming activities",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.01,
-                                            ),
-                                            controller
-                                                    .attendingData
-                                                    .value
-                                                    .result!
-                                                    .upcomingActivities!
-                                                    .isNotEmpty
-                                                ? ListView.builder(
-                                                    itemCount: controller
-                                                        .attendingData
-                                                        .value
-                                                        .result
-                                                        ?.upcomingActivities
-                                                        ?.length,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    shrinkWrap: true,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      var data = controller
-                                                              .attendingData
-                                                              .value
-                                                              .result
-                                                              ?.upcomingActivities?[
-                                                          index];
-                                                      return Container(
-                                                        margin:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 6),
-                                                        padding: const EdgeInsets.only(
-                                                            top: 10,
-                                                            bottom: 15,
-                                                            left: 15,
-                                                            right: 15
-                                                        ),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                            color:
-                                                                clrGreyLight),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              "${data?.formattedDate}",
-                                                              style: TextStyle(
+                                        child:
+                                            controller.attendingError.value
+                                                    .isEmpty
+                                                ? controller
+                                                            .attendingData
+                                                            .value
+                                                            .result!
+                                                            .upcomingActivities!
+                                                            .isEmpty &&
+                                                        controller
+                                                            .attendingData
+                                                            .value
+                                                            .result!
+                                                            .previousActivities!
+                                                            .isEmpty
+                                                    ? Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          NoActivityScreen(
+                                                            height: Get.height *
+                                                                0.31,
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Get.offAllNamed(
+                                                                  Routes
+                                                                      .navbarUi);
+                                                            },
+                                                            child: Container(
+                                                                // height: 50,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .symmetric(
+                                                                  vertical: 12,
+                                                                ),
+                                                                margin: EdgeInsets.symmetric(
+                                                                    horizontal:
+                                                                        Get.width *
+                                                                            0.2),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              100),
                                                                   color:
-                                                                      clrGreyDark),
-                                                            ),
-                                                            ListView.separated(
-                                                                physics: const NeverScrollableScrollPhysics(),
-                                                                itemCount: data!.activities!.length,
-                                                                shrinkWrap: true,
-                                                                itemBuilder: (context, ind){
-                                                                  return Padding(
-                                                                    padding: const EdgeInsets.only(top: 5),
-                                                                    child: InkWell(
-                                                                      onTap: () {
-                                                                        Get.toNamed(
-                                                                            Routes.exploreView,
-                                                                            arguments: data.activities?[ind].id.toString()
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Container(
-                                                                              clipBehavior: Clip.hardEdge,
-                                                                              height: h * .075,
-                                                                              width: h * .075,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(5),
-                                                                              ),
-                                                                              child: data.activities![ind].banners!.isNotEmpty ? CachedNetworkImage(
-                                                                                imageUrl: '${data.activities?[ind].banners?[0]}',
-                                                                                errorWidget: (context, url, error) => Image.asset(
-                                                                                  "assets/images/parkimage.png",
-                                                                                  fit: BoxFit.cover,
-                                                                                ),
-                                                                                fit: BoxFit.cover,
-                                                                                placeholder: (context, url) => Shimmer.fromColors(
-                                                                                    baseColor: grey300,
-                                                                                    highlightColor: grey100,
-                                                                                    child: Container(
-                                                                                      height: h * .075,
-                                                                                      width: h * .075,
-                                                                                      decoration: BoxDecoration(color: clrGrey, borderRadius: BorderRadius.circular(5)),
-                                                                                    )
-                                                                                ),
-                                                                              ) :  Image.asset(
-                                                                                "assets/images/parkimage.png",
-                                                                                fit: BoxFit.cover,
-                                                                              ),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: Get.width * 0.02,
-                                                                          ),
-                                                                          Expanded(
-                                                                            child: Container(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                                                              decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(7)),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    "${data.activities?[ind].name}",
-                                                                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                                                                                  ),
-                                                                                  Text("${data.activities?[ind].location}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    })
-                                                    : Center(
-                                                        child: NoActivityScreen(height: Get.height*0.3,),
-                                                      ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            const Text(
-                                              "Previous activities",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.01,
-                                            ),
-                                            controller
-                                                    .attendingData
-                                                    .value
-                                                    .result!
-                                                    .previousActivities!
-                                                    .isNotEmpty
-                                                ? ListView.builder(
-                                                    itemCount: controller
-                                                        .attendingData
-                                                        .value
-                                                        .result
-                                                        ?.previousActivities
-                                                        ?.length,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    shrinkWrap: true,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      var data = controller
-                                                              .attendingData
-                                                              .value
-                                                              .result
-                                                              ?.previousActivities?[
-                                                          index];
-                                                      return Container(
-                                                        margin:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 6),
-                                                        padding: const EdgeInsets.only(
-                                                          top: 10,
-                                                          bottom: 15,
-                                                          left: 15,
-                                                          right: 15
-                                                        ),
-                                                            // const EdgeInsets
-                                                            //     .symmetric(
-                                                            //     vertical: 18,
-                                                            //     horizontal:
-                                                            //         15),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                            color:
-                                                                clrGreyLight),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              "${data?.formattedDate}",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      clrGreyDark),
-                                                            ),
-                                                            Column(
-                                                              children: [
-                                                                ListView.separated(
-                                                                    physics: const NeverScrollableScrollPhysics(),
-                                                                    itemCount: data!.activities!.length,
-                                                                    shrinkWrap: true,
-                                                                    itemBuilder: (context, ind){
-                                                                      return Padding(
-                                                                        padding: const EdgeInsets.only(top: 5),
-                                                                        child: InkWell(
-                                                                          onTap: () {
-                                                                            Get.toNamed(
-                                                                                Routes
-                                                                                    .previousActivityUi,
-                                                                                arguments: {
-                                                                                  "isHost": false,
-                                                                                  "id": data.activities?[ind].id.toString()
-                                                                                });
-                                                                          },
-                                                                          child: Row(
-                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      clrYellow,
+                                                                ),
+                                                                child: Center(
+                                                                    child:
+                                                                        FittedBox(
+                                                                  child: Text(
+                                                                    'Start exploring',
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                        fontSize:
+                                                                            15,
+                                                                        color:
+                                                                            clrWhite),
+                                                                  ),
+                                                                ))),
+                                                          )
+                                                        ],
+                                                      )
+                                                    : ListView(
+                                                        // crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          const Text(
+                                                            "Upcoming activities",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize: 16),
+                                                          ),
+                                                          SizedBox(
+                                                            height: Get.height *
+                                                                0.01,
+                                                          ),
+                                                          controller
+                                                                  .attendingData
+                                                                  .value
+                                                                  .result!
+                                                                  .upcomingActivities!
+                                                                  .isNotEmpty
+                                                              ? ListView
+                                                                  .builder(
+                                                                      itemCount: controller
+                                                                          .attendingData
+                                                                          .value
+                                                                          .result
+                                                                          ?.upcomingActivities
+                                                                          ?.length,
+                                                                      physics:
+                                                                          const NeverScrollableScrollPhysics(),
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              index) {
+                                                                        var data = controller
+                                                                            .attendingData
+                                                                            .value
+                                                                            .result
+                                                                            ?.upcomingActivities?[index];
+                                                                        return Container(
+                                                                          margin: const EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical: 6),
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              top: 10,
+                                                                              bottom: 15,
+                                                                              left: 15,
+                                                                              right: 15),
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(15),
+                                                                              color: clrGreyLight),
+                                                                          child:
+                                                                              Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
                                                                             children: [
-                                                                              Container(
-                                                                                clipBehavior: Clip.hardEdge,
-                                                                                height: h * .075,
-                                                                                width: h * .075,
-                                                                                decoration: BoxDecoration(
-                                                                                  borderRadius: BorderRadius.circular(5),
-                                                                                ),
-                                                                                child: data.activities![ind].banners!.isNotEmpty ? CachedNetworkImage(
-                                                                                  imageUrl: '${data.activities?[ind].banners?[0]}',
-                                                                                  fit: BoxFit.cover,
-                                                                                  errorWidget: (context, url, error) => Image.asset(
-                                                                                    "assets/images/parkimage.png",
-                                                                                    fit: BoxFit.cover,
-                                                                                  ),
-                                                                                  placeholder: (context, url) => Shimmer.fromColors(
-                                                                                      baseColor: grey300,
-                                                                                      highlightColor: grey100,
-                                                                                      child: Container(
-                                                                                        height: h * .075,
-                                                                                        width: h * .075,
-                                                                                        decoration: BoxDecoration(
-                                                                                          borderRadius: BorderRadius.circular(5),
-                                                                                          color: clrGrey,
-                                                                                        ),
-                                                                                      )),
-                                                                                ) :  Image.asset(
-                                                                                  "assets/images/parkimage.png",
-                                                                                  fit: BoxFit.cover,
-                                                                                ),
+                                                                              Text(
+                                                                                "${data?.formattedDate}",
+                                                                                style: TextStyle(color: clrGreyDark),
                                                                               ),
-                                                                              SizedBox(
-                                                                                width: Get.width * 0.02,
+                                                                              ListView.separated(
+                                                                                physics: const NeverScrollableScrollPhysics(),
+                                                                                itemCount: data!.activities!.length,
+                                                                                shrinkWrap: true,
+                                                                                itemBuilder: (context, ind) {
+                                                                                  return Padding(
+                                                                                    padding: const EdgeInsets.only(top: 5),
+                                                                                    child: InkWell(
+                                                                                      onTap: () {
+                                                                                        Get.toNamed(Routes.exploreView, arguments: data.activities?[ind].id.toString());
+                                                                                      },
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Container(
+                                                                                            clipBehavior: Clip.hardEdge,
+                                                                                            height: h * .075,
+                                                                                            width: h * .075,
+                                                                                            decoration: BoxDecoration(
+                                                                                              borderRadius: BorderRadius.circular(5),
+                                                                                            ),
+                                                                                            child: data.activities![ind].banners!.isNotEmpty
+                                                                                                ? CachedNetworkImage(
+                                                                                                    imageUrl: '${data.activities?[ind].banners?[0]}',
+                                                                                                    errorWidget: (context, url, error) => Image.asset(
+                                                                                                      "assets/images/parkimage.png",
+                                                                                                      fit: BoxFit.cover,
+                                                                                                    ),
+                                                                                                    fit: BoxFit.cover,
+                                                                                                    placeholder: (context, url) => Shimmer.fromColors(
+                                                                                                        baseColor: grey300,
+                                                                                                        highlightColor: grey100,
+                                                                                                        child: Container(
+                                                                                                          height: h * .075,
+                                                                                                          width: h * .075,
+                                                                                                          decoration: BoxDecoration(color: clrGrey, borderRadius: BorderRadius.circular(5)),
+                                                                                                        )),
+                                                                                                  )
+                                                                                                : Image.asset(
+                                                                                                    "assets/images/parkimage.png",
+                                                                                                    fit: BoxFit.cover,
+                                                                                                  ),
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                            width: Get.width * 0.02,
+                                                                                          ),
+                                                                                          Expanded(
+                                                                                            child: Container(
+                                                                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                                                                              decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(7)),
+                                                                                              child: Column(
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Text(
+                                                                                                    "${data.activities?[ind].name}",
+                                                                                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                  ),
+                                                                                                  Text("${data.activities?[ind].location}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  );
+                                                                                },
+                                                                                separatorBuilder: (BuildContext context, int index) {
+                                                                                  return const SizedBox(
+                                                                                    height: 5,
+                                                                                  );
+                                                                                },
                                                                               ),
-                                                                              Expanded(
-                                                                                child: Container(
-                                                                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                                                                  decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(7)),
-                                                                                  child: Column(
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                    children: [
-                                                                                      Text(
-                                                                                        "${data.activities?[ind].name.toString()}",
-                                                                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                                                                                      ),
-                                                                                      Text(
-                                                                                          "${data.activities?[ind].status.toString()}",
-                                                                                          style: TextStyle(color: clrGreyDark, fontSize: 12)
-                                                                                      ),
-                                                                                      data.activities?[ind].status.toString() == 'completed' ? Padding(
-                                                                                        padding: const EdgeInsets.symmetric(vertical: 3),
-                                                                                        child: Row(
-                                                                                          children: [
-                                                                                            Flexible(
-                                                                                                child: Text(
-                                                                                                    "Rate and review your activity",
-                                                                                                    style: TextStyle(
-                                                                                                        color: clrYellowText,
-                                                                                                        fontSize: 12, fontWeight: FontWeight.w600)
-                                                                                                )
-                                                                                            ),
-                                                                                            SizedBox(
-                                                                                              width: w * .00,
-                                                                                            ),
-                                                                                            Icon(
-                                                                                              Icons.arrow_right,
-                                                                                              size: 18,
-                                                                                              color: clrYellowText,
-                                                                                            )
-                                                                                          ],
-                                                                                        ),
-                                                                                      ) : const SizedBox(),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                              )
                                                                             ],
                                                                           ),
-                                                                        ),
-                                                                      );
-                                                                    }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },),
-                                                                SizedBox(
-                                                                  height: h *
-                                                                      .015,
+                                                                        );
+                                                                      })
+                                                              : Center(
+                                                                  child:
+                                                                      NoActivityScreen(
+                                                                    height:
+                                                                        Get.height *
+                                                                            0.3,
+                                                                  ),
                                                                 ),
-                                                                // Row(
-                                                                //   children: [
-                                                                //     Container(
-                                                                //       clipBehavior:
-                                                                //           Clip.hardEdge,
-                                                                //       height:
-                                                                //           57,
-                                                                //       width:
-                                                                //           57,
-                                                                //       decoration:
-                                                                //           BoxDecoration(
-                                                                //         borderRadius:
-                                                                //             BorderRadius.circular(5),
-                                                                //       ),
-                                                                //       child: Image
-                                                                //           .asset(
-                                                                //         "assets/images/parkimage.png",
-                                                                //         fit: BoxFit
-                                                                //             .cover,
-                                                                //       ),
-                                                                //     ),
-                                                                //     SizedBox(
-                                                                //       width: Get.width *
-                                                                //           0.02,
-                                                                //     ),
-                                                                //     Expanded(
-                                                                //       child:
-                                                                //           Container(
-                                                                //         padding: const EdgeInsets
-                                                                //             .symmetric(
-                                                                //             horizontal: 10,
-                                                                //             vertical: 10),
-                                                                //         decoration: BoxDecoration(
-                                                                //             color: clrWhite,
-                                                                //             borderRadius: BorderRadius.circular(7)),
-                                                                //         child:
-                                                                //             Column(
-                                                                //           crossAxisAlignment:
-                                                                //               CrossAxisAlignment.start,
-                                                                //           children: [
-                                                                //             const Text(
-                                                                //               "Padel with Joris",
-                                                                //               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                                                                //             ),
-                                                                //             Text("Cancelled", style: TextStyle(color: clrGreyDark, fontSize: 12)),
-                                                                //           ],
-                                                                //         ),
-                                                                //       ),
-                                                                //     )
-                                                                //   ],
-                                                                // ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    })
-                                                    : Center(
-                                                        child: NoActivityScreen(height: Get.height*0.3),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          const Text(
+                                                            "Previous activities",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize: 16),
+                                                          ),
+                                                          SizedBox(
+                                                            height: Get.height *
+                                                                0.01,
+                                                          ),
+                                                          controller
+                                                                  .attendingData
+                                                                  .value
+                                                                  .result!
+                                                                  .previousActivities!
+                                                                  .isNotEmpty
+                                                              ? ListView
+                                                                  .builder(
+                                                                      itemCount: controller
+                                                                          .attendingData
+                                                                          .value
+                                                                          .result
+                                                                          ?.previousActivities
+                                                                          ?.length,
+                                                                      physics:
+                                                                          const NeverScrollableScrollPhysics(),
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              index) {
+                                                                        var data = controller
+                                                                            .attendingData
+                                                                            .value
+                                                                            .result
+                                                                            ?.previousActivities?[index];
+                                                                        return Container(
+                                                                          margin: const EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical: 6),
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              top: 10,
+                                                                              bottom: 15,
+                                                                              left: 15,
+                                                                              right: 15),
+                                                                          // const EdgeInsets
+                                                                          //     .symmetric(
+                                                                          //     vertical: 18,
+                                                                          //     horizontal:
+                                                                          //         15),
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(15),
+                                                                              color: clrGreyLight),
+                                                                          child:
+                                                                              Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Text(
+                                                                                "${data?.formattedDate}",
+                                                                                style: TextStyle(color: clrGreyDark),
+                                                                              ),
+                                                                              Column(
+                                                                                children: [
+                                                                                  ListView.separated(
+                                                                                    physics: const NeverScrollableScrollPhysics(),
+                                                                                    itemCount: data!.activities!.length,
+                                                                                    shrinkWrap: true,
+                                                                                    itemBuilder: (context, ind) {
+                                                                                      return Padding(
+                                                                                        padding: const EdgeInsets.only(top: 5),
+                                                                                        child: InkWell(
+                                                                                          onTap: () {
+                                                                                            Get.toNamed(Routes.previousActivityUi, arguments: {
+                                                                                              "isHost": false,
+                                                                                              "id": data.activities?[ind].id.toString()
+                                                                                            });
+                                                                                          },
+                                                                                          child: Row(
+                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                clipBehavior: Clip.hardEdge,
+                                                                                                height: h * .075,
+                                                                                                width: h * .075,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  borderRadius: BorderRadius.circular(5),
+                                                                                                ),
+                                                                                                child: data.activities![ind].banners!.isNotEmpty
+                                                                                                    ? CachedNetworkImage(
+                                                                                                        imageUrl: '${data.activities?[ind].banners?[0]}',
+                                                                                                        fit: BoxFit.cover,
+                                                                                                        errorWidget: (context, url, error) => Image.asset(
+                                                                                                          "assets/images/parkimage.png",
+                                                                                                          fit: BoxFit.cover,
+                                                                                                        ),
+                                                                                                        placeholder: (context, url) => Shimmer.fromColors(
+                                                                                                            baseColor: grey300,
+                                                                                                            highlightColor: grey100,
+                                                                                                            child: Container(
+                                                                                                              height: h * .075,
+                                                                                                              width: h * .075,
+                                                                                                              decoration: BoxDecoration(
+                                                                                                                borderRadius: BorderRadius.circular(5),
+                                                                                                                color: clrGrey,
+                                                                                                              ),
+                                                                                                            )),
+                                                                                                      )
+                                                                                                    : Image.asset(
+                                                                                                        "assets/images/parkimage.png",
+                                                                                                        fit: BoxFit.cover,
+                                                                                                      ),
+                                                                                              ),
+                                                                                              SizedBox(
+                                                                                                width: Get.width * 0.02,
+                                                                                              ),
+                                                                                              Expanded(
+                                                                                                child: Container(
+                                                                                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                                                                                  decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(7)),
+                                                                                                  child: Column(
+                                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                    children: [
+                                                                                                      Text(
+                                                                                                        "${data.activities?[ind].name.toString()}",
+                                                                                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                      ),
+                                                                                                      Text("${data.activities?[ind].status.toString()}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
+                                                                                                      data.activities?[ind].status.toString() == 'completed'
+                                                                                                          ? Padding(
+                                                                                                              padding: const EdgeInsets.symmetric(vertical: 3),
+                                                                                                              child: Row(
+                                                                                                                children: [
+                                                                                                                  Flexible(child: Text("Rate and review your activity", style: TextStyle(color: clrYellowText, fontSize: 12, fontWeight: FontWeight.w600))),
+                                                                                                                  SizedBox(
+                                                                                                                    width: w * .00,
+                                                                                                                  ),
+                                                                                                                  Icon(
+                                                                                                                    Icons.arrow_right,
+                                                                                                                    size: 18,
+                                                                                                                    color: clrYellowText,
+                                                                                                                  )
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            )
+                                                                                                          : const SizedBox(),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                              )
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                      );
+                                                                                    },
+                                                                                    separatorBuilder: (BuildContext context, int index) {
+                                                                                      return const SizedBox(
+                                                                                        height: 5,
+                                                                                      );
+                                                                                    },
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: h * .015,
+                                                                                  ),
+                                                                                  // Row(
+                                                                                  //   children: [
+                                                                                  //     Container(
+                                                                                  //       clipBehavior:
+                                                                                  //           Clip.hardEdge,
+                                                                                  //       height:
+                                                                                  //           57,
+                                                                                  //       width:
+                                                                                  //           57,
+                                                                                  //       decoration:
+                                                                                  //           BoxDecoration(
+                                                                                  //         borderRadius:
+                                                                                  //             BorderRadius.circular(5),
+                                                                                  //       ),
+                                                                                  //       child: Image
+                                                                                  //           .asset(
+                                                                                  //         "assets/images/parkimage.png",
+                                                                                  //         fit: BoxFit
+                                                                                  //             .cover,
+                                                                                  //       ),
+                                                                                  //     ),
+                                                                                  //     SizedBox(
+                                                                                  //       width: Get.width *
+                                                                                  //           0.02,
+                                                                                  //     ),
+                                                                                  //     Expanded(
+                                                                                  //       child:
+                                                                                  //           Container(
+                                                                                  //         padding: const EdgeInsets
+                                                                                  //             .symmetric(
+                                                                                  //             horizontal: 10,
+                                                                                  //             vertical: 10),
+                                                                                  //         decoration: BoxDecoration(
+                                                                                  //             color: clrWhite,
+                                                                                  //             borderRadius: BorderRadius.circular(7)),
+                                                                                  //         child:
+                                                                                  //             Column(
+                                                                                  //           crossAxisAlignment:
+                                                                                  //               CrossAxisAlignment.start,
+                                                                                  //           children: [
+                                                                                  //             const Text(
+                                                                                  //               "Padel with Joris",
+                                                                                  //               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                  //             ),
+                                                                                  //             Text("Cancelled", style: TextStyle(color: clrGreyDark, fontSize: 12)),
+                                                                                  //           ],
+                                                                                  //         ),
+                                                                                  //       ),
+                                                                                  //     )
+                                                                                  //   ],
+                                                                                  // ),
+                                                                                ],
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      })
+                                                              : Center(
+                                                                  child: NoActivityScreen(
+                                                                      height: Get
+                                                                              .height *
+                                                                          0.3),
+                                                                )
+                                                        ],
                                                       )
-                                          ],
-                                        ) : const Center(child: ErrorScreen()),
+                                                : const Center(
+                                                    child: ErrorScreen()),
                                       ),
                           ),
+
                           /// -------Upcoming activities(for host)------- ///
                           Obx(
-                            () =>  controller.hostingLoading.value &&
+                            () =>
+                                controller.hostingLoading.value &&
                                         controller.hostingData.value.result ==
                                             null
                                     ? Center(
@@ -535,324 +582,186 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                         //   backgroundColor: clrYellow,
                                         //   distance: 50,
                                         // ),
-                                        child: controller.hostingError.isEmpty ? controller.hostingData.value.result!.upcomingActivities!.isEmpty
-                                            && controller.hostingData.value.result!.previousActivities!.isEmpty
-                                            ?   Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            NoActivityScreen(
-                                              height: Get.height*0.31,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Get.offAllNamed(Routes.navbarUi);
-                                              },
-                                              child: Container(
-                                                  padding: const EdgeInsets.symmetric(
-                                                    vertical: 12,
-                                                  ),
-                                                  margin: EdgeInsets.symmetric(horizontal: Get.width*0.2),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(100),
-                                                    color:clrYellow,
-                                                  ),
-                                                  child: Center(child: FittedBox(
-                                                    child: Text('Start exploring',style: TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 15,
-                                                        color: clrWhite
-                                                    ),),
-                                                  ))),
-                                            )
-                                          ],
-                                        )
-                                            : ListView(
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Upcoming activities",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.01,
-                                            ),
-                                            controller
-                                                    .hostingData
-                                                    .value
-                                                    .result!
-                                                    .upcomingActivities!
-                                                    .isNotEmpty
-                                                ? ListView.builder(
-                                                    itemCount: controller
+                                        child: controller.hostingError.isEmpty
+                                            ? controller
                                                         .hostingData
                                                         .value
-                                                        .result
-                                                        ?.upcomingActivities
-                                                        ?.length,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    shrinkWrap: true,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      var data = controller
-                                                              .hostingData
-                                                              .value
-                                                              .result
-                                                              ?.upcomingActivities?[
-                                                          index];
-                                                      return Container(
-                                                        margin: const EdgeInsets.symmetric(vertical: 6),
-                                                        padding: const EdgeInsets.only(
-                                                            top: 10,
-                                                            bottom: 15,
-                                                            left: 15,
-                                                            right: 15
-                                                        ),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                            color:
-                                                                clrGreyLight),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              "${data?.formattedDate}",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      clrGreyDark),
-                                                            ),
-                                                            ListView.separated(
-                                                                physics: const NeverScrollableScrollPhysics(),
-                                                                itemCount: data!.activities!.length,
-                                                                shrinkWrap: true,
-                                                                itemBuilder: (context, ind){
-                                                                  return Padding(
-                                                                    padding: const EdgeInsets.only(top: 5),
-                                                                      child: InkWell(
-                                                                        onTap: () {
-                                                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: data.activities?[ind].id.toString());
-                                                                        },
-                                                                        child: Row(
-                                                                          crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                          children: [
-                                                                            Container(
-                                                                                clipBehavior:
-                                                                                Clip
-                                                                                    .hardEdge,
-                                                                                height: h *
-                                                                                    .075,
-                                                                                width: h *
-                                                                                    .075,
-                                                                                decoration:
-                                                                                BoxDecoration(
-                                                                                  borderRadius:
-                                                                                  BorderRadius.circular(5),
-                                                                                ),
-                                                                                child:
-                                                                                data.activities![ind].banners!.isNotEmpty ?
-                                                                                CachedNetworkImage(
-                                                                                  imageUrl:
-                                                                                  '${data.activities?[ind].banners?[0]}',
-                                                                                  fit: BoxFit
-                                                                                      .cover,
-                                                                                  errorWidget: (context, url, error) => Image.asset(
-                                                                                    "assets/images/parkimage.png",
-                                                                                    fit: BoxFit.cover,
-                                                                                  ),
-                                                                                  placeholder: (context, url) => Shimmer.fromColors(
-                                                                                      baseColor:
-                                                                                      grey300,
-                                                                                      highlightColor:
-                                                                                      grey100,
-                                                                                      child: Container(
-                                                                                          height: h * .075,
-                                                                                          width: h * .075,
-                                                                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: clrGrey))),
-                                                                                ) : Image.asset(
-                                                                                  "assets/images/parkimage.png",
-                                                                                  fit: BoxFit.cover,
-                                                                                ),),
-                                                                            SizedBox(
-                                                                              width:
-                                                                              Get.width *
-                                                                                  0.02,
-                                                                            ),
-                                                                            Expanded(
-                                                                              child:
-                                                                              Container(
-                                                                                padding: const EdgeInsets
-                                                                                    .symmetric(
-                                                                                    horizontal:
-                                                                                    10,
-                                                                                    vertical:
-                                                                                    10),
-                                                                                decoration: BoxDecoration(
-                                                                                    color:
-                                                                                    clrWhite,
-                                                                                    borderRadius:
-                                                                                    BorderRadius.circular(7)),
-                                                                                child:
-                                                                                Column(
-                                                                                  crossAxisAlignment:
-                                                                                  CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      "${data.activities?[ind].name.toString()}",
-                                                                                      style:
-                                                                                      const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                                                                                    ),
-                                                                                    Text(
-                                                                                        "${data.activities?[ind].location.toString()}",
-                                                                                        style: TextStyle(color: clrGreyDark, fontSize: 12)),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                  );
-                                                            }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },)
-                                                          ],
-                                                        ),
-                                                      );
-                                                    })
-                                                    : Center(
-                                                        child: NoActivityScreen(height: Get.height*0.3)),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                            const Text(
-                                              "Previous activities",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.01,
-                                            ),
-                                            controller
-                                                    .hostingData
-                                                    .value
-                                                    .result!
-                                                    .previousActivities!
-                                                    .isNotEmpty
-                                                ? ListView.builder(
-                                                    itemCount: controller
+                                                        .result!
+                                                        .upcomingActivities!
+                                                        .isEmpty &&
+                                                    controller
                                                         .hostingData
                                                         .value
-                                                        .result
-                                                        ?.previousActivities
-                                                        ?.length,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    shrinkWrap: true,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      var data = controller
-                                                              .hostingData
-                                                              .value
-                                                              .result
-                                                              ?.previousActivities?[
-                                                          index];
-                                                      return InkWell(
+                                                        .result!
+                                                        .previousActivities!
+                                                        .isEmpty
+                                                ? Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      NoActivityScreen(
+                                                        height:
+                                                            Get.height * 0.31,
+                                                      ),
+                                                      GestureDetector(
                                                         onTap: () {
-                                                          // Get.toNamed(
-                                                          //     Routes
-                                                          //         .previousActivityUi,
-                                                          //     arguments: {
-                                                          //       "isHost": true,
-                                                          //     });
+                                                          Get.offAllNamed(
+                                                              Routes.navbarUi);
                                                         },
                                                         child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  vertical: 6),
-                                                          padding: const EdgeInsets.only(
-                                                              top: 10,
-                                                              bottom: 15,
-                                                              left: 15,
-                                                              right: 15
-                                                          ),
-                                                          decoration: BoxDecoration(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                              vertical: 12,
+                                                            ),
+                                                            margin: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        Get.width *
+                                                                            0.2),
+                                                            decoration:
+                                                                BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          15),
-                                                              color:
-                                                                  clrGreyLight),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                "${data?.formattedDate}",
+                                                                          100),
+                                                              color: clrYellow,
+                                                            ),
+                                                            child: Center(
+                                                                child:
+                                                                    FittedBox(
+                                                              child: Text(
+                                                                'Start exploring',
                                                                 style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        15,
                                                                     color:
-                                                                        clrGreyDark),
+                                                                        clrWhite),
                                                               ),
-                                                              Column(
-                                                                children: [
-                                                                  ListView.separated(
-                                                                      physics: const NeverScrollableScrollPhysics(),
-                                                                      itemCount: data!.activities!.length,
-                                                                      shrinkWrap: true,
-                                                                      itemBuilder: (context, ind){
-                                                                        var actdatas = data.activities?[ind];
-                                                                        return Padding(
-                                                                          padding: const EdgeInsets.only(top: 5),
-                                                                          child: GestureDetector(
-                                                                            onTap: () {
-                                                                              Get.toNamed(
-                                                                                  Routes
-                                                                                      .previousActivityUi,
-                                                                                  arguments: {
-                                                                                    "isHost": true,
-                                                                                    'id': data.activities?[ind].id
-                                                                                  });
-                                                                            },
-                                                                            child: Row(
-                                                                                crossAxisAlignment:
-                                                                                    CrossAxisAlignment.start,
+                                                            ))),
+                                                      )
+                                                    ],
+                                                  )
+                                                : ListView(
+                                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      const Text(
+                                                        "Upcoming activities",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 16),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.01,
+                                                      ),
+                                                      controller
+                                                              .hostingData
+                                                              .value
+                                                              .result!
+                                                              .upcomingActivities!
+                                                              .isNotEmpty
+                                                          ? ListView.builder(
+                                                              itemCount: controller
+                                                                  .hostingData
+                                                                  .value
+                                                                  .result
+                                                                  ?.upcomingActivities
+                                                                  ?.length,
+                                                              physics:
+                                                                  const NeverScrollableScrollPhysics(),
+                                                              shrinkWrap: true,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                var data = controller
+                                                                    .hostingData
+                                                                    .value
+                                                                    .result
+                                                                    ?.upcomingActivities?[index];
+                                                                return Container(
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          6),
+                                                                  padding: const EdgeInsets
+                                                                      .only(
+                                                                      top: 10,
+                                                                      bottom:
+                                                                          15,
+                                                                      left: 15,
+                                                                      right:
+                                                                          15),
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15),
+                                                                      color:
+                                                                          clrGreyLight),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        "${data?.formattedDate}",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                clrGreyDark),
+                                                                      ),
+                                                                      ListView
+                                                                          .separated(
+                                                                        physics:
+                                                                            const NeverScrollableScrollPhysics(),
+                                                                        itemCount: data!
+                                                                            .activities!
+                                                                            .length,
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                ind) {
+                                                                          return Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(top: 5),
+                                                                            child:
+                                                                                InkWell(
+                                                                              onTap: () {
+                                                                                Get.toNamed(Routes.hostUpcommingActiview, arguments: data.activities?[ind].id.toString());
+                                                                              },
+                                                                              child: Row(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Container(
-                                                                                      clipBehavior: Clip.hardEdge,
-                                                                                      height: h * .075,
-                                                                                      width: h * .075,
-                                                                                      decoration: BoxDecoration(
-                                                                                        borderRadius: BorderRadius.circular(5),
-                                                                                      ),
-                                                                                      child: data.activities![ind].banners!.isNotEmpty ? CachedNetworkImage(
-                                                                                        imageUrl: '${data.activities?[ind].banners?[0]}',
-                                                                                        fit: BoxFit.cover,
-                                                                                        errorWidget: (context, url, error) => Image.asset(
-                                                                                          "assets/images/parkimage.png",
-                                                                                          fit: BoxFit.cover,
-                                                                                        ),
-                                                                                        placeholder: (context, url) => Shimmer.fromColors(
-                                                                                            baseColor: grey300,
-                                                                                            highlightColor: grey100,
-                                                                                            child: Container(
-                                                                                              height: h * .075,
-                                                                                              width: h * .075,
-                                                                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: clrGrey),
-                                                                                            )),
-                                                                                      ) :  Image.asset(
-                                                                                        "assets/images/parkimage.png",
-                                                                                        fit: BoxFit.cover,
-                                                                                      ),),
+                                                                                    clipBehavior: Clip.hardEdge,
+                                                                                    height: h * .075,
+                                                                                    width: h * .075,
+                                                                                    decoration: BoxDecoration(
+                                                                                      borderRadius: BorderRadius.circular(5),
+                                                                                    ),
+                                                                                    child: data.activities![ind].banners!.isNotEmpty
+                                                                                        ? CachedNetworkImage(
+                                                                                            imageUrl: '${data.activities?[ind].banners?[0]}',
+                                                                                            fit: BoxFit.cover,
+                                                                                            errorWidget: (context, url, error) => Image.asset(
+                                                                                              "assets/images/parkimage.png",
+                                                                                              fit: BoxFit.cover,
+                                                                                            ),
+                                                                                            placeholder: (context, url) => Shimmer.fromColors(baseColor: grey300, highlightColor: grey100, child: Container(height: h * .075, width: h * .075, decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: clrGrey))),
+                                                                                          )
+                                                                                        : Image.asset(
+                                                                                            "assets/images/parkimage.png",
+                                                                                            fit: BoxFit.cover,
+                                                                                          ),
+                                                                                  ),
                                                                                   SizedBox(
                                                                                     width: Get.width * 0.02,
                                                                                   ),
@@ -864,144 +773,325 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                                                         children: [
                                                                                           Row(
-                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                             children: [
-                                                                                              Expanded(
-                                                                                                child: Column(
-                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                                                  children: [
-                                                                                                    Text(
-                                                                                                      "${data.activities?[ind].name.toString()}",
-                                                                                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                                                                                                    ),
-                                                                                                    Text(
-                                                                                                        "${data.activities?[ind].status.toString()}",
-                                                                                                        style: TextStyle(color: clrGreyDark, fontSize: 12)
-                                                                                                    ),
-                                                                                                  ],
-                                                                                                ),
+                                                                                              Text(
+                                                                                                "${data.activities?[ind].name.toString()}",
+                                                                                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                                                                               ),
-                                                                                              data.activities?[ind].status.toString() == 'completed' ? SizedBox(
-                                                                                                height: 23,
-                                                                                                child: CustomElevatedButton(
-                                                                                                    onTap: () {
-                                                                                                      Get.toNamed(
-                                                                                                          Routes.repeatActUi,
-                                                                                                          arguments: controller
-                                                                                                              .hostingData
-                                                                                                              .value
-                                                                                                              .result
-                                                                                                              ?.previousActivities?[index]
-                                                                                                              .activities?[ind]
-                                                                                                      );
-                                                                                                    },
-                                                                                                    backgroundClr: clrGreyLight,
-                                                                                                    paddingHz: 10,
-                                                                                                    child: Row(
-                                                                                                      children: [
-                                                                                                        Image.asset(
-                                                                                                          "assets/icons/repeaticon.png",
-                                                                                                          height: 10,
-                                                                                                        ),
-                                                                                                        const SizedBox(
-                                                                                                          width: 2,
-                                                                                                        ),
-                                                                                                        Text("Repeat", style: TextStyle(color: clrBlacke, fontSize: 10))
-                                                                                                      ],
-                                                                                                    )),
-                                                                                              ) : const SizedBox()
+                                                                                              Container(
+                                                                                                child: Text(data.activities![ind].status.toString().toUpperCase()),
+                                                                                              ),
                                                                                             ],
                                                                                           ),
-                                                                                          data.activities?[ind].status.toString() == 'completed' ? Padding(
-                                                                                            padding: const EdgeInsets.symmetric(vertical: 3),
-                                                                                            child: Row(
-                                                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                              children: [
-                                                                                                Flexible(child: Text("Confirm attendance", style: TextStyle(color: clrYellowText, fontSize: 12, fontWeight: FontWeight.w600))),
-                                                                                                Icon(
-                                                                                                  Icons.arrow_right,
-                                                                                                  size: 18,
-                                                                                                  color: clrYellowText,
-                                                                                                )
-                                                                                              ],
-                                                                                            ),
-                                                                                          ) : const SizedBox(),
+                                                                                          Text("${data.activities?[ind].location.toString()}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
                                                                                         ],
                                                                                       ),
                                                                                     ),
                                                                                   )
                                                                                 ],
                                                                               ),
-                                                                          ),
-                                                                        );
-                                                                        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                        separatorBuilder:
+                                                                            (BuildContext context,
+                                                                                int index) {
+                                                                          return const SizedBox(
+                                                                            height:
+                                                                                5,
+                                                                          );
+                                                                        },
+                                                                      )
+                                                                    ],
                                                                   ),
-                                                                  const SizedBox(
-                                                                    height: 8,
+                                                                );
+                                                              })
+                                                          : Center(
+                                                              child: NoActivityScreen(
+                                                                  height:
+                                                                      Get.height *
+                                                                          0.3)),
+                                                      const SizedBox(
+                                                        height: 15,
+                                                      ),
+                                                      const Text(
+                                                        "Previous activities",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 16),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.01,
+                                                      ),
+                                                      controller
+                                                              .hostingData
+                                                              .value
+                                                              .result!
+                                                              .previousActivities!
+                                                              .isNotEmpty
+                                                          ? ListView.builder(
+                                                              itemCount: controller
+                                                                  .hostingData
+                                                                  .value
+                                                                  .result
+                                                                  ?.previousActivities
+                                                                  ?.length,
+                                                              physics:
+                                                                  const NeverScrollableScrollPhysics(),
+                                                              shrinkWrap: true,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                var data = controller
+                                                                    .hostingData
+                                                                    .value
+                                                                    .result
+                                                                    ?.previousActivities?[index];
+                                                                return InkWell(
+                                                                  onTap: () {
+                                                                    // Get.toNamed(
+                                                                    //     Routes
+                                                                    //         .previousActivityUi,
+                                                                    //     arguments: {
+                                                                    //       "isHost": true,
+                                                                    //     });
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    margin: const EdgeInsets
+                                                                        .symmetric(
+                                                                        vertical:
+                                                                            6),
+                                                                    padding: const EdgeInsets
+                                                                        .only(
+                                                                        top: 10,
+                                                                        bottom:
+                                                                            15,
+                                                                        left:
+                                                                            15,
+                                                                        right:
+                                                                            15),
+                                                                    decoration: BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                15),
+                                                                        color:
+                                                                            clrGreyLight),
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          "${data?.formattedDate}",
+                                                                          style:
+                                                                              TextStyle(color: clrGreyDark),
+                                                                        ),
+                                                                        Column(
+                                                                          children: [
+                                                                            ListView.separated(
+                                                                              physics: const NeverScrollableScrollPhysics(),
+                                                                              itemCount: data!.activities!.length,
+                                                                              shrinkWrap: true,
+                                                                              itemBuilder: (context, ind) {
+                                                                                var actdatas = data.activities?[ind];
+                                                                                return Padding(
+                                                                                  padding: const EdgeInsets.only(top: 5),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      Get.toNamed(Routes.previousActivityUi, arguments: {
+                                                                                        "isHost": true,
+                                                                                        'id': data.activities?[ind].id
+                                                                                      });
+                                                                                    },
+                                                                                    child: Row(
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        Container(
+                                                                                          clipBehavior: Clip.hardEdge,
+                                                                                          height: h * .075,
+                                                                                          width: h * .075,
+                                                                                          decoration: BoxDecoration(
+                                                                                            borderRadius: BorderRadius.circular(5),
+                                                                                          ),
+                                                                                          child: data.activities![ind].banners!.isNotEmpty
+                                                                                              ? CachedNetworkImage(
+                                                                                                  imageUrl: '${data.activities?[ind].banners?[0]}',
+                                                                                                  fit: BoxFit.cover,
+                                                                                                  errorWidget: (context, url, error) => Image.asset(
+                                                                                                    "assets/images/parkimage.png",
+                                                                                                    fit: BoxFit.cover,
+                                                                                                  ),
+                                                                                                  placeholder: (context, url) => Shimmer.fromColors(
+                                                                                                      baseColor: grey300,
+                                                                                                      highlightColor: grey100,
+                                                                                                      child: Container(
+                                                                                                        height: h * .075,
+                                                                                                        width: h * .075,
+                                                                                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: clrGrey),
+                                                                                                      )),
+                                                                                                )
+                                                                                              : Image.asset(
+                                                                                                  "assets/images/parkimage.png",
+                                                                                                  fit: BoxFit.cover,
+                                                                                                ),
+                                                                                        ),
+                                                                                        SizedBox(
+                                                                                          width: Get.width * 0.02,
+                                                                                        ),
+                                                                                        Expanded(
+                                                                                          child: Container(
+                                                                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                                                                            decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(7)),
+                                                                                            child: Column(
+                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                              children: [
+                                                                                                Row(
+                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                  children: [
+                                                                                                    Expanded(
+                                                                                                      child: Column(
+                                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                        children: [
+                                                                                                          Text(
+                                                                                                            "${data.activities?[ind].name.toString()}",
+                                                                                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                          ),
+                                                                                                          Text("${data.activities?[ind].status.toString()}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    data.activities?[ind].status.toString() == 'completed'
+                                                                                                        ? SizedBox(
+                                                                                                            height: 23,
+                                                                                                            child: CustomElevatedButton(
+                                                                                                                onTap: () {
+                                                                                                                  Get.toNamed(Routes.repeatActUi, arguments: controller.hostingData.value.result?.previousActivities?[index].activities?[ind]);
+                                                                                                                },
+                                                                                                                backgroundClr: clrGreyLight,
+                                                                                                                paddingHz: 10,
+                                                                                                                child: Row(
+                                                                                                                  children: [
+                                                                                                                    Image.asset(
+                                                                                                                      "assets/icons/repeaticon.png",
+                                                                                                                      height: 10,
+                                                                                                                    ),
+                                                                                                                    const SizedBox(
+                                                                                                                      width: 2,
+                                                                                                                    ),
+                                                                                                                    Text("Repeat", style: TextStyle(color: clrBlacke, fontSize: 10))
+                                                                                                                  ],
+                                                                                                                )),
+                                                                                                          )
+                                                                                                        : const SizedBox()
+                                                                                                  ],
+                                                                                                ),
+                                                                                                data.activities?[ind].status.toString() == 'completed'
+                                                                                                    ? Padding(
+                                                                                                        padding: const EdgeInsets.symmetric(vertical: 3),
+                                                                                                        child: Row(
+                                                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                          children: [
+                                                                                                            Flexible(child: Text("Confirm attendance", style: TextStyle(color: clrYellowText, fontSize: 12, fontWeight: FontWeight.w600))),
+                                                                                                            Icon(
+                                                                                                              Icons.arrow_right,
+                                                                                                              size: 18,
+                                                                                                              color: clrYellowText,
+                                                                                                            )
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      )
+                                                                                                    : const SizedBox(),
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                              separatorBuilder: (BuildContext context, int index) {
+                                                                                return const SizedBox(
+                                                                                  height: 5,
+                                                                                );
+                                                                              },
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 8,
+                                                                            ),
+                                                                            // Row(
+                                                                            //   children: [
+                                                                            //     Container(
+                                                                            //       clipBehavior:
+                                                                            //           Clip.hardEdge,
+                                                                            //       height: h *
+                                                                            //           .075,
+                                                                            //       width: h *
+                                                                            //           .075,
+                                                                            //       decoration:
+                                                                            //           BoxDecoration(
+                                                                            //         borderRadius:
+                                                                            //             BorderRadius.circular(5),
+                                                                            //       ),
+                                                                            //       child: Image
+                                                                            //           .asset(
+                                                                            //         "assets/images/parkimage.png",
+                                                                            //         fit: BoxFit
+                                                                            //             .cover,
+                                                                            //       ),
+                                                                            //     ),
+                                                                            //     SizedBox(
+                                                                            //       width: Get.width *
+                                                                            //           0.02,
+                                                                            //     ),
+                                                                            //     Expanded(
+                                                                            //       child:
+                                                                            //           Container(
+                                                                            //         padding: const EdgeInsets
+                                                                            //             .symmetric(
+                                                                            //             horizontal: 10,
+                                                                            //             vertical: 10),
+                                                                            //         decoration: BoxDecoration(
+                                                                            //             color: clrWhite,
+                                                                            //             borderRadius: BorderRadius.circular(7)),
+                                                                            //         child:
+                                                                            //             Column(
+                                                                            //           crossAxisAlignment:
+                                                                            //               CrossAxisAlignment.start,
+                                                                            //           children: [
+                                                                            //             const Text(
+                                                                            //               "Padel with Joris",
+                                                                            //               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                                                                            //             ),
+                                                                            //             Text("Cancelled", style: TextStyle(color: clrGreyDark, fontSize: 12)),
+                                                                            //           ],
+                                                                            //         ),
+                                                                            //       ),
+                                                                            //     )
+                                                                            //   ],
+                                                                            // ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                  // Row(
-                                                                  //   children: [
-                                                                  //     Container(
-                                                                  //       clipBehavior:
-                                                                  //           Clip.hardEdge,
-                                                                  //       height: h *
-                                                                  //           .075,
-                                                                  //       width: h *
-                                                                  //           .075,
-                                                                  //       decoration:
-                                                                  //           BoxDecoration(
-                                                                  //         borderRadius:
-                                                                  //             BorderRadius.circular(5),
-                                                                  //       ),
-                                                                  //       child: Image
-                                                                  //           .asset(
-                                                                  //         "assets/images/parkimage.png",
-                                                                  //         fit: BoxFit
-                                                                  //             .cover,
-                                                                  //       ),
-                                                                  //     ),
-                                                                  //     SizedBox(
-                                                                  //       width: Get.width *
-                                                                  //           0.02,
-                                                                  //     ),
-                                                                  //     Expanded(
-                                                                  //       child:
-                                                                  //           Container(
-                                                                  //         padding: const EdgeInsets
-                                                                  //             .symmetric(
-                                                                  //             horizontal: 10,
-                                                                  //             vertical: 10),
-                                                                  //         decoration: BoxDecoration(
-                                                                  //             color: clrWhite,
-                                                                  //             borderRadius: BorderRadius.circular(7)),
-                                                                  //         child:
-                                                                  //             Column(
-                                                                  //           crossAxisAlignment:
-                                                                  //               CrossAxisAlignment.start,
-                                                                  //           children: [
-                                                                  //             const Text(
-                                                                  //               "Padel with Joris",
-                                                                  //               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                                                                  //             ),
-                                                                  //             Text("Cancelled", style: TextStyle(color: clrGreyDark, fontSize: 12)),
-                                                                  //           ],
-                                                                  //         ),
-                                                                  //       ),
-                                                                  //     )
-                                                                  //   ],
-                                                                  // ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    })
-                                                    : Center(
-                                                        child: NoActivityScreen(height: Get.height*0.3))
-                                          ],
-                                        ) : const Center(child: ErrorScreen()),
+                                                                );
+                                                              })
+                                                          : Center(
+                                                              child: NoActivityScreen(
+                                                                  height:
+                                                                      Get.height *
+                                                                          0.3))
+                                                    ],
+                                                  )
+                                            : const Center(
+                                                child: ErrorScreen()),
                                       ),
                           )
                         ]),
