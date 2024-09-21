@@ -22,7 +22,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
   Widget build(BuildContext context) {
     var h = Get.height;
     var w = Get.width;
-    int currentStep = Get.arguments['current step'];
+    String from = Get.arguments['from'];
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -51,7 +51,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
-                    currentStep == 5
+                    from == 'login'
                         ? Text(
                             "${loginnoController.countryCode.value} ${loginnoController.mobNoCon.value.text}",
                             textAlign: TextAlign.center,
@@ -118,42 +118,37 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                           String? token = Get.arguments['token'];
                           String? uId = Get.arguments['uid'];
                           pinController.text = v;
-                          var verify = currentStep == 5
+                          var verify = from == 'login'
                               ? await loginnoController.verifyOtp(
                                   loginnoController.verificationID.value,
                                   pinController.value.text.trim())
                               : await controller.verifyOtp(
                                   controller.verificationID.value,
                                   pinController.value.text.trim());
-                          if (verify) {
-                            if (currentStep == 0) {
-                              Get.offNamed(Routes.nameAddUi);
-                              // Get.toNamed(Routes.navbarUi);
-                            } else if (currentStep == 1) {
-                              Get.offNamed(Routes.genderaddUi);
-                            } else if (currentStep == 2) {
-                              Get.offNamed(Routes.regLocDobui);
-                            } else if (currentStep == 3) {
-                              Get.offNamed(Routes.regEmailui);
-                            } else {
+                          if(verify){
+                            if(from == 'signup'){
+                              await controller.checkMobNoApi();
+                            }else{
                               LocalStorage.saveToken(token!);
                               LocalStorage.saveUid(uId!);
                               Get.offAllNamed(Routes.navbarUi);
                             }
                           }
-                          // if (currentStep == 0) {
-                          //   Get.toNamed(Routes.nameAddUi);
-                          //   // Get.toNamed(Routes.navbarUi);
-                          // } else if (currentStep == 1) {
-                          //   Get.toNamed(Routes.genderaddUi);
-                          // } else if (currentStep == 2) {
-                          //   Get.toNamed(Routes.regLocDobui);
-                          // } else if (currentStep == 3) {
-                          //   Get.toNamed(Routes.regEmailui);
-                          // }else{
-                          //   LocalStorage.saveToken(token!);
-                          //   LocalStorage.saveUid(uId!);
-                          //   Get.toNamed(Routes.navbarUi);
+                          // if (verify) {
+                          //   if (currentStep == 0) {
+                          //     Get.offNamed(Routes.nameAddUi);
+                          //     // Get.toNamed(Routes.navbarUi);
+                          //   } else if (currentStep == 1) {
+                          //     Get.offNamed(Routes.genderaddUi);
+                          //   } else if (currentStep == 2) {
+                          //     Get.offNamed(Routes.regLocDobui);
+                          //   } else if (currentStep == 3) {
+                          //     Get.offNamed(Routes.regEmailui);
+                          //   } else {
+                          //     LocalStorage.saveToken(token!);
+                          //     LocalStorage.saveUid(uId!);
+                          //     Get.offAllNamed(Routes.navbarUi);
+                          //   }
                           // }
                         },
                         onChanged: (value) {
@@ -174,9 +169,9 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                     ),
                     Obx(
                       () => Opacity(
-                        opacity: currentStep == 5
+                        opacity: from == 'login'
                             ? (loginnoController.otpVerify.value ? 0.5 : 1)
-                            : (controller.otpVerify.value ? 0.5 : 1),
+                            : (controller.otpVerify.value || controller.loading.value ? 0.5 : 1),
                         child: SizedBox(
                             width: double.maxFinite,
                             height: Res.h_btn,
@@ -185,7 +180,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                 String? token = Get.arguments['token'];
                                 String? uId = Get.arguments['uid'];
                                 if (_formKey.currentState!.validate()) {
-                                  var verify = currentStep == 5
+                                  var verify = from == 'login'
                                       ? await loginnoController.verifyOtp(
                                           loginnoController
                                               .verificationID.value,
@@ -194,19 +189,26 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                           controller.verificationID.value,
                                           pinController.value.text.trim());
                                   if (verify) {
-                                    if (currentStep == 0) {
-                                      Get.offNamed(Routes.nameAddUi);
-                                    } else if (currentStep == 1) {
-                                      Get.offNamed(Routes.genderaddUi);
-                                    } else if (currentStep == 2) {
-                                      Get.offNamed(Routes.regLocDobui);
-                                    } else if (currentStep == 3) {
-                                      Get.offNamed(Routes.regEmailui);
-                                    } else {
+                                    if(from == 'signup') {
+                                      await controller.checkMobNoApi();
+                                    }else{
                                       LocalStorage.saveToken(token!);
                                       LocalStorage.saveUid(uId!);
                                       Get.offAllNamed(Routes.navbarUi);
                                     }
+                                    // if (currentStep == 0) {
+                                    //   Get.offNamed(Routes.nameAddUi);
+                                    // } else if (currentStep == 1) {
+                                    //   Get.offNamed(Routes.genderaddUi);
+                                    // } else if (currentStep == 2) {
+                                    //   Get.offNamed(Routes.regLocDobui);
+                                    // } else if (currentStep == 3) {
+                                    //   Get.offNamed(Routes.regEmailui);
+                                    // } else {
+                                    //   LocalStorage.saveToken(token!);
+                                    //   LocalStorage.saveUid(uId!);
+                                    //   Get.offAllNamed(Routes.navbarUi);
+                                    // }
                                   }
                                 }
                                 // if (currentStep == 0) {
@@ -224,7 +226,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                 // }
                               },
                               backgroundClr: clrBlacke,
-                              child: currentStep == 5
+                              child: from == 'login'
                                   ? (loginnoController.otpVerify.value
                                       ? CommonUi.buttonLoading()
                                       : Text(
@@ -234,7 +236,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                               fontWeight: FontWeight.w700,
                                               fontSize: 16),
                                         ))
-                                  : (controller.otpVerify.value
+                                  : (controller.otpVerify.value || controller.loading.value
                                       ? CommonUi.buttonLoading()
                                       : Text(
                                           "Verify",
@@ -258,7 +260,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                 color: clrGreyDark,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400)),
-                        currentStep == 5
+                        from == 'login'
                             ? OtpTimerButton(
                                 buttonType: ButtonType.text_button,
                                 controller: loginnoController.otpTimerButtonController,

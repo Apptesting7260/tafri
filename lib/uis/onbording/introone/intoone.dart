@@ -84,7 +84,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                       builder: (context) {
                         return Obx(
                           () => Opacity(
-                            opacity: controller.loading.value ? 0.5 : 1,
+                            opacity: controller.otpLoading.value ? 0.5 : 1,
                             child: Container(
                                 width: double.maxFinite,
                                 height: screenHeight * .5,
@@ -208,13 +208,14 @@ class IntroOneUi extends GetWidget<IntroController> {
                                               if (!controller.loading.value) {
                                                 if (_formKey.currentState!
                                                     .validate()) {
-                                                  controller.checkMobNoApi();
+                                                  controller.sendOtp();
+                                                  // controller.checkMobNoApi();
                                                 }
                                               }
                                             },
                                             backgroundClr: clrBlacke,
                                             child: Obx(
-                                              () => controller.loading.value
+                                              () => controller.otpLoading.value
                                                   ? CommonUi.buttonLoading()
                                                   : Text(
                                                       "Next",

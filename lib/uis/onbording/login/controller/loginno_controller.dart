@@ -249,7 +249,7 @@ class LoginnoController extends GetxController {
             if(value == true){
               Get.back();
               Get.toNamed(Routes.codeVerify, arguments: {
-                'current step': 5,
+                'from': 'login',
                 'token': body.token,
                 'uid': body.uId
               });
@@ -321,8 +321,8 @@ class LoginnoController extends GetxController {
           LocalStorage.saveToken(data.data!.accessToken.toString());
           LocalStorage.saveUid(data.data!.userId.toString());
           Get.offAllNamed(Routes.navbarUi);
-        }else{
-          showTostMsg('Login failed.');
+        }else if(response.statusCode == 401){
+          showTostMsg('Login failed.It seems your account has been deleted.');
         }
       }else{
         showTostMsg('Login failed.');
@@ -330,6 +330,8 @@ class LoginnoController extends GetxController {
 
       googleLoading.value = false;
 
+    } on FirebaseAuthException catch (e) {
+      print('FirebaseAuthException: ${e.message}');
     } catch (e) {
       googleLoading.value = false;
       print('error == ${e.toString()}');

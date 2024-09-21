@@ -250,27 +250,39 @@ class IntroController extends GetxController {
         if (body.message == 'Mobile number exists' && body.currentStep == '4') {
           showTostMsg('Mobile number exists. Please login to continue');
           // Get.back();
-          mobnoController.clear();
-          countryCode.value = '+31';
-          initialSelection.value = 'NL';
+          // mobnoController.clear();
+          // countryCode.value = '+31';
+          // initialSelection.value = 'NL';
         } else if (body.message == 'Mobile number exists' &&
             int.parse(body.currentStep.toString()) < 4) {
-          await sendOtp().then((value) {
-            print('sent value == ${value}');
-            if(value == true){
-              Get.back();
-                Get.toNamed(Routes.codeVerify, arguments: {
-                  'current step': int.parse(body.currentStep.toString()),
-                });
-            }
-          },);
+
+          if (int.parse(body.currentStep.toString()) == 0) {
+            Get.offNamed(Routes.nameAddUi);
+          } else if (int.parse(body.currentStep.toString()) == 1) {
+            Get.offNamed(Routes.genderaddUi);
+          } else if (int.parse(body.currentStep.toString()) == 2) {
+            Get.offNamed(Routes.regLocDobui);
+          } else if (int.parse(body.currentStep.toString()) == 3) {
+            Get.offNamed(Routes.regEmailui);
+          }
+
+          // await sendOtp().then((value) {
+          //   print('sent value == ${value}');
+          //   if(value == true){
+          //     Get.back();
+          //       Get.toNamed(Routes.codeVerify, arguments: {
+          //         'current step': int.parse(body.currentStep.toString()),
+          //       });
+          //   }
+          // },);
         } else {
-          await sendOtp().then((value) {
-            print('sent value == ${value}');
-            if(value == true){
-                Get.toNamed(Routes.codeVerify, arguments: {'current step': 0});
-            }
-          },);
+          Get.offNamed(Routes.nameAddUi);
+          // await sendOtp().then((value) {
+          //   print('sent value == ${value}');
+          //   if(value == true){
+          //       Get.toNamed(Routes.codeVerify, arguments: {'current step': 0});
+          //   }
+          // },);
         }
       } else {
         // loading.value = false;
@@ -289,9 +301,10 @@ class IntroController extends GetxController {
   RxString verificationID = ''.obs;
   var resendToken = 0.obs;
 
+  var otpLoading = false.obs;
   Future<bool> sendOtp() async {
     Completer<bool> completer = Completer<bool>();
-
+    otpLoading.value = true;
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
@@ -308,6 +321,7 @@ class IntroController extends GetxController {
           }else{
             showTostMsg('Something went wrong');
           }
+          otpLoading.value = false;
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
@@ -319,14 +333,18 @@ class IntroController extends GetxController {
               resendToken.value = 0;
             },);
           }
+          Get.toNamed(Routes.codeVerify, arguments: {'from': 'signup'});
+          otpLoading.value = false;
           completer.complete(true);
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
+      otpLoading.value = false;
       completer.complete(false);
       print('error == ${e.toString()}');
     }
+    // otpLoading.value = false;
     return completer.future;
 
   }
