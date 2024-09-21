@@ -45,8 +45,8 @@ class Result {
   dynamic deletedAt;
   int? age;
   String? attendanceRate;
-  String? activitiesJoined;
-  String? activitiesHosted;
+  int? activitiesJoined;
+  int? activitiesHosted;
   Profile? profile;
   List<Activity>? upcomingActivities;
   List<Activity>? previousActivities;
@@ -312,7 +312,7 @@ class Profile {
     occupation: json["occupation"],
     organisationName: json["organisation_name"],
     languageId: json["language_id"] == null ? [] : List<String>.from(json["language_id"]!.map((x) => x)),
-    activityInterests: Map.from(json["activity_interests"]!).map((k, v) => MapEntry<String, List<String>>(k, List<String>.from(v.map((x) => x)))),
+    activityInterests: json["activity_interests"] == null ? {} : Map.from(json["activity_interests"]!).map((k, v) => MapEntry<String, List<String>>(k, List<String>.from(v.map((x) => x)))),
     funFactsAboutMe: json["fun_facts_about_me"] == null ? [] : List<FunFactsAboutMe>.from(json["fun_facts_about_me"]!.map((x) => FunFactsAboutMe.fromJson(x))),
     verifyInstagram: json["verify_instagram"],
     verifyLinkedin: json["verify_linkedin"],

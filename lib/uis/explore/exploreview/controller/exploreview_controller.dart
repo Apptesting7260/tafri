@@ -239,6 +239,7 @@ class ExploreViewController extends GetxController{
 
     try{
       final response = await api.post(EndPoints.requesttojoin, body,headers: header);
+      print(response.statusCode);
       if(response.statusCode == 200){
         print('change data == ${response.body}');
         requestData.value = Requestmodel.fromJson(response.body);
@@ -251,7 +252,10 @@ class ExploreViewController extends GetxController{
           alertRequestSent();
         }
         // await actapi(id);
-      }else{
+      }else if(response.statusCode == 403){
+        showTostMsg('${response.body['message']}');
+      }
+      else{
         print('error == ${response.body}');
         showTostMsg('Something went wrong');
       }
