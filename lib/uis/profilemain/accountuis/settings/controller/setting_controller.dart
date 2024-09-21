@@ -10,6 +10,7 @@ import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/uis/onbording/login/model/social_login_model.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/activityvisibility/controller/activityvisibility_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -56,6 +57,9 @@ class SettingController extends GetxController{
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
+      var header = {
+        'Authorization': 'Bearer $token'
+      };
       print('user crediental -------------${credential}');
       print(
           'details------${googleUser?.displayName}---${googleUser
@@ -69,7 +73,7 @@ class SettingController extends GetxController{
         'socailite_id': '${googleUser?.id}',
       };
 
-      final response = await api.post(EndPoints.googleLoginUrl, body);
+      final response = await api.post(EndPoints.googleLoginUrl, body,headers: header);
       print('===>${response.body}');
       print('===>${response.statusCode}');
       if(response.statusCode == 200){
@@ -80,7 +84,7 @@ class SettingController extends GetxController{
           // LocalStorage.saveUid(data.data!.userId.toString());
           // Get.offAllNamed(Routes.navbarUi);
         }else{
-          showTostMsg('Login failed.');
+          showTostMsg('${response.body['message']}');
         }
       }else{
         showTostMsg('Login failed.');
@@ -94,6 +98,8 @@ class SettingController extends GetxController{
       showTostMsg('Login failed. Please try again.');
     }
   }
+
+  String token = LocalStorage.getToken().toString();
 
 
   RxBool appleLoading = false.obs;
@@ -115,8 +121,13 @@ class SettingController extends GetxController{
         'socailite_id': '${credential.userIdentifier}',
       };
 
-      final response = await api.post(EndPoints.googleLoginUrl, body);
+      var header = {
+        'Authorization': 'Bearer $token'
+      };
+
+      final response = await api.post(EndPoints.googleLoginUrl, body,headers: header);
       print(response.body);
+      print(response.statusCode);
       if(response.statusCode == 200){
         if(response.body['status'] == true){
           changeAppleVal();
@@ -124,10 +135,10 @@ class SettingController extends GetxController{
           // LocalStorage.saveUid(data.data!.userId.toString());
           // Get.offAllNamed(Routes.navbarUi);
         }else{
-          showTostMsg('Login failed.');
+          showTostMsg('${response.body['message']}');
         }
       }else{
-        showTostMsg('Login failed.');
+        showTostMsg('${response.body['message']}');
       }
 
     } catch (e) {

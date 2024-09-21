@@ -692,7 +692,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                               backgroundClr:
                                                                   clrBlacke,
                                                               child: Text(
-                                                                "Request sent",
+                                                                "Leaved",
                                                                 style: TextStyle(
                                                                     color:
                                                                         clrWhite,

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/networking/firebase_api.dart';
@@ -315,15 +316,16 @@ class LoginnoController extends GetxController {
 
       final response = await api.post(EndPoints.socialLoginUrl, body);
       print(response.body);
+      print(response.statusCode);
       if(response.statusCode == 200){
         var data = SocialLoginModel.fromJson(response.body);
         if(data.status == true){
           LocalStorage.saveToken(data.data!.accessToken.toString());
           LocalStorage.saveUid(data.data!.userId.toString());
           Get.offAllNamed(Routes.navbarUi);
-        }else if(response.statusCode == 401){
-          showTostMsg('Login failed.It seems your account has been deleted.');
         }
+      }else if(response.statusCode == 401){
+        showTostMsg('Login failed.It seems your account has been deleted.');
       }else{
         showTostMsg('Login failed.');
       }
@@ -342,6 +344,8 @@ class LoginnoController extends GetxController {
 
 
   RxBool appleLoading = false.obs;
+  String token = LocalStorage.getToken().toString();
+
   Future<void> appleSignIn(BuildContext context) async {
     appleLoading.value = true;
     try {
@@ -358,14 +362,15 @@ class LoginnoController extends GetxController {
       Map body = {
         'socailite_type': 'apple',
         'socailite_id': '${credential.userIdentifier}',
-        'first_name': credential.givenName,
-        'last_name': credential.familyName,
-        'email': '${credential.email}',
+        if(credential.givenName != null)'first_name': credential.givenName,
+        if(credential.familyName != null)'last_name': credential.familyName,
+        if(credential.email != null)'email': '${credential.email}',
         'fcm_token': FirebaseApi.fcmToken
       };
 
       final response = await api.post(EndPoints.socialLoginUrl, body);
-      print(response.body);
+      print('send data == ${body}');
+      print("response ${response.body}");
       if(response.statusCode == 200){
         var data = SocialLoginModel.fromJson(response.body);
         if(data.status == true){
