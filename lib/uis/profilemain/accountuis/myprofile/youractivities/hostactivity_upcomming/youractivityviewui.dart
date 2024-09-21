@@ -503,7 +503,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                     height: Get.height * 0.04,
                                   ),
                                   Obx(() {
-                                    return Row(
+                                    return controller.actData.value.requests!.isNotEmpty && controller.actData.value.going!.isNotEmpty ? Row(
                                       children: [
                                         InkWell(
                                           onTap: () {
@@ -577,7 +577,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           ),
                                         )
                                       ],
-                                    );
+                                    )
+                                    :SizedBox();
                                   }),
                                   SizedBox(
                                     height: Get.height * 0.02,
