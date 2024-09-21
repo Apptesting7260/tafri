@@ -64,34 +64,17 @@ class SettingController extends GetxController{
               ?.accessToken}');
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      String? displayName = googleUser?.displayName;
-      String firstName = '';
-      String lastName = '';
-
-      if (displayName != null) {
-        List<String> nameParts = displayName.split(' ');
-        print(nameParts);
-        if (nameParts.length > 1) {
-          firstName = nameParts.first;
-          lastName = nameParts.sublist(1).join(' ');
-        } else {
-          firstName = displayName;
-        }
-      }
-
       Map body = {
         'socailite_type': 'google',
         'socailite_id': '${googleUser?.id}',
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': '${googleUser?.email}',
-        'fcm_token': FirebaseApi.fcmToken
       };
 
-      final response = await api.post(EndPoints.socialLoginUrl, body);
+      final response = await api.post(EndPoints.googleLoginUrl, body);
+      print('===>${response.body}');
+      print('===>${response.statusCode}');
       if(response.statusCode == 200){
-        var data = SocialLoginModel.fromJson(response.body);
-        if(data.status == true){
+        // var data = SocialLoginModel.fromJson(response.body);
+        if(response.body['status'] == true){
           changeGoogleVal();
           // LocalStorage.saveToken(data.data!.accessToken.toString());
           // LocalStorage.saveUid(data.data!.userId.toString());
@@ -130,17 +113,12 @@ class SettingController extends GetxController{
       Map body = {
         'socailite_type': 'apple',
         'socailite_id': '${credential.userIdentifier}',
-        'first_name': credential.givenName,
-        'last_name': credential.familyName,
-        'email': '${credential.email}',
-        'fcm_token': FirebaseApi.fcmToken
       };
 
-      final response = await api.post(EndPoints.socialLoginUrl, body);
+      final response = await api.post(EndPoints.googleLoginUrl, body);
       print(response.body);
       if(response.statusCode == 200){
-        var data = SocialLoginModel.fromJson(response.body);
-        if(data.status == true){
+        if(response.body['status'] == true){
           changeAppleVal();
           // LocalStorage.saveToken(data.data!.accessToken.toString());
           // LocalStorage.saveUid(data.data!.userId.toString());

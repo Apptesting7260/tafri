@@ -66,5 +66,7 @@ class EndPoints{
   static String mapicons = '${baseUrl}get-google-map-activity';
 
   static String notifications = '${baseUrl}notifications';
+  static String googleLoginUrl = '${baseUrl}connect-socialite-login';
+
 
 }

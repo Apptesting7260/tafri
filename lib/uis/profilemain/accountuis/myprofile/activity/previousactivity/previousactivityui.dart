@@ -152,7 +152,9 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                   )
                       : controller.actError.value.isNotEmpty
                       ? ErrorScreen()
-                      : SingleChildScrollView(
+                      : controller.attData.value.result == null ? Center(
+                        child: CommonUi.scaffoldLoading(color: clrYellow),
+                      ) : SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
