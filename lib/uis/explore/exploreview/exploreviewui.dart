@@ -556,61 +556,66 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                             scrollDirection: Axis.horizontal,
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
-                                              return Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 8),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  child: CachedNetworkImage(
-                                                      height: 55,
-                                                      width: 55,
-                                                      fit: BoxFit.cover,
-                                                      imageUrl:
-                                                          '${controller.actData.value.going?[index].profilePhoto}',
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          Shimmer.fromColors(
-                                                              baseColor: Colors
-                                                                  .grey
-                                                                  .shade300,
-                                                              highlightColor:
-                                                                  Colors.grey
-                                                                      .shade100,
-                                                              child: ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            100),
-                                                                child:
-                                                                    Container(
-                                                                  height: 55,
-                                                                  width: 55,
-                                                                  color:
-                                                                      clrGrey,
-                                                                ),
-                                                              )),
-                                                      errorWidget: (context,
-                                                          url, error) {
-                                                        print(
-                                                            'error == $error');
-                                                        return ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100),
-                                                          child: Container(
-                                                            height: 55,
-                                                            width: 55,
-                                                            color: clrGreyLight,
-                                                            child: Image.asset(
-                                                              'assets/icons/manicon.png',
-                                                              color: clrGrey,
+                                              return InkWell(
+                                                onTap: (){
+                                                  Get.toNamed(Routes.userProfileui,arguments: controller.actData.value.going?[index].userId.toString());
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      right: 8),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    child: CachedNetworkImage(
+                                                        height: 55,
+                                                        width: 55,
+                                                        fit: BoxFit.cover,
+                                                        imageUrl:
+                                                            '${controller.actData.value.going?[index].profilePhoto}',
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            Shimmer.fromColors(
+                                                                baseColor: Colors
+                                                                    .grey
+                                                                    .shade300,
+                                                                highlightColor:
+                                                                    Colors.grey
+                                                                        .shade100,
+                                                                child: ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              100),
+                                                                  child:
+                                                                      Container(
+                                                                    height: 55,
+                                                                    width: 55,
+                                                                    color:
+                                                                        clrGrey,
+                                                                  ),
+                                                                )),
+                                                        errorWidget: (context,
+                                                            url, error) {
+                                                          print(
+                                                              'error == $error');
+                                                          return ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                            child: Container(
+                                                              height: 55,
+                                                              width: 55,
+                                                              color: clrGreyLight,
+                                                              child: Image.asset(
+                                                                'assets/icons/manicon.png',
+                                                                color: clrGrey,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      }),
+                                                          );
+                                                        }),
+                                                  ),
                                                 ),
                                               );
                                             }),

@@ -1,6 +1,8 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:plusone/uis/creativity/createcreativityui.dart';
 import 'package:plusone/uis/creativity/map/mapui.dart';
+import 'package:plusone/uis/explore/Userprofile/bindings/userprofile_binding.dart';
+import 'package:plusone/uis/explore/Userprofile/userprofileui.dart';
 import 'package:plusone/uis/explore/explorelist/bindings/explorelist_bindings.dart';
 import 'package:plusone/uis/explore/exploreview/bindings/exploreview_bindings.dart';
 import 'package:plusone/uis/explore/explorelist/exploreui.dart';
@@ -143,6 +145,7 @@ class Routes{
   static String searchActUi='/searchActUi';
   static String repeatActUi='/repeatActUi';
   static String mapui='/mapUi';
+  static String userProfileui='/userProfileui';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -193,5 +196,6 @@ class Routes{
     GetPage(name: searchActUi, page:()=>  SearchActui(),binding:SearchActBinding()),
     GetPage(name: repeatActUi, page:()=>  RepeatcreateActivityUi(),binding:RepeatcreativityBinding()),
     GetPage(name: mapui, page:()=>  Mapui()),
+    GetPage(name: userProfileui, page:()=>  UserProfileUi(),binding: UserProfileBinding()),
   ];
 }

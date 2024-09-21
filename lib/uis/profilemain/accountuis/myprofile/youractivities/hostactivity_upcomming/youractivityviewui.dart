@@ -395,7 +395,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                              CrossAxisAlignment.center,
                                           children: [
                                             // Container(
                                             //     height: h*.055,
@@ -503,7 +503,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                     height: Get.height * 0.04,
                                   ),
                                   Obx(() {
-                                    return controller.actData.value.requests!.isNotEmpty && controller.actData.value.going!.isNotEmpty ? Row(
+                                    return controller.actData.value.requests!.isNotEmpty || controller.actData.value.going!.isNotEmpty ? Row(
                                       children: [
                                         InkWell(
                                           onTap: () {
