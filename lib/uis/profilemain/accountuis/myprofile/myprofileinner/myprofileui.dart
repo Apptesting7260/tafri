@@ -360,7 +360,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                         .value
                                                         .result
                                                         ?.location ??
-                                                    '',
+                                                    'Add your location',
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     color: clrGreyTextLight),
@@ -375,10 +375,14 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            // Image.asset("assets/icons/dangericon.png",height: 25,),
-                                            // SizedBox(
-                                            //   width: 5,
-                                            // ),
+                                            profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                ?.location == null ? Image.asset("assets/icons/dangericon.png",height: 25,) : SizedBox(),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
                                             Image.asset(
                                               'assets/icons/arrow right.png',
                                               height: 14,

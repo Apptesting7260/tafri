@@ -44,8 +44,8 @@ class Result {
   DateTime? updatedAt;
   int? age;
   String? attendanceRate;
-  String? activitiesJoined;
-  String? activitiesHosted;
+  int? activitiesJoined;
+  int? activitiesHosted;
   Profile? profile;
   List<Activity>? upcomingActivities;
   List<Activity>? previousActivities;

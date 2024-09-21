@@ -72,8 +72,9 @@ class HostProfileController extends GetxController{
         print('error == ${response.body}');
         hostError.value = 'ERROR';
       }
-    }catch(e){
+    }catch(e, stacktrace){
       print('host api error == ${e.toString()}');
+      print('stacktrace: ${stacktrace}');
       hostError.value = e.toString();
     }
 

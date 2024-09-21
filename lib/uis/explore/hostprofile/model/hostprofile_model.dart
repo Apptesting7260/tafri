@@ -26,7 +26,7 @@ class Result {
   String? mobile;
   String? gender;
   String? location;
-  DateTime? dob;
+  String? dob;
   dynamic googleId;
   dynamic appleId;
   String? email;
@@ -40,13 +40,13 @@ class Result {
   String? otpVerifyStatus;
   String? upcommingActivityStatus;
   String? previousActivityStatus;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? createdAt;
+  String? updatedAt;
   dynamic deletedAt;
   int? age;
   String? attendanceRate;
-  String? activitiesJoined;
-  String? activitiesHosted;
+  int? activitiesJoined;
+  int? activitiesHosted;
   Profile? profile;
   List<Activity>? upcomingActivities;
   List<Activity>? previousActivities;
@@ -93,7 +93,7 @@ class Result {
     mobile: json["mobile"],
     gender: json["gender"],
     location: json["location"],
-    dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
+    dob: json["dob"],
     googleId: json["google_id"],
     appleId: json["apple_id"],
     email: json["email"],
@@ -107,8 +107,8 @@ class Result {
     previousActivityStatus: json["previous_activity_status"],
     otp: json["otp"],
     otpVerifyStatus: json["otp_verify_status"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
     deletedAt: json["deleted_at"],
     age: json["age"],
     attendanceRate: json["attendance_rate"],
@@ -127,7 +127,7 @@ class Result {
     "mobile": mobile,
     "gender": gender,
     "location": location,
-    "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+    "dob": dob,
     "google_id": googleId,
     "apple_id": appleId,
     "email": email,
@@ -141,13 +141,13 @@ class Result {
     "otp_verify_status": otpVerifyStatus,
     "upcomming_activity_status": upcommingActivityStatus,
     "previous_activity_status": previousActivityStatus,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
     "deleted_at": deletedAt,
     "age": age,
     "attendance_rate": attendanceRate,
-    "activities_joined": activitiesJoined,
-    "activities_hosted": activitiesHosted,
+    // "activities_joined": activitiesJoined,
+    // "activities_hosted": activitiesHosted,
     "profile": profile?.toJson(),
     "upcoming_activities": upcomingActivities == null ? [] : List<dynamic>.from(upcomingActivities!.map((x) => x.toJson())),
     "previous_activities": previousActivities == null ? [] : List<dynamic>.from(previousActivities!.map((x) => x.toJson())),
@@ -155,7 +155,7 @@ class Result {
 }
 
 class Activity {
-  DateTime? date;
+  String? date;
   String? formattedDate;
   List<ActivityElement>? activities;
 
@@ -166,13 +166,13 @@ class Activity {
   });
 
   factory Activity.fromJson(Map<String, dynamic> json) => Activity(
-    date: json["date"] == null ? null : DateTime.parse(json["date"]),
+    date: json["date"],
     formattedDate: json["formatted_date"],
     activities: json["activities"] == null ? [] : List<ActivityElement>.from(json["activities"]!.map((x) => ActivityElement.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+    "date": date,
     "formatted_date": formattedDate,
     "activities": activities == null ? [] : List<dynamic>.from(activities!.map((x) => x.toJson())),
   };
@@ -188,7 +188,7 @@ class ActivityElement {
   String? name;
   String? description;
   String? location;
-  DateTime? date;
+  String? date;
   String? startAt;
   String? endAt;
   int? maxPeople;
@@ -196,8 +196,8 @@ class ActivityElement {
   String? repeatStatus;
   String? joinInstantly;
   String? status;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? createdAt;
+  String? updatedAt;
   String? formattedDate;
 
   ActivityElement({
@@ -233,7 +233,7 @@ class ActivityElement {
     name: json["name"],
     description: json["description"],
     location: json["location"],
-    date: json["date"] == null ? null : DateTime.parse(json["date"]),
+    date: json["date"],
     startAt: json["start_at"],
     endAt: json["end_at"],
     maxPeople: json["max_people"],
@@ -241,8 +241,8 @@ class ActivityElement {
     repeatStatus: json["repeat_status"],
     joinInstantly: json["join_instantly"],
     status: json["status"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
     formattedDate: json["formatted_date"],
   );
 
@@ -256,7 +256,7 @@ class ActivityElement {
     "name": name,
     "description": description,
     "location": location,
-    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+    "date": date,
     "start_at": startAt,
     "end_at": endAt,
     "max_people": maxPeople,
@@ -264,8 +264,8 @@ class ActivityElement {
     "repeat_status": repeatStatus,
     "join_instantly": joinInstantly,
     "status": status,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
     "formatted_date": formattedDate,
   };
 }
@@ -282,8 +282,8 @@ class Profile {
   String? verifyInstagram;
   String? verifyLinkedin;
   String? profilePhoto;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? createdAt;
+  String? updatedAt;
   List<String>? languageNames;
   List<ActivityTitle>? activityTitles;
 
@@ -294,7 +294,7 @@ class Profile {
     this.occupation,
     this.organisationName,
     this.languageId,
-    this.activityInterests,
+    // this.activityInterests,
     this.funFactsAboutMe,
     this.verifyInstagram,
     this.verifyLinkedin,
@@ -312,13 +312,13 @@ class Profile {
     occupation: json["occupation"],
     organisationName: json["organisation_name"],
     languageId: json["language_id"] == null ? [] : List<String>.from(json["language_id"]!.map((x) => x)),
-    activityInterests: Map.from(json["activity_interests"]!).map((k, v) => MapEntry<String, List<String>>(k, List<String>.from(v.map((x) => x)))),
+    // activityInterests: Map.from(json["activity_interests"]!).map((k, v) => MapEntry<String, List<String>>(k, List<String>.from(v.map((x) => x)))),
     funFactsAboutMe: json["fun_facts_about_me"] == null ? [] : List<FunFactsAboutMe>.from(json["fun_facts_about_me"]!.map((x) => FunFactsAboutMe.fromJson(x))),
     verifyInstagram: json["verify_instagram"],
     verifyLinkedin: json["verify_linkedin"],
     profilePhoto: json["profile_photo"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
     languageNames: json["language_names"] == null ? [] : List<String>.from(json["language_names"]!.map((x) => x)),
     activityTitles: json["activity_titles"] == null ? [] : List<ActivityTitle>.from(json["activity_titles"]!.map((x) => ActivityTitle.fromJson(x))),
   );
@@ -330,13 +330,13 @@ class Profile {
     "occupation": occupation,
     "organisation_name": organisationName,
     "language_id": languageId == null ? [] : List<dynamic>.from(languageId!.map((x) => x)),
-    "activity_interests": Map.from(activityInterests!).map((k, v) => MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x)))),
+    // "activity_interests": Map.from(activityInterests!).map((k, v) => MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x)))),
     "fun_facts_about_me": funFactsAboutMe == null ? [] : List<dynamic>.from(funFactsAboutMe!.map((x) => x.toJson())),
     "verify_instagram": verifyInstagram,
     "verify_linkedin": verifyLinkedin,
     "profile_photo": profilePhoto,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
     "language_names": languageNames == null ? [] : List<dynamic>.from(languageNames!.map((x) => x)),
     "activity_titles": activityTitles == null ? [] : List<dynamic>.from(activityTitles!.map((x) => x.toJson())),
   };

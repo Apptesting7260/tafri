@@ -25,7 +25,8 @@ class HostProfileUi extends GetWidget<HostProfileController>{
       body: SafeArea(
           child: Padding(
             padding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-            child: Column(
+            child:
+            Column(
               children: [
                 const SizedBox(
                   height: 15,
@@ -327,7 +328,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                     //   },
                                     // ),
                                     Text(
-                                      '${controller.hostData.value.result?.activitiesJoined ?? 0}',
+                                      '${controller.hostData.value.result?.activitiesJoined ?? '0'}',
                                       style: TextStyle(
                                           color: clrYellowText.withOpacity(0.8),
                                           fontSize: 22,
@@ -379,7 +380,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                     //   },
                                     // ),
                                     Text(
-                                      '${controller.hostData.value.result?.activitiesHosted ?? 0}',
+                                      '${controller.hostData.value.result?.activitiesHosted}',
                                       style: TextStyle(
                                           color: clrYellowText.withOpacity(0.8),
                                           fontSize: 22,
@@ -439,7 +440,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 style: TextStyle(fontWeight: FontWeight.w800),
                               ),
                               Text(
-                                  controller.hostData.value.result!.location.toString(),
+                                  controller.hostData.value.result!.location ?? '',
                                   style: TextStyle(color: clrGreyTextLight)
                               ),
                             ],
@@ -741,7 +742,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         ),
                         controller.hostData.value.result!.upcomingActivities!.isEmpty
                             ? SizedBox()
-                            :  controller.hostData.value.result!.upcommingActivityStatus == 1
+                            :  controller.hostData.value.result!.upcommingActivityStatus == '1'
                             ? Text(
                           "Upcoming activities",
                           style: TextStyle(fontWeight: FontWeight.w800),
@@ -961,7 +962,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         //     }),
                         controller.hostData.value.result!.upcomingActivities!.isEmpty
                             ? SizedBox()
-                            : controller.hostData.value.result!.upcommingActivityStatus == 1
+                            : controller.hostData.value.result!.upcommingActivityStatus == '1'
                             ? ListView.builder(
                             itemCount: controller.hostData.value
                                 .result?.upcomingActivities?.length,
@@ -1071,7 +1072,8 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                                   decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(10),
                                                   ),
-                                                  child: controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].banners != null &&
+                                                  child:
+                                                  controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].banners != null &&
                                                       controller.hostData.value.result!.upcomingActivities![index].activities![ind].banners!.isNotEmpty
                                                       ? CachedNetworkImage(
                                                     fit: BoxFit.cover,
@@ -1138,7 +1140,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         ),
                         controller.hostData.value.result!.previousActivities!.isEmpty
                             ? SizedBox()
-                            : controller.hostData.value.result!.previousActivityStatus == 1
+                            : controller.hostData.value.result!.previousActivityStatus == '1'
                             ? Text(
                           "Previous activities",
                           style:
@@ -1149,7 +1151,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                         ),
                         controller.hostData.value.result!.previousActivities!.isEmpty
                             ? SizedBox()
-                            : controller.hostData.value.result!.previousActivityStatus == 1
+                            : controller.hostData.value.result!.previousActivityStatus == '1'
                             ? ListView.builder(
                             itemCount: controller.hostData.value
                                 .result?.previousActivities?.length,
