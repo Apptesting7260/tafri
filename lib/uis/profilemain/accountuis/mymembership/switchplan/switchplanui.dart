@@ -3,13 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/profilemain/accountuis/mymembership/controller/mymembership_controller.dart';
 import 'package:plusone/utils/custom_radio.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import '../../../../../utils/colors.dart';
 import '../../../../../utils/common.dart';
-import 'controller/switchplan_controller.dart';
 
-class SwitchPlanUi extends GetWidget<SwitchplanController>{
+class SwitchPlanUi extends GetWidget<MymembershipController>{
   const SwitchPlanUi({super.key});
 
   @override
@@ -22,7 +23,7 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
           padding:  EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Row(
@@ -89,7 +90,7 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                                   },
                                 ),
                               ),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               Flexible(
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +107,7 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                                                   fontSize: 18
                                               ),
                                             ),
-                                            SizedBox(height: 5,),
+                                            const SizedBox(height: 5,),
                                             RichText(
                                                 text: TextSpan(children: [
                                                   TextSpan(
@@ -126,7 +127,7 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                                                 ]
                                                 )
                                             ),
-                                            SizedBox(height: 5,)
+                                            const SizedBox(height: 5,)
                                           ],
                                         ),
                                       ),
@@ -171,7 +172,7 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                                  },
                                ),
                              ),
-                             SizedBox(width: 5,),
+                             const SizedBox(width: 5,),
                              Flexible(
                                child: Column(
                                  crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,11 +184,11 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                                            fontSize: 18
                                        )
                                    ),
-                                   SizedBox(height: 5,),
+                                   const SizedBox(height: 5,),
                                    RichText(
                                        text: TextSpan(children: [
                                          TextSpan(
-                                           text: "3 months free",
+                                           text: "1 week free",
                                            style: TextStyle(
                                                color: clrYellow,
                                                fontWeight: FontWeight.w700
@@ -202,7 +203,7 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                                        ]
                                        )
                                    ),
-                                   SizedBox(height: 5,)
+                                   const SizedBox(height: 5,)
                                  ],
                                ),
                              ),
@@ -227,15 +228,21 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                       SizedBox(
                         height: Get.height * 0.03,
                       ),
-                      SizedBox(
-                        height:Res.h_btn,
-                        width: double.maxFinite,
-                        child: CustomElevatedButton(
-                          onTap: (){
-                              changePlanAlert();
+                      Obx(() => Opacity(
+                        opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
+                        child: SizedBox(
+                          height:Res.h_btn,
+                          width: double.maxFinite,
+                          child: CustomElevatedButton(
+                            onTap: () async{
+                              if(!controller.buttonLoadingMonthly.value && !controller.buttonLoadingYearly.value && !controller.apiLoading.value) {
+                                print('button tap');
+                                await controller.buySubscription();
+                              }
+                              // changePlanAlert();
                             },
-                          backgroundClr: clrBlacke,
-                            child: Text(
+                            backgroundClr: clrBlacke,
+                            child: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? CommonUi.buttonLoading() : Text(
                               "Confirm change",
                               style: TextStyle(
                                   color: clrWhite,
@@ -243,8 +250,9 @@ class SwitchPlanUi extends GetWidget<SwitchplanController>{
                                   fontWeight: FontWeight.w700
                               ),
                             ),
+                          ),
                         ),
-                      ),
+                      ),)
                     ],
                   )
               )
