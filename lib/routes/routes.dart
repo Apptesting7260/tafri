@@ -50,7 +50,6 @@ import 'package:plusone/uis/profilemain/accountuis/myfavourite/bindings/myfavour
 import 'package:plusone/uis/profilemain/accountuis/myfavourite/favouritesui.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/bindings/mymembership_binding.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/mymembershipui.dart';
-import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/bindings/switchplan_bindings.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/switchplanui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist/attendlistui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist/bindings/attendlist_binding.dart';
@@ -175,7 +174,7 @@ class Routes{
     GetPage(name: mymembershipProUi, page:()=>const MyMemberShipUi(),binding: MymembershipBinding()),
     GetPage(name: settingProUi, page:()=> SettingUi(),binding: SettingBinding()),
     GetPage(name: referFrndProUi, page:()=>const ReferFrndUi(),binding: ReferFrndBinding()),
-    GetPage(name: switchPlanProUi, page:()=>const SwitchPlanUi(),binding: SwitchplanBindings()),
+    GetPage(name: switchPlanProUi, page:()=>const SwitchPlanUi()),
     GetPage(name: activityVisibilitySettingUi, page:()=>const ActivityVisibility(),binding: ActivityvisibilityBinding()),
     GetPage(name: pushNotiSettingUi, page:()=>const NotificationProUi(),binding: PushnotifisettingBinding()),
     GetPage(name: createActivityUi, page:()=> CreateActivityUi(),bindings: [CreativityBinding(),ProfilemainBindings()]),
