@@ -1042,11 +1042,11 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                       itemBuilder: (context,ind) {
                                         return InkWell(
                                           onTap: () {
-                                            Get.toNamed(Routes.previousActivityUi,
-                                                arguments: {
-                                                  "isHost": false,
-                                                  "id": controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].id.toString()
-                                                });
+                                            // Get.toNamed(Routes.previousActivityUi,
+                                            //     arguments: {
+                                            //       "isHost": false,
+                                            //       "id": controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].id.toString()
+                                            //     });
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.only(top: 12),
@@ -1183,11 +1183,11 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                       itemBuilder: (context,ind) {
                                         return InkWell(
                                           onTap: () {
-                                            Get.toNamed(Routes.previousActivityUi,
-                                                arguments: {
-                                                  "isHost": false,
-                                                  "id": controller.hostData.value.result?.previousActivities?[index].activities?[ind].id.toString()
-                                                });
+                                            // Get.toNamed(Routes.previousActivityUi,
+                                            //     arguments: {
+                                            //       "isHost": false,
+                                            //       "id": controller.hostData.value.result?.previousActivities?[index].activities?[ind].id.toString()
+                                            //     });
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.only(top: 12),

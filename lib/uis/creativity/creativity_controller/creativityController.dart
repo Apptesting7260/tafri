@@ -476,7 +476,7 @@ class Creativitycontroller extends GetxController
           }
         }else if(wmValue.value == 2){
           if(groupValue.value == 0){
-            showTostMsg('Please select the month and ends.',gravity: ToastGravity.CENTER);
+            showTostMsg('Please select the ends.',gravity: ToastGravity.CENTER);
             return;
           }else if(groupValue.value == 2){
             if(Rdate.value.isEmpty){

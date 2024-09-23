@@ -55,6 +55,7 @@ class Repeatcreativitycontroller extends GetxController
       joinInstant.value = activities?.joinInstantly == 1 ? true : false;
       latitude.value = activities?.latitude.toString() ?? '';
       longitude.value = activities?.longitude.toString() ?? '';
+      print('lat and long ${latitude.value} ${longitude.value}');
       updateGalleryImages();
     }
   }
@@ -673,7 +674,7 @@ class Repeatcreativitycontroller extends GetxController
           }
         }else if(wmValue.value == 2){
           if(groupValue.value == 0){
-            showTostMsg('Please select the month and ends.',gravity: ToastGravity.CENTER);
+            showTostMsg('Please select the ends.',gravity: ToastGravity.CENTER);
             return;
           }else if(groupValue.value == 2){
             if(Rdate.value.isEmpty){
@@ -777,7 +778,7 @@ class Repeatcreativitycontroller extends GetxController
         print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
         print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
         print("Repeat Every: ${counter.value}");
-        print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'month'}");
+        print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'day'}");
         print("groupValue: ${groupValue.value}");
 
 

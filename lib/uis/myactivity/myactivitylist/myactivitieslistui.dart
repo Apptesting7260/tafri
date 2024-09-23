@@ -775,12 +775,17 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                           Row(
                                                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                             children: [
-                                                                                              Text(
-                                                                                                "${data.activities?[ind].name.toString()}",
-                                                                                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                              Flexible(
+                                                                                                child: Text(
+                                                                                                  "${data.activities?[ind].name.toString().trim()}",
+                                                                                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                                ),
                                                                                               ),
                                                                                               Container(
-                                                                                                child: Text(data.activities![ind].status.toString().toUpperCase()),
+                                                                                                child: Text(data.activities![ind].status.toString().toUpperCase(),
+                                                                                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                                                                                                ),
                                                                                               ),
                                                                                             ],
                                                                                           ),
