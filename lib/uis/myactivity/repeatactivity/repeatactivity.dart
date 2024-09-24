@@ -164,9 +164,9 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                                           height: 120,
                                                                           decoration: BoxDecoration(color: clrGreyLight, borderRadius: BorderRadius.circular(15)),
                                                                           child: Obx(() => index < controller.galleryImages.length
-                                                                              ? CachedNetworkImage(
+                                                                              ? controller.galleryImages[index].toString().startsWith('http') || controller.galleryImages[index].toString().startsWith('https') ? CachedNetworkImage(
                                                                             fit: BoxFit.cover, imageUrl: '${controller.galleryImages[index]}',
-                                                                          )
+                                                                          ) : Image.file(controller.galleryImages[index],fit: BoxFit.cover,)
                                                                               : Center(
                                                                             child: Image.asset(
                                                                               "assets/icons/imgicon.png",
@@ -1086,16 +1086,20 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                           decoration: BoxDecoration(
                                                               borderRadius: BorderRadius.circular(
                                                                   18)),
-                                                          child: Image
-                                                              .file(
-                                                            i,
+                                                          child: i.toString().startsWith('http') || i.toString().startsWith('https') ? CachedNetworkImage(
+                                                            imageUrl: i,
                                                             fit: BoxFit
                                                                 .cover,
                                                             height:
                                                             h * .26,
                                                             width:
                                                             double.maxFinite,
-                                                          ));
+                                                          ) : Image.file(i,
+                                                              fit: BoxFit
+                                                                  .cover,height:
+                                                            h * .26,
+                                                            width:
+                                                            double.maxFinite,));
                                                     },
                                                   );
                                                 },
@@ -1234,47 +1238,27 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                     height: Get.height * 0.02,
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .spaceBetween,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Flexible(
                                         child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Obx(
-                                                  () => Text(
-                                                controller
-                                                    .titleController
-                                                    .value
-                                                    .value
-                                                    .text
-                                                    .isEmpty
+                                            Obx(() => Text(
+                                                controller.titleController.value.value.text.isEmpty
                                                     ? "Picnic in the park"
                                                     : '${controller.titleController.value.value.text}',
                                                 style: const TextStyle(
                                                     fontSize: 16,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w600),
+                                                    fontWeight: FontWeight.w600
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
-                                              height:
-                                              Get.height * 0.005,
+                                              height: Get.height * 0.005,
                                             ),
-                                            Obx(
-                                                  () => Text(
-                                                controller
-                                                    .locController
-                                                    .value
-                                                    .value
-                                                    .text
-                                                    .isEmpty
+                                            Obx(() => Text(controller.locController.value.value.text.isEmpty
                                                     ? "Vondelpark"
                                                     : '${controller.locController.value.value.text}',
                                                 style: TextStyle(
@@ -1286,24 +1270,17 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                               height:
                                               Get.height * 0.005,
                                             ),
-                                            Obx(
-                                                  () => Text(
+                                            Obx(() => Text(
                                                   '${controller.date.value.isEmpty ? "13 March 2024" : controller.date.value} ${controller.sTimeForApi.value.isEmpty ? " | 2:30 PM" : " | ${controller.sTimeForApi.value}"} ${controller.eTimeForAPi.value.isEmpty && controller.sTimeForApi.value.isEmpty ? "- 6:00PM" : '- ${controller.eTimeForAPi.value}'}',
-                                                  style: TextStyle(
-                                                      color:
-                                                      clrGreyDark)),
-                                            ),
+                                                  style: TextStyle(color: clrGreyDark)
+                                            ),),
                                             SizedBox(
                                               height:
                                               Get.height * 0.005,
                                             ),
-                                            Obx(
-                                                  () => Text(
+                                            Obx(() => Text(
                                                 "${controller.groupSize.value > 1 ? 'Up to ${controller.groupSize.value} people' : 'Up to 3 people'} | 1 spot left",
-                                                style: TextStyle(
-                                                    color:
-                                                    clrYellowText,
-                                                    fontSize: 13),
+                                                style: TextStyle(color: clrYellowText, fontSize: 13),
                                               ),
                                             ),
                                           ],
@@ -1313,10 +1290,8 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                         width: 5,
                                       ),
                                       Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           ClipRRect(
                                             borderRadius:

@@ -681,7 +681,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                           }, separatorBuilder: (BuildContext context, int index) {return SizedBox(width: 10,); },),
                       ) : SizedBox() ,
 
-                      (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'false') ?  SizedBox(
+                      (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'false') ? controller.isHost == true ? SizedBox(
                           width: double.maxFinite,
                           height: Res.h_btn,
                           child: CustomElevatedButton(
@@ -701,7 +701,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     FontWeight.w700),
                               )
                           )
-                      ) : SizedBox(),
+                      ) : SizedBox() : SizedBox(),
 
                       controller.showreviewData.value.result == null ? SizedBox() : Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
                       controller.showreviewData.value.result == null ? SizedBox() : SizedBox(
