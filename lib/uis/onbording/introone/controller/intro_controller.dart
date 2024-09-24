@@ -297,6 +297,34 @@ class IntroController extends GetxController {
 
   }
 
+  var numberLoading = false.obs;
+  Future<void> numberCheck() async{
+
+    Map data = {
+      "mobile": mobnoController.value.text.trim(),
+      "country_code": countryCode.value
+    };
+    numberLoading.value = true;
+    try{
+      final response = await api.post(EndPoints.numberCheck, data);
+      if(response.statusCode == 200){
+        if(response.body['message'] == 'Mobile number not exists'){
+          sendOtp();
+        }else if(response.body['message'] == 'Mobile number exists' && (response.body['current_step'] == '0' || response.body['current_step'] == '1' || response.body['current_step'] == '2' || response.body['current_step'] == '3')){
+          sendOtp();
+        }else{
+          showTostMsg('Mobile number exist.Please login to continue.');
+        }
+      }else{
+
+      }
+    }catch(e){
+      print('error == ${e.toString()}');
+    }
+    numberLoading.value = false;
+
+  }
+
   FirebaseAuth auth = FirebaseAuth.instance;
   RxString verificationID = ''.obs;
   var resendToken = 0.obs;

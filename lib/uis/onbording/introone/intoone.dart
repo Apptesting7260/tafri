@@ -84,7 +84,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                       builder: (context) {
                         return Obx(
                           () => Opacity(
-                            opacity: controller.otpLoading.value ? 0.5 : 1,
+                            opacity: controller.otpLoading.value || controller.numberLoading.value ? 0.5 : 1,
                             child: Container(
                                 width: double.maxFinite,
                                 height: screenHeight * .5,
@@ -205,17 +205,17 @@ class IntroOneUi extends GetWidget<IntroController> {
                                           height: Res.h_btn,
                                           child: CustomElevatedButton(
                                             onTap: () {
-                                              if (!controller.loading.value) {
+                                              if (!controller.numberLoading.value) {
                                                 if (_formKey.currentState!
                                                     .validate()) {
-                                                  controller.sendOtp();
+                                                  controller.numberCheck();
                                                   // controller.checkMobNoApi();
                                                 }
                                               }
                                             },
                                             backgroundClr: clrBlacke,
                                             child: Obx(
-                                              () => controller.otpLoading.value
+                                              () => controller.otpLoading.value || controller.numberLoading.value
                                                   ? CommonUi.buttonLoading()
                                                   : Text(
                                                       "Next",
