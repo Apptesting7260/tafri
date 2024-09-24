@@ -68,6 +68,7 @@ class EndPoints{
   static String notifications = '${baseUrl}notifications';
   static String googleLoginUrl = '${baseUrl}connect-socialite-login';
   static String subscriptionUrl = '${baseUrl}recurring-payment';
+  static String numberCheck = '${baseUrl}check-number';
 
 
 }
