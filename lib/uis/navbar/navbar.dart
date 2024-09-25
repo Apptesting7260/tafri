@@ -18,7 +18,7 @@ import '../../utils/colors.dart';
 class Navbar extends GetWidget {
   Navbar({super.key});
   List classes = [
-    const ExploreUi(),
+     ExploreUi(),
     const MessageListUi(),
     const MyActivitiesListUi(),
     const ProfileUi()

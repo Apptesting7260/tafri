@@ -607,24 +607,19 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             const SizedBox(
                                               width: 12,
                                             ),
-                                            Obx(
-                                                  () => Text(
-                                                controller.date.value
-                                                    .isNotEmpty
-                                                    ? controller
-                                                    .date.value
-                                                    : "DD/MM/YYYY",
-                                                style: TextStyle(
-                                                    color: controller
-                                                        .date
-                                                        .value
-                                                        .isNotEmpty
+                                            Obx(() => Text(
+                                              controller.date.value.isNotEmpty
+                                                  ? controller.formatDate(controller.date.value)
+                                                  : "DD/MM/YYYY",
+                                              style: TextStyle(
+                                                  color: controller.date.value.isNotEmpty
                                                         ? clrBlacke
-                                                        : clrGreyTextLight),
+                                                        : clrGreyTextLight
                                               ),
-                                            )
+                                            ),)
                                           ],
-                                        )),
+                                        )
+                                    ),
                                   ),
                                   SizedBox(
                                     height: Get.height * 0.02,

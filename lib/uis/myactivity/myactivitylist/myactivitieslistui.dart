@@ -971,7 +971,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                         ],
                                                                                                       ),
                                                                                                     ),
-                                                                                                    data.activities?[ind].status.toString() == 'completed'
+                                                                                                    data.activities?[ind].status.toString() == 'completed' && data.activities?[ind].repeatStatus.toString() == 'not_repeat'
                                                                                                         ? SizedBox(
                                                                                                             height: 23,
                                                                                                             child: CustomElevatedButton(

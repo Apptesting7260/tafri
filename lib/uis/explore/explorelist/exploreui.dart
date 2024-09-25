@@ -788,7 +788,6 @@ class ExploreUi extends GetWidget<ExploreListController> {
                             ),
                           ),
           ),
-
         ],
       )),
     );

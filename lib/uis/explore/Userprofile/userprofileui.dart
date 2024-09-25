@@ -2,11 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
-import     'package:plusone/uis/components/custotextfield.dart';
+import  'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/Userprofile/controller/userprofile_controller.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../routes/routes.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
 import '../../../utils/custom_radio.dart';
@@ -34,7 +33,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                   children: [
                     CommonUi.appBar(),
                     const Text(
-                      "Uaer profile",
+                      "User profile",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
                     SizedBox(

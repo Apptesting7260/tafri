@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart' as loc;
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
@@ -47,11 +48,14 @@ class Repeatcreativitycontroller extends GetxController
       // getSubCatName(int.parse(subCatID.value));
       titleController.value.text = activities?.name ?? '';
       locController.value.text = activities?.location ?? '';
-      sTimeForApi.value = activities?.startAt.toString() ?? '';
-      eTimeForAPi.value = activities?.endAt.toString() ?? '';
+      sTimeForApi.value = changeTime(activities!.startAt.toString()) ?? '';
+      sTime.value = schangeTime(activities!.startAt.toString()) ?? '';
+      eTimeForAPi.value = changeTime(activities!.endAt.toString()) ?? '';
+      eTime.value = schangeTime(activities!.endAt.toString()) ?? '';
       groupSize.value = activities?.maxPeople ?? 1;
       gender.value = activities?.gender == 'same' ? 1 : activities?.gender == 'all' ? 2 : 0;
-      repeats.value = activities?.repeatStatus == 'repeats' ? true : false;
+      // repeats.value = activities?.repeatStatus == 'repeats' ? true : false;
+      print('repet == ${repeats.value}');
       joinInstant.value = activities?.joinInstantly == 1 ? true : false;
       latitude.value = activities?.latitude.toString() ?? '';
       longitude.value = activities?.longitude.toString() ?? '';
@@ -61,7 +65,6 @@ class Repeatcreativitycontroller extends GetxController
   }
 
   Future<void> getSubCatid(String val) async {
-    // Simulate fetching data and updating subCatID
     subCatID.value = val;
     print('Current subCatID in Controller: ${subCatID.value}');
   }
@@ -270,6 +273,25 @@ class Repeatcreativitycontroller extends GetxController
   RxString sTime = "".obs;
   var sTimeForApi = ''.obs;
 
+
+  changeTime(String time24){
+    final DateTime time = DateFormat("HH:mm:ss").parse(time24);
+
+    final String FormattedTime = DateFormat("h:mm a").format(time);
+
+    return FormattedTime;
+  }
+
+  schangeTime(String time24){
+    final DateTime time = DateFormat("HH:mm:ss").parse(time24);
+
+    final String FormattedTime = DateFormat("h:mm").format(time);
+    print(FormattedTime);
+    return FormattedTime;
+  }
+
+
+
   changeStime(TimeOfDay stime) {
     sTime.value = "${stime.hour}:${stime.minute}";
     sTimeForApi.value = '${stime.hour > 12 ? stime.hour - 12 : stime.hour}:${stime.minute} ${stime.period == DayPeriod.am ? "AM" : "PM"}';
@@ -291,6 +313,12 @@ class Repeatcreativitycontroller extends GetxController
 
   var date = ''.obs;
   var dateForPicker = ''.obs;
+
+  String formatDate(String date) {
+    DateTime parsedDate = DateTime.parse(date); // Assuming date is in yyyy-MM-dd format
+    String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+    return formattedDate;
+  }
 
   changeDate(DateTime dateTime) {
     dateForPicker.value = dateTime.toString();
@@ -417,21 +445,77 @@ class Repeatcreativitycontroller extends GetxController
   var desController = TextEditingController().obs;
 
 
-  bool isValidImageFormat(File imageFile) {
-    String extension = imageFile.path.split('.').last.toLowerCase();
-    return extension == 'jpg' || extension == 'jpeg' || extension == 'png';
+  // bool isValidImageFormat(File imageFile) {
+  //   String extension = imageFile.path.split('.').last.toLowerCase();
+  //   return extension == 'jpg' || extension == 'jpeg' || extension == 'png';
+  // }
+
+  bool isValidImageFormat(dynamic imageFile) {
+    if (imageFile is String) {
+      String extension;
+
+      if (imageFile.startsWith('http') || imageFile.startsWith('https')) {
+        Uri uri = Uri.parse(imageFile);
+        extension = uri.pathSegments.last.split('.').last.toLowerCase();
+      } else {
+        extension = imageFile.split('.').last.toLowerCase();
+      }
+      return extension == 'jpg' || extension == 'jpeg' || extension == 'png';
+    } else {
+      return false;
+    }
   }
 
-  bool checkGalleryImagesFormat(List galleryImages) {
+
+  // bool checkGalleryImagesFormat(List galleryImages) {
+  //   var isValid = true.obs;
+  //   for (var image in galleryImages) {
+  //     if (!isValidImageFormat(image)) {
+  //       isValid.value = false;
+  //       return isValid.value;
+  //     }
+  //   }
+  //   return isValid.value;
+  // }
+
+  bool checkGalleryImagesFormat(List<dynamic> galleryImages) {
     var isValid = true.obs;
     for (var image in galleryImages) {
-      if (!isValidImageFormat(image)) {
+      String imagePath;
+
+      if (image is String) {
+        // If image is a string, use it directly
+        imagePath = image;
+      } else if (image is File) {
+        // If image is a File, get its path
+        imagePath = image.path; // Ensure you import 'dart:io'
+      } else {
+        print('Invalid image type: $image');
+        isValid.value = false;
+        return isValid.value;
+      }
+
+      print('Checking image: $imagePath');
+
+      // Clean the path if it's a file path
+      if (imagePath.startsWith("File: ")) {
+        imagePath = cleanFilePath(imagePath);
+      }
+
+      if (!isValidImageFormat(imagePath)) {
+        print('Invalid image format: $imagePath');
         isValid.value = false;
         return isValid.value;
       }
     }
+    print('All images are valid.');
     return isValid.value;
   }
+
+  String cleanFilePath(String filePath) {
+    return filePath.replaceFirst("File: '", "").replaceFirst("'", "");
+  }
+
 
   // Future<void> createActivity() async {
   //   loading.value = true;

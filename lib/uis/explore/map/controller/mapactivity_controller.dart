@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,7 +11,7 @@ import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
-
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/size.dart';
 
@@ -20,12 +19,16 @@ class MapActivityController extends GetxController{
   @override
   void onInit() {
     // TODO: implement onInit
-    homeData = Get.arguments;
+    // homeData = Get.arguments;
+    // homePageApi();
     getMap();
     getUserLocation();
     super.onInit();
   }
 
+
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+  RefreshController refreshController1 = RefreshController(initialRefresh: false);
   var homeData = HomePageModal();
 
   GoogleMapController? mapController;
@@ -170,7 +173,7 @@ class MapActivityController extends GetxController{
 
       return BitmapDescriptor.fromBytes(uint8List);
     } catch (e) {
-      print('Error fetching icon: $e');
+      log('Error fetching icon: $e');
       return BitmapDescriptor.defaultMarker;
     }
   }
