@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -102,7 +103,7 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                                 // height: Res.h_btn,
                                 child: Form(
                               key: _formKey,
-                              child: DropdownButtonFormField(
+                              child: CustomDropdown(
                                 validator: (val) {
                                   log("gk---$val");
                                   if (val == null ||
@@ -112,66 +113,120 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                                     return null;
                                   }
                                 },
-                                value: controller.genderValue.value!.isEmpty
-                                    ? null
-                                    : controller.genderValue.value,
-                                items: const [
-                                  DropdownMenuItem(
-                                    value: 'male',
-                                    child: Text("Male"),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'female',
-                                    child: Text("Female"),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'none-binary',
-                                    child: Text("None-binary"),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'other',
-                                    child: Text("Other"),
-                                  )
-                                ],
-                                hint: const Text("Gender",style:TextStyle(
-                                  fontWeight: FontWeight.w500
-                                ) ,),
-                                onChanged: (val) {
-                                  controller.changeGenderVal(val);
-                                },
-                                decoration: InputDecoration(
-                                    prefixIcon: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: h * .02),
-                                        child: const Image(
-                                          image: AssetImage(
-                                              "assets/icons/gendericon.png"),
-                                          height: 3,
-                                          width: 3,
-                                        )),
+                                hintText: 'Gender',
+                                  items: controller.genderlist.map((e) {
+                                    return e['value'];
+                                  },).toList(),
+                                  onChanged: (val){
+                                    switch (val) {
+                                      case 'Male':
+                                        controller.genderValue.value = "male";
+                                        break;
+                                      case 'Female':
+                                        controller.genderValue.value = "female";
+                                        break;
+                                      case 'None-binary':
+                                        controller.genderValue.value = "none-binary";
+                                        break;
+                                      case 'Other':
+                                        controller.genderValue.value = "other";
+                                        break;
+                                      default:
+                                        controller.genderValue.value = "";
+                                    }
+                                  },
+                                decoration: CustomDropdownDecoration(
+                                  closedErrorBorderRadius: BorderRadius.circular(100),
                                     hintStyle: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: clrGreyTextLight),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 15),
-                                    fillColor: clrGreyLight,
-                                    filled: true,
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                  // Error border
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red, width: 1.5),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  // Error border when focused
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red, width: 1.5),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
+                                        color: clrBlacke.withOpacity(0.6),
+                                        fontSize: 15
+                                    ),
+                                    closedSuffixIcon: Image.asset(
+                                      'assets/images/arrow down.png',
+                                      scale: 4,
+                                    ),
+                                    expandedSuffixIcon: Image.asset(
+                                      'assets/images/arrow down.png',
+                                      scale: 4,
+                                    ),
+                                    prefixIcon: Image.asset(
+                                      'assets/icons/gendericon.png',
+                                      scale: 1.5,
+                                    ),
+                                    closedFillColor: clrGreyLight,
+                                    closedBorderRadius: BorderRadius.circular(100)
                                 ),
-                              ),
+                              )
+                              // DropdownButtonFormField(
+                              //   validator: (val) {
+                              //     log("gk---$val");
+                              //     if (val == null ||
+                              //         controller.genderValue.value == '') {
+                              //       return "Gender is required";
+                              //     } else {
+                              //       return null;
+                              //     }
+                              //   },
+                              //   value: controller.genderValue.value!.isEmpty
+                              //       ? null
+                              //       : controller.genderValue.value,
+                              //   items: const [
+                              //     DropdownMenuItem(
+                              //       value: 'male',
+                              //       child: Text("Male"),
+                              //     ),
+                              //     DropdownMenuItem(
+                              //       value: 'female',
+                              //       child: Text("Female"),
+                              //     ),
+                              //     DropdownMenuItem(
+                              //       value: 'none-binary',
+                              //       child: Text("None-binary"),
+                              //     ),
+                              //     DropdownMenuItem(
+                              //       value: 'other',
+                              //       child: Text("Other"),
+                              //     )
+                              //   ],
+                              //   hint: const Text("Gender",style:TextStyle(
+                              //     fontWeight: FontWeight.w500
+                              //   ) ,),
+                              //   onChanged: (val) {
+                              //     controller.changeGenderVal(val);
+                              //   },
+                              //   decoration: InputDecoration(
+                              //       prefixIcon: Container(
+                              //           padding: EdgeInsets.symmetric(
+                              //               horizontal: 12, vertical: h * .02),
+                              //           child: const Image(
+                              //             image: AssetImage(
+                              //                 "assets/icons/gendericon.png"),
+                              //             height: 3,
+                              //             width: 3,
+                              //           )),
+                              //       hintStyle: TextStyle(
+                              //           fontWeight: FontWeight.w400,
+                              //           color: clrGreyTextLight),
+                              //       contentPadding: const EdgeInsets.symmetric(
+                              //           horizontal: 15, vertical: 15),
+                              //       fillColor: clrGreyLight,
+                              //       filled: true,
+                              //       border: OutlineInputBorder(
+                              //           borderSide: BorderSide.none,
+                              //           borderRadius:
+                              //               BorderRadius.circular(100)),
+                              //     // Error border
+                              //     errorBorder: OutlineInputBorder(
+                              //       borderSide: BorderSide(color: Colors.red, width: 1.5),
+                              //       borderRadius: BorderRadius.circular(100),
+                              //     ),
+                              //     // Error border when focused
+                              //     focusedErrorBorder: OutlineInputBorder(
+                              //       borderSide: BorderSide(color: Colors.red, width: 1.5),
+                              //       borderRadius: BorderRadius.circular(100),
+                              //     ),
+                              //   ),
+                              // ),
                             ));
                           }),
                           Obx(() {

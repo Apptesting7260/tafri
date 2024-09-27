@@ -176,6 +176,18 @@ class FilterExpController extends GetxController{
     "weekend": false,
   }.obs;
 
+  var timelist = [
+    {'id' : '1','value' : 'Morning (Before 12:00)'},
+    {'id' : '2','value' : 'Afternoon (12:00 - 18:00)'},
+    {'id' : '3','value' : 'Evening (After 18:00)'}
+  ].obs;
+
+  var genderlist = [
+    {'id' : '1','value' : 'Same gender as me'},
+    {'id' : '2','value' : 'All'},
+  ].obs;
+
+
   // changeDateFilter(name) {
   //   dateFilter.value[name] = true;
   //   dateFilter.refresh();
@@ -207,6 +219,28 @@ class FilterExpController extends GetxController{
   var filterDate = "".obs;
 
   var selectedTime = ''.obs;
+
+  String? time(){
+    if(selectedTime.value == 'morning'){
+      return 'Morning (Before 12:00)';
+    }else if(selectedTime.value == "afternoon"){
+      return 'Afternoon (12:00 - 18:00)';
+    }else if(selectedTime.value == "evening"){
+      return 'Evening (After 18:00)';
+    }else{
+      return null;
+    }
+  }
+
+  String? gender(){
+    if(genderFilter.value == 2){
+      return 'All';
+    }else if(genderFilter.value == 1){
+      return 'Same gender as me';
+    }else {
+      return null;
+    }
+  }
 
 
   var filterLoading = false.obs;

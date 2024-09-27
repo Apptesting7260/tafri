@@ -61,7 +61,8 @@ class ProfilemainController extends GetxController{
         showTostMsg('Something went wrong');
         profileLoading.value = false;
       }
-    }catch(e){
+    }catch(e,stacktrace){
+      print('stacktrace: ${stacktrace}');
       showTostMsg('Something went wrong');
       profileLoading.value = false;
       print('error == ${e.toString()}');

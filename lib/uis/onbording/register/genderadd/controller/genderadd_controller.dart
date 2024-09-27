@@ -23,6 +23,13 @@ class GenderaddController extends GetxController{
     genderValue.value = val;
   }
 
+  var genderlist = [
+    {'id' : 'male' , 'value' : 'Male'},
+    {'id' : 'female' , 'value' : 'Female'},
+    {'id' : 'none-binary' , 'value' : 'None-binary'},
+    {'id' : 'other' , 'value' : 'Other'},
+  ].obs;
+
   Future<void> registerGender() async{
 
     loading.value = true;

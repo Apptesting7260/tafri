@@ -22,7 +22,8 @@ import '../../components/custotextfield.dart';
 class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
   RepeatcreateActivityUi({super.key});
 
-  final ProfilemainController profileController = Get.put(ProfilemainController());
+  final ProfilemainController profileController =
+      Get.put(ProfilemainController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,1370 +32,1527 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
     return Scaffold(
       backgroundColor: clrWhite,
       body: Obx(
-            () => controller.catLoading.value
+        () => controller.catLoading.value
             ? Center(
-          child: CommonUi.scaffoldLoading(color: clrYellow),
-        )
+                child: CommonUi.scaffoldLoading(color: clrYellow),
+              )
             : controller.catError.value.isNotEmpty
-            ? const Center(child: ErrorScreen())
-            : SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: Res.Defalt_side_margin),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonUi.appBar(),
-                    const Text(
-                      "Repeat activity",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 20),
-                    ),
-                    SizedBox(
-                      width: h * .024,
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: h * 0.03,
-                ),
-                TabBar(
-                  indicatorColor: tabBarColor,
-                  dividerHeight: 0,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  unselectedLabelColor: clrBlacke,
-                  labelColor: tabBarColor,
-                  labelStyle: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 18),
-                  unselectedLabelStyle: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 18),
-                  tabs: const [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        "Edit",
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Text("Preview"),
-                    )
-                  ],
-                  controller: controller.tabController,
-                ),
-                SizedBox(
-                  height: Get.height * 0.02,
-                ),
-                Expanded(
-                  child: TabBarView(
-                      controller: controller.tabController,
-                      children: [
-                        Column(children: [
+                ? const Center(child: ErrorScreen())
+                : SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: Res.Defalt_side_margin),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CommonUi.appBar(),
+                              const Text(
+                                "Repeat activity",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20),
+                              ),
+                              SizedBox(
+                                width: h * .024,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: h * 0.03,
+                          ),
+                          TabBar(
+                            indicatorColor: tabBarColor,
+                            dividerHeight: 0,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            unselectedLabelColor: clrBlacke,
+                            labelColor: tabBarColor,
+                            labelStyle: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 18),
+                            unselectedLabelStyle: const TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 18),
+                            tabs: const [
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Text(
+                                  "Edit",
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Text("Preview"),
+                              )
+                            ],
+                            controller: controller.tabController,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
                           Expanded(
-                            child: ListView(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
+                            child: TabBarView(
+                                controller: controller.tabController,
                                 children: [
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  SizedBox(
-                                    height: 120,
-                                    child: SingleChildScrollView(
-                                      scrollDirection:
-                                      Axis.horizontal,
-                                      child: Obx(
-                                            () => Opacity(
-                                          opacity: controller
-                                              .choosePhotoCheck
-                                              .value
-                                              ? 0.3
-                                              : 1,
-                                          child: Row(
-                                            children: [
-                                              Obx(
-                                                    () => ListView
-                                                    .separated(
-                                                    shrinkWrap:
-                                                    true,
-                                                    scrollDirection:
-                                                    Axis
-                                                        .horizontal,
-                                                    itemBuilder:
-                                                        (context,
-                                                        index) {
-                                                      return InkWell(
-                                                        onTap:
-                                                            () {
-                                                          if (index >=
-                                                              controller.galleryImages.length) {
-                                                            if (!controller
-                                                                .choosePhotoCheck
-                                                                .value) {
-                                                              controller.pickImage();
-                                                            }
-                                                          }
-                                                        },
-                                                        child:
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(
-                                                              left:
-                                                              1),
-                                                          child:
-                                                          Obx(
-                                                                () =>
-                                                                Stack(
-                                                                  alignment:
-                                                                  Alignment.topRight,
-                                                                  children: [
-                                                                    DottedBorder(
-                                                                        color: clrGrey,
-                                                                        dashPattern: const [6, 3],
-                                                                        borderType: BorderType.RRect,
-                                                                        strokeWidth: 2,
-                                                                        radius: const Radius.circular(12),
-                                                                        child: Container(
-                                                                          clipBehavior: Clip.hardEdge,
-                                                                          width: Get.width * 0.4,
-                                                                          height: 120,
-                                                                          decoration: BoxDecoration(color: clrGreyLight, borderRadius: BorderRadius.circular(15)),
-                                                                          child: Obx(() => index < controller.galleryImages.length
-                                                                              ? controller.galleryImages[index].toString().startsWith('http') || controller.galleryImages[index].toString().startsWith('https') ? CachedNetworkImage(
-                                                                            fit: BoxFit.cover, imageUrl: '${controller.galleryImages[index]}',
-                                                                          ) : Image.file(controller.galleryImages[index],fit: BoxFit.cover,)
-                                                                              : Center(
-                                                                            child: Image.asset(
-                                                                              "assets/icons/imgicon.png",
-                                                                              height: 30,
-                                                                              color: clrGreyDark.withOpacity(0.8),
+                                  Column(children: [
+                                    Expanded(
+                                      child: ListView(
+                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            SizedBox(
+                                              height: 120,
+                                              child: SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Obx(
+                                                  () => Opacity(
+                                                    opacity: controller
+                                                            .choosePhotoCheck
+                                                            .value
+                                                        ? 0.3
+                                                        : 1,
+                                                    child: Row(
+                                                      children: [
+                                                        Obx(
+                                                          () => ListView
+                                                              .separated(
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .horizontal,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    return IgnorePointer(
+                                                                      ignoring: true,
+                                                                      child: InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          if (index >=
+                                                                              controller.galleryImages.length) {
+                                                                            if (!controller
+                                                                                .choosePhotoCheck
+                                                                                .value) {
+                                                                              controller.pickImage();
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              left:
+                                                                                  1),
+                                                                          child:
+                                                                              Obx(
+                                                                            () =>
+                                                                                Stack(
+                                                                              alignment:
+                                                                                  Alignment.topRight,
+                                                                              children: [
+                                                                                DottedBorder(
+                                                                                    color: clrGrey,
+                                                                                    dashPattern: const [6, 3],
+                                                                                    borderType: BorderType.RRect,
+                                                                                    strokeWidth: 2,
+                                                                                    radius: const Radius.circular(12),
+                                                                                    child: Container(
+                                                                                      clipBehavior: Clip.hardEdge,
+                                                                                      width: Get.width * 0.4,
+                                                                                      height: 120,
+                                                                                      decoration: BoxDecoration(color: clrGreyLight, borderRadius: BorderRadius.circular(15)),
+                                                                                      child: Obx(() => index < controller.galleryImages.length
+                                                                                          ? controller.galleryImages[index].toString().startsWith('http') || controller.galleryImages[index].toString().startsWith('https')
+                                                                                              ? CachedNetworkImage(
+                                                                                                  fit: BoxFit.cover,
+                                                                                                  imageUrl: '${controller.galleryImages[index]}',
+                                                                                                )
+                                                                                              : Image.file(
+                                                                                                  controller.galleryImages[index],
+                                                                                                  fit: BoxFit.cover,
+                                                                                                )
+                                                                                          : Center(
+                                                                                              child: Image.asset(
+                                                                                                "assets/icons/imgicon.png",
+                                                                                                height: 30,
+                                                                                                color: clrGreyDark.withOpacity(0.8),
+                                                                                              ),
+                                                                                            )),
+                                                                                    )),
+                                                                                controller.galleryImages.length > 0 && index < controller.galleryImages.length
+                                                                                    ? GestureDetector(
+                                                                                        onTap: () {
+                                                                                          controller.removeContainer();
+                                                                                          controller.galleryImages.removeAt(index);
+                                                                                        },
+                                                                                        child: CircleAvatar(
+                                                                                            radius: 10,
+                                                                                            backgroundColor: clrRedErr,
+                                                                                            child: Center(
+                                                                                                child: Icon(
+                                                                                              Icons.close,
+                                                                                              size: 15,
+                                                                                              color: clrWhite,
+                                                                                            ))),
+                                                                                      )
+                                                                                    : const SizedBox()
+                                                                              ],
                                                                             ),
-                                                                          )),
-                                                                        )),
-                                                                    controller.galleryImages.length > 0 && index < controller.galleryImages.length
-                                                                        ? GestureDetector(
-                                                                      onTap: () {
-                                                                        controller.removeContainer();
-                                                                        controller.galleryImages.removeAt(index);
-                                                                      },
-                                                                      child: CircleAvatar(
-                                                                          radius: 10,
-                                                                          backgroundColor: clrRedErr,
-                                                                          child: Center(
-                                                                              child: Icon(
-                                                                                Icons.close,
-                                                                                size: 15,
-                                                                                color: clrWhite,
-                                                                              ))),
-                                                                    )
-                                                                        : const SizedBox()
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                  separatorBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    return const SizedBox(
+                                                                      width: 10,
+                                                                    );
+                                                                  },
+                                                                  itemCount: controller
+                                                                          .containerList
+                                                                          .length +
+                                                                      1),
+                                                        ),
+                                                        SizedBox(
+                                                          width: w * .04,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 1),
+                                                          child: IgnorePointer(
+                                                            ignoring: true,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                if (!controller
+                                                                    .choosePhotoCheck
+                                                                    .value) {
+                                                                  controller
+                                                                      .addContainer();
+                                                                }
+                                                              },
+                                                              child: DottedBorder(
+                                                                  color: clrGrey,
+                                                                  dashPattern: const [
+                                                                    6
                                                                   ],
-                                                                ),
+                                                                  borderType:
+                                                                      BorderType
+                                                                          .RRect,
+                                                                  strokeWidth: 2,
+                                                                  radius:
+                                                                      const Radius
+                                                                          .circular(
+                                                                          12),
+                                                                  child:
+                                                                      Container(
+                                                                    clipBehavior:
+                                                                        Clip.hardEdge,
+                                                                    width:
+                                                                        Get.width *
+                                                                            0.4,
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .symmetric(
+                                                                      vertical:
+                                                                          30,
+                                                                    ),
+                                                                    decoration: BoxDecoration(
+                                                                        color:
+                                                                            clrGreyLight,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                15)),
+                                                                    child: Center(
+                                                                        child:
+                                                                            Column(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .add,
+                                                                          size:
+                                                                              30,
+                                                                          color: clrGreyDark
+                                                                              .withOpacity(0.8),
+                                                                        ),
+                                                                        Text(
+                                                                          "Add more",
+                                                                          style: TextStyle(
+                                                                              color:
+                                                                                  clrGreyDark.withOpacity(0.8)),
+                                                                        )
+                                                                      ],
+                                                                    )),
+                                                                  )),
+                                                            ),
                                                           ),
                                                         ),
-                                                      );
-                                                    },
-                                                    separatorBuilder:
-                                                        (context,
-                                                        index) {
-                                                      return const SizedBox(
-                                                        width: 10,
-                                                      );
-                                                    },
-                                                    itemCount: controller
-                                                        .containerList
-                                                        .length +
-                                                        1),
-                                              ),
-                                              SizedBox(
-                                                width: w * .04,
-                                              ),
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets
-                                                    .only(
-                                                    right: 1),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    if (!controller
-                                                        .choosePhotoCheck
-                                                        .value) {
-                                                      controller
-                                                          .addContainer();
-                                                    }
-                                                  },
-                                                  child: DottedBorder(
-                                                      color: clrGrey,
-                                                      dashPattern: const [
-                                                        6
                                                       ],
-                                                      borderType:
-                                                      BorderType
-                                                          .RRect,
-                                                      strokeWidth: 2,
-                                                      radius:
-                                                      const Radius
-                                                          .circular(
-                                                          12),
-                                                      child:
-                                                      Container(
-                                                        clipBehavior:
-                                                        Clip.hardEdge,
-                                                        width:
-                                                        Get.width *
-                                                            0.4,
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .symmetric(
-                                                          vertical:
-                                                          30,
-                                                        ),
-                                                        decoration: BoxDecoration(
-                                                            color:
-                                                            clrGreyLight,
-                                                            borderRadius:
-                                                            BorderRadius.circular(
-                                                                15)),
-                                                        child: Center(
-                                                            child:
-                                                            Column(
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .add,
-                                                                  size:
-                                                                  30,
-                                                                  color: clrGreyDark
-                                                                      .withOpacity(0.8),
-                                                                ),
-                                                                Text(
-                                                                  "Add more",
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                      clrGreyDark.withOpacity(0.8)),
-                                                                )
-                                                              ],
-                                                            )),
-                                                      )),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Obx(() {
-                                        return Checkbox(
-                                          value: controller
-                                              .choosePhotoCheck.value,
-                                          onChanged: (val) {
-                                            controller
-                                                .changeChoosePhotoVal();
-                                          },
-                                          activeColor: clrYellow,
-                                        );
-                                      }),
-                                      const SizedBox(
-                                        width: 0,
-                                      ),
-                                      const Text("Chose a photo for me")
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
-                                  ),
-                                  Obx(
-                                        () => controller.catLoading.value
-                                        ? Shimmer.fromColors(
-                                        baseColor:
-                                        Colors.grey.shade300,
-                                        highlightColor:
-                                        Colors.grey.shade100,
-                                        child:
-                                        const CustoDropDownBtn(
-                                          itemList: [],
-                                          hindtext: 'Select',
-                                        ))
-                                        : CustoDropDownBtn(
-                                      onchange: (val) {
-                                        controller.catID.value =
-                                            val.toString();
-                                        controller
-                                            .getSubCat(val);
-                                      },
-                                      itemList: controller
-                                          .categoryList,
-                                      val: controller.catID
-                                          .value ==
-                                          ''
-                                          ? null
-                                          : int.parse(controller
-                                          .catID.value),
-                                      hintColor: clrBlacke,
-                                      hindtext:
-                                      "Select Category",
-                                      suffix: Image.asset(
-                                        'assets/images/arrow down.png',
-                                        scale: 4,
-                                      ),
-                                    ),
-                                  ),
-                                  Obx(
-                                        () => controller.catID.isEmpty
-                                        ? const SizedBox()
-                                        : SizedBox(
-                                      height: Get.height * 0.02,
-                                    ),
-                                  ),
-                                  Obx(() {
-                                    print('Current subCatID in Obx: ${controller.subCatID.value}');
-                                  return controller.catID.isEmpty && controller.subCatID.value.isEmpty
-                                        ? const SizedBox()
-                                        : FutureBuilder(
-                                          future: Future.delayed(const Duration(seconds: 1)),
-                                      // Simulate delay
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return Shimmer.fromColors(
-                                              baseColor: Colors.grey.shade300,
-                                              highlightColor: Colors.grey.shade100,
-                                              child: Container(
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                    color: clrGrey,
-                                                    borderRadius: BorderRadius.circular(100)),
-                                              )); // Show loading indicator
-                                        } else {
-                                          return CustoDropDownBtn(
-                                            onchange: (val) {
-                                              controller.subCatID.value = val.toString();
-                                              print('=======>${controller.subCatID.value}');
-                                              print('Dropdown selected value: ${controller.subCatID.value}');
-                                              controller.getSubCatName(val);
-                                              print('Selected subcategory ID: ${controller.subCatID.value}');
-                                            },
-                                            val: controller.subCatID.value == ''
-                                                ? null
-                                                : int.parse(controller.subCatID.value),
-                                            itemList: controller.subcategoryList,
-                                            hintColor: clrBlacke,
-                                            hindtext: "Select Subcategory",
-                                            suffix: Image.asset(
-                                              'assets/images/arrow down.png',
-                                              scale: 4,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    );
-                                  }
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  CustoTextFormField(
-                                    hintText: "Activity name (title)",
-                                    controll: controller
-                                        .titleController.value,
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  // TextFormField(
-                                  //   maxLines: 4,
-                                  //   maxLength: 500,
-                                  //   decoration: InputDecoration(
-                                  //       hintText:
-                                  //           "Write a description (min. 30 characters)",
-                                  //       hintStyle: TextStyle(
-                                  //           fontWeight: FontWeight.w400,
-                                  //           fontSize: 15,
-                                  //           color: clrGreyTextLight),
-                                  //       contentPadding: EdgeInsets.symmetric(
-                                  //           horizontal: 15,
-                                  //           vertical: Get.height * .02),
-                                  //       fillColor: clrGreyLight,
-                                  //       filled: true,
-                                  //       border: OutlineInputBorder(
-                                  //           borderSide: BorderSide.none,
-                                  //           borderRadius: BorderRadius.circular(15))),
-                                  // ),
-                                  Obx(() {
-                                    return Stack(
-                                      children: [
-                                        TextFormField(
-                                          controller: controller
-                                              .desController.value,
-                                          maxLines: null,
-                                          minLines: 4,
-                                          maxLength:
-                                          controller.maxLength,
-                                          decoration: InputDecoration(
-                                            hintText:
-                                            "Write a description (min. 30 characters)",
-                                            hintStyle: TextStyle(
-                                              fontWeight:
-                                              FontWeight.w400,
-                                              fontSize: 15,
-                                              color: Colors.grey[600],
-                                            ),
-                                            contentPadding:
-                                            const EdgeInsets
-                                                .symmetric(
-                                              horizontal: 15,
-                                              vertical: 15,
-                                            ),
-                                            fillColor:
-                                            Colors.grey[200],
-                                            filled: true,
-                                            border:
-                                            OutlineInputBorder(
-                                              borderSide:
-                                              BorderSide.none,
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(15),
-                                            ),
-                                            counterText:
-                                            "", // Remove the default counter
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 20,
-                                          bottom: 10,
-                                          child: Text(
-                                            '${controller.currentLength.value}/${controller.maxLength}',
-                                            style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }),
-                                  // const CustoTextFormField(
-                                  //   hintText:
-                                  //   "Write a description (min. 30 characters)",
-                                  //   maxLines: 4,
-                                  //   maxLength: 500,
-                                  // ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  CustomLocationField(
-                                    itemBuilder:
-                                        (context, suggestion) {
-                                      return ListTile(
-                                        title: Text(
-                                            suggestion['des'].toString()),
-                                      );
-                                    },
-                                    suggestionsCallback:
-                                        (value) async {
-                                      return controller
-                                          .searchPlaces(value);
-                                    },
-                                    hintText: "Location",
-                                    controller: controller
-                                        .locController.value,
-                                    validation: (val) {
-                                      if (val == null ||
-                                          val.isEmpty ||
-                                          val == '') {
-                                        return "Location is required";
-                                      }
-                                      return null;
-                                    },
-                                    onSelected: (value) async {
-                                      controller.locController.value
-                                          .text = value['des'].toString();
-                                      await controller.getLatLang(value['id']);
-                                    },
-                                    sufixIcon: Container(
-                                        padding: const EdgeInsets
-                                            .symmetric(
-                                            horizontal: 12,
-                                            vertical: 13),
-                                        child: const Image(
-                                          image: AssetImage(
-                                              "assets/icons/locationicon.png"),
-                                          height: 1,
-                                          width: 1,
-                                        )),
-                                  ),
-                                  // CustoTextFormField(
-                                  //   hintText: "Location",
-                                  //   sufixIcon: SizedBox(
-                                  //       height: h * .012,
-                                  //       width: h * .012,
-                                  //       child: Padding(
-                                  //         padding: const EdgeInsets.all(13.0),
-                                  //         child: Image.asset(
-                                  //             "assets/icons/locationicon.png",
-                                  //             height: 8,
-                                  //             width: 8),
-                                  //       )),
-                                  // ),
-                                  SizedBox(
-                                    height: h * 0.01,
-                                  ),
-                                  Row(
-                                      mainAxisAlignment : MainAxisAlignment.end,
-                                      children:[
-                                        InkWell(
-                                          onTap: (){
-                                            Get.toNamed(Routes.mapui);
-                                          },
-                                          child: Text(
-                                              'Choose on Map',
-                                              style: TextStyle(color: clrYellowText,fontWeight: FontWeight.bold)
-                                          ),
-                                        )
-                                      ]
-                                  ),
-                                  SizedBox(
-                                    height: h * 0.02,
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      DateTime? date =
-                                      await showDatePicker(
-                                          context: context,
-                                          firstDate:
-                                          DateTime.now(),
-                                          lastDate:
-                                          DateTime(2025),
-                                          currentDate: controller
-                                              .dateForPicker
-                                              .value
-                                              .isNotEmpty
-                                              ? DateTime.parse(
-                                              controller
-                                                  .dateForPicker
-                                                  .value)
-                                              : DateTime.now());
-                                      if (date != null) {
-                                        controller.changeDate(date);
-                                      }
-                                    },
-                                    child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical:
-                                            Get.height * .022,
-                                            horizontal: 15),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                100),
-                                            color: clrGreyLight),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              "assets/icons/calendericon.png",
-                                              height: 20,
-                                            ),
-                                            const SizedBox(
-                                              width: 12,
-                                            ),
-                                            Obx(() => Text(
-                                              controller.date.value.isNotEmpty
-                                                  ? controller.formatDate(controller.date.value)
-                                                  : "DD/MM/YYYY",
-                                              style: TextStyle(
-                                                  color: controller.date.value.isNotEmpty
-                                                        ? clrBlacke
-                                                        : clrGreyTextLight
-                                              ),
-                                            ),)
-                                          ],
-                                        )
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  Obx(() {
-                                    return InkWell(
-                                      onTap: () async {
-                                        TimeOfDay? stime =
-                                        await showTimePicker(
-                                          context: context,
-                                          initialEntryMode: TimePickerEntryMode.input,
-                                          initialTime: controller
-                                              .sTime
-                                              .value
-                                              .isNotEmpty
-                                              ? TimeOfDay(
-                                            hour: int.parse(
-                                                controller
-                                                    .sTime.value
-                                                    .split(
-                                                    ":")[0]),
-                                            minute: int.parse(
-                                                controller
-                                                    .sTime.value
-                                                    .split(
-                                                    ":")[1]),
-                                          )
-                                              : TimeOfDay.now(),
-                                        );
-                                        if (stime != null) {
-                                          controller
-                                              .changeStime(stime);
-                                        }
-                                      },
-                                      child: Container(
-                                          padding:
-                                          EdgeInsets.symmetric(
-                                              horizontal: 15,
-                                              vertical:
-                                              Get.height *
-                                                  .02),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                100),
-                                            color: clrGreyLight,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Image.asset(
-                                                    "assets/icons/timericon.png",
-                                                    height: h * .032,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    controller.sTimeForApi
-                                                        .value ==
-                                                        ''
-                                                        ? "Start At"
-                                                        : "${controller.sTimeForApi}",
-                                                    style: TextStyle(
-                                                        color: controller
-                                                            .sTimeForApi
-                                                            .value ==
-                                                            ''
-                                                            ? clrGreyDark
-                                                            : clrBlacke),
-                                                  ),
-                                                ],
-                                              ),
-                                              Image.asset(
-                                                'assets/images/arrow down.png',
-                                                scale: 4,
-                                              )
-                                            ],
-                                          )),
-                                    );
-                                  }),
-
-                                  SizedBox(
-                                    height: h * 0.02,
-                                  ),
-                                  Obx(() {
-                                    return InkWell(
-                                      onTap: () async {
-                                        TimeOfDay? etime =
-                                        await showTimePicker(
-                                            context: context,
-                                            initialEntryMode: TimePickerEntryMode.input,
-                                            initialTime:
-                                            controller
-                                                .eTime
-                                                .value
-                                                .isNotEmpty
-                                                ? TimeOfDay(
-                                              hour: int.parse(controller
-                                                  .eTime
-                                                  .value
-                                                  .split(
-                                                  ":")[0]),
-                                              minute: int.parse(controller
-                                                  .eTime
-                                                  .value
-                                                  .split(
-                                                  ":")[1]),
-                                            )
-                                                : TimeOfDay
-                                                .now());
-                                        if (etime != null) {
-                                          controller
-                                              .changeEtime(etime);
-                                        }
-                                      },
-                                      child: Container(
-                                          padding:
-                                          EdgeInsets.symmetric(
-                                              horizontal: 15,
-                                              vertical:
-                                              Get.height *
-                                                  .02),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                100),
-                                            color: clrGreyLight,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Image.asset(
-                                                    "assets/icons/timericon.png",
-                                                    height: h * .032,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    controller.eTimeForAPi
-                                                        .value ==
-                                                        ''
-                                                        ? "Ends At"
-                                                        : controller
-                                                        .eTimeForAPi
-                                                        .value,
-                                                    style: TextStyle(
-                                                        color: controller
-                                                            .eTimeForAPi
-                                                            .value ==
-                                                            ''
-                                                            ? clrGreyDark
-                                                            : clrBlacke),
-                                                  )
-                                                ],
-                                              ),
-                                              Image.asset(
-                                                'assets/images/arrow down.png',
-                                                scale: 4,
-                                              )
-                                            ],
-                                          )),
-                                    );
-                                  }),
-
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: Get.height * .02,
-                                          horizontal: 15),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              100),
-                                          color: clrGreyLight),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          Flexible(
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/icons/manicon.png",
-                                                  height: 20,
-                                                ),
-                                                const SizedBox(
-                                                  width: 12,
-                                                ),
-                                                Flexible(
-                                                    child: Text(
-                                                      "Max 10 people (incl. you)",
-                                                      maxLines: 1,
-                                                      overflow:
-                                                      TextOverflow
-                                                          .ellipsis,
-                                                      style: TextStyle(
-                                                          color:
-                                                          clrGreyTextLight),
-                                                    ))
-                                              ],
-                                            ),
-                                          ),
-                                          InkWell(
-                                              onTap: () {
-                                                controller
-                                                    .decGroupSize();
-                                              },
-                                              child: const Icon(
-                                                  Icons.remove)),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Obx(() {
-                                            return Text(
-                                                "${controller.groupSize}");
-                                          }),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          InkWell(
-                                              onTap: () {
-                                                controller
-                                                    .incGroupSize();
-                                              },
-                                              child: const Icon(
-                                                  Icons.add))
-                                        ],
-                                      )),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  Obx(() {
-                                    return CustoDropDownBtn(
-                                      val: controller.gender.value ==
-                                          0
-                                          ? null
-                                          : controller.gender.value,
-                                      onchange: (val) {
-                                        controller
-                                            .changeGenderFilter(val);
-                                      },
-                                      itemList: const [
-                                        DropdownMenuItem(
-                                          value: 1,
-                                          child: Text(
-                                              "Same gender as me"),
-                                        ),
-                                        DropdownMenuItem(
-                                          value: 2,
-                                          child: Text("All"),
-                                        )
-                                      ],
-                                      hindtext:
-                                      "Gender preference (optional)",
-                                      hintColor: clrBlacke,
-                                      suffix: Image.asset(
-                                        'assets/images/arrow down.png',
-                                        scale: 4,
-                                      ),
-                                      prefixIcon: Image.asset(
-                                        "assets/icons/gendericon.png",
-                                        scale: 2,
-                                      ),
-                                    );
-                                  }),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  CustoDropDownBtn(
-                                    val: controller.repeat?.value,
-                                    onchange: (val) {
-                                      controller.changeRepeatVal(val);
-                                      if (val == 2) {
-                                        alertRepeatSchedule(context);
-                                      } else if (val == 1) {
-                                        controller.repeatRefresh();
-                                      }
-                                    },
-                                    backClr: clrWhite,
-                                    borderClr:
-                                    clrGrey.withOpacity(0.6),
-                                    itemList: const [
-                                      DropdownMenuItem(
-                                        value: 1,
-                                        child: Text("Doesn’t repeat"),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: 2,
-                                        child: Text(
-                                            "Should have repeat schedule "),
-                                      ),
-                                    ],
-                                    hindtext: "Doesn’t repeat ",
-                                    suffix: Image.asset(
-                                      'assets/images/arrow down.png',
-                                      scale: 4,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Join instantly without approval",
-                                        style:
-                                        TextStyle(fontSize: 16),
-                                      ),
-                                      Obx(() {
-                                        return CustomSwitch(
-                                          value: controller
-                                              .joinInstant.value,
-                                          onChanged: (p0) => controller
-                                              .changejoinInstant(),
-                                        );
-                                      })
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.03,
-                                  ),
-                                ]),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10),
-                            child: Obx(
-                                  () => Opacity(
-                                opacity: controller.loading.value
-                                    ? 0.5
-                                    : 1,
-                                child: SizedBox(
-                                    width: double.maxFinite,
-                                    height: Res.h_btn,
-                                    child: CustomElevatedButton(
-                                        onTap: () {
-                                          controller.createActivity();
-                                        },
-                                        backgroundClr: clrBlacke,
-                                        child: controller
-                                            .loading.value
-                                            ? CommonUi.buttonLoading()
-                                            : Text(
-                                          "Post Activity",
-                                          style: TextStyle(
-                                              color: clrWhite,
-                                              fontSize: 16,
-                                              fontWeight:
-                                              FontWeight
-                                                  .w700),
-                                        ))),
-                              ),
-                            ),
-                          ),
-                        ]),
-                        ////////////////////////////////////////////////////preview ui
-                        Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5),
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: Get.height * 0.005,
-                                  ),
-                                  SizedBox(
-                                    height: h * .25,
-                                    child: Stack(
-                                      // clipBehavior: Clip.none,
-                                      children: [
-                                        Obx(
-                                              () => controller
-                                              .galleryImages
-                                              .isEmpty
-                                              ? CarouselSlider(
-                                            options:
-                                            CarouselOptions(
-                                                height:
-                                                h * .25,
-                                                viewportFraction:
-                                                1),
-                                            items: [1, 2, 3]
-                                                .map((i) {
-                                              return Builder(
-                                                builder:
-                                                    (BuildContext
-                                                context) {
-                                                  return Container(
-                                                      clipBehavior:
-                                                      Clip
-                                                          .hardEdge,
-                                                      width: MediaQuery.of(
-                                                          context)
-                                                          .size
-                                                          .width,
-                                                      height: double
-                                                          .maxFinite,
-                                                      margin: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal:
-                                                          0),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(
-                                                              18)),
-                                                      child: Image
-                                                          .asset(
-                                                        "assets/images/cofee.png",
-                                                        fit: BoxFit
-                                                            .cover,
-                                                        height: h *
-                                                            .25,
-                                                        width: double
-                                                            .maxFinite,
-                                                      ));
-                                                },
-                                              );
-                                            }).toList(),
-                                          )
-                                              : CarouselSlider(
-                                              items: controller
-                                                  .galleryImages
-                                                  .map<Widget>(
-                                                    (i) {
-                                                  return Builder(
-                                                    builder:
-                                                        (BuildContext
-                                                    context) {
-                                                      return Container(
-                                                          clipBehavior: Clip
-                                                              .hardEdge,
-                                                          width: MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                          height: double
-                                                              .maxFinite,
-                                                          margin: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal:
-                                                              0),
-                                                          decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(
-                                                                  18)),
-                                                          child: i.toString().startsWith('http') || i.toString().startsWith('https') ? CachedNetworkImage(
-                                                            imageUrl: i,
-                                                            fit: BoxFit
-                                                                .cover,
-                                                            height:
-                                                            h * .26,
-                                                            width:
-                                                            double.maxFinite,
-                                                          ) : Image.file(i,
-                                                              fit: BoxFit
-                                                                  .cover,height:
-                                                            h * .26,
-                                                            width:
-                                                            double.maxFinite,));
-                                                    },
-                                                  );
-                                                },
-                                              ).toList(),
-                                              options:
-                                              CarouselOptions(
-                                                  height:
-                                                  h * .26,
-                                                  viewportFraction:
-                                                  1,
-                                                  onPageChanged:
-                                                      (currIndex,
-                                                      CarouselPageChangedReason
-                                                      reason) {
-                                                    controller
-                                                        .changeIndicator(
-                                                        currIndex);
-                                                    debugPrint(
-                                                        " currIndex $currIndex reason=$reason");
-                                                  })),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets
-                                              .symmetric(
-                                              horizontal: 10,
-                                              vertical: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
-                                            children: [
-                                              Container(
-                                                padding:
-                                                const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal:
-                                                    10,
-                                                    vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    color: clrWhite,
-                                                    borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        20)),
-                                                child: Obx(
-                                                      () => Text(
-                                                    controller
-                                                        .subCatName
-                                                        .value
-                                                        .isEmpty
-                                                        ? "Coffee"
-                                                        : '${controller.subCatName.value}',
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w600),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox()
-                                            ],
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment:
-                                          Alignment.bottomCenter,
-                                          child: Container(
-                                              margin: const EdgeInsets
-                                                  .only(bottom: 7),
-                                              height: 16,
-                                              child: Obx(
-                                                    () => controller
-                                                    .galleryImages
-                                                    .isEmpty
-                                                    ? ListView
-                                                    .builder(
-                                                    itemCount:
-                                                    1,
-                                                    shrinkWrap:
-                                                    true,
-                                                    scrollDirection:
-                                                    Axis
-                                                        .horizontal,
-                                                    itemBuilder:
-                                                        (context,
-                                                        index) {
-                                                      return Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 1.5),
-                                                        child:
-                                                        Icon(
-                                                          Icons.circle,
-                                                          color: index == 0
-                                                              ? clrYellow
-                                                              : clrWhite,
-                                                          size:
-                                                          8,
-                                                        ),
-                                                      );
-                                                    })
-                                                    : ListView
-                                                    .builder(
-                                                    itemCount: controller
-                                                        .galleryImages
-                                                        .length,
-                                                    shrinkWrap:
-                                                    true,
-                                                    scrollDirection:
-                                                    Axis
-                                                        .horizontal,
-                                                    itemBuilder:
-                                                        (context,
-                                                        indicatorIndex) {
-                                                      return Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 1.5),
-                                                        child:
-                                                        Obx(
-                                                              () =>
-                                                              Icon(
-                                                                Icons.circle,
-                                                                color: controller.circleIndex.value == indicatorIndex ? clrYellow : clrWhite,
-                                                                size: 8,
-                                                              ),
-                                                        ),
-                                                      );
-                                                    }),
-                                              )),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Flexible(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Obx(() => Text(
-                                                controller.titleController.value.value.text.isEmpty
-                                                    ? "Picnic in the park"
-                                                    : '${controller.titleController.value.value.text}',
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: Get.height * 0.005,
-                                            ),
-                                            Obx(() => Text(controller.locController.value.value.text.isEmpty
-                                                    ? "Vondelpark"
-                                                    : '${controller.locController.value.value.text}',
-                                                style: TextStyle(
-                                                    color:
-                                                    clrGreyDark),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height:
-                                              Get.height * 0.005,
-                                            ),
-                                            Obx(() => Text(
-                                                  '${controller.date.value.isEmpty ? "13 March 2024" : controller.date.value} ${controller.sTimeForApi.value.isEmpty ? " | 2:30 PM" : " | ${controller.sTimeForApi.value}"} ${controller.eTimeForAPi.value.isEmpty && controller.sTimeForApi.value.isEmpty ? "- 6:00PM" : '- ${controller.eTimeForAPi.value}'}',
-                                                  style: TextStyle(color: clrGreyDark)
-                                            ),),
-                                            SizedBox(
-                                              height:
-                                              Get.height * 0.005,
-                                            ),
-                                            Obx(() => Text(
-                                                "${controller.groupSize.value > 1 ? 'Up to ${controller.groupSize.value} people' : 'Up to 3 people'} | 1 spot left",
-                                                style: TextStyle(color: clrYellowText, fontSize: 13),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                100),
-                                            child: CachedNetworkImage(
-                                              height: 40,
-                                              width: 40,
-                                              fit: BoxFit.cover,
-                                              imageUrl:
-                                              '${profileController.profileData.value.result?.profile?.profilePhoto}',
-                                              errorWidget: (context,
-                                                  url, error) =>
-                                                  Container(
-                                                    height: 40,
-                                                    width: 40,
-                                                    padding:
-                                                    const EdgeInsets
-                                                        .all(10),
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                        clrGreyLight,
-                                                        shape: BoxShape
-                                                            .circle),
-                                                    child: Image.asset(
-                                                      "assets/icons/manicon.png",
-                                                      color: clrGrey,
-                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
-                                              placeholder: (context,
-                                                  url) =>
-                                                  Shimmer.fromColors(
-                                                    baseColor: grey300,
-                                                    highlightColor:
-                                                    grey100,
-                                                    child: Container(
-                                                      height: 40,
-                                                      width: 40,
-                                                      decoration:
-                                                      BoxDecoration(
-                                                        color: grey300,
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            18),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.01,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Obx(() {
+                                                  return IgnorePointer(
+                                                    ignoring: true,
+                                                    child: Checkbox(
+                                                      value: controller
+                                                          .choosePhotoCheck.value,
+                                                      onChanged: (val) {
+                                                        controller
+                                                            .changeChoosePhotoVal();
+                                                      },
+                                                      activeColor: clrYellow,
+                                                    ),
+                                                  );
+                                                }),
+                                                const SizedBox(
+                                                  width: 0,
+                                                ),
+                                                const Text(
+                                                    "Chose a photo for me")
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.01,
+                                            ),
+                                            Obx(
+                                              () => controller.catLoading.value
+                                                  ? Shimmer.fromColors(
+                                                      baseColor:
+                                                          Colors.grey.shade300,
+                                                      highlightColor:
+                                                          Colors.grey.shade100,
+                                                      child:
+                                                          const CustoDropDownBtn(
+                                                        itemList: [],
+                                                        hindtext: 'Select',
+                                                      ))
+                                                  : IgnorePointer(
+                                                      ignoring: true,
+                                                      child: CustoDropDownBtn(
+                                                        onchange: (val) {
+                                                          controller
+                                                                  .catID.value =
+                                                              val.toString();
+                                                          controller
+                                                              .getSubCat(val);
+                                                        },
+                                                        itemList: controller
+                                                            .categoryList,
+                                                        val: controller.catID
+                                                                    .value ==
+                                                                ''
+                                                            ? null
+                                                            : int.parse(
+                                                                controller.catID
+                                                                    .value),
+                                                        hintColor: clrBlacke,
+                                                        hindtext:
+                                                            "Select Category",
+                                                        suffix: Image.asset(
+                                                          'assets/images/arrow down.png',
+                                                          scale: 4,
+                                                        ),
+                                                      ),
+                                                    ),
+                                            ),
+                                            Obx(
+                                              () => controller.catID.isEmpty
+                                                  ? const SizedBox()
+                                                  : SizedBox(
+                                                      height: Get.height * 0.02,
+                                                    ),
+                                            ),
+                                            Obx(() {
+                                              print(
+                                                  'Current subCatID in Obx: ${controller.subCatID.value}');
+                                              return controller.catID.isEmpty &&
+                                                      controller.subCatID.value
+                                                          .isEmpty
+                                                  ? const SizedBox()
+                                                  : FutureBuilder(
+                                                      future: Future.delayed(
+                                                          const Duration(
+                                                              seconds: 1)),
+                                                      // Simulate delay
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return Shimmer
+                                                              .fromColors(
+                                                                  baseColor: Colors
+                                                                      .grey
+                                                                      .shade300,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .grey
+                                                                          .shade100,
+                                                                  child:
+                                                                      Container(
+                                                                    height: 50,
+                                                                    decoration: BoxDecoration(
+                                                                        color:
+                                                                            clrGrey,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(100)),
+                                                                  )); // Show loading indicator
+                                                        } else {
+                                                          return IgnorePointer(
+                                                            ignoring: true,
+                                                            child: CustoDropDownBtn(
+                                                              onchange: (val) {
+                                                                controller
+                                                                        .subCatID
+                                                                        .value =
+                                                                    val.toString();
+                                                                print(
+                                                                    '=======>${controller.subCatID.value}');
+                                                                print(
+                                                                    'Dropdown selected value: ${controller.subCatID.value}');
+                                                                controller
+                                                                    .getSubCatName(
+                                                                        val);
+                                                                print(
+                                                                    'Selected subcategory ID: ${controller.subCatID.value}');
+                                                              },
+                                                              val: controller
+                                                                          .subCatID
+                                                                          .value ==
+                                                                      ''
+                                                                  ? null
+                                                                  : int.parse(
+                                                                      controller
+                                                                          .subCatID
+                                                                          .value),
+                                                              itemList: controller
+                                                                  .subcategoryList,
+                                                              hintColor:
+                                                                  clrBlacke,
+                                                              hindtext:
+                                                                  "Select Subcategory",
+                                                              suffix: Image.asset(
+                                                                'assets/images/arrow down.png',
+                                                                scale: 4,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }
+                                                      },
+                                                    );
+                                            }),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            IgnorePointer(
+                                              ignoring: true,
+                                              child: CustoTextFormField(
+                                                hintText: "Activity name (title)",
+                                                controll: controller
+                                                    .titleController.value,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            // TextFormField(
+                                            //   maxLines: 4,
+                                            //   maxLength: 500,
+                                            //   decoration: InputDecoration(
+                                            //       hintText:
+                                            //           "Write a description (min. 30 characters)",
+                                            //       hintStyle: TextStyle(
+                                            //           fontWeight: FontWeight.w400,
+                                            //           fontSize: 15,
+                                            //           color: clrGreyTextLight),
+                                            //       contentPadding: EdgeInsets.symmetric(
+                                            //           horizontal: 15,
+                                            //           vertical: Get.height * .02),
+                                            //       fillColor: clrGreyLight,
+                                            //       filled: true,
+                                            //       border: OutlineInputBorder(
+                                            //           borderSide: BorderSide.none,
+                                            //           borderRadius: BorderRadius.circular(15))),
+                                            // ),
+                                            Obx(() {
+                                              return Stack(
+                                                children: [
+                                                  IgnorePointer(
+                                                    ignoring: true,
+                                                    child: TextFormField(
+                                                      controller: controller
+                                                          .desController.value,
+                                                      maxLines: null,
+                                                      minLines: 4,
+                                                      maxLength:
+                                                          controller.maxLength,
+                                                      decoration: InputDecoration(
+                                                        hintText:
+                                                            "Write a description (min. 30 characters)",
+                                                        hintStyle: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 15,
+                                                          color: Colors.grey[600],
+                                                        ),
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 15,
+                                                          vertical: 15,
+                                                        ),
+                                                        fillColor:
+                                                            Colors.grey[200],
+                                                        filled: true,
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                        ),
+                                                        counterText:
+                                                            "", // Remove the default counter
                                                       ),
                                                     ),
                                                   ),
+                                                  Positioned(
+                                                    right: 20,
+                                                    bottom: 10,
+                                                    child: Text(
+                                                      '${controller.currentLength.value}/${controller.maxLength}',
+                                                      style: TextStyle(
+                                                        color: Colors.grey[600],
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            }),
+                                            // const CustoTextFormField(
+                                            //   hintText:
+                                            //   "Write a description (min. 30 characters)",
+                                            //   maxLines: 4,
+                                            //   maxLength: 500,
+                                            // ),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 3,
-                                          ),
-                                          Text(
-                                            '${profileController.profileData.value.result?.firstName}',
-                                            style: const TextStyle(
-                                                fontWeight:
-                                                FontWeight.w700),
-                                          )
-                                        ],
-                                      ),
-                                      // Column(
-                                      //   children: [
-                                      //     Container(
-                                      //         height: h * .05,
-                                      //         width: h * .05,
-                                      //         decoration: BoxDecoration(
-                                      //             borderRadius:
-                                      //             BorderRadius.circular(100)),
-                                      //         child: Image.asset(
-                                      //           "assets/images/girldp.png",
-                                      //           fit: BoxFit.cover,
-                                      //         )),
-                                      //     const Text(
-                                      //       "Jenny",
-                                      //       style: TextStyle(
-                                      //           fontWeight: FontWeight.w700),
-                                      //     )
-                                      //   ],
-                                      // )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
-                                  ),
-                                  Obx(
-                                        () => Text(
-                                      controller.desController.value
-                                          .value.text.isEmpty
-                                          ? "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner"
-                                          : "${controller.desController.value.value.text}",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: clrGreyTextLight),
+                                            IgnorePointer(
+                                              ignoring: true,
+                                              child: CustomLocationField(
+                                                itemBuilder:
+                                                    (context, suggestion) {
+                                                  return ListTile(
+                                                    title: Text(suggestion['des']
+                                                        .toString()),
+                                                  );
+                                                },
+                                                suggestionsCallback:
+                                                    (value) async {
+                                                  return controller
+                                                      .searchPlaces(value);
+                                                },
+                                                hintText: "Location",
+                                                controller: controller
+                                                    .locController.value,
+                                                validation: (val) {
+                                                  if (val == null ||
+                                                      val.isEmpty ||
+                                                      val == '') {
+                                                    return "Location is required";
+                                                  }
+                                                  return null;
+                                                },
+                                                onSelected: (value) async {
+                                                  controller.locController.value
+                                                          .text =
+                                                      value['des'].toString();
+                                                  await controller
+                                                      .getLatLang(value['id']);
+                                                },
+                                                sufixIcon: Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 13),
+                                                    child: const Image(
+                                                      image: AssetImage(
+                                                          "assets/icons/locationicon.png"),
+                                                      height: 1,
+                                                      width: 1,
+                                                    )),
+                                              ),
+                                            ),
+                                            // CustoTextFormField(
+                                            //   hintText: "Location",
+                                            //   sufixIcon: SizedBox(
+                                            //       height: h * .012,
+                                            //       width: h * .012,
+                                            //       child: Padding(
+                                            //         padding: const EdgeInsets.all(13.0),
+                                            //         child: Image.asset(
+                                            //             "assets/icons/locationicon.png",
+                                            //             height: 8,
+                                            //             width: 8),
+                                            //       )),
+                                            // ),
+                                            SizedBox(
+                                              height: h * 0.01,
+                                            ),
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      // Get.toNamed(Routes.mapui);
+                                                    },
+                                                    child: Text('Choose on Map',
+                                                        style: TextStyle(
+                                                            color:
+                                                                clrYellowText,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  )
+                                                ]),
+                                            SizedBox(
+                                              height: h * 0.02,
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                DateTime? date =
+                                                    await showDatePicker(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                        context,
+                                                            Widget? child) {
+                                                          return Theme(
+                                                            data: ThemeData
+                                                                .light()
+                                                                .copyWith(
+                                                              colorScheme:
+                                                              ColorScheme
+                                                                  .light(
+                                                                primary:
+                                                                clrYellow,
+                                                                // Change the color to yellow
+                                                                onPrimary:
+                                                                Colors
+                                                                    .black,
+                                                                // Text color on selected date
+                                                                onSurface: Colors
+                                                                    .black, // Text color on unselected dates
+                                                              ),
+                                                              dialogBackgroundColor:
+                                                              Colors
+                                                                  .white, // Background color of the date picker
+                                                            ),
+                                                            child: child!,
+                                                          );
+                                                        },
+                                                        firstDate:
+                                                            DateTime.now(),
+                                                        lastDate:
+                                                            DateTime(2025),
+                                                        currentDate: controller
+                                                                .dateForPicker
+                                                                .value
+                                                                .isNotEmpty
+                                                            ? DateTime.parse(
+                                                                controller
+                                                                    .dateForPicker
+                                                                    .value)
+                                                            : DateTime.now());
+                                                if (date != null) {
+                                                  controller.changeDate(date);
+                                                }
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical:
+                                                          Get.height * .022,
+                                                      horizontal: 15),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      color: clrGreyLight),
+                                                  child: Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        "assets/icons/calendericon.png",
+                                                        height: 20,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 12,
+                                                      ),
+                                                      Obx(
+                                                        () => Text(
+                                                          controller.date.value
+                                                                  .isNotEmpty
+                                                              ? controller
+                                                                  .formatDate(
+                                                                      controller
+                                                                          .date
+                                                                          .value)
+                                                              : "DD/MM/YYYY",
+                                                          style: TextStyle(
+                                                              color: controller
+                                                                      .date
+                                                                      .value
+                                                                      .isNotEmpty
+                                                                  ? clrBlacke
+                                                                  : clrGreyTextLight),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            Obx(() {
+                                              return IgnorePointer(
+                                                ignoring: true,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    TimeOfDay? stime =
+                                                        await showTimePicker(
+                                                      context: context,
+                                                      initialEntryMode:
+                                                          TimePickerEntryMode
+                                                              .input,
+                                                      initialTime: controller
+                                                              .sTime
+                                                              .value
+                                                              .isNotEmpty
+                                                          ? TimeOfDay(
+                                                              hour: int.parse(
+                                                                  controller
+                                                                      .sTime.value
+                                                                      .split(
+                                                                          ":")[0]),
+                                                              minute: int.parse(
+                                                                  controller
+                                                                      .sTime.value
+                                                                      .split(
+                                                                          ":")[1]),
+                                                            )
+                                                          : TimeOfDay.now(),
+                                                    );
+                                                    if (stime != null) {
+                                                      controller
+                                                          .changeStime(stime);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 15,
+                                                              vertical:
+                                                                  Get.height *
+                                                                      .02),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                100),
+                                                        color: clrGreyLight,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Image.asset(
+                                                                "assets/icons/timericon.png",
+                                                                height: h * .032,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Text(
+                                                                controller.sTimeForApi
+                                                                            .value ==
+                                                                        ''
+                                                                    ? "Start At"
+                                                                    : "${controller.sTimeForApi}",
+                                                                style: TextStyle(
+                                                                    color: controller
+                                                                                .sTimeForApi
+                                                                                .value ==
+                                                                            ''
+                                                                        ? clrGreyDark
+                                                                        : clrBlacke),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Image.asset(
+                                                            'assets/images/arrow down.png',
+                                                            scale: 4,
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
+                                              );
+                                            }),
+
+                                            SizedBox(
+                                              height: h * 0.02,
+                                            ),
+                                            Obx(() {
+                                              return IgnorePointer(
+                                                ignoring: true,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    TimeOfDay? etime =
+                                                        await showTimePicker(
+                                                            context: context,
+                                                            initialEntryMode:
+                                                                TimePickerEntryMode
+                                                                    .input,
+                                                            initialTime:
+                                                                controller
+                                                                        .eTime
+                                                                        .value
+                                                                        .isNotEmpty
+                                                                    ? TimeOfDay(
+                                                                        hour: int.parse(controller
+                                                                            .eTime
+                                                                            .value
+                                                                            .split(
+                                                                                ":")[0]),
+                                                                        minute: int.parse(controller
+                                                                            .eTime
+                                                                            .value
+                                                                            .split(
+                                                                                ":")[1]),
+                                                                      )
+                                                                    : TimeOfDay
+                                                                        .now());
+                                                    if (etime != null) {
+                                                      controller
+                                                          .changeEtime(etime);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 15,
+                                                              vertical:
+                                                                  Get.height *
+                                                                      .02),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                100),
+                                                        color: clrGreyLight,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Image.asset(
+                                                                "assets/icons/timericon.png",
+                                                                height: h * .032,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Text(
+                                                                controller.eTimeForAPi
+                                                                            .value ==
+                                                                        ''
+                                                                    ? "Ends At"
+                                                                    : controller
+                                                                        .eTimeForAPi
+                                                                        .value,
+                                                                style: TextStyle(
+                                                                    color: controller
+                                                                                .eTimeForAPi
+                                                                                .value ==
+                                                                            ''
+                                                                        ? clrGreyDark
+                                                                        : clrBlacke),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Image.asset(
+                                                            'assets/images/arrow down.png',
+                                                            scale: 4,
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
+                                              );
+                                            }),
+
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: Get.height * .02,
+                                                    horizontal: 15),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    color: clrGreyLight),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Row(
+                                                        children: [
+                                                          Image.asset(
+                                                            "assets/icons/manicon.png",
+                                                            height: 20,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 12,
+                                                          ),
+                                                          Flexible(
+                                                              child: Text(
+                                                            "Max 10 people (incl. you)",
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                color:
+                                                                    clrGreyTextLight),
+                                                          ))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    IgnorePointer(
+                                                      ignoring: true,
+                                                      child: InkWell(
+                                                          onTap: () {
+                                                            controller
+                                                                .decGroupSize();
+                                                          },
+                                                          child: const Icon(
+                                                              Icons.remove)),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Obx(() {
+                                                      return Text(
+                                                          "${controller.groupSize}");
+                                                    }),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    IgnorePointer(
+                                                      ignoring: true,
+                                                      child: InkWell(
+                                                          onTap: () {
+                                                            controller
+                                                                .incGroupSize();
+                                                          },
+                                                          child: const Icon(
+                                                              Icons.add)),
+                                                    )
+                                                  ],
+                                                )),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            Obx(() {
+                                              return IgnorePointer(
+                                                ignoring: true,
+                                                child: CustoDropDownBtn(
+                                                  val: controller.gender.value ==
+                                                          0
+                                                      ? null
+                                                      : controller.gender.value,
+                                                  onchange: (val) {
+                                                    controller
+                                                        .changeGenderFilter(val);
+                                                  },
+                                                  itemList: const [
+                                                    DropdownMenuItem(
+                                                      value: 1,
+                                                      child: Text(
+                                                          "Same gender as me"),
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      value: 2,
+                                                      child: Text("All"),
+                                                    )
+                                                  ],
+                                                  hindtext:
+                                                      "Gender preference (optional)",
+                                                  hintColor: clrBlacke,
+                                                  suffix: Image.asset(
+                                                    'assets/images/arrow down.png',
+                                                    scale: 4,
+                                                  ),
+                                                  prefixIcon: Image.asset(
+                                                    "assets/icons/gendericon.png",
+                                                    scale: 2,
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            IgnorePointer(
+                                              ignoring: true,
+                                              child: CustoDropDownBtn(
+                                                val: controller.repeat?.value,
+                                                onchange: (val) {
+                                                  controller.changeRepeatVal(val);
+                                                  if (val == 2) {
+                                                    alertRepeatSchedule(context);
+                                                  } else if (val == 1) {
+                                                    controller.repeatRefresh();
+                                                  }
+                                                },
+                                                backClr: clrWhite,
+                                                borderClr:
+                                                    clrGrey.withOpacity(0.6),
+                                                itemList: const [
+                                                  DropdownMenuItem(
+                                                    value: 1,
+                                                    child: Text("Doesn’t repeat"),
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    value: 2,
+                                                    child: Text(
+                                                        "Should have repeat schedule "),
+                                                  ),
+                                                ],
+                                                hindtext: "Doesn’t repeat ",
+                                                suffix: Image.asset(
+                                                  'assets/images/arrow down.png',
+                                                  scale: 4,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  "Join instantly without approval",
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                                Obx(() {
+                                                  return CustomSwitch(
+                                                    value: controller
+                                                        .joinInstant.value,
+                                                    onChanged: (p0) => controller
+                                                        .changejoinInstant(),
+                                                  );
+                                                })
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.03,
+                                            ),
+                                          ]),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ]),
-                ),
-              ],
-            ),
-          ),
-        ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Obx(
+                                        () => Opacity(
+                                          opacity: controller.loading.value
+                                              ? 0.5
+                                              : 1,
+                                          child: SizedBox(
+                                              width: double.maxFinite,
+                                              height: Res.h_btn,
+                                              child: CustomElevatedButton(
+                                                  onTap: () {
+                                                    controller.createActivity();
+                                                  },
+                                                  backgroundClr: clrBlacke,
+                                                  child: controller
+                                                          .loading.value
+                                                      ? CommonUi.buttonLoading()
+                                                      : Text(
+                                                          "Post Activity",
+                                                          style: TextStyle(
+                                                              color: clrWhite,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ))),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                                  ////////////////////////////////////////////////////preview ui
+                                  Column(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: Get.height * 0.005,
+                                            ),
+                                            SizedBox(
+                                              height: h * .25,
+                                              child: Stack(
+                                                // clipBehavior: Clip.none,
+                                                children: [
+                                                  Obx(
+                                                    () => controller
+                                                            .galleryImages
+                                                            .isEmpty
+                                                        ? CarouselSlider(
+                                                            options:
+                                                                CarouselOptions(
+                                                                    height:
+                                                                        h * .25,
+                                                                    viewportFraction:
+                                                                        1),
+                                                            items: [1, 2, 3]
+                                                                .map((i) {
+                                                              return Builder(
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return Container(
+                                                                      clipBehavior:
+                                                                          Clip
+                                                                              .hardEdge,
+                                                                      width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width,
+                                                                      height: double
+                                                                          .maxFinite,
+                                                                      margin: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal:
+                                                                              0),
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              18)),
+                                                                      child: Image
+                                                                          .asset(
+                                                                        "assets/images/cofee.png",
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                        height: h *
+                                                                            .25,
+                                                                        width: double
+                                                                            .maxFinite,
+                                                                      ));
+                                                                },
+                                                              );
+                                                            }).toList(),
+                                                          )
+                                                        : CarouselSlider(
+                                                            items: controller
+                                                                .galleryImages
+                                                                .map<Widget>(
+                                                              (i) {
+                                                                return Builder(
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                                    return Container(
+                                                                        clipBehavior:
+                                                                            Clip
+                                                                                .hardEdge,
+                                                                        width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width,
+                                                                        height: double
+                                                                            .maxFinite,
+                                                                        margin: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                0),
+                                                                        decoration:
+                                                                            BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                                                                        child: i.toString().startsWith('http') || i.toString().startsWith('https')
+                                                                            ? CachedNetworkImage(
+                                                                                imageUrl: i,
+                                                                                fit: BoxFit.cover,
+                                                                                height: h * .26,
+                                                                                width: double.maxFinite,
+                                                                              )
+                                                                            : Image.file(
+                                                                                i,
+                                                                                fit: BoxFit.cover,
+                                                                                height: h * .26,
+                                                                                width: double.maxFinite,
+                                                                              ));
+                                                                  },
+                                                                );
+                                                              },
+                                                            ).toList(),
+                                                            options:
+                                                                CarouselOptions(
+                                                                    height:
+                                                                        h * .26,
+                                                                    viewportFraction:
+                                                                        1,
+                                                                    onPageChanged:
+                                                                        (currIndex,
+                                                                            CarouselPageChangedReason
+                                                                                reason) {
+                                                                      controller
+                                                                          .changeIndicator(
+                                                                              currIndex);
+                                                                      debugPrint(
+                                                                          " currIndex $currIndex reason=$reason");
+                                                                    })),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 5),
+                                                          decoration: BoxDecoration(
+                                                              color: clrWhite,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20)),
+                                                          child: Obx(
+                                                            () => Text(
+                                                              controller
+                                                                      .subCatName
+                                                                      .value
+                                                                      .isEmpty
+                                                                  ? "Coffee"
+                                                                  : '${controller.subCatName.value}',
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox()
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Container(
+                                                        margin: const EdgeInsets
+                                                            .only(bottom: 7),
+                                                        height: 16,
+                                                        child: Obx(
+                                                          () => controller
+                                                                  .galleryImages
+                                                                  .isEmpty
+                                                              ? ListView
+                                                                  .builder(
+                                                                      itemCount:
+                                                                          1,
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              index) {
+                                                                        return Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 1.5),
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.circle,
+                                                                            color: index == 0
+                                                                                ? clrYellow
+                                                                                : clrWhite,
+                                                                            size:
+                                                                                8,
+                                                                          ),
+                                                                        );
+                                                                      })
+                                                              : ListView
+                                                                  .builder(
+                                                                      itemCount: controller
+                                                                          .galleryImages
+                                                                          .length,
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              indicatorIndex) {
+                                                                        return Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 1.5),
+                                                                          child:
+                                                                              Obx(
+                                                                            () =>
+                                                                                Icon(
+                                                                              Icons.circle,
+                                                                              color: controller.circleIndex.value == indicatorIndex ? clrYellow : clrWhite,
+                                                                              size: 8,
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }),
+                                                        )),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Flexible(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Obx(
+                                                        () => Text(
+                                                          controller
+                                                                  .titleController
+                                                                  .value
+                                                                  .value
+                                                                  .text
+                                                                  .isEmpty
+                                                              ? "Picnic in the park"
+                                                              : '${controller.titleController.value.value.text}',
+                                                          style: const TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.005,
+                                                      ),
+                                                      Obx(
+                                                        () => Text(
+                                                          controller
+                                                                  .locController
+                                                                  .value
+                                                                  .value
+                                                                  .text
+                                                                  .isEmpty
+                                                              ? "Vondelpark"
+                                                              : '${controller.locController.value.value.text}',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  clrGreyDark),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.005,
+                                                      ),
+                                                      Obx(
+                                                        () => Text(
+                                                            '${controller.date.value.isEmpty ? "13 March 2024" : controller.date.value} ${controller.sTimeForApi.value.isEmpty ? " | 2:30 PM" : " | ${controller.sTimeForApi.value}"} ${controller.eTimeForAPi.value.isEmpty && controller.sTimeForApi.value.isEmpty ? "- 6:00PM" : '- ${controller.eTimeForAPi.value}'}',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    clrGreyDark)),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            Get.height * 0.005,
+                                                      ),
+                                                      Obx(
+                                                        () => Text(
+                                                          "${controller.groupSize.value > 1 ? 'Up to ${controller.groupSize.value} people' : 'Up to 3 people'} | 1 spot left",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  clrYellowText,
+                                                              fontSize: 13),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      child: CachedNetworkImage(
+                                                        height: 40,
+                                                        width: 40,
+                                                        fit: BoxFit.cover,
+                                                        imageUrl:
+                                                            '${profileController.profileData.value.result?.profile?.profilePhoto}',
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Container(
+                                                          height: 40,
+                                                          width: 40,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  clrGreyLight,
+                                                              shape: BoxShape
+                                                                  .circle),
+                                                          child: Image.asset(
+                                                            "assets/icons/manicon.png",
+                                                            color: clrGrey,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            Shimmer.fromColors(
+                                                          baseColor: grey300,
+                                                          highlightColor:
+                                                              grey100,
+                                                          child: Container(
+                                                            height: 40,
+                                                            width: 40,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: grey300,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 3,
+                                                    ),
+                                                    Text(
+                                                      '${profileController.profileData.value.result?.firstName}',
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    )
+                                                  ],
+                                                ),
+                                                // Column(
+                                                //   children: [
+                                                //     Container(
+                                                //         height: h * .05,
+                                                //         width: h * .05,
+                                                //         decoration: BoxDecoration(
+                                                //             borderRadius:
+                                                //             BorderRadius.circular(100)),
+                                                //         child: Image.asset(
+                                                //           "assets/images/girldp.png",
+                                                //           fit: BoxFit.cover,
+                                                //         )),
+                                                //     const Text(
+                                                //       "Jenny",
+                                                //       style: TextStyle(
+                                                //           fontWeight: FontWeight.w700),
+                                                //     )
+                                                //   ],
+                                                // )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.01,
+                                            ),
+                                            Obx(
+                                              () => Text(
+                                                controller.desController.value
+                                                        .value.text.isEmpty
+                                                    ? "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner"
+                                                    : "${controller.desController.value.value.text}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: clrGreyTextLight),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ]),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
       ),
     );
   }
@@ -1445,7 +1603,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
               height: 10,
             ),
             Obx(
-                  () => Padding(
+              () => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1564,125 +1722,139 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                 ),
               ),
             ),
-            Obx(() => controller.wmValue.value == 2  ? SizedBox()
-                : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Repeat on",
-                    style: TextStyle(color: clrGreyTextLight, fontSize: 15),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SizedBox(
-                      height: 40,
-                      child: Obx(
-                            () => controller.wmValue.value == 2
-                            ? ListView.separated(
-                          itemCount: controller.monthList.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                controller.monthIndex.value = index;
-                                controller.changemonth(index);
-                              },
-                              child: Obx(
-                                    () => Container(
-                                  padding: const EdgeInsets.all(5),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color:
-                                      controller.monthIndex.value == index
-                                          ? clrYellow
-                                          : clrGreyLight),
-                                  child: Center(
-                                    child: FittedBox(
-                                      child: Text(
-                                        controller.monthList[index],
-                                        style: TextStyle(
-                                            color:
-                                            controller.monthIndex.value ==
-                                                index
-                                                ? clrWhite
-                                                : clrBlacke),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          separatorBuilder:
-                              (BuildContext context, int index) {
-                            return const SizedBox(
-                              width: 10,
-                            );
-                          },
-                        )
-                            : ListView.separated(
-                          itemCount: controller.dayList.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                controller.dayIndex.value = index;
-                                print('day==> ${controller.dayIndex.value}');
-                                controller.changeday(index);
-                              },
-                              child: Obx(
-                                    () => Container(
-                                  padding: const EdgeInsets.all(5),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color:
-                                      controller.dayIndex.value == index
-                                          ? clrYellow
-                                          : clrGreyLight),
-                                  child: Center(
-                                    child: Text(
-                                      controller.dayList[index],
-                                      style: TextStyle(
-                                          color: controller.dayIndex.value ==
-                                              index
-                                              ? clrWhite
-                                              : clrBlacke),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          separatorBuilder:
-                              (BuildContext context, int index) {
-                            return const SizedBox(
-                              width: 10,
-                            );
-                          },
+            Obx(
+              () => controller.wmValue.value == 2
+                  ? SizedBox()
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Repeat on",
+                            style: TextStyle(
+                                color: clrGreyTextLight, fontSize: 15),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: SizedBox(
+                              height: 40,
+                              child: Obx(
+                                () => controller.wmValue.value == 2
+                                    ? ListView.separated(
+                                        itemCount: controller.monthList.length,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              controller.monthIndex.value =
+                                                  index;
+                                              controller.changemonth(index);
+                                            },
+                                            child: Obx(
+                                              () => Container(
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: controller.monthIndex
+                                                                .value ==
+                                                            index
+                                                        ? clrYellow
+                                                        : clrGreyLight),
+                                                child: Center(
+                                                  child: FittedBox(
+                                                    child: Text(
+                                                      controller
+                                                          .monthList[index],
+                                                      style: TextStyle(
+                                                          color: controller
+                                                                      .monthIndex
+                                                                      .value ==
+                                                                  index
+                                                              ? clrWhite
+                                                              : clrBlacke),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return const SizedBox(
+                                            width: 10,
+                                          );
+                                        },
+                                      )
+                                    : ListView.separated(
+                                        itemCount: controller.dayList.length,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              controller.dayIndex.value = index;
+                                              print(
+                                                  'day==> ${controller.dayIndex.value}');
+                                              controller.changeday(index);
+                                            },
+                                            child: Obx(
+                                              () => Container(
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: controller.dayIndex
+                                                                .value ==
+                                                            index
+                                                        ? clrYellow
+                                                        : clrGreyLight),
+                                                child: Center(
+                                                  child: Text(
+                                                    controller.dayList[index],
+                                                    style: TextStyle(
+                                                        color: controller
+                                                                    .dayIndex
+                                                                    .value ==
+                                                                index
+                                                            ? clrWhite
+                                                            : clrBlacke),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return const SizedBox(
+                                            width: 10,
+                                          );
+                                        },
+                                      ),
+                              ),
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
@@ -1703,7 +1875,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                 child: Row(
                   children: [
                     Obx(
-                          () => customRadioButton(1, controller.groupValue.value),
+                      () => customRadioButton(1, controller.groupValue.value),
                     ),
                     const SizedBox(
                       width: 5,
@@ -1731,7 +1903,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                     child: Row(
                       children: [
                         Obx(
-                              () =>
+                          () =>
                               customRadioButton(2, controller.groupValue.value),
                         ),
                         const SizedBox(
@@ -1749,9 +1921,9 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                     width: 40,
                   ),
                   Obx(
-                        () => Opacity(
+                    () => Opacity(
                       opacity: controller.groupValue.value == 1 ||
-                          controller.groupValue.value == 3
+                              controller.groupValue.value == 3
                           ? 0.5
                           : 1,
                       // child: Container(
@@ -1766,50 +1938,50 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                       //   ),
                       // ),
                       child: controller.groupValue.value == 1 ||
-                          controller.groupValue.value == 3
+                              controller.groupValue.value == 3
                           ? Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(70),
-                            color: clrGreyLight),
-                        child: Text(
-                          "18 Sep 2024",
-                          style: TextStyle(color: clrGreyTextLight),
-                        ),
-                      )
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(70),
+                                  color: clrGreyLight),
+                              child: Text(
+                                "18 Sep 2024",
+                                style: TextStyle(color: clrGreyTextLight),
+                              ),
+                            )
                           : InkWell(
-                        onTap: () async {
-                          DateTime? date = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2025),
-                              currentDate: controller
-                                  .RdateForPicker.value.isNotEmpty
-                                  ? DateTime.parse(
-                                  controller.RdateForPicker.value)
-                                  : DateTime.now());
-                          if (date != null) {
-                            controller.RchangeDate(date);
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 8),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(70),
-                              color: clrGreyLight),
-                          child: Text(
-                            controller.Rdate.value.isNotEmpty
-                                ? controller.Rdate.value
-                                : "DD/MM/YYYY",
-                            style: TextStyle(
-                                color: controller.Rdate.value.isNotEmpty
-                                    ? clrBlacke
-                                    : clrGreyTextLight),
-                          ),
-                        ),
-                      ),
+                              onTap: () async {
+                                DateTime? date = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(2025),
+                                    currentDate: controller
+                                            .RdateForPicker.value.isNotEmpty
+                                        ? DateTime.parse(
+                                            controller.RdateForPicker.value)
+                                        : DateTime.now());
+                                if (date != null) {
+                                  controller.RchangeDate(date);
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(70),
+                                    color: clrGreyLight),
+                                child: Text(
+                                  controller.Rdate.value.isNotEmpty
+                                      ? controller.Rdate.value
+                                      : "DD/MM/YYYY",
+                                  style: TextStyle(
+                                      color: controller.Rdate.value.isNotEmpty
+                                          ? clrBlacke
+                                          : clrGreyTextLight),
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -1829,7 +2001,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                     child: Row(
                       children: [
                         Obx(
-                              () =>
+                          () =>
                               customRadioButton(3, controller.groupValue.value),
                         ),
                         const SizedBox(
@@ -1848,9 +2020,9 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                   ),
                   Flexible(
                     child: Obx(
-                          () => Opacity(
+                      () => Opacity(
                         opacity: controller.groupValue.value == 1 ||
-                            controller.groupValue.value == 2
+                                controller.groupValue.value == 2
                             ? 0.5
                             : 1,
                         child: Container(
@@ -1871,9 +2043,9 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                     width: 10,
                   ),
                   Obx(
-                        () => Opacity(
+                    () => Opacity(
                       opacity: controller.groupValue.value == 1 ||
-                          controller.groupValue.value == 2
+                              controller.groupValue.value == 2
                           ? 0.5
                           : 1,
                       child: Column(
@@ -1881,7 +2053,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                           InkWell(
                             onTap: () {
                               controller.groupValue.value == 1 ||
-                                  controller.groupValue.value == 2
+                                      controller.groupValue.value == 2
                                   ? null
                                   : controller.occsincrement();
                             },
@@ -1896,7 +2068,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                           InkWell(
                             onTap: () {
                               controller.groupValue.value == 1 ||
-                                  controller.groupValue.value == 2
+                                      controller.groupValue.value == 2
                                   ? null
                                   : controller.occsdecrement();
                             },
@@ -1968,11 +2140,11 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
               color: isSelected ? clrYellow : clrBlacke, width: 1.5)),
       child: isSelected
           ? Container(
-        margin: const EdgeInsets.all(2.2),
-        decoration:
-        BoxDecoration(color: clrYellow, shape: BoxShape.circle),
-        child: const SizedBox(),
-      )
+              margin: const EdgeInsets.all(2.2),
+              decoration:
+                  BoxDecoration(color: clrYellow, shape: BoxShape.circle),
+              child: const SizedBox(),
+            )
           : null,
     );
   }

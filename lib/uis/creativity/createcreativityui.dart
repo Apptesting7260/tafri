@@ -1,9 +1,9 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
@@ -316,42 +316,87 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.01,
                                             ),
-                                            Obx(
-                                              () => controller.catLoading.value
-                                                  ? Shimmer.fromColors(
-                                                      baseColor:
-                                                          Colors.grey.shade300,
-                                                      highlightColor:
-                                                          Colors.grey.shade100,
-                                                      child:
-                                                          const CustoDropDownBtn(
-                                                        itemList: [],
-                                                        hindtext: 'Select',
-                                                      ))
-                                                  : CustoDropDownBtn(
-                                                      onchange: (val) {
-                                                        controller.catID.value =
-                                                            val.toString();
-                                                        controller
-                                                            .getSubCat(val);
-                                                      },
-                                                      itemList: controller
-                                                          .categoryList,
-                                                      val: controller.catID
-                                                                  .value ==
-                                                              ''
-                                                          ? null
-                                                          : int.parse(controller
-                                                              .catID.value),
-                                                      hintColor: clrBlacke,
-                                                      hindtext:
-                                                          "Select Category",
-                                                      suffix: Image.asset(
+                                            Obx(() => controller
+                                                    .catLoading.value
+                                                ? Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey.shade300,
+                                                    highlightColor:
+                                                        Colors.grey.shade100,
+                                                    child:
+                                                        const CustoDropDownBtn(
+                                                      itemList: [],
+                                                      hindtext: 'Select',
+                                                    ))
+                                                // : CustoDropDownBtn(
+                                                //     onchange: (val) {
+                                                //       controller.catID.value =
+                                                //           val.toString();
+                                                //       controller
+                                                //           .getSubCat(val);
+                                                //     },
+                                                //     itemList: controller
+                                                //         .categoryList,
+                                                //     val: controller.catID
+                                                //                 .value ==
+                                                //             ''
+                                                //         ? null
+                                                //         : int.parse(controller
+                                                //             .catID.value),
+                                                //     hintColor: clrBlacke,
+                                                //     hindtext:
+                                                //         "Select Category",
+                                                //     suffix: Image.asset(
+                                                //       'assets/images/arrow down.png',
+                                                //       scale: 4,
+                                                //     ),
+                                                //   ),
+                                                : CustomDropdown(
+                                                    items: controller.newList
+                                                        .map(
+                                                          (e) => e['value'],
+                                                        )
+                                                        .toList(),
+                                                    hintText: 'Select Category',
+                                                    initialItem: controller
+                                                            .catName
+                                                            .value
+                                                            .isNotEmpty
+                                                        ? controller
+                                                            .catName.value
+                                                        : null,
+                                                    decoration:
+                                                        CustomDropdownDecoration(
+                                                      hintStyle: TextStyle(
+                                                          color: clrBlacke
+                                                              .withOpacity(0.6),
+                                                          fontSize: 15),
+                                                      closedFillColor:
+                                                          clrGreyLight,
+                                                      closedBorderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      expandedSuffixIcon:
+                                                          Image.asset(
+                                                        'assets/images/arrow down.png',
+                                                        scale: 4,
+                                                      ),
+                                                      closedSuffixIcon:
+                                                          Image.asset(
                                                         'assets/images/arrow down.png',
                                                         scale: 4,
                                                       ),
                                                     ),
-                                            ),
+                                                    onChanged: (val) {
+                                                      print('va == $val');
+                                                      controller.catName.value =
+                                                          val.toString();
+                                                      controller.getSubCat(
+                                                          val.toString());
+                                                      controller.getCatID(
+                                                          val.toString());
+                                                    },
+                                                  )),
                                             Obx(
                                               () => controller.catID.isEmpty
                                                   ? const SizedBox()
@@ -392,40 +437,94 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                             BorderRadius.circular(100)),
                                                                   )); // Show loading indicator
                                                         } else {
-                                                          return CustoDropDownBtn(
-                                                            onchange: (val) {
+                                                          return CustomDropdown(
+                                                            items: controller
+                                                                .newSubList
+                                                                .map(
+                                                                  (e) => e[
+                                                                      'value'],
+                                                                )
+                                                                .toList(),
+                                                            hintText:
+                                                                'Select SubCategory',
+                                                            initialItem: controller
+                                                                    .subCatName
+                                                                    .value
+                                                                    .isNotEmpty
+                                                                ? controller
+                                                                    .subCatName
+                                                                    .value
+                                                                : null,
+                                                            decoration:
+                                                                CustomDropdownDecoration(
+                                                              hintStyle: TextStyle(
+                                                                  color: clrBlacke
+                                                                      .withOpacity(
+                                                                          0.6),
+                                                                  fontSize: 15),
+                                                              closedFillColor:
+                                                                  clrGreyLight,
+                                                              closedBorderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          100),
+                                                              expandedSuffixIcon:
+                                                                  Image.asset(
+                                                                'assets/images/arrow down.png',
+                                                                scale: 4,
+                                                              ),
+                                                              closedSuffixIcon:
+                                                                  Image.asset(
+                                                                'assets/images/arrow down.png',
+                                                                scale: 4,
+                                                              ),
+                                                            ),
+                                                            onChanged: (val) {
+                                                              print(
+                                                                  'va == $val');
                                                               controller
-                                                                      .subCatID
+                                                                      .subCatName
                                                                       .value =
                                                                   val.toString();
-                                                              print(controller
-                                                                  .subCatID
-                                                                  .value);
                                                               controller
-                                                                  .getSubCatName(
+                                                                  .getSubCatID(
                                                                       val);
                                                             },
-                                                            val: controller
-                                                                        .subCatID
-                                                                        .value ==
-                                                                    ''
-                                                                ? null
-                                                                : int.parse(
-                                                                    controller
-                                                                        .subCatID
-                                                                        .value),
-                                                            itemList: controller
-                                                                .subcategoryList,
-                                                            hintColor:
-                                                                clrBlacke,
-                                                            hindtext:
-                                                            controller
-                                                                .subcategoryList.isEmpty ? 'Subcategory not found' : "Select Subcategory",
-                                                            suffix: Image.asset(
-                                                              'assets/images/arrow down.png',
-                                                              scale: 4,
-                                                            ),
                                                           );
+                                                          //   CustoDropDownBtn(
+                                                          //   onchange: (val) {
+                                                          //     controller
+                                                          //             .subCatID
+                                                          //             .value =
+                                                          //         val.toString();
+                                                          //     print(controller
+                                                          //         .subCatID
+                                                          //         .value);
+                                                          //     controller
+                                                          //         .getSubCatName(
+                                                          //             val);
+                                                          //   },
+                                                          //   val: controller
+                                                          //               .subCatID
+                                                          //               .value ==
+                                                          //           ''
+                                                          //       ? null
+                                                          //       : int.parse(
+                                                          //           controller
+                                                          //               .subCatID
+                                                          //               .value),
+                                                          //   itemList: controller
+                                                          //       .subcategoryList,
+                                                          //   hintColor:
+                                                          //       clrBlacke,
+                                                          //   hindtext:
+                                                          //   controller
+                                                          //       .subcategoryList.isEmpty ? 'Subcategory not found' : "Select Subcategory",
+                                                          //   suffix: Image.asset(
+                                                          //     'assets/images/arrow down.png',
+                                                          //     scale: 4,
+                                                          //   ),
+                                                          // );
                                                         }
                                                       },
                                                     ),
@@ -527,8 +626,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               itemBuilder:
                                                   (context, suggestion) {
                                                 return ListTile(
-                                                  title: Text(
-                                                      suggestion['des'].toString()),
+                                                  title: Text(suggestion['des']
+                                                      .toString()),
                                                 );
                                               },
                                               suggestionsCallback:
@@ -547,11 +646,14 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 }
                                                 return null;
                                               },
-                                              onSelected: (value) async{
-                                                print('bjkjl=>>>>${value['id']}');
+                                              onSelected: (value) async {
+                                                print(
+                                                    'bjkjl=>>>>${value['id']}');
                                                 controller.locController.value
-                                                    .text = value['des'].toString();
-                                                await controller.getLatLang(value['id']);
+                                                        .text =
+                                                    value['des'].toString();
+                                                await controller
+                                                    .getLatLang(value['id']);
                                               },
                                               sufixIcon: Container(
                                                   padding: const EdgeInsets
@@ -582,19 +684,22 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               height: h * 0.01,
                                             ),
                                             Row(
-                                                mainAxisAlignment : MainAxisAlignment.end,
-                                                children:[
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
                                                   InkWell(
-                                                    onTap: (){
+                                                    onTap: () {
                                                       Get.toNamed(Routes.mapui);
                                                     },
-                                                    child: Text(
-                                                        'Choose on Map',
-                                                        style: TextStyle(color: clrYellowText,fontWeight: FontWeight.bold)
-                                                    ),
+                                                    child: Text('Choose on Map',
+                                                        style: TextStyle(
+                                                            color:
+                                                                clrYellowText,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
                                                   )
-                                                ]
-                                            ),
+                                                ]),
                                             SizedBox(
                                               height: h * 0.02,
                                             ),
@@ -603,21 +708,37 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 DateTime? date =
                                                     await showDatePicker(
                                                         context: context,
-                                                      builder: (BuildContext context, Widget? child) {
-                                                        return Theme(
-                                                          data: ThemeData.light().copyWith(
-                                                            colorScheme: ColorScheme.light(
-                                                              primary: clrYellow, // Change the color to yellow
-                                                              onPrimary: Colors.black, // Text color on selected date
-                                                              onSurface: Colors.black, // Text color on unselected dates
+                                                        builder: (BuildContext
+                                                                context,
+                                                            Widget? child) {
+                                                          return Theme(
+                                                            data: ThemeData
+                                                                    .light()
+                                                                .copyWith(
+                                                              colorScheme:
+                                                                  ColorScheme
+                                                                      .light(
+                                                                primary:
+                                                                    clrYellow,
+                                                                // Change the color to yellow
+                                                                onPrimary:
+                                                                    Colors
+                                                                        .black,
+                                                                // Text color on selected date
+                                                                onSurface: Colors
+                                                                    .black, // Text color on unselected dates
+                                                              ),
+                                                              dialogBackgroundColor:
+                                                                  Colors
+                                                                      .white, // Background color of the date picker
                                                             ),
-                                                            dialogBackgroundColor: Colors.white, // Background color of the date picker
-                                                          ),
-                                                          child: child!,
-                                                        );
-                                                      },
+                                                            child: child!,
+                                                          );
+                                                        },
                                                         firstDate:
-                                                            DateTime.now().add(Duration(days: 1)),
+                                                            DateTime.now().add(
+                                                                Duration(
+                                                                    days: 1)),
                                                         lastDate:
                                                             DateTime(2025),
                                                         currentDate: controller
@@ -656,8 +777,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         () => Text(
                                                           controller.date.value
                                                                   .isNotEmpty
-                                                              ? controller.formatDate(controller
-                                                                  .date.value)
+                                                              ? controller
+                                                                  .formatDate(
+                                                                      controller
+                                                                          .date
+                                                                          .value)
                                                               : "DD/MM/YYYY",
                                                           style: TextStyle(
                                                               color: controller
@@ -680,7 +804,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   TimeOfDay? stime =
                                                       await showTimePicker(
                                                     context: context,
-                                                    initialEntryMode: TimePickerEntryMode.input,
+                                                    initialEntryMode:
+                                                        TimePickerEntryMode
+                                                            .input,
                                                     initialTime: controller
                                                             .sTime
                                                             .value
@@ -698,24 +824,41 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                         ":")[1]),
                                                           )
                                                         : TimeOfDay.now(),
-                                                        builder: (BuildContext context, Widget? child) {
-                                                          return Theme(
-                                                            data: ThemeData.light().copyWith(
-                                                              colorScheme: ColorScheme.light(
-                                                                primary: clrYellow, // Change the color to yellow
-                                                                onPrimary: Colors.black, // Text color on selected time
-                                                                onSurface: Colors.black, // Text color on unselected items
-                                                              ),
-                                                              timePickerTheme: TimePickerThemeData(
-                                                                dayPeriodColor: MaterialStateColor.resolveWith((states) =>
-                                                                states.contains(MaterialState.selected) ? clrYellow : clrWhite),
-                                                                backgroundColor: Colors.white, // Background color of the time picker
-                                                                hourMinuteTextColor: Colors.black, // Text color of the hour and minute
-                                                              ),
-                                                            ),
-                                                            child: child!,
-                                                          );
-                                                        },
+                                                    builder:
+                                                        (BuildContext context,
+                                                            Widget? child) {
+                                                      return Theme(
+                                                        data: ThemeData.light()
+                                                            .copyWith(
+                                                          colorScheme:
+                                                              ColorScheme.light(
+                                                            primary: clrYellow,
+                                                            // Change the color to yellow
+                                                            onPrimary:
+                                                                Colors.black,
+                                                            // Text color on selected time
+                                                            onSurface: Colors
+                                                                .black, // Text color on unselected items
+                                                          ),
+                                                          timePickerTheme:
+                                                              TimePickerThemeData(
+                                                            dayPeriodColor: MaterialStateColor.resolveWith((states) =>
+                                                                states.contains(
+                                                                        MaterialState
+                                                                            .selected)
+                                                                    ? clrYellow
+                                                                    : clrWhite),
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            // Background color of the time picker
+                                                            hourMinuteTextColor:
+                                                                Colors
+                                                                    .black, // Text color of the hour and minute
+                                                          ),
+                                                        ),
+                                                        child: child!,
+                                                      );
+                                                    },
                                                   );
                                                   if (stime != null) {
                                                     controller
@@ -782,34 +925,63 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 onTap: () async {
                                                   TimeOfDay? etime =
                                                       await showTimePicker(
-                                                          context: context,
-                                                        initialEntryMode: TimePickerEntryMode.input,
-                                                          initialTime:
-                                                              controller.eTime.value.isNotEmpty
-                                                                  ? TimeOfDay(
-                                                                      hour: int.parse(controller.eTime.value.split(":")[0]),
-                                                                      minute: int.parse(controller.eTime.value.split(":")[1]),
-                                                                    )
-                                                                  : TimeOfDay.now(),
-                                                        builder: (BuildContext context, Widget? child) {
-                                                          return Theme(
-                                                            data: ThemeData.light().copyWith(
-                                                              colorScheme: ColorScheme.light(
-                                                                primary: clrYellow, // Change the color to yellow
-                                                                onPrimary: Colors.black, // Text color on selected time
-                                                                onSurface: Colors.black, // Text color on unselected items
-                                                              ),
-                                                              timePickerTheme: TimePickerThemeData(
-                                                                dayPeriodColor: MaterialStateColor.resolveWith((states) =>
-                                                                states.contains(MaterialState.selected) ? clrYellow : clrWhite),
-                                                                backgroundColor: Colors.white, // Background color of the time picker
-                                                                hourMinuteTextColor: Colors.black, // Text color of the hour and minute
-                                                              ),
-                                                            ),
-                                                            child: child!,
-                                                          );
-                                                        },
+                                                    context: context,
+                                                    initialEntryMode:
+                                                        TimePickerEntryMode
+                                                            .input,
+                                                    initialTime: controller
+                                                            .eTime
+                                                            .value
+                                                            .isNotEmpty
+                                                        ? TimeOfDay(
+                                                            hour: int.parse(
+                                                                controller
+                                                                    .eTime.value
+                                                                    .split(
+                                                                        ":")[0]),
+                                                            minute: int.parse(
+                                                                controller
+                                                                    .eTime.value
+                                                                    .split(
+                                                                        ":")[1]),
+                                                          )
+                                                        : TimeOfDay.now(),
+                                                    builder:
+                                                        (BuildContext context,
+                                                            Widget? child) {
+                                                      return Theme(
+                                                        data: ThemeData.light()
+                                                            .copyWith(
+                                                          colorScheme:
+                                                              ColorScheme.light(
+                                                            primary: clrYellow,
+                                                            // Change the color to yellow
+                                                            onPrimary:
+                                                                Colors.black,
+                                                            // Text color on selected time
+                                                            onSurface: Colors
+                                                                .black, // Text color on unselected items
+                                                          ),
+                                                          timePickerTheme:
+                                                              TimePickerThemeData(
+                                                            dayPeriodColor: MaterialStateColor.resolveWith((states) =>
+                                                                states.contains(
+                                                                        MaterialState
+                                                                            .selected)
+                                                                    ? clrYellow
+                                                                    : clrWhite),
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            // Background color of the time picker
+                                                            hourMinuteTextColor:
+                                                                Colors
+                                                                    .black, // Text color of the hour and minute
+                                                          ),
+                                                        ),
+                                                        child: child!,
                                                       );
+                                                    },
+                                                  );
                                                   if (etime != null) {
                                                     controller
                                                         .changeEtime(etime);
@@ -940,71 +1112,169 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               height: Get.height * 0.02,
                                             ),
                                             Obx(() {
-                                              return CustoDropDownBtn(
-                                                val: controller.gender.value ==
-                                                        0
-                                                    ? null
-                                                    : controller.gender.value,
-                                                onchange: (val) {
-                                                  controller
-                                                      .changeGenderFilter(val);
-                                                },
-                                                itemList: const [
-                                                  DropdownMenuItem(
-                                                    value: 1,
-                                                    child: Text(
-                                                        "Same gender as me"),
-                                                  ),
-                                                  DropdownMenuItem(
-                                                    value: 2,
-                                                    child: Text("All"),
-                                                  )
-                                                ],
-                                                hindtext:
+                                              return CustomDropdown(
+                                                hintText:
                                                     "Gender preference (optional)",
-                                                hintColor: clrBlacke,
-                                                suffix: Image.asset(
-                                                  'assets/images/arrow down.png',
-                                                  scale: 4,
-                                                ),
-                                                prefixIcon: Image.asset(
-                                                  "assets/icons/gendericon.png",
-                                                  scale: 2,
-                                                ),
+                                                initialItem: controller
+                                                        .genderName
+                                                        .value
+                                                        .isNotEmpty
+                                                    ? controller
+                                                        .genderName.value
+                                                    : null,
+                                                decoration:
+                                                    CustomDropdownDecoration(
+                                                        hintStyle: TextStyle(
+                                                            color: clrBlacke
+                                                                .withOpacity(
+                                                                    0.6),
+                                                            fontSize: 15),
+                                                        closedSuffixIcon:
+                                                            Image.asset(
+                                                          'assets/images/arrow down.png',
+                                                          scale: 4,
+                                                        ),
+                                                        expandedSuffixIcon:
+                                                            Image.asset(
+                                                          'assets/images/arrow down.png',
+                                                          scale: 4,
+                                                        ),
+                                                        prefixIcon: Image.asset(
+                                                          "assets/icons/gendericon.png",
+                                                          scale: 2,
+                                                        ),
+                                                        closedFillColor:
+                                                            clrGreyLight,
+                                                        closedBorderRadius:
+                                                            BorderRadius
+                                                                .circular(100)),
+                                                items: controller.genderList
+                                                    .map(
+                                                      (e) => e['title'],
+                                                    )
+                                                    .toList(),
+                                                onChanged: (val) {
+                                                  controller.genderName.value =
+                                                      val.toString();
+                                                  if (val ==
+                                                      'Same gender as me') {
+                                                    controller.gender.value = 1;
+                                                  } else if (val == 'All') {
+                                                    controller.gender.value = 2;
+                                                  }
+                                                },
                                               );
+                                              //   CustoDropDownBtn(
+                                              //   val: controller.gender.value ==
+                                              //           0
+                                              //       ? null
+                                              //       : controller.gender.value,
+                                              //   onchange: (val) {
+                                              //     controller
+                                              //         .changeGenderFilter(val);
+                                              //   },
+                                              //   itemList: const [
+                                              //     DropdownMenuItem(
+                                              //       value: 1,
+                                              //       child: Text(
+                                              //           "Same gender as me"),
+                                              //     ),
+                                              //     DropdownMenuItem(
+                                              //       value: 2,
+                                              //       child: Text("All"),
+                                              //     )
+                                              //   ],
+                                              //   hindtext:
+                                              //       "Gender preference (optional)",
+                                              //   hintColor: clrBlacke,
+                                              //   suffix: Image.asset(
+                                              //     'assets/images/arrow down.png',
+                                              //     scale: 4,
+                                              //   ),
+                                              //   prefixIcon: Image.asset(
+                                              //     "assets/icons/gendericon.png",
+                                              //     scale: 2,
+                                              //   ),
+                                              // );
                                             }),
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
-                                            CustoDropDownBtn(
-                                              val: controller.repeat.value == 0 ? null : controller.repeat.value,
-                                              onchange: (val) {
-                                                controller.changeRepeatVal(val);
-                                                if (val == 2) {
-                                                  alertRepeatSchedule(context);
-                                                } else if (val == 1) {
+                                            // CustoDropDownBtn(
+                                            //   val: controller.repeat.value == 0 ? null : controller.repeat.value,
+                                            //   onchange: (val) {
+                                            //     controller.changeRepeatVal(val);
+                                            //     if (val == 2) {
+                                            //       alertRepeatSchedule(context);
+                                            //     } else if (val == 1) {
+                                            //       controller.repeatRefresh();
+                                            //     }
+                                            //   },
+                                            //   backClr: clrWhite,
+                                            //   borderClr:
+                                            //       clrGrey.withOpacity(0.6),
+                                            //   itemList: const [
+                                            //     DropdownMenuItem(
+                                            //       value: 1,
+                                            //       child: Text("Doesn’t repeat"),
+                                            //     ),
+                                            //     DropdownMenuItem(
+                                            //       value: 2,
+                                            //       child: Text(
+                                            //           "Should have repeat schedule "),
+                                            //     ),
+                                            //   ],
+                                            //   hindtext: "Doesn’t repeat ",
+                                            //   suffix: Image.asset(
+                                            //     'assets/images/arrow down.png',
+                                            //     scale: 4,
+                                            //   ),
+                                            // ),
+                                            CustomDropdown(
+                                              hintText: "Doesn’t repeat",
+                                              initialItem: controller.repeatName
+                                                      .value.isNotEmpty
+                                                  ? controller.repeatName.value
+                                                  : null,
+                                              decoration:
+                                                  CustomDropdownDecoration(
+                                                      hintStyle: TextStyle(
+                                                          color: clrBlacke
+                                                              .withOpacity(0.6),
+                                                          fontSize: 15),
+                                                      closedSuffixIcon:
+                                                          Image.asset(
+                                                        'assets/images/arrow down.png',
+                                                        scale: 4,
+                                                      ),
+                                                      expandedSuffixIcon:
+                                                          Image.asset(
+                                                        'assets/images/arrow down.png',
+                                                        scale: 4,
+                                                      ),
+                                                      closedBorder: Border.all(
+                                                          color: clrGrey),
+                                                      closedBorderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
+                                              items: controller.repeatList
+                                                  .map(
+                                                    (e) => e['title'],
+                                                  )
+                                                  .toList(),
+                                              onChanged: (val) {
+                                                print(val);
+                                                controller.repeatName.value =
+                                                    val.toString();
+                                                if (val == 'Doesn’t repeat') {
+                                                  controller.changeRepeatVal(1);
                                                   controller.repeatRefresh();
+                                                } else if (val ==
+                                                    'Should have repeat schedule') {
+                                                  controller.changeRepeatVal(2);
+                                                  alertRepeatSchedule(context);
                                                 }
                                               },
-                                              backClr: clrWhite,
-                                              borderClr:
-                                                  clrGrey.withOpacity(0.6),
-                                              itemList: const [
-                                                DropdownMenuItem(
-                                                  value: 1,
-                                                  child: Text("Doesn’t repeat"),
-                                                ),
-                                                DropdownMenuItem(
-                                                  value: 2,
-                                                  child: Text(
-                                                      "Should have repeat schedule "),
-                                                ),
-                                              ],
-                                              hindtext: "Doesn’t repeat ",
-                                              suffix: Image.asset(
-                                                'assets/images/arrow down.png',
-                                                scale: 4,
-                                              ),
                                             ),
                                             SizedBox(
                                               height: Get.height * 0.02,
@@ -1627,15 +1897,17 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                   controller.wmValue.value == 1
                                       ? "Week"
                                       : controller.wmValue.value == 2
-                                      ? "Day"
-                                      : "Week", // Default value
+                                          ? "Day"
+                                          : "Week", // Default value
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: clrBlacke,
                                   ),
                                 );
                               }),
-                              const SizedBox(width: 7,),
+                              const SizedBox(
+                                width: 7,
+                              ),
                               Image.asset(
                                 'assets/images/arrow down.png',
                                 scale: 6,
@@ -1723,129 +1995,135 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                 ),
               ),
             ),
-
-            Obx( ()=> controller.wmValue.value == 2  ? SizedBox()
-                : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Repeat on",
-                      style: TextStyle(color: clrGreyTextLight, fontSize: 15),
-                      textAlign: TextAlign.center,
-                    ),),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: SizedBox(
-                          height: 40,
-                          child: Obx(
-                                () => controller.wmValue.value == 2
-                            // ? ListView.separated(
-                            //     itemCount: controller.monthList.length,
-                            //     shrinkWrap: true,
-                            //     scrollDirection: Axis.horizontal,
-                            //     itemBuilder: (context, index) {
-                            //       return GestureDetector(
-                            //         onTap: () {
-                            //           controller.monthIndex.value = index;
-                            //           controller.changemonth(index);
-                            //         },
-                            //         child: Obx(
-                            //           () => Container(
-                            //             padding: const EdgeInsets.all(5),
-                            //             height: 30,
-                            //             width: 30,
-                            //             decoration: BoxDecoration(
-                            //                 shape: BoxShape.circle,
-                            //                 color:
-                            //                     controller.monthIndex.value == index
-                            //                         ? clrYellow
-                            //                         : clrGreyLight),
-                            //             child: Center(
-                            //               child: FittedBox(
-                            //                 child: Text(
-                            //                   controller.monthList[index],
-                            //                   style: TextStyle(
-                            //                       color:
-                            //                           controller.monthIndex.value ==
-                            //                                   index
-                            //                               ? clrWhite
-                            //                               : clrBlacke),
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       );
-                            //     },
-                            //     separatorBuilder:
-                            //         (BuildContext context, int index) {
-                            //       return const SizedBox(
-                            //         width: 10,
-                            //       );
-                            //     },
-                            //   )
-                                ? SizedBox()
-                                : ListView.separated(
-                              itemCount: controller.dayList.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    controller.dayIndex.value = index;
-                                    print('day==> ${controller.dayIndex.value}');
-                                    controller.changeday(index);
-                                  },
-                                  child: Obx(
-                                        () => Container(
-                                      padding: const EdgeInsets.all(5),
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color:
-                                          controller.dayIndex.value == index
-                                              ? clrYellow
-                                              : clrGreyLight),
-                                      child: Center(
-                                        child: Text(
-                                          controller.dayList[index],
-                                          style: TextStyle(
-                                              color: controller.dayIndex.value ==
-                                                  index
-                                                  ? clrWhite
-                                                  : clrBlacke),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  width: 10,
-                                );
-                              },
-                            ),
+            Obx(
+              () => controller.wmValue.value == 2
+                  ? SizedBox()
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Repeat on",
+                            style: TextStyle(
+                                color: clrGreyTextLight, fontSize: 15),
+                            textAlign: TextAlign.center,
                           ),
-                        )),
-                    const SizedBox(
-                      height: 10,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: SizedBox(
+                              height: 40,
+                              child: Obx(
+                                () => controller.wmValue.value == 2
+                                    // ? ListView.separated(
+                                    //     itemCount: controller.monthList.length,
+                                    //     shrinkWrap: true,
+                                    //     scrollDirection: Axis.horizontal,
+                                    //     itemBuilder: (context, index) {
+                                    //       return GestureDetector(
+                                    //         onTap: () {
+                                    //           controller.monthIndex.value = index;
+                                    //           controller.changemonth(index);
+                                    //         },
+                                    //         child: Obx(
+                                    //           () => Container(
+                                    //             padding: const EdgeInsets.all(5),
+                                    //             height: 30,
+                                    //             width: 30,
+                                    //             decoration: BoxDecoration(
+                                    //                 shape: BoxShape.circle,
+                                    //                 color:
+                                    //                     controller.monthIndex.value == index
+                                    //                         ? clrYellow
+                                    //                         : clrGreyLight),
+                                    //             child: Center(
+                                    //               child: FittedBox(
+                                    //                 child: Text(
+                                    //                   controller.monthList[index],
+                                    //                   style: TextStyle(
+                                    //                       color:
+                                    //                           controller.monthIndex.value ==
+                                    //                                   index
+                                    //                               ? clrWhite
+                                    //                               : clrBlacke),
+                                    //                 ),
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       );
+                                    //     },
+                                    //     separatorBuilder:
+                                    //         (BuildContext context, int index) {
+                                    //       return const SizedBox(
+                                    //         width: 10,
+                                    //       );
+                                    //     },
+                                    //   )
+                                    ? SizedBox()
+                                    : ListView.separated(
+                                        itemCount: controller.dayList.length,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              controller.dayIndex.value = index;
+                                              print(
+                                                  'day==> ${controller.dayIndex.value}');
+                                              controller.changeday(index);
+                                            },
+                                            child: Obx(
+                                              () => Container(
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: controller.dayIndex
+                                                                .value ==
+                                                            index
+                                                        ? clrYellow
+                                                        : clrGreyLight),
+                                                child: Center(
+                                                  child: Text(
+                                                    controller.dayList[index],
+                                                    style: TextStyle(
+                                                        color: controller
+                                                                    .dayIndex
+                                                                    .value ==
+                                                                index
+                                                            ? clrWhite
+                                                            : clrBlacke),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return const SizedBox(
+                                            width: 10,
+                                          );
+                                        },
+                                      ),
+                              ),
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
             ),
-
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
@@ -1947,15 +2225,20 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                     context: context,
                                     firstDate: DateTime.now(),
                                     lastDate: DateTime(2025),
-                                    builder: (BuildContext context, Widget? child) {
+                                    builder:
+                                        (BuildContext context, Widget? child) {
                                       return Theme(
                                         data: ThemeData.light().copyWith(
                                           colorScheme: ColorScheme.light(
-                                            primary: clrYellow, // Change the color to yellow
-                                            onPrimary: Colors.black, // Text color on selected date
-                                            onSurface: Colors.black, // Text color on unselected dates
+                                            primary: clrYellow,
+                                            // Change the color to yellow
+                                            onPrimary: Colors.black,
+                                            // Text color on selected date
+                                            onSurface: Colors
+                                                .black, // Text color on unselected dates
                                           ),
-                                          dialogBackgroundColor: Colors.white, // Background color of the date picker
+                                          dialogBackgroundColor: Colors
+                                              .white, // Background color of the date picker
                                         ),
                                         child: child!,
                                       );

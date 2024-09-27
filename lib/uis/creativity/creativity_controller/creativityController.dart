@@ -326,37 +326,77 @@ class Creativitycontroller extends GetxController
 
   final api = ApiServices();
   var catData = CategoryModel().obs;
-  RxList<DropdownMenuItem<int>> categoryList = <DropdownMenuItem<int>>[].obs;
-  RxList<DropdownMenuItem<int>> subcategoryList = <DropdownMenuItem<int>>[].obs;
-  var subcategoryNameList = <Map<String, dynamic>>[].obs;
+  // RxList<DropdownMenuItem<int>> categoryList = <DropdownMenuItem<int>>[].obs;
+  var newList = <Map<String,dynamic>>[].obs;
+  var newSubList = <Map<String,dynamic>>[].obs;
+  // RxList<DropdownMenuItem<int>> subcategoryList = <DropdownMenuItem<int>>[].obs;
+  // var subcategoryNameList = <Map<String, dynamic>>[].obs;
 
-  void getSubCat(int catID){
-    subCatID.value = '';
-    subcategoryList.clear();
-    subcategoryNameList.clear();
+  void getSubCat(String catID){
+    // subCatID.value = '';
+    subCatName.value = '';
+    // subcategoryList.clear();
+    newSubList.clear();
+    // subcategoryNameList.clear();
     for(int i = 0; i<catData.value.result!.length;i++){
-      if(catData.value.result![i].id == catID){
+      if(catData.value.result![i].title == catID){
         catData.value.result![i].subcategories?.forEach((e) {
-          subcategoryList.add(DropdownMenuItem(value: e.id,child: Text(e.title.toString())));
-          subcategoryNameList.add({
-            'id':e.id,
-            'title':e.title
-          });
+          newSubList.add({'id':e.id.toString(),'value':e.title});
+          // subcategoryList.add(DropdownMenuItem(value: e.id,child: Text(e.title.toString())));
+          // subcategoryNameList.add({
+          //   'id':e.id,
+          //   'title':e.title
+          // });
         },);
       }
     }
   }
 
-  var subCatName = ''.obs;
-
-  void getSubCatName(int subCatID){
-    subCatName.value = '';
-    subcategoryNameList.forEach((element) {
-      if(element['id'] == subCatID){
-        subCatName.value = element['title'];
+  void getSubCatID(String value){
+    subCatID.value = '';
+    newSubList.forEach((e) {
+      if(e['value'] == value){
+        subCatID.value = e['id'];
       }
     },);
+    print('subCatID == ${subCatID.value}');
   }
+
+  var subCatName = ''.obs;
+
+  // void getSubCatName(int subCatID){
+  //   subCatName.value = '';
+  //   subcategoryNameList.forEach((element) {
+  //     if(element['id'] == subCatID){
+  //       subCatName.value = element['title'];
+  //     }
+  //   },);
+  // }
+
+  var genderList = [{
+    'value':'1',
+    'title':'Same gender as me'
+  },
+    {
+      'value':'2',
+      'title':'All'
+    }
+  ].obs;
+  var genderName = ''.obs;
+
+  var repeatList = [{
+    'value':'1',
+    'title':'Doesn’t repeat'
+  },
+    {
+      'value':'2',
+      'title':'Should have repeat schedule'
+    }
+  ].obs;
+  var repeatName = ''.obs;
+
+
+
 
   var catLoading = false.obs;
   var catError = ''.obs;
@@ -369,25 +409,40 @@ class Creativitycontroller extends GetxController
       final response = await api.get("${EndPoints.getCategoryApiUrl}$uid",headers: header);
       if(response.statusCode == 200){
         catError.value = '';
-        categoryList.clear();
+        // categoryList.clear();
+        newList.clear();
         catData.value = CategoryModel.fromJson(response.body);
         catData.value.result?.forEach((e) {
-          categoryList.add(DropdownMenuItem(
-            value: e.id,
-            child: Text(e.title.toString()),
-          ));
+          newList.add({'id':e.id.toString(),'value':e.title});
         });
+        // catData.value.result?.forEach((e) {
+        //   categoryList.add(DropdownMenuItem(
+        //     value: e.id,
+        //     child: Text(e.title.toString()),
+        //   ));
+        // });
       }else{
         catError.value = 'Error';
       }
     }catch(e){
       catError.value = e.toString();
-      print('error == ${e.toString()}');
+      print('cat error == ${e.toString()}');
     }
     catLoading.value = false;
   }
 
+  void getCatID(String value){
+    catID.value = '';
+    newList.forEach((e) {
+      if(e['value'] == value){
+        catID.value = e['id'];
+      }
+    },);
+    print('cat id == ${catID.value}');
+  }
+
   var catID = ''.obs;
+  var catName = ''.obs;
   var subCatID = ''.obs;
   var titleController = TextEditingController().obs;
   var locController = TextEditingController().obs;

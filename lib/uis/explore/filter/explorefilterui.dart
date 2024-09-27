@@ -1,3 +1,4 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -868,60 +869,103 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       ),
                                       Obx(() {
                                         // int val=controller.timeFilter.value;
-                                        return CustoDropDownBtn(
-                                            val: controller.timeFilter.value == 0
-                                                ? null
-                                                : controller.timeFilter.value,
-                                            onchange: (val) {
-
+                                        return CustomDropdown(
+                                          initialItem: controller.time(),
+                                          hintText: 'Select Time',
+                                            items: controller.timelist.map((e) {
+                                              return e['value'];
+                                            },).toList(),
+                                            onChanged: (val) {
                                               switch (val) {
-                                                case 1:
+                                                case 'Morning (Before 12:00)':
                                                   controller.selectedTime.value = "morning";
                                                   break;
-                                                case 2:
+                                                case 'Afternoon (12:00 - 18:00)':
                                                   controller.selectedTime.value = "afternoon";
                                                   break;
-                                                case 3:
+                                                case 'Evening (After 18:00)':
                                                   controller.selectedTime.value = "evening";
                                                   break;
                                                 default:
                                                   controller.selectedTime.value = "";
                                               }
-                                              controller.changeTimeFilter(val);
                                             },
-                                            prefixIcon: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 10),
-                                                child: const Image(
-                                                  image: AssetImage(
-                                                      "assets/icons/timericon.png"),
-                                                  height: 3,
-                                                  width: 3,
-                                                )),
-                                            suffix: Image.asset(
-                                              'assets/images/arrow down.png',
-                                              scale: 4,
-                                            ),
-                                            itemList: const [
-                                              DropdownMenuItem(
-                                                value: 1,
-                                                child: Text(
-                                                    "Morning (Before 12:00)"),
+                                          decoration: CustomDropdownDecoration(
+                                              hintStyle: TextStyle(
+                                                  color: clrBlacke.withOpacity(0.6),
+                                                  fontSize: 15
+
                                               ),
-                                              DropdownMenuItem(
-                                                value: 2,
-                                                child: Text(
-                                                    "Afternoon (12:00 - 18:00)"),
+                                              closedSuffixIcon: Image.asset(
+                                                'assets/images/arrow down.png',
+                                                scale: 4,
                                               ),
-                                              DropdownMenuItem(
-                                                value: 3,
-                                                child: Text(
-                                                    "Evening (After 18:00)"),
-                                              )
-                                            ],
-                                            hindtext: "Select Time");
+                                              expandedSuffixIcon: Image.asset(
+                                                'assets/images/arrow down.png',
+                                                scale: 4,
+                                              ),
+                                              prefixIcon: Image.asset(
+                                                'assets/icons/timericon.png',
+                                                scale: 1.5,
+                                              ),
+                                              closedFillColor: clrGreyLight,
+                                              closedBorderRadius: BorderRadius.circular(100)
+                                          ),
+                                        );
+                                          // CustoDropDownBtn(
+                                          //   val: controller.timeFilter.value == 0
+                                          //       ? null
+                                          //       : controller.timeFilter.value,
+                                          //   onchange: (val) {
+                                          //
+                                          //     switch (val) {
+                                          //       case 1:
+                                          //         controller.selectedTime.value = "morning";
+                                          //         break;
+                                          //       case 2:
+                                          //         controller.selectedTime.value = "afternoon";
+                                          //         break;
+                                          //       case 3:
+                                          //         controller.selectedTime.value = "evening";
+                                          //         break;
+                                          //       default:
+                                          //         controller.selectedTime.value = "";
+                                          //     }
+                                          //     controller.changeTimeFilter(val);
+                                          //   },
+                                          //   prefixIcon: Container(
+                                          //       padding:
+                                          //           const EdgeInsets.symmetric(
+                                          //               horizontal: 12,
+                                          //               vertical: 10),
+                                          //       child: const Image(
+                                          //         image: AssetImage(
+                                          //             "assets/icons/timericon.png"),
+                                          //         height: 3,
+                                          //         width: 3,
+                                          //       )),
+                                          //   suffix: Image.asset(
+                                          //     'assets/images/arrow down.png',
+                                          //     scale: 4,
+                                          //   ),
+                                          //   itemList: const [
+                                          //     DropdownMenuItem(
+                                          //       value: 1,
+                                          //       child: Text(
+                                          //           "Morning (Before 12:00)"),
+                                          //     ),
+                                          //     DropdownMenuItem(
+                                          //       value: 2,
+                                          //       child: Text(
+                                          //           "Afternoon (12:00 - 18:00)"),
+                                          //     ),
+                                          //     DropdownMenuItem(
+                                          //       value: 3,
+                                          //       child: Text(
+                                          //           "Evening (After 18:00)"),
+                                          //     )
+                                          //   ],
+                                          //   hindtext: "Select Time");
                                       }),
 
                                       SizedBox(
@@ -937,44 +981,79 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                         height: Get.height * 0.01,
                                       ),
                                       Obx(() {
-                                        return CustoDropDownBtn(
-                                            val: controller
-                                                        .genderFilter.value ==
-                                                    0
-                                                ? null
-                                                : controller
-                                                    .genderFilter.value,
-                                            onchange: (val) {
-                                              controller
-                                                  .changeGenderFilter(val);
-                                            },
-                                            suffix: Image.asset(
-                                              'assets/images/arrow down.png',
-                                              scale: 4,
-                                            ),
-                                            prefixIcon: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 10),
-                                                child: const Image(
-                                                  image: AssetImage(
-                                                      "assets/icons/gendericon.png"),
-                                                  height: 3,
-                                                  width: 3,
-                                                )),
-                                            itemList: const [
-                                              const DropdownMenuItem(
-                                                value: 1,
-                                                child:
-                                                    Text("Same gender as me"),
+                                        return CustomDropdown(
+                                          initialItem: controller.gender(),
+                                          hintText: 'Select Gender',
+                                          items: controller.genderlist.map((e) {
+                                            return e['value'];
+                                          },).toList(),
+                                          onChanged: (val) {
+                                            if(val == 'All'){
+                                              controller.genderFilter.value = 2;
+                                            }else if(val  == 'Same gender as me'){
+                                              controller.genderFilter.value = 1;
+                                            }
+                                          },
+                                          decoration: CustomDropdownDecoration(
+                                              hintStyle: TextStyle(
+                                                  color: clrBlacke.withOpacity(0.6),
+                                                  fontSize: 15
+
                                               ),
-                                              DropdownMenuItem(
-                                                value: 2,
-                                                child: Text("All"),
-                                              )
-                                            ],
-                                            hindtext: "Select");
+                                              closedSuffixIcon: Image.asset(
+                                                'assets/images/arrow down.png',
+                                                scale: 4,
+                                              ),
+                                              expandedSuffixIcon: Image.asset(
+                                                'assets/images/arrow down.png',
+                                                scale: 4,
+                                              ),
+                                              prefixIcon: Image.asset(
+                                                'assets/icons/gendericon.png',
+                                                scale: 1.5,
+                                              ),
+                                              closedFillColor: clrGreyLight,
+                                              closedBorderRadius: BorderRadius.circular(100)
+                                          ),
+                                        );
+                                          // CustoDropDownBtn(
+                                          //   val: controller
+                                          //               .genderFilter.value ==
+                                          //           0
+                                          //       ? null
+                                          //       : controller
+                                          //           .genderFilter.value,
+                                          //   onchange: (val) {
+                                          //     controller
+                                          //         .changeGenderFilter(val);
+                                          //   },
+                                          //   suffix: Image.asset(
+                                          //     'assets/images/arrow down.png',
+                                          //     scale: 4,
+                                          //   ),
+                                          //   prefixIcon: Container(
+                                          //       padding:
+                                          //           const EdgeInsets.symmetric(
+                                          //               horizontal: 12,
+                                          //               vertical: 10),
+                                          //       child: const Image(
+                                          //         image: AssetImage(
+                                          //             "assets/icons/gendericon.png"),
+                                          //         height: 3,
+                                          //         width: 3,
+                                          //       )),
+                                          //   itemList: const [
+                                          //     const DropdownMenuItem(
+                                          //       value: 1,
+                                          //       child:
+                                          //           Text("Same gender as me"),
+                                          //     ),
+                                          //     DropdownMenuItem(
+                                          //       value: 2,
+                                          //       child: Text("All"),
+                                          //     )
+                                          //   ],
+                                          //   hindtext: "Select");
                                       }),
                                       SizedBox(
                                         height: Get.height * 0.005,
