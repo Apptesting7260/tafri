@@ -64,8 +64,8 @@ class MymembershipController extends GetxController {
     await inAppPurchase.restorePurchases();
   }
 
-  void listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+  Future<void> listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) async {
+    for(var purchaseDetails in purchaseDetailsList) {
       buttonLoadingMonthly.value = false;
       buttonLoadingYearly.value = false;
       if (purchaseDetails.status == PurchaseStatus.pending) {
@@ -76,7 +76,7 @@ class MymembershipController extends GetxController {
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
           if (purchaseDetails.status == PurchaseStatus.restored) {
-            subscriptionAPi(
+            await subscriptionAPi(
                 is_recover: 'true',
                 transaction_id: purchaseDetails.purchaseID.toString(),
                 transaction_date: purchaseDetails.transactionDate.toString(),
@@ -87,6 +87,8 @@ class MymembershipController extends GetxController {
                     : purchaseDetails.productID,
                 allData: purchaseDetails.verificationData.localVerificationData,
                 pay_type: purchaseDetails.verificationData.source);
+            print(
+                "Verification Data Local 1  => ${purchaseDetails.verificationData.localVerificationData}");
           } else {
             print("The status is --> ${purchaseDetails.status}");
             print("Verified purchase");
@@ -97,14 +99,14 @@ class MymembershipController extends GetxController {
             print("Status => ${purchaseDetails.status}");
             print("Transaction Date => ${purchaseDetails.transactionDate}");
             print(
-                "Verification Data Local  => ${purchaseDetails.verificationData.localVerificationData}");
+                "Verification Data Local 2  => ${purchaseDetails.verificationData.localVerificationData}");
             print(
                 "Verification Data Server => ${purchaseDetails.verificationData.serverVerificationData}");
             print(
                 "Verification Data Source => ${purchaseDetails.verificationData.source}");
             print("This time we are calling backend api");
 
-            subscriptionAPi(
+            await subscriptionAPi(
                 is_recover: 'false',
                 transaction_id: purchaseDetails.purchaseID.toString(),
                 transaction_date: purchaseDetails.transactionDate.toString(),
@@ -120,7 +122,95 @@ class MymembershipController extends GetxController {
           await inAppPurchase.completePurchase(purchaseDetails);
         }
       }
-    });
+    }
+    // purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+    //   buttonLoadingMonthly.value = false;
+    //   buttonLoadingYearly.value = false;
+    //   if (purchaseDetails.status == PurchaseStatus.pending) {
+    //     print("Pending Status");
+    //   } else {
+    //     if (purchaseDetails.status == PurchaseStatus.error) {
+    //       print("Error status");
+    //     } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+    //         purchaseDetails.status == PurchaseStatus.restored) {
+    //       if (purchaseDetails.status == PurchaseStatus.restored) {
+    //         await subscriptionAPi(
+    //             is_recover: 'true',
+    //             transaction_id: purchaseDetails.purchaseID.toString(),
+    //             transaction_date: purchaseDetails.transactionDate.toString(),
+    //             planType: Platform.isIOS
+    //                 ? purchaseDetails.productID == 'Annual'
+    //                 ? 'yearly_plan'
+    //                 : 'monthly_plan'
+    //                 : purchaseDetails.productID,
+    //             allData: purchaseDetails.verificationData.localVerificationData,
+    //             pay_type: purchaseDetails.verificationData.source);
+    //         print(
+    //             "Verification Data Local 1  => ${purchaseDetails.verificationData.localVerificationData}");
+    //       } else {
+    //         print("The status is --> ${purchaseDetails.status}");
+    //         print("Verified purchase");
+    //         print("Purchase Id => ${purchaseDetails.purchaseID}");
+    //         print(
+    //             "Pending Complete Purchase => ${purchaseDetails.pendingCompletePurchase}");
+    //         print("Product Id => ${purchaseDetails.productID}");
+    //         print("Status => ${purchaseDetails.status}");
+    //         print("Transaction Date => ${purchaseDetails.transactionDate}");
+    //         print(
+    //             "Verification Data Local 2  => ${purchaseDetails.verificationData.localVerificationData}");
+    //         print(
+    //             "Verification Data Server => ${purchaseDetails.verificationData.serverVerificationData}");
+    //         print(
+    //             "Verification Data Source => ${purchaseDetails.verificationData.source}");
+    //         print("This time we are calling backend api");
+    //
+    //         await subscriptionAPi(
+    //             is_recover: 'false',
+    //             transaction_id: purchaseDetails.purchaseID.toString(),
+    //             transaction_date: purchaseDetails.transactionDate.toString(),
+    //             planType: purchaseDetails.productID == 'Annual'
+    //                 ? 'yearly_plan'
+    //                 : 'monthly_plan',
+    //             allData: purchaseDetails.verificationData.localVerificationData,
+    //             pay_type: purchaseDetails.verificationData.source);
+    //       }
+    //     }
+    //     if (purchaseDetails.pendingCompletePurchase) {
+    //       print('complete purchase called');
+    //       await inAppPurchase.completePurchase(purchaseDetails);
+    //     }
+    //   }
+    // });
+
+    // for (var purchaseDetails in purchaseDetailsList) {
+    //   if (purchaseDetails.status == PurchaseStatus.purchased) {
+    //     // Verify the purchase with your server and unlock the subscription content
+    //     if (purchaseDetails.productID == 'Monthly') {
+    //
+    //       // await getSubs(purchaseDetails.verificationData.localVerificationData);
+    //       print("all data ${purchaseDetails.verificationData.localVerificationData}");
+    //       print("purchaseToken ${purchaseDetails.purchaseID}");
+    //       print("notificationType ${purchaseDetails.status}");
+    //       // Assuming `amplitude` is defined and initialized somewhere
+    //
+    //       Get.back();
+    //     } else if (purchaseDetails.productID == 'Annual') {
+    //       // await  getSubs(purchaseDetails.verificationData.localVerificationData);
+    //
+    //       print("all data ${purchaseDetails.verificationData.localVerificationData}");
+    //       print("purchaseToken ${purchaseDetails.purchaseID}");
+    //       print("notificationType ${purchaseDetails.status}");
+    //       // await isPrimeApi();
+    //       // Get.back();
+    //     }
+    //   } else if (purchaseDetails.status == PurchaseStatus.error) {
+    //     // Handle the error
+    //     print("Purchase Error: ${purchaseDetails.error}");
+    //   }
+    //   if (purchaseDetails.pendingCompletePurchase) {
+    //     InAppPurchase.instance.completePurchase(purchaseDetails);
+    //   }
+    // }
   }
 
   Future<void> getYearly() async {
