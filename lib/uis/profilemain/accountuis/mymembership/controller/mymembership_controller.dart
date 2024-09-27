@@ -68,12 +68,10 @@ class MymembershipController extends GetxController {
     for(var purchaseDetails in purchaseDetailsList) {
       buttonLoadingMonthly.value = false;
       buttonLoadingYearly.value = false;
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        print("Pending Status");
-      } else {
-        if (purchaseDetails.status == PurchaseStatus.error) {
-          print("Error status");
-        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+      // if (purchaseDetails.status == PurchaseStatus.pending) {
+      //   print("Pending Status");
+      // } else {
+         if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
           if (purchaseDetails.status == PurchaseStatus.restored) {
             await subscriptionAPi(
@@ -116,13 +114,15 @@ class MymembershipController extends GetxController {
                 allData: purchaseDetails.verificationData.localVerificationData,
                 pay_type: purchaseDetails.verificationData.source);
           }
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
+        } else if (purchaseDetails.status == PurchaseStatus.error) {
+           print("Error status ${purchaseDetails.error?.message}");
+         }
+         if (purchaseDetails.pendingCompletePurchase) {
           print('complete purchase called');
           await inAppPurchase.completePurchase(purchaseDetails);
         }
       }
-    }
+    // }
     // purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
     //   buttonLoadingMonthly.value = false;
     //   buttonLoadingYearly.value = false;
