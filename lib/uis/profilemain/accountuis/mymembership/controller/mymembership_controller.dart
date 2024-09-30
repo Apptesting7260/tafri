@@ -321,6 +321,7 @@ class MymembershipController extends GetxController {
      print('subscription response == ${response.body}');
       if (response.statusCode == 200 && response.body['status'] == 'Success') {
         showTostMsg('You are now a premium user.');
+        homeController.homePageApi();
       } else {
         showTostMsg('Error occured!');
       }
@@ -347,10 +348,8 @@ class MymembershipController extends GetxController {
   Future<void> buySubscription() async{
     if(selectedval.value == 1){
       await getYearly();
-      homeController.homePageApi();
     }else if(selectedval.value == 2){
       await getMonthly();
-      homeController.homePageApi();
     }else{
       showTostMsg('Please choose any plan');
     }
@@ -359,10 +358,8 @@ class MymembershipController extends GetxController {
   Future<void> subscribe() async{
     if(choosePlan.value == 1){
       await getYearly();
-      homeController.homePageApi();
     }else if(choosePlan.value == 2){
       await getMonthly();
-      homeController.homePageApi();
     }else{
       showTostMsg('Please select plan');
     }

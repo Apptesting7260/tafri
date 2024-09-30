@@ -19,7 +19,7 @@
    }
      override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let firebaseAuth = Auth.auth()
-        firebaseAuth.setAPNSToken(deviceToken, type: AuthAPNSTokenType.sandbox) //AuthAPNSTokenType.sandbox
+        firebaseAuth.setAPNSToken(deviceToken, type: AuthAPNSTokenType.prod) //AuthAPNSTokenType.sandbox
 
     }
 

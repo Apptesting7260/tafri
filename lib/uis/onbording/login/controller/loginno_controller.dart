@@ -371,6 +371,7 @@ class LoginnoController extends GetxController {
       final response = await api.post(EndPoints.socialLoginUrl, body);
       print('send data == ${body}');
       print("response ${response.body}");
+      print(response.statusCode);
       if(response.statusCode == 200){
         var data = SocialLoginModel.fromJson(response.body);
         if(data.status == true){
@@ -380,6 +381,8 @@ class LoginnoController extends GetxController {
         }else{
           showTostMsg('Login failed.');
         }
+      } else if(response.statusCode == 401){
+        showTostMsg('Login failed.It seems your account has been deleted.');
       }else{
         showTostMsg('Login failed.');
       }
