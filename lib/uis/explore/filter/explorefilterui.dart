@@ -9,6 +9,7 @@ import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/components/location_form_field.dart';
 import 'package:plusone/uis/creativity/model/category_model.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/utils/colors.dart';
@@ -310,17 +311,41 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       SizedBox(
                                         height: Get.height * 0.01,
                                       ),
-                                      CustoTextFormField(
-                                        controll: controller.locController,
+                                      CustomLocationField(
+                                        itemBuilder: (context, suggestion) {
+                                          return ListTile(
+                                            title: Text(suggestion.toString()),
+                                          );
+                                        },
+                                        suggestionsCallback: (value) async{
+                                          return controller.searchPlaces(value);
+                                        },
                                         hintText: "Search Location",
-                                        sufixIcon: Padding(
-                                          padding: const EdgeInsets.all(13.0),
-                                          child: Image.asset(
-                                            "assets/icons/locationicon.png",
-                                            height: 15,
-                                          ),
-                                        ),
+                                        controller: controller.locController,
+                                        onSelected: (value) {
+                                          controller.locController.text = value.toString();
+                                        },
+                                        sufixIcon: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 13),
+                                            child: const Image(
+                                              image: AssetImage(
+                                                  "assets/icons/locationicon.png"),
+                                              height: 1,
+                                              width: 1,
+                                            )),
                                       ),
+                                      // CustoTextFormField(
+                                      //   controll: controller.locController,
+                                      //   hintText: "Search Location",
+                                      //   sufixIcon: Padding(
+                                      //     padding: const EdgeInsets.all(13.0),
+                                      //     child: Image.asset(
+                                      //       "assets/icons/locationicon.png",
+                                      //       height: 15,
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       SizedBox(
                                         height: Get.height * 0.025,
                                       ),

@@ -93,16 +93,16 @@ class SearchActui extends GetWidget<SearchActController> {
                                     onTap: () {
                                       if (controller.homeData.value.result
                                                   ?.profileComplete ==
-                                              false &&
+                                              true &&
                                           controller.homeData.value.result
                                                   ?.membershipStatus ==
-                                              false) {
-                                        // controller.showHomePop();
-                                      } else {
+                                              true) {
                                         Get.toNamed(Routes.exploreView,
                                             arguments: activityData?[index]
                                                 .id
                                                 .toString());
+                                      } else {
+                                        controller.showHomePop();
                                       }
                                     },
                                     child: Container(
@@ -229,31 +229,29 @@ class SearchActui extends GetWidget<SearchActController> {
                                                                       .value
                                                                       .result
                                                                       ?.profileComplete ==
-                                                                  false &&
+                                                                  true &&
                                                               controller
                                                                       .homeData
                                                                       .value
                                                                       .result
                                                                       ?.membershipStatus ==
-                                                                  false) {
-                                                            // controller.showHomePop();
-                                                          } else {
+                                                                  true) {
                                                             var id =
-                                                                activityData?[
-                                                                        index]
-                                                                    .id
-                                                                    .toString();
+                                                            activityData?[
+                                                            index]
+                                                                .id
+                                                                .toString();
                                                             await controller
                                                                 .changeFavApi(
-                                                                    id)
+                                                                id)
                                                                 .then(
-                                                              (value) {
+                                                                  (value) {
                                                                 if (value ==
                                                                     true) {
                                                                   activityData?[
-                                                                          index]
+                                                                  index]
                                                                       .isFav = !activityData[
-                                                                          index]
+                                                                  index]
                                                                       .isFav!;
                                                                 }
                                                               },
@@ -261,6 +259,8 @@ class SearchActui extends GetWidget<SearchActController> {
 
                                                             controller.homeData
                                                                 .refresh();
+                                                          } else {
+                                                            controller.showHomePop();
                                                           }
 
                                                           // controller
@@ -365,19 +365,41 @@ class SearchActui extends GetWidget<SearchActController> {
                                                     SizedBox(
                                                       height: h * .005,
                                                     ),
-                                                    Text(
+                                                    controller
+                                                        .homeData
+                                                        .value
+                                                        .result
+                                                        ?.profileComplete ==
+                                                        true &&
+                                                        controller
+                                                            .homeData
+                                                            .value
+                                                            .result
+                                                            ?.membershipStatus ==
+                                                            true ? Text(
                                                       '${activityData?[index].location}',
                                                       style: TextStyle(
                                                           color: clrGreyDark),
-                                                    ),
+                                                    ) : SizedBox(),
                                                     SizedBox(
                                                       height: h * .005,
                                                     ),
-                                                    Text(
+                                                    controller
+                                                        .homeData
+                                                        .value
+                                                        .result
+                                                        ?.profileComplete ==
+                                                        true &&
+                                                        controller
+                                                            .homeData
+                                                            .value
+                                                            .result
+                                                            ?.membershipStatus ==
+                                                            true ? Text(
                                                       '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
                                                       style: TextStyle(
                                                           color: clrGreyDark),
-                                                    ),
+                                                    ) : SizedBox(),
                                                     SizedBox(
                                                       height: h * .008,
                                                     ),
@@ -401,12 +423,29 @@ class SearchActui extends GetWidget<SearchActController> {
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                  Get.toNamed(
-                                                      Routes.hostProfileUi,
-                                                      arguments:
-                                                          activityData?[index]
-                                                              .hostId
-                                                              .toString());
+                                                  if(
+                                                  controller
+                                                      .homeData
+                                                      .value
+                                                      .result
+                                                      ?.profileComplete ==
+                                                      true &&
+                                                      controller
+                                                          .homeData
+                                                          .value
+                                                          .result
+                                                          ?.membershipStatus ==
+                                                          true
+                                                  ) {
+                                                    Get.toNamed(
+                                                        Routes.hostProfileUi,
+                                                        arguments:
+                                                        activityData?[index]
+                                                            .hostId
+                                                            .toString());
+                                                  }else{
+                                                    controller.showHomePop();
+                                                  }
                                                 },
                                                 child: Column(
                                                   crossAxisAlignment:

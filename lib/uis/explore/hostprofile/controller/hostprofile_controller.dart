@@ -5,16 +5,26 @@ import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/explore/hostprofile/model/hostprofile_model.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HostProfileController extends GetxController{
   @override
   void onInit() {
-    // TODO: implement onInit
     String id = Get.arguments;
     print(id);
     hostapi(id);
     super.onInit();
   }
+
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+  RefreshController refreshController1 = RefreshController(initialRefresh: false);
+
+  Future<void> refreshApi() async{
+    await hostapi(Get.arguments);
+    refreshController.refreshCompleted();
+    refreshController1.refreshCompleted();
+  }
+
 
 
   String getPronoun(String? gender) {

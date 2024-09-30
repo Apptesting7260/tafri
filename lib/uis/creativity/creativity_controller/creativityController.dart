@@ -260,6 +260,7 @@ class Creativitycontroller extends GetxController
   }
 
   var date = ''.obs;
+  var dateForView = ''.obs;
 
 
   String formatDate(String date) {
@@ -277,7 +278,40 @@ class Creativitycontroller extends GetxController
     String formattedDay = dateTime.day.toString().padLeft(2, '0');
 
     date.value = '${dateTime.year}-$formattedMonth-$formattedDay';
+    dateForView.value = '${formattedDay} ${getMonthName(int.parse(formattedMonth))} ${dateTime.year}';
   }
+
+  String getMonthName(int monthNumber) {
+    switch (monthNumber) {
+      case 1:
+        return 'January';
+      case 2:
+        return 'February';
+      case 3:
+        return 'March';
+      case 4:
+        return 'April';
+      case 5:
+        return 'May';
+      case 6:
+        return 'June';
+      case 7:
+        return 'July';
+      case 8:
+        return 'August';
+      case 9:
+        return 'September';
+      case 10:
+        return 'October';
+      case 11:
+        return 'November';
+      case 12:
+        return 'December';
+      default:
+        return 'Invalid month';
+    }
+  }
+
   // changeDate(DateTime dateTime){
   //   dateForPicker.value = dateTime.toString();
   //   date.value = '${dateTime.year}-${dateTime.month}-${dateTime.day}';

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:intl/intl.dart';
@@ -274,12 +275,15 @@ class FilterExpController extends GetxController{
     print('date ==> ${date}');
 
     // Validation to ensure at least one of the fields has a value
-    if (selected.isEmpty && locController.text.isEmpty && filterDateStart.isEmpty
-        && groupSizeController.text.isEmpty && categoryid.value == false
-        && genderFilter.value == 0 && selectedTime.isEmpty
-    ) {
-      showTostMsg('Please select at least one filter.');
-      return;
+    if(hideWaitListAct.value == false) {
+      if (selected.isEmpty && locController.text.isEmpty &&
+          filterDateStart.isEmpty
+          && groupSizeController.text.isEmpty && categoryid.value == false
+          && genderFilter.value == 0 && selectedTime.isEmpty
+      ) {
+        showTostMsg('Please select at least one filter.');
+        return;
+      }
     }
 
     // Map body;
@@ -409,132 +413,39 @@ class FilterExpController extends GetxController{
     }
   }
 
-  showHomePop() async {
-    Future.delayed(Duration.zero, () {
-      return Get.dialog(AlertDialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-          contentPadding:
-          const EdgeInsets.only(left: 18,right: 18, top: 20,bottom: 30),
-          content: SizedBox(
-            width: Get.width * 0.87,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const Icon(
-                      Icons.close,
-                      size: 35,
-                    )),
-                Center(
-                  child: Image.asset(
-                    "assets/icons/hifyicon.png",
-                    height: 49,
-                    width: 90,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                const Center(
-                    child: Text(
-                      "Welcome! Let’s get started",
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-                    )),
-                SizedBox(
-                  height: Get.height * 0.012,
-                ),
-                const Center(
-                  child: Text(
-                    "To join activities, please become a PlusOnes member and complete your profile.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,fontFamily: 'Nunito'),
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.025,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.planMemUi);
-                  },
-                  child: Container(
-                    width: double.maxFinite,
-                    padding: const EdgeInsets.only(left: 18,right: 10,top: 12,bottom: 12,),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: clrGreyLight),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/icons/tajicon.png",
-                          height: Get.height * 0.03,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Flexible(
-                                  child: Text(
-                                    "Become a member",
-                                    style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
-                                  )),
-                              Image.asset('assets/icons/arrow right.png',height: 14,)
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.myprofileInnUi);
-                  },
-                  child: Container(
-                    width: double.maxFinite,
-                    padding: const EdgeInsets.only(left: 18,right: 10,top: 12,bottom: 12,),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: clrGreyLight),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/icons/person.png",
-                          height: Get.height * 0.03,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Flexible(
-                                  child: Text("Complete profile",
-                                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400))),
-                              Image.asset('assets/icons/arrow right.png',height: 14)
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )));
-    });
+
+
+  RxList<String?> places = <String?>[].obs;
+  RxString _searchTerm = ''.obs;
+  final placesApi = GoogleMapsPlaces(apiKey: 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM');
+
+  void onSearchChanged(String value, BuildContext context) async {
+    print(value);
+    _searchTerm.value = value;
+    if (_searchTerm.isNotEmpty) {
+      final results = await searchPlaces(
+        _searchTerm.value,
+      );
+      places.value = results;
+    }
   }
+
+  Future<List<String?>> searchPlaces(String searchTerm) async {
+    // final response = await placesApi.searchByText(
+    //   searchTerm,
+    // );
+    final response = await placesApi.autocomplete(searchTerm);
+    // if(data.isOkay){
+    //   print("=== ${data.predictions[0].id}  ${data.predictions[0].description}  ${data.predictions[0].matchedSubstrings}");
+    // }
+    if (response.isOkay) {
+      print('location == ${response.predictions}');
+      return response.predictions.map((e) => e.description,).toList();
+    } else {
+      return [];
+    }
+  }
+
 
 
 }

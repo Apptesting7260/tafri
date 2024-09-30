@@ -2,86 +2,383 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/controller/mymembership_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/switchplanui.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import '../../../../utils/colors.dart';
 
-class MyMemberShipUi extends GetWidget<MymembershipController>{
-  const MyMemberShipUi({super.key});
+class MyMemberShipUi extends GetWidget<MymembershipController> {
+  MyMemberShipUi({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var h=Get.height;
-    var w=Get.width;
+    var h = Get.height;
+    var w = Get.width;
     return Scaffold(
       backgroundColor: clrWhite,
       body: SafeArea(
-
           child: Padding(
-            padding:   EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CommonUi.appBar(),
-                      const Text("My membership",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 19),),
-                        SizedBox(
-                        width:w*.05,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.035,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20,vertical: 20
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // color: clrGreyLight,
-                        border: Border.all(color: clrGrey.withOpacity(0.4))
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Annual",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                        SizedBox(height: 5,),
-                        Text("You are in a 3-month free trial.",style: TextStyle(color: clrGreyTextLight,fontSize: 14,fontWeight: FontWeight.w700),),
-                        Text("Starting 1 June, your plan will renew for the regular price of €23.99 every year until canceled. ",style: TextStyle(fontSize: 13,color: clrGrey5D5C5E),),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.035,
-                  ),
-                  SizedBox(
-                    width: double.maxFinite,
-                    height: Res.h_btn,
-                    child: CustomElevatedButton(onTap: (){
-                      Get.toNamed(Routes.switchPlanProUi);
-                    }, backgroundClr: clrBlacke, child: Text("Switch plan",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),)),
-                  )
-
-
-                ],
-              ),
-            ),
-          )),
+              padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+              child: Obx(
+                () => controller.homeController.homePageLoading.value
+                    ? Center(child: CommonUi.scaffoldLoading(color: clrYellow))
+                    : controller.homeController.homeError.value.isNotEmpty
+                        ? const Center(child: ErrorScreen())
+                        : controller.homeController
+                                .homeData.value.result!.planType!.isNotEmpty
+                            ? SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CommonUi.appBar(),
+                                        const Text(
+                                          "My membership",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 19),
+                                        ),
+                                        SizedBox(
+                                          width: w * .05,
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: Get.height * 0.035,
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 20),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          // color: clrGreyLight,
+                                          border: Border.all(
+                                              color: clrGrey.withOpacity(0.4))),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            controller.homeController
+                                                .homeData.value.result!.planType! == 'monthly_plan' ?  'Monthly' : "Annual",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 18),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            controller.homeController
+                                                .homeData.value.result!.planType! == 'monthly_plan' ? 'You are in a 1-week free trial.' : "You are in a 3-month free trial.",
+                                            style: TextStyle(
+                                                color: clrGreyTextLight,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          Text(
+                                            controller.homeController
+                                                .homeData.value.result!.planType! == 'monthly_plan' ? "Your plan will renew for the regular price of €3.99 every month until canceled." : "Your plan will renew for the regular price of €23.99 every year until canceled.",
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: clrGrey5D5C5E),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: Get.height * 0.035,
+                                    ),
+                                    SizedBox(
+                                      width: double.maxFinite,
+                                      height: Res.h_btn,
+                                      child: CustomElevatedButton(
+                                          onTap: () {
+                                            Get.toNamed(Routes.switchPlanProUi);
+                                          },
+                                          backgroundClr: clrBlacke,
+                                          child: Text(
+                                            "Switch plan",
+                                            style: TextStyle(
+                                                color: clrWhite,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700),
+                                          )),
+                                    )
+                                  ],
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                    children: [
+                                      CommonUi.appBar(),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.025,
+                                  ),
+                                  const Text(
+                                    "Become a PlusOnes member",
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Expanded(
+                                    child: ListView(
+                                      children: [
+                                        Text(
+                                            "Join our members-only platform to find like-minded activity partners in a high-quality and safe community.",
+                                            style: TextStyle(
+                                                color: clrGrey5D5C5E)),
+                                        SizedBox(
+                                          height: Get.height * 0.03,
+                                        ),
+                                        Obx(() => GestureDetector(
+                                          onTap: () {
+                                            controller.updatePlan(1);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 18),
+                                            decoration: BoxDecoration(
+                                                color: controller.choosePlan.value == 1 ? clrGreyLight : clrWhite,
+                                                borderRadius:
+                                                BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: clrGrey
+                                                        .withOpacity(0.3))),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Radio(
+                                                  value: 1,
+                                                  groupValue: controller.choosePlan.value,
+                                                  onChanged: (val) {},
+                                                  visualDensity:
+                                                  VisualDensity.compact,
+                                                  activeColor: clrYellow,
+                                                ),
+                                                Flexible(
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                      children: [
+                                                        Flexible(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              const Text(
+                                                                "Annual",
+                                                                style: TextStyle(
+                                                                    fontSize: 18,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                              ),
+                                                              RichText(
+                                                                  text: TextSpan(
+                                                                      children: [
+                                                                        TextSpan(
+                                                                          text:
+                                                                          "3 months free",
+                                                                          style: TextStyle(
+                                                                              color:
+                                                                              clrYellowText),
+                                                                        ),
+                                                                        TextSpan(
+                                                                            text:
+                                                                            " then €23.99/year",
+                                                                            style: TextStyle(
+                                                                                color:
+                                                                                clrGrey5D5C5E))
+                                                                      ])),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          padding: const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 3),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                              color: clrYellow),
+                                                          child: const Text(
+                                                            "Best value",
+                                                            style: TextStyle(
+                                                                fontSize: 10),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+                                        ),),
+                                        SizedBox(
+                                          height: Get.height * 0.03,
+                                        ),
+                                        Obx(() => GestureDetector(
+                                          onTap: () {
+                                            controller.updatePlan(2);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 18),
+                                            decoration: BoxDecoration(
+                                                color: controller.choosePlan.value == 2 ? clrGreyLight : clrTransparent,
+                                                borderRadius:
+                                                BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: clrGrey
+                                                        .withOpacity(0.3))),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Radio(
+                                                  value: 2,
+                                                  groupValue: controller.choosePlan.value,
+                                                  onChanged: (val) {},
+                                                  visualDensity:
+                                                  VisualDensity.compact,
+                                                  activeColor: clrYellow,
+                                                ),
+                                                Flexible(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      const Text("Monthly",
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w600)),
+                                                      RichText(
+                                                          text:
+                                                          TextSpan(children: [
+                                                            TextSpan(
+                                                              text: "1 week free",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                  clrYellowText),
+                                                            ),
+                                                            TextSpan(
+                                                                text:
+                                                                " then €3.99/month",
+                                                                style: TextStyle(
+                                                                    color:
+                                                                    clrGrey5D5C5E))
+                                                          ])),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),),
+                                        SizedBox(
+                                          height: Get.height * 0.03,
+                                        ),
+                                        RichText(
+                                            textAlign: TextAlign.center,
+                                            text: TextSpan(children: [
+                                              TextSpan(
+                                                text:
+                                                    "By starting your membership, you agree to our ",
+                                                style: TextStyle(
+                                                  color: clrGrey5D5C5E,
+                                                  height: 1.5,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                  text: " Terms of Service",
+                                                  style: TextStyle(
+                                                      color: clrYellow,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      height: 1.5)),
+                                              TextSpan(
+                                                text: " and",
+                                                style: TextStyle(
+                                                    color: clrGrey5D5C5E,
+                                                    height: 1.5),
+                                              ),
+                                              TextSpan(
+                                                  text: " Privacy Policy.",
+                                                  style: TextStyle(
+                                                      color: clrYellow,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      height: 1.5)),
+                                              TextSpan(
+                                                text:
+                                                    " After the free trial, your membership will auto-renew annually at €23.99 unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
+                                                style: TextStyle(
+                                                    color: clrGrey5D5C5E,
+                                                    height: 1.5),
+                                              )
+                                            ])),
+                                      ],
+                                    ),
+                                  ),
+                                  Obx(() => Opacity(
+                                    opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
+                                    child: SizedBox(
+                                      height: Res.h_btn,
+                                      width: double.maxFinite,
+                                      child: CustomElevatedButton(
+                                          onTap: () {
+                                            controller.subscribe();
+                                          },
+                                          backgroundClr: clrBlacke,
+                                          child: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? CommonUi.buttonLoading() : Text(
+                                            controller.choosePlan.value == 1 ? "Start 3 months free" : controller.choosePlan.value == 2 ? 'Start 1 week free' : 'Select plan',
+                                            style: TextStyle(
+                                                color: clrWhite,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700),
+                                          )),),
+                                  ),),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                ],
+                              ),
+              ))),
     );
   }
 }
-
-
-
 
 // class SubscriptionScreen extends StatefulWidget {
 //   const SubscriptionScreen({super.key});

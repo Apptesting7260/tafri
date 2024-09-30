@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/explore/filter/controller/filterexp_controller.dart';
 import 'package:plusone/uis/explore/filter/filteractivity/controller/filteractivity_controller.dart';
 import 'package:plusone/utils/no_activity.dart';
@@ -19,6 +20,7 @@ class FilterActUi extends GetWidget<FilterActController> {
   FilterActUi({super.key});
 
   final FilterExpController fcontorller = Get.find<FilterExpController>();
+  final ExploreListController hcontorller = Get.find<ExploreListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +71,8 @@ class FilterActUi extends GetWidget<FilterActController> {
                                         .toList();
                                     return InkWell(
                                       onTap: () {
-                                        if(fcontorller.filterActData.value.result?.profileComplete == false
-                                            &&  fcontorller.filterActData.value.result?.membershipStatus == false) {
-                                          // fcontorller.showHomePop();
-                                        } else {
+                                        if(hcontorller.homeData.value.result?.profileComplete == true
+                                            &&  hcontorller.homeData.value.result?.membershipStatus == true) {
                                           Get.toNamed(
                                               Routes
                                                   .exploreView,
@@ -81,6 +81,8 @@ class FilterActUi extends GetWidget<FilterActController> {
                                               index]
                                                   .id
                                                   .toString());
+                                        } else {
+                                          hcontorller.showHomePop();
                                         }
                                       },
                                       child: Container(
@@ -202,10 +204,8 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                         ),
                                                         InkWell(
                                                           onTap: () async {
-                                                            if(fcontorller.filterActData.value.result?.profileComplete == false
-                                                                &&  fcontorller.filterActData.value.result?.membershipStatus == false) {
-                                                              // fcontorller.showHomePop();
-                                                            } else {
+                                                            if(hcontorller.homeData.value.result?.profileComplete == true
+                                                                &&  hcontorller.homeData.value.result?.membershipStatus == true) {
                                                               var id = activityData?[index].id.toString();
                                                               await fcontorller.changeFavApi(id).then(
                                                                     (value) {
@@ -216,6 +216,8 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                               );
 
                                                               fcontorller.filterActData.refresh();
+                                                            } else {
+                                                              hcontorller.showHomePop();
                                                             }
 
                                                             // controller
@@ -307,19 +309,21 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                       SizedBox(
                                                         height: h * .005,
                                                       ),
-                                                      Text(
+                                                      hcontorller.homeData.value.result?.profileComplete == true
+                                                          &&  hcontorller.homeData.value.result?.membershipStatus == true ? Text(
                                                         '${activityData?[index].location}',
                                                         style: TextStyle(
                                                             color: clrGreyDark),
-                                                      ),
+                                                      ) : SizedBox(),
                                                       SizedBox(
                                                         height: h * .005,
                                                       ),
-                                                      Text(
+                                                      hcontorller.homeData.value.result?.profileComplete == true
+                                                          &&  hcontorller.homeData.value.result?.membershipStatus == true ? Text(
                                                         '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
                                                         style: TextStyle(
                                                             color: clrGreyDark),
-                                                      ),
+                                                      ) : SizedBox(),
                                                       SizedBox(
                                                         height: h * .008,
                                                       ),
@@ -343,12 +347,17 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    Get.toNamed(
-                                                        Routes.hostProfileUi,
-                                                        arguments:
-                                                            activityData?[index]
-                                                                .hostId
-                                                                .toString());
+                                                    if(hcontorller.homeData.value.result?.profileComplete == true
+                                                        &&  hcontorller.homeData.value.result?.membershipStatus == true) {
+                                                      Get.toNamed(
+                                                          Routes.hostProfileUi,
+                                                          arguments:
+                                                          activityData?[index]
+                                                              .hostId
+                                                              .toString());
+                                                    }else{
+                                                      hcontorller.showHomePop();
+                                                    }
                                                   },
                                                   child: Column(
                                                     crossAxisAlignment:
@@ -436,6 +445,9 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                 trimCollapsedText: 'Learn more',
                                                 trimExpandedText: 'Learn less',
                                                 moreStyle: TextStyle(
+                                                    color: clrBlacke,
+                                                    fontWeight: FontWeight.w700),
+                                                lessStyle: TextStyle(
                                                     color: clrBlacke,
                                                     fontWeight: FontWeight.w700),
                                               ),

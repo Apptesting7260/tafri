@@ -1603,20 +1603,17 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                       height: Get.height * 0.015,
                     ),
                     profileController.profileData.value.result!.previousActivities!.isEmpty
-                        ? SizedBox()
-                        : profileController.profileData.value.result!.previousActivityStatus == 1
-                        ? Text(
+                        ? SizedBox() : Text(
                       "Previous activities",
                       style:
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                    ) : SizedBox(),
+                    ),
                     SizedBox(
                       height: Get.height * 0.015,
                     ),
                     profileController.profileData.value.result!.previousActivities!.isEmpty
                         ? SizedBox()
-                        : profileController.profileData.value.result!.previousActivityStatus == 1
-                        ? ListView.builder(
+                        : ListView.builder(
                         itemCount: profileController.profileData.value
                             .result?.previousActivities?.length,
                         physics: const NeverScrollableScrollPhysics(),
@@ -1740,7 +1737,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                               ],
                             ),
                           );
-                        }) : SizedBox(),
+                        }),
                     profileController.profileData.value.result!.previousActivities!.isNotEmpty || profileController.profileData.value.result!.upcomingActivities!.isNotEmpty ? SizedBox(
                       height: Get.height * 0.02,
                     ) : SizedBox(),

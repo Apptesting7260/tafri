@@ -100,86 +100,88 @@ class _MapuiState extends State<Mapui> {
       init: Creativitycontroller(),
       builder: (controller) {
         return Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-                child: CommonUi.appBar(),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              controller.currentLocation.value == null
-                  ? Expanded(child: Center(child: CommonUi.scaffoldLoading(color: clrYellow)))
-                  : Expanded(
-                child: Stack(
-                  alignment: AlignmentDirectional.bottomEnd,
-                  children: [
-                    GoogleMap(
-                      markers: controller.markers.toSet(),
-                      onTap: controller.handleTap,
-                      onMapCreated: (GoogleMapController googleMapController) {
-                        controller.mapController = googleMapController;
-                      },
-                      initialCameraPosition: CameraPosition(
-                        target: controller.currentLocation.value != null
-                            ? LatLng(controller.currentLocation.value!.latitude!, controller.currentLocation.value!.longitude!)
-                            : controller.initialPosition,
-                        zoom: 14.0,
-                      ),
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                      // mapType: MapType.hybrid,
-                    ),
-                    controller.markers.isEmpty
-                        ? const SizedBox()
-                        : Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: clrWhite,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                controller.address.value,
-                                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 15,
-                              ),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    controller.locController.value.text = controller.address.value;
-                                    Get.back();
-                                  },
-                                  style: ElevatedButton.styleFrom(backgroundColor: clrBlacke),
-                                  child: Text('Save',style: TextStyle(color: clrWhite),)
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+                  child: CommonUi.appBar(),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                controller.currentLocation.value == null
+                    ? Expanded(child: Center(child: CommonUi.scaffoldLoading(color: clrYellow)))
+                    : Expanded(
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomEnd,
+                    children: [
+                      GoogleMap(
+                        markers: controller.markers.toSet(),
+                        onTap: controller.handleTap,
+                        onMapCreated: (GoogleMapController googleMapController) {
+                          controller.mapController = googleMapController;
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: controller.currentLocation.value != null
+                              ? LatLng(controller.currentLocation.value!.latitude!, controller.currentLocation.value!.longitude!)
+                              : controller.initialPosition,
+                          zoom: 14.0,
+                        ),
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        // mapType: MapType.hybrid,
+                      ),
+                      controller.markers.isEmpty
+                          ? const SizedBox()
+                          : Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: clrWhite,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  controller.address.value,
+                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 15,
+                                ),
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      controller.locController.value.text = controller.address.value;
+                                      Get.back();
+                                    },
+                                    style: ElevatedButton.styleFrom(backgroundColor: clrBlacke),
+                                    child: Text('Save',style: TextStyle(color: clrWhite),)
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

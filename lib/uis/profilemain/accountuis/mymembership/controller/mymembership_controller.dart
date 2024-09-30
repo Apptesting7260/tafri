@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 
@@ -21,6 +22,16 @@ class MymembershipController extends GetxController {
     print('On in it callles');
     super.onInit();
     streamFunction();
+    // homeController.homeData.value.result!.planType == 'monthly_plan' ? updateSelectedValue(2) : updateSelectedValue(1);
+  }
+
+  final ExploreListController homeController =
+  Get.find<ExploreListController>();
+
+  var choosePlan = 0.obs;
+
+  void updatePlan(int value){
+    choosePlan.value = value;
   }
 
   var selectedval = 0.obs;
@@ -336,10 +347,24 @@ class MymembershipController extends GetxController {
   Future<void> buySubscription() async{
     if(selectedval.value == 1){
       await getYearly();
+      homeController.homePageApi();
     }else if(selectedval.value == 2){
       await getMonthly();
+      homeController.homePageApi();
     }else{
       showTostMsg('Please choose any plan');
+    }
+  }
+
+  Future<void> subscribe() async{
+    if(choosePlan.value == 1){
+      await getYearly();
+      homeController.homePageApi();
+    }else if(choosePlan.value == 2){
+      await getMonthly();
+      homeController.homePageApi();
+    }else{
+      showTostMsg('Please select plan');
     }
   }
 

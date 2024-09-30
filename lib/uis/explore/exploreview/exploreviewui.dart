@@ -13,6 +13,7 @@ import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/custom_radio.dart';
@@ -131,689 +132,702 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         child: CommonUi.scaffoldLoading(color: clrYellow),
                       )
                     : controller.actError.value.isNotEmpty
-                        ? const ErrorScreen()
-                        : SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: h * .25,
-                                  child: Stack(
-                                    // clipBehavior: Clip.none,
-                                    children: [
-                                      // CarouselSlider(
-                                      //   options: CarouselOptions(
-                                      //       height:h*.25, viewportFraction: 1),
-                                      //   items: [1, 2, 3].map((i) {
-                                      //     return Builder(
-                                      //       builder: (BuildContext context) {
-                                      //         return Container(
-                                      //             clipBehavior: Clip.hardEdge,
-                                      //             width: MediaQuery.of(context)
-                                      //                 .size
-                                      //                 .width,
-                                      //             height: double.maxFinite,
-                                      //             margin: const EdgeInsets.symmetric(
-                                      //                 horizontal: 0),
-                                      //             decoration: BoxDecoration(
-                                      //                 borderRadius:
-                                      //                 BorderRadius.circular(18)),
-                                      //             child: Image.asset(
-                                      //               "assets/images/cofee.png",
-                                      //               fit: BoxFit.cover,
-                                      //               height: h*.25,
-                                      //               width: double.maxFinite,
-                                      //             ));
-                                      //       },
-                                      //     );
-                                      //   }).toList(),
-                                      // ),
-                                      CarouselSlider(
-                                        options: CarouselOptions(
-                                            height: h * .26,
-                                            viewportFraction: 1,
-                                            onPageChanged: (currIndex,
-                                                CarouselPageChangedReason
-                                                    reason) {
-                                              controller
-                                                  .changeIndicator(currIndex);
-                                              debugPrint(
-                                                  " currIndex $currIndex reason=$reason");
-                                            }),
-                                        items: controller
-                                            .actData.value.activity!.banners
-                                            ?.map<Widget>((i) {
-                                          return Builder(
-                                            builder: (BuildContext context) {
-                                              return Container(
-                                                  clipBehavior: Clip.hardEdge,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: double.maxFinite,
-                                                  margin: const EdgeInsets
-                                                      .symmetric(horizontal: 0),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18)),
-                                                  child: CachedNetworkImage(
-                                                    fit: BoxFit.cover,
-                                                    height: h * .26,
-                                                    width: double.maxFinite,
-                                                    imageUrl: "$i",
-                                                    placeholder:
-                                                        (context, url) =>
-                                                            Shimmer.fromColors(
-                                                      baseColor: grey300,
-                                                      highlightColor: grey100,
-                                                      child: Container(
-                                                        width: double.maxFinite,
-                                                        height: h * .26,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: grey300,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(18),
+                        ? SmartRefresher(
+                    onRefresh: () async {
+                      controller.refreshApi();
+                    },
+                    controller: controller.refreshController1,
+                    header: CommonUi.refreshHeader(),
+                    child: Center(child: const ErrorScreen()))
+                        : SmartRefresher(
+                  onRefresh: () async {
+                    controller.refreshApi();
+                  },
+                  controller: controller.refreshController,
+                  header: CommonUi.refreshHeader(),
+                          child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: h * .25,
+                                    child: Stack(
+                                      // clipBehavior: Clip.none,
+                                      children: [
+                                        // CarouselSlider(
+                                        //   options: CarouselOptions(
+                                        //       height:h*.25, viewportFraction: 1),
+                                        //   items: [1, 2, 3].map((i) {
+                                        //     return Builder(
+                                        //       builder: (BuildContext context) {
+                                        //         return Container(
+                                        //             clipBehavior: Clip.hardEdge,
+                                        //             width: MediaQuery.of(context)
+                                        //                 .size
+                                        //                 .width,
+                                        //             height: double.maxFinite,
+                                        //             margin: const EdgeInsets.symmetric(
+                                        //                 horizontal: 0),
+                                        //             decoration: BoxDecoration(
+                                        //                 borderRadius:
+                                        //                 BorderRadius.circular(18)),
+                                        //             child: Image.asset(
+                                        //               "assets/images/cofee.png",
+                                        //               fit: BoxFit.cover,
+                                        //               height: h*.25,
+                                        //               width: double.maxFinite,
+                                        //             ));
+                                        //       },
+                                        //     );
+                                        //   }).toList(),
+                                        // ),
+                                        CarouselSlider(
+                                          options: CarouselOptions(
+                                              height: h * .26,
+                                              viewportFraction: 1,
+                                              onPageChanged: (currIndex,
+                                                  CarouselPageChangedReason
+                                                      reason) {
+                                                controller
+                                                    .changeIndicator(currIndex);
+                                                debugPrint(
+                                                    " currIndex $currIndex reason=$reason");
+                                              }),
+                                          items: controller
+                                              .actData.value.activity!.banners
+                                              ?.map<Widget>((i) {
+                                            return Builder(
+                                              builder: (BuildContext context) {
+                                                return Container(
+                                                    clipBehavior: Clip.hardEdge,
+                                                    width: MediaQuery.of(context)
+                                                        .size
+                                                        .width,
+                                                    height: double.maxFinite,
+                                                    margin: const EdgeInsets
+                                                        .symmetric(horizontal: 0),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                18)),
+                                                    child: CachedNetworkImage(
+                                                      fit: BoxFit.cover,
+                                                      height: h * .26,
+                                                      width: double.maxFinite,
+                                                      imageUrl: "$i",
+                                                      placeholder:
+                                                          (context, url) =>
+                                                              Shimmer.fromColors(
+                                                        baseColor: grey300,
+                                                        highlightColor: grey100,
+                                                        child: Container(
+                                                          width: double.maxFinite,
+                                                          height: h * .26,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: grey300,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(18),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ));
-                                            },
-                                          );
-                                        }).toList(),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                              decoration: BoxDecoration(
-                                                  color: clrWhite,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20)),
-                                              child: Text(
-                                                controller.actData.value
-                                                    .activity!.subcategoryTitle
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                            ),
-                                            // InkWell(
-                                            //   onTap: (){
-                                            //     // log("message");
-                                            //     return controller.changeFav();
-                                            //   },
-                                            //   child: Obx((){
-                                            //     return Container(
-                                            //       padding: const EdgeInsets.all(6),
-                                            //       decoration: BoxDecoration(
-                                            //           color: clrWhite,
-                                            //           borderRadius:
-                                            //           BorderRadius.circular(100)),
-                                            //       child: Icon(
-                                            //         controller.isFav.value?Icons.favorite:
-                                            //       Icons.favorite_border,
-                                            //         size: 20,
-                                            //         color: controller.isFav.value?clrYellow:null,
-                                            //       ),
-                                            //     );
-                                            //   }),
-                                            // ),
-                                            InkWell(
-                                              onTap: () async {
-                                                var id = controller
-                                                    .actData.value.activity!.id
-                                                    .toString();
-                                                await controller
-                                                    .changeFavApi(id)
-                                                    .then(
-                                                  (value) {
-                                                    if (value == true) {
-                                                      controller.actData.value
-                                                              .activity!.isFav =
-                                                          !controller
-                                                              .actData
-                                                              .value
-                                                              .activity!
-                                                              .isFav!;
-                                                      exploreListController
-                                                          .homePageApi();
-                                                    }
-                                                  },
-                                                );
-
-                                                controller.actData.refresh();
-                                                // controller
-                                                //     .changeFav(
-                                                //         index);
+                                                    ));
                                               },
-                                              child: Container(
+                                            );
+                                          }).toList(),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
                                                 padding:
-                                                    const EdgeInsets.all(6),
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
                                                 decoration: BoxDecoration(
                                                     color: clrWhite,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            100)),
-                                                child: controller.actData.value
-                                                            .activity!.isFav ==
-                                                        true
-                                                    ? Icon(
-                                                        Icons.favorite,
-                                                        size: 20,
-                                                        color: clrYellow,
-                                                      )
-                                                    : const Icon(
-                                                        Icons.favorite_border,
-                                                        size: 20,
-                                                      ),
+                                                            20)),
+                                                child: Text(
+                                                  controller.actData.value
+                                                      .activity!.subcategoryTitle
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
                                               ),
+                                              // InkWell(
+                                              //   onTap: (){
+                                              //     // log("message");
+                                              //     return controller.changeFav();
+                                              //   },
+                                              //   child: Obx((){
+                                              //     return Container(
+                                              //       padding: const EdgeInsets.all(6),
+                                              //       decoration: BoxDecoration(
+                                              //           color: clrWhite,
+                                              //           borderRadius:
+                                              //           BorderRadius.circular(100)),
+                                              //       child: Icon(
+                                              //         controller.isFav.value?Icons.favorite:
+                                              //       Icons.favorite_border,
+                                              //         size: 20,
+                                              //         color: controller.isFav.value?clrYellow:null,
+                                              //       ),
+                                              //     );
+                                              //   }),
+                                              // ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  var id = controller
+                                                      .actData.value.activity!.id
+                                                      .toString();
+                                                  await controller
+                                                      .changeFavApi(id)
+                                                      .then(
+                                                    (value) {
+                                                      if (value == true) {
+                                                        controller.actData.value
+                                                                .activity!.isFav =
+                                                            !controller
+                                                                .actData
+                                                                .value
+                                                                .activity!
+                                                                .isFav!;
+                                                        exploreListController
+                                                            .homePageApi();
+                                                      }
+                                                    },
+                                                  );
+
+                                                  controller.actData.refresh();
+                                                  // controller
+                                                  //     .changeFav(
+                                                  //         index);
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(6),
+                                                  decoration: BoxDecoration(
+                                                      color: clrWhite,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
+                                                  child: controller.actData.value
+                                                              .activity!.isFav ==
+                                                          true
+                                                      ? Icon(
+                                                          Icons.favorite,
+                                                          size: 20,
+                                                          color: clrYellow,
+                                                        )
+                                                      : const Icon(
+                                                          Icons.favorite_border,
+                                                          size: 20,
+                                                        ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        // Align(
+                                        //   alignment: Alignment.bottomCenter,
+                                        //   child: Container(
+                                        //     margin: const EdgeInsets.only(bottom: 7),
+                                        //     height: 16,
+                                        //     child: ListView.builder(
+                                        //         itemCount: 3,
+                                        //         shrinkWrap: true,
+                                        //         scrollDirection: Axis.horizontal,
+                                        //         itemBuilder: (context, index) {
+                                        //           return Padding(
+                                        //             padding: const EdgeInsets.symmetric(
+                                        //                 horizontal: 1.5),
+                                        //             child: Icon(
+                                        //               Icons.circle,
+                                        //               color: clrWhite,
+                                        //               size: 8,
+                                        //             ),
+                                        //           );
+                                        //         }),
+                                        //   ),
+                                        // )
+                                        Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.only(bottom: 7),
+                                            height: 16,
+                                            child: ListView.builder(
+                                                itemCount: controller
+                                                    .actData
+                                                    .value
+                                                    .activity!
+                                                    .banners
+                                                    ?.length,
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.horizontal,
+                                                itemBuilder:
+                                                    (context, indicatorIndex) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 1.5),
+                                                    child: Obx(
+                                                      () => Icon(
+                                                        Icons.circle,
+                                                        color: controller
+                                                                    .actData
+                                                                    .value
+                                                                    .activity!
+                                                                    .circleIndex
+                                                                    ?.value ==
+                                                                indicatorIndex
+                                                            ? clrYellow
+                                                            : clrWhite,
+                                                        size: 8,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              controller
+                                                  .actData.value.activity!.name
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600),
                                             ),
+                                            SizedBox(
+                                              height: h * .005,
+                                            ),
+                                            Text(
+                                              controller.actData.value.activity!
+                                                  .location
+                                                  .toString(),
+                                              style:
+                                                  TextStyle(color: clrGreyDark),
+                                            ),
+                                            SizedBox(
+                                              height: h * .005,
+                                            ),
+                                            Text(
+                                              '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
+                                              style: TextStyle(
+                                                  color: clrGreyTextLight),
+                                            ),
+                                            SizedBox(
+                                              height: h * .008,
+                                            ),
+                                            Text(
+                                              "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! == 1 ? 'spot left' : 'spots left'}",
+                                              style: TextStyle(color: clrYellowText, fontSize: 13),
+                                            ),
+
+                                            // Text(
+                                            //   "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
+                                            //   style: TextStyle(
+                                            //       color: clrYellowText,
+                                            //       fontSize: 13),
+                                            // ),
                                           ],
                                         ),
                                       ),
-                                      // Align(
-                                      //   alignment: Alignment.bottomCenter,
-                                      //   child: Container(
-                                      //     margin: const EdgeInsets.only(bottom: 7),
-                                      //     height: 16,
-                                      //     child: ListView.builder(
-                                      //         itemCount: 3,
-                                      //         shrinkWrap: true,
-                                      //         scrollDirection: Axis.horizontal,
-                                      //         itemBuilder: (context, index) {
-                                      //           return Padding(
-                                      //             padding: const EdgeInsets.symmetric(
-                                      //                 horizontal: 1.5),
-                                      //             child: Icon(
-                                      //               Icons.circle,
-                                      //               color: clrWhite,
-                                      //               size: 8,
-                                      //             ),
-                                      //           );
-                                      //         }),
-                                      //   ),
-                                      // )
-                                      Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Container(
-                                          margin:
-                                              const EdgeInsets.only(bottom: 7),
-                                          height: 16,
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // Container(
+                                            //     height: h*.055,
+                                            //     width: h*.055,
+                                            //     decoration: BoxDecoration(
+                                            //         borderRadius:
+                                            //         BorderRadius.circular(100)),
+                                            //     child: Image.asset(
+                                            //       "assets/images/girldp.png",
+                                            //       fit: BoxFit.cover,
+                                            //     )),
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: CachedNetworkImage(
+                                                height: 40,
+                                                width: 40,
+                                                fit: BoxFit.cover,
+                                                imageUrl:
+                                                    '${controller.actData.value.activity!.profilePhoto}',
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      color: clrGreyLight,
+                                                      shape: BoxShape.circle),
+                                                  child: Image.asset(
+                                                    "assets/icons/manicon.png",
+                                                    color: clrGrey,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                placeholder: (context, url) =>
+                                                    Shimmer.fromColors(
+                                                  baseColor: grey300,
+                                                  highlightColor: grey100,
+                                                  child: Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    decoration: BoxDecoration(
+                                                      color: grey300,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              18),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 3,),
+                                            Text(
+                                              controller.actData.value.activity!
+                                                  .hostName
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                  Text(
+                                    controller.actData.value.activity!.description
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 14, color: clrGrey5D5C5E),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                  controller.actData.value.going!.isEmpty
+                                      ? const SizedBox()
+                                      : const Text(
+                                          "Going",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16),
+                                        ),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                  controller.actData.value.going!.isEmpty
+                                      ? const SizedBox()
+                                      : SizedBox(
+                                          height: 55,
                                           child: ListView.builder(
                                               itemCount: controller
-                                                  .actData
-                                                  .value
-                                                  .activity!
-                                                  .banners
-                                                  ?.length,
-                                              shrinkWrap: true,
+                                                  .actData.value.going?.length,
                                               scrollDirection: Axis.horizontal,
-                                              itemBuilder:
-                                                  (context, indicatorIndex) {
-                                                return Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 1.5),
-                                                  child: Obx(
-                                                    () => Icon(
-                                                      Icons.circle,
-                                                      color: controller
-                                                                  .actData
-                                                                  .value
-                                                                  .activity!
-                                                                  .circleIndex
-                                                                  ?.value ==
-                                                              indicatorIndex
-                                                          ? clrYellow
-                                                          : clrWhite,
-                                                      size: 8,
+                                              shrinkWrap: true,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: (){
+                                                    Get.toNamed(Routes.userProfileui,arguments: controller.actData.value.going?[index].userId.toString());
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        right: 8),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      child: CachedNetworkImage(
+                                                          height: 55,
+                                                          width: 55,
+                                                          fit: BoxFit.cover,
+                                                          imageUrl:
+                                                              '${controller.actData.value.going?[index].profilePhoto}',
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              Shimmer.fromColors(
+                                                                  baseColor: Colors
+                                                                      .grey
+                                                                      .shade300,
+                                                                  highlightColor:
+                                                                      Colors.grey
+                                                                          .shade100,
+                                                                  child: ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                100),
+                                                                    child:
+                                                                        Container(
+                                                                      height: 55,
+                                                                      width: 55,
+                                                                      color:
+                                                                          clrGrey,
+                                                                    ),
+                                                                  )),
+                                                          errorWidget: (context,
+                                                              url, error) {
+                                                            print(
+                                                                'error == $error');
+                                                            return ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          100),
+                                                              child: Container(
+                                                                height: 55,
+                                                                width: 55,
+                                                                color: clrGreyLight,
+                                                                child: Image.asset(
+                                                                  'assets/icons/manicon.png',
+                                                                  color: clrGrey,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }),
                                                     ),
                                                   ),
                                                 );
                                               }),
                                         ),
-                                      )
-                                    ],
+                                  SizedBox(
+                                    height: Get.height * 0.03,
                                   ),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.02,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Flexible(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            controller
-                                                .actData.value.activity!.name
-                                                .toString(),
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          SizedBox(
-                                            height: h * .005,
-                                          ),
-                                          Text(
-                                            controller.actData.value.activity!
-                                                .location
-                                                .toString(),
-                                            style:
-                                                TextStyle(color: clrGreyDark),
-                                          ),
-                                          SizedBox(
-                                            height: h * .005,
-                                          ),
-                                          Text(
-                                            '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
-                                            style: TextStyle(
-                                                color: clrGreyTextLight),
-                                          ),
-                                          SizedBox(
-                                            height: h * .008,
-                                          ),
-                                          Text(
-                                            "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! == 1 ? 'spot left' : 'spots left'}",
-                                            style: TextStyle(color: clrYellowText, fontSize: 13),
-                                          ),
-
-                                          // Text(
-                                          //   "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
-                                          //   style: TextStyle(
-                                          //       color: clrYellowText,
-                                          //       fontSize: 13),
-                                          // ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          // Container(
-                                          //     height: h*.055,
-                                          //     width: h*.055,
-                                          //     decoration: BoxDecoration(
-                                          //         borderRadius:
-                                          //         BorderRadius.circular(100)),
-                                          //     child: Image.asset(
-                                          //       "assets/images/girldp.png",
-                                          //       fit: BoxFit.cover,
-                                          //     )),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: CachedNetworkImage(
-                                              height: 40,
-                                              width: 40,
-                                              fit: BoxFit.cover,
-                                              imageUrl:
-                                                  '${controller.actData.value.activity!.profilePhoto}',
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    color: clrGreyLight,
-                                                    shape: BoxShape.circle),
-                                                child: Image.asset(
-                                                  "assets/icons/manicon.png",
-                                                  color: clrGrey,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              placeholder: (context, url) =>
-                                                  Shimmer.fromColors(
-                                                baseColor: grey300,
-                                                highlightColor: grey100,
-                                                child: Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration: BoxDecoration(
-                                                    color: grey300,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            18),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 3,),
-                                          Text(
-                                            controller.actData.value.activity!
-                                                .hostName
-                                                .toString(),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w700),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                Text(
-                                  controller.actData.value.activity!.description
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontSize: 14, color: clrGrey5D5C5E),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                controller.actData.value.going!.isEmpty
-                                    ? const SizedBox()
-                                    : const Text(
-                                        "Going",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16),
-                                      ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                controller.actData.value.going!.isEmpty
-                                    ? const SizedBox()
-                                    : SizedBox(
-                                        height: 55,
-                                        child: ListView.builder(
-                                            itemCount: controller
-                                                .actData.value.going?.length,
-                                            scrollDirection: Axis.horizontal,
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) {
-                                              return InkWell(
-                                                onTap: (){
-                                                  Get.toNamed(Routes.userProfileui,arguments: controller.actData.value.going?[index].userId.toString());
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 8),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                    child: CachedNetworkImage(
-                                                        height: 55,
-                                                        width: 55,
-                                                        fit: BoxFit.cover,
-                                                        imageUrl:
-                                                            '${controller.actData.value.going?[index].profilePhoto}',
-                                                        placeholder: (context,
-                                                                url) =>
-                                                            Shimmer.fromColors(
-                                                                baseColor: Colors
-                                                                    .grey
-                                                                    .shade300,
-                                                                highlightColor:
-                                                                    Colors.grey
-                                                                        .shade100,
-                                                                child: ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              100),
-                                                                  child:
-                                                                      Container(
-                                                                    height: 55,
-                                                                    width: 55,
-                                                                    color:
-                                                                        clrGrey,
-                                                                  ),
-                                                                )),
-                                                        errorWidget: (context,
-                                                            url, error) {
-                                                          print(
-                                                              'error == $error');
-                                                          return ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        100),
-                                                            child: Container(
-                                                              height: 55,
-                                                              width: 55,
-                                                              color: clrGreyLight,
-                                                              child: Image.asset(
-                                                                'assets/icons/manicon.png',
-                                                                color: clrGrey,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }),
-                                                  ),
-                                                ),
-                                              );
-                                            }),
-                                      ),
-                                SizedBox(
-                                  height: Get.height * 0.03,
-                                ),
-                                Obx(() {
-                                  print('re');
-                                  return controller.actData.value.activity!
-                                              .requestStatus ==
-                                          'pending'
-                                      ? SizedBox(
-                                          width: double.maxFinite,
-                                          height: Res.h_btn,
-                                          child: CustomElevatedButton(
-                                              onTap: () {},
-                                              backgroundClr: clrGrey,
-                                              child: Text(
-                                                "Pending Host Confirmation",
-                                                style: TextStyle(
-                                                    color: clrWhite,
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              )))
-                                      : controller.actData.value.activity!
-                                                  .requestStatus ==
-                                              'accept'
-                                          ? SizedBox(
-                                              width: double.maxFinite,
-                                              height: Res.h_btn,
-                                              child: CustomElevatedButton(
-                                                  onTap: () {},
-                                                  backgroundClr: clrBlacke,
-                                                  child: Text(
-                                                    "Join group chat",
-                                                    style: TextStyle(
-                                                        color: clrWhite,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  )))
-                                          : controller.actData.value.activity!
-                                                      .requestStatus ==
-                                                  'reject'
-                                              ? SizedBox(
-                                                  width: double.maxFinite,
-                                                  height: Res.h_btn,
-                                                  child: CustomElevatedButton(
-                                                      onTap: () {},
-                                                      backgroundClr: clrBlacke,
-                                                      child: Text(
-                                                        "Request sent",
-                                                        style: TextStyle(
-                                                            color: clrWhite,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700),
-                                                      )))
-                                              : controller
-                                                          .actData
-                                                          .value
-                                                          .activity!
-                                                          .requestStatus ==
-                                                      'leave'
-                                                  ? SizedBox(
-                                                      width: double.maxFinite,
-                                                      height: Res.h_btn,
-                                                      child:
-                                                          CustomElevatedButton(
-                                                              onTap: () {},
-                                                              backgroundClr:
-                                                                  clrBlacke,
-                                                              child: Text(
-                                                                "Leaved",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        clrWhite,
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700),
-                                                              )))
-                                                  : int.parse(LocalStorage.getUid()!) != controller
-                                      .actData
-                                      .value.activity?.hostId ? Opacity(
-                                                      opacity: controller
-                                                              .isLoadingRequest
-                                                              .value
-                                                          ? 0.5
-                                                          : 1,
-                                                      child: SizedBox(
-                                                          width:
-                                                              double.maxFinite,
-                                                          height: Res.h_btn,
-                                                          child:
-                                                              CustomElevatedButton(
-                                                                  onTap: () {
-                                                                    if (controller
+                                  Obx(() {
+                                    print('re');
+                                    return controller.actData.value.activity!
+                                                .requestStatus ==
+                                            'pending'
+                                        ? SizedBox(
+                                            width: double.maxFinite,
+                                            height: Res.h_btn,
+                                            child: CustomElevatedButton(
+                                                onTap: () {},
+                                                backgroundClr: clrGrey,
+                                                child: Text(
+                                                  "Pending Host Confirmation",
+                                                  style: TextStyle(
+                                                      color: clrWhite,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                )))
+                                        : controller.actData.value.activity!
+                                                    .requestStatus ==
+                                                'accept'
+                                            ? SizedBox(
+                                                width: double.maxFinite,
+                                                height: Res.h_btn,
+                                                child: CustomElevatedButton(
+                                                    onTap: () {},
+                                                    backgroundClr: clrBlacke,
+                                                    child: Text(
+                                                      "Join group chat",
+                                                      style: TextStyle(
+                                                          color: clrWhite,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    )))
+                                            : controller.actData.value.activity!
+                                                        .requestStatus ==
+                                                    'reject'
+                                                ? SizedBox(
+                                                    width: double.maxFinite,
+                                                    height: Res.h_btn,
+                                                    child: CustomElevatedButton(
+                                                        onTap: () {},
+                                                        backgroundClr: clrBlacke,
+                                                        child: Text(
+                                                          "Request sent",
+                                                          style: TextStyle(
+                                                              color: clrWhite,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        )))
+                                                : controller
+                                                            .actData
+                                                            .value
+                                                            .activity!
+                                                            .requestStatus ==
+                                                        'leave'
+                                                    ? SizedBox(
+                                                        width: double.maxFinite,
+                                                        height: Res.h_btn,
+                                                        child:
+                                                            CustomElevatedButton(
+                                                                onTap: () {},
+                                                                backgroundClr:
+                                                                    clrBlacke,
+                                                                child: Text(
+                                                                  "Leaved",
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          clrWhite,
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700),
+                                                                )))
+                                                    : int.parse(LocalStorage.getUid()!) != controller
+                                        .actData
+                                        .value.activity?.hostId ? Opacity(
+                                                        opacity: controller
+                                                                .isLoadingRequest
+                                                                .value
+                                                            ? 0.5
+                                                            : 1,
+                                                        child: SizedBox(
+                                                            width:
+                                                                double.maxFinite,
+                                                            height: Res.h_btn,
+                                                            child:
+                                                                CustomElevatedButton(
+                                                                    onTap: () {
+                                                                      if (controller
+                                                                              .actData
+                                                                              .value
+                                                                              .activity
+                                                                              ?.spotLeft ==
+                                                                          0) {
+                                                                        controller.alertAddaMessage(controller
                                                                             .actData
                                                                             .value
-                                                                            .activity
-                                                                            ?.spotLeft ==
-                                                                        0) {
-                                                                      controller.alertAddaMessage(controller
-                                                                          .actData
-                                                                          .value
-                                                                          .activity!
-                                                                          .id
-                                                                          .toString());
-                                                                    } else {
-                                                                      controller.requestApi(controller
-                                                                          .actData
-                                                                          .value
-                                                                          .activity!
-                                                                          .id
-                                                                          .toString());
-                                                                    }
-                                                                  },
-                                                                  backgroundClr:
-                                                                      clrBlacke,
-                                                                  child: controller
-                                                                          .isLoadingRequest
-                                                                          .value
-                                                                      ? CommonUi
-                                                                          .buttonLoading()
-                                                                      : Text(
-                                                                          controller.actData.value.activity?.spotLeft == 0
-                                                                              ? 'Join waitlist'
-                                                                              : "Request to join",
-                                                                          style: TextStyle(
-                                                                              color: clrWhite,
-                                                                              fontSize: 16,
-                                                                              fontWeight: FontWeight.w700),
-                                                                        ))),
-                                                    ) : const Center(child: Text('You created this activity.',style: TextStyle(
-                                    fontWeight: FontWeight.w600,fontSize: 16
-                                  ),));
-                                }),
-                                Obx(() {
-                                  return controller.actData.value.activity!
-                                              .requestStatus ==
-                                          'pending'
-                                      ? Column(
-                                          children: [
-                                            SizedBox(
-                                              height: h * 0.015,
-                                            ),
-                                            Center(
-                                                child: InkWell(
-                                                    onTap: () {
-                                                      alertCancelRequest(controller.actData.value.activity!.id.toString());
-                                                    },
-                                                    child: const Text(
-                                                      "Cancel request",
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    )))
-                                          ],
-                                        )
-                                      : controller.actData.value.activity!
-                                                  .requestStatus ==
-                                              'accept'
-                                          ? Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: h * 0.015,
-                                                ),
-                                                Center(
-                                                    child: InkWell(
-                                                        onTap: () {
-                                                          alertCancelRequestConfirmation(controller.actData.value.activity!.id.toString(),true);
-                                                        },
-                                                        child: const Text(
-                                                          "Leave activity",
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                              fontSize: 16),
-                                                        )))
-                                              ],
-                                            )
-                                          : const SizedBox();
-                                }),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                              ],
+                                                                            .activity!
+                                                                            .id
+                                                                            .toString());
+                                                                      } else {
+                                                                        controller.requestApi(controller
+                                                                            .actData
+                                                                            .value
+                                                                            .activity!
+                                                                            .id
+                                                                            .toString());
+                                                                      }
+                                                                    },
+                                                                    backgroundClr:
+                                                                        clrBlacke,
+                                                                    child: controller
+                                                                            .isLoadingRequest
+                                                                            .value
+                                                                        ? CommonUi
+                                                                            .buttonLoading()
+                                                                        : Text(
+                                                                            controller.actData.value.activity?.spotLeft == 0
+                                                                                ? 'Join waitlist'
+                                                                                : "Request to join",
+                                                                            style: TextStyle(
+                                                                                color: clrWhite,
+                                                                                fontSize: 16,
+                                                                                fontWeight: FontWeight.w700),
+                                                                          ))),
+                                                      ) : const Center(child: Text('You created this activity.',style: TextStyle(
+                                      fontWeight: FontWeight.w600,fontSize: 16
+                                    ),));
+                                  }),
+                                  Obx(() {
+                                    return controller.actData.value.activity!
+                                                .requestStatus ==
+                                            'pending'
+                                        ? Column(
+                                            children: [
+                                              SizedBox(
+                                                height: h * 0.015,
+                                              ),
+                                              Center(
+                                                  child: InkWell(
+                                                      onTap: () {
+                                                        alertCancelRequest(controller.actData.value.activity!.id.toString());
+                                                      },
+                                                      child: const Text(
+                                                        "Cancel request",
+                                                        style: TextStyle(
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                            fontWeight:
+                                                                FontWeight.w600),
+                                                      )))
+                                            ],
+                                          )
+                                        : controller.actData.value.activity!
+                                                    .requestStatus ==
+                                                'accept'
+                                            ? Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: h * 0.015,
+                                                  ),
+                                                  Center(
+                                                      child: InkWell(
+                                                          onTap: () {
+                                                            alertCancelRequestConfirmation(controller.actData.value.activity!.id.toString(),true);
+                                                          },
+                                                          child: const Text(
+                                                            "Leave activity",
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline,
+                                                                fontSize: 16),
+                                                          )))
+                                                ],
+                                              )
+                                            : const SizedBox();
+                                  }),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+                        ),
               )),
             ],
           ),

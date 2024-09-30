@@ -467,8 +467,6 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                 controller.showHomePop();
 
                                                               }
-
-
                                                             },
                                                             child: Container(
                                                               margin:
@@ -684,7 +682,16 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                       InkWell(
                                                                         onTap:
                                                                             () {
-                                                                          Get.toNamed(Routes.hostProfileUi,arguments: activityData?[index].hostId.toString());
+                                                                          if(controller.homeData.value.result?.profileComplete == true && controller.homeData.value.result?.membershipStatus == true) {
+                                                                            Get.toNamed(
+                                                                                Routes
+                                                                                    .hostProfileUi,
+                                                                                arguments: activityData?[index]
+                                                                                    .hostId
+                                                                                    .toString());
+                                                                          }else{
+                                                                            controller.showHomePop();
+                                                                          }
                                                                         },
                                                                         child:
                                                                             Column(

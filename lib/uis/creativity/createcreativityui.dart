@@ -620,7 +620,27 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             //   maxLength: 500,
                                             // ),
                                             SizedBox(
-                                              height: Get.height * 0.02,
+                                              height: h * 0.02,
+                                            ),
+                                            Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.toNamed(Routes.mapui);
+                                                    },
+                                                    child: Text('Choose on Map',
+                                                        style: TextStyle(
+                                                            color:
+                                                            clrYellowText,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .bold)),
+                                                  )
+                                                ]),
+                                            SizedBox(
+                                              height: Get.height * 0.01,
                                             ),
                                             CustomLocationField(
                                               itemBuilder:
@@ -654,6 +674,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                     value['des'].toString();
                                                 await controller
                                                     .getLatLang(value['id']);
+                                                FocusScope.of(context).unfocus();
                                               },
                                               sufixIcon: Container(
                                                   padding: const EdgeInsets
@@ -680,26 +701,6 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             //             width: 8),
                                             //       )),
                                             // ),
-                                            SizedBox(
-                                              height: h * 0.01,
-                                            ),
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Get.toNamed(Routes.mapui);
-                                                    },
-                                                    child: Text('Choose on Map',
-                                                        style: TextStyle(
-                                                            color:
-                                                                clrYellowText,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  )
-                                                ]),
                                             SizedBox(
                                               height: h * 0.02,
                                             ),
@@ -1252,6 +1253,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         'assets/images/arrow down.png',
                                                         scale: 4,
                                                       ),
+                                                      prefixIcon:  Image.asset(
+                                                        'assets/images/repeat.png',
+                                                        scale: 4,
+                                                      ),
                                                       closedBorder: Border.all(
                                                           color: clrGrey),
                                                       closedBorderRadius:
@@ -1628,7 +1633,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                       ),
                                                       Obx(
                                                         () => Text(
-                                                            '${controller.date.value.isEmpty ? "13 March 2024" : controller.date.value} ${controller.sTimeForApi.value.isEmpty ? " | 2:30 PM" : " | ${controller.sTimeForApi.value}"} ${controller.eTimeForAPi.value.isEmpty && controller.sTimeForApi.value.isEmpty ? "- 6:00PM" : '- ${controller.eTimeForAPi.value}'}',
+                                                            '${controller.date.value.isEmpty ? "13 March 2024" : controller.dateForView.value} ${controller.sTimeForApi.value.isEmpty ? " | 2:30 PM" : " | ${controller.sTimeForApi.value}"} ${controller.eTimeForAPi.value.isEmpty && controller.sTimeForApi.value.isEmpty ? "- 6:00PM" : '- ${controller.eTimeForAPi.value}'}',
                                                             style: TextStyle(
                                                                 color:
                                                                     clrGreyDark)),

@@ -51,7 +51,7 @@ class ActivityVisibility extends GetWidget<ActivityvisibilityController> {
                             fontSize: 16, fontWeight: FontWeight.w600),
                       )),
                       const SizedBox(
-                        width: 10,
+                        width: 40,
                       ),
                       Obx(() => CustomSwitch(
                         value: controller.upcomingVisibility.value,
@@ -75,7 +75,7 @@ class ActivityVisibility extends GetWidget<ActivityvisibilityController> {
                             fontSize: 16, fontWeight: FontWeight.w600),
                       )),
                       const SizedBox(
-                        width: 10,
+                        width: 45,
                       ),
                       Obx(() => CustomSwitch(
                         value: controller.previousVisibility.value,

@@ -1396,12 +1396,12 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                            var activityData = homeController.homeData.value.result?.activities?.where((activity) => activity.status == 'approved').toList();
                                            return InkWell(
                                              onTap: () {
-                                               if(homeController.homeData.value.result?.profileComplete == false
-                                                   &&  homeController.homeData.value.result?.membershipStatus == false) {
-                                                 homeController.showHomePop();
-                                               } else {
+                                               if(homeController.homeData.value.result?.profileComplete == true
+                                                   &&  homeController.homeData.value.result?.membershipStatus == true) {
                                                  Get.toNamed(
                                                      Routes.exploreView, arguments: activityData?[index].id.toString());
+                                               } else {
+                                                 homeController.showHomePop();
                                                }
                                              },
                                              child: Container(
@@ -1469,10 +1469,8 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                ),
                                                                InkWell(
                                                                  onTap: () async {
-                                                                   if(homeController.homeData.value.result?.profileComplete == false
-                                                                       &&  homeController.homeData.value.result?.membershipStatus == false) {
-                                                                     homeController.showHomePop();
-                                                                   } else {
+                                                                   if(homeController.homeData.value.result?.profileComplete == true
+                                                                       &&  homeController.homeData.value.result?.membershipStatus == true) {
                                                                      var id = activityData?[index].id.toString();
                                                                      await homeController.changeFavApi(id).then(
                                                                            (value) {
@@ -1482,6 +1480,8 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                        },
                                                                      );
                                                                      homeController.homeData.refresh();
+                                                                   } else {
+                                                                     homeController.showHomePop();
                                                                    }
                                                                  },
                                                                  child: Container(
@@ -1552,20 +1552,22 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                height:
                                                                h * .005,
                                                              ),
-                                                             Text(
+                                                             homeController.homeData.value.result?.profileComplete == true
+                                                                 &&  homeController.homeData.value.result?.membershipStatus == true ? Text(
                                                                '${activityData?[index].location}',
                                                                style:
                                                                TextStyle(color: clrGreyDark),
-                                                             ),
+                                                             ) : SizedBox(),
                                                              SizedBox(
                                                                height:
                                                                h * .005,
                                                              ),
-                                                             Text(
+                                                             homeController.homeData.value.result?.profileComplete == true
+                                                                 &&  homeController.homeData.value.result?.membershipStatus == true ? Text(
                                                                '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
                                                                style:
                                                                TextStyle(color: clrGreyDark),
-                                                             ),
+                                                             ) : SizedBox(),
                                                              SizedBox(
                                                                height:
                                                                h * .008,
@@ -1583,7 +1585,16 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                        InkWell(
                                                          onTap:
                                                              () {
-                                                           Get.toNamed(Routes.hostProfileUi,arguments: activityData?[index].hostId.toString());
+                                                           if(homeController.homeData.value.result?.profileComplete == true
+                                                               &&  homeController.homeData.value.result?.membershipStatus == true) {
+                                                             Get.toNamed(Routes
+                                                                 .hostProfileUi,
+                                                                 arguments: activityData?[index]
+                                                                     .hostId
+                                                                     .toString());
+                                                           }else{
+                                                             homeController.showHomePop();
+                                                           }
                                                          },
                                                          child:
                                                          Column(

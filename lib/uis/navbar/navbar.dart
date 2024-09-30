@@ -20,7 +20,7 @@ class Navbar extends GetWidget {
   List classes = [
      ExploreUi(),
     const MessageListUi(),
-    const MyActivitiesListUi(),
+     MyActivitiesListUi(),
     const ProfileUi()
   ];
   // List<IconData> iconList=[IconData()];

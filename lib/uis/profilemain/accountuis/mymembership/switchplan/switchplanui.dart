@@ -30,21 +30,6 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CommonUi.appBar(),
-                  // InkWell(
-                  //   onTap: () {
-                  //     Get.back();
-                  //   },
-                  //   child: Container(
-                  //     width: h*.05,
-                  //     height: h*.05,
-                  //     padding:
-                  //     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  //     decoration: BoxDecoration(
-                  //         color: clrGreyLight,
-                  //         borderRadius: BorderRadius.circular(10)),
-                  //     child: const Center(child: Icon(Icons.arrow_back_ios)),
-                  //   ),
-                  // ),
                   const Text(
                     "Switch plan",
                     style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20),
@@ -133,7 +118,20 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                                       ),
                                     ],
                                   )
-                              )
+                              ),
+                              controller.homeController.homeData.value.result!.planType == 'yearly_plan' ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: clrYellow),
+                                child: const Text(
+                                  "Current plan",
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ) : SizedBox()
                             ],
                           ),
                         ),
@@ -207,7 +205,7 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                                  ],
                                ),
                              ),
-                             Container(
+                             controller.homeController.homeData.value.result!.planType == 'monthly_plan' ? Container(
                                padding: const EdgeInsets.symmetric(
                                    horizontal: 8,
                                    vertical: 3
@@ -219,7 +217,7 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                                  "Current plan",
                                  style: TextStyle(fontSize: 10),
                                ),
-                             )
+                             ) : SizedBox()
                            ],
                          ),
                        ),

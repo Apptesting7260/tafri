@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/myactivity/myactivitylist/controller/myacti_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/no_activity.dart';
+import 'package:plusone/utils/no_activity_yet.dart';
+import 'package:plusone/utils/no_hosted_activity.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/size.dart';
 
 class MyActivitiesListUi extends GetWidget<MyactiController> {
-  const MyActivitiesListUi({super.key});
+  MyActivitiesListUi({super.key});
+
+  final ExploreListController homeController = Get.put(ExploreListController());
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +127,9 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                             CrossAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          NoActivityScreen(
+                                                          NoActivityYetScreen(
                                                             height: Get.height *
-                                                                0.31,
+                                                                0.19,
                                                           ),
                                                           GestureDetector(
                                                             onTap: () {
@@ -137,12 +142,12 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                 padding:
                                                                     const EdgeInsets
                                                                         .symmetric(
-                                                                  vertical: 12,
+                                                                  vertical: 10,
                                                                 ),
                                                                 margin: EdgeInsets.symmetric(
                                                                     horizontal:
                                                                         Get.width *
-                                                                            0.2),
+                                                                            0.2,vertical: 15),
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   borderRadius:
@@ -162,7 +167,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                             FontWeight
                                                                                 .w600,
                                                                         fontSize:
-                                                                            15,
+                                                                            14,
                                                                         color:
                                                                             clrWhite),
                                                                   ),
@@ -311,10 +316,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       })
                                                               : Center(
                                                                   child:
-                                                                      NoActivityScreen(
+                                                                      NoActivityYetScreen(
                                                                     height:
                                                                         Get.height *
-                                                                            0.3,
+                                                                            0.19,
                                                                   ),
                                                                 ),
                                                           const SizedBox(
@@ -545,10 +550,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                         );
                                                                       })
                                                               : Center(
-                                                                  child: NoActivityScreen(
+                                                                  child: NoActivityYetScreen(
                                                                       height: Get
                                                                               .height *
-                                                                          0.3),
+                                                                          0.19),
                                                                 )
                                                         ],
                                                       )
@@ -603,26 +608,40 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                      NoActivityScreen(
+                                                      NoHostedScreen(
                                                         height:
-                                                            Get.height * 0.31,
+                                                            Get.height * 0.19,
                                                       ),
                                                       GestureDetector(
                                                         onTap: () {
-                                                          Get.offAllNamed(
-                                                              Routes.navbarUi);
+                                                          if (homeController
+                                                              .homeData.value
+                                                              .result
+                                                              ?.profileComplete ==
+                                                              true &&
+                                                              homeController
+                                                                  .homeData
+                                                                  .value.result
+                                                                  ?.membershipStatus ==
+                                                                  true) {
+                                                            Get.toNamed(
+                                                                Routes
+                                                                    .createActivityUi);
+                                                          }else{
+                                                            homeController.showHomePop();
+                                                          }
                                                         },
                                                         child: Container(
                                                             padding:
                                                                 const EdgeInsets
                                                                     .symmetric(
-                                                              vertical: 12,
+                                                              vertical: 10,
                                                             ),
                                                             margin: EdgeInsets
                                                                 .symmetric(
                                                                     horizontal:
                                                                         Get.width *
-                                                                            0.2),
+                                                                            0.2,vertical: 15),
                                                             decoration:
                                                                 BoxDecoration(
                                                               borderRadius:
@@ -641,7 +660,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                         FontWeight
                                                                             .w600,
                                                                     fontSize:
-                                                                        15,
+                                                                        14,
                                                                     color:
                                                                         clrWhite),
                                                               ),
@@ -782,10 +801,8 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                   overflow: TextOverflow.ellipsis,
                                                                                                 ),
                                                                                               ),
-                                                                                              Container(
-                                                                                                child: Text(data.activities![ind].status.toString().toUpperCase(),
-                                                                                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                                                                                                ),
+                                                                                              Text(data.activities![ind].status.toString().toUpperCase(),
+                                                                                                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
                                                                                               ),
                                                                                             ],
                                                                                           ),
@@ -813,10 +830,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                 );
                                                               })
                                                           : Center(
-                                                              child: NoActivityScreen(
+                                                              child: NoHostedScreen(
                                                                   height:
                                                                       Get.height *
-                                                                          0.3)),
+                                                                          0.2)),
                                                       const SizedBox(
                                                         height: 15,
                                                       ),
@@ -1089,10 +1106,10 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                 );
                                                               })
                                                           : Center(
-                                                              child: NoActivityScreen(
+                                                              child: NoHostedScreen(
                                                                   height:
                                                                       Get.height *
-                                                                          0.3))
+                                                                          0.2))
                                                     ],
                                                   )
                                             : const Center(

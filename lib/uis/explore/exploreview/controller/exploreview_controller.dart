@@ -6,6 +6,7 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../networking/apiservices.dart';
 import '../../../../networking/endpoints.dart';
 import '../../../../utils/colors.dart';
@@ -24,6 +25,15 @@ class ExploreViewController extends GetxController{
     actapi(id);
     super.onInit();
   }
+
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+  RefreshController refreshController1 = RefreshController(initialRefresh: false);
+  Future<void> refreshApi() async{
+    await actapi(Get.arguments);
+    refreshController.refreshCompleted();
+    refreshController1.refreshCompleted();
+  }
+
   RxBool isFav=false.obs;
 
   Rx<int> isReqSent=1.obs;  //1= not send, 2= sended
