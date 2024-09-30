@@ -35,7 +35,12 @@ class ExploreUi extends GetWidget<ExploreListController> {
           child: CustomElevatedButton(
               paddingHz: 10,
               onTap: () {
-                Get.toNamed(Routes.mapActivityUi, arguments: controller.homeData.value);
+                if(controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true) {
+                  Get.toNamed(Routes.mapActivityUi,
+                      arguments: controller.homeData.value);
+                }else{
+                  controller.showHomePop();
+                }
               },
               backgroundClr: clrWhite,
               child: Row(
@@ -448,10 +453,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                               .toList();
                                                           return InkWell(
                                                             onTap: () {
-                                                              if(controller.homeData.value.result?.profileComplete == false
-                                                                  &&  controller.homeData.value.result?.membershipStatus == false) {
-                                                                controller.showHomePop();
-                                                              } else {
+                                                              if(controller.homeData.value.result?.profileComplete == true
+                                                                  &&  controller.homeData.value.result?.membershipStatus == true) {
                                                                 Get.toNamed(
                                                                     Routes
                                                                         .exploreView,
@@ -460,6 +463,9 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                     index]
                                                                         .id
                                                                         .toString());
+                                                              } else {
+                                                                controller.showHomePop();
+
                                                               }
 
 
@@ -544,10 +550,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                               ),
                                                                               InkWell(
                                                                                 onTap: () async {
-                                                                                  if(controller.homeData.value.result?.profileComplete == false
-                                                                                      &&  controller.homeData.value.result?.membershipStatus == false) {
-                                                                                    controller.showHomePop();
-                                                                                  } else {
+                                                                                  if(controller.homeData.value.result?.profileComplete == true
+                                                                                      &&  controller.homeData.value.result?.membershipStatus == true) {
                                                                                     var id = activityData?[index].id.toString();
                                                                                     await controller.changeFavApi(id).then(
                                                                                           (value) {
@@ -558,6 +562,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                                     );
 
                                                                                     controller.homeData.refresh();
+                                                                                  } else {
+                                                                                    controller.showHomePop();
                                                                                   }
 
                                                                                   // controller
@@ -641,20 +647,20 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                               height:
                                                                                   h * .005,
                                                                             ),
-                                                                            Text(
+                                                                            controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? Text(
                                                                               '${activityData?[index].location}',
                                                                               style:
                                                                                   TextStyle(color: clrGreyDark),
-                                                                            ),
+                                                                            ) : SizedBox(),
                                                                             SizedBox(
                                                                               height:
                                                                                   h * .005,
                                                                             ),
-                                                                            Text(
+                                                                            controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? Text(
                                                                               '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
                                                                               style:
                                                                                   TextStyle(color: clrGreyDark),
-                                                                            ),
+                                                                            ) : SizedBox(),
                                                                             SizedBox(
                                                                               height:
                                                                                   h * .008,

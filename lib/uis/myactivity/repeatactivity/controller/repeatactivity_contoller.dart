@@ -343,6 +343,7 @@ class Repeatcreativitycontroller extends GetxController
   final int maxLength = 500;
 
   RxList galleryImages = [].obs;
+  RxList glryImage = [].obs;
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -478,17 +479,45 @@ class Repeatcreativitycontroller extends GetxController
   //   return isValid.value;
   // }
 
-  bool checkGalleryImagesFormat(List<dynamic> galleryImages) {
+  // bool checkGalleryImagesFormat(List<dynamic> galleryImages) {
+  //   var isValid = true.obs;
+  //   for (var image in galleryImages) {
+  //     String imagePath;
+  //
+  //     if (image is String) {
+  //       imagePath = image;
+  //     } else if (image is File) {
+  //       imagePath = image.path;
+  //     } else {
+  //       print('Invalid image type: $image');
+  //       isValid.value = false;
+  //       return isValid.value;
+  //     }
+  //
+  //     print('Checking image: $imagePath');
+  //
+  //
+  //     if (!isValidImageFormat(imagePath)) {
+  //       print('Invalid image format: $imagePath');
+  //       isValid.value = false;
+  //       return isValid.value;
+  //     }
+  //   }
+  //   print('All images are valid.');
+  //   return isValid.value;
+  // }
+
+  bool checkGalleryImagesFormat(List<dynamic> galleryImage) {
     var isValid = true.obs;
-    for (var image in galleryImages) {
+    var newList = [].obs;
+    for (var image in galleryImage) {
       String imagePath;
 
       if (image is String) {
-        // If image is a string, use it directly
-        imagePath = image;
+        Uri uri = Uri.parse(image);
+        imagePath = uri.pathSegments.last;
       } else if (image is File) {
-        // If image is a File, get its path
-        imagePath = image.path; // Ensure you import 'dart:io'
+        imagePath = image.path.split('/').last;
       } else {
         print('Invalid image type: $image');
         isValid.value = false;
@@ -496,11 +525,9 @@ class Repeatcreativitycontroller extends GetxController
       }
 
       print('Checking image: $imagePath');
-
-      // Clean the path if it's a file path
-      if (imagePath.startsWith("File: ")) {
-        imagePath = cleanFilePath(imagePath);
-      }
+      newList.add(imagePath);
+      glryImage = newList;
+      print(glryImage);
 
       if (!isValidImageFormat(imagePath)) {
         print('Invalid image format: $imagePath');
@@ -508,13 +535,11 @@ class Repeatcreativitycontroller extends GetxController
         return isValid.value;
       }
     }
+
     print('All images are valid.');
     return isValid.value;
   }
 
-  String cleanFilePath(String filePath) {
-    return filePath.replaceFirst("File: '", "").replaceFirst("'", "");
-  }
 
 
   // Future<void> createActivity() async {
@@ -702,6 +727,7 @@ class Repeatcreativitycontroller extends GetxController
 
     try {
       print("=== ${checkGalleryImagesFormat(galleryImages)}");
+      print("iamges gal == ${galleryImages}");
       if(!choosePhotoCheck.value && galleryImages.isEmpty) {
         showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
       }else if(!checkGalleryImagesFormat(galleryImages)){
@@ -779,19 +805,21 @@ class Repeatcreativitycontroller extends GetxController
         var request = await http.MultipartRequest('POST', url);
         if(!choosePhotoCheck.value) {
           if (galleryImages.isNotEmpty) {
-            for (File image in galleryImages) {
-              var stream = http.ByteStream(image.openRead());
-              var length = await image.length();
-              var multipartFile = http.MultipartFile(
-                  'gallery_img[]', stream, length,
-                  filename: image.path
-                      .split('/')
-                      .last);
-              request.files.add(multipartFile);
-              print(
-                  'File name: ${multipartFile.filename}, Length: ${multipartFile
-                      .length}');
-            }
+            request.fields["gallery_img[]"] = jsonEncode(glryImage);
+
+            // for (File image in galleryImages) {
+            //   var stream = http.ByteStream(image.openRead());
+            //   var length = await image.length();
+            //   var multipartFile = http.MultipartFile(
+            //       'gallery_img[]', stream, length,
+            //       filename: image.path
+            //           .split('/')
+            //           .last);
+            //   request.files.add(multipartFile);
+            //   print(
+            //       'File name: ${multipartFile.filename}, Length: ${multipartFile
+            //           .length}');
+            // }
           }
         }
 
@@ -891,19 +919,21 @@ class Repeatcreativitycontroller extends GetxController
         var request = await http.MultipartRequest('POST', url);
         if(!choosePhotoCheck.value) {
           if (galleryImages.isNotEmpty) {
-            for (File image in galleryImages) {
-              var stream = http.ByteStream(image.openRead());
-              var length = await image.length();
-              var multipartFile = http.MultipartFile(
-                  'gallery_img[]', stream, length,
-                  filename: image.path
-                      .split('/')
-                      .last);
-              request.files.add(multipartFile);
-              print(
-                  'File name: ${multipartFile.filename}, Length: ${multipartFile
-                      .length}');
-            }
+            request.fields["gallery_img[]"] = jsonEncode(glryImage);
+
+            // for (File image in galleryImages) {
+            //   var stream = http.ByteStream(image.openRead());
+            //   var length = await image.length();
+            //   var multipartFile = http.MultipartFile(
+            //       'gallery_img[]', stream, length,
+            //       filename: image.path
+            //           .split('/')
+            //           .last);
+            //   request.files.add(multipartFile);
+            //   print(
+            //       'File name: ${multipartFile.filename}, Length: ${multipartFile
+            //           .length}');
+            // }
           }
         }
 

@@ -260,7 +260,10 @@ class ExploreListController extends GetxController {
                     padding: const EdgeInsets.only(left: 18,right: 10,top: 12,bottom: 12,),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: clrGreyLight),
+                        border:  homeData.value.result?.membershipStatus == true ? Border.all(
+                          color: clrGreyLight
+                        ) : null,
+                        color:  homeData.value.result?.membershipStatus == true ? clrWhite :clrGreyLight),
                     child: Row(
                       children: [
                         Image.asset(
@@ -279,7 +282,7 @@ class ExploreListController extends GetxController {
                                 "Become a member",
                                 style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),
                               )),
-                              Image.asset('assets/icons/arrow right.png',height: 14,)
+                              homeData.value.result?.membershipStatus == true ? Image.asset('assets/images/check.png',height: 20) : Image.asset('assets/icons/arrow right.png',height: 14,)
                             ],
                           ),
                         )
@@ -298,8 +301,11 @@ class ExploreListController extends GetxController {
                     width: double.maxFinite,
                     padding: const EdgeInsets.only(left: 18,right: 10,top: 12,bottom: 12,),
                     decoration: BoxDecoration(
+                      border: homeData.value.result?.profileComplete == true ? Border.all(
+                        color: clrGreyLight
+                      ) : null,
                         borderRadius: BorderRadius.circular(50),
-                        color: clrGreyLight),
+                        color: homeData.value.result?.profileComplete == true ? clrWhite : clrGreyLight),
                     child: Row(
                       children: [
                         Image.asset(
@@ -316,7 +322,7 @@ class ExploreListController extends GetxController {
                               const Flexible(
                                   child: Text("Complete profile",
                                       style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400))),
-                              Image.asset('assets/icons/arrow right.png',height: 14)
+                              homeData.value.result?.profileComplete == true ? Image.asset('assets/images/check.png',height: 20) : Image.asset('assets/icons/arrow right.png',height: 14)
                             ],
                           ),
                         )

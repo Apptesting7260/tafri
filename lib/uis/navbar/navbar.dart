@@ -52,7 +52,11 @@ class Navbar extends GetWidget {
               color: clrWhite,
             ),
             onPressed: () {
-              Get.toNamed(Routes.createActivityUi);
+              if( exploreListController.homeData.value.result?.membershipStatus == true && exploreListController.homeData.value.result?.profileComplete == true ) {
+                Get.toNamed(Routes.createActivityUi);
+              }else{
+                exploreListController.showHomePop();
+              }
             }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

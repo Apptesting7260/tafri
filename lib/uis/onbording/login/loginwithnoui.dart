@@ -266,6 +266,52 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                   );
                                                 }),
                                                 SizedBox(
+                                                  height: Get.height * 0.025,
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                                  child: RichText(
+                                                      textAlign: TextAlign.center,
+                                                      text: TextSpan(children: [
+                                                        TextSpan(
+                                                            text:
+                                                            "By login you accept our",
+                                                            style: TextStyle(
+                                                                color: clrGreyDark,
+                                                                fontWeight:
+                                                                FontWeight.w300,
+                                                                fontSize: 12)),
+                                                        const TextSpan(text: ' '),
+                                                        TextSpan(
+                                                            text: "Terms of Use",
+                                                            style: TextStyle(
+                                                                color: clrYellowText,
+                                                                fontWeight:
+                                                                FontWeight.w300,
+                                                                fontSize: 12,
+                                                                decoration: TextDecoration
+                                                                    .underline)),
+                                                        TextSpan(
+                                                            text: " and",
+                                                            style: TextStyle(
+                                                                color: clrGreyDark,
+                                                                fontWeight:
+                                                                FontWeight.w300,
+                                                                fontSize: 12)),
+                                                        const TextSpan(text: ' '),
+                                                        TextSpan(
+                                                            text: "Privacy Policy",
+                                                            style: TextStyle(
+                                                                color: clrYellowText,
+                                                                fontWeight:
+                                                                FontWeight.w300,
+                                                                fontSize: 12,
+                                                                decoration: TextDecoration
+                                                                    .underline)),
+                                                      ])),
+                                                ),
+                                                SizedBox(
                                                   height: h * .025,
                                                 ),
                                               ],
