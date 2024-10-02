@@ -40,6 +40,8 @@ class Creativitycontroller extends GetxController
 
   RxInt counter = 1.obs;
 
+  var groupSizeController = TextEditingController();
+
   var Rdate = ''.obs;
   var RdateForPicker = ''.obs;
   RchangeDate(DateTime dateTime) {
@@ -504,6 +506,7 @@ class Creativitycontroller extends GetxController
     print("Latitude: ${latitude.value}");
     print("Longitude: ${longitude.value}");
 
+    groupSize.value = int.parse(groupSizeController.value.text.isEmpty ? '0' : groupSizeController.value.text.toString());
 
     print('test == ${groupValue.value}  ${repeats.value}  ${wmValue.value}  ${repeatday.value}  ${wmValue.value}  ${repeatMonth.value}');
 
@@ -547,6 +550,8 @@ class Creativitycontroller extends GetxController
         ))
       ){
         showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
+      }else if(groupSize.value == 1 || groupSize.value == 0){
+        showTostMsg('Please add people',gravity: ToastGravity.CENTER);
       }else if(groupSize.value < 2){
         showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
       }else if(repeats.value == true){

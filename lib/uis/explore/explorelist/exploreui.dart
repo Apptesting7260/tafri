@@ -10,6 +10,7 @@ import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/no_activity.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -455,17 +456,19 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                             onTap: () {
                                                               if(controller.homeData.value.result?.profileComplete == true
                                                                   &&  controller.homeData.value.result?.membershipStatus == true) {
-                                                                Get.toNamed(
-                                                                    Routes
-                                                                        .exploreView,
-                                                                    arguments:
-                                                                    activityData?[
-                                                                    index]
-                                                                        .id
-                                                                        .toString());
+                                                                if(controller.homeData.value.result?.activities?[index].hostId.toString() == LocalStorage.getUid()){
+                                                                  Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.homeData.value.result?.activities?[index].id.toString());
+                                                                }else {
+                                                                  Get.toNamed(
+                                                                      Routes
+                                                                          .exploreView,
+                                                                      arguments: activityData?[index]
+                                                                          .id
+                                                                          .toString()
+                                                                  );
+                                                                }
                                                               } else {
                                                                 controller.showHomePop();
-
                                                               }
                                                             },
                                                             child: Container(

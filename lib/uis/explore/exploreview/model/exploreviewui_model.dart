@@ -42,6 +42,8 @@ class Activity {
   String? name;
   String? description;
   String? location;
+  String? latitude;
+  String? longitude;
   DateTime? date;
   String? startAt;
   String? endAt;
@@ -73,6 +75,8 @@ class Activity {
     this.name,
     this.description,
     this.location,
+    this.latitude,
+    this.longitude,
     this.date,
     this.startAt,
     this.endAt,
@@ -105,6 +109,8 @@ class Activity {
     name: json["name"],
     description: json["description"],
     location: json["location"],
+    latitude: json["latitude"],
+    longitude: json["longitude"],
     date: json["date"] == null ? null : DateTime.parse(json["date"]),
     startAt: json["start_at"],
     endAt: json["end_at"],
@@ -136,6 +142,8 @@ class Activity {
     "name": name,
     "description": description,
     "location": location,
+    "latitude": latitude,
+    "longitude": longitude,
     "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
     "start_at": startAt,
     "end_at": endAt,

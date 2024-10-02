@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:plusone/routes/routes.dart';
@@ -557,6 +558,26 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
+                                            // SizedBox(
+                                            //   height: h * 0.01,
+                                            // ),
+                                            Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      // Get.toNamed(Routes.mapui);
+                                                    },
+                                                    child: Text('Choose on Map',
+                                                        style: TextStyle(
+                                                            color:
+                                                            clrYellowText,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .bold)),
+                                                  )
+                                                ]),
                                             IgnorePointer(
                                               ignoring: true,
                                               child: CustomLocationField(
@@ -616,26 +637,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             //             width: 8),
                                             //       )),
                                             // ),
-                                            SizedBox(
-                                              height: h * 0.01,
-                                            ),
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      // Get.toNamed(Routes.mapui);
-                                                    },
-                                                    child: Text('Choose on Map',
-                                                        style: TextStyle(
-                                                            color:
-                                                                clrYellowText,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  )
-                                                ]),
+
                                             SizedBox(
                                               height: h * 0.02,
                                             ),
@@ -915,76 +917,95 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
-                                            Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: Get.height * .02,
-                                                    horizontal: 15),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                    color: clrGreyLight),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Row(
-                                                        children: [
-                                                          Image.asset(
-                                                            "assets/icons/manicon.png",
-                                                            height: 20,
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 12,
-                                                          ),
-                                                          Flexible(
-                                                              child: Text(
-                                                            "Max 10 people (incl. you)",
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: TextStyle(
-                                                                color:
-                                                                    clrGreyTextLight),
-                                                          ))
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    IgnorePointer(
-                                                      ignoring: true,
-                                                      child: InkWell(
-                                                          onTap: () {
-                                                            controller
-                                                                .decGroupSize();
-                                                          },
-                                                          child: const Icon(
-                                                              Icons.remove)),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Obx(() {
-                                                      return Text(
-                                                          "${controller.groupSize}");
-                                                    }),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    IgnorePointer(
-                                                      ignoring: true,
-                                                      child: InkWell(
-                                                          onTap: () {
-                                                            controller
-                                                                .incGroupSize();
-                                                          },
-                                                          child: const Icon(
-                                                              Icons.add)),
-                                                    )
-                                                  ],
-                                                )),
+                                            // Container(
+                                            //     padding: EdgeInsets.symmetric(
+                                            //         vertical: Get.height * .02,
+                                            //         horizontal: 15),
+                                            //     decoration: BoxDecoration(
+                                            //         borderRadius:
+                                            //             BorderRadius.circular(
+                                            //                 100),
+                                            //         color: clrGreyLight),
+                                            //     child: Row(
+                                            //       mainAxisAlignment:
+                                            //           MainAxisAlignment
+                                            //               .spaceBetween,
+                                            //       children: [
+                                            //         Flexible(
+                                            //           child: Row(
+                                            //             children: [
+                                            //               Image.asset(
+                                            //                 "assets/icons/manicon.png",
+                                            //                 height: 20,
+                                            //               ),
+                                            //               const SizedBox(
+                                            //                 width: 12,
+                                            //               ),
+                                            //               Flexible(
+                                            //                   child: Text(
+                                            //                 "Max 10 people (incl. you)",
+                                            //                 maxLines: 1,
+                                            //                 overflow:
+                                            //                     TextOverflow
+                                            //                         .ellipsis,
+                                            //                 style: TextStyle(
+                                            //                     color:
+                                            //                         clrGreyTextLight),
+                                            //               ))
+                                            //             ],
+                                            //           ),
+                                            //         ),
+                                            //         IgnorePointer(
+                                            //           ignoring: true,
+                                            //           child: InkWell(
+                                            //               onTap: () {
+                                            //                 controller
+                                            //                     .decGroupSize();
+                                            //               },
+                                            //               child: const Icon(
+                                            //                   Icons.remove)),
+                                            //         ),
+                                            //         const SizedBox(
+                                            //           width: 5,
+                                            //         ),
+                                            //         Obx(() {
+                                            //           return Text(
+                                            //               "${controller.groupSize}");
+                                            //         }),
+                                            //         const SizedBox(
+                                            //           width: 5,
+                                            //         ),
+                                            //         IgnorePointer(
+                                            //           ignoring: true,
+                                            //           child: InkWell(
+                                            //               onTap: () {
+                                            //                 controller
+                                            //                     .incGroupSize();
+                                            //               },
+                                            //               child: const Icon(
+                                            //                   Icons.add)),
+                                            //         )
+                                            //       ],
+                                            //     )),
+                                            IgnorePointer(
+                                              ignoring: true,
+                                              child: CustoTextFormField(
+                                                controll: controller.groupSizeController,
+                                                hintText: "Up to 10 (incl. you)",
+                                                inputFormatters: [
+                                                  LengthLimitingTextInputFormatter(1),
+                                                ],
+                                                // maxLength: 1,
+                                                sufixIcon: Padding(
+                                                  padding: const EdgeInsets.all(13.0),
+                                                  child: Image.asset(
+                                                    "assets/icons/manicon.png",
+                                                    height: 20,
+                                                  ),
+                                                ),
+                                                textKType: TextInputType.number,
+                                              ),
+                                            ),
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
