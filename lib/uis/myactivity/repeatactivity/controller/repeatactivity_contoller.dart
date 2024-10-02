@@ -53,6 +53,7 @@ class Repeatcreativitycontroller extends GetxController
       eTimeForAPi.value = changeTime(activities!.endAt.toString()) ?? '';
       eTime.value = schangeTime(activities!.endAt.toString()) ?? '';
       groupSize.value = activities?.maxPeople ?? 1;
+      groupSizeController.text = (activities?.maxPeople ?? 1).toString();
       gender.value = activities?.gender == 'same' ? 1 : activities?.gender == 'all' ? 2 : 0;
       // repeats.value = activities?.repeatStatus == 'repeats' ? true : false;
       print('repet == ${repeats.value}');
@@ -84,6 +85,7 @@ class Repeatcreativitycontroller extends GetxController
   }
 
 
+  var groupSizeController = TextEditingController();
 
 
   RxInt counter = 1.obs;
@@ -721,6 +723,7 @@ class Repeatcreativitycontroller extends GetxController
     loading.value = true;
     print("Latitude: ${latitude.value}");
     print("Longitude: ${longitude.value}");
+    groupSize.value = int.parse(groupSizeController.value.text.isEmpty ? '0' : groupSizeController.value.text.toString());
 
 
     print('test == ${groupValue.value}  ${repeats.value}  ${wmValue.value}  ${repeatday.value}  ${wmValue.value}  ${repeatMonth.value}');
@@ -766,6 +769,8 @@ class Repeatcreativitycontroller extends GetxController
       ))
       ){
         showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
+      }else if(groupSize.value == 1 || groupSize.value == 0){
+        showTostMsg('Please add people',gravity: ToastGravity.CENTER);
       }else if(groupSize.value < 2){
         showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
       }else if(repeats.value == true){

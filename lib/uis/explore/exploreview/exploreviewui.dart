@@ -426,12 +426,37 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                             SizedBox(
                                               height: h * .005,
                                             ),
-                                            Text(
-                                              controller.actData.value.activity!
-                                                  .location
-                                                  .toString(),
-                                              style:
-                                                  TextStyle(color: clrGreyDark),
+                                            InkWell(
+                                              onTap: (){
+                                                if(controller.actData.value.activity!.latitude == null){
+                                                  showTostMsg('No location found');
+                                                }else {
+                                                  Get.toNamed(
+                                                      Routes.mapexploreui,
+                                                      arguments: {
+                                                        'latitude': controller
+                                                            .actData.value
+                                                            .activity!.latitude,
+                                                        'longitude': controller
+                                                            .actData.value
+                                                            .activity!
+                                                            .longitude,
+                                                        'title': controller
+                                                            .actData.value
+                                                            .activity!.name
+                                                            .toString(),
+                                                        'image': controller
+                                                            .actData.value
+                                                            .activity!
+                                                            .banners?[0]
+                                                            .toString(),
+                                                      });
+                                                }
+                                              },
+                                              child: Text(
+                                                controller.actData.value.activity!.location.toString(),
+                                                style: TextStyle(color: clrGreyDark),
+                                              ),
                                             ),
                                             SizedBox(
                                               height: h * .005,

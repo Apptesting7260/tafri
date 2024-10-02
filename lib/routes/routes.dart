@@ -7,6 +7,8 @@ import 'package:plusone/uis/explore/explorelist/bindings/explorelist_bindings.da
 import 'package:plusone/uis/explore/exploreview/bindings/exploreview_bindings.dart';
 import 'package:plusone/uis/explore/explorelist/exploreui.dart';
 import 'package:plusone/uis/explore/exploreview/exploreviewui.dart';
+import 'package:plusone/uis/explore/exploreview/map/bindings/mapbindings.dart';
+import 'package:plusone/uis/explore/exploreview/map/map.dart';
 import 'package:plusone/uis/explore/filter/bindings/filterexp_binding.dart';
 import 'package:plusone/uis/explore/filter/filteractivity/bindings/filteractivity_bindings.dart';
 import 'package:plusone/uis/explore/filter/filteractivity/filteractivity.dart';
@@ -145,6 +147,7 @@ class Routes{
   static String repeatActUi='/repeatActUi';
   static String mapui='/mapUi';
   static String userProfileui='/userProfileui';
+  static String mapexploreui='/mapexploreui';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -188,7 +191,7 @@ class Routes{
     GetPage(name: upcommingUserActiUi, page:()=>  UpcommingUserActivityUi(),binding:UpCommingActiUserBinding()),
     GetPage(name: previousActivityUi, page:()=>   PreviousActivityUi(),binding:PreviousActiBindings()),
     GetPage(name: attendList, page:()=> AttendListUi(),binding:AttendlistBinding()),
-    GetPage(name: hostUpcommingActiview, page:()=>  HostUpcomActivityViewUi(),binding:HostUpcommiActiBindings()),
+    GetPage(name: hostUpcommingActiview, page:()=>  HostUpcomActivityViewUi(),bindings: [HostUpcommiActiBindings(),MyactBinding()]),
     GetPage(name: attendReviewUi, page:()=>  AttendanceReviewUi(),binding:AttendReviewBinding()),
     GetPage(name: addReviewUi, page:()=>  AddActReviewUi(),binding:AddactreviewBinding()),
     GetPage(name: filterActUi, page:()=>  FilterActUi(),binding:FilterActBinding()),
@@ -196,5 +199,6 @@ class Routes{
     GetPage(name: repeatActUi, page:()=>  RepeatcreateActivityUi(),binding:RepeatcreativityBinding()),
     GetPage(name: mapui, page:()=>  Mapui()),
     GetPage(name: userProfileui, page:()=>  UserProfileUi(),binding: UserProfileBinding()),
+    GetPage(name: mapexploreui, page:()=>  MapExploreUi(),binding: MapExploreBinding()),
   ];
 }
