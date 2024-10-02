@@ -75,6 +75,7 @@ dependencies:
   geocoding:
   in_app_purchase: ^3.2.0
   sliding_up_panel:
+  timeago: ^3.7.0
 
 dev_dependencies:
   flutter_test:

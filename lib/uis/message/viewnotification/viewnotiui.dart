@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/uis/message/viewnotification/controller/viewnotifi_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../utils/colors.dart';
 
-class ViewNotiUi extends GetWidget{
+class ViewNotiUi extends GetWidget<ViewNotifiController>{
   const ViewNotiUi({super.key});
 
   @override
@@ -38,8 +39,8 @@ class ViewNotiUi extends GetWidget{
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5), color: clrGreyLight),
-                  child: const Text(
-                      "Dear Emma Due,\n \nWe noticed that you were unable to attend a recent activity. To ensure activities hosted by our users remain top-notch and enjoyable for everyone, we have a policy that includes a cancellation fee of [Fee Amount].\n Your understanding and cooperation help us maintain the high quality of our activities and ensure a great experience for everyone joining or hosting\n Thank you for being a part of our community! \n\n Best regards, Team PlusOnes"),
+                  child: Text(
+                      "${controller.message.value}\n \nThank you for being a part of our community! \n\nBest regards, Team PlusOnes"),
                 ),
               ],
             ),

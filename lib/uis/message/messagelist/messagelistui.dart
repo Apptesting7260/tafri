@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,7 +9,12 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/message/messagelist/controller/messagelist_controller.dart';
 import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 
 class MessageListUi extends GetWidget<MessagelistController> {
   const MessageListUi({super.key});
@@ -286,136 +291,159 @@ class MessageListUi extends GetWidget<MessagelistController> {
                     ),
                   ),
                   //notification ui
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                              itemCount: 4,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Get.toNamed(Routes.viewNotifiUi);
-                                  },
-                                  child: Slidable(
-                                    // Specify a key if the Slidable is dismissible.
-                                    key: const ValueKey(0),
-                                    endActionPane: ActionPane(
-                                      motion: const ScrollMotion(),
-                                      dismissible:
-                                          DismissiblePane(onDismissed: () {}),
-                                      children: [
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: h * 0.008),
-                                              decoration: BoxDecoration(
-                                                color: clrYellow,
-                                                borderRadius: BorderRadius.only(
-                                                  bottomRight: Radius.circular(15),
-                                                  topRight: Radius.circular(15)
-                                                ),
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    height: double.maxFinite,
+                      Obx(() => controller.notLoading.value ? Center(child: CommonUi.scaffoldLoading(color: clrYellow)) : controller.notError.value.isNotEmpty ? Center(child: ErrorScreen()) : Padding(
+                        padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: SmartRefresher(
+                                controller: controller.refreshController,
+                                onRefresh: () async{
+                                  await controller.getNotification();
+                                  controller.refreshController.refreshCompleted();
+                                },
+                                header: CommonUi.refreshHeader(),
+                                child: ListView.builder(
+                                    itemCount: controller.notData.value.notifications?.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.toNamed(Routes.viewNotifiUi,arguments: controller.notData.value.notifications?[index].message.toString());
+                                        },
+                                        child: Slidable(
+                                          key: const ValueKey(0),
+                                          endActionPane: ActionPane(
+                                            motion: const ScrollMotion(),
+                                            dismissible:
+                                            DismissiblePane(
+                                                onDismissed: () {
+                                              controller.deleteNot(controller.notData.value.notifications![index].id.toString());
+                                            }),
+                                            children: [
+                                              Expanded(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    controller.deleteNot(controller.notData.value.notifications![index].id.toString());
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.symmetric(
+                                                        vertical: h * 0.008),
                                                     decoration: BoxDecoration(
-                                                        color: clrYellow),
-                                                    child: Container(
-                                                      height: h * 0.045,
-                                                      width: 30,
-                                                      decoration: const BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  "assets/icons/deleteIcon.png"),
-                                                              fit: BoxFit.contain)),
+                                                      color: clrYellow,
+                                                      borderRadius: BorderRadius.only(
+                                                          bottomRight: Radius.circular(15),
+                                                          topRight: Radius.circular(15)
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                        Container(
+                                                          height: double.maxFinite,
+                                                          decoration: BoxDecoration(
+                                                              color: clrYellow),
+                                                          child: Container(
+                                                            height: h * 0.045,
+                                                            width: 30,
+                                                            decoration: const BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        "assets/icons/deleteIcon.png"),
+                                                                    fit: BoxFit.contain)),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 20),
-                                      margin:
-                                          const EdgeInsets.symmetric(vertical: 8),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          color: clrGreyLight),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            clipBehavior: Clip.hardEdge,
-                                            height: h * .05,
-                                            width: h * .05,
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 20),
+                                            margin:
+                                            const EdgeInsets.symmetric(vertical: 8),
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                            child: Image.asset(
-                                              "assets/images/cofee.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: Get.width * 0.02,
-                                          ),
-                                          Expanded(
+                                                borderRadius: BorderRadius.circular(15),
+                                                color: clrGreyLight),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Flexible(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      const Text(
-                                                        "You didn’t attend picnic with Jenny and will be charge with a no-show fee.",
-                                                        style:
-                                                            TextStyle(fontSize: 13),
+                                                Container(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  height: 35,
+                                                  width: 35,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(100),
+                                                  ),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: '${controller.notData.value.notifications?[index].profile}',fit: BoxFit.cover,
+                                                    errorWidget: (context, url, error) => Container(
+                                                      height: 35,
+                                                      width: 35,
+                                                      color: clrWhite,
+                                                      child: Image.asset(
+                                                        'assets/icons/manicon.png',
+                                                        color: clrGrey,
+                                                        scale: 1.8,
                                                       ),
-                                                      Text(
-                                                        "Just now",
-                                                        style: TextStyle(
-                                                            color: clrGreyDark,
-                                                            fontSize: 12),
-                                                      )
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: Get.width * 0.02,
+                                                ),
+                                                Expanded(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Flexible(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              "${controller.notData.value.notifications?[index].message}",
+                                                              style:
+                                                              TextStyle(fontSize: 13),
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
+                                                            ),
+                                                            Text(
+                                                              "${timeago.format(controller.notData.value.notifications![index].createdAt!,)}",
+                                                              style: TextStyle(
+                                                                  color: clrGreyDark,
+                                                                  fontSize: 12),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
+                                                SizedBox(
+                                                  width: Get.width * 0.02,
+                                                ),
+                                                Icon(Icons.more_vert,color: Color.fromRGBO(85, 92, 105, 1),)
                                               ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: Get.width * 0.02,
-                                          ),
-                                          Icon(Icons.more_vert,color: Color.fromRGBO(85, 92, 105, 1),)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }),
-                        )
-                      ],
-                    ),
-                  )
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),)
                 ]),
               ),
             ],
