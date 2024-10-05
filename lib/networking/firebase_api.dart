@@ -110,6 +110,7 @@ Future<void> backgroundHandler(RemoteMessage message) async {
     // Perform any background tasks here
   } else if (message.notification != null) {
     FirebaseApi().showNotification(message);
+    // FirebaseApi.snackBar1( message.notification!.title.toString(), message.notification!.body.toString());
     print(
         'message ===  ${message.data}  ===   ${message.notification?.body}   ====   ${message.notification?.title}');
   }
@@ -221,10 +222,12 @@ class FirebaseApi {
         print(
             'message ===  ${message.data}  ===   ${message.notification?.body}   ====   ${message.notification?.title}');
         showNotification(message);
+        // snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
+
       } else if (message.notification != null && appleNotification != null) {
         print(
             'messageSSSS ===  ${message.data}  ===   ${message.notification?.body}   ====   ${message.notification?.title}');
-        showNotification(message);
+        // showNotification(message);
         snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
       }
     });
@@ -236,6 +239,8 @@ class FirebaseApi {
     _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
       if (message != null) {
         showNotification(message);
+        // snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
+
       }
       print('FirebaseMessaging.instance.getInitialMessage');
     });
@@ -245,18 +250,27 @@ class FirebaseApi {
     try {
       final id = DateTime.now().microsecond;
 
-      const androidNotificationDetails = AndroidNotificationDetails(
+      // BigTextStyleInformation allows the notification to display larger content
+      final bigTextStyleInformation = BigTextStyleInformation(
+        message.notification!.body ?? '', // Use the message body
+        htmlFormatBigText: true, // For rich content (if HTML is used)
+        contentTitle: message.notification!.title, // Notification title
+        htmlFormatContentTitle: true,
+      );
+
+       var androidNotificationDetails = AndroidNotificationDetails(
         'PlusOne',
-        'PlusOne',
+        'PlusOne kdfjldskjflsdkjfldsjflsddfldsjfldsfldskjfldsjfldsfldsjfdslkjfdlsjfldskjfd',
         importance: Importance.max,
         priority: Priority.max,
         icon: '@drawable/ic_launcher',
         visibility: NotificationVisibility.public,
         channelShowBadge: true,
+        styleInformation: bigTextStyleInformation, // Assign BigTextStyle
       );
       const iosNotificationDetails = DarwinNotificationDetails();
 
-      NotificationDetails notificationDetails = const NotificationDetails(
+      NotificationDetails notificationDetails =  NotificationDetails(
           iOS: iosNotificationDetails, android: androidNotificationDetails,);
       await _localNotificationsPlugin.show(id, message.notification!.title,
           message.notification!.body, notificationDetails);
@@ -265,29 +279,214 @@ class FirebaseApi {
     }
   }
 
+  // static snackBar1(String title, String message) {
+  //   Get.snackbar(
+  //     title,
+  //     message,
+  //     backgroundColor: Colors.white54,
+  //     colorText: Colors.black,
+  //     titleText: Text(
+  //       title,
+  //       style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold), // Title text color
+  //     ),
+  //     messageText: Text(
+  //       message,
+  //       style: TextStyle(color: Colors.black), // Message text color
+  //     ),
+  //     icon: Image.asset(
+  //       'assets/images/launcher.png',
+  //     ),
+  //     borderRadius: 20,
+  //     snackPosition: SnackPosition.TOP,
+  //     margin: EdgeInsets.only(left: 10, right: 10),
+  //     padding: EdgeInsets.symmetric(vertical: 8),
+  //     duration: Duration(seconds: 3),
+  //   );
+  // }
+
   static snackBar1(String title, String message) {
     Get.snackbar(
-      title,
-      message,
-      backgroundColor: Colors.white54,
+      '',
+      '',
+      backgroundColor: Colors.white,
       colorText: Colors.black,
-      titleText: Text(
-        title,
-        style: TextStyle(color: Colors.black), // Title text color
-      ),
-      messageText: Text(
-        message,
-        style: TextStyle(color: Colors.black), // Message text color
-      ),
-      icon: Image.asset(
-        'assets/images/launcher.png',
-      ),
       borderRadius: 20,
       snackPosition: SnackPosition.TOP,
-      margin: EdgeInsets.only(left: 10, right: 10),
-      padding: EdgeInsets.symmetric(vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 0),
       duration: Duration(seconds: 3),
+      // Custom layout using Column
+      messageText: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 15, bottom: 8), // Space from the left and bottom of the image
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5), // Circular border with radius of 15
+              child: Image.asset(
+                'assets/images/launcher.png',
+                width: 40,  // Set width for the image
+                height: 40, // Set height for the image
+                fit: BoxFit.cover, // Ensures the image covers the container evenly
+              ),
+            ),
+          ),
+          SizedBox(width: 10,),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
+                SizedBox(height: 4), // Space between title and message
+                Flexible(
+                  child: Text(
+                    message,
+                    style: TextStyle(color: Colors.black),
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
+
+ // static void snackBar1(BuildContext context,String title, String message) {
+ //    final snackBar = SnackBar(
+ //      backgroundColor: Colors.red,
+ //      content: Row(
+ //        crossAxisAlignment: CrossAxisAlignment.start,
+ //        children: [
+ //          Container(
+ //            margin: EdgeInsets.only(right: 10), // Space from the right of the image
+ //            child: ClipRRect(
+ //              borderRadius: BorderRadius.circular(5), // Circular border with radius of 5
+ //              child: Image.asset(
+ //                'assets/images/launcher.png',
+ //                width: 40,  // Set width for the image
+ //                height: 40, // Set height for the image
+ //                fit: BoxFit.cover, // Ensures the image covers the container evenly
+ //              ),
+ //            ),
+ //          ),
+ //          Expanded( // Use Expanded to ensure the text takes the remaining space
+ //            child: Column(
+ //              crossAxisAlignment: CrossAxisAlignment.start,
+ //              children: [
+ //                Text(
+ //                  title,
+ //                  style: TextStyle(
+ //                    color: Colors.black,
+ //                    fontWeight: FontWeight.bold,
+ //                  ),
+ //                  softWrap: true,
+ //                ),
+ //                SizedBox(height: 4), // Space between title and message
+ //                Text(
+ //                  message,
+ //                  style: TextStyle(color: Colors.black),
+ //                  softWrap: true,
+ //                ),
+ //              ],
+ //            ),
+ //          ),
+ //        ],
+ //      ),
+ //      duration: Duration(seconds: 3),
+ //      behavior: SnackBarBehavior.floating, // Make it float above the content
+ //      margin: EdgeInsets.symmetric(horizontal: 10), // Adjust margin if needed
+ //      shape: RoundedRectangleBorder(
+ //        borderRadius: BorderRadius.circular(20), // Rounded corners
+ //      ),
+ //    );
+ //
+ //    // Show the snackbar
+ //    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+ //  }
+
+
+  // static void snackBar1(BuildContext context, String title, String message) {
+  //   // Create the overlay entry for the snackbar
+  //   OverlayEntry overlayEntry = OverlayEntry(
+  //     builder: (context) => Positioned(
+  //       top: MediaQuery.of(context).padding.top + 10, // Top padding
+  //       left: 10,
+  //       right: 10,
+  //       child: Material(
+  //         color: Colors.transparent,
+  //         child: Container(
+  //           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(20),
+  //           ),
+  //           child: Row(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Container(
+  //                 margin: EdgeInsets.only(right: 10), // Space from the right of the image
+  //                 child: ClipRRect(
+  //                   borderRadius: BorderRadius.circular(5),
+  //                   child: Image.asset(
+  //                     'assets/images/launcher.png',
+  //                     width: 40, // Set width for the image
+  //                     height: 40, // Set height for the image
+  //                     fit: BoxFit.cover, // Ensures the image covers the container evenly
+  //                   ),
+  //                 ),
+  //               ),
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       title,
+  //                       style: TextStyle(
+  //                         color: Colors.black,
+  //                         fontWeight: FontWeight.bold,
+  //                       ),
+  //                       softWrap: true,
+  //                     ),
+  //                     SizedBox(height: 4), // Space between title and message
+  //                     Text(
+  //                       message,
+  //                       style: TextStyle(color: Colors.black),
+  //                       softWrap: true,
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  //
+  //   // Show the snackbar
+  //   Overlay.of(context)?.insert(overlayEntry);
+  //
+  //   // Remove the snackbar after a delay
+  //   Future.delayed(Duration(seconds: 3), () {
+  //     overlayEntry.remove();
+  //   });
+  // }
+
+
 
 }

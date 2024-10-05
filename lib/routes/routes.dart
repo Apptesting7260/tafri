@@ -37,6 +37,8 @@ import 'package:plusone/uis/myactivity/upcommingactivity/upcomminguseractivityui
 import 'package:plusone/uis/navbar/bindings/navbar_binding.dart';
 import 'package:plusone/uis/navbar/navbar.dart';
 import 'package:plusone/uis/onbording/codeverify/bindings/codeverify_binding.dart';
+import 'package:plusone/uis/onbording/contactsupport/bindings/bindings.dart';
+import 'package:plusone/uis/onbording/contactsupport/contactsupport.dart';
 import 'package:plusone/uis/onbording/introone/binding/intro_binding.dart';
 import 'package:plusone/uis/onbording/introone/intoone.dart';
 import 'package:plusone/uis/onbording/login/bindings/loginno_binding.dart';
@@ -151,6 +153,7 @@ class Routes{
   static String userProfileui='/userProfileui';
   static String mapexploreui='/mapexploreui';
   static String paymentScreen='/paymentScreen';
+  static String contactSupport='/contactSupport';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -204,5 +207,6 @@ class Routes{
     GetPage(name: userProfileui, page:()=>  UserProfileUi(),binding: UserProfileBinding()),
     GetPage(name: mapexploreui, page:()=>  MapExploreUi(),binding: MapExploreBinding()),
     GetPage(name: paymentScreen, page:()=>  PaymentScreen(),),
+    GetPage(name: contactSupport, page:()=>  Contactsupport(),binding: ContactSupportBinding()),
   ];
 }

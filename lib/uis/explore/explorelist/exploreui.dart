@@ -14,6 +14,7 @@ import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../networking/firebase_api.dart';
 import 'controller/explorelist_controller.dart';
 
 class ExploreUi extends GetWidget<ExploreListController> {
@@ -40,6 +41,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                 }else{
                   controller.showHomePop();
                 }
+                // FirebaseApi.snackBar1('How to create a custom Snackbar that displays at the top ', 'R Programming Tutorial is designed for beginners and experts. This free R Tutorial gives you knowledge basic to advanced of concepts of the R programming language');
               },
               backgroundClr: clrWhite,
               child: Row(
@@ -646,11 +648,11 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                               height:
                                                                                   h * .005,
                                                                             ),
-                                                                            controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? Text(
+                                                                            Text(
                                                                               '${activityData?[index].location}',
                                                                               style:
                                                                                   TextStyle(color: clrGreyDark),
-                                                                            ) : SizedBox(),
+                                                                            ),
                                                                             SizedBox(
                                                                               height:
                                                                                   h * .005,

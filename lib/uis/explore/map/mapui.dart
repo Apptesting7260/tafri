@@ -1552,12 +1552,11 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                height:
                                                                h * .005,
                                                              ),
-                                                             homeController.homeData.value.result?.profileComplete == true
-                                                                 &&  homeController.homeData.value.result?.membershipStatus == true ? Text(
+                                                              Text(
                                                                '${activityData?[index].location}',
                                                                style:
                                                                TextStyle(color: clrGreyDark),
-                                                             ) : SizedBox(),
+                                                             ),
                                                              SizedBox(
                                                                height:
                                                                h * .005,
