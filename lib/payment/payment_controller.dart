@@ -65,7 +65,7 @@ class PaymentController extends GetxController{
       // "sequenceType": "recurring",
       "customerId": customerID,
       // "mandateId": 'mdt_GVSvwruSn7',
-      'redirectUrl': 'https://docs.mollie.com/reference/handling-errors',
+      'redirectUrl': 'https://urlsdemo.online/plusone/api/redirect-success-url',
     });
 
     try{
@@ -91,6 +91,7 @@ class PaymentController extends GetxController{
   Future<void> getPay(String paymentId) async{
     try{
       final response = await api.get('${baseUrl}payments/$paymentId',headers: header);
+      print('get == ${response.statusCode}      ${response.body}');
       if(response.statusCode == 200 || response.statusCode == 201){
         final data = jsonDecode(response.body);
         print('respos == ${response.body}');

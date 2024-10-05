@@ -15,26 +15,38 @@ class PaymentScreen extends GetWidget<PaymentController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           SizedBox(height: 15,),
-           Padding(
-             padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-             child: CommonUi.appBar(),
-           ),
-            SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+              child: CommonUi.appBar(),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
             Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                  url: WebUri.uri(Uri.parse(controller.paymentUrl.value))
-                ),
-                onLoadStart: (controlle, url) async{
-                  if(url.toString() == 'https://docs.mollie.com/reference/handling-errors'){
+                    url: WebUri.uri(Uri.parse(controller.paymentUrl.value))),
+                onLoadStart: (controlle, url) async {
+                  // print(
+                  //     'url match ${url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-success-url'}');
+                  // if (url.toString().trim() ==
+                  //     'https://urlsdemo.online/plusone/api/redirect-success-url') {
+                  //   await controller.getPay(controller.paymentId.value);
+                  // }
+                },
+                onLoadStop: (controlle, url) async{
+                  print('load stop == ${url}');
+                  print(
+                      'url match ${url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-success-url'}');
+                  if (url.toString().trim() ==
+                      'https://urlsdemo.online/plusone/api/redirect-success-url') {
                     await controller.getPay(controller.paymentId.value);
                   }
                 },
-                onLoadStop: (controller, url) {
-                  print('load stop == ${url}');
-                },
-                onConsoleMessage: (controller, consoleMessage) {
+                onConsoleMessage: (controlle, consoleMessage) {
                   print('msg == ${consoleMessage}');
                 },
               ),

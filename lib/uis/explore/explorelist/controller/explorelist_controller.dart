@@ -253,7 +253,7 @@ class ExploreListController extends GetxController {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.planMemUi);
+                    Get.toNamed(Routes.mymembershipProUi);
                   },
                   child: Container(
                     width: double.maxFinite,

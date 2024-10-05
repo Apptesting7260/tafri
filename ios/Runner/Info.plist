@@ -67,6 +67,11 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to provide better services.</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>we requires access to microphone for improving your experience.</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>we requires access to camera for improving your experience.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to allow you to select and upload images to enhance your experience.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
