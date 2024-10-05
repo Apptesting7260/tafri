@@ -44,7 +44,8 @@ class MapExploreUi extends GetWidget<MapExploreController> {
                       child: Center(
                           child: CommonUi.scaffoldLoading(color: clrYellow)
                       )
-                  ) : GoogleMap(
+                  ) :
+                  GoogleMap(
                     onMapCreated: (GoogleMapController googleMapController) {
                       controller.mapController = googleMapController;
                       controller.addMarkerWithImage();
@@ -64,7 +65,8 @@ class MapExploreUi extends GetWidget<MapExploreController> {
                     myLocationEnabled: true,
                     myLocationButtonEnabled: true,
                     markers: Set<Marker>.from(controller.markers),
-                  ),)
+                  ),
+                  )
                 ],
               ),
             )

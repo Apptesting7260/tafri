@@ -1,10 +1,8 @@
-import 'dart:developer';
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
@@ -48,22 +46,6 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CommonUi.appBar(),
-                  // InkWell(
-                  //   onTap: () {
-                  //     Get.back();
-                  //   },
-                  //   child: Container(
-                  //     clipBehavior: Clip.hardEdge,
-                  //     width: 40,
-                  //     height: 40,
-                  //     padding:
-                  //     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  //     decoration: BoxDecoration(
-                  //         color: clrGreyLight,
-                  //         borderRadius: BorderRadius.circular(10)),
-                  //     child: const Center(child: Icon(Icons.arrow_back_ios)),
-                  //   ),
-                  // ),
                   const Text(
                     "Activity",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
@@ -102,7 +84,10 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         child: Center(
                           child: PopupMenuButton(
                             splashRadius: 0.1,
-                            icon: const Icon(Icons.more_vert,size: 30,),
+                            icon: const Icon(
+                              Icons.more_vert,
+                              size: 30,
+                            ),
                             elevation: 5,
                             itemBuilder: (context) => [
                               const PopupMenuItem(
@@ -133,65 +118,34 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                       )
                     : controller.actError.value.isNotEmpty
                         ? SmartRefresher(
-                    onRefresh: () async {
-                      controller.refreshApi();
-                    },
-                    controller: controller.refreshController1,
-                    header: CommonUi.refreshHeader(),
-                    child: Center(child: const ErrorScreen()))
+                            onRefresh: () async {
+                              controller.refreshApi();
+                            },
+                            controller: controller.refreshController1,
+                            header: CommonUi.refreshHeader(),
+                            child: Center(child: const ErrorScreen()))
                         : SmartRefresher(
-                  onRefresh: () async {
-                    controller.refreshApi();
-                  },
-                  controller: controller.refreshController,
-                  header: CommonUi.refreshHeader(),
-                          child: SingleChildScrollView(
+                            onRefresh: () async {
+                              controller.refreshApi();
+                            },
+                            controller: controller.refreshController,
+                            header: CommonUi.refreshHeader(),
+                            child: SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     height: h * .25,
                                     child: Stack(
-                                      // clipBehavior: Clip.none,
                                       children: [
-                                        // CarouselSlider(
-                                        //   options: CarouselOptions(
-                                        //       height:h*.25, viewportFraction: 1),
-                                        //   items: [1, 2, 3].map((i) {
-                                        //     return Builder(
-                                        //       builder: (BuildContext context) {
-                                        //         return Container(
-                                        //             clipBehavior: Clip.hardEdge,
-                                        //             width: MediaQuery.of(context)
-                                        //                 .size
-                                        //                 .width,
-                                        //             height: double.maxFinite,
-                                        //             margin: const EdgeInsets.symmetric(
-                                        //                 horizontal: 0),
-                                        //             decoration: BoxDecoration(
-                                        //                 borderRadius:
-                                        //                 BorderRadius.circular(18)),
-                                        //             child: Image.asset(
-                                        //               "assets/images/cofee.png",
-                                        //               fit: BoxFit.cover,
-                                        //               height: h*.25,
-                                        //               width: double.maxFinite,
-                                        //             ));
-                                        //       },
-                                        //     );
-                                        //   }).toList(),
-                                        // ),
                                         CarouselSlider(
                                           options: CarouselOptions(
                                               height: h * .26,
                                               viewportFraction: 1,
                                               onPageChanged: (currIndex,
-                                                  CarouselPageChangedReason
-                                                      reason) {
-                                                controller
-                                                    .changeIndicator(currIndex);
-                                                debugPrint(
-                                                    " currIndex $currIndex reason=$reason");
+                                                  CarouselPageChangedReason reason) {
+                                                controller.changeIndicator(currIndex);
+                                                debugPrint(" currIndex $currIndex reason=$reason");
                                               }),
                                           items: controller
                                               .actData.value.activity!.banners
@@ -200,63 +154,55 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               builder: (BuildContext context) {
                                                 return Container(
                                                     clipBehavior: Clip.hardEdge,
-                                                    width: MediaQuery.of(context)
-                                                        .size
-                                                        .width,
+                                                    width: MediaQuery.of(context).size.width,
                                                     height: double.maxFinite,
-                                                    margin: const EdgeInsets
-                                                        .symmetric(horizontal: 0),
+                                                    margin: const EdgeInsets.symmetric(horizontal: 0),
                                                     decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                18)),
+                                                        borderRadius: BorderRadius.circular(18)),
                                                     child: CachedNetworkImage(
                                                       fit: BoxFit.cover,
                                                       height: h * .26,
                                                       width: double.maxFinite,
                                                       imageUrl: "$i",
-                                                      placeholder:
-                                                          (context, url) =>
-                                                              Shimmer.fromColors(
-                                                        baseColor: grey300,
-                                                        highlightColor: grey100,
-                                                        child: Container(
-                                                          width: double.maxFinite,
-                                                          height: h * .26,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: grey300,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(18),
+                                                      placeholder: (context, url) =>
+                                                          Shimmer.fromColors(
+                                                            baseColor: grey300,
+                                                            highlightColor: grey100,
+                                                            child: Container(
+                                                              width: double.maxFinite,
+                                                              height: h * .26,
+                                                              decoration: BoxDecoration(
+                                                                color: grey300,
+                                                                borderRadius: BorderRadius.circular(18),
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ));
+                                                    )
+                                                );
                                               },
                                             );
                                           }).toList(),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
+                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
+                                                padding: const EdgeInsets.symmetric(
                                                         horizontal: 10,
-                                                        vertical: 5),
+                                                        vertical: 5
+                                                    ),
                                                 decoration: BoxDecoration(
                                                     color: clrWhite,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
+                                                    borderRadius: BorderRadius.circular(20)
+                                                ),
                                                 child: Text(
-                                                  controller.actData.value
-                                                      .activity!.subcategoryTitle
+                                                  controller
+                                                      .actData
+                                                      .value
+                                                      .activity!
+                                                      .subcategoryTitle
                                                       .toString(),
                                                   style: const TextStyle(
                                                       fontWeight:
@@ -286,16 +232,19 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               // ),
                                               InkWell(
                                                 onTap: () async {
-                                                  var id = controller
-                                                      .actData.value.activity!.id
+                                                  var id = controller.actData
+                                                      .value.activity!.id
                                                       .toString();
                                                   await controller
                                                       .changeFavApi(id)
                                                       .then(
                                                     (value) {
                                                       if (value == true) {
-                                                        controller.actData.value
-                                                                .activity!.isFav =
+                                                        controller
+                                                                .actData
+                                                                .value
+                                                                .activity!
+                                                                .isFav =
                                                             !controller
                                                                 .actData
                                                                 .value
@@ -306,11 +255,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                       }
                                                     },
                                                   );
-
                                                   controller.actData.refresh();
-                                                  // controller
-                                                  //     .changeFav(
-                                                  //         index);
                                                 },
                                                 child: Container(
                                                   padding:
@@ -320,8 +265,11 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               100)),
-                                                  child: controller.actData.value
-                                                              .activity!.isFav ==
+                                                  child: controller
+                                                              .actData
+                                                              .value
+                                                              .activity!
+                                                              .isFav ==
                                                           true
                                                       ? Icon(
                                                           Icons.favorite,
@@ -362,8 +310,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                         Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Container(
-                                            margin:
-                                                const EdgeInsets.only(bottom: 7),
+                                            margin: const EdgeInsets.only(
+                                                bottom: 7),
                                             height: 16,
                                             child: ListView.builder(
                                                 itemCount: controller
@@ -373,7 +321,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                     .banners
                                                     ?.length,
                                                 shrinkWrap: true,
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 itemBuilder:
                                                     (context, indicatorIndex) {
                                                   return Padding(
@@ -408,7 +357,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Flexible(
                                         child: Column(
@@ -427,26 +377,35 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               height: h * .005,
                                             ),
                                             InkWell(
-                                              onTap: (){
-                                                if(controller.actData.value.activity!.latitude == null){
-                                                  showTostMsg('No location found');
-                                                }else {
+                                              onTap: () {
+                                                if (controller.actData.value
+                                                        .activity!.latitude ==
+                                                    null) {
+                                                  showTostMsg(
+                                                      'No location found');
+                                                } else {
                                                   Get.toNamed(
                                                       Routes.mapexploreui,
                                                       arguments: {
                                                         'latitude': controller
-                                                            .actData.value
-                                                            .activity!.latitude,
+                                                            .actData
+                                                            .value
+                                                            .activity!
+                                                            .latitude,
                                                         'longitude': controller
-                                                            .actData.value
+                                                            .actData
+                                                            .value
                                                             .activity!
                                                             .longitude,
                                                         'title': controller
-                                                            .actData.value
-                                                            .activity!.name
+                                                            .actData
+                                                            .value
+                                                            .activity!
+                                                            .name
                                                             .toString(),
                                                         'image': controller
-                                                            .actData.value
+                                                            .actData
+                                                            .value
                                                             .activity!
                                                             .banners?[0]
                                                             .toString(),
@@ -454,8 +413,11 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                 }
                                               },
                                               child: Text(
-                                                controller.actData.value.activity!.location.toString(),
-                                                style: TextStyle(color: clrGreyDark),
+                                                controller.actData.value
+                                                    .activity!.location
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: clrGreyDark),
                                               ),
                                             ),
                                             SizedBox(
@@ -471,15 +433,10 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                             ),
                                             Text(
                                               "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! == 1 ? 'spot left' : 'spots left'}",
-                                              style: TextStyle(color: clrYellowText, fontSize: 13),
+                                              style: TextStyle(
+                                                  color: clrYellowText,
+                                                  fontSize: 13),
                                             ),
-
-                                            // Text(
-                                            //   "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} spot left",
-                                            //   style: TextStyle(
-                                            //       color: clrYellowText,
-                                            //       fontSize: 13),
-                                            // ),
                                           ],
                                         ),
                                       ),
@@ -488,7 +445,10 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
+                                          Get.toNamed(Routes.hostProfileUi,
+                                              arguments: controller.actData
+                                                  .value.activity!.hostId
+                                                  .toString());
                                         },
                                         child: Column(
                                           crossAxisAlignment:
@@ -496,16 +456,6 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            // Container(
-                                            //     height: h*.055,
-                                            //     width: h*.055,
-                                            //     decoration: BoxDecoration(
-                                            //         borderRadius:
-                                            //         BorderRadius.circular(100)),
-                                            //     child: Image.asset(
-                                            //       "assets/images/girldp.png",
-                                            //       fit: BoxFit.cover,
-                                            //     )),
                                             ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(100),
@@ -548,7 +498,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                 ),
                                               ),
                                             ),
-                                            const SizedBox(height: 3,),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
                                             Text(
                                               controller.actData.value.activity!
                                                   .hostName
@@ -565,7 +517,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                     height: Get.height * 0.01,
                                   ),
                                   Text(
-                                    controller.actData.value.activity!.description
+                                    controller
+                                        .actData.value.activity!.description
                                         .toString(),
                                     style: TextStyle(
                                         fontSize: 14, color: clrGrey5D5C5E),
@@ -595,12 +548,20 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               shrinkWrap: true,
                                               itemBuilder: (context, index) {
                                                 return InkWell(
-                                                  onTap: (){
-                                                    Get.toNamed(Routes.userProfileui,arguments: controller.actData.value.going?[index].userId.toString());
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                        Routes.userProfileui,
+                                                        arguments: controller
+                                                            .actData
+                                                            .value
+                                                            .going?[index]
+                                                            .userId
+                                                            .toString());
                                                   },
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        right: 8),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8),
                                                     child: ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -611,23 +572,24 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                           fit: BoxFit.cover,
                                                           imageUrl:
                                                               '${controller.actData.value.going?[index].profilePhoto}',
-                                                          placeholder: (context,
-                                                                  url) =>
-                                                              Shimmer.fromColors(
+                                                          placeholder: (context, url) => Shimmer
+                                                              .fromColors(
                                                                   baseColor: Colors
                                                                       .grey
                                                                       .shade300,
                                                                   highlightColor:
-                                                                      Colors.grey
+                                                                      Colors
+                                                                          .grey
                                                                           .shade100,
-                                                                  child: ClipRRect(
+                                                                  child:
+                                                                      ClipRRect(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                100),
+                                                                        BorderRadius.circular(
+                                                                            100),
                                                                     child:
                                                                         Container(
-                                                                      height: 55,
+                                                                      height:
+                                                                          55,
                                                                       width: 55,
                                                                       color:
                                                                           clrGrey,
@@ -645,10 +607,13 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                               child: Container(
                                                                 height: 55,
                                                                 width: 55,
-                                                                color: clrGreyLight,
-                                                                child: Image.asset(
+                                                                color:
+                                                                    clrGreyLight,
+                                                                child:
+                                                                    Image.asset(
                                                                   'assets/icons/manicon.png',
-                                                                  color: clrGrey,
+                                                                  color:
+                                                                      clrGrey,
                                                                 ),
                                                               ),
                                                             );
@@ -658,6 +623,57 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                 );
                                               }),
                                         ),
+                                  SizedBox(
+                                    height: Get.height * 0.03,
+                                  ),
+                              Obx(() => controller.mapLoading.value
+                                      ? Expanded(
+                                  child: Center(
+                                      child:
+                                      CommonUi.scaffoldLoading(
+                                          color: clrYellow)))
+                                  : controller.actData.value.activity
+                                  ?.latitude !=
+                                  null &&
+                                  controller
+                                      .actData
+                                      .value
+                                      .activity
+                                      ?.longitude !=
+                                      null
+                                  ? Container(
+                                    height: 200,
+                                    child:  GoogleMap(
+                                                  onMapCreated:
+                                                      (GoogleMapController
+                                                          googleMapController) {
+                                                    controller.mapController =
+                                                        googleMapController;
+                                                    controller
+                                                        .addMarkerWithImage();
+                                                  },
+                                                  initialCameraPosition:
+                                                      CameraPosition(
+                                                    target: LatLng(
+                                                        double.parse(controller
+                                                            .actData
+                                                            .value
+                                                            .activity!
+                                                            .latitude!),
+                                                        double.parse(controller
+                                                            .actData
+                                                            .value
+                                                            .activity!
+                                                            .longitude!)),
+                                                    zoom: 14.0,
+                                                  ),
+                                                  myLocationEnabled: true,
+                                                  myLocationButtonEnabled: true,
+                                                  markers: Set<Marker>.from(
+                                                      controller.markers),
+                                                )
+
+                                    ) : SizedBox()),
                                   SizedBox(
                                     height: Get.height * 0.03,
                                   ),
@@ -705,7 +721,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                     height: Res.h_btn,
                                                     child: CustomElevatedButton(
                                                         onTap: () {},
-                                                        backgroundClr: clrBlacke,
+                                                        backgroundClr:
+                                                            clrBlacke,
                                                         child: Text(
                                                           "Request sent",
                                                           style: TextStyle(
@@ -740,20 +757,25 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                           FontWeight
                                                                               .w700),
                                                                 )))
-                                                    : int.parse(LocalStorage.getUid()!) != controller
-                                        .actData
-                                        .value.activity?.hostId ? Opacity(
-                                                        opacity: controller
-                                                                .isLoadingRequest
+                                                    : int.parse(LocalStorage
+                                                                .getUid()!) !=
+                                                            controller
+                                                                .actData
                                                                 .value
-                                                            ? 0.5
-                                                            : 1,
-                                                        child: SizedBox(
-                                                            width:
-                                                                double.maxFinite,
-                                                            height: Res.h_btn,
-                                                            child:
-                                                                CustomElevatedButton(
+                                                                .activity
+                                                                ?.hostId
+                                                        ? Opacity(
+                                                            opacity: controller
+                                                                    .isLoadingRequest
+                                                                    .value
+                                                                ? 0.5
+                                                                : 1,
+                                                            child: SizedBox(
+                                                                width: double
+                                                                    .maxFinite,
+                                                                height:
+                                                                    Res.h_btn,
+                                                                child: CustomElevatedButton(
                                                                     onTap: () {
                                                                       if (controller
                                                                               .actData
@@ -776,13 +798,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                             .toString());
                                                                       }
                                                                     },
-                                                                    backgroundClr:
-                                                                        clrBlacke,
-                                                                    child: controller
-                                                                            .isLoadingRequest
-                                                                            .value
-                                                                        ? CommonUi
-                                                                            .buttonLoading()
+                                                                    backgroundClr: clrBlacke,
+                                                                    child: controller.isLoadingRequest.value
+                                                                        ? CommonUi.buttonLoading()
                                                                         : Text(
                                                                             controller.actData.value.activity?.spotLeft == 0
                                                                                 ? 'Join waitlist'
@@ -792,9 +810,16 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                                 fontSize: 16,
                                                                                 fontWeight: FontWeight.w700),
                                                                           ))),
-                                                      ) : const Center(child: Text('You created this activity.',style: TextStyle(
-                                      fontWeight: FontWeight.w600,fontSize: 16
-                                    ),));
+                                                          )
+                                                        : const Center(
+                                                            child: Text(
+                                                            'You created this activity.',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 16),
+                                                          ));
                                   }),
                                   Obx(() {
                                     return controller.actData.value.activity!
@@ -808,7 +833,13 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               Center(
                                                   child: InkWell(
                                                       onTap: () {
-                                                        alertCancelRequest(controller.actData.value.activity!.id.toString());
+                                                        alertCancelRequest(
+                                                            controller
+                                                                .actData
+                                                                .value
+                                                                .activity!
+                                                                .id
+                                                                .toString());
                                                       },
                                                       child: const Text(
                                                         "Cancel request",
@@ -817,7 +848,8 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                 TextDecoration
                                                                     .underline,
                                                             fontWeight:
-                                                                FontWeight.w600),
+                                                                FontWeight
+                                                                    .w600),
                                                       )))
                                             ],
                                           )
@@ -832,7 +864,14 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                   Center(
                                                       child: InkWell(
                                                           onTap: () {
-                                                            alertCancelRequestConfirmation(controller.actData.value.activity!.id.toString(),true);
+                                                            alertCancelRequestConfirmation(
+                                                                controller
+                                                                    .actData
+                                                                    .value
+                                                                    .activity!
+                                                                    .id
+                                                                    .toString(),
+                                                                true);
                                                           },
                                                           child: const Text(
                                                             "Leave activity",
@@ -852,7 +891,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                 ],
                               ),
                             ),
-                        ),
+                          ),
               )),
             ],
           ),
@@ -1099,14 +1138,17 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                     height: Get.height * .07,
                     child: CustomElevatedButton(
                         onTap: () {
-                          if(controller.selectedValue.value == 4){
-                            if(formkey.currentState!.validate()){
-                              controller.reportActivity(controller.actData.value.activity?.id.toString());
+                          if (controller.selectedValue.value == 4) {
+                            if (formkey.currentState!.validate()) {
+                              controller.reportActivity(controller
+                                  .actData.value.activity?.id
+                                  .toString());
                             }
-                          }else if(controller.selectedValue.value != 0){
-                            controller.reportActivity(controller.actData.value.activity?.id.toString());
-                          }
-                          else{
+                          } else if (controller.selectedValue.value != 0) {
+                            controller.reportActivity(controller
+                                .actData.value.activity?.id
+                                .toString());
+                          } else {
                             showTostMsg('Please select any reason');
                           }
                         },
@@ -1157,7 +1199,10 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               Center(
                   child: Text(
                 "Are you sure you want to cancel your request to join this activity?",
-                style: TextStyle(color: clrGreyTextLight,fontSize: 15, fontWeight: FontWeight.w400),
+                style: TextStyle(
+                    color: clrGreyTextLight,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400),
                 textAlign: TextAlign.center,
               )),
               SizedBox(
@@ -1180,7 +1225,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         ),
                         ontap: () {
                           Get.back();
-                          alertCancelRequestConfirmation(id,false);
+                          alertCancelRequestConfirmation(id, false);
                         },
                         backgroundClr: Get.theme.scaffoldBackgroundColor),
                   )),
@@ -1216,7 +1261,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
     });
   }
 
-  alertCancelRequestConfirmation(String id,bool isLeave) {
+  alertCancelRequestConfirmation(String id, bool isLeave) {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
@@ -1241,13 +1286,16 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               ),
               Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                                    "Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",
-                                    style: TextStyle(color: clrGreyTextLight,fontSize: 15, fontWeight: FontWeight.w400),
-                                    textAlign: TextAlign.center,
-                                  ),
-                  )),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  "Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",
+                  style: TextStyle(
+                      color: clrGreyTextLight,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400),
+                  textAlign: TextAlign.center,
+                ),
+              )),
               SizedBox(
                 height: Get.height * .024,
               ),
@@ -1266,13 +1314,13 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
                         ),
-                        ontap: () async{
+                        ontap: () async {
                           // controller.changeReqSent(1);
-                          if(isLeave){
+                          if (isLeave) {
                             Get.back();
                             await controller.leaveActivity(id);
                             await controller.actapi(id);
-                          }else {
+                          } else {
                             Get.back();
                             await controller.cancelActivity(id);
                             await controller.actapi(id);
