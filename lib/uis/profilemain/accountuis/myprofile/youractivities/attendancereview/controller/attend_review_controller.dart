@@ -1,15 +1,12 @@
 import 'package:get/get.dart';
-import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
 import 'package:plusone/uis/explore/exploreview/model/exploreviewui_model.dart';
 import 'package:plusone/utils/tostmsg.dart';
-
 import '../../../../../../../networking/apiservices.dart';
 import '../../../../../../../networking/endpoints.dart';
 import '../../../../../../../utils/local_storage.dart';
 import '../model/attend_review_model.dart';
 
 class AttendReviewController extends GetxController{
-
 
   List<Going>? goinglist;
   String? actid;
@@ -18,7 +15,6 @@ class AttendReviewController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     final args = Get.arguments as Map<String, dynamic>;
-
     goinglist = args["going"];
     actid = args["actid"]?.toString();
     super.onInit();
@@ -30,7 +26,7 @@ class AttendReviewController extends GetxController{
   var attData = AttendanceConfirmModel().obs;
   var attError = ''.obs;
 
-  Future<void> attapi(String? actid, String? id, bool att) async{
+  Future<void> attapi(String? actid, String? id, bool att,int index) async{
 
     Map body = {
       'activity_id': actid,
@@ -52,6 +48,7 @@ class AttendReviewController extends GetxController{
         attError.value = '';
         print('home data == ${response.body}');
         attData.value = AttendanceConfirmModel.fromJson(response.body);
+        goinglist?[index].userAttendance = att == true ? false : true;
         showTostMsg('Attendance status updated successfully');
       }else{
         print('error == ${response.body}');
@@ -61,10 +58,7 @@ class AttendReviewController extends GetxController{
       print('home api error == ${e.toString()}');
       attError.value = e.toString();
     }
-
     activityLoading.value = false;
-
   }
-
 
 }

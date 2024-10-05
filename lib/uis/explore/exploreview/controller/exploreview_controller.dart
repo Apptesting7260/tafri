@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' as loc;
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
@@ -23,6 +25,8 @@ class ExploreViewController extends GetxController{
     // alertAddaMessage();
     String id = Get.arguments;
     actapi(id);
+    getUserLocation();
+    addMarkerWithImage();
     super.onInit();
   }
 
@@ -326,6 +330,73 @@ class ExploreViewController extends GetxController{
 
     activitypage.value = false;
 
+  }
+
+
+  GoogleMapController? mapController;
+  Rxn<loc.LocationData> currentLocation = Rxn<loc.LocationData>();
+  LatLng initialPosition = LatLng(52.3731, 4.8922);
+  RxSet<Marker> markers = <Marker>{}.obs;
+  var mapLoading = false.obs;
+
+  Future<void> getUserLocation() async {
+    // mapLoading.value = true;
+    loc.Location location = loc.Location();
+
+    bool serviceEnabled;
+    loc.PermissionStatus permissionGranted;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == loc.PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != loc.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final userLocation = await location.getLocation();
+    currentLocation.value = userLocation;
+    print('currnet $currentLocation');
+  }
+
+
+  Future<void> addMarkerWithImage() async {
+    if (actData.value
+        .activity?.banners?[0]
+        .toString() != null && actData.value.activity!.banners![0].isNotEmpty) {
+      markers.clear();
+      markers.add(
+        Marker(
+          markerId: MarkerId('activity_marker'),
+          position: LatLng(double.parse(actData.value
+              .activity!.latitude!), double.parse(actData.value
+              .activity!
+              .longitude!)),
+          infoWindow: InfoWindow(
+            title: actData.value
+                .activity!.name
+                .toString(), // Title from arguments
+          ),
+          icon: BitmapDescriptor.defaultMarker, // Set custom icon
+        ),
+      );
+      print('Marker added at ${actData.value
+          .activity!.latitude}, ${actData.value
+          .activity!
+          .longitude} with icon: ${actData.value
+          .activity!
+          .banners?[0]
+          .toString()}');
+      update();
+    }
   }
   
   
