@@ -46,6 +46,7 @@ class EndPoints{
   static String showactreview = '${baseUrl}show-activity-review';
   static String addactreview = '${baseUrl}add-activity-review';
   static String createActivity = '${baseUrl}create-activity';
+  static String repeatActivity = '${baseUrl}repeat-activity';
 
 
   static String acceptuser = '${baseUrl}request-to-accept-activity';

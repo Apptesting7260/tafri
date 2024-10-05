@@ -1123,7 +1123,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                               height: Res.h_btn,
                                               child: CustomElevatedButton(
                                                   onTap: () {
-                                                    controller.createActivity();
+                                                    controller.repeatActivity();
                                                   },
                                                   backgroundClr: clrBlacke,
                                                   child: controller

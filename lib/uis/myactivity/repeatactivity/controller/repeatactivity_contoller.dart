@@ -719,7 +719,7 @@ class Repeatcreativitycontroller extends GetxController
 
 
 
-  Future<void> createActivity() async {
+  Future<void> repeatActivity() async {
     loading.value = true;
     print("Latitude: ${latitude.value}");
     print("Longitude: ${longitude.value}");
@@ -731,73 +731,73 @@ class Repeatcreativitycontroller extends GetxController
     try {
       print("=== ${checkGalleryImagesFormat(galleryImages)}");
       print("iamges gal == ${galleryImages}");
-      if(!choosePhotoCheck.value && galleryImages.isEmpty) {
-        showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
-      }else if(!checkGalleryImagesFormat(galleryImages)){
-        showTostMsg('Image should be in .png, .jpg format.',gravity: ToastGravity.CENTER);
-      } else if(catID.value.isEmpty){
-        showTostMsg('Please select Category',gravity: ToastGravity.CENTER);
-      }else if(subCatID.value.isEmpty){
-        showTostMsg('Please select SubCategory',gravity: ToastGravity.CENTER);
-      }else if(titleController.value.value.text.isEmpty){
-        showTostMsg('Please Enter title',gravity: ToastGravity.CENTER);
-      }else if(desController.value.text.isEmpty){
-        showTostMsg('Please Enter Description',gravity: ToastGravity.CENTER);
-      }else if(desController.value.text.length < 30){
-        showTostMsg('Description length should be greater than 30 character.',gravity: ToastGravity.CENTER);
-      }else if(locController.value.value.text.isEmpty){
-        showTostMsg('Please Enter Location',gravity: ToastGravity.CENTER);
-      }else if (latitude.value.isEmpty) {
-        showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
-        return;
-      }else if (longitude.value.isEmpty) {
-        showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
-        return;
-      }else if(date.value.isEmpty){
-        showTostMsg('Please Select date',gravity: ToastGravity.CENTER);
-      }else if(sTimeForApi.value.isEmpty){
-        showTostMsg('Please Select start time',gravity: ToastGravity.CENTER);
-      }else if(eTimeForAPi.value.isEmpty){
-        showTostMsg('Please Select end time',gravity: ToastGravity.CENTER);
-      }else if(
-      !checkTime(TimeOfDay(
-        hour: int.parse(sTime.value.split(":")[0]),
-        minute: int.parse(sTime.value.split(":")[1]),
-      ),TimeOfDay(
-        hour: int.parse(eTime.value.split(":")[0]),
-        minute: int.parse(eTime.value.split(":")[1]),
-      ))
-      ){
-        showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
-      }else if(groupSize.value == 1 || groupSize.value == 0){
-        showTostMsg('Please add people',gravity: ToastGravity.CENTER);
-      }else if(groupSize.value < 2){
-        showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
-      }else if(repeats.value == true){
-        if(wmValue.value == 0){
-          showTostMsg('select',gravity: ToastGravity.CENTER);
-          return;
-        } else if(wmValue.value == 1){
-          if(repeatday.value.isEmpty || groupValue.value == 0){
-            showTostMsg('Please select the weekday and ends.',gravity: ToastGravity.CENTER);
-            return;
-          }else if(repeatday.value.isEmpty || groupValue.value == 2){
-            if(Rdate.value.isEmpty){
-              showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
-              return;
-            }
-          }
-        }else if(wmValue.value == 2){
-          if(groupValue.value == 0){
-            showTostMsg('Please select the ends.',gravity: ToastGravity.CENTER);
-            return;
-          }else if(groupValue.value == 2){
-            if(Rdate.value.isEmpty){
-              showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
-              return;
-            }
-          }
-        }
+      // if(!choosePhotoCheck.value && galleryImages.isEmpty) {
+      //   showTostMsg('Please select Image',gravity: ToastGravity.CENTER);
+      // }else if(!checkGalleryImagesFormat(galleryImages)){
+      //   showTostMsg('Image should be in .png, .jpg format.',gravity: ToastGravity.CENTER);
+      // } else if(catID.value.isEmpty){
+      //   showTostMsg('Please select Category',gravity: ToastGravity.CENTER);
+      // }else if(subCatID.value.isEmpty){
+      //   showTostMsg('Please select SubCategory',gravity: ToastGravity.CENTER);
+      // }else if(titleController.value.value.text.isEmpty){
+      //   showTostMsg('Please Enter title',gravity: ToastGravity.CENTER);
+      // }else if(desController.value.text.isEmpty){
+      //   showTostMsg('Please Enter Description',gravity: ToastGravity.CENTER);
+      // }else if(desController.value.text.length < 30){
+      //   showTostMsg('Description length should be greater than 30 character.',gravity: ToastGravity.CENTER);
+      // }else if(locController.value.value.text.isEmpty){
+      //   showTostMsg('Please Enter Location',gravity: ToastGravity.CENTER);
+      // }else if (latitude.value.isEmpty) {
+      //   showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
+      //   return;
+      // }else if (longitude.value.isEmpty) {
+      //   showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
+      //   return;
+      // }else if(date.value.isEmpty){
+      //   showTostMsg('Please Select date',gravity: ToastGravity.CENTER);
+      // }else if(sTimeForApi.value.isEmpty){
+      //   showTostMsg('Please Select start time',gravity: ToastGravity.CENTER);
+      // }else if(eTimeForAPi.value.isEmpty){
+      //   showTostMsg('Please Select end time',gravity: ToastGravity.CENTER);
+      // }else if(
+      // !checkTime(TimeOfDay(
+      //   hour: int.parse(sTime.value.split(":")[0]),
+      //   minute: int.parse(sTime.value.split(":")[1]),
+      // ),TimeOfDay(
+      //   hour: int.parse(eTime.value.split(":")[0]),
+      //   minute: int.parse(eTime.value.split(":")[1]),
+      // ))
+      // ){
+      //   showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
+      // }else if(groupSize.value == 1 || groupSize.value == 0){
+      //   showTostMsg('Please add people',gravity: ToastGravity.CENTER);
+      // }else if(groupSize.value < 2){
+      //   showTostMsg('Please add more people',gravity: ToastGravity.CENTER);
+      // }else if(repeats.value == true){
+      //   if(wmValue.value == 0){
+      //     showTostMsg('select',gravity: ToastGravity.CENTER);
+      //     return;
+      //   } else if(wmValue.value == 1){
+      //     if(repeatday.value.isEmpty || groupValue.value == 0){
+      //       showTostMsg('Please select the weekday and ends.',gravity: ToastGravity.CENTER);
+      //       return;
+      //     }else if(repeatday.value.isEmpty || groupValue.value == 2){
+      //       if(Rdate.value.isEmpty){
+      //         showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+      //         return;
+      //       }
+      //     }
+      //   }else if(wmValue.value == 2){
+      //     if(groupValue.value == 0){
+      //       showTostMsg('Please select the ends.',gravity: ToastGravity.CENTER);
+      //       return;
+      //     }else if(groupValue.value == 2){
+      //       if(Rdate.value.isEmpty){
+      //         showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
+      //         return;
+      //       }
+      //     }
+      //   }
         // else if(groupValue.value == 2){
         //   if(Rdate.value.isEmpty){
         //     showTostMsg('Please select the date',gravity: ToastGravity.CENTER);
@@ -806,232 +806,213 @@ class Repeatcreativitycontroller extends GetxController
         // }
 
 
-        var url = Uri.parse(EndPoints.createActivity);
-        var request = await http.MultipartRequest('POST', url);
-        if(!choosePhotoCheck.value) {
-          if (galleryImages.isNotEmpty) {
-            request.fields["gallery_img[]"] = jsonEncode(glryImage);
-
-            // for (File image in galleryImages) {
-            //   var stream = http.ByteStream(image.openRead());
-            //   var length = await image.length();
-            //   var multipartFile = http.MultipartFile(
-            //       'gallery_img[]', stream, length,
-            //       filename: image.path
-            //           .split('/')
-            //           .last);
-            //   request.files.add(multipartFile);
-            //   print(
-            //       'File name: ${multipartFile.filename}, Length: ${multipartFile
-            //           .length}');
-            // }
-          }
-        }
-
-        // if (!choosePhotoCheck.value) {
-        //   if (galleryImages.isNotEmpty) {
-        //     File image = galleryImages.first;
-        //     var stream = http.ByteStream(image.openRead());
-        //     var length = await image.length();
-        //     var multipartFile = http.MultipartFile(
-        //       'feature_img', stream, length,
-        //       filename: image.path.split('/').last,
-        //     );
-        //     request.files.add(multipartFile);
-        //   }
-        // }
-
-        request.fields["category_id"] = catID.value;
-        request.fields['subcategory_id'] = subCatID.value;
-        request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
-        request.fields['description'] = desController.value.value.text.trim();
-        request.fields['location'] = locController.value.value.text.trim();
-        request.fields['latitude'] = latitude.value.toString();
-        request.fields['longitude'] = longitude.value.toString();
-        request.fields['date'] = date.value;
-        request.fields['name'] = titleController.value.value.text.trim();
-        request.fields['start_at'] = sTimeForApi.value;
-        request.fields['end_at'] = eTimeForAPi.value;
-        request.fields['max_people'] = groupSize.value.toString();
-        request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
-        request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
-        request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
-        if(repeats.value == true){
-          request.fields['repeat_every'] = counter.value.toString();
-          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
-          if(wmValue.value == 1 ){
-            request.fields['repeat_on'] = repeatday.value;
-          }
-          if(groupValue.value == 1){
-            request.fields['end_type'] = 'never';
-            debugPrint("end_type set to 'never'");
-          }
-          else if(groupValue.value == 2){
-            request.fields['end_type'] = 'on_date';
-            request.fields['end_date'] = Rdate.value;
-            debugPrint("end_type set to 'on_date'");
-            debugPrint("end_date set to: ${Rdate.value}");
-          }
-          else if(groupValue.value == 3){
-            request.fields['end_type'] = 'after_occurrences';
-            request.fields['occurrences'] = occs.value.toString();
-            debugPrint("end_type set to 'after_occurrences'");
-            debugPrint("occurrences set to: ${occs.value.toString()}");
-          }
-        }
-        request.fields["host_id"] = uid;
-        request.headers['Authorization'] = "Bearer $token";
-
-        print("Category ID: ${catID.value}");
-        print("Subcategory ID: ${subCatID.value}");
-        print("Pick Photo For Me: ${choosePhotoCheck.value ? '1' : '0'}");
-        print("Description: ${desController.value.value.text.trim()}");
-        print("Location: ${locController.value.value.text.trim()}");
-        print("Date: ${date.value}");
-        print("Name: ${titleController.value.value.text.trim()}");
-        print("Start At: ${sTimeForApi.value}");
-        print("End At: ${eTimeForAPi.value}");
-        print("Max People: ${groupSize.value}");
-        print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
-        print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
-        print("Repeat Every: ${counter.value}");
-        print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'day'}");
-        print("groupValue: ${groupValue.value}");
-
-
-
-
-        // Send the request and get the response
-        final streamedResponse = await request.send();
-        var response = await http.Response.fromStream(streamedResponse);
-        var responseBody = jsonDecode(response.body);
-
-        print(responseBody);
-        // Check the response status
-        if (response.statusCode == 200) {
-          loading.value = false;
+        var body = {
+          'id': activities?.id.toString(),
+          'date': date.value
+        };
+        var header = {
+          'Authorization': 'Bearer ${LocalStorage.getToken()}'
+        };
+        var response = await api.post(EndPoints.repeatActivity, body,headers: header);
+        print('repeat res == ${response.body} \n ${response.statusCode}');
+        if(response.statusCode == 200){
           showTostMsg('Activity created successfully.Your activity is under review.');
           Get.back();
-        } else {
-          showTostMsg('Something went wrong');
-          loading.value = false;
+        }else{
+          showTostMsg('Something went wrong.Please try again');
         }
 
-
-
-      }else {
-        var url = Uri.parse(EndPoints.createActivity);
-        var request = await http.MultipartRequest('POST', url);
-        if(!choosePhotoCheck.value) {
-          if (galleryImages.isNotEmpty) {
-            request.fields["gallery_img[]"] = jsonEncode(glryImage);
-
-            // for (File image in galleryImages) {
-            //   var stream = http.ByteStream(image.openRead());
-            //   var length = await image.length();
-            //   var multipartFile = http.MultipartFile(
-            //       'gallery_img[]', stream, length,
-            //       filename: image.path
-            //           .split('/')
-            //           .last);
-            //   request.files.add(multipartFile);
-            //   print(
-            //       'File name: ${multipartFile.filename}, Length: ${multipartFile
-            //           .length}');
-            // }
-          }
-        }
-
-        // if (!choosePhotoCheck.value) {
-        //   if (galleryImages.isNotEmpty) {
-        //     File image = galleryImages.first;
-        //     var stream = http.ByteStream(image.openRead());
-        //     var length = await image.length();
-        //     var multipartFile = http.MultipartFile(
-        //       'feature_img', stream, length,
-        //       filename: image.path.split('/').last,
-        //     );
-        //     request.files.add(multipartFile);
-        //   }
-        // }
-
-        request.fields["category_id"] = catID.value;
-        request.fields['subcategory_id'] = subCatID.value;
-        request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
-        request.fields['description'] = desController.value.value.text.trim();
-        request.fields['location'] = locController.value.value.text.trim();
-        request.fields['latitude'] = latitude.value.toString();
-        request.fields['longitude'] = longitude.value.toString();
-        request.fields['date'] = date.value;
-        request.fields['name'] = titleController.value.value.text.trim();
-        request.fields['start_at'] = sTimeForApi.value;
-        request.fields['end_at'] = eTimeForAPi.value;
-        request.fields['max_people'] = groupSize.value.toString();
-        request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
-        request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
-        request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
-        if(repeats.value == true){
-          request.fields['repeat_every'] = counter.value.toString();
-          request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
-          if(wmValue.value == 1 ){
-            request.fields['repeat_on'] = repeatday.value;
-          }
-          if(groupValue.value == 1){
-            request.fields['end_type'] = 'never';
-            debugPrint("end_type set to 'never'");
-          }
-          else if(groupValue.value == 2){
-            request.fields['end_type'] = 'on_date';
-            request.fields['end_date'] = Rdate.value;
-            debugPrint("end_type set to 'on_date'");
-            debugPrint("end_date set to: ${Rdate.value}");
-          }
-          else if(groupValue.value == 3){
-            request.fields['end_type'] = 'after_occurrences';
-            request.fields['occurrences'] = occs.value.toString();
-            debugPrint("end_type set to 'after_occurrences'");
-            debugPrint("occurrences set to: ${occs.value.toString()}");
-          }
-        }
-        request.fields["host_id"] = uid;
-        request.headers['Authorization'] = "Bearer $token";
-
-        print("Category ID: ${catID.value}");
-        print("Subcategory ID: ${subCatID.value}");
-        print("Pick Photo For Me: ${choosePhotoCheck.value ? '1' : '0'}");
-        print("Description: ${desController.value.value.text.trim()}");
-        print("Location: ${locController.value.value.text.trim()}");
-        print("Date: ${date.value}");
-        print("Name: ${titleController.value.value.text.trim()}");
-        print("Start At: ${sTimeForApi.value}");
-        print("End At: ${eTimeForAPi.value}");
-        print("Max People: ${groupSize.value}");
-        print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
-        print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
-        print("Repeat Every: ${counter.value}");
-        print("Repeat Type: ${wmValue.value == 1 ? 'Week' : 'Month'}");
-        print("groupValue: ${groupValue.value}");
-        print("lat: ${latitude.value.toString()}");
-        print("long: ${longitude.value.toString()}");
-
-
-
-        // Send the request and get the response
-        final streamedResponse = await request.send();
-        var response = await http.Response.fromStream(streamedResponse);
-        var responseBody = jsonDecode(response.body);
-
-        print(responseBody);
-        // Check the response status
-        if (response.statusCode == 200) {
-          loading.value = false;
-          showTostMsg('Activity created successfully.Your activity is under review.');
-          Get.back();
-        } else {
-          showTostMsg('Something went wrong');
-          loading.value = false;
-        }
-      }
+      //   request.fields["category_id"] = catID.value;
+      //   request.fields['subcategory_id'] = subCatID.value;
+      //   request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
+      //   request.fields['description'] = desController.value.value.text.trim();
+      //   request.fields['location'] = locController.value.value.text.trim();
+      //   request.fields['latitude'] = latitude.value.toString();
+      //   request.fields['longitude'] = longitude.value.toString();
+      //   request.fields['date'] = date.value;
+      //   request.fields['name'] = titleController.value.value.text.trim();
+      //   request.fields['start_at'] = sTimeForApi.value;
+      //   request.fields['end_at'] = eTimeForAPi.value;
+      //   request.fields['max_people'] = groupSize.value.toString();
+      //   request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
+      //   request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
+      //   request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+      //   if(repeats.value == true){
+      //     request.fields['repeat_every'] = counter.value.toString();
+      //     request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
+      //     if(wmValue.value == 1 ){
+      //       request.fields['repeat_on'] = repeatday.value;
+      //     }
+      //     if(groupValue.value == 1){
+      //       request.fields['end_type'] = 'never';
+      //       debugPrint("end_type set to 'never'");
+      //     }
+      //     else if(groupValue.value == 2){
+      //       request.fields['end_type'] = 'on_date';
+      //       request.fields['end_date'] = Rdate.value;
+      //       debugPrint("end_type set to 'on_date'");
+      //       debugPrint("end_date set to: ${Rdate.value}");
+      //     }
+      //     else if(groupValue.value == 3){
+      //       request.fields['end_type'] = 'after_occurrences';
+      //       request.fields['occurrences'] = occs.value.toString();
+      //       debugPrint("end_type set to 'after_occurrences'");
+      //       debugPrint("occurrences set to: ${occs.value.toString()}");
+      //     }
+      //   }
+      //   request.fields["host_id"] = uid;
+      //   request.headers['Authorization'] = "Bearer $token";
+      //
+      //   print("Category ID: ${catID.value}");
+      //   print("Subcategory ID: ${subCatID.value}");
+      //   print("Pick Photo For Me: ${choosePhotoCheck.value ? '1' : '0'}");
+      //   print("Description: ${desController.value.value.text.trim()}");
+      //   print("Location: ${locController.value.value.text.trim()}");
+      //   print("Date: ${date.value}");
+      //   print("Name: ${titleController.value.value.text.trim()}");
+      //   print("Start At: ${sTimeForApi.value}");
+      //   print("End At: ${eTimeForAPi.value}");
+      //   print("Max People: ${groupSize.value}");
+      //   print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
+      //   print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
+      //   print("Repeat Every: ${counter.value}");
+      //   print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'day'}");
+      //   print("groupValue: ${groupValue.value}");
+      //
+      //
+      //
+      //
+      //   // Send the request and get the response
+      //   final streamedResponse = await request.send();
+      //   var response = await http.Response.fromStream(streamedResponse);
+      //   var responseBody = jsonDecode(response.body);
+      //
+      //   print(responseBody);
+      //   // Check the response status
+      //   if (response.statusCode == 200) {
+      //     loading.value = false;
+      //     showTostMsg('Activity created successfully.Your activity is under review.');
+      //     Get.back();
+      //   } else {
+      //     showTostMsg('Something went wrong');
+      //     loading.value = false;
+      //   }
+      //
+      //
+      //
+      // }else {
+      //   var url = Uri.parse(EndPoints.repeatActivity);
+      //   var request = await http.MultipartRequest('POST', url);
+      //   if(!choosePhotoCheck.value) {
+      //     if (galleryImages.isNotEmpty) {
+      //       request.fields["gallery_img[]"] = jsonEncode(glryImage);
+      //
+      //       // for (File image in galleryImages) {
+      //       //   var stream = http.ByteStream(image.openRead());
+      //       //   var length = await image.length();
+      //       //   var multipartFile = http.MultipartFile(
+      //       //       'gallery_img[]', stream, length,
+      //       //       filename: image.path
+      //       //           .split('/')
+      //       //           .last);
+      //       //   request.files.add(multipartFile);
+      //       //   print(
+      //       //       'File name: ${multipartFile.filename}, Length: ${multipartFile
+      //       //           .length}');
+      //       // }
+      //     }
+      //   }
+      //
+      //   // if (!choosePhotoCheck.value) {
+      //   //   if (galleryImages.isNotEmpty) {
+      //   //     File image = galleryImages.first;
+      //   //     var stream = http.ByteStream(image.openRead());
+      //   //     var length = await image.length();
+      //   //     var multipartFile = http.MultipartFile(
+      //   //       'feature_img', stream, length,
+      //   //       filename: image.path.split('/').last,
+      //   //     );
+      //   //     request.files.add(multipartFile);
+      //   //   }
+      //   // }
+      //
+      //   request.fields["category_id"] = catID.value;
+      //   request.fields['subcategory_id'] = subCatID.value;
+      //   request.fields['pick_photo_for_me'] = choosePhotoCheck.value ? '1' : '0';
+      //   request.fields['description'] = desController.value.value.text.trim();
+      //   request.fields['location'] = locController.value.value.text.trim();
+      //   request.fields['latitude'] = latitude.value.toString();
+      //   request.fields['longitude'] = longitude.value.toString();
+      //   request.fields['date'] = date.value;
+      //   request.fields['name'] = titleController.value.value.text.trim();
+      //   request.fields['start_at'] = sTimeForApi.value;
+      //   request.fields['end_at'] = eTimeForAPi.value;
+      //   request.fields['max_people'] = groupSize.value.toString();
+      //   request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
+      //   request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
+      //   request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+      //   if(repeats.value == true){
+      //     request.fields['repeat_every'] = counter.value.toString();
+      //     request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
+      //     if(wmValue.value == 1 ){
+      //       request.fields['repeat_on'] = repeatday.value;
+      //     }
+      //     if(groupValue.value == 1){
+      //       request.fields['end_type'] = 'never';
+      //       debugPrint("end_type set to 'never'");
+      //     }
+      //     else if(groupValue.value == 2){
+      //       request.fields['end_type'] = 'on_date';
+      //       request.fields['end_date'] = Rdate.value;
+      //       debugPrint("end_type set to 'on_date'");
+      //       debugPrint("end_date set to: ${Rdate.value}");
+      //     }
+      //     else if(groupValue.value == 3){
+      //       request.fields['end_type'] = 'after_occurrences';
+      //       request.fields['occurrences'] = occs.value.toString();
+      //       debugPrint("end_type set to 'after_occurrences'");
+      //       debugPrint("occurrences set to: ${occs.value.toString()}");
+      //     }
+      //   }
+      //   request.fields["host_id"] = uid;
+      //   request.headers['Authorization'] = "Bearer $token";
+      //
+      //   print("Category ID: ${catID.value}");
+      //   print("Subcategory ID: ${subCatID.value}");
+      //   print("Pick Photo For Me: ${choosePhotoCheck.value ? '1' : '0'}");
+      //   print("Description: ${desController.value.value.text.trim()}");
+      //   print("Location: ${locController.value.value.text.trim()}");
+      //   print("Date: ${date.value}");
+      //   print("Name: ${titleController.value.value.text.trim()}");
+      //   print("Start At: ${sTimeForApi.value}");
+      //   print("End At: ${eTimeForAPi.value}");
+      //   print("Max People: ${groupSize.value}");
+      //   print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
+      //   print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
+      //   print("Repeat Every: ${counter.value}");
+      //   print("Repeat Type: ${wmValue.value == 1 ? 'Week' : 'Month'}");
+      //   print("groupValue: ${groupValue.value}");
+      //   print("lat: ${latitude.value.toString()}");
+      //   print("long: ${longitude.value.toString()}");
+      //
+      //
+      //
+      //   // Send the request and get the response
+      //   final streamedResponse = await request.send();
+      //   var response = await http.Response.fromStream(streamedResponse);
+      //   var responseBody = jsonDecode(response.body);
+      //
+      //   print(responseBody);
+      //   // Check the response status
+      //   if (response.statusCode == 200) {
+      //     loading.value = false;
+      //     showTostMsg('Activity created successfully.Your activity is under review.');
+      //     Get.back();
+      //   } else {
+      //     showTostMsg('Something went wrong');
+      //     loading.value = false;
+      //   }
+      // }
 
 
     } catch (e) {
@@ -1041,6 +1022,7 @@ class Repeatcreativitycontroller extends GetxController
     } finally {
       loading.value = false;
     }
+    loading.value = false;
   }
 
 
