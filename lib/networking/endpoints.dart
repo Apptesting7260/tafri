@@ -71,6 +71,7 @@ class EndPoints{
   static String numberCheck = '${baseUrl}check-number';
   static String getNot = '${baseUrl}get-notifications';
   static String deleteNot = '${baseUrl}delete-notification/';
+  static String cardPayment = '${baseUrl}cart-payment';
 
 
 }

@@ -5,6 +5,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custodropdownbtn.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
@@ -25,6 +26,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
 
   final ProfilemainController profileController =
       Get.find<ProfilemainController>();
+  final PaymentController payment = Get.find<PaymentController>();
 
   @override
   Widget build(BuildContext context) {
@@ -1331,19 +1333,28 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                           vertical: 10),
                                       child: Obx(
                                         () => Opacity(
-                                          opacity: controller.loading.value
+                                          opacity: controller.loading.value || payment.loading.value
                                               ? 0.5
                                               : 1,
                                           child: SizedBox(
                                               width: double.maxFinite,
                                               height: Res.h_btn,
                                               child: CustomElevatedButton(
-                                                  onTap: () {
-                                                    controller.createActivity();
+                                                  onTap: () async{
+                                                    if(profileController.profileData.value.result?.cardSave == false){
+                                                     payment.alertRequestSent(() async{
+                                                       Get.back();
+                                                       await payment.createCustomer('${profileController.profileData.value.result?.firstName} ${profileController.profileData.value.result?.lastName}', "${profileController.profileData.value.result?.email}");
+                                                       await profileController.viewProfile();
+                                                     },);
+                                                    }else {
+                                                      controller
+                                                          .createActivity();
+                                                    }
                                                   },
                                                   backgroundClr: clrBlacke,
                                                   child: controller
-                                                          .loading.value
+                                                          .loading.value || payment.loading.value
                                                       ? CommonUi.buttonLoading()
                                                       : Text(
                                                           "Post Activity",

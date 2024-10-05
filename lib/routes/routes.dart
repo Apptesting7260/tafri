@@ -1,4 +1,6 @@
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:plusone/payment/Payment_screen.dart';
+import 'package:plusone/payment/payment_binding.dart';
 import 'package:plusone/uis/creativity/createcreativityui.dart';
 import 'package:plusone/uis/creativity/map/mapui.dart';
 import 'package:plusone/uis/explore/Userprofile/bindings/userprofile_binding.dart';
@@ -148,6 +150,7 @@ class Routes{
   static String mapui='/mapUi';
   static String userProfileui='/userProfileui';
   static String mapexploreui='/mapexploreui';
+  static String paymentScreen='/paymentScreen';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -180,10 +183,10 @@ class Routes{
     GetPage(name: switchPlanProUi, page:()=>const SwitchPlanUi()),
     GetPage(name: activityVisibilitySettingUi, page:()=>const ActivityVisibility(),binding: ActivityvisibilityBinding()),
     GetPage(name: pushNotiSettingUi, page:()=>const NotificationProUi(),binding: PushnotifisettingBinding()),
-    GetPage(name: createActivityUi, page:()=> CreateActivityUi(),bindings: [CreativityBinding(),ProfilemainBindings()]),
+    GetPage(name: createActivityUi, page:()=> CreateActivityUi(),bindings: [CreativityBinding(),ProfilemainBindings(),PaymentBinding()]),
     GetPage(name: mapActivityUi, page:()=> MapActivityUi(),binding: MapActivityBinding()),
     GetPage(name: filterExploreUi, page:()=> ExploreFilterUi(),binding:FilterExpBinding()),
-    GetPage(name: exploreView, page:()=>ExploreViewUi(),binding:ExploreViewBindings()),
+    GetPage(name: exploreView, page:()=>ExploreViewUi(),bindings:[ExploreViewBindings(),PaymentBinding(),ProfilemainBindings()]),
     GetPage(name: hostProfileUi, page:()=>HostProfileUi(),binding:HostProfileBinding()),
     GetPage(name: chatUi, page:()=> ChatUi(),binding:ChatBinding()),
     GetPage(name: poSupportChat, page:()=> PlusOneSupportChetUi(),binding:PoSupportChatBinding()),
@@ -200,5 +203,6 @@ class Routes{
     GetPage(name: mapui, page:()=>  Mapui()),
     GetPage(name: userProfileui, page:()=>  UserProfileUi(),binding: UserProfileBinding()),
     GetPage(name: mapexploreui, page:()=>  MapExploreUi(),binding: MapExploreBinding()),
+    GetPage(name: paymentScreen, page:()=>  PaymentScreen(),),
   ];
 }

@@ -6,6 +6,7 @@ class ActDataModal {
   List<Going>? going;
   List<Request>? requests;
   bool? markAttendance;
+  bool? cardSave;
 
   ActDataModal({
     this.status,
@@ -13,6 +14,7 @@ class ActDataModal {
     this.going,
     this.requests,
     this.markAttendance,
+    this.cardSave
   });
 
   factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
@@ -21,6 +23,7 @@ class ActDataModal {
     going: json["going"] == null ? [] : List<Going>.from(json["going"]!.map((x) => Going.fromJson(x))),
     requests: json["requests"] == null ? [] : List<Request>.from(json["requests"]!.map((x) => Request.fromJson(x))),
     markAttendance: json["mark_attendance"],
+    cardSave: json['isAuthCardActive']
   );
 
   Map<String, dynamic> toJson() => {

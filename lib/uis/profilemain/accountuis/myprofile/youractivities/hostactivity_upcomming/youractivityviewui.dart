@@ -628,6 +628,21 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                           ),
                                                                         ),
                                                                       ),
+                                                                  errorWidget: (context, url, error) => ClipRRect(
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        100),
+                                                                    child: Container(
+                                                                      height: 55,
+                                                                      width: 55,
+                                                                      color: clrGreyLight,
+                                                                      child: Image.asset(
+                                                                        'assets/icons/manicon.png',
+                                                                        color: clrGrey,
+                                                                      ),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
 
@@ -786,6 +801,21 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                           ),
                                                                         ),
                                                                       ),
+                                                                  errorWidget: (context, url, error) => ClipRRect(
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        100),
+                                                                    child: Container(
+                                                                      height: 55,
+                                                                      width: 55,
+                                                                      color: clrGreyLight,
+                                                                      child: Image.asset(
+                                                                        'assets/icons/manicon.png',
+                                                                        color: clrGrey,
+                                                                      ),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
 
@@ -873,7 +903,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
         content: SizedBox(
@@ -956,7 +986,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
         content: SizedBox(
@@ -1038,7 +1068,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
         content: SizedBox(
@@ -1120,7 +1150,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
         content: SizedBox(
