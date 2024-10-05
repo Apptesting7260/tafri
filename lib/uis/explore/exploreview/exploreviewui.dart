@@ -3,10 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -25,6 +27,10 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
 
   ExploreListController exploreListController =
       Get.find<ExploreListController>();
+
+  PaymentController payment = Get.find<PaymentController>();
+  ProfilemainController profile = Get.find<ProfilemainController>();
+
 
   final formkey = GlobalKey<FormState>();
 
@@ -767,7 +773,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                         ? Opacity(
                                                             opacity: controller
                                                                     .isLoadingRequest
-                                                                    .value
+                                                                    .value || payment.loading.value
                                                                 ? 0.5
                                                                 : 1,
                                                             child: SizedBox(
@@ -777,7 +783,15 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                     Res.h_btn,
                                                                 child: CustomElevatedButton(
                                                                     onTap: () {
-                                                                      if (controller
+                                                                      if(profile
+                                                                          .profileData
+                                                                          .value.result?.cardSave == false){
+                                                                        payment.alertRequestSent(() async{
+                                                                          Get.back();
+                                                                          await payment.createCustomer('${profile.profileData.value.result?.firstName} ${profile.profileData.value.result?.lastName}', '${profile.profileData.value.result?.email}');
+                                                                          await profile.viewProfile();
+                                                                        },);
+                                                                      } else if (controller
                                                                               .actData
                                                                               .value
                                                                               .activity
@@ -799,7 +813,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                       }
                                                                     },
                                                                     backgroundClr: clrBlacke,
-                                                                    child: controller.isLoadingRequest.value
+                                                                    child: controller.isLoadingRequest.value || payment.loading.value
                                                                         ? CommonUi.buttonLoading()
                                                                         : Text(
                                                                             controller.actData.value.activity?.spotLeft == 0
