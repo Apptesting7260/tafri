@@ -244,6 +244,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                         .loginApi();
                                                                   }
                                                                 }
+                                                                // AccountStatusDialog.show(context, 'deleted');
                                                               },
                                                               backgroundClr:
                                                                   clrBlacke,
@@ -402,6 +403,44 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class AccountStatusDialog {
+  static void show(BuildContext context, String status) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Account Status'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min, // To fit the content
+            children: [
+              Text(
+                'Your account has been $status for some unknown reason. Please contact support to resolve this issue.',
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20), // Space between text and button
+              ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(Routes.contactSupport);
+                },
+                child: Text('Contact Support'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

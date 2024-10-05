@@ -15,6 +15,7 @@ import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/custom_switch.dart';
 import 'package:plusone/utils/error_widget.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/size.dart';
@@ -1123,7 +1124,11 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                               height: Res.h_btn,
                                               child: CustomElevatedButton(
                                                   onTap: () {
-                                                    controller.repeatActivity();
+                                                    if(controller.date.value.isEmpty){
+                                                      showTostMsg('Please add date');
+                                                    }else {
+                                                      controller.repeatActivity();
+                                                    }
                                                   },
                                                   backgroundClr: clrBlacke,
                                                   child: controller

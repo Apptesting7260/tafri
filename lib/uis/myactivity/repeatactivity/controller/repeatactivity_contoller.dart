@@ -12,6 +12,7 @@ import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
 import 'package:plusone/uis/creativity/model/category_model.dart';
+import 'package:plusone/uis/myactivity/myactivitylist/controller/myacti_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import '../../myactivitylist/model/hosting_model.dart';
@@ -21,6 +22,7 @@ class Repeatcreativitycontroller extends GetxController
   late TabController tabController;
 
   ActivityElement? activities;
+  final MyactiController myactiController = Get.find<MyactiController>();
 
 
   @override
@@ -1014,6 +1016,7 @@ class Repeatcreativitycontroller extends GetxController
       //   }
       // }
 
+      myactiController.hostingActivity();
 
     } catch (e) {
       showTostMsg('Something went wrong');

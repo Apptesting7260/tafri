@@ -393,19 +393,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                           const SizedBox(
                                                             height: 5,
                                                           ),
-                                                          homeController
-                                                                          .homeData
-                                                                          .value
-                                                                          .result
-                                                                          ?.profileComplete ==
-                                                                      true &&
-                                                                  homeController
-                                                                          .homeData
-                                                                          .value
-                                                                          .result
-                                                                          ?.membershipStatus ==
-                                                                      true
-                                                              ? Text(
+                                                          Text(
                                                                   resultData[
                                                                           index]
                                                                       .location
@@ -413,8 +401,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                                   style: TextStyle(
                                                                       color:
                                                                           clrGreyDark),
-                                                                )
-                                                              : const SizedBox(),
+                                                                ),
                                                           const SizedBox(
                                                             height: 5,
                                                           ),
