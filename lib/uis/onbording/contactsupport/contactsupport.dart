@@ -153,7 +153,7 @@ class Contactsupport extends GetWidget<ContactSupportController> {
         
                         // Name
                         TextFormField(
-                          controller: controller.nameController,
+                          controller: controller.firstnameController,
                           decoration: InputDecoration(
                             hintText: "First Name",
                             hintStyle: const TextStyle(
@@ -185,7 +185,7 @@ class Contactsupport extends GetWidget<ContactSupportController> {
         
                         // Name
                         TextFormField(
-                          controller: controller.nameController,
+                          controller: controller.lastnameController,
                           decoration: InputDecoration(
                             hintText: "Last Name",
                             hintStyle: const TextStyle(
@@ -216,19 +216,20 @@ class Contactsupport extends GetWidget<ContactSupportController> {
                         SizedBox(height: 20),
         
                         // Submit Button
-                        CustomElevatedButton(
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              Get.snackbar(
-                                'Success',
-                                'Your request has been submitted',
-                                snackPosition: SnackPosition.TOP,
-                              );
-                            }
-                          },
-                          backgroundClr: clrBlacke,
-                          child: Text('Submit',style: TextStyle(color: clrWhite),),
-                        ),
+                        Obx(() {
+                          return Opacity(
+                            opacity: controller.conloading.value ? 0.5 : 1,
+                            child: CustomElevatedButton(
+                              onTap: () {
+                                if (_formKey.currentState!.validate()) {
+                                  controller.contactsupport();
+                                }
+                              },
+                              backgroundClr: clrBlacke,
+                              child: controller.conloading.value ? CommonUi.buttonLoading() : Text('Submit',style: TextStyle(color: clrWhite),),
+                            ),
+                          );
+                        })
                       ],
                     )
                 ),

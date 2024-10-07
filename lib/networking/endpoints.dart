@@ -74,5 +74,8 @@ class EndPoints{
   static String deleteNot = '${baseUrl}delete-notification/';
   static String cardPayment = '${baseUrl}cart-payment';
 
+  static String contactSupport = '${baseUrl}add-contact';
+  static String logout = '${baseUrl}logout';
+  static String deleteUser = '${baseUrl}delete-user';
 
 }

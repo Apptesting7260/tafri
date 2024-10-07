@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import '../../../../../../../networking/apiservices.dart';
@@ -101,6 +100,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
         accuserError.value = '';
         print('home data == ${response.body}');
         accuserData.value = ActDataModal.fromJson(response.body);
+        print('work data == ${response.body}');
         hostactapi(actData.value.activity?.id.toString());
       }else{
         print('error == ${response.body}');

@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/networking/firebase_api.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/model/profile_view_model.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
@@ -68,6 +72,42 @@ class ProfilemainController extends GetxController{
       print('error == ${e.toString()}');
     }
 
+  }
+
+  var logoutloading = false.obs;
+
+  Future<void> logout() async{
+
+    String? token = LocalStorage.getToken();
+    var fcmtoken = FirebaseApi.fcmToken;
+    var header = {"Authorization": "Bearer $token"};
+
+    var body ={
+      'fcm_token': fcmtoken
+    };
+
+    logoutloading.value = true;
+
+    try{
+      final response = await api.post(EndPoints.logout,body,headers: header);
+      if(response.statusCode == 200){
+        GoogleSignIn().signOut();
+        LocalStorage.removeToken();
+        debugPrint(
+            "gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
+
+        if (LocalStorage.getToken() == null ||
+            LocalStorage.getUid() == null) {
+          Get.offAllNamed(Routes.initialPage);
+        }
+      }
+
+    }catch(e){
+      showTostMsg('Something went wrong');
+      profileLoading.value = false;
+      print('error == ${e.toString()}');
+    }
+    logoutloading.value = false;
   }
 
 }

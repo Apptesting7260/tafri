@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import     'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../routes/routes.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
 import '../../../utils/custom_radio.dart';
@@ -55,6 +53,11 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                             alertReport();
                           }
                         },
+                        offset: const Offset(0, 45),
+                        padding: const EdgeInsets.all(16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                     ),
                   ],

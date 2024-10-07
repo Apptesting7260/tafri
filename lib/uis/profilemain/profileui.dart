@@ -1,16 +1,11 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
-import 'package:plusone/uis/onbording/introone/intoone.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
-import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
@@ -398,34 +393,32 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30,top: 10),
-              child: SizedBox(
-                width: double.maxFinite,
-                height: Res.h_btn,
-                child: CustomElevatedButton(
-                    onTap: () {
-                      GoogleSignIn().signOut();
-                      LocalStorage.removeToken();
-                      debugPrint(
-                          "gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
-
-                      if (LocalStorage.getToken() == null ||
-                          LocalStorage.getUid() == null) {
-                        Get.offAllNamed(Routes.initialPage);
-                      }
-                    },
-                    backgroundClr: clrBlacke,
-                    child: Text(
-                      "Logout",
-                      style: TextStyle(
-                          color: clrWhite,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
-                    )
+            Obx(() {
+              return Opacity(
+                opacity: controller.logoutloading.value ? 0.5 : 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30,top: 10),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    height: Res.h_btn,
+                    child: CustomElevatedButton(
+                        onTap: () {
+                          controller.logout();
+                        },
+                        backgroundClr: clrBlacke,
+                        child: controller.logoutloading.value ? CommonUi.buttonLoading() : Text(
+                          "Logout",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700
+                          ),
+                        )
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },)
           ]
         ),
       )
