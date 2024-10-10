@@ -119,6 +119,10 @@ class Contactsupport extends GetWidget<ContactSupportController> {
                         TextFormField(
                           controller: controller.emailController,
                           decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.mail,
+                              color: clrBlacke,
+                            ),
                             hintText: "Email",
                             hintStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -155,6 +159,18 @@ class Contactsupport extends GetWidget<ContactSupportController> {
                         TextFormField(
                           controller: controller.firstnameController,
                           decoration: InputDecoration(
+                            prefixIcon: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10
+                                ),
+                                child: const Image(
+                                  image: AssetImage(
+                                      "assets/icons/manicon.png"
+                                  ),
+                                  height: 2,
+                                  width: 2,
+                                )
+                            ),
                             hintText: "First Name",
                             hintStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -187,6 +203,18 @@ class Contactsupport extends GetWidget<ContactSupportController> {
                         TextFormField(
                           controller: controller.lastnameController,
                           decoration: InputDecoration(
+                            prefixIcon: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10
+                                ),
+                                child: const Image(
+                                  image: AssetImage(
+                                      "assets/icons/manicon.png"
+                                  ),
+                                  height: 2,
+                                  width: 2,
+                                )
+                            ),
                             hintText: "Last Name",
                             hintStyle: const TextStyle(
                                 fontWeight: FontWeight.w400,

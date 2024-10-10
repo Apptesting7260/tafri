@@ -313,10 +313,10 @@ class IntroController extends GetxController {
         }else if(response.body['message'] == 'Mobile number exists' && (response.body['current_step'] == '0' || response.body['current_step'] == '1' || response.body['current_step'] == '2' || response.body['current_step'] == '3')){
           sendOtp();
         }else{
-          showTostMsg('Mobile number exist.Please login to continue.');
+          showTostMsg(response.body["message"]);
         }
       }else{
-
+        showTostMsg(response.body["message"]);
       }
     }catch(e){
       print('error == ${e.toString()}');

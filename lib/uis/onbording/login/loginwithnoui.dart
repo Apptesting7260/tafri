@@ -314,21 +314,29 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                 SizedBox(
                                                   height: h * .025,
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    Get.toNamed(Routes.contactSupport);
-                                                  },
-                                                  child: Center(
-                                                    child: Text(
-                                                        'Contact Us',
-                                                        style: TextStyle(
-                                                            color: clrYellowText,
-                                                            fontWeight: FontWeight.w300,
-                                                            fontSize: 12,
-                                                            decoration: TextDecoration.underline
-                                                        )
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text("Need help?"),
+                                                    SizedBox(width: 5,),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Get.toNamed(Routes.contactSupport);
+                                                      },
+                                                      child: Center(
+                                                        child: Text(
+                                                            'Contact Us',
+                                                            style: TextStyle(
+                                                                color: clrYellowText,
+                                                                fontWeight: FontWeight.w300,
+                                                                fontSize: 12,
+                                                                decoration: TextDecoration.underline
+                                                            )
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 )
                                               ],
                                             ),

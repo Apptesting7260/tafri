@@ -78,14 +78,14 @@ class SettingUi extends GetWidget<SettingController>{
                                 color: clrGreyLight,
                                 height: h*.025,
                               ),
-                              const Text(
-                                "Email",
-                                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
-                              ),
-                              Divider(
-                                color: clrGreyLight,
-                                height:h*.04,
-                              ),
+                              // const Text(
+                              //   "Email",
+                              //   style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                              // ),
+                              // Divider(
+                              //   color: clrGreyLight,
+                              //   height:h*.04,
+                              // ),
                               SizedBox(
                                 height:h*.012,
                               ),
