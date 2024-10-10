@@ -129,7 +129,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                             },
                             controller: controller.refreshController1,
                             header: CommonUi.refreshHeader(),
-                            child: Center(child: const ErrorScreen()))
+                            child: const Center(child: ErrorScreen()))
                         : SmartRefresher(
                             onRefresh: () async {
                               controller.refreshApi();
@@ -1166,6 +1166,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                             showTostMsg('Please select any reason');
                           }
                         },
+                        backgroundClr: clrBlacke,
                         child: controller.reportactivityLoading.value
                             ? CommonUi.buttonLoading()
                             : Text(
@@ -1174,8 +1175,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                     color: clrWhite,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700),
-                              ),
-                        backgroundClr: clrBlacke)),
+                              ))),
               ),
             ),
             const SizedBox(

@@ -1,13 +1,7 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
@@ -16,7 +10,6 @@ import '../../../../../../utils/colors.dart';
 import '../../../../../../utils/error_widget.dart';
 import '../../../../../components/custoelevatedbtn.dart';
 import '../../../../../components/custofilterbtn.dart';
-import '../../../../../explore/hostprofile/hostprofileui.dart';
 import 'controller/host_upcomiacti_controller.dart';
 
 class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
@@ -140,86 +133,60 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                               onPageChanged: (currIndex,
                                                   CarouselPageChangedReason
                                                       reason) {
-                                                controller
-                                                    .changeIndicator(currIndex);
-                                                debugPrint(
-                                                    " currIndex $currIndex reason=$reason");
+                                                controller.changeIndicator(currIndex);
+                                                debugPrint(" currIndex $currIndex reason=$reason");
                                               }),
-                                          items: controller
-                                              .actData.value.activity!.banners
+                                          items: controller.actData.value.activity!.banners
                                               ?.map<Widget>((i) {
                                             return Builder(
                                               builder: (BuildContext context) {
                                                 return Container(
                                                     clipBehavior: Clip.hardEdge,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
+                                                    width: MediaQuery.of(context).size.width,
                                                     height: double.maxFinite,
-                                                    margin: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 0),
+                                                    margin: const EdgeInsets.symmetric(horizontal: 0),
                                                     decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18)),
+                                                        borderRadius: BorderRadius.circular(18)
+                                                    ),
                                                     child: CachedNetworkImage(
                                                       fit: BoxFit.cover,
                                                       height: h * .26,
                                                       width: double.maxFinite,
                                                       imageUrl: "$i",
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          Shimmer.fromColors(
+                                                      placeholder: (context, url) => Shimmer.fromColors(
                                                         baseColor: grey300,
                                                         highlightColor: grey100,
                                                         child: Container(
-                                                          width:
-                                                              double.maxFinite,
+                                                          width: double.maxFinite,
                                                           height: h * .26,
-                                                          decoration:
-                                                              BoxDecoration(
+                                                          decoration: BoxDecoration(
                                                             color: grey300,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        18),
+                                                            borderRadius: BorderRadius.circular(18),
                                                           ),
                                                         ),
                                                       ),
-                                                    ));
+                                                    )
+                                                );
                                               },
                                             );
                                           }).toList(),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
+                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
+                                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                                 decoration: BoxDecoration(
                                                     color: clrWhite,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
+                                                    borderRadius: BorderRadius.circular(20)
+                                                ),
                                                 child: Text(
-                                                  controller
-                                                      .actData
-                                                      .value
-                                                      .activity!
-                                                      .subcategoryTitle
-                                                      .toString(),
+                                                  controller.actData.value.activity!.subcategoryTitle.toString(),
                                                   style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700),
+                                                      fontWeight: FontWeight.w700
+                                                  ),
                                                 ),
                                               ),
                                               const SizedBox(),
@@ -251,8 +218,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                         Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 7),
+                                            margin: const EdgeInsets.only(bottom: 7),
                                             height: 16,
                                             child: ListView.builder(
                                                 itemCount: controller
@@ -262,14 +228,10 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                     .banners
                                                     ?.length,
                                                 shrinkWrap: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemBuilder:
-                                                    (context, indicatorIndex) {
+                                                scrollDirection: Axis.horizontal,
+                                                itemBuilder: (context, indicatorIndex) {
                                                   return Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 1.5),
+                                                    padding: const EdgeInsets.symmetric(horizontal: 1.5),
                                                     child: Obx(
                                                       () => Icon(
                                                         Icons.circle,
@@ -296,8 +258,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                     height: Get.height * 0.02,
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       // Flexible(
@@ -317,12 +278,11 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              controller
-                                                  .actData.value.activity!.name
-                                                  .toString(),
+                                              controller.actData.value.activity!.name.toString(),
                                               style: TextStyle(
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.w600),
+                                                  fontWeight: FontWeight.w600
+                                              ),
                                             ),
                                             SizedBox(
                                               height: h * .005,
@@ -340,7 +300,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                             Text(
                                               '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
                                               style: TextStyle(
-                                                  color: clrGreyTextLight),
+                                                  color: clrGreyTextLight
+                                              ),
                                             ),
                                             SizedBox(
                                               height: h * .008,
@@ -349,7 +310,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                               "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! == 1 ? 'spot left' : 'spots left'}",
                                               style: TextStyle(
                                                   color: clrYellowText,
-                                                  fontSize: 13),
+                                                  fontSize: 13
+                                              ),
                                             ),
 
                                             // Text(
@@ -387,15 +349,11 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                       InkWell(
                                         onTap: () {
                                           Get.toNamed(Routes.hostProfileUi,
-                                              arguments: controller.actData
-                                                  .value.activity!.hostId
-                                                  .toString());
+                                              arguments: controller.actData.value.activity!.hostId.toString());
                                         },
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             // Container(
                                             //     height: h*.055,
@@ -414,26 +372,22 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                 height: 40,
                                                 width: 40,
                                                 fit: BoxFit.cover,
-                                                imageUrl:
-                                                    '${controller.actData.value.activity!.profilePhoto}',
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Container(
+                                                imageUrl: '${controller.actData.value.activity!.profilePhoto}',
+                                                errorWidget: (context, url, error) => Container(
                                                   height: 40,
                                                   width: 40,
-                                                  padding:
-                                                      const EdgeInsets.all(10),
+                                                  padding: const EdgeInsets.all(10),
                                                   decoration: BoxDecoration(
                                                       color: clrGreyLight,
-                                                      shape: BoxShape.circle),
+                                                      shape: BoxShape.circle
+                                                  ),
                                                   child: Image.asset(
                                                     "assets/icons/manicon.png",
                                                     color: clrGrey,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
-                                                placeholder: (context, url) =>
-                                                    Shimmer.fromColors(
+                                                placeholder: (context, url) => Shimmer.fromColors(
                                                   baseColor: grey300,
                                                   highlightColor: grey100,
                                                   child: Container(
@@ -441,9 +395,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                     width: 40,
                                                     decoration: BoxDecoration(
                                                       color: grey300,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18),
+                                                      borderRadius: BorderRadius.circular(18),
                                                     ),
                                                   ),
                                                 ),
@@ -453,11 +405,10 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                               height: 3,
                                             ),
                                             Text(
-                                              controller.actData.value.activity!
-                                                  .hostName
-                                                  .toString(),
+                                              controller.actData.value.activity!.hostName.toString(),
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.w700),
+                                                  fontWeight: FontWeight.w700
+                                              ),
                                             )
                                           ],
                                         ),
@@ -468,11 +419,10 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                     height: Get.height * 0.01,
                                   ),
                                   Text(
-                                    controller
-                                        .actData.value.activity!.description
-                                        .toString(),
+                                    controller.actData.value.activity!.description.toString(),
                                     style: TextStyle(
-                                        fontSize: 14, color: clrGreyTextLight),
+                                        fontSize: 14, color: clrGreyTextLight
+                                    ),
                                   ),
                                   SizedBox(
                                     height: Get.height * 0.01,
@@ -497,8 +447,11 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                             style: TextStyle(
                                                 color: clrWhite,
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.w700),
-                                          ))),
+                                                fontWeight: FontWeight.w700
+                                            ),
+                                          )
+                                      )
+                                  ),
                                   SizedBox(
                                     height: Get.height * 0.04,
                                   ),
@@ -515,12 +468,10 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                 "Requests",
                                                 style: TextStyle(
                                                     fontSize: 16,
-                                                    fontWeight: controller
-                                                                .selectedTab
-                                                                .value ==
-                                                            1
+                                                    fontWeight: controller.selectedTab.value == 1
                                                         ? FontWeight.w700
-                                                        : FontWeight.w400),
+                                                        : FontWeight.w400
+                                                ),
                                               ),
                                               const SizedBox(
                                                 height: 5,
@@ -531,12 +482,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                       width: 70,
                                                       decoration: BoxDecoration(
                                                           color: clrYellow,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10)),
-                                                    )
-                                                  : const SizedBox()
+                                                          borderRadius: BorderRadius.circular(10)),
+                                                    ) : const SizedBox()
                                             ],
                                           ),
                                         ),
@@ -549,15 +496,15 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           },
                                           child: Column(
                                             children: [
-                                              Text("Going",
+                                              Text(
+                                                  "Going",
                                                   style: TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight: controller
-                                                                  .selectedTab
-                                                                  .value ==
-                                                              2
+                                                      fontWeight: controller.selectedTab.value == 2
                                                           ? FontWeight.w700
-                                                          : FontWeight.w400)),
+                                                          : FontWeight.w400
+                                                  )
+                                              ),
                                               const SizedBox(
                                                 height: 5,
                                               ),
@@ -567,10 +514,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                       width: 70,
                                                       decoration: BoxDecoration(
                                                           color: clrYellow,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10)),
+                                                          borderRadius: BorderRadius.circular(10)
+                                                      ),
                                                     )
                                                   : const SizedBox()
                                             ],
@@ -615,24 +560,16 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                         baseColor: grey300,
                                                                         highlightColor: grey100,
                                                                         child: Container(
-                                                                          width:
-                                                                          double.maxFinite,
+                                                                          width: double.maxFinite,
                                                                           height: h * .26,
-                                                                          decoration:
-                                                                          BoxDecoration(
+                                                                          decoration: BoxDecoration(
                                                                             color: grey300,
-                                                                            borderRadius:
-                                                                            BorderRadius
-                                                                                .circular(
-                                                                                18),
+                                                                            borderRadius: BorderRadius.circular(18),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                   errorWidget: (context, url, error) => ClipRRect(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        100),
+                                                                    borderRadius: BorderRadius.circular(100),
                                                                     child: Container(
                                                                       height: 55,
                                                                       width: 55,
@@ -645,20 +582,18 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                   ),
                                                                 ),
                                                               ),
-
                                                               SizedBox(
-                                                                width:
-                                                                    Get.width *
-                                                                        0.02,
+                                                                width: Get.width * 0.02,
                                                               ),
                                                               Flexible(
                                                                   child: Text(
                                                                       '${controller.actData.value.requests?[index].firstName} ${controller.actData.value.requests?[index].lastName}',
                                                                       style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w600,
-                                                                          fontSize:
-                                                                              16)))
+                                                                          fontWeight: FontWeight.w600,
+                                                                          fontSize: 16
+                                                                      )
+                                                                  )
+                                                              )
                                                             ],
                                                           ),
                                                         ),

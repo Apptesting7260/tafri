@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/addphoto/controller/addphoto_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/funfact/models/funfactquest_model.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/language/models/langauagemodel.dart';
@@ -838,5 +839,30 @@ class MyprofileInnController extends GetxController
   }
   ///
 
+  var deleteloading = false.obs;
+
+  Future<void> deleteUser() async{
+
+    var header = {"Authorization": "Bearer $token"};
+
+    deleteloading.value = true;
+    try{
+      final response = await api.delete(EndPoints.deleteUser, headers: header);
+      print(response.body);
+      if(response.statusCode == 200){
+        GoogleSignIn().signOut();
+        LocalStorage.removeToken();
+        debugPrint("gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
+        if (LocalStorage.getToken() == null || LocalStorage.getUid() == null) {
+          Get.offAllNamed(Routes.initialPage);
+        }
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      deleteloading.value = false;
+      print('error == ${e.toString()}');
+    }
+
+  }
 
 }

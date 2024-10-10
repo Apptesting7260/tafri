@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../utils/colors.dart';
+import '../../../../components/custofilterbtn.dart';
 import 'controller/myprofileinn_controller.dart';
 
 class MyProfileUi extends GetWidget<MyprofileInnController> {
@@ -895,6 +897,24 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 SizedBox(
                                   height: Get.height * .03,
                                 ),
+                                Obx(() {
+                                  return Opacity(
+                                    opacity: controller.deleteloading.value ? 0.5 : 1,
+                                    child: CustomElevatedButton(
+                                        onTap: () {
+                                          alertDeleteAccount();
+                                        },
+                                        child: controller.deleteloading.value ? CommonUi.buttonLoading() : Text(
+                                          "Delete Account",
+                                          style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
+                                        ),
+                                        backgroundClr: clrBlacke
+                                    ),
+                                  );
+                                },),
+                                SizedBox(
+                                  height: Get.height * .03,
+                                ),
                               ],
                             ),
                           ),
@@ -930,149 +950,148 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                           //   ),
                           // ),
                         ],
-                      ),
-              ),
-              Obx(() => profileController.profileLoading.value ? Center(
-                child: CommonUi.scaffoldLoading(color: clrYellow),
-              ) : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: Get.height * 0.035,
-                    ),
-                    Center(
-                      child: Obx(
-                            () => ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                              imageUrl:
-                              '${profileController.profileData.value.result?.profile?.profilePhoto}',
-                              fit: BoxFit.cover,
-                              height: h * .14,
-                              width: w * .3,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                  baseColor: Colors.grey.shade300,
-                                  highlightColor: Colors.grey.shade100,
-                                  child: ClipRRect(
+                      ),),
+                      Obx(() => profileController.profileLoading.value ? Center(
+                        child: CommonUi.scaffoldLoading(color: clrYellow),
+                      ) : SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: Get.height * 0.035,
+                            ),
+                            Center(
+                              child: Obx(
+                                  () => ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: Container(
-                                      height: h * .14,
-                                      width: w * .3,
-                                      color: clrGrey,
-                                    ),
-                                  )),
-                              errorWidget: (context, url, error) {
-                                print('error == $error');
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Container(
-                                    height: h * .14,
-                                    width: w * .3,
-                                    color: clrGreyLight,
-                                    child: Image.asset(
-                                      'assets/icons/manicon.png',
-                                      color: clrGrey,
-                                    ),
+                                    child: CachedNetworkImage(
+                                        imageUrl: '${profileController.profileData.value.result?.profile?.profilePhoto}',
+                                        fit: BoxFit.cover,
+                                        height: h * .14,
+                                        width: w * .3,
+                                        placeholder: (context, url) => Shimmer.fromColors(
+                                            baseColor: Colors.grey.shade300,
+                                            highlightColor: Colors.grey.shade100,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(100),
+                                          child: Container(
+                                            height: h * .14,
+                                            width: w * .3,
+                                            color: clrGrey,
+                                          ),
+                                        )
+                                        ),
+                                        errorWidget: (context, url, error) {
+                                          print('error == $error');
+                                          return ClipRRect(
+                                            borderRadius: BorderRadius.circular(100),
+                                            child: Container(
+                                              height: h * .14,
+                                              width: w * .3,
+                                              color: clrGreyLight,
+                                              child: Image.asset(
+                                                'assets/icons/manicon.png',
+                                                color: clrGrey,
+                                              ),
+                                            ),
+                                          );
+                                        }),
                                   ),
-                                );
-                              }),
-                        ),
-                      ),
-                    ),
-                    profileController.profileData.value.result?.firstName !=
-                        null
-                        ? SizedBox(
-                      height: Get.height * 0.015,
-                    )
-                        : CommonUi.emptySizeBox(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          profileController
-                              .profileData.value.result?.firstName ??
-                              '',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 18),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        profileController.profileData.value.result?.profile?.verifyInstagram ==
-                            '1' && profileController.profileData.value.result?.profile?.verifyLinkedin ==
-                            '1'
-                            ? InkWell(
-                            onTap: () {
-                              verificationAlert();
-                            },
-                            child: Icon(
-                              Icons.verified,
-                              color: clrYellow,
-                              size: 16,
-                            ))
-                            : CommonUi.emptySizeBox()
-                      ],
-                    ),
-                    profileController.profileData.value.result?.firstName !=
-                        null
-                        ? SizedBox(
-                      height: Get.height * 0.008,
-                    )
-                        : CommonUi.emptySizeBox(),
-                    Center(
-                        child: profileController
-                            .profileData.value.result?.firstName !=
-                            null
-                            ? Text(
-                          "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
-                          style: TextStyle(
-                              color: clrGreyTextLight, fontSize: 13),
-                        )
-                            : CommonUi.emptySizeBox()),
-                    SizedBox(
-                      height: Get.height * 0.03,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 12),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: clrGreyLight),
-                            child: Column(
+                              ),
+                            ),
+                            profileController.profileData.value.result?.firstName != null
+                                ? SizedBox(
+                              height: Get.height * 0.015,
+                            )
+                                : CommonUi.emptySizeBox(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // TweenAnimationBuilder<int>(
-                                //   tween: IntTween(
-                                //       begin: 0,
-                                //       end: int.parse(profileController
-                                //           .profileData
-                                //           .value
-                                //           .result!
-                                //           .attendanceRate
-                                //           .toString()
-                                //           .split('%')[0])),
-                                //   duration: const Duration(seconds: 1),
-                                //   builder: (context, value, child) {
-                                //     return Text(
-                                //       '$value%',
-                                //       style: TextStyle(
-                                //           color: clrYellowText.withOpacity(0.8),
-                                //           fontSize: 22,
-                                //           fontWeight: FontWeight.w700),
-                                //     );
-                                //   },
-                                // ),
                                 Text(
-                                  '${profileController.profileData.value.result?.attendanceRate ?? 0}',
-                                  style: TextStyle(
-                                      color: clrYellowText.withOpacity(0.8),
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w700),
+                                  profileController.profileData.value.result?.firstName ?? '',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18
+                                  ),
                                 ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                profileController.profileData.value.result?.profile?.verifyInstagram == '1'
+                                    && profileController.profileData.value.result?.profile?.verifyLinkedin == '1'
+                                    ? InkWell(
+                                    onTap: () {
+                                      verificationAlert();
+                                      },
+                                    child: Icon(
+                                      Icons.verified,
+                                      color: clrYellow,
+                                      size: 16,
+                                    )
+                                )
+                                    : CommonUi.emptySizeBox()
+                              ],
+                            ),
+                            profileController.profileData.value.result?.firstName != null
+                                ? SizedBox(
+                              height: Get.height * 0.008,
+                            )
+                                : CommonUi.emptySizeBox(),
+                            Center(
+                                child: profileController.profileData.value.result?.firstName != null
+                                    ? Text(
+                                  "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
+                                  style: TextStyle(
+                                      color: clrGreyTextLight,
+                                      fontSize: 13
+                                  ),
+                                )
+                                    : CommonUi.emptySizeBox()
+                            ),
+                            SizedBox(
+                              height: Get.height * 0.03,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: clrGreyLight
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        // TweenAnimationBuilder<int>(
+                                        //   tween: IntTween(
+                                        //       begin: 0,
+                                        //       end: int.parse(profileController
+                                        //           .profileData
+                                        //           .value
+                                        //           .result!
+                                        //           .attendanceRate
+                                        //           .toString()
+                                        //           .split('%')[0])),
+                                        //   duration: const Duration(seconds: 1),
+                                        //   builder: (context, value, child) {
+                                        //     return Text(
+                                        //       '$value%',
+                                        //       style: TextStyle(
+                                        //           color: clrYellowText.withOpacity(0.8),
+                                        //           fontSize: 22,
+                                        //           fontWeight: FontWeight.w700),
+                                        //     );
+                                        //   },
+                                        // ),
+                                        Text(
+                                          '${profileController.profileData.value.result?.attendanceRate ?? 0}',
+                                          style: TextStyle(
+                                              color: clrYellowText.withOpacity(0.8),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w700
+                                          ),
+                                        ),
                                 const Text(
                                   "Attendance",
                                   textAlign: TextAlign.center,
@@ -1749,6 +1768,98 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
         ),
       )),
     );
+  }
+
+  alertDeleteAccount() {
+    Future.delayed(Duration.zero, () {
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child: Text(
+                  "Delete Account",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                  child: Text(
+                    "Are you sure you want to delete your account?",
+                    style: TextStyle(
+                        color: clrGreyTextLight,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+              ),
+              SizedBox(
+                height: Get.height * .024,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Expanded(
+                      child: SizedBox(
+                        height: Res.h_btn,
+                        child: CustoFilterBtn(
+                            ontap: () {
+                              Get.back();
+                              controller.deleteUser();
+                            },
+                            borderClr: clrBlacke,
+                            lable: Text(
+                              "Yes",
+                              style: TextStyle(
+                                  color: clrBlacke,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700
+                              ),
+                            ),
+                            backgroundClr: Get.theme.scaffoldBackgroundColor),
+                      )
+                  ),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                        width: double.maxFinite,
+                        height: Res.h_btn,
+                        child: CustomElevatedButton(
+                            onTap: () {
+                              Get.back();
+                            },
+                            backgroundClr: clrBlacke,
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                  color: clrWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ))),
+                  ),
+                ]),
+              ),
+              SizedBox(
+                height: Get.height * .014,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
   }
 
   verificationAlert() {

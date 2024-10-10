@@ -105,7 +105,7 @@ class Result {
     currentStep: json["current_step"],
     upcommingActivityStatus: json["upcomming_activity_status"],
     previousActivityStatus: json["previous_activity_status"],
-    pushNotificaions: json["push_notificaions"],
+    pushNotificaions: json["push_notifications"],
     emailNotifications: json["email_notifications"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),

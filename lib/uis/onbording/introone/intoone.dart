@@ -314,28 +314,52 @@ class IntroOneUi extends GetWidget<IntroController> {
                                             ])),
                                       ),
                                       SizedBox(height: screenHeight * 0.04),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        child: RichText(
-                                            textAlign: TextAlign.center,
-                                            text: TextSpan(children: [
-                                              TextSpan(
-                                                  text: "Need Help? Contact ",
-                                                  style: TextStyle(
-                                                      color: clrBlacke,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      fontSize: 12)),
-                                              TextSpan(
-                                                  text: "info@plusonesapp.com",
+                                      // Container(
+                                      //   alignment: Alignment.center,
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //       horizontal: 20),
+                                      //   child: RichText(
+                                      //       textAlign: TextAlign.center,
+                                      //       text: TextSpan(children: [
+                                      //         TextSpan(
+                                      //             text: "Need Help? Contact ",
+                                      //             style: TextStyle(
+                                      //                 color: clrBlacke,
+                                      //                 fontWeight:
+                                      //                     FontWeight.w300,
+                                      //                 fontSize: 12)),
+                                      //         TextSpan(
+                                      //             text: "info@plusonesapp.com",
+                                      //             style: TextStyle(
+                                      //                 color: clrYellowText,
+                                      //                 fontWeight:
+                                      //                     FontWeight.w300,
+                                      //                 fontSize: 12)),
+                                      //       ])),
+                                      // ),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text("Need help?"),
+                                          SizedBox(width: 5,),
+                                          InkWell(
+                                            onTap: () {
+                                              Get.toNamed(Routes.contactSupport);
+                                            },
+                                            child: Center(
+                                              child: Text(
+                                                  'Contact Us',
                                                   style: TextStyle(
                                                       color: clrYellowText,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      fontSize: 12)),
-                                            ])),
+                                                      fontWeight: FontWeight.w300,
+                                                      fontSize: 12,
+                                                      decoration: TextDecoration.underline
+                                                  )
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

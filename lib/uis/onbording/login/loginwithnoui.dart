@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -315,6 +314,30 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                 SizedBox(
                                                   height: h * .025,
                                                 ),
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text("Need help?"),
+                                                    SizedBox(width: 5,),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Get.toNamed(Routes.contactSupport);
+                                                      },
+                                                      child: Center(
+                                                        child: Text(
+                                                            'Contact Us',
+                                                            style: TextStyle(
+                                                                color: clrYellowText,
+                                                                fontWeight: FontWeight.w300,
+                                                                fontSize: 12,
+                                                                decoration: TextDecoration.underline
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
                                               ],
                                             ),
                                           ));
@@ -408,39 +431,39 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
 }
 
 
-class AccountStatusDialog {
-  static void show(BuildContext context, String status) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Account Status'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min, // To fit the content
-            children: [
-              Text(
-                'Your account has been $status for some unknown reason. Please contact support to resolve this issue.',
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20), // Space between text and button
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(Routes.contactSupport);
-                },
-                child: Text('Contact Support'),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
+// class AccountStatusDialog {
+//   static void show(BuildContext context, String status) {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text('Account Status'),
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min, // To fit the content
+//             children: [
+//               Text(
+//                 'Your account has been $status for some unknown reason. Please contact support to resolve this issue.',
+//                 textAlign: TextAlign.center,
+//               ),
+//               SizedBox(height: 20), // Space between text and button
+//               ElevatedButton(
+//                 onPressed: () {
+//                   Get.toNamed(Routes.contactSupport);
+//                 },
+//                 child: Text('Contact Support'),
+//               ),
+//             ],
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               },
+//               child: Text('Cancel'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }

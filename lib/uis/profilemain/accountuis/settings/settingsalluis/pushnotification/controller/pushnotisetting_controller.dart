@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
 import 'package:plusone/networking/apiservices.dart';
+import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
-
-import '../../../../../../../networking/endpoints.dart';
-
 
 
 class PushnotisettingController extends GetxController{
@@ -16,7 +14,6 @@ class PushnotisettingController extends GetxController{
     // TODO: implement onInit
     super.onInit();
   }
-  
 
   Rx<int> notificationsVal = (profilemainController.profileData.value.result?.pushNotificaions == null ? 0 : int.parse(profilemainController.profileData.value.result?.pushNotificaions ?? '0')).obs;
   Rx<int> emailVal = (profilemainController.profileData.value.result?.emailNotifications == null ? 0 : int.parse(profilemainController.profileData.value.result?.emailNotifications ?? '0')).obs;
@@ -37,7 +34,7 @@ class PushnotisettingController extends GetxController{
 
     Map body = {
       'user_id': LocalStorage.getUid(),
-      'push_notificaions': notificationsVal.value.toString(),
+      'push_notifications': notificationsVal.value.toString(),
       'email_notifications': emailVal.value.toString(),
     };
 
@@ -46,7 +43,6 @@ class PushnotisettingController extends GetxController{
     Map<String,String> header = {
       'Authorization' : 'Bearer ${LocalStorage.getToken()}'
     };
-
 
     try{
       final response = await api.post(EndPoints.notifications, body,headers: header);
@@ -59,7 +55,6 @@ class PushnotisettingController extends GetxController{
     }catch(e){
       print('changeFav api error == ${e.toString()}');
     }
-
 
   }
 
