@@ -119,7 +119,7 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                                     ],
                                   )
                               ),
-                              controller.homeController.homeData.value.result!.planType == 'yearly_plan' ? Container(
+                              controller.homeController.homeData.value.result!.planType == 'yearly' ? Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8,
                                     vertical: 3
@@ -205,7 +205,7 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                                  ],
                                ),
                              ),
-                             controller.homeController.homeData.value.result!.planType == 'monthly_plan' ? Container(
+                             controller.homeController.homeData.value.result!.planType == 'monthly' ? Container(
                                padding: const EdgeInsets.symmetric(
                                    horizontal: 8,
                                    vertical: 3
@@ -226,21 +226,23 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                       SizedBox(
                         height: Get.height * 0.03,
                       ),
-                      Obx(() => Opacity(
-                        opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
+                      // Obx(() =>
+                          Opacity(
+                        opacity: 1,
+                        // opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
                         child: SizedBox(
                           height:Res.h_btn,
                           width: double.maxFinite,
                           child: CustomElevatedButton(
                             onTap: () async{
-                              if(!controller.buttonLoadingMonthly.value && !controller.buttonLoadingYearly.value && !controller.apiLoading.value) {
-                                print('button tap');
-                                await controller.buySubscription();
-                              }
-                              // changePlanAlert();
+                              // if(!controller.buttonLoadingMonthly.value && !controller.buttonLoadingYearly.value && !controller.apiLoading.value) {
+                              //   print('button tap');
+                              //   await controller.buySubscription();
+                              // }
+                              // // changePlanAlert();
                             },
                             backgroundClr: clrBlacke,
-                            child: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? CommonUi.buttonLoading() : Text(
+                            child: Text(
                               "Confirm change",
                               style: TextStyle(
                                   color: clrWhite,
@@ -250,7 +252,8 @@ class SwitchPlanUi extends GetWidget<MymembershipController>{
                             ),
                           ),
                         ),
-                      ),)
+                      ),
+    // )
                     ],
                   )
               )

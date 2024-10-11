@@ -180,7 +180,7 @@ class Routes{
     GetPage(name: bioUi, page:()=>BioUi(),binding: BioBinding()),
     GetPage(name: helpcenterProUi, page:()=>HelpCenterUi(),binding: HelpcenterBinding()),
     GetPage(name: myfavProui, page:()=> FavouriteListUi(),binding: MyfavouriteBinding()),
-    GetPage(name: mymembershipProUi, page:()=> MyMemberShipUi(),binding: MymembershipBinding()),
+    GetPage(name: mymembershipProUi, page:()=> MyMemberShipUi(),bindings: [MymembershipBinding(),PaymentBinding()]),
     GetPage(name: settingProUi, page:()=> SettingUi(),binding: SettingBinding()),
     GetPage(name: referFrndProUi, page:()=>const ReferFrndUi(),binding: ReferFrndBinding()),
     GetPage(name: switchPlanProUi, page:()=>const SwitchPlanUi()),

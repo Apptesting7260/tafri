@@ -52,6 +52,8 @@ class ExploreListController extends GetxController {
     };
 
     print(body);
+    print(EndPoints.homePage);
+    print(LocalStorage.getToken());
 
     Map<String,String> header = {
       'Authorization' : 'Bearer ${LocalStorage.getToken()}'

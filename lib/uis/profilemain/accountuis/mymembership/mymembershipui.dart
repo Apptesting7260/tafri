@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/controller/mymembership_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/switchplanui.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
@@ -13,6 +15,10 @@ import '../../../../utils/colors.dart';
 
 class MyMemberShipUi extends GetWidget<MymembershipController> {
   MyMemberShipUi({super.key});
+
+  final PaymentController paymentController = Get.find<PaymentController>();
+  final ProfilemainController profileController =
+  Get.find<ProfilemainController>();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +77,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                         children: [
                                           Text(
                                             controller.homeController
-                                                .homeData.value.result!.planType! == 'monthly_plan' ?  'Monthly' : "Annual",
+                                                .homeData.value.result!.planType! == 'monthly' ?  'Monthly' : "Annual",
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
@@ -81,7 +87,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           ),
                                           Text(
                                             controller.homeController
-                                                .homeData.value.result!.planType! == 'monthly_plan' ? 'You are in a 1-week free trial.' : "You are in a 3-month free trial.",
+                                                .homeData.value.result!.planType! == 'monthly' ? 'You are in a 1-week free trial.' : "You are in a 3-month free trial.",
                                             style: TextStyle(
                                                 color: clrGreyTextLight,
                                                 fontSize: 14,
@@ -89,7 +95,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           ),
                                           Text(
                                             controller.homeController
-                                                .homeData.value.result!.planType! == 'monthly_plan' ? "Your plan will renew for the regular price of €3.99 every month until canceled." : "Your plan will renew for the regular price of €23.99 every year until canceled.",
+                                                .homeData.value.result!.planType! == 'monthly' ? "Your plan will renew for the regular price of €3.99 every month until canceled." : "Your plan will renew for the regular price of €23.99 every year until canceled.",
                                             style: TextStyle(
                                                 fontSize: 13,
                                                 color: clrGrey5D5C5E),
@@ -112,6 +118,26 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             "Switch plan",
                                             style: TextStyle(
                                                 color: clrWhite,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700),
+                                          )),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    SizedBox(
+                                      width: double.maxFinite,
+                                      height: Res.h_btn,
+                                      child: CustomElevatedButton(
+                                          onTap: () {
+                                             // paymentController.getCustomer(profileController.profileData.value.result!.email.toString());
+                                          },
+                                          backgroundClr: clrWhite,
+                                          borderClr: clrBlacke,
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: clrBlacke,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700),
                                           )),
@@ -175,7 +201,9 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 Radio(
                                                   value: 1,
                                                   groupValue: controller.choosePlan.value,
-                                                  onChanged: (val) {},
+                                                  onChanged: (val) {
+                                                    controller.updatePlan(1);
+                                                  },
                                                   visualDensity:
                                                   VisualDensity.compact,
                                                   activeColor: clrYellow,
@@ -268,7 +296,9 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 Radio(
                                                   value: 2,
                                                   groupValue: controller.choosePlan.value,
-                                                  onChanged: (val) {},
+                                                  onChanged: (val) {
+                                                    controller.updatePlan(2);
+                                                  },
                                                   visualDensity:
                                                   VisualDensity.compact,
                                                   activeColor: clrYellow,
@@ -353,16 +383,29 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                     ),
                                   ),
                                   Obx(() => Opacity(
-                                    opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
+                                    opacity: paymentController.loading.value ? 0.5 : 1,
+                                    // opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
                                     child: SizedBox(
                                       height: Res.h_btn,
                                       width: double.maxFinite,
                                       child: CustomElevatedButton(
-                                          onTap: () {
-                                            controller.subscribe();
+                                          onTap: () async{
+                                            if(controller.choosePlan.value == 1) {
+                                             await paymentController.createCustomer(
+                                                  '${profileController.profileData.value.result?.firstName} ${profileController.profileData.value.result?.lastName}', '${profileController.profileData.value.result?.email}',
+                                                  'yearly');
+                                              await controller.homeController.homePageApi();
+                                            }else if(controller.choosePlan.value == 2){
+                                              await paymentController.createCustomer(
+                                                  '${profileController.profileData.value.result?.firstName} ${profileController.profileData.value.result?.lastName}', '${profileController.profileData.value.result?.email}',
+                                                  'monthly');
+                                              await controller.homeController.homePageApi();
+                                            }else{
+                                              showTostMsg('Please select any plan.');
+                                            }
                                           },
                                           backgroundClr: clrBlacke,
-                                          child: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? CommonUi.buttonLoading() : Text(
+                                          child: paymentController.loading.value ? CommonUi.buttonLoading() : Text(
                                             controller.choosePlan.value == 1 ? "Start 3 months free" : controller.choosePlan.value == 2 ? 'Start 1 week free' : 'Select plan',
                                             style: TextStyle(
                                                 color: clrWhite,

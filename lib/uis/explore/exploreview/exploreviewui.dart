@@ -783,15 +783,16 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                                     Res.h_btn,
                                                                 child: CustomElevatedButton(
                                                                     onTap: () {
-                                                                      if(profile
-                                                                          .profileData
-                                                                          .value.result?.cardSave == false){
-                                                                        payment.alertRequestSent(() async{
-                                                                          Get.back();
-                                                                          await payment.createCustomer('${profile.profileData.value.result?.firstName} ${profile.profileData.value.result?.lastName}', '${profile.profileData.value.result?.email}');
-                                                                          await profile.viewProfile();
-                                                                        },);
-                                                                      } else if (controller
+                                                                      // if(profile
+                                                                      //     .profileData
+                                                                      //     .value.result?.cardSave == false){
+                                                                        // payment.alertRequestSent(() async{
+                                                                          // Get.back();
+                                                                          // await payment.createCustomer('${profile.profileData.value.result?.firstName} ${profile.profileData.value.result?.lastName}', '${profile.profileData.value.result?.email}');
+                                                                          // await profile.viewProfile();
+                                                                        // },);
+                                                                      // } else
+                                                                        if (controller
                                                                               .actData
                                                                               .value
                                                                               .activity

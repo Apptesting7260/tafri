@@ -1341,16 +1341,16 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               height: Res.h_btn,
                                               child: CustomElevatedButton(
                                                   onTap: () async{
-                                                    if(profileController.profileData.value.result?.cardSave == false){
-                                                     payment.alertRequestSent(() async{
-                                                       Get.back();
-                                                       await payment.createCustomer('${profileController.profileData.value.result?.firstName} ${profileController.profileData.value.result?.lastName}', "${profileController.profileData.value.result?.email}");
-                                                       await profileController.viewProfile();
-                                                     },);
-                                                    }else {
+                                                    // if(profileController.profileData.value.result?.cardSave == false){
+                                                     // payment.alertRequestSent(() async{
+                                                       // Get.back();
+                                                       // await payment.createCustomer('${profileController.profileData.value.result?.firstName} ${profileController.profileData.value.result?.lastName}', "${profileController.profileData.value.result?.email}");
+                                                       // await profileController.viewProfile();
+                                                     // },);
+                                                    // }else {
                                                       controller
                                                           .createActivity();
-                                                    }
+                                                    // }
                                                   },
                                                   backgroundClr: clrBlacke,
                                                   child: controller
