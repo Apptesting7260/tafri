@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:plusone/uis/explore/exploreview/model/exploreviewui_model.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/controller/previousacti_controller.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import '../../../../../../../networking/apiservices.dart';
 import '../../../../../../../networking/endpoints.dart';
@@ -10,6 +11,8 @@ class AttendReviewController extends GetxController{
 
   List<Going>? goinglist;
   String? actid;
+
+  PreviousActiController previousActiController = Get.find<PreviousActiController>();
 
   @override
   void onInit() {
@@ -40,6 +43,7 @@ class AttendReviewController extends GetxController{
       'Authorization' : 'Bearer ${LocalStorage.getToken()}'
     };
 
+    print(header);
     activityLoading.value = true;
 
     try{
@@ -48,8 +52,12 @@ class AttendReviewController extends GetxController{
         attError.value = '';
         print('home data == ${response.body}');
         attData.value = AttendanceConfirmModel.fromJson(response.body);
-        goinglist?[index].userAttendance = att == true ? false : true;
+        goinglist?[index].userAttendance = att == true ? true : true;
         showTostMsg('Attendance status updated successfully');
+        previousActiController.actapi(actid);
+        previousActiController..showapi(actid);
+        previousActiController..attlistapi(actid);
+
       }else{
         print('error == ${response.body}');
         attError.value = 'ERROR';
