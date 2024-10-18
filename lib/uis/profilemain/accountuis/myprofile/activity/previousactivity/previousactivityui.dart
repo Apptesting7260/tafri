@@ -19,6 +19,8 @@ import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../../../utils/local_storage.dart';
+
 
 class PreviousActivityUi extends GetWidget<PreviousActiController>{
   PreviousActivityUi({super.key});
@@ -566,7 +568,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: Get.height * 0.04,
                       ),
-                      controller.actData.value.activity?.status == 'approved' ? Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
+                      controller.actData.value.activity?.status == 'approved' && controller.actData.value.activity?.hostId == LocalStorage.getUid() ? Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
                           : controller.actData.value.activity?.status == 'pending' ? SizedBox(
                           width: double.maxFinite,
                           height: Res.h_btn,
@@ -849,7 +851,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: 10,
                       ),
-                      controller.actData.value.activity?.status == 'completed' ?  SizedBox() :  Center(child: InkWell(
+                      controller.actData.value.activity?.status == 'approved' && (controller.actData.value.activity?.hostId.toString() != LocalStorage.getUid().toString()) ?  SizedBox() :  Center(child: InkWell(
                           onTap: (){
                             alertDeleteActivity();
                           }

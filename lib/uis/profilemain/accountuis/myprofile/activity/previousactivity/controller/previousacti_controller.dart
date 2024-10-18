@@ -275,6 +275,8 @@ class PreviousActiController extends GetxController{
       'Authorization' : 'Bearer ${LocalStorage.getToken()}'
     };
 
+    print(header);
+
     activitypage.value = true;
 
     try{
