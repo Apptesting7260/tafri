@@ -8,12 +8,26 @@ import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/payment/payment_model.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 
 class PaymentController extends GetxController{
+
+  @override
+  void onInit() {
+    customerId.value = profileController.profileData.value.result?.customerId ?? "";
+    mandateID.value = profileController.profileData.value.result?.mandateId ?? '';
+    cardToken.value = profileController.profileData.value.result?.cardToken ?? '';
+    print('card details == ${customerId.value}   ${mandateID.value}  ${cardToken.value}');
+    super.onInit();
+  }
+
+
+  final ProfilemainController profileController =
+  Get.find<ProfilemainController>();
 
 
   String baseUrl = 'https://api.mollie.com/v2/';
@@ -129,7 +143,7 @@ class PaymentController extends GetxController{
     var url = '${baseUrl}customers/$customerID/subscriptions';
 
     DateTime now = DateTime.now();
-    DateTime oneMonthFromNow = planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day + 7,now.hour,now.minute,now.second) : DateTime(now.year + 1,now.month + 3,now.day,now.hour,now.minute,now.second);
+    DateTime oneMonthFromNow = profileController.profileData.value.result?.cardSave == false ? (planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day + 7,now.hour,now.minute,now.second) : DateTime(now.year + 1,now.month + 3,now.day,now.hour,now.minute,now.second)) : (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day,now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day,now.hour,now.minute,now.second));
     String startDate = DateFormat('yyyy-MM-dd').format(oneMonthFromNow);
 
     var body = {
@@ -139,7 +153,8 @@ class PaymentController extends GetxController{
       },
       'interval': duration,
       'description': description,
-      'startDate': startDate
+      'startDate': startDate,
+      'webhookUrl': '${EndPoints.mollieWebhook}'
     };
 
     print('sub send data == ${body}');
@@ -148,7 +163,7 @@ class PaymentController extends GetxController{
     DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     String subscriptionDate = formatter.format(now);
 
-    String endDate = formatter.format(oneMonthFromNow);
+    String endDate = profileController.profileData.value.result?.cardSave == false ? formatter.format(oneMonthFromNow) : formatter.format(planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day,now.hour,now.minute,now.second) : DateTime(now.year+1,now.month,now.day,now.hour,now.minute,now.second));
     print(endDate);
 
     try{
@@ -281,45 +296,6 @@ class PaymentController extends GetxController{
     ));
   }
 
-
-
-
-
-
-
-
-
-  // Future<void> capturePayment() async{
-  //
-  //   var body = {
-  //     'description': 'Testing'
-  //   };
-  //
-  //   try{
-  //     final response = await api.post('$baseUrl/$paymentId/captures', body,headers: header);
-  //     print('capture == ${response.body}');
-  //     if(response.statusCode == 200 || response.statusCode == 201){
-  //
-  //     }else{
-  //
-  //     }
-  //   }catch(e){
-  //     print('capture error == ${e.toString()}');
-  //   }
-  // }
-
-  // Future<void> createMandate() async{
-  //   var body = {
-  //     'consumerName': 'Test',
-  //     'customerId': customerId.value,
-  //     'method': 'creditcard'
-  //   };
-  //
-  //   try{
-  //     final response = await api.post('${baseUrl}customers/${customerId.value}/mandates', body,headers: header);
-  //     print('mandate == ${response.body}');
-  //   }catch(e){}
-  // }
 
 
   Future<void> saveCard(String customerID,String mandateID,String cardToken,String plan,String amount,String transactionID,String date,String subscriptionID,String endDate) async{

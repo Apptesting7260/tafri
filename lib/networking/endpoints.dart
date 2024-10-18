@@ -78,4 +78,6 @@ class EndPoints{
   static String logout = '${baseUrl}logout';
   static String deleteUser = '${baseUrl}delete-user';
 
+  static String mollieWebhook = '${baseUrl}redirect-mollie-webhook';
+
 }

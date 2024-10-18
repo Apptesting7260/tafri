@@ -50,6 +50,12 @@ class Result {
   List<Activity>? upcomingActivities;
   List<Activity>? previousActivities;
   bool? cardSave;
+  String? customerId;
+  String? mandateId;
+  String? cardToken;
+  String? planType;
+  bool? membershipStatus;
+
 
   Result({
     this.id,
@@ -82,7 +88,12 @@ class Result {
     this.profile,
     this.upcomingActivities,
     this.previousActivities,
-    this.cardSave
+    this.cardSave,
+    this.customerId,
+    this.mandateId,
+    this.cardToken,
+    this.planType,
+    this.membershipStatus
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -116,7 +127,12 @@ class Result {
     profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
     upcomingActivities: json["upcoming_activities"] == null ? [] : List<Activity>.from(json["upcoming_activities"]!.map((x) => Activity.fromJson(x))),
     previousActivities: json["previous_activities"] == null ? [] : List<Activity>.from(json["previous_activities"]!.map((x) => Activity.fromJson(x))),
-    cardSave: json['isAuthCardActive']
+    cardSave: json['isAuthCardActive'],
+    customerId: json['customerId'],
+    mandateId: json['merchantId'],
+    cardToken: json['cartToken'],
+    planType: json['plan_type'],
+    membershipStatus: json['membership_status']
   );
 
   Map<String, dynamic> toJson() => {

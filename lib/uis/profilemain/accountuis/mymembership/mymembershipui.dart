@@ -17,8 +17,6 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
   MyMemberShipUi({super.key});
 
   final PaymentController paymentController = Get.find<PaymentController>();
-  final ProfilemainController profileController =
-  Get.find<ProfilemainController>();
 
   @override
   Widget build(BuildContext context) {
@@ -390,18 +388,58 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                       width: double.maxFinite,
                                       child: CustomElevatedButton(
                                           onTap: () async{
-                                            if(controller.choosePlan.value == 1) {
-                                             await paymentController.createCustomer(
-                                                  '${profileController.profileData.value.result?.firstName} ${profileController.profileData.value.result?.lastName}', '${profileController.profileData.value.result?.email}',
-                                                  'yearly');
-                                              await controller.homeController.homePageApi();
-                                            }else if(controller.choosePlan.value == 2){
-                                              await paymentController.createCustomer(
-                                                  '${profileController.profileData.value.result?.firstName} ${profileController.profileData.value.result?.lastName}', '${profileController.profileData.value.result?.email}',
-                                                  'monthly');
-                                              await controller.homeController.homePageApi();
+                                            if(paymentController.profileController.profileData.value.result?.cardSave == false) {
+                                              if (controller.choosePlan.value == 1) {
+                                                await paymentController
+                                                    .createCustomer(
+                                                    '${paymentController.profileController
+                                                        .profileData.value
+                                                        .result
+                                                        ?.firstName} ${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.lastName}',
+                                                    '${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.email}',
+                                                    'yearly');
+                                                await controller.homeController.homePageApi();
+                                              } else if (controller.choosePlan.value == 2) {
+                                                await paymentController
+                                                    .createCustomer(
+                                                    '${paymentController.profileController
+                                                        .profileData.value
+                                                        .result
+                                                        ?.firstName} ${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.lastName}',
+                                                    '${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.email}',
+                                                    'monthly');
+                                                await controller.homeController
+                                                    .homePageApi();
+                                              } else {
+                                                showTostMsg(
+                                                    'Please select any plan.');
+                                              }
                                             }else{
-                                              showTostMsg('Please select any plan.');
+                                              if (controller.choosePlan.value ==
+                                                  1) {
+                                                paymentController.planType.value = 'yearly';
+                                                await paymentController.createSub("${paymentController.profileController.profileData.value.result?.customerId}", '23.99', '12 months', 'Yearly Membership');
+                                                await controller.homeController
+                                                    .homePageApi();
+                                              } else
+                                              if (controller.choosePlan.value ==
+                                                  2) {
+                                                paymentController.planType.value = 'monthly';
+                                               await paymentController.createSub('${paymentController.profileController.profileData.value.result?.customerId}', '3.99', '1 month', 'Monthly Membership');
+                                                await controller.homeController
+                                                    .homePageApi();
+                                              } else {
+                                                showTostMsg(
+                                                    'Please select any plan.');
+                                              }
                                             }
                                           },
                                           backgroundClr: clrBlacke,
