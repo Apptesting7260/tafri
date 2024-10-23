@@ -405,26 +405,24 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                           const SizedBox(
                                                             height: 5,
                                                           ),
-                                                          homeController
-                                                                          .homeData
-                                                                          .value
-                                                                          .result
-                                                                          ?.profileComplete ==
-                                                                      true &&
-                                                                  homeController
-                                                                          .homeData
-                                                                          .value
-                                                                          .result
-                                                                          ?.membershipStatus ==
-                                                                      true
-                                                              ? Text(
-                                                                  // "13 March 2024 | 2:30 PM - 6:00PM",
-                                                                  '${resultData[index].date} | ${resultData[index].startAt} - ${resultData[index].endAt}',
+                                                          Text(
+                                                            '${resultData[index].date} ${homeController
+                                                                .homeData
+                                                                .value
+                                                                .result
+                                                                ?.profileComplete ==
+                                                                true &&
+                                                                homeController
+                                                                    .homeData
+                                                                    .value
+                                                                    .result
+                                                                    ?.membershipStatus ==
+                                                                    true
+                                                                ? '| ${resultData[index].startAt} - ${resultData[index].endAt}' : ''}',
                                                                   style: TextStyle(
                                                                       color:
                                                                           clrGreyDark),
-                                                                )
-                                                              : SizedBox(),
+                                                                ),
                                                           SizedBox(
                                                             height: h * .008,
                                                           ),

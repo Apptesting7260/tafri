@@ -900,15 +900,18 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 Obx(() {
                                   return Opacity(
                                     opacity: controller.deleteloading.value ? 0.5 : 1,
-                                    child: CustomElevatedButton(
-                                        onTap: () {
-                                          alertDeleteAccount();
-                                        },
-                                        child: controller.deleteloading.value ? CommonUi.buttonLoading() : Text(
-                                          "Delete Account",
-                                          style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
-                                        ),
-                                        backgroundClr: clrBlacke
+                                    child: SizedBox(
+                                      height: Res.h_btn,
+                                      child: CustomElevatedButton(
+                                          onTap: () {
+                                            alertDeleteAccount();
+                                          },
+                                          backgroundClr: clrBlacke,
+                                          child: controller.deleteloading.value ? CommonUi.buttonLoading() : Text(
+                                            "Delete Account",
+                                            style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
+                                          )
+                                      ),
                                     ),
                                   );
                                 },),

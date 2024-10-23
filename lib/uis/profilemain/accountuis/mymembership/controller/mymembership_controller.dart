@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
+import 'package:plusone/uis/profilemain/accountuis/mymembership/modal/plan_modal.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MymembershipController extends GetxController {
   //
@@ -20,26 +22,101 @@ class MymembershipController extends GetxController {
   void onInit() {
     print('On in it callles');
     super.onInit();
+    // getPlan();
     // streamFunction();
-    homeController.homeData.value.result!.planType == 'monthly' ? updateSelectedValue(2) : updateSelectedValue(1);
+    // homeController.homeData.value.result?.planType == 'monthly' ? updateSelectedValue(2) : updateSelectedValue(1);
   }
 
   final ExploreListController homeController =
   Get.find<ExploreListController>();
 
-  var choosePlan = 0.obs;
+  // final api = ApiServices();
+  //
+  // var choosePlan = (-1).obs;
+  // var price = ''.obs;
+  // var freeDays = ''.obs;
+  // var selectedPlan = ''.obs;
+  //
+  // void updatePlan(int value,String planPrice,String freeDay,String plan){
+  //   choosePlan.value = value;
+  //   price.value = planPrice;
+  //   freeDays.value = freeDay;
+  //   selectedPlan.value = plan;
+  // }
 
-  void updatePlan(int value){
-    choosePlan.value = value;
-  }
-
-  var selectedval = 0.obs;
+  var selectedval = (-1).obs;
 
   void updateSelectedValue(int? value) {
     selectedval.value = value!;
   }
 
-  // var buttonLoadingMonthly = false.obs;
+
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+
+  // var plans = GetPlanModal().obs;
+  // var plansLoading = false.obs;
+  // var planError = ''.obs;
+  // Future<void> getPlan() async{
+  //   var header = {
+  //     'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+  //   };
+  //   plansLoading.value = true;
+  //   try{
+  //     final response = await api.get('${EndPoints.getPlan}',headers: header);
+  //     print('get plan == ${response.body}   \n   ${response.statusCode}');
+  //     if(response.statusCode == 200){
+  //       planError.value = '';
+  //       plans.value = GetPlanModal.fromJson(response.body);
+  //     }else{
+  //       planError.value = 'error';
+  //     }
+  //   }catch(e){
+  //     planError.value = e.toString();
+  //     print('get plan error == ${e.toString()}');
+  //   }
+  //   plansLoading.value = false;
+  // }
+  //
+  //
+  // String getWeek(int days) {
+  //   switch (days) {
+  //     case 7:
+  //       return '1 week';
+  //     case 14:
+  //       return '2 weeks';
+  //     case 21:
+  //       return '3 weeks';
+  //     case 28:
+  //       return '4 weeks';
+  //     case 30:
+  //     case 31:
+  //       return '1 month';
+  //     case 60:
+  //     case 61:
+  //       return '2 months';
+  //     case 90:
+  //     case 91:
+  //       return '3 months';
+  //     case 180:
+  //     case 181:
+  //       return '6 months';
+  //     case 365:
+  //       return '12 months (1 year)';
+  //     default:
+  //       if (days < 7) {
+  //         return '$days days';
+  //       } else if (days > 7 && days < 30) {
+  //         int weeks = days ~/ 7;
+  //         return '$weeks weeks';
+  //       } else {
+  //         int months = days ~/ 30;
+  //         return '$months months';
+  //       }
+  //   }
+  // }
+
+
+// var buttonLoadingMonthly = false.obs;
   // var buttonLoadingYearly = false.obs;
   //
   // final InAppPurchase inAppPurchase = InAppPurchase.instance;

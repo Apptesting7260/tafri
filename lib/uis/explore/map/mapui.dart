@@ -1561,12 +1561,12 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                height:
                                                                h * .005,
                                                              ),
-                                                             homeController.homeData.value.result?.profileComplete == true
-                                                                 &&  homeController.homeData.value.result?.membershipStatus == true ? Text(
-                                                               '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
+                                                             Text(
+                                                               '${activityData?[index].formattedDate} ${homeController.homeData.value.result?.profileComplete == true
+                                                                   && homeController.homeData.value.result?.membershipStatus == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''}',
                                                                style:
                                                                TextStyle(color: clrGreyDark),
-                                                             ) : SizedBox(),
+                                                             ),
                                                              SizedBox(
                                                                height:
                                                                h * .008,

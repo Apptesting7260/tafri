@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_links/app_links.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:plusone/networking/checkconnection.dart';
 import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/onbording/introone/binding/intro_binding.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -41,10 +43,52 @@ Future<void> main() async {
   await FirebaseApi().initializeNotification();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    initDeepLink();
+  }
+
+  late AppLinks _appLinks;
+
+  Future<void> initDeepLink() async {
+    try{
+      _appLinks = AppLinks();
+
+      _appLinks.uriLinkStream.listen((Uri? uri) {
+        if (uri != null) {
+          print('act id == ${uri.queryParameters['activityid']}');
+          print('host id == ${uri.queryParameters['hostId']}');
+          if(LocalStorage.getUid() == null || LocalStorage.getUid()!.isEmpty){
+            Get.toNamed(Routes.initialPage,);
+          } else if(uri.queryParameters['hostId'].toString() == LocalStorage.getUid()){
+            Get.toNamed(Routes.hostUpcommingActiview, arguments: uri.queryParameters['activityid'].toString());
+          }else{
+            Get.put(ExploreListController());
+            Get.toNamed(Routes.exploreView,
+                arguments: uri.queryParameters['activityid'].toString()
+            );
+          }
+        }
+      });
+    }catch(e){
+      print('deep link error == ${e.toString()}');
+    }
+  }
+
+  // void openAppLink(Uri uri) {
+  //   _navigatorKey.currentState?.pushNamed(uri.fragment);
+  // }
+
   @override
   Widget build(BuildContext context) {
     String? token = LocalStorage.getToken();

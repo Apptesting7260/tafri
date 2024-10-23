@@ -79,5 +79,8 @@ class EndPoints{
   static String deleteUser = '${baseUrl}delete-user';
 
   static String mollieWebhook = '${baseUrl}redirect-mollie-webhook';
+  static String getPlan = '${baseUrl}get-plans';
+
+  static String cancelSub = '${baseUrl}cancel-subscription';
 
 }

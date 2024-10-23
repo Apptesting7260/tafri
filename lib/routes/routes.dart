@@ -183,7 +183,7 @@ class Routes{
     GetPage(name: mymembershipProUi, page:()=> MyMemberShipUi(),bindings: [MymembershipBinding(),PaymentBinding()]),
     GetPage(name: settingProUi, page:()=> SettingUi(),binding: SettingBinding()),
     GetPage(name: referFrndProUi, page:()=>const ReferFrndUi(),binding: ReferFrndBinding()),
-    GetPage(name: switchPlanProUi, page:()=>const SwitchPlanUi()),
+    GetPage(name: switchPlanProUi, page:()=> SwitchPlanUi()),
     GetPage(name: activityVisibilitySettingUi, page:()=>const ActivityVisibility(),binding: ActivityvisibilityBinding()),
     GetPage(name: pushNotiSettingUi, page:()=>const NotificationProUi(),binding: PushnotifisettingBinding()),
     GetPage(name: createActivityUi, page:()=> CreateActivityUi(),bindings: [CreativityBinding(),ProfilemainBindings(),PaymentBinding()]),

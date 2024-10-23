@@ -59,6 +59,8 @@ class PaymentScreen extends GetWidget<PaymentController> {
                     },
                   ),
                   controller.loading.value ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CommonUi.scaffoldLoading(color: clrYellow),
                       const SizedBox(height: 10,),

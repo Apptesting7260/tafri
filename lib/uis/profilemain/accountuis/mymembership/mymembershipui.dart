@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
@@ -11,6 +12,7 @@ import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../utils/colors.dart';
 
 class MyMemberShipUi extends GetWidget<MymembershipController> {
@@ -24,18 +26,154 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
     var w = Get.width;
     return Scaffold(
       backgroundColor: clrWhite,
-      body: SafeArea(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-              child: Obx(
-                () => controller.homeController.homePageLoading.value
-                    ? Center(child: CommonUi.scaffoldLoading(color: clrYellow))
-                    : controller.homeController.homeError.value.isNotEmpty
-                        ? const Center(child: ErrorScreen())
-                        : controller.homeController
-                                .homeData.value.result!.planType!.isNotEmpty
-                            ? SingleChildScrollView(
-                                child: Column(
+      body: SmartRefresher(
+        controller: controller.refreshController,
+        header: CommonUi.refreshHeader(),
+        onRefresh: () async{
+          paymentController.getPlan();
+          await controller.homeController.homePageApi();
+          controller.refreshController.refreshCompleted();
+        },
+        child: SafeArea(
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+                child: Obx(
+                  () => (controller.homeController.homePageLoading.value || paymentController.plansLoading.value) && (paymentController.plans.value.result == null || paymentController.plans.value.result!.isEmpty)
+                      ? Center(child: CommonUi.scaffoldLoading(color: clrYellow))
+                      : controller.homeController.homeError.value.isNotEmpty || paymentController.planError.value.isNotEmpty
+                          ? const Center(child: ErrorScreen())
+                          : controller.homeController
+                                  .homeData.value.result!.planType!.isNotEmpty
+                              ? SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CommonUi.appBar(),
+                                          const Text(
+                                            "My membership",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 19),
+                                          ),
+                                          SizedBox(
+                                            width: w * .05,
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.035,
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 20),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            // color: clrGreyLight,
+                                            border: Border.all(
+                                                color: clrGrey.withOpacity(0.4))),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              controller.homeController
+                                                  .homeData.value.result!.planType! == 'monthly' ?  'Monthly' : "Annual",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              controller.homeController
+                                                  .homeData.value.result!.planType! == 'monthly' ? 'You are in a 1-week free trial.' : "You are in a 3-month free trial.",
+                                              style: TextStyle(
+                                                  color: clrGreyTextLight,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              controller.homeController
+                                                  .homeData.value.result!.planType! == 'monthly' ? "Your plan will renew for the regular price of €3.99 every month until canceled." : "Your plan will renew for the regular price of €23.99 every year until canceled.",
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: clrGrey5D5C5E),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.035,
+                                      ),
+                                      SizedBox(
+                                        width: double.maxFinite,
+                                        height: Res.h_btn,
+                                        child: CustomElevatedButton(
+                                            onTap: () {
+                                              Get.toNamed(Routes.switchPlanProUi);
+                                            },
+                                            backgroundClr: clrBlacke,
+                                            child: Text(
+                                              "Switch plan",
+                                              style: TextStyle(
+                                                  color: clrWhite,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700),
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      paymentController.profileController.profileData.value.result?.cancelDate != null ?  IgnorePointer(
+                                        ignoring: true,
+                                        child: SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () {},
+                                              backgroundClr: clrWhite,
+                                              borderClr: clrBlacke,
+                                              child: Text(
+                                                "Cancelled",
+                                                style: TextStyle(
+                                                    color: clrBlacke,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ),
+                                      ) : Obx(() => Opacity(
+                                        opacity: paymentController.cancelSubLoading.value ? 0.5 : 1,
+                                        child: SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () async{
+                                                await paymentController.cancelSub();
+                                              },
+                                              backgroundClr: clrWhite,
+                                              borderClr: clrBlacke,
+                                              child: paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+                                                "Cancel",
+                                                style: TextStyle(
+                                                    color: clrBlacke,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ),
+                                      ),)
+                                    ],
+                                  ),
+                                )
+                              : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(
@@ -43,420 +181,408 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.start,
                                       children: [
                                         CommonUi.appBar(),
-                                        const Text(
-                                          "My membership",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 19),
-                                        ),
-                                        SizedBox(
-                                          width: w * .05,
-                                        )
                                       ],
                                     ),
                                     SizedBox(
-                                      height: Get.height * 0.035,
+                                      height: Get.height * 0.025,
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 20),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          // color: clrGreyLight,
-                                          border: Border.all(
-                                              color: clrGrey.withOpacity(0.4))),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                    const Text(
+                                      "Become a PlusOnes member",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    SizedBox(
+                                      height: Get.height * 0.02,
+                                    ),
+                                    Expanded(
+                                      child: ListView(
                                         children: [
                                           Text(
-                                            controller.homeController
-                                                .homeData.value.result!.planType! == 'monthly' ?  'Monthly' : "Annual",
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18),
+                                              "Join our members-only platform to find like-minded activity partners in a high-quality and safe community.",
+                                              style: TextStyle(
+                                                  color: clrGrey5D5C5E)),
+                                          SizedBox(
+                                            height: Get.height * 0.03,
                                           ),
-                                          const SizedBox(
-                                            height: 5,
+                                          ListView.separated(itemBuilder: (context, index) {
+                                            final data = paymentController.plans.value.result?[index];
+                                            return Obx(() => GestureDetector(
+                                              onTap: () {
+                                                paymentController.updatePlan(index,data.price!,data.trailDays!,data.billingPeriod.toString(),data.id.toString());
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 10, vertical: 18),
+                                                decoration: BoxDecoration(
+                                                    color: paymentController.choosePlan.value == index ? clrGreyLight : clrWhite,
+                                                    borderRadius:
+                                                    BorderRadius.circular(10),
+                                                    border: Border.all(
+                                                        color: clrGrey
+                                                            .withOpacity(0.3))),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    Radio(
+                                                      value: data!.id! - 1,
+                                                      groupValue: paymentController.choosePlan.value,
+                                                      onChanged: (val) {
+                                                        paymentController.updatePlan(index,data.price!,data.trailDays!,data.billingPeriod.toString(),data.id.toString());
+                                                      },
+                                                      visualDensity:
+                                                      VisualDensity.compact,
+                                                      activeColor: clrYellow,
+                                                    ),
+                                                    Flexible(
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Flexible(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  Text(
+                                                                    "${data.name}",
+                                                                    style: const TextStyle(
+                                                                        fontSize: 18,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                                  ),
+                                                                  RichText(
+                                                                      text: TextSpan(
+                                                                          children: [
+                                                                            TextSpan(
+                                                                              text:
+                                                                              "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
+                                                                              style: TextStyle(
+                                                                                  color:
+                                                                                  clrYellowText),
+                                                                            ),
+                                                                            TextSpan(
+                                                                                text:
+                                                                                " then €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                                                style: TextStyle(
+                                                                                    color:
+                                                                                    clrGrey5D5C5E))
+                                                                          ])),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            data.billingPeriod == 'yearly' ? Container(
+                                                              padding: const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal: 8,
+                                                                  vertical: 3),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(20),
+                                                                  color: clrYellow),
+                                                              child: const Text(
+                                                                "Best value",
+                                                                style: TextStyle(
+                                                                    fontSize: 10),
+                                                              ),
+                                                            ) : const SizedBox()
+                                                          ],
+                                                        ))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),);
+                                          },shrinkWrap: true, separatorBuilder: (context, index) => const SizedBox(height: 20,), itemCount: paymentController.plans.value.result!.length),
+                                          // Obx(() => GestureDetector(
+                                          //   onTap: () {
+                                          //     controller.updatePlan(1);
+                                          //   },
+                                          //   child: Container(
+                                          //     padding: const EdgeInsets.symmetric(
+                                          //         horizontal: 10, vertical: 18),
+                                          //     decoration: BoxDecoration(
+                                          //         color: controller.choosePlan.value == 1 ? clrGreyLight : clrWhite,
+                                          //         borderRadius:
+                                          //         BorderRadius.circular(10),
+                                          //         border: Border.all(
+                                          //             color: clrGrey
+                                          //                 .withOpacity(0.3))),
+                                          //     child: Row(
+                                          //       crossAxisAlignment:
+                                          //       CrossAxisAlignment.start,
+                                          //       children: [
+                                          //         Radio(
+                                          //           value: 1,
+                                          //           groupValue: controller.choosePlan.value,
+                                          //           onChanged: (val) {
+                                          //             controller.updatePlan(1);
+                                          //           },
+                                          //           visualDensity:
+                                          //           VisualDensity.compact,
+                                          //           activeColor: clrYellow,
+                                          //         ),
+                                          //         Flexible(
+                                          //             child: Row(
+                                          //               crossAxisAlignment:
+                                          //               CrossAxisAlignment.start,
+                                          //               mainAxisAlignment:
+                                          //               MainAxisAlignment
+                                          //                   .spaceBetween,
+                                          //               children: [
+                                          //                 Flexible(
+                                          //                   child: Column(
+                                          //                     crossAxisAlignment:
+                                          //                     CrossAxisAlignment
+                                          //                         .start,
+                                          //                     children: [
+                                          //                       const Text(
+                                          //                         "Annual",
+                                          //                         style: TextStyle(
+                                          //                             fontSize: 18,
+                                          //                             fontWeight:
+                                          //                             FontWeight
+                                          //                                 .w600),
+                                          //                       ),
+                                          //                       RichText(
+                                          //                           text: TextSpan(
+                                          //                               children: [
+                                          //                                 TextSpan(
+                                          //                                   text:
+                                          //                                   "3 months free",
+                                          //                                   style: TextStyle(
+                                          //                                       color:
+                                          //                                       clrYellowText),
+                                          //                                 ),
+                                          //                                 TextSpan(
+                                          //                                     text:
+                                          //                                     " then €23.99/year",
+                                          //                                     style: TextStyle(
+                                          //                                         color:
+                                          //                                         clrGrey5D5C5E))
+                                          //                               ])),
+                                          //                     ],
+                                          //                   ),
+                                          //                 ),
+                                          //                 Container(
+                                          //                   padding: const EdgeInsets
+                                          //                       .symmetric(
+                                          //                       horizontal: 8,
+                                          //                       vertical: 3),
+                                          //                   decoration: BoxDecoration(
+                                          //                       borderRadius:
+                                          //                       BorderRadius
+                                          //                           .circular(20),
+                                          //                       color: clrYellow),
+                                          //                   child: const Text(
+                                          //                     "Best value",
+                                          //                     style: TextStyle(
+                                          //                         fontSize: 10),
+                                          //                   ),
+                                          //                 )
+                                          //               ],
+                                          //             ))
+                                          //       ],
+                                          //     ),
+                                          //   ),
+                                          // ),),
+                                          // SizedBox(
+                                          //   height: Get.height * 0.03,
+                                          // ),
+                                          // Obx(() => GestureDetector(
+                                          //   onTap: () {
+                                          //     controller.updatePlan(2);
+                                          //   },
+                                          //   child: Container(
+                                          //     padding: const EdgeInsets.symmetric(
+                                          //         horizontal: 10, vertical: 18),
+                                          //     decoration: BoxDecoration(
+                                          //         color: controller.choosePlan.value == 2 ? clrGreyLight : clrTransparent,
+                                          //         borderRadius:
+                                          //         BorderRadius.circular(10),
+                                          //         border: Border.all(
+                                          //             color: clrGrey
+                                          //                 .withOpacity(0.3))),
+                                          //     child: Row(
+                                          //       crossAxisAlignment:
+                                          //       CrossAxisAlignment.start,
+                                          //       children: [
+                                          //         Radio(
+                                          //           value: 2,
+                                          //           groupValue: controller.choosePlan.value,
+                                          //           onChanged: (val) {
+                                          //             controller.updatePlan(2);
+                                          //           },
+                                          //           visualDensity:
+                                          //           VisualDensity.compact,
+                                          //           activeColor: clrYellow,
+                                          //         ),
+                                          //         Flexible(
+                                          //           child: Column(
+                                          //             crossAxisAlignment:
+                                          //             CrossAxisAlignment.start,
+                                          //             children: [
+                                          //               const Text("Monthly",
+                                          //                   style: TextStyle(
+                                          //                       fontSize: 18,
+                                          //                       fontWeight:
+                                          //                       FontWeight
+                                          //                           .w600)),
+                                          //               RichText(
+                                          //                   text:
+                                          //                   TextSpan(children: [
+                                          //                     TextSpan(
+                                          //                       text: "1 week free",
+                                          //                       style: TextStyle(
+                                          //                           color:
+                                          //                           clrYellowText),
+                                          //                     ),
+                                          //                     TextSpan(
+                                          //                         text:
+                                          //                         " then €3.99/month",
+                                          //                         style: TextStyle(
+                                          //                             color:
+                                          //                             clrGrey5D5C5E))
+                                          //                   ])),
+                                          //             ],
+                                          //           ),
+                                          //         )
+                                          //       ],
+                                          //     ),
+                                          //   ),
+                                          // ),),
+                                          SizedBox(
+                                            height: Get.height * 0.03,
                                           ),
-                                          Text(
-                                            controller.homeController
-                                                .homeData.value.result!.planType! == 'monthly' ? 'You are in a 1-week free trial.' : "You are in a 3-month free trial.",
-                                            style: TextStyle(
-                                                color: clrGreyTextLight,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                          Text(
-                                            controller.homeController
-                                                .homeData.value.result!.planType! == 'monthly' ? "Your plan will renew for the regular price of €3.99 every month until canceled." : "Your plan will renew for the regular price of €23.99 every year until canceled.",
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                color: clrGrey5D5C5E),
-                                          ),
+                                          RichText(
+                                              textAlign: TextAlign.center,
+                                              text: TextSpan(children: [
+                                                TextSpan(
+                                                  text:
+                                                      "By starting your membership, you agree to our ",
+                                                  style: TextStyle(
+                                                    color: clrGrey5D5C5E,
+                                                    height: 1.5,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                    text: " Terms of Service",
+                                                    style: TextStyle(
+                                                        color: clrYellow,
+                                                        decoration: TextDecoration
+                                                            .underline,
+                                                        height: 1.5)),
+                                                TextSpan(
+                                                  text: " and",
+                                                  style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      height: 1.5),
+                                                ),
+                                                TextSpan(
+                                                    text: " Privacy Policy.",
+                                                    style: TextStyle(
+                                                        color: clrYellow,
+                                                        decoration: TextDecoration
+                                                            .underline,
+                                                        height: 1.5)),
+                                                TextSpan(
+                                                  text:
+                                                      " After the free trial, your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
+                                                  style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      height: 1.5),
+                                                )
+                                              ])),
                                         ],
                                       ),
                                     ),
+                                    Obx(() => Opacity(
+                                      opacity: paymentController.loading.value ? 0.5 : 1,
+                                      // opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
+                                      child: SizedBox(
+                                        height: Res.h_btn,
+                                        width: double.maxFinite,
+                                        child: CustomElevatedButton(
+                                            onTap: paymentController.loading.value ? (){} : () async{
+                                              if(paymentController.profileController.profileData.value.result?.cardSave == false) {
+                                                if (paymentController.selectedPlan.value == 'yearly') {
+                                                  await paymentController
+                                                      .createCustomer(
+                                                      '${paymentController.profileController
+                                                          .profileData.value
+                                                          .result
+                                                          ?.firstName} ${paymentController.profileController
+                                                          .profileData.value
+                                                          .result?.lastName}',
+                                                      '${paymentController.profileController
+                                                          .profileData.value
+                                                          .result?.email}',
+                                                      'yearly',paymentController.price.value);
+                                                  await controller.homeController.homePageApi();
+                                                } else if (paymentController.selectedPlan.value == 'monthly') {
+                                                  await paymentController
+                                                      .createCustomer(
+                                                      '${paymentController.profileController
+                                                          .profileData.value
+                                                          .result
+                                                          ?.firstName} ${paymentController.profileController
+                                                          .profileData.value
+                                                          .result?.lastName}',
+                                                      '${paymentController.profileController
+                                                          .profileData.value
+                                                          .result?.email}',
+                                                      'monthly',paymentController.price.value);
+                                                  await controller.homeController
+                                                      .homePageApi();
+                                                } else {
+                                                  showTostMsg(
+                                                      'Please select any plan.');
+                                                }
+                                              }else{
+                                                if (paymentController.selectedPlan.value ==
+                                                    'yearly') {
+                                                  paymentController.planType.value = 'yearly';
+                                                  await paymentController.createSub("${paymentController.profileController.profileData.value.result?.customerId}", paymentController.price.value, '12 months', 'Yearly Membership');
+                                                  await controller.homeController
+                                                      .homePageApi();
+                                                } else
+                                                if (paymentController.selectedPlan.value ==
+                                                    'monthly') {
+                                                  paymentController.planType.value = 'monthly';
+                                                 await paymentController.createSub('${paymentController.profileController.profileData.value.result?.customerId}', paymentController.price.value, '1 month', 'Monthly Membership');
+                                                  await controller.homeController
+                                                      .homePageApi();
+                                                } else {
+                                                  showTostMsg(
+                                                      'Please select any plan.');
+                                                }
+                                              }
+                                            },
+                                            backgroundClr: clrBlacke,
+                                            child: paymentController.loading.value ? CommonUi.buttonLoading() : Text(
+                                              paymentController.choosePlan.value != (-1) ? "Start ${paymentController.getWeek(int.parse(paymentController.freeDays.value))} free" : 'Select plan',
+                                              style: TextStyle(
+                                                  color: clrWhite,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700),
+                                            )),),
+                                    ),),
                                     SizedBox(
-                                      height: Get.height * 0.035,
+                                      height: Get.height * 0.01,
                                     ),
-                                    SizedBox(
-                                      width: double.maxFinite,
-                                      height: Res.h_btn,
-                                      child: CustomElevatedButton(
-                                          onTap: () {
-                                            Get.toNamed(Routes.switchPlanProUi);
-                                          },
-                                          backgroundClr: clrBlacke,
-                                          child: Text(
-                                            "Switch plan",
-                                            style: TextStyle(
-                                                color: clrWhite,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700),
-                                          )),
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    SizedBox(
-                                      width: double.maxFinite,
-                                      height: Res.h_btn,
-                                      child: CustomElevatedButton(
-                                          onTap: () {
-                                             // paymentController.getCustomer(profileController.profileData.value.result!.email.toString());
-                                          },
-                                          backgroundClr: clrWhite,
-                                          borderClr: clrBlacke,
-                                          child: Text(
-                                            "Cancel",
-                                            style: TextStyle(
-                                                color: clrBlacke,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700),
-                                          )),
-                                    )
                                   ],
                                 ),
-                              )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                    children: [
-                                      CommonUi.appBar(),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.025,
-                                  ),
-                                  const Text(
-                                    "Become a PlusOnes member",
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.02,
-                                  ),
-                                  Expanded(
-                                    child: ListView(
-                                      children: [
-                                        Text(
-                                            "Join our members-only platform to find like-minded activity partners in a high-quality and safe community.",
-                                            style: TextStyle(
-                                                color: clrGrey5D5C5E)),
-                                        SizedBox(
-                                          height: Get.height * 0.03,
-                                        ),
-                                        Obx(() => GestureDetector(
-                                          onTap: () {
-                                            controller.updatePlan(1);
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 18),
-                                            decoration: BoxDecoration(
-                                                color: controller.choosePlan.value == 1 ? clrGreyLight : clrWhite,
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: clrGrey
-                                                        .withOpacity(0.3))),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Radio(
-                                                  value: 1,
-                                                  groupValue: controller.choosePlan.value,
-                                                  onChanged: (val) {
-                                                    controller.updatePlan(1);
-                                                  },
-                                                  visualDensity:
-                                                  VisualDensity.compact,
-                                                  activeColor: clrYellow,
-                                                ),
-                                                Flexible(
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: [
-                                                        Flexible(
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            children: [
-                                                              const Text(
-                                                                "Annual",
-                                                                style: TextStyle(
-                                                                    fontSize: 18,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                              ),
-                                                              RichText(
-                                                                  text: TextSpan(
-                                                                      children: [
-                                                                        TextSpan(
-                                                                          text:
-                                                                          "3 months free",
-                                                                          style: TextStyle(
-                                                                              color:
-                                                                              clrYellowText),
-                                                                        ),
-                                                                        TextSpan(
-                                                                            text:
-                                                                            " then €23.99/year",
-                                                                            style: TextStyle(
-                                                                                color:
-                                                                                clrGrey5D5C5E))
-                                                                      ])),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 8,
-                                                              vertical: 3),
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                              color: clrYellow),
-                                                          child: const Text(
-                                                            "Best value",
-                                                            style: TextStyle(
-                                                                fontSize: 10),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ))
-                                              ],
-                                            ),
-                                          ),
-                                        ),),
-                                        SizedBox(
-                                          height: Get.height * 0.03,
-                                        ),
-                                        Obx(() => GestureDetector(
-                                          onTap: () {
-                                            controller.updatePlan(2);
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 18),
-                                            decoration: BoxDecoration(
-                                                color: controller.choosePlan.value == 2 ? clrGreyLight : clrTransparent,
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color: clrGrey
-                                                        .withOpacity(0.3))),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Radio(
-                                                  value: 2,
-                                                  groupValue: controller.choosePlan.value,
-                                                  onChanged: (val) {
-                                                    controller.updatePlan(2);
-                                                  },
-                                                  visualDensity:
-                                                  VisualDensity.compact,
-                                                  activeColor: clrYellow,
-                                                ),
-                                                Flexible(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      const Text("Monthly",
-                                                          style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600)),
-                                                      RichText(
-                                                          text:
-                                                          TextSpan(children: [
-                                                            TextSpan(
-                                                              text: "1 week free",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                  clrYellowText),
-                                                            ),
-                                                            TextSpan(
-                                                                text:
-                                                                " then €3.99/month",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                    clrGrey5D5C5E))
-                                                          ])),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),),
-                                        SizedBox(
-                                          height: Get.height * 0.03,
-                                        ),
-                                        RichText(
-                                            textAlign: TextAlign.center,
-                                            text: TextSpan(children: [
-                                              TextSpan(
-                                                text:
-                                                    "By starting your membership, you agree to our ",
-                                                style: TextStyle(
-                                                  color: clrGrey5D5C5E,
-                                                  height: 1.5,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                  text: " Terms of Service",
-                                                  style: TextStyle(
-                                                      color: clrYellow,
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      height: 1.5)),
-                                              TextSpan(
-                                                text: " and",
-                                                style: TextStyle(
-                                                    color: clrGrey5D5C5E,
-                                                    height: 1.5),
-                                              ),
-                                              TextSpan(
-                                                  text: " Privacy Policy.",
-                                                  style: TextStyle(
-                                                      color: clrYellow,
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      height: 1.5)),
-                                              TextSpan(
-                                                text:
-                                                    " After the free trial, your membership will auto-renew annually at €23.99 unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
-                                                style: TextStyle(
-                                                    color: clrGrey5D5C5E,
-                                                    height: 1.5),
-                                              )
-                                            ])),
-                                      ],
-                                    ),
-                                  ),
-                                  Obx(() => Opacity(
-                                    opacity: paymentController.loading.value ? 0.5 : 1,
-                                    // opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
-                                    child: SizedBox(
-                                      height: Res.h_btn,
-                                      width: double.maxFinite,
-                                      child: CustomElevatedButton(
-                                          onTap: () async{
-                                            if(paymentController.profileController.profileData.value.result?.cardSave == false) {
-                                              if (controller.choosePlan.value == 1) {
-                                                await paymentController
-                                                    .createCustomer(
-                                                    '${paymentController.profileController
-                                                        .profileData.value
-                                                        .result
-                                                        ?.firstName} ${paymentController.profileController
-                                                        .profileData.value
-                                                        .result?.lastName}',
-                                                    '${paymentController.profileController
-                                                        .profileData.value
-                                                        .result?.email}',
-                                                    'yearly');
-                                                await controller.homeController.homePageApi();
-                                              } else if (controller.choosePlan.value == 2) {
-                                                await paymentController
-                                                    .createCustomer(
-                                                    '${paymentController.profileController
-                                                        .profileData.value
-                                                        .result
-                                                        ?.firstName} ${paymentController.profileController
-                                                        .profileData.value
-                                                        .result?.lastName}',
-                                                    '${paymentController.profileController
-                                                        .profileData.value
-                                                        .result?.email}',
-                                                    'monthly');
-                                                await controller.homeController
-                                                    .homePageApi();
-                                              } else {
-                                                showTostMsg(
-                                                    'Please select any plan.');
-                                              }
-                                            }else{
-                                              if (controller.choosePlan.value ==
-                                                  1) {
-                                                paymentController.planType.value = 'yearly';
-                                                await paymentController.createSub("${paymentController.profileController.profileData.value.result?.customerId}", '23.99', '12 months', 'Yearly Membership');
-                                                await controller.homeController
-                                                    .homePageApi();
-                                              } else
-                                              if (controller.choosePlan.value ==
-                                                  2) {
-                                                paymentController.planType.value = 'monthly';
-                                               await paymentController.createSub('${paymentController.profileController.profileData.value.result?.customerId}', '3.99', '1 month', 'Monthly Membership');
-                                                await controller.homeController
-                                                    .homePageApi();
-                                              } else {
-                                                showTostMsg(
-                                                    'Please select any plan.');
-                                              }
-                                            }
-                                          },
-                                          backgroundClr: clrBlacke,
-                                          child: paymentController.loading.value ? CommonUi.buttonLoading() : Text(
-                                            controller.choosePlan.value == 1 ? "Start 3 months free" : controller.choosePlan.value == 2 ? 'Start 1 week free' : 'Select plan',
-                                            style: TextStyle(
-                                                color: clrWhite,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700),
-                                          )),),
-                                  ),),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
-                                  ),
-                                ],
-                              ),
-              ))),
+                ))),
+      ),
     );
   }
 }

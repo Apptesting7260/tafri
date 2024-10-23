@@ -657,11 +657,11 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                               height:
                                                                                   h * .005,
                                                                             ),
-                                                                            controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? Text(
-                                                                              '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
+                                                                            Text(
+                                                                              '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
                                                                               style:
                                                                                   TextStyle(color: clrGreyDark),
-                                                                            ) : SizedBox(),
+                                                                            ),
                                                                             SizedBox(
                                                                               height:
                                                                                   h * .008,

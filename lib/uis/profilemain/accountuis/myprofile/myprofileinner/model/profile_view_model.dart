@@ -54,6 +54,9 @@ class Result {
   String? mandateId;
   String? cardToken;
   String? planType;
+  String? subscriptionId;
+  String? cancelDate;
+  String? cancelStatus;
   bool? membershipStatus;
 
 
@@ -93,7 +96,10 @@ class Result {
     this.mandateId,
     this.cardToken,
     this.planType,
-    this.membershipStatus
+    this.membershipStatus,
+    this.subscriptionId,
+    this.cancelDate,
+    this.cancelStatus
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -132,7 +138,10 @@ class Result {
     mandateId: json['merchantId'],
     cardToken: json['cartToken'],
     planType: json['plan_type'],
-    membershipStatus: json['membership_status']
+    membershipStatus: json['membership_status'],
+    subscriptionId: json['subscription_id'],
+    cancelDate: json['canceled_date'],
+    cancelStatus: json['subscription_status']
   );
 
   Map<String, dynamic> toJson() => {

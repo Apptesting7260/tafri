@@ -309,21 +309,20 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                       SizedBox(
                                                         height: h * .005,
                                                       ),
-                                                      hcontorller.homeData.value.result?.profileComplete == true
-                                                          &&  hcontorller.homeData.value.result?.membershipStatus == true ? Text(
+                                                      Text(
                                                         '${activityData?[index].location}',
                                                         style: TextStyle(
                                                             color: clrGreyDark),
-                                                      ) : SizedBox(),
+                                                      ),
                                                       SizedBox(
                                                         height: h * .005,
                                                       ),
-                                                      hcontorller.homeData.value.result?.profileComplete == true
-                                                          &&  hcontorller.homeData.value.result?.membershipStatus == true ? Text(
-                                                        '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
+                                                      Text(
+                                                        '${activityData?[index].formattedDate} ${hcontorller.homeData.value.result?.profileComplete == true
+                                                            &&  hcontorller.homeData.value.result?.membershipStatus == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''}',
                                                         style: TextStyle(
                                                             color: clrGreyDark),
-                                                      ) : SizedBox(),
+                                                      ),
                                                       SizedBox(
                                                         height: h * .008,
                                                       ),
