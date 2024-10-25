@@ -21,7 +21,7 @@ class Navbar extends GetWidget {
      ExploreUi(),
     const MessageListUi(),
      MyActivitiesListUi(),
-    const ProfileUi()
+     ProfileUi()
   ];
   // List<IconData> iconList=[IconData()];
   NavBarController navcontroller = Get.put(NavBarController());

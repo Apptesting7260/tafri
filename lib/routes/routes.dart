@@ -165,7 +165,7 @@ class Routes{
     GetPage(name: regEmailui, page:()=>RegEmailUi(),binding: RegemailBinding()),
     GetPage(name: navbarUi, page:()=>Navbar(),binding: NavbarBinding()),
     GetPage(name: exploreUi, page:()=> ExploreUi(),binding: ExploreListBindings()),
-    GetPage(name: profilemain, page:()=>const ProfileUi(),binding: ProfilemainBindings()),
+    GetPage(name: profilemain, page:()=> ProfileUi(),binding: ProfilemainBindings()),
     GetPage(name: messageListUi, page:()=>const MessageListUi(),binding: MsglistBinding()),
     GetPage(name: myactList, page:()=> MyActivitiesListUi(),binding: MyactBinding()),
     GetPage(name: planMemUi, page:()=>const PlansUi(),binding: PlanBinding()),

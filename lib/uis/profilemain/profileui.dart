@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
@@ -11,7 +12,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProfileUi extends GetWidget<ProfilemainController> {
-  const ProfileUi({super.key});
+  ProfileUi({super.key});
+
+  final ExploreListController homeController = Get.find<ExploreListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                       controller: controller.refreshController,
                       onRefresh: () async{
                         await controller.viewProfile();
+                        await homeController.homePageApi();
                         controller.refreshController.refreshCompleted();
                         },
                       header: CommonUi.refreshHeader(),

@@ -29,11 +29,11 @@ import '../explorelist/controller/explorelist_controller.dart';
 class ExploreViewUi extends GetWidget<ExploreViewController> {
   ExploreViewUi({super.key});
 
-  ExploreListController exploreListController =
+ final ExploreListController exploreListController =
       Get.find<ExploreListController>();
 
-  PaymentController payment = Get.find<PaymentController>();
-  ProfilemainController profile = Get.find<ProfilemainController>();
+ final PaymentController payment = Get.find<PaymentController>();
+ final ProfilemainController profile = Get.find<ProfilemainController>();
 
 
   final formkey = GlobalKey<FormState>();
@@ -64,7 +64,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Share.share('check out my Activity https://urlsdemo.online/plusones/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                          Share.share('Check out my activity https://urlsdemo.online/plusones/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,

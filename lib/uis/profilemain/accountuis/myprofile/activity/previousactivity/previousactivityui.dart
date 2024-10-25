@@ -17,6 +17,7 @@ import 'package:plusone/utils/custom_radio.dart';
 import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../utils/local_storage.dart';
@@ -66,7 +67,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                   //   ),
                   // ),
                   CommonUi.appBar(),
-                  Expanded(
+                  const Expanded(
                       child: Center(
                           child: Text(
                             "Activity",
@@ -82,6 +83,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                     children: [
                       InkWell(
                         onTap: () {
+                          Share.share('Check out my activity https://urlsdemo.online/plusones/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
@@ -122,7 +124,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         child: Center(
                           child: PopupMenuButton(
                             splashRadius: 0.1,
-                            icon: Icon(Icons.more_vert,size: 30,),
+                            icon: const Icon(Icons.more_vert,size: 30,),
                             elevation: 5,
                             itemBuilder: (context) => [
                               const PopupMenuItem(
@@ -153,7 +155,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                     child: CommonUi.scaffoldLoading(color: clrYellow),
                   )
                       : controller.actError.value.isNotEmpty
-                      ? ErrorScreen()
+                      ? const ErrorScreen()
                       : controller.attData.value.result == null ? Center(
                         child: CommonUi.scaffoldLoading(color: clrYellow),
                       ) : SingleChildScrollView(
@@ -263,7 +265,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                         BorderRadius.circular(20)),
                                     child: Text(
                                       controller.actData.value.activity?.subcategoryTitle.toString() ?? '',
-                                      style: TextStyle(fontWeight: FontWeight.w700),
+                                      style: const TextStyle(fontWeight: FontWeight.w700),
                                     ),
                                   ),
                                   // Container(
@@ -401,7 +403,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                               children: [
                                 Text(
                                   controller.actData.value.activity!.name.toString(),
-                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),
+                                  style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w700),
                                 ),
                                 SizedBox(
                                   height: Get.height * 0.01,
@@ -514,10 +516,10 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                         ),
                                   ),
                                 ),
-                                SizedBox(height: 3,),
+                                const SizedBox(height: 3,),
                                 Text(
                                   controller.actData.value.activity!.hostName.toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w700),
                                 )
                               ],
@@ -568,7 +570,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: Get.height * 0.04,
                       ),
-                      controller.actData.value.activity?.status == 'approved' && controller.actData.value.activity?.hostId == LocalStorage.getUid() ? Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
+                      controller.actData.value.activity?.status == 'approved' && controller.actData.value.activity?.hostId == LocalStorage.getUid() ? const Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
                           : controller.actData.value.activity?.status == 'pending' ? SizedBox(
                           width: double.maxFinite,
                           height: Res.h_btn,
@@ -582,10 +584,10 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     fontSize: 16,
                                     fontWeight:
                                     FontWeight.w700),
-                              ))) : SizedBox(),
-                      controller.actData.value.activity?.status == 'approved' ? SizedBox(
+                              ))) : const SizedBox(),
+                      controller.actData.value.activity?.status == 'approved' ? const SizedBox(
                         height: 10,
-                      ) : SizedBox(),
+                      ) : const SizedBox(),
 
                       // controller.actData.value.activity?.status == 'approved' ? Divider() : SizedBox(),
 
@@ -604,19 +606,19 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     FontWeight.w700),
                               )
                           )
-                      ) : SizedBox(),
+                      ) : const SizedBox(),
 
-                      controller.actData.value.activity?.status == 'approved' ? SizedBox(
+                      controller.actData.value.activity?.status == 'approved' ? const SizedBox(
                         height: 10,
-                      ) : SizedBox(),
+                      ) : const SizedBox(),
 
 
                      Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [
                          (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true')
-                             ?  Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),)
-                             : SizedBox(),
+                             ?  const Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),)
+                             : const SizedBox(),
                          (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true')
                              ? InkWell(
                                 onTap: () {
@@ -625,12 +627,12 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                   // Get.back();
                                 },
                                 child: Text("See All",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: clrYellowText,decoration: TextDecoration.underline,decorationColor: clrYellowText,),))
-                             : SizedBox(),
+                             : const SizedBox(),
                        ],
                      ),
                       (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true') ?SizedBox(
                         height: Get.height * 0.01,
-                      ) : SizedBox(),
+                      ) : const SizedBox(),
                       (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true') ? SizedBox(
                         height: 52,
                         child: ListView.separated(
@@ -680,8 +682,8 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     ),
                               ),
                             );
-                          }, separatorBuilder: (BuildContext context, int index) {return SizedBox(width: 10,); },),
-                      ) : SizedBox() ,
+                          }, separatorBuilder: (BuildContext context, int index) {return const SizedBox(width: 10,); },),
+                      ) : const SizedBox() ,
 
                       (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'false') ? controller.isHost == true ? SizedBox(
                           width: double.maxFinite,
@@ -703,13 +705,13 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     FontWeight.w700),
                               )
                           )
-                      ) : SizedBox() : SizedBox(),
+                      ) : const SizedBox() : const SizedBox(),
 
-                      controller.showreviewData.value.result == null ? SizedBox() : Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                      controller.showreviewData.value.result == null ? SizedBox() : SizedBox(
+                      controller.showreviewData.value.result == null ? const SizedBox() : const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+                      controller.showreviewData.value.result == null ? const SizedBox() : SizedBox(
                         height: Get.height*0.01,
                       ),
-                      controller.showreviewData.value.result == null ? SizedBox() : ListView.separated(
+                      controller.showreviewData.value.result == null ? const SizedBox() : ListView.separated(
                         itemCount: controller.showreviewData.value.result?.length ?? 0,
                         shrinkWrap: true,
                         physics:
@@ -772,7 +774,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Column(
@@ -782,7 +784,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                       children: [
                                         Text(
                                           '${controller.showreviewData.value.result?[index].firstName}  ${controller.showreviewData.value.result?[index].lastName}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight:
                                               FontWeight.w600,
                                               fontSize: 16),
@@ -835,7 +837,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 10,),
+                                const SizedBox(height: 10,),
                                 Text(
                                   // "Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
                                   '${controller.showreviewData.value.result?[index].review}',
@@ -845,13 +847,13 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                               ],
                             ),
                           );
-                        }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 5,); },),
+                        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },),
 
 
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      controller.actData.value.activity?.status == 'approved' && (controller.actData.value.activity?.hostId.toString() != LocalStorage.getUid().toString()) ?  SizedBox() :  Center(child: InkWell(
+                      controller.actData.value.activity?.status == 'approved' && (controller.actData.value.activity?.hostId.toString() != LocalStorage.getUid().toString()) ?  const SizedBox() :  Center(child: InkWell(
                           onTap: (){
                             alertDeleteActivity();
                           }
@@ -861,18 +863,18 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
 
 
                       controller.actData.value.activity?.status == 'completed'
-                          ? SizedBox()
-                          : controller.actData.value.going!.isNotEmpty ? Text(
+                          ? const SizedBox()
+                          : controller.actData.value.going!.isNotEmpty ? const Text(
                         "Going",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16),
-                      ) : SizedBox(),
+                      ) : const SizedBox(),
                       SizedBox(
                         height: Get.height * 0.01,
                       ),
                       controller.actData.value.activity?.status == 'completed'
-                          ? SizedBox()
+                          ? const SizedBox()
                           : SizedBox(
                         height: 55,
                         child: ListView.builder(
@@ -967,7 +969,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     fontWeight: FontWeight.w700),
                               )
                           )
-                      ) : SizedBox(),
+                      ) : const SizedBox(),
                       SizedBox(
                         height: Get.height * 0.03,
                       ),
@@ -1105,7 +1107,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
             const SizedBox(
               height: 15,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(

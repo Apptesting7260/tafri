@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../utils/colors.dart';
 import '../../../../../../utils/error_widget.dart';
@@ -55,7 +56,9 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                   Row(
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Share.share('Check out my activity https://urlsdemo.online/plusones/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                        },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
                           width: h * .045,
