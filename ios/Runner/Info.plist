@@ -18,7 +18,8 @@
 	<string>plusones</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-
+	<key>FlutterDeepLinkingEnabled</key>
+    <false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>This app requires access to your location while in use to provide better services.</string>
 
@@ -41,16 +42,11 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.396232712466-epp9v5qag8d2r0vq8hqs2sj4qq7svfni</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
 				<string>app-1-396232712466-ios-94b6b60828824257cd53cb</string>
+				<string>app</string>
 			</array>
 		</dict>
+
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -60,6 +56,20 @@
 	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<key>com.apple.developer.associated-domains</key>
+        <array>
+            <string>applinks:urlsdemo.online</string> <!-- Your domain for Universal Links -->
+            <string>applinks:www.urlsdemo.online</string>
+            <string>urlsdemo.online</string>
+            <string>www.urlsdemo.online</string>
+       </array>
+
+    <key>NSUserActivityTypes</key>
+    <array>
+        <string>NSUserActivityTypeBrowsingWeb</string>
+    </array>
+
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

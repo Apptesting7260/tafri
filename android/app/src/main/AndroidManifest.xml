@@ -36,7 +36,7 @@
                 <data
                     android:scheme="https"
                     android:host="urlsdemo.online"
-                    android:pathPrefix="/plusones/activity"/>
+                    android:pathPrefix="/activity"/>
             </intent-filter>
 
         </activity>
