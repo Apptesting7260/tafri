@@ -61,6 +61,7 @@ class _MyAppState extends State<MyApp> {
   late AppLinks _appLinks;
 
   Future<void> initDeepLink() async {
+    print('deep link ');
     try{
       _appLinks = AppLinks();
 
