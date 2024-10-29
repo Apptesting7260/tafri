@@ -5,6 +5,7 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../utils/colors.dart';
@@ -956,7 +957,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                       ),),
                       Obx(() => profileController.profileLoading.value ? Center(
                         child: CommonUi.scaffoldLoading(color: clrYellow),
-                      ) : SingleChildScrollView(
+                      ) : profileController.profileError.value.isNotEmpty ? ErrorScreen() : SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

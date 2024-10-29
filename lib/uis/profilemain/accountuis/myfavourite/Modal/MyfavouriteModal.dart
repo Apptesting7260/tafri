@@ -47,6 +47,7 @@ class Result {
   int? spotLeft;
   int? spotPeople;
   RxInt? circleIndex;
+  String? formattedDate;
 
   Result({
     this.id,
@@ -74,6 +75,7 @@ class Result {
     this.profilePhoto,
     this.spotLeft,
     this.spotPeople,
+    this.formattedDate,
     RxInt? circleIndex,
   }): circleIndex = circleIndex ?? 0.obs;
 
@@ -102,7 +104,8 @@ class Result {
     hostName: json["host_name"],
     profilePhoto: json["profile_photo"],
     spotLeft: json['spot_left'],
-    spotPeople: json['spot_people']
+    spotPeople: json['spot_people'],
+    formattedDate: json['formatted_date']
   );
 
   Map<String, dynamic> toJson() => {

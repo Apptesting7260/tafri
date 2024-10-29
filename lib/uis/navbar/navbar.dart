@@ -64,7 +64,7 @@ class Navbar extends GetWidget {
       bottomNavigationBar: GetBuilder<NavBarController>(builder: (controller) {
         return AnimatedBottomNavigationBar.builder(
             // backgroundGradient: LinearGradient(colors: [clrYellow,clrWhite]),
-            height: 60,
+            height: 50,
             itemCount: iconList.length,
             tabBuilder: (int index, bool isActive) {
               final color =

@@ -4,6 +4,7 @@ import 'package:plusone/uis/profilemain/accountuis/settings/controller/setting_c
 import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/activityvisibility/controller/activityvisibility_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/custom_switch.dart';
+import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
 
 import '../../../../../../utils/colors.dart';
@@ -38,59 +39,59 @@ class ActivityVisibility extends GetWidget<ActivityvisibilityController> {
               SizedBox(
                 height: Get.height * 0.035,
               ),
-              Expanded(
+              Obx(() =>  controller.proController.profileLoading.value ? CommonUi.scaffoldLoading(color: clrYellow) : Expanded(
                   child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Flexible(
-                          child: Text(
-                        "Show my upcoming activities to other members",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                      )),
-                      const SizedBox(
-                        width: 40,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Flexible(
+                              child: Text(
+                                "Show my upcoming activities to other members",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              )),
+                          const SizedBox(
+                            width: 40,
+                          ),
+                          Obx(() => CustomSwitch(
+                              value: controller.upcomingVisibility.value,
+                              onChanged: (val) {
+                                controller.changeUpcomingVisibility();
+                              }
+                          ),)
+                        ],
                       ),
-                      Obx(() => CustomSwitch(
-                        value: controller.upcomingVisibility.value,
-                        onChanged: (val) {
-                          controller.changeUpcomingVisibility();
-                        }
-                      ),)
-                    ],
-                  ),
-                  Divider(
-                    color: clrGreyLight,
-                    height: 25,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Flexible(
-                          child: Text(
-                        "Show my previous activities to other members",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                      )),
-                      const SizedBox(
-                        width: 45,
+                      Divider(
+                        color: clrGreyLight,
+                        height: 25,
                       ),
-                      Obx(() => CustomSwitch(
-                        value: controller.previousVisibility.value,
-                        onChanged: (value) {
-                          controller.changePreviousVisibility();
-                          },
-                      ),)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Flexible(
+                              child: Text(
+                                "Show my previous activities to other members",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              )),
+                          const SizedBox(
+                            width: 45,
+                          ),
+                          Obx(() => CustomSwitch(
+                            value: controller.previousVisibility.value,
+                            onChanged: (value) {
+                              controller.changePreviousVisibility();
+                            },
+                          ),)
+                        ],
+                      ),
+                      Divider(
+                        color: clrGreyLight,
+                        height: 25,
+                      ),
                     ],
-                  ),
-                  Divider(
-                    color: clrGreyLight,
-                    height: 25,
-                  ),
-                ],
-              ))
+                  )),)
             ],
           ),
         ),

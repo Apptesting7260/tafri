@@ -360,7 +360,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                           (e) => e['value'],
                                                         )
                                                         .toList(),
-                                                    hintText: 'Select Category',
+                                                    hintText: 'Select category',
                                                     initialItem: controller
                                                             .catName
                                                             .value
@@ -449,7 +449,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                 )
                                                                 .toList(),
                                                             hintText:
-                                                                'Select SubCategory',
+                                                                'Select sub category',
                                                             initialItem: controller
                                                                     .subCatName
                                                                     .value
@@ -535,11 +535,30 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
-                                            CustoTextFormField(
-                                              hintText: "Activity name (title)",
-                                              controll: controller
-                                                  .titleController.value,
-                                            ),
+                                            Obx(() => Stack(
+                                              alignment: Alignment.bottomRight,
+                                              children: [
+                                                CustoTextFormField(
+                                                  hintText: "Activity name (title)",
+                                                  controll: controller
+                                                      .titleController.value,
+                                                  focusNode: controller.titleFocus,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(controller.titleMaxLen.value)
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 15,bottom: 5),
+                                                  child: Text(
+                                                    '${controller.titleLength.value}/${controller.titleMaxLen.value}',
+                                                    style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),),
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
@@ -570,6 +589,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         .desController.value,
                                                     maxLines: null,
                                                     minLines: 4,
+                                                    focusNode: controller.desFocus,
                                                     maxLength:
                                                         controller.maxLength,
                                                     decoration: InputDecoration(
@@ -677,7 +697,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                     value['des'].toString();
                                                 await controller
                                                     .getLatLang(value['id']);
-                                                FocusScope.of(context).unfocus();
+                                                // FocusScope.of(context).unfocus();
                                               },
                                               sufixIcon: Container(
                                                   padding: const EdgeInsets
@@ -690,6 +710,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                     height: 1,
                                                     width: 1,
                                                   )),
+                                              focusNode: controller.locationFocus,
                                             ),
                                             // CustoTextFormField(
                                             //   hintText: "Location",
@@ -757,6 +778,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 if (date != null) {
                                                   controller.changeDate(date);
                                                 }
+                                                controller.locationFocus.unfocus();
+                                                controller.titleFocus.unfocus();
+                                                controller.desFocus.unfocus();
                                               },
                                               child: Container(
                                                   padding: EdgeInsets.symmetric(
@@ -900,7 +924,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                               controller.sTimeForApi
                                                                           .value ==
                                                                       ''
-                                                                  ? "Start At"
+                                                                  ? "Start at"
                                                                   : "${controller.sTimeForApi}",
                                                               style: TextStyle(
                                                                   color: controller
@@ -1022,7 +1046,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                               controller.eTimeForAPi
                                                                           .value ==
                                                                       ''
-                                                                  ? "Ends At"
+                                                                  ? "Ends at"
                                                                   : controller
                                                                       .eTimeForAPi
                                                                       .value,

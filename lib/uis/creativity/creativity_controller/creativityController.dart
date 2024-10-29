@@ -31,12 +31,21 @@ class Creativitycontroller extends GetxController
     desController.value.addListener(() {
       currentLength.value = desController.value.text.length;
     });
+    titleController.value.addListener(() {
+      titleLength.value = titleController.value.text.length;
+    },);
     getCategory();
     getMaxOcc();
     getUserLocation();
     super.onInit();
   }
 
+  final FocusNode locationFocus = FocusNode();
+  final FocusNode titleFocus = FocusNode();
+  final FocusNode desFocus = FocusNode();
+
+  var titleLength = 0.obs;
+  var titleMaxLen = 40.obs;
 
   RxInt counter = 1.obs;
 

@@ -11,8 +11,8 @@ class ActivityvisibilityController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    ps.value = int.parse(proController.profileData.value.result!.previousActivityStatus.toString());
-    us.value = int.parse(proController.profileData.value.result!.upcommingActivityStatus.toString());
+    ps.value = int.parse(proController.profileData.value.result?.previousActivityStatus.toString() ?? '0');
+    us.value = int.parse(proController.profileData.value.result?.upcommingActivityStatus.toString() ?? '0');
     print('ps===> $ps  $us');
     if(ps.value == 0){
       previousVisibility.value = false;

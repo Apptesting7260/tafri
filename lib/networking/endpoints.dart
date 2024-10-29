@@ -7,7 +7,7 @@ class EndPoints{
   static String languageListApiUrl="${baseUrl}get-languages/";
   static String getCategoryApiUrl="${baseUrl}get-categories/";
   static String funFactQestiApiUrl="${baseUrl}get-user_fun_facts/";
-  static String profileViewUrl = '${baseUrl}user-profile-view';
+  static String profileViewUrl = '${baseUrl}user-profile-view/';
   static String socialLoginUrl = '${baseUrl}socialite-login';
   static String homePage = '${baseUrl}home-page-request';
   static String attendingUrl = '${baseUrl}attending-activities/';
@@ -25,7 +25,7 @@ class EndPoints{
   static String activitypage = '${baseUrl}activity-single-page';
   static String requesttojoin = '${baseUrl}request-to-join-activity';
 
-  static String hostprofile = '${baseUrl}user-profile-view';
+  static String hostprofile = '${baseUrl}user-profile-view/';
   static String reportuser = '${baseUrl}report-user';
 
   static String reportactivity = '${baseUrl}report-activity';

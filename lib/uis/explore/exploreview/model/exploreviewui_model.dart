@@ -7,6 +7,7 @@ class ActDataModal {
   List<Request>? requests;
   bool? markAttendance;
   bool? cardSave;
+  ActivitySettings? activitySettings;
 
   ActDataModal({
     this.status,
@@ -14,7 +15,8 @@ class ActDataModal {
     this.going,
     this.requests,
     this.markAttendance,
-    this.cardSave
+    this.cardSave,
+    this.activitySettings
   });
 
   factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
@@ -23,7 +25,8 @@ class ActDataModal {
     going: json["going"] == null ? [] : List<Going>.from(json["going"]!.map((x) => Going.fromJson(x))),
     requests: json["requests"] == null ? [] : List<Request>.from(json["requests"]!.map((x) => Request.fromJson(x))),
     markAttendance: json["mark_attendance"],
-    cardSave: json['isAuthCardActive']
+    cardSave: json['isAuthCardActive'],
+    activitySettings: json["activity_settings"] == null ? null : ActivitySettings.fromJson(json["activity_settings"])
   );
 
   Map<String, dynamic> toJson() => {
@@ -32,6 +35,22 @@ class ActDataModal {
     "going": going == null ? [] : List<dynamic>.from(going!.map((x) => x.toJson())),
     "requests": requests == null ? [] : List<dynamic>.from(requests!.map((x) => x.toJson())),
     "mark_attendance": markAttendance,
+  };
+}
+
+class ActivitySettings {
+  String? shareText;
+
+  ActivitySettings({
+    this.shareText,
+  });
+
+  factory ActivitySettings.fromJson(Map<String, dynamic> json) => ActivitySettings(
+    shareText: json["share_text"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "share_text": shareText,
   };
 }
 

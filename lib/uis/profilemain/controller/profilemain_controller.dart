@@ -24,6 +24,7 @@ class ProfilemainController extends GetxController{
   var profileData = ProfileViewModel().obs;
 
   var profileLoading = false.obs;
+  var profileError = ''.obs;
 
   List<Subcategory> interestList = [];
 
@@ -36,7 +37,7 @@ class ProfilemainController extends GetxController{
 
     profileLoading.value = true;
     try{
-      final response = await api.get('${EndPoints.profileViewUrl}',headers: header);
+      final response = await api.get('${EndPoints.profileViewUrl}${LocalStorage.getUid()}',headers: header);
       if(response.statusCode == 200){
         var data = ProfileViewModel.fromJson(response.body);
         if(data.status == true){
@@ -53,19 +54,22 @@ class ProfilemainController extends GetxController{
           for (var subcategory in interestList) {
             print('Title: ${subcategory.title}, Icon: ${subcategory.icon}');
           }
-
+          profileError.value = '';
           profileLoading.value = false;
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');
           profileLoading.value = false;
+          profileError.value = 'error';
         }
       }else{
         print('profile error');
         showTostMsg('Something went wrong');
         profileLoading.value = false;
+        profileError.value = 'error';
       }
     }catch(e,stacktrace){
+      profileError.value = e.toString();
       print('stacktrace: ${stacktrace}');
       showTostMsg('Something went wrong');
       profileLoading.value = false;

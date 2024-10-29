@@ -310,7 +310,8 @@ class FilterExpController extends GetxController{
 
      Map body = {
       'user_id': LocalStorage.getUid(),
-       if(categoryid == true) 'category_id': categoryid == true ? '' : selected,
+       if(categoryid.value == true) 'category_id': categoryid.value == true ? '' : selected,
+       if(categoryid.value == false && selected.isNotEmpty) 'category_id': selected,
        if(locController.value.text.isNotEmpty) 'location': locController.value.text.toString(),
        if(groupSizeController.value.text.isNotEmpty) 'max_people': groupSizeController.value.text.toString(),
        if(filterDateStart.value.isNotEmpty)'start_date': filterDateStart.value,

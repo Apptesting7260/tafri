@@ -17,6 +17,7 @@ class CustomLocationField extends StatefulWidget {
   final Widget Function(BuildContext, dynamic) itemBuilder;
   final Future<List<dynamic>> Function(String) suggestionsCallback;
   final void Function(dynamic)? onSelected;
+  final FocusNode? focusNode;
 
   const CustomLocationField(
       {super.key,
@@ -31,7 +32,7 @@ class CustomLocationField extends StatefulWidget {
       this.keyboardType,
       required this.itemBuilder,
       required this.suggestionsCallback,
-      this.onSelected});
+      this.onSelected, this.focusNode});
 
   @override
   State<CustomLocationField> createState() => _CustomLocationFieldState();
@@ -44,6 +45,7 @@ class _CustomLocationFieldState extends State<CustomLocationField> {
       suggestionsCallback: widget.suggestionsCallback,
       hideOnEmpty: widget.controller?.text == "" ? true : false,
       onSelected: widget.onSelected,
+      focusNode: widget.focusNode,
       loadingBuilder: (context) {
         return SizedBox(
             width: double.maxFinite,

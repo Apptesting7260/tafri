@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../utils/colors.dart';
@@ -19,7 +20,8 @@ class CustoTextFormField extends StatefulWidget {
   final void Function()? onTap;
   final bool? readonly;
   final List<TextInputFormatter>? inputFormatters;
-  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize, this.readonly, this.onTap, this.inputFormatters});
+  final FocusNode? focusNode;
+  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize, this.readonly, this.onTap, this.inputFormatters, this.focusNode});
 
   @override
   State<CustoTextFormField> createState() => _CustoTextFormFieldState();
@@ -31,6 +33,7 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
     return TextFormField(
       onTap: widget.onTap,
       readOnly: widget.readonly ?? false,
+      focusNode: widget.focusNode,
       validator:widget.validation,
       controller: widget.controll,
       maxLines: widget.maxLines,

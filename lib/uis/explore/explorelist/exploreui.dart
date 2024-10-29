@@ -70,7 +70,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
           child: Column(
         children: [
           SizedBox(
-            height: Get.height * 0.03,
+            height: 15,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
@@ -109,7 +109,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
             ),
           ),
           SizedBox(
-            height: Get.height * 0.022,
+            height: 15,
           ),
           Obx(
             () =>

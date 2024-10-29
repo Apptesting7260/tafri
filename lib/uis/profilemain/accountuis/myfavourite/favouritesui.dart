@@ -59,11 +59,24 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                           ? const ErrorScreen()
                           : controller.favData.value.result!.isEmpty
                               ? Center(
-                                  child: SizedBox(
-                                    width: Get.width * 0.55,
-                                    height: Get.height * 0.35,
-                                    child: Image.asset(
-                                        'assets/images/fav.png'),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: Get.width * 0.55,
+                                        height: Get.height * 0.25,
+                                        child: Image.asset(
+                                            'assets/images/fav.png'),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text('You haven’t added any favorites yet',style: TextStyle(
+                                        color: clrBlacke,
+                                        fontWeight: FontWeight.bold
+                                      ),)
+                                    ],
                                   ),
                                 )
                               : controller.favData.value.result!
@@ -406,7 +419,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                             height: 5,
                                                           ),
                                                           Text(
-                                                            '${resultData[index].date} ${homeController
+                                                            '${resultData[index].formattedDate} ${homeController
                                                                 .homeData
                                                                 .value
                                                                 .result
@@ -606,11 +619,22 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                         );
                                       })
                                   : Center(
-                                      child: SizedBox(
-                                        width: Get.width * 0.55,
-                                        height: Get.height * 0.35,
-                                        child: Image.asset(
-                                            'assets/images/fav.png'),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: Get.width * 0.55,
+                                            height: Get.height * 0.25,
+                                            child: Image.asset(
+                                                'assets/images/fav.png'),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text('You haven’t added any favorites yet',style: TextStyle(
+                                              color: clrBlacke,
+                                              fontWeight: FontWeight.bold
+                                          ),)
+                                        ],
                                       ),
                                     ),
                 ),

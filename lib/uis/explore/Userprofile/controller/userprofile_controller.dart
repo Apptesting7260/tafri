@@ -52,7 +52,7 @@ class UserProfileController extends GetxController{
     hostLoading.value = true;
 
     try{
-      final response = await api.get('${EndPoints.hostprofile}', headers: header);
+      final response = await api.get('${EndPoints.hostprofile}$id', headers: header);
       if(response.statusCode == 200){
         hostError.value = '';
         print('host data == ${response.body}');
