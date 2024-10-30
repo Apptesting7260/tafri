@@ -123,6 +123,18 @@ class MapActivityController extends GetxController{
             position: LatLng(latitude, longitude),
             icon: icon,
             infoWindow: InfoWindow(title: result.name),
+            onTap: () {
+              print('id == ${result.id}    ${result.hostId}');
+              if(result.hostId.toString() == LocalStorage.getUid()){
+                Get.toNamed(Routes.hostUpcommingActiview, arguments: result.id.toString());
+              }else {
+                Get.toNamed(
+                    Routes
+                        .exploreView,
+                    arguments: result.id.toString()
+                );
+              }
+            },
           );
           markers.add(marker);
         }

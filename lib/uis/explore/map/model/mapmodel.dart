@@ -28,6 +28,8 @@ class MapResult {
   String? latitude;
   String? longitude;
   String? icon;
+  int? id;
+  int? hostId;
 
   MapResult({
     this.status,
@@ -35,6 +37,8 @@ class MapResult {
     this.latitude,
     this.longitude,
     this.icon,
+    this.id,
+    this.hostId
   });
 
   factory MapResult.fromJson(Map<String, dynamic> json) => MapResult(
@@ -43,6 +47,8 @@ class MapResult {
     latitude: json["latitude"],
     longitude: json["longitude"],
     icon: json["icon"],
+    id: json['id'],
+    hostId: json['host_id']
   );
 
   Map<String, dynamic> toJson() => {
