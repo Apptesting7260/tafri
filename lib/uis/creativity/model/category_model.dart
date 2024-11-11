@@ -1,6 +1,6 @@
 class CategoryModel {
   bool? status;
-  List<Result>? result;
+  List<CatResult>? result;
 
   CategoryModel({
     this.status,
@@ -9,7 +9,7 @@ class CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
     status: json["status"],
-    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+    result: json["result"] == null ? [] : List<CatResult>.from(json["result"]!.map((x) => CatResult.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -18,7 +18,7 @@ class CategoryModel {
   };
 }
 
-class Result {
+class CatResult {
   int? id;
   String? title;
   String? icon;
@@ -28,7 +28,7 @@ class Result {
   List<Subcategory>? subcategories;
   bool isSelected;
 
-  Result({
+  CatResult({
     this.id,
     this.title,
     this.icon,
@@ -39,7 +39,7 @@ class Result {
     this.isSelected = false
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory CatResult.fromJson(Map<String, dynamic> json) => CatResult(
     id: json["id"],
     title: json["title"],
     icon: json["icon"],

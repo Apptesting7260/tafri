@@ -103,7 +103,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             ),
                                             Text(
                                               controller.homeController
-                                                  .homeData.value.result!.planType! == 'monthly' ? "Your plan will renew for the regular price of €3.99 every month until canceled." : "Your plan will renew for the regular price of €23.99 every year until canceled.",
+                                                  .homeData.value.result!.planType! == 'monthly' ? "Your plan will renew for the regular price every month until canceled." : "Your plan will renew for the regular price every year until canceled.",
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   color: clrGrey5D5C5E),

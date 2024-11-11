@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/explore/explorelist/model/home_page_model.dart';
 import 'package:plusone/utils/tostmsg.dart';
 
 import '../../../../networking/apiservices.dart';
@@ -23,6 +24,8 @@ class FilterExpController extends GetxController{
     getCategory();
     super.onInit();
   }
+
+  final ExploreListController homeController = Get.find<ExploreListController>();
 
   var currentPage = 0.obs;
   var focusedDay = DateTime.now().obs;
@@ -53,7 +56,7 @@ class FilterExpController extends GetxController{
   var catError = ''.obs;
 
   var selectedList =[].obs;
-  RxList<Result> categryList = <Result>[].obs;
+  RxList<CatResult> categryList = <CatResult>[].obs;
 
   Future<void> getCategory() async{
     categryList.clear();
@@ -310,8 +313,8 @@ class FilterExpController extends GetxController{
 
      Map body = {
       'user_id': LocalStorage.getUid(),
-       if(categoryid.value == true) 'category_id': categoryid.value == true ? '' : selected,
-       if(categoryid.value == false && selected.isNotEmpty) 'category_id': selected,
+       if(categoryid.value == true) 'filter_category_id': categoryid.value == true ? '' : selected,
+       if(categoryid.value == false && selected.isNotEmpty) 'filter_category_id': selected,
        if(locController.value.text.isNotEmpty) 'location': locController.value.text.toString(),
        if(groupSizeController.value.text.isNotEmpty) 'max_people': groupSizeController.value.text.toString(),
        if(filterDateStart.value.isNotEmpty)'start_date': filterDateStart.value,
@@ -331,13 +334,16 @@ class FilterExpController extends GetxController{
     filterLoading.value = true;
 
     try{
-      final response = await api.post(EndPoints.filter, body, headers: header);
+      final response = await api.post(EndPoints.homePage, body, headers: header);
       if(response.statusCode == 200){
         filterError.value = '';
         print('home data == ${response.body}');
-        filterActData.value = FilteractivityModel.fromJson(response.body);
+        homeController.homeData.value = HomePageModal.fromJson(response.body);
+        homeController.selectedIndex.value = (-1);
+        // filterActData.value = FilteractivityModel.fromJson(response.body);
         // resetForm();
-        Get.toNamed(Routes.filterActUi);
+        // Get.toNamed(Routes.filterActUi);
+        Get.back();
       }else{
         filterError.value = 'ERROR';
         print('error == ${response.body}');
