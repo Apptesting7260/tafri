@@ -69,7 +69,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
       body: SafeArea(
           child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Padding(
@@ -89,7 +89,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                         readonly: true,
                         // hintText: "Anywhere • any week",
                         hintText: 'Any activity',
-                        sufixIcon: Icon(Icons.search),
+                        sufixIcon: const Icon(Icons.search),
                       )
                   ),
                 ),
@@ -108,7 +108,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Obx(
@@ -290,7 +290,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                             () => Container(
                                               margin: const EdgeInsets.only(
                                                   right: 7),
-                                              padding: EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                 horizontal: 15,
                                               ),
                                               decoration: BoxDecoration(
@@ -345,10 +345,10 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                   right: 7),
                                               padding:
                                                   categoryData![categoryIndex].loading!.value
-                                                      ? EdgeInsets.symmetric(
+                                                      ? const EdgeInsets.symmetric(
                                                           horizontal: 15,
                                                         )
-                                                      : EdgeInsets.only(
+                                                      : const EdgeInsets.only(
                                                           left: 4,
                                                           top: 1.5,
                                                           bottom: 1.5,
@@ -435,7 +435,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                   ? Padding(
                                                     padding: const EdgeInsets.only(bottom: 50.0),
                                                     child: ListView.builder(
-                                                      physics: ScrollPhysics(),
+                                                      physics: const ScrollPhysics(),
                                                         // controller: controller.scrollController,
                                                         itemCount: controller.homeData.value.result?.activities
                                                             ?.where((activity) => activity.status == 'approved').length,
@@ -737,7 +737,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                                                 ),
                                                                               ),
                                                                             ),
-                                                                            SizedBox(height: 3,),
+                                                                            const SizedBox(height: 3,),
                                                                             Text(
                                                                               '${activityData?[index].hostName}',
                                                                               style:

@@ -20,7 +20,8 @@ class NoActivityYetScreen extends StatelessWidget {
         const SizedBox(height: 10,),
         Text('You haven’t joined any activities yet',style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: clrBlacke
+          color: clrBlacke,
+          fontSize: 13
         ),)
       ],
     );

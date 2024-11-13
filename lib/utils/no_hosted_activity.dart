@@ -18,7 +18,7 @@ class NoHostedScreen extends StatelessWidget {
           child: Image.asset('assets/images/no activity.png'),
         ),
         const SizedBox(height: 10,),
-        Text('You haven’t hosted any activities yet',style: TextStyle(color: clrBlacke,fontWeight: FontWeight.bold),)
+        Text('You haven’t hosted any activities yet',style: TextStyle(color: clrBlacke,fontWeight: FontWeight.bold,fontSize: 13),)
       ],
     );
   }

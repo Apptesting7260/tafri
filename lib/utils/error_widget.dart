@@ -13,7 +13,7 @@ class ErrorScreen extends StatelessWidget {
       children: [
         SizedBox(
           width: Get.width*0.7,
-          height: Get.height*0.2,
+          height: Get.height*0.18,
           child: Image.asset('assets/images/error.png'),
         ),
         const SizedBox(height: 10,),

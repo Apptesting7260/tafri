@@ -1113,12 +1113,11 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                       sufixIcon: Icon(Icons.search),
                     )),
                 SizedBox(
-                  width: w * .02
-                  ,
+                  width: w * .02,
                 ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.filterExploreUi);
+                    Get.offNamed(Routes.filterExploreUi);
                     // Get.to(() {
                     //   return  ExploreFilterUi();
                     // });

@@ -264,7 +264,8 @@ class FilterExpController extends GetxController{
 
 
     if (dateFilter['Pick a date'] == true) {
-      date = filterDate.value;
+      // date = filterDate.value;
+      date = '';
     } else if (dateFilter['today'] == true) {
       date = 'today';
     } else if (dateFilter['tomorrow'] == true) {
@@ -282,7 +283,7 @@ class FilterExpController extends GetxController{
       if (selected.isEmpty && locController.text.isEmpty &&
           filterDateStart.isEmpty
           && groupSizeController.text.isEmpty && categoryid.value == false
-          && genderFilter.value == 0 && selectedTime.isEmpty
+          && genderFilter.value == 0 && selectedTime.isEmpty && date.isEmpty
       ) {
         showTostMsg('Please select at least one filter.');
         return;
@@ -319,7 +320,7 @@ class FilterExpController extends GetxController{
        if(groupSizeController.value.text.isNotEmpty) 'max_people': groupSizeController.value.text.toString(),
        if(filterDateStart.value.isNotEmpty)'start_date': filterDateStart.value,
        if(filterDateEnd.value.isNotEmpty)'end_date': filterDateEnd.value,
-       // if(date.isNotEmpty) 'date': date,
+       if(date.isNotEmpty) 'date': date,
        if(selectedTime.value.isNotEmpty) 'time_slot': selectedTime.value,
        if(genderFilter.value != 0) 'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '' ,
        'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',

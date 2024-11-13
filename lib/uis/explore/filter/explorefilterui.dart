@@ -782,6 +782,10 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.filterDateCalenderStart.value = '';
+                                                  controller.filterDateCalenderEnd.value = '';
+                                                  controller.filterDateStart.value = '';
+                                                  controller.filterDateEnd.value = '';
                                                   controller
                                                       .changeDateFilter(
                                                           "today");
@@ -808,6 +812,10 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.filterDateCalenderStart.value = '';
+                                                  controller.filterDateCalenderEnd.value = '';
+                                                  controller.filterDateStart.value = '';
+                                                  controller.filterDateEnd.value = '';
                                                   controller
                                                       .changeDateFilter(
                                                           "tomorrow");
@@ -834,6 +842,10 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                                 : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.filterDateCalenderStart.value = '';
+                                                  controller.filterDateCalenderEnd.value = '';
+                                                  controller.filterDateStart.value = '';
+                                                  controller.filterDateEnd.value = '';
                                                   controller
                                                       .changeDateFilter("week");
                                                 },
@@ -859,6 +871,10 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.filterDateCalenderStart.value = '';
+                                                  controller.filterDateCalenderEnd.value = '';
+                                                  controller.filterDateStart.value = '';
+                                                  controller.filterDateEnd.value = '';
                                                   controller
                                                       .changeDateFilter(
                                                           "weekend");

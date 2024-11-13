@@ -65,7 +65,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                     children: [
                                       SizedBox(
                                         width: Get.width * 0.55,
-                                        height: Get.height * 0.25,
+                                        height: Get.height * 0.2,
                                         child: Image.asset(
                                             'assets/images/fav.png'),
                                       ),
@@ -74,7 +74,8 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                       ),
                                       Text('You haven’t added any favorites yet',style: TextStyle(
                                         color: clrBlacke,
-                                        fontWeight: FontWeight.bold
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13
                                       ),)
                                     ],
                                   ),
@@ -623,7 +624,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                         children: [
                                           SizedBox(
                                             width: Get.width * 0.55,
-                                            height: Get.height * 0.25,
+                                            height: Get.height * 0.2,
                                             child: Image.asset(
                                                 'assets/images/fav.png'),
                                           ),
@@ -632,7 +633,8 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                           ),
                                           Text('You haven’t added any favorites yet',style: TextStyle(
                                               color: clrBlacke,
-                                              fontWeight: FontWeight.bold
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13
                                           ),)
                                         ],
                                       ),

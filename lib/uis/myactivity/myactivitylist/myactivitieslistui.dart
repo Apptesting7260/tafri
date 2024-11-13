@@ -129,7 +129,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                         children: [
                                                           NoActivityYetScreen(
                                                             height: Get.height *
-                                                                0.19,
+                                                                0.16,
                                                           ),
                                                           GestureDetector(
                                                             onTap: () {
@@ -319,7 +319,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                       NoActivityYetScreen(
                                                                     height:
                                                                         Get.height *
-                                                                            0.19,
+                                                                            0.16,
                                                                   ),
                                                                 ),
                                                           const SizedBox(
@@ -553,7 +553,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   child: NoActivityYetScreen(
                                                                       height: Get
                                                                               .height *
-                                                                          0.19),
+                                                                          0.16),
                                                                 )
                                                         ],
                                                       )
@@ -610,7 +610,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                     children: [
                                                       NoHostedScreen(
                                                         height:
-                                                            Get.height * 0.19,
+                                                            Get.height * 0.16,
                                                       ),
                                                       GestureDetector(
                                                         onTap: () {
@@ -833,7 +833,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               child: NoHostedScreen(
                                                                   height:
                                                                       Get.height *
-                                                                          0.2)),
+                                                                          0.16)),
                                                       const SizedBox(
                                                         height: 15,
                                                       ),
@@ -1109,7 +1109,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                               child: NoHostedScreen(
                                                                   height:
                                                                       Get.height *
-                                                                          0.2))
+                                                                          0.16))
                                                     ],
                                                   )
                                             : const Center(
