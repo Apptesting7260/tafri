@@ -26,439 +26,459 @@ class ProfileUi extends GetWidget<ProfilemainController> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
             child: Column(
-                children: [
-                  Expanded(
-                    child: SmartRefresher(
-                      controller: controller.refreshController,
-                      onRefresh: () async{
-                        await controller.viewProfile();
-                        await homeController.homePageApi();
-                        controller.refreshController.refreshCompleted();
-                        },
-                      header: CommonUi.refreshHeader(),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: Get.height * 0.03,
-                            ),
-                            const Text(
-                              "Account",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 24
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.025,
-                            ),
-                            Obx(() {
-                              if (controller.profileLoading.value) {
-                                return Shimmer.fromColors(
-                                  baseColor: grey300,
-                                  highlightColor: grey100,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      CircleAvatar(
-                                        maxRadius: 50,
-                                        minRadius: 40,
-                                        backgroundColor: clrGrey,
-                                      ),
-                                      SizedBox(
-                                        height: Get.height * 0.02,
-                                      ),
-                                      Container(
-                                        width: 100,
-                                        height: 20,
-                                        color: clrGrey,
-                                      ),
-                                      SizedBox(
-                                        height: Get.height * 0.005,
-                                      ),
-                                      Container(
-                                        width: 150,
-                                        height: 15,
-                                        color: clrGrey,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: CachedNetworkImage(
-                                        imageUrl: '${controller.profileData.value.result?.profile?.profilePhoto}',
-                                        fit: BoxFit.cover,
-                                        height: h * .13,
-                                        width: w * .28,
-                                        placeholder: (context, url) => Shimmer.fromColors(
-                                            baseColor: grey300,
-                                            highlightColor: grey100,
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(100),
-                                              child: Container(
-                                                height: h * .13,
-                                                width: w * .28,
-                                                color: clrGrey,
-                                              ),
-                                            )
-                                        ),
-                                        errorWidget: (context, url, error) {
-                                          print('error == $error');
-                                          return ClipRRect(
-                                            borderRadius: BorderRadius.circular(100),
-                                            child: Container(
-                                              height: h * .13,
-                                              width: w * .28,
-                                              color: clrGreyLight,
-                                              child: Image.asset('assets/icons/manicon.png',color: clrGrey),
-                                            ),
-                                          );
-                                          },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.02,
-                                    ),
-                                    if(controller.profileData.value.result?.firstName != null && controller.profileData.value.result?.lastName != null)
-                                      Text(
-                                        "${controller.profileData.value.result?.firstName} ${controller.profileData.value.result?.lastName}",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 20
-                                        ),
-                                      ),
-                                    SizedBox(
-                                      height: Get.height * 0.005,
-                                    ),
-                                    if(controller.profileData.value.result?.email != null)
-                                      Text(
-                                        "${controller.profileData.value.result?.email}",
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 15
-                                        ),
-                                      ),
-                                  ],
-                                );
-                              }
-                            }),
-                            SizedBox(
-                              height: Get.height * 0.03,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.myprofileInnUi);
-                                },
-                              child: Container(
-                                height: Res.h_btn,
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                decoration: BoxDecoration(
-                                    color: clrGreyLight,
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/manicon.png",
-                                      height: 19,
-                                    ),
-                                    SizedBox(
-                                      width: Get.width * 0.03,
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            "My profile",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600
-                                            ),
-                                          ),
-                                          Image.asset(
-                                            'assets/icons/arrow right.png',
-                                            height: 14,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.017,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.myfavProui);
-                                },
-                              child: Container(
-                                height: Res.h_btn,
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                decoration: BoxDecoration(
-                                    color: clrGreyLight,
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/fav.png",
-                                      height: 19,
-                                    ),
-                                    SizedBox(
-                                      width: Get.width * 0.03,
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                              "My favorites",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600
-                                              )
-                                          ),
-                                          Image.asset(
-                                            'assets/icons/arrow right.png',
-                                            height: 14,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.017,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.referFrndProUi);
-                                },
-                              child: Container(
-                                height: Res.h_btn,
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                decoration: BoxDecoration(
-                                    color: clrGreyLight,
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/manicon.png",
-                                      height: 19,
-                                    ),
-                                    SizedBox(
-                                      width: Get.width * 0.03,
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                              "Refer friends",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600
-                                              )
-                                          ),
-                                          Image.asset(
-                                            'assets/icons/arrow right.png',
-                                            height: 14,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.017,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.mymembershipProUi);
-                                },
-                              child: Container(
-                                height: Res.h_btn,
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                decoration: BoxDecoration(
-                                    color: clrGreyLight,
-                                    borderRadius: BorderRadius.circular(100)),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/tajicon.png",
-                                      height: 19,
-                                      color: clrBlacke,
-                                    ),
-                                    SizedBox(
-                                      width: Get.width * 0.03,
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text("My membership",
-                                              style: TextStyle(
-
-                                                  fontSize: 15, fontWeight: FontWeight.w600)),
-                                          Image.asset(
-                                            'assets/icons/arrow right.png',
-                                            height: 14,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.017,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.settingProUi);
-                                },
-                              child: Container(
-                                height: Res.h_btn,
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                decoration: BoxDecoration(
-                                    color: clrGreyLight,
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/setting.png",
-                                      height: 19,
-                                    ),
-                                    SizedBox(
-                                      width: Get.width * 0.03,
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                              "Settings",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600
-                                              )
-                                          ),
-                                          Image.asset(
-                                            'assets/icons/arrow right.png',
-                                            height: 14,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.017,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.helpcenterProUi);
-                                },
-                              child: Container(
-                                height: Res.h_btn,
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                decoration: BoxDecoration(
-                                    color: clrGreyLight,
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/custocare.png",
-                                      height: 19,
-                                    ),
-                                    SizedBox(
-                                      width: Get.width * 0.03,
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                              "Help Center",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600
-                                              )
-                                          ),
-                                          Image.asset(
-                                            'assets/icons/arrow right.png',
-                                            height: 14,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.025,
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.03,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                const Text(
+                  "Account",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24
                   ),
-                  Obx(() {
-                    return Opacity(
-                      opacity: controller.logoutloading.value ? 0.5 : 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 30,top: 10),
-                        child: SizedBox(
-                          width: double.maxFinite,
-                          height: Res.h_btn,
-                          child: CustomElevatedButton(
-                              onTap: () {
-                                controller.logout();
-                                },
-                              backgroundClr: clrBlacke,
-                              child: controller.logoutloading.value ? CommonUi.buttonLoading() : Text(
-                                "Logout",
-                                style: TextStyle(
-                                    color: clrWhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700
-                                ),
-                              )
+                ),
+                SizedBox(
+                  height: Get.height * 0.025,
+                ),
+                Obx(() {
+                  if (controller.profileLoading.value) {
+                    return Shimmer.fromColors(
+                      baseColor: grey300,
+                      highlightColor: grey100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 50,
+                            minRadius: 40,
+                            backgroundColor: clrGrey,
                           ),
-                        ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          Container(
+                            width: 100,
+                            height: 20,
+                            color: clrGrey,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.005,
+                          ),
+                          Container(
+                            width: 150,
+                            height: 15,
+                            color: clrGrey,
+                          ),
+                        ],
                       ),
                     );
-                    },)
-                ]
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedNetworkImage(
+                            imageUrl: '${controller.profileData.value.result?.profile?.profilePhoto}',
+                            fit: BoxFit.cover,
+                            height: h * .13,
+                            width: w * .28,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: grey300,
+                                highlightColor: grey100,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                    height: h * .13,
+                                    width: w * .28,
+                                    color: clrGrey,
+                                  ),
+                                )
+                            ),
+                            errorWidget: (context, url, error) {
+                              print('error == $error');
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Container(
+                                  height: h * .13,
+                                  width: w * .28,
+                                  color: clrGreyLight,
+                                  child: Image.asset('assets/icons/manicon.png',color: clrGrey),
+                                ),
+                              );
+                              },
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
+                        if(controller.profileData.value.result?.firstName != null && controller.profileData.value.result?.lastName != null)
+                          Text(
+                            "${controller.profileData.value.result?.firstName} ${controller.profileData.value.result?.lastName}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20
+                            ),
+                          ),
+                        SizedBox(
+                          height: Get.height * 0.005,
+                        ),
+                        if(controller.profileData.value.result?.email != null)
+                          Text(
+                            "${controller.profileData.value.result?.email}",
+                            style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 15
+                            ),
+                          ),
+                      ],
+                    );
+                  }
+                }),
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                Expanded(
+                  child: SmartRefresher(
+                    controller: controller.refreshController,
+                    header: CommonUi.refreshHeader(),
+                    onRefresh: () async{
+                      await controller.viewProfile();
+                      await homeController.homePageApi();
+                      controller.refreshController.refreshCompleted();
+                    },
+                    child: ListView(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.myprofileInnUi)?.then((value) {
+                              homeController.homePageApi();
+                            },);
+                          },
+                          child: Container(
+                            height: Res.h_btn,
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: clrGreyLight,
+                                borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/icons/manicon.png",
+                                  height: 19,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "My profile",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        'assets/icons/arrow right.png',
+                                        height: 14,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.017,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.myfavProui);
+                          },
+                          child: Container(
+                            height: Res.h_btn,
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: clrGreyLight,
+                                borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/icons/fav.png",
+                                  height: 19,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                          "My favorites",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600
+                                          )
+                                      ),
+                                      Image.asset(
+                                        'assets/icons/arrow right.png',
+                                        height: 14,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.017,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.referFrndProUi);
+                          },
+                          child: Container(
+                            height: Res.h_btn,
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: clrGreyLight,
+                                borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/icons/manicon.png",
+                                  height: 19,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                          "Refer friends",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600
+                                          )
+                                      ),
+                                      Image.asset(
+                                        'assets/icons/arrow right.png',
+                                        height: 14,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.017,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.mymembershipProUi);
+                          },
+                          child: Container(
+                            height: Res.h_btn,
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: clrGreyLight,
+                                borderRadius: BorderRadius.circular(100)),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/icons/tajicon.png",
+                                  height: 19,
+                                  color: clrBlacke,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text("My membership",
+                                          style: TextStyle(
+
+                                              fontSize: 15, fontWeight: FontWeight.w600)),
+                                      Image.asset(
+                                        'assets/icons/arrow right.png',
+                                        height: 14,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.017,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.settingProUi);
+                          },
+                          child: Container(
+                            height: Res.h_btn,
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: clrGreyLight,
+                                borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/icons/setting.png",
+                                  height: 19,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                          "Settings",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600
+                                          )
+                                      ),
+                                      Image.asset(
+                                        'assets/icons/arrow right.png',
+                                        height: 14,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.017,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.helpcenterProUi);
+                          },
+                          child: Container(
+                            height: Res.h_btn,
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: clrGreyLight,
+                                borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "assets/icons/custocare.png",
+                                  height: 19,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                          "Help Center",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600
+                                          )
+                                      ),
+                                      Image.asset(
+                                        'assets/icons/arrow right.png',
+                                        height: 14,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.017,
+                        ),
+                        Obx(() => GestureDetector(
+                          onTap: () {
+                            controller.logout();
+                          },
+                          child: Container(
+                            height: Res.h_btn,
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: clrGreyLight,
+                                borderRadius: BorderRadius.circular(100)
+                            ),
+                            child: controller.logoutloading.value ? Center(child: CommonUi.buttonLoading(color: clrBlacke)) : Row(
+                              children: [
+                                Image.asset(
+                                  "assets/images/logout_new.png",
+                                  height: 19,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                          "Logout",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600
+                                          )
+                                      ),
+                                      Image.asset(
+                                        'assets/icons/arrow right.png',
+                                        height: 14,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),),
+                        SizedBox(
+                          height: Get.height * 0.025,
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.03,
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
           )
       ),

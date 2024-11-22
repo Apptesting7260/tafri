@@ -37,109 +37,126 @@ class Navbar extends GetWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // extendBody: true,
+      // backgroundColor: Colors.transparent,
       body: Obx(() {
         return classes[navcontroller.navIndex.value ?? 0];
       }),
-      floatingActionButton: Visibility(
-        visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-        child: FloatingActionButton(
-            backgroundColor: clrYellow,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)),
-            child: Icon(
-              Icons.add,
-              size: 35,
-              color: clrWhite,
-            ),
-            onPressed: () {
-              if( exploreListController.homeData.value.result?.membershipStatus == true && exploreListController.homeData.value.result?.profileComplete == true ) {
-                Get.toNamed(Routes.createActivityUi);
-              }else{
-                exploreListController.showHomePop();
-              }
-            }),
-      ),
+      floatingActionButton: Obx((){
+        print('fab == ${exploreListController.calculateBottomBarOffset(from: 'FAB')}');
+        return Transform.translate(
+          offset: Offset(0, exploreListController.calculateBottomBarOffset(from: 'FAB')),
+          child: Visibility(
+            visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+            child: FloatingActionButton(
+                backgroundColor: clrYellow,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100)),
+                child: Icon(
+                  Icons.add,
+                  size: 35,
+                  color: clrWhite,
+                ),
+                onPressed: () {
+                  if( exploreListController.homeData.value.result?.membershipStatus == true && exploreListController.homeData.value.result?.profileComplete == true ) {
+                    Get.toNamed(Routes.createActivityUi);
+                  }else{
+                    exploreListController.showHomePop();
+                  }
+                }),
+          ),
+        );
+      }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       bottomNavigationBar: GetBuilder<NavBarController>(builder: (controller) {
-        return AnimatedBottomNavigationBar.builder(
-            // backgroundGradient: LinearGradient(colors: [clrYellow,clrWhite]),
-            height: 50,
-            itemCount: iconList.length,
-            tabBuilder: (int index, bool isActive) {
-              final color =
+        return Obx(() {
+          double dynamicHeight = ((exploreListController.bottomBarOffset.value > 0.0 ? 1 : 0) + exploreListController.bottomBarOffset.value) * 25;
+          print('bool == ${exploreListController.bottomBarOffset.value > 0.0}');
+          print('off == ${exploreListController.bottomBarOffset.value}');
+          print('height == ${dynamicHeight}');
+          return Transform.translate(
+            offset: Offset(0, exploreListController.calculateBottomBarOffset()),
+            child: AnimatedBottomNavigationBar.builder(
+              // backgroundGradient: LinearGradient(colors: [clrYellow,clrWhite]),
+                height:dynamicHeight,
+                itemCount: iconList.length,
+                tabBuilder: (int index, bool isActive) {
+                  final color =
                   controller.navIndex.value == index ? clrYellow : clrGrey;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  index == 0
-                      ? Icon(
-                          Icons.home,
-                          color: controller.navIndex.value == 0
-                              ? clrYellow
-                              : clrGrey,
-                        )
-                      : index == 1
-                          ? Image.asset(
-                              "assets/icons/msgicon.png",
-                              height: 23,
-                              color: controller.navIndex.value == 1
-                                  ? clrYellow
-                                  : clrGrey,
-                            )
-                          : index == 2
-                              ? Image.asset(
-                                  "assets/icons/calendericon.png",
-                                  height: 23,
-                                  color: controller.navIndex.value == 2
-                                      ? clrYellow
-                                      : clrGrey,
-                                )
-                              : index == 3
-                                  ? Image.asset(
-                                      "assets/icons/manicon.png",
-                                      height: 23,
-                                      color: controller.navIndex.value == 3
-                                          ? clrYellow
-                                          : clrGrey,
-                                    )
-                                  : const Icon(Icons.home),
-                  const SizedBox(height: 4),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: Text(
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       index == 0
-                          ? "Explore"
+                          ? Icon(
+                        Icons.home,
+                        color: controller.navIndex.value == 0
+                            ? clrYellow
+                            : clrGrey,
+                      )
                           : index == 1
+                          ? Image.asset(
+                        "assets/icons/msgicon.png",
+                        height: 23,
+                        color: controller.navIndex.value == 1
+                            ? clrYellow
+                            : clrGrey,
+                      )
+                          : index == 2
+                          ? Image.asset(
+                        "assets/icons/calendericon.png",
+                        height: 23,
+                        color: controller.navIndex.value == 2
+                            ? clrYellow
+                            : clrGrey,
+                      )
+                          : index == 3
+                          ? Image.asset(
+                        "assets/icons/manicon.png",
+                        height: 23,
+                        color: controller.navIndex.value == 3
+                            ? clrYellow
+                            : clrGrey,
+                      )
+                          : const Icon(Icons.home),
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: Text(
+                          index == 0
+                              ? "Explore"
+                              : index == 1
                               ? 'Messages'
                               : index == 2
-                                  ? "My Activities"
-                                  : index == 3
-                                      ? "Profile"
-                                      : '',
-                      maxLines: 1,
-                      style: TextStyle(color: color, fontSize: 10),
-                    ),
-                  )
-                ],
-              );
-            },
-            backgroundColor: clrWhite,
-            activeIndex: classIndex,
-            notchSmoothness: NotchSmoothness.sharpEdge,
-            gapLocation: GapLocation.center,
-            leftCornerRadius: 20,
-            rightCornerRadius: 20,
-            onTap: (index) {
-              index == 1
+                              ? "My activities"
+                              : index == 3
+                              ? "Profile"
+                              : '',
+                          maxLines: 1,
+                          style: TextStyle(color: color, fontSize: 10),
+                        ),
+                      )
+                    ],
+                  );
+                },
+                backgroundColor: clrWhite,
+                activeIndex: classIndex,
+                notchSmoothness: NotchSmoothness.sharpEdge,
+                gapLocation: GapLocation.center,
+                leftCornerRadius: 20,
+                rightCornerRadius: 20,
+                onTap: (index) {
+                  index == 1
                       ? Get.put(MessagelistController())
                       : index == 2
-                          ? Get.put(MyactiController())
-                          : Get.put(ProfilemainController());
-              controller.changeNavIndex(index);
-            }
-            );
+                      ? Get.put(MyactiController())
+                      : Get.put(ProfilemainController());
+                  controller.changeNavIndex(index);
+                }
+            ),
+          );
+        },);
       }),
     );
   }

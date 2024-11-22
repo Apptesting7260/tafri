@@ -1416,6 +1416,7 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                          CarouselSlider(
                                                            options: CarouselOptions(
                                                                height: h * .26,
+                                                               enableInfiniteScroll: false,
                                                                viewportFraction: 1,
                                                                onPageChanged: (currIndex, CarouselPageChangedReason reason) {
                                                                  controller.changeIndicator(index, currIndex);

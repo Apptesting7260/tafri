@@ -79,18 +79,13 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                             )
                           ],
                         ),
-                        Positioned(
+                        Obx(() => controller
+                            .selectedImage.value != null ? Positioned(
                           bottom: 0,
                           right: 0,
                           child: InkWell(
                             onTap: () async {
-                              final ImagePicker picker = ImagePicker();
-// Pick an image.
-                              final XFile? image = await picker.pickImage(
-                                  source: ImageSource.gallery);
-                              if (image != null) {
-                                controller.changePhoto(image);
-                              }
+                              controller.imagePopUp(context);
                             },
                             child: Container(
                               clipBehavior: Clip.hardEdge,
@@ -104,7 +99,7 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                               ),
                             ),
                           ),
-                        ),
+                        ) : SizedBox(),)
                       ],
                     ),
                   ),
@@ -126,15 +121,20 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                  width: double.maxFinite,
                  child: CustomElevatedButton(
                      onTap: () {
-                       if(controller.selectedImage.value != null){
-                         controller.photoUpdate();
+                       if(controller.selectedImage.value != null) {
+                         if (controller.selectedImage.value != null) {
+                           controller.photoUpdate();
+                         } else {
+                           showTostMsg('Please Select an Image');
+                         }
                        }else{
-                         showTostMsg('Please Select an Image');
+                         controller.imagePopUp(context);
                        }
                      },
                      backgroundClr: clrBlacke,
                      child: controller.photoLoading.value ? CommonUi.buttonLoading() : Text(
-                       "Upload Photo",
+                       controller
+                           .selectedImage.value != null ? "Upload Photo" : 'Select photo',
                        style: TextStyle(
                            color: clrWhite,
                            fontSize: 16,

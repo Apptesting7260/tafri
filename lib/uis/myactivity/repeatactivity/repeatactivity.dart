@@ -326,7 +326,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                   width: 0,
                                                 ),
                                                 const Text(
-                                                    "Chose a photo for me")
+                                                    "Choose a photo for me")
                                               ],
                                             ),
                                             SizedBox(
@@ -562,23 +562,23 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             // SizedBox(
                                             //   height: h * 0.01,
                                             // ),
-                                            Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      // Get.toNamed(Routes.mapui);
-                                                    },
-                                                    child: Text('Choose on Map',
-                                                        style: TextStyle(
-                                                            color:
-                                                            clrYellowText,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .bold)),
-                                                  )
-                                                ]),
+                                            // Row(
+                                            //     mainAxisAlignment:
+                                            //     MainAxisAlignment.end,
+                                            //     children: [
+                                            //       InkWell(
+                                            //         onTap: () {
+                                            //           // Get.toNamed(Routes.mapui);
+                                            //         },
+                                            //         child: Text('Choose on Map',
+                                            //             style: TextStyle(
+                                            //                 color:
+                                            //                 clrYellowText,
+                                            //                 fontWeight:
+                                            //                 FontWeight
+                                            //                     .bold)),
+                                            //       )
+                                            //     ]),
                                             IgnorePointer(
                                               ignoring: true,
                                               child: CustomLocationField(
@@ -1174,6 +1174,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                                 CarouselOptions(
                                                                     height:
                                                                         h * .25,
+                                                                    enableInfiniteScroll: false,
                                                                     viewportFraction:
                                                                         1),
                                                             items: [1, 2, 3]
@@ -1258,6 +1259,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                                 CarouselOptions(
                                                                     height:
                                                                         h * .26,
+                                                                    enableInfiniteScroll: false,
                                                                     viewportFraction:
                                                                         1,
                                                                     onPageChanged:

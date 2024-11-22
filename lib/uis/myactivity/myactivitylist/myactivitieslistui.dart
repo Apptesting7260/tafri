@@ -178,18 +178,28 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                     : ListView(
                                                         // crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          const Text(
+                                                          controller
+                                                              .attendingData
+                                                              .value
+                                                              .result!
+                                                              .upcomingActivities!
+                                                              .isNotEmpty ? const Text(
                                                             "Upcoming activities",
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w700,
                                                                 fontSize: 16),
-                                                          ),
-                                                          SizedBox(
+                                                          ) : const SizedBox(),
+                                                          controller
+                                                              .attendingData
+                                                              .value
+                                                              .result!
+                                                              .upcomingActivities!
+                                                              .isNotEmpty ? SizedBox(
                                                             height: Get.height *
                                                                 0.01,
-                                                          ),
+                                                          ) : const SizedBox(),
                                                           controller
                                                                   .attendingData
                                                                   .value
@@ -314,29 +324,45 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                           ),
                                                                         );
                                                                       })
-                                                              : Center(
-                                                                  child:
-                                                                      NoActivityYetScreen(
-                                                                    height:
-                                                                        Get.height *
-                                                                            0.16,
-                                                                  ),
-                                                                ),
-                                                          const SizedBox(
+                                                              : const SizedBox(),
+                                                          // Center(
+                                                          //         child:
+                                                          //             NoActivityYetScreen(
+                                                          //           height:
+                                                          //               Get.height *
+                                                          //                   0.16,
+                                                          //         ),
+                                                          //       ),
+                                                          controller
+                                                              .attendingData
+                                                              .value
+                                                              .result!
+                                                              .upcomingActivities!
+                                                              .isNotEmpty ? const SizedBox(
                                                             height: 15,
-                                                          ),
-                                                          const Text(
+                                                          ) : const SizedBox(),
+                                                          controller
+                                                              .attendingData
+                                                              .value
+                                                              .result!
+                                                              .previousActivities!
+                                                              .isNotEmpty ? const Text(
                                                             "Previous activities",
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w700,
                                                                 fontSize: 16),
-                                                          ),
-                                                          SizedBox(
+                                                          ) : const SizedBox(),
+                                                          controller
+                                                              .attendingData
+                                                              .value
+                                                              .result!
+                                                              .previousActivities!
+                                                              .isNotEmpty ? SizedBox(
                                                             height: Get.height *
                                                                 0.01,
-                                                          ),
+                                                          ) : const SizedBox(),
                                                           controller
                                                                   .attendingData
                                                                   .value
@@ -549,12 +575,13 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                           ),
                                                                         );
                                                                       })
-                                                              : Center(
-                                                                  child: NoActivityYetScreen(
-                                                                      height: Get
-                                                                              .height *
-                                                                          0.16),
-                                                                )
+                                                              : const SizedBox()
+                                                          // Center(
+                                                          //         child: NoActivityYetScreen(
+                                                          //             height: Get
+                                                          //                     .height *
+                                                          //                 0.16),
+                                                          //       )
                                                         ],
                                                       )
                                                 : const Center(
@@ -654,7 +681,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                 child:
                                                                     FittedBox(
                                                               child: Text(
-                                                                'Start exploring',
+                                                                'Create now',
                                                                 style: TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
@@ -671,17 +698,27 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                 : ListView(
                                                     // crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      const Text(
+                                                      controller
+                                                          .hostingData
+                                                          .value
+                                                          .result!
+                                                          .upcomingActivities!
+                                                          .isNotEmpty ? const Text(
                                                         "Upcoming activities",
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w700,
                                                             fontSize: 16),
-                                                      ),
-                                                      SizedBox(
+                                                      ) : const SizedBox(),
+                                                      controller
+                                                          .hostingData
+                                                          .value
+                                                          .result!
+                                                          .upcomingActivities!
+                                                          .isNotEmpty ? SizedBox(
                                                         height:
                                                             Get.height * 0.01,
-                                                      ),
+                                                      ) : const SizedBox(),
                                                       controller
                                                               .hostingData
                                                               .value
@@ -801,7 +838,8 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                   overflow: TextOverflow.ellipsis,
                                                                                                 ),
                                                                                               ),
-                                                                                              Text(data.activities![ind].status.toString().toUpperCase(),
+                                                                                              const SizedBox(width: 5,),
+                                                                                              Text(data.activities![ind].status.toString(),
                                                                                                 style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
                                                                                               ),
                                                                                             ],
@@ -829,25 +867,41 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   ),
                                                                 );
                                                               })
-                                                          : Center(
-                                                              child: NoHostedScreen(
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.16)),
-                                                      const SizedBox(
+                                                          : const SizedBox(),
+                                                      // Center(
+                                                      //         child: NoHostedScreen(
+                                                      //             height:
+                                                      //                 Get.height *
+                                                      //                     0.16)),
+                                                      controller
+                                                          .hostingData
+                                                          .value
+                                                          .result!
+                                                          .upcomingActivities!
+                                                          .isNotEmpty ? const SizedBox(
                                                         height: 15,
-                                                      ),
-                                                      const Text(
+                                                      ) : const SizedBox(),
+                                                      controller
+                                                          .hostingData
+                                                          .value
+                                                          .result!
+                                                          .previousActivities!
+                                                          .isNotEmpty ? const Text(
                                                         "Previous activities",
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w700,
                                                             fontSize: 16),
-                                                      ),
-                                                      SizedBox(
+                                                      ) : const SizedBox(),
+                                                      controller
+                                                          .hostingData
+                                                          .value
+                                                          .result!
+                                                          .previousActivities!
+                                                          .isNotEmpty ? SizedBox(
                                                         height:
                                                             Get.height * 0.01,
-                                                      ),
+                                                      ) : const SizedBox(),
                                                       controller
                                                               .hostingData
                                                               .value
@@ -1105,11 +1159,12 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   ),
                                                                 );
                                                               })
-                                                          : Center(
-                                                              child: NoHostedScreen(
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.16))
+                                                          : const SizedBox()
+                                                      // Center(
+                                                      //         child: NoHostedScreen(
+                                                      //             height:
+                                                      //                 Get.height *
+                                                      //                     0.16))
                                                     ],
                                                   )
                                             : const Center(

@@ -21,7 +21,8 @@ class CustoTextFormField extends StatefulWidget {
   final bool? readonly;
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
-  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize, this.readonly, this.onTap, this.inputFormatters, this.focusNode});
+  final TextCapitalization? textCapitalization;
+  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize, this.readonly, this.onTap, this.inputFormatters, this.focusNode, this.textCapitalization});
 
   @override
   State<CustoTextFormField> createState() => _CustoTextFormFieldState();
@@ -41,6 +42,7 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
       keyboardType: widget.textKType??TextInputType.text,
       onChanged: widget.onChanged,
       inputFormatters: widget.inputFormatters,
+      textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
       decoration: InputDecoration(
           prefixIcon:widget.sufixIcon==null?null :widget.sufixIcon ,
           hintText: widget.hintText,

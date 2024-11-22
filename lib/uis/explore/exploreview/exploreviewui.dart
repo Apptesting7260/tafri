@@ -150,6 +150,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                         CarouselSlider(
                                           options: CarouselOptions(
                                               height: h * .26,
+                                              enableInfiniteScroll: false,
                                               viewportFraction: 1,
                                               onPageChanged: (currIndex,
                                                   CarouselPageChangedReason reason) {
@@ -682,235 +683,238 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                       controller.markers),
                                                 )
 
-                                    ) : SizedBox()),
+                                    ) : const SizedBox()),
                                   SizedBox(
                                     height: Get.height * 0.03,
-                                  ),
-                                  Obx(() {
-                                    print('re');
-                                    return controller.actData.value.activity!
-                                                .requestStatus ==
-                                            'pending'
-                                        ? SizedBox(
-                                            width: double.maxFinite,
-                                            height: Res.h_btn,
-                                            child: CustomElevatedButton(
-                                                onTap: () {},
-                                                backgroundClr: clrGrey,
-                                                child: Text(
-                                                  "Pending Host Confirmation",
-                                                  style: TextStyle(
-                                                      color: clrWhite,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                )))
-                                        : controller.actData.value.activity!
-                                                    .requestStatus ==
-                                                'accept'
-                                            ? SizedBox(
-                                                width: double.maxFinite,
-                                                height: Res.h_btn,
-                                                child: CustomElevatedButton(
-                                                    onTap: () {},
-                                                    backgroundClr: clrBlacke,
-                                                    child: Text(
-                                                      "Join group chat",
-                                                      style: TextStyle(
-                                                          color: clrWhite,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    )))
-                                            : controller.actData.value.activity!
-                                                        .requestStatus ==
-                                                    'reject'
-                                                ? SizedBox(
-                                                    width: double.maxFinite,
-                                                    height: Res.h_btn,
-                                                    child: CustomElevatedButton(
-                                                        onTap: () {},
-                                                        backgroundClr:
-                                                            clrBlacke,
-                                                        child: Text(
-                                                          "Request sent",
-                                                          style: TextStyle(
-                                                              color: clrWhite,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                        )))
-                                                : controller
-                                                            .actData
-                                                            .value
-                                                            .activity!
-                                                            .requestStatus ==
-                                                        'leave'
-                                                    ? SizedBox(
-                                                        width: double.maxFinite,
-                                                        height: Res.h_btn,
-                                                        child:
-                                                            CustomElevatedButton(
-                                                                onTap: () {},
-                                                                backgroundClr:
-                                                                    clrBlacke,
-                                                                child: Text(
-                                                                  "Leaved",
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          clrWhite,
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700),
-                                                                )))
-                                                    : int.parse(LocalStorage
-                                                                .getUid()!) !=
-                                                            controller
-                                                                .actData
-                                                                .value
-                                                                .activity
-                                                                ?.hostId
-                                                        ? Opacity(
-                                                            opacity: controller
-                                                                    .isLoadingRequest
-                                                                    .value || payment.loading.value
-                                                                ? 0.5
-                                                                : 1,
-                                                            child: SizedBox(
-                                                                width: double
-                                                                    .maxFinite,
-                                                                height:
-                                                                    Res.h_btn,
-                                                                child: CustomElevatedButton(
-                                                                    onTap: () {
-                                                                      // if(profile
-                                                                      //     .profileData
-                                                                      //     .value.result?.cardSave == false){
-                                                                        // payment.alertRequestSent(() async{
-                                                                          // Get.back();
-                                                                          // await payment.createCustomer('${profile.profileData.value.result?.firstName} ${profile.profileData.value.result?.lastName}', '${profile.profileData.value.result?.email}');
-                                                                          // await profile.viewProfile();
-                                                                        // },);
-                                                                      // } else
-                                                                        if (controller
-                                                                              .actData
-                                                                              .value
-                                                                              .activity
-                                                                              ?.spotLeft ==
-                                                                          0) {
-                                                                        controller.alertAddaMessage(controller
-                                                                            .actData
-                                                                            .value
-                                                                            .activity!
-                                                                            .id
-                                                                            .toString());
-                                                                      } else {
-                                                                        controller.requestApi(controller
-                                                                            .actData
-                                                                            .value
-                                                                            .activity!
-                                                                            .id
-                                                                            .toString());
-                                                                      }
-                                                                    },
-                                                                    backgroundClr: clrBlacke,
-                                                                    child: controller.isLoadingRequest.value || payment.loading.value
-                                                                        ? CommonUi.buttonLoading()
-                                                                        : Text(
-                                                                            controller.actData.value.activity?.spotLeft == 0
-                                                                                ? 'Join waitlist'
-                                                                                : "Request to join",
-                                                                            style: TextStyle(
-                                                                                color: clrWhite,
-                                                                                fontSize: 16,
-                                                                                fontWeight: FontWeight.w700),
-                                                                          ))),
-                                                          )
-                                                        : const Center(
-                                                            child: Text(
-                                                            'You created this activity.',
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16),
-                                                          ));
-                                  }),
-                                  Obx(() {
-                                    return controller.actData.value.activity!
-                                                .requestStatus ==
-                                            'pending'
-                                        ? Column(
-                                            children: [
-                                              SizedBox(
-                                                height: h * 0.015,
-                                              ),
-                                              Center(
-                                                  child: InkWell(
-                                                      onTap: () {
-                                                        alertCancelRequest(
-                                                            controller
-                                                                .actData
-                                                                .value
-                                                                .activity!
-                                                                .id
-                                                                .toString());
-                                                      },
-                                                      child: const Text(
-                                                        "Cancel request",
-                                                        style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      )))
-                                            ],
-                                          )
-                                        : controller.actData.value.activity!
-                                                    .requestStatus ==
-                                                'accept'
-                                            ? Column(
-                                                children: [
-                                                  SizedBox(
-                                                    height: h * 0.015,
-                                                  ),
-                                                  Center(
-                                                      child: InkWell(
-                                                          onTap: () {
-                                                            alertCancelRequestConfirmation(
-                                                                controller
-                                                                    .actData
-                                                                    .value
-                                                                    .activity!
-                                                                    .id
-                                                                    .toString(),
-                                                                true);
-                                                          },
-                                                          child: const Text(
-                                                            "Leave activity",
-                                                            style: TextStyle(
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .underline,
-                                                                fontSize: 16),
-                                                          )))
-                                                ],
-                                              )
-                                            : const SizedBox();
-                                  }),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
                                   ),
                                 ],
                               ),
                             ),
                           ),
               )),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              Obx(() => controller.activitypage.value ? const SizedBox() : Obx(() {
+                print('re');
+                return controller.actData.value.activity!
+                    .requestStatus ==
+                    'pending'
+                    ? SizedBox(
+                    width: double.maxFinite,
+                    height: Res.h_btn,
+                    child: CustomElevatedButton(
+                        onTap: () {},
+                        backgroundClr: clrGrey,
+                        child: Text(
+                          "Pending host confirmation",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight:
+                              FontWeight.w700),
+                        )))
+                    : controller.actData.value.activity!
+                    .requestStatus ==
+                    'accept'
+                    ? SizedBox(
+                    width: double.maxFinite,
+                    height: Res.h_btn,
+                    child: CustomElevatedButton(
+                        onTap: () {},
+                        backgroundClr: clrBlacke,
+                        child: Text(
+                          "Join group chat",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight:
+                              FontWeight.w700),
+                        )))
+                    : controller.actData.value.activity!
+                    .requestStatus ==
+                    'reject'
+                    ? SizedBox(
+                    width: double.maxFinite,
+                    height: Res.h_btn,
+                    child: CustomElevatedButton(
+                        onTap: () {},
+                        backgroundClr:
+                        clrBlacke,
+                        child: Text(
+                          "Request sent",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight:
+                              FontWeight
+                                  .w700),
+                        )))
+                    : controller
+                    .actData
+                    .value
+                    .activity!
+                    .requestStatus ==
+                    'leave'
+                    ? SizedBox(
+                    width: double.maxFinite,
+                    height: Res.h_btn,
+                    child:
+                    CustomElevatedButton(
+                        onTap: () {},
+                        backgroundClr:
+                        clrBlacke,
+                        child: Text(
+                          "Leaved",
+                          style: TextStyle(
+                              color:
+                              clrWhite,
+                              fontSize:
+                              16,
+                              fontWeight:
+                              FontWeight
+                                  .w700),
+                        )))
+                    : int.parse(LocalStorage
+                    .getUid()!) !=
+                    controller
+                        .actData
+                        .value
+                        .activity
+                        ?.hostId
+                    ? Opacity(
+                  opacity: controller
+                      .isLoadingRequest
+                      .value || payment.loading.value
+                      ? 0.5
+                      : 1,
+                  child: SizedBox(
+                      width: double
+                          .maxFinite,
+                      height:
+                      Res.h_btn,
+                      child: CustomElevatedButton(
+                          onTap: () {
+                            // if(profile
+                            //     .profileData
+                            //     .value.result?.cardSave == false){
+                            // payment.alertRequestSent(() async{
+                            // Get.back();
+                            // await payment.createCustomer('${profile.profileData.value.result?.firstName} ${profile.profileData.value.result?.lastName}', '${profile.profileData.value.result?.email}');
+                            // await profile.viewProfile();
+                            // },);
+                            // } else
+                            if (controller
+                                .actData
+                                .value
+                                .activity
+                                ?.spotLeft ==
+                                0) {
+                              controller.alertAddaMessage(controller
+                                  .actData
+                                  .value
+                                  .activity!
+                                  .id
+                                  .toString());
+                            } else {
+                              controller.requestApi(controller
+                                  .actData
+                                  .value
+                                  .activity!
+                                  .id
+                                  .toString());
+                            }
+                          },
+                          backgroundClr: clrBlacke,
+                          child: controller.isLoadingRequest.value || payment.loading.value
+                              ? CommonUi.buttonLoading()
+                              : Text(
+                            controller.actData.value.activity?.spotLeft == 0
+                                ? 'Join waitlist'
+                                : "Request to join",
+                            style: TextStyle(
+                                color: clrWhite,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700),
+                          ))),
+                )
+                    : const Center(
+                    child: Text(
+                      'You created this activity.',
+                      style: TextStyle(
+                          fontWeight:
+                          FontWeight
+                              .w600,
+                          fontSize: 16),
+                    ));
+              }),),
+              Obx(() => controller.activitypage.value ? const SizedBox() : Obx(() {
+                return controller.actData.value.activity!
+                    .requestStatus ==
+                    'pending'
+                    ? Column(
+                  children: [
+                    SizedBox(
+                      height: h * 0.015,
+                    ),
+                    Center(
+                        child: InkWell(
+                            onTap: () {
+                              alertCancelRequest(
+                                  controller
+                                      .actData
+                                      .value
+                                      .activity!
+                                      .id
+                                      .toString());
+                            },
+                            child: const Text(
+                              "Cancel request",
+                              style: TextStyle(
+                                  decoration:
+                                  TextDecoration
+                                      .underline,
+                                  fontWeight:
+                                  FontWeight
+                                      .w600),
+                            )))
+                  ],
+                )
+                    : controller.actData.value.activity!
+                    .requestStatus ==
+                    'accept'
+                    ? Column(
+                  children: [
+                    SizedBox(
+                      height: h * 0.015,
+                    ),
+                    Center(
+                        child: InkWell(
+                            onTap: () {
+                              alertCancelRequestConfirmation(
+                                  controller
+                                      .actData
+                                      .value
+                                      .activity!
+                                      .id
+                                      .toString(),
+                                  true);
+                            },
+                            child: const Text(
+                              "Leave activity",
+                              style: TextStyle(
+                                  decoration:
+                                  TextDecoration
+                                      .underline,
+                                  fontSize: 16),
+                            )))
+                  ],
+                )
+                    : const SizedBox();
+              }),),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
             ],
           ),
         ),
@@ -1053,7 +1057,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               () => SizedBox(
                   height: 30,
                   child: CustomRadioButton(
-                      text: "Fake profile or spam",
+                      text: "Scam or fraud",
                       activeColor: clrYellow,
                       value: 1,
                       groupValue: controller.selectedValue.value,
@@ -1074,7 +1078,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               () => SizedBox(
                   height: 30,
                   child: CustomRadioButton(
-                      text: "Inappropriate or offensive behaviour",
+                      text: "Inappropriate or misleading content",
                       activeColor: clrYellow,
                       value: 2,
                       groupValue: controller.selectedValue.value,

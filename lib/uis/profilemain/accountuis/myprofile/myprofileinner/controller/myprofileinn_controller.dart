@@ -51,8 +51,12 @@ class MyprofileInnController extends GetxController
   String? uid = LocalStorage.getUid();
 
   profileAlertPopUp() async  {
-    if(profileController.profileData.value.result?.profile == null) {
-      Future.delayed(const Duration(seconds: 3), () {
+    print('bio == ${profileController.profileData.value.result?.profile?.bio}');
+    if(profileController.profileData.value.result?.profile == null || profileController.profileData.value.result?.profile?.bio == null || profileController.profileData.value.result!.profile!.bio!.isEmpty ||
+        profileController.profileData.value.result?.profile?.occupation == null || profileController.profileData.value.result!.profile!.occupation!.isEmpty ||
+        profileController.profileData.value.result!.location == null || profileController.profileData.value.result!.location!.isEmpty || profileController.profileData.value.result!.profile!.languageId!.isEmpty ||
+        profileController.profileData.value.result!.profile!.activityTitles!.isEmpty || profileController.profileData.value.result!.profile!.funFactsAboutMe!.isEmpty) {
+      Future.delayed(const Duration(seconds: 2), () {
         return Get.dialog(AlertDialog(
             insetPadding: const EdgeInsets.symmetric(horizontal: 0),
             contentPadding:
@@ -723,12 +727,12 @@ class MyprofileInnController extends GetxController
     try{
       final response = await api.post('${EndPoints.funfactprofile}', jsonEncode(body), headers: header);
       print(response.statusCode);
+      print(response.body);
       if(response.statusCode == 200){
         var data = response.body;
         if(data['status'] == true){
-          funfactLoading.value = false;
-          Get.back();
           await profileController.viewProfile();
+          funfactLoading.value = false;
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');

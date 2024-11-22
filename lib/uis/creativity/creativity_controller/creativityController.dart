@@ -964,6 +964,8 @@ class Creativitycontroller extends GetxController
 //       );
 //   }
 
+  GoogleMapController? mapController1;
+
   GoogleMapController? mapController;
   Rxn<loc.LocationData> currentLocation = Rxn<loc.LocationData>();
   final LatLng initialPosition = LatLng(52.3731, 4.8922);
@@ -1003,6 +1005,10 @@ class Creativitycontroller extends GetxController
         ),
       ),
     );
+    mapController1?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(userLocation.latitude!, userLocation.longitude!),
+      zoom: 15,
+    ),));
   }
 
   Rx<String> address =  ''.obs;

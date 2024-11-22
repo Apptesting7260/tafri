@@ -198,6 +198,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                               options: CarouselOptions(
                                   height: h * .26,
                                   viewportFraction: 1,
+                                  enableInfiniteScroll: false,
                                   onPageChanged: (currIndex,
                                       CarouselPageChangedReason
                                       reason) {
@@ -570,7 +571,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       SizedBox(
                         height: Get.height * 0.04,
                       ),
-                      controller.actData.value.activity?.status == 'approved' && controller.actData.value.activity?.hostId == LocalStorage.getUid() ? const Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
+                      controller.actData.value.activity?.status == 'approved' && controller.actData.value.activity?.hostId.toString() == LocalStorage.getUid() ? const Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
                           : controller.actData.value.activity?.status == 'pending' ? SizedBox(
                           width: double.maxFinite,
                           height: Res.h_btn,
@@ -634,55 +635,66 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         height: Get.height * 0.01,
                       ) : const SizedBox(),
                       (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true') ? SizedBox(
-                        height: 52,
-                        child: ListView.separated(
+                        height: controller.attData.value.result!.attendanceList!.isNotEmpty ? 52 : 20,
+                        child: controller.attData.value.result!.attendanceList!.isNotEmpty? ListView.separated(
                           itemCount: controller.attData.value.result!.attendanceList!.length,
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           itemBuilder: (context,index){
-                            return ClipRRect(
-                              borderRadius:
-                              BorderRadius.circular(100),
-                              child: CachedNetworkImage(
-                                height: 52,
-                                width: 52,
-                                fit: BoxFit.cover,
-                                imageUrl: '${controller.attData.value.result?.attendanceList?[index].profilePhoto}',
-                                errorWidget:
-                                    (context, url, error) =>
-                                    Container(
-                                      height: 52,
-                                      width: 52,
-                                      padding:
-                                      const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: clrGreyLight,
-                                          shape: BoxShape.circle),
-                                      child: Image.asset(
-                                        "assets/icons/manicon.png",
-                                        color: clrGrey,
-                                        fit: BoxFit.cover,
-                                        scale: 1.2,
-                                      ),
-                                    ),
-                                placeholder: (context, url) =>
-                                    Shimmer.fromColors(
-                                      baseColor: grey300,
-                                      highlightColor: grey100,
-                                      child: Container(
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                    Routes.userProfileui,
+                                    arguments: controller.attData.value.result?.attendanceList?[index].userId.toString());
+                              },
+                              child: ClipRRect(
+                                borderRadius:
+                                BorderRadius.circular(100),
+                                child: CachedNetworkImage(
+                                  height: 52,
+                                  width: 52,
+                                  fit: BoxFit.cover,
+                                  imageUrl: '${controller.attData.value.result?.attendanceList?[index].profilePhoto}',
+                                  errorWidget:
+                                      (context, url, error) =>
+                                      Container(
                                         height: 52,
                                         width: 52,
+                                        padding:
+                                        const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
-                                          color: grey300,
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              18),
+                                            color: clrGreyLight,
+                                            shape: BoxShape.circle),
+                                        child: Image.asset(
+                                          "assets/icons/manicon.png",
+                                          color: clrGrey,
+                                          fit: BoxFit.cover,
+                                          scale: 1.2,
                                         ),
                                       ),
-                                    ),
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                        baseColor: grey300,
+                                        highlightColor: grey100,
+                                        child: Container(
+                                          height: 52,
+                                          width: 52,
+                                          decoration: BoxDecoration(
+                                            color: grey300,
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                18),
+                                          ),
+                                        ),
+                                      ),
+                                ),
                               ),
                             );
-                          }, separatorBuilder: (BuildContext context, int index) {return const SizedBox(width: 10,); },),
+                          }, separatorBuilder: (BuildContext context, int index) {return const SizedBox(width: 10,); },) : const Center(
+                            child: Text('No attendees found!',style: TextStyle(
+                            fontWeight: FontWeight.w600
+                            ),),
+                          ),
                       ) : const SizedBox() ,
 
                       (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'false') ? controller.isHost == true ? SizedBox(
@@ -697,7 +709,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                               },
                               backgroundClr: clrBlacke,
                               child: Text(
-                                "Mark Attendance",
+                                "Mark attendance",
                                 style: TextStyle(
                                     color: clrWhite,
                                     fontSize: 16,
@@ -853,12 +865,12 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       const SizedBox(
                         height: 10,
                       ),
-                      controller.actData.value.activity?.status == 'approved' && (controller.actData.value.activity?.hostId.toString() != LocalStorage.getUid().toString()) ?  const SizedBox() :  Center(child: InkWell(
-                          onTap: (){
-                            alertDeleteActivity();
-                          }
-                          ,child: const Text("Delete activity",style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.w600),))
-                      ),
+                      // controller.actData.value.activity?.status == 'approved' && (controller.actData.value.activity?.hostId.toString() != LocalStorage.getUid().toString()) ?  const SizedBox() :  Center(child: InkWell(
+                      //     onTap: (){
+                      //       alertDeleteActivity();
+                      //     }
+                      //     ,child: const Text("Delete activity",style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.w600),))
+                      // ),
 
 
 
@@ -957,7 +969,8 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                             arguments: {
                               'id': controller.actData.value.activity?.id.toString(),
                               'hostimg': controller.actData.value.activity?.profilePhoto,
-                              'goingimg': controller.actData.value.going
+                              'goingimg': controller.actData.value.going,
+                              'hostid': controller.actData.value.activity?.hostId.toString()
                             });
                       },
                               backgroundClr: clrBlacke,
@@ -1123,7 +1136,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                   () => SizedBox(
                   height: 30,
                   child: CustomRadioButton(
-                      text: "Fake profile or spam",
+                      text: "Scam or fraud",
                       activeColor: clrYellow,
                       value: 1,
                       groupValue: controller.selectedValue.value,
@@ -1144,7 +1157,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                   () => SizedBox(
                   height: 30,
                   child: CustomRadioButton(
-                      text: "Inappropriate or offensive behaviour",
+                      text: "Inappropriate or misleading content",
                       activeColor: clrYellow,
                       value: 2,
                       groupValue: controller.selectedValue.value,

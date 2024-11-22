@@ -19,3 +19,4 @@ Color clrBlackeChat=Color(0xff3F3F3F);
 Color clrTransparent=Colors.transparent;
 Color grey300 = Colors.grey.shade300;
 Color grey100 = Colors.grey.shade100;
+Color clrRed = Color.fromRGBO(241, 67, 54, 1);

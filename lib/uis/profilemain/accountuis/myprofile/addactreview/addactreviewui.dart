@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/addactreview/controller/addactreview_controller.dart';
@@ -26,6 +27,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
   late String? id;
   late String? hostImg;
   late List<Going>? goingImg;
+  late String? hostId;
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
     id = Get.arguments['id'];
     hostImg = Get.arguments['hostimg'];
     goingImg = List<Going>.from(Get.arguments['goingimg']);
+    hostId = Get.arguments['hostid'];
   }
 
   @override
@@ -152,46 +155,52 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                       //       fit: BoxFit.cover,
                       //     ),
                       // ),
-                      hostImg!.isEmpty  ? SizedBox() : ClipRRect(
-                        borderRadius:
-                        BorderRadius.circular(100),
-                        child: CachedNetworkImage(
-                          height: 52,
-                          width: 52,
-                          fit: BoxFit.cover,
-                          imageUrl:
-                          hostImg.toString(),
-                          errorWidget:
-                              (context, url, error) =>
-                              Container(
-                                height: 52,
-                                width: 52,
-                                padding:
-                                const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: clrGreyLight,
-                                    shape: BoxShape.circle),
-                                child: Image.asset(
-                                  "assets/icons/manicon.png",
-                                  color: clrGrey,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                          placeholder: (context, url) =>
-                              Shimmer.fromColors(
-                                baseColor: grey300,
-                                highlightColor: grey100,
-                                child: Container(
+                      hostImg!.isEmpty  ? SizedBox() : GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.hostProfileUi,
+                              arguments: hostId);
+                        },
+                        child: ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(100),
+                          child: CachedNetworkImage(
+                            height: 52,
+                            width: 52,
+                            fit: BoxFit.cover,
+                            imageUrl:
+                            hostImg.toString(),
+                            errorWidget:
+                                (context, url, error) =>
+                                Container(
                                   height: 52,
                                   width: 52,
+                                  padding:
+                                  const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    color: grey300,
-                                    borderRadius:
-                                    BorderRadius.circular(
-                                        18),
+                                      color: clrGreyLight,
+                                      shape: BoxShape.circle),
+                                  child: Image.asset(
+                                    "assets/icons/manicon.png",
+                                    color: clrGrey,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
+                            placeholder: (context, url) =>
+                                Shimmer.fromColors(
+                                  baseColor: grey300,
+                                  highlightColor: grey100,
+                                  child: Container(
+                                    height: 52,
+                                    width: 52,
+                                    decoration: BoxDecoration(
+                                      color: grey300,
+                                      borderRadius:
+                                      BorderRadius.circular(
+                                          18),
+                                    ),
+                                  ),
+                                ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -227,47 +236,55 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                           //         fit: BoxFit.cover,
                           //       ),
                           // );
-                              return ClipRRect(
-                                borderRadius:
-                                BorderRadius.circular(100),
-                                child: CachedNetworkImage(
-                                  height: 52,
-                                  width: 52,
-                                  fit: BoxFit.cover,
-                                  imageUrl:
-                                  profilePhoto.toString(),
-                                  errorWidget:
-                                      (context, url, error) =>
-                                      Container(
-                                        height: 52,
-                                        width: 52,
-                                        padding:
-                                        const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            color: clrGreyLight,
-                                            shape: BoxShape.circle),
-                                        child: Image.asset(
-                                          "assets/icons/manicon.png",
-                                          color: clrGrey,
-                                          fit: BoxFit.cover,
-                                          scale: 1.2,
-                                        ),
-                                      ),
-                                  placeholder: (context, url) =>
-                                      Shimmer.fromColors(
-                                        baseColor: grey300,
-                                        highlightColor: grey100,
-                                        child: Container(
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                      Routes.userProfileui,
+                                      arguments: goingImg?[index].userId
+                                          .toString());
+                                },
+                                child: ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(100),
+                                  child: CachedNetworkImage(
+                                    height: 52,
+                                    width: 52,
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                    profilePhoto.toString(),
+                                    errorWidget:
+                                        (context, url, error) =>
+                                        Container(
                                           height: 52,
                                           width: 52,
+                                          padding:
+                                          const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            color: grey300,
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                18),
+                                              color: clrGreyLight,
+                                              shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            "assets/icons/manicon.png",
+                                            color: clrGrey,
+                                            fit: BoxFit.cover,
+                                            scale: 1.2,
                                           ),
                                         ),
-                                      ),
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                          baseColor: grey300,
+                                          highlightColor: grey100,
+                                          child: Container(
+                                            height: 52,
+                                            width: 52,
+                                            decoration: BoxDecoration(
+                                              color: grey300,
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  18),
+                                            ),
+                                          ),
+                                        ),
+                                  ),
                                 ),
                               );
                         }, separatorBuilder: (BuildContext context, int index) {return SizedBox(width: 10,); },),

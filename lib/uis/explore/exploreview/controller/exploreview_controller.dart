@@ -97,11 +97,11 @@ class ExploreViewController extends GetxController{
   String getReportReason(int value) {
     switch (value) {
       case 1:
-        return 'Fake profile or spam';
+        return 'Scam or fraud';
       case 2:
-        return 'Inappropriate or offensive behaviour';
+        return 'Inappropriate or misleading content';
       case 3:
-        return 'Harassment or abuse';
+        return 'Harrassment or abuse';
       case 4:
         return 'Other';
       default:

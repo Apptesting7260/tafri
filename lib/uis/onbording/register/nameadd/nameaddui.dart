@@ -115,6 +115,10 @@ class NameAddUi extends GetWidget<NameAddController> {
                                     return null;
                                   }
                                 },
+
+                                    onChanged: (val) {
+
+                                    },
                                 hintText: "First name",
                                 controll: controller.fNameController,
                                 sufixIcon: Container(

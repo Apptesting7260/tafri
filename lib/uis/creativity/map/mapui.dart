@@ -140,6 +140,7 @@ class _MapuiState extends State<Mapui> {
                           ? const SizedBox()
                           : Container(
                         height: 150,
+                        width: Get.width,
                         decoration: BoxDecoration(
                           color: clrWhite,
                           borderRadius: const BorderRadius.only(

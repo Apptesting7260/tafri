@@ -429,10 +429,10 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: Get.width * 0.02,
-                                                ),
-                                                Icon(Icons.more_vert,color: Color.fromRGBO(85, 92, 105, 1),)
+                                                // SizedBox(
+                                                //   width: Get.width * 0.02,
+                                                // ),
+                                                // Icon(Icons.more_vert,color: Color.fromRGBO(85, 92, 105, 1),)
                                               ],
                                             ),
                                           ),

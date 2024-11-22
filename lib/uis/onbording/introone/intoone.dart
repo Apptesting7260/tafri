@@ -369,7 +369,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                       }));
                 },
                 child: Container(
-                  height: screenHeight * .058,
+                  height: screenHeight * .055,
                   width: screenWidth,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
@@ -388,7 +388,7 @@ class IntroOneUi extends GetWidget<IntroController> {
               ),
               SizedBox(
                 width: double.maxFinite,
-                height: screenHeight * .058,
+                height: screenHeight * .055,
                 child: CustomElevatedButton(
                   onTap: () {
                     controller.mobnoController.clear();

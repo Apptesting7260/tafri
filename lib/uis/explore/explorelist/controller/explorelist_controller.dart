@@ -1,17 +1,219 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart' as loc;
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/explore/explorelist/model/home_page_model.dart';
+import 'package:plusone/uis/explore/map/model/mapmodel.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
+import 'dart:ui' as ui;
+
 
 class ExploreListController extends GetxController {
+
+
+  /// for map in home page
+  GoogleMapController? mapController;
+  Rxn<loc.LocationData> currentLocation = Rxn<loc.LocationData>();
+  final LatLng initialPosition = LatLng(52.3731, 4.8922);
+  PanelController panelController = PanelController();
+  var bottomBarOffset = 0.99.obs;
+  var scrollUpCount = 0.obs;
+  var isTop = true.obs;
+  double calculateBottomBarOffset({String? from}) {
+    String fr = from ?? '';
+    const maxOffset = 50.0;
+    return ( (fr == 'FAB' ? (bottomBarOffset.value > 0.0 ? 1 : 1.2) : 1) - bottomBarOffset.value) * maxOffset;
+  }
+
+  void handleScroll() {
+
+    print('scroll position == ${scrollController.position.pixels}   ${scrollController.position.minScrollExtent}  ${scrollController.position.userScrollDirection}');
+    if (scrollController.position.pixels ==
+        scrollController.position.minScrollExtent || scrollController.position.pixels <=
+        scrollController.position.minScrollExtent ) {
+      print('c');
+
+      if(scrollController.position.pixels ==
+          scrollController.position.minScrollExtent){
+        Future.delayed(const Duration(seconds: 1),() => isTop.value = true);
+      }
+
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        print('here');
+        scrollUpCount.value++;
+        print('scroll value == ${scrollUpCount.value}');
+
+        if (scrollUpCount.value == 2) {
+
+          panelController.animatePanelToPosition(0,duration: Duration(milliseconds: 500));
+          scrollUpCount.value = 0;
+          isTop.value = false;
+        }
+      }
+    } else {
+      isTop.value = false;
+      scrollUpCount.value = 0;
+    }
+  }
+
+
+  Future<void> getUserLocation() async {
+    loc.Location location = loc.Location();
+
+    bool serviceEnabled;
+    loc.PermissionStatus permissionGranted;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == loc.PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != loc.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final userLocation = await location.getLocation();
+    currentLocation.value = userLocation;
+
+    // Move the camera to the user's location
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(userLocation.latitude!, userLocation.longitude!),
+          zoom: 15,
+        ),
+      ),
+    );
+  }
+
+
+  var mapData = MapModel().obs;
+  Future<void> getMap() async{
+    var header = {
+      'Authorization': 'Bearer ${LocalStorage.getToken()}'
+    };
+    try{
+      final response = await api.get(EndPoints.mapicons,headers: header);
+      print(response.body);
+      if(response.statusCode == 200){
+        mapData.value = MapModel.fromJson(response.body);
+        print('map == ${mapData.value}');
+        await addMarkers();
+      }else{
+      }
+    }catch(e){
+      print('map error == ${e.toString()}');
+    }
+  }
+
+
+  Set<Marker> markers = <Marker>{}.obs;
+
+  Future<void> addMarkers() async {
+    final List<MapResult>? results = mapData.value.result;
+    if (results != null) {
+      markers.clear();
+      for (var result in results) {
+        final latitude = double.tryParse(result.latitude ?? '');
+        final longitude = double.tryParse(result.longitude ?? '');
+
+        if (latitude != null && longitude != null) {
+          final icon = await getCustomIcon(result.icon ?? '');
+          final marker = Marker(
+            markerId: MarkerId(result.name ?? 'unknown'),
+            position: LatLng(latitude, longitude),
+            icon: icon,
+            infoWindow: InfoWindow(title: result.name),
+            onTap: () {
+              print('id == ${result.id}    ${result.hostId}');
+              if(result.hostId.toString() == LocalStorage.getUid()){
+                Get.toNamed(Routes.hostUpcommingActiview, arguments: result.id.toString());
+              }else {
+                Get.toNamed(
+                    Routes
+                        .exploreView,
+                    arguments: result.id.toString()
+                );
+              }
+            },
+          );
+          markers.add(marker);
+        }
+      }
+      update();
+    }
+  }
+
+  Future<BitmapDescriptor> getCustomIcon(String iconUrl) async {
+    try {
+      final ByteData byteData = await NetworkAssetBundle(Uri.parse(iconUrl)).load("");
+      final Uint8List bytes = byteData.buffer.asUint8List();
+      final ui.Codec codec = await ui.instantiateImageCodec(bytes);
+      final ui.FrameInfo frameInfo = await codec.getNextFrame();
+      final ui.Image image = frameInfo.image;
+
+      final double size = 100.0;
+      final double circleRadius = size / 2;
+      final double whiteCircleRadius = circleRadius * 0.9;
+      final double imageSize = whiteCircleRadius;
+
+      final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+      final Canvas canvas = Canvas(pictureRecorder);
+      final Paint yellowPaint = Paint()..color = clrYellow;
+      final Paint whitePaint = Paint()..color = Colors.white;
+
+      canvas.drawCircle(Offset(circleRadius, circleRadius), circleRadius, yellowPaint);
+
+      canvas.drawCircle(Offset(circleRadius, circleRadius), whiteCircleRadius, whitePaint);
+
+      final ui.Rect imageRect = Rect.fromLTWH(
+        (size - imageSize) / 2,
+        (size - imageSize) / 2,
+        imageSize,
+        imageSize,
+      );
+      final ui.Paint imagePaint = Paint()..filterQuality = ui.FilterQuality.high;
+      canvas.drawImageRect(
+        image,
+        Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+        imageRect,
+        imagePaint,
+      );
+
+      final ui.Image img = await pictureRecorder.endRecording().toImage(size.toInt(), size.toInt());
+      final ByteData? byteDataPng = await img.toByteData(format: ui.ImageByteFormat.png);
+      final Uint8List uint8List = byteDataPng!.buffer.asUint8List();
+
+      return BitmapDescriptor.fromBytes(uint8List);
+    } catch (e) {
+      log('Error fetching icon: $e');
+      return BitmapDescriptor.defaultMarker;
+    }
+  }
+
+
+  /// map home page
+
+
 
   ScrollController scrollController = ScrollController();
   RxBool showRefreshIndicator = true.obs;
@@ -20,15 +222,9 @@ class ExploreListController extends GetxController {
   void onInit() {
     super.onInit();
     homePageApi();
-    scrollController.addListener(() {
-      double currentScrollOffset = scrollController.offset;
-      if (currentScrollOffset <= 0) {
-        Future.delayed(const Duration(seconds: 1),() => showRefreshIndicator.value = true);
-      } else {
-        showRefreshIndicator.value = false;
-      }
-      print('ref == ${showRefreshIndicator.value}');
-    });
+    scrollController.addListener(handleScroll);
+    getMap();
+    getUserLocation();
   }
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
@@ -106,63 +302,6 @@ class ExploreListController extends GetxController {
   changeReqSent(intval) {
     isReqSent.value = intval;
   }
-
-  // RxList<Map> exploreListData = [
-  //   {
-  //     "img": ["assets/images/cofee.png", "assets/images/cofee.png"],
-  //     "lable": "Coffee",
-  //     "isFav": false,
-  //     "title": "Picnic in the park",
-  //     "location": "Vondelpark",
-  //     "time": "13 March 2024 | 2:30 PM - 6:00PM",
-  //     "poststotal": "3",
-  //     "leftposts": "2",
-  //     "hostname": "Jenny",
-  //     "hostImg": "assets/images/girldp.png",
-  //     "des":
-  //         "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
-  //     "controller": CarouselController(),
-  //     "currentCroIndex": 0,
-  //   },
-  //   {
-  //     "img": ["assets/images/cofee.png"],
-  //     "lable": "Coffee",
-  //     "isFav": false,
-  //     "title": "Picnic in the park",
-  //     "location": "Vondelpark",
-  //     "time": "13 March 2024 | 2:30 PM - 6:00PM",
-  //     "poststotal": "3",
-  //     "leftposts": "2",
-  //     "hostname": "Jenny",
-  //     "hostImg": "assets/images/girldp.png",
-  //     "des":
-  //         "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
-  //     "controller": CarouselController(),
-  //     "currentCroIndex": 0,
-  //   },
-  //   {
-  //     "img": ["assets/images/cofee.png"],
-  //     "lable": "Coffee",
-  //     "isFav": false,
-  //     "title": "Picnic in the park",
-  //     "location": "Vondelpark",
-  //     "time": "13 March 2024 | 2:30 PM - 6:00PM",
-  //     "poststotal": "3",
-  //     "leftposts": "2",
-  //     "hostname": "Jenny",
-  //     "hostImg": "assets/images/girldp.png",
-  //     "des":
-  //         "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner",
-  //     "controller": CarouselController(),
-  //     "currentCroIndex": 0,
-  //   },
-  // ].obs;
-
-  // changeFav(index) {
-  //   exploreListData.value[index]['isFav'] =
-  //       !exploreListData.value[index]['isFav'];
-  //   exploreListData.refresh();
-  // }
 
 
   bool? isFavs = false;

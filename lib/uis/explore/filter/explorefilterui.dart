@@ -774,7 +774,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             SizedBox(
                                               height: Res.h_filter_btn,
                                               child: CustoFilterBtn(
-                                                lable: Text("today",
+                                                lable: Text("Today",
                                                     style: TextStyle(
                                                         color: controller.dateFilter[
                                                                 'today']
@@ -802,7 +802,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             SizedBox(
                                               height: Res.h_filter_btn,
                                               child: CustoFilterBtn(
-                                                lable: Text("tomorrow",
+                                                lable: Text("Tomorrow",
                                                     style: TextStyle(
                                                         color: controller
                                                                     .dateFilter

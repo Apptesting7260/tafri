@@ -120,6 +120,7 @@ class SearchActui extends GetWidget<SearchActController> {
                                                   options: CarouselOptions(
                                                       height: h * .26,
                                                       viewportFraction: 1,
+                                                      enableInfiniteScroll: false,
                                                       onPageChanged: (currIndex,
                                                           CarouselPageChangedReason
                                                               reason) {

@@ -11,6 +11,39 @@ import '../../../../../routes/routes.dart';
 
 class NameAddController extends GetxController{
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    fNameController.addListener(firstNameCapital);
+    lNameController.addListener(lastNameCapital);
+  }
+
+
+  void firstNameCapital() {
+    final text = fNameController.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      fNameController.value = fNameController.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: fNameController.text.length),
+        ),
+      );
+    }
+  }
+
+  void lastNameCapital() {
+    final text = lNameController.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      lNameController.value = lNameController.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: lNameController.text.length),
+        ),
+      );
+    }
+  }
+
   final api = ApiServices();
 
   final IntroController introController = Get.find<IntroController>();

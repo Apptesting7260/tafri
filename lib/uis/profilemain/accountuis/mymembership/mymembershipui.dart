@@ -477,7 +477,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 TextSpan(
                                                     text: " Terms of Service",
                                                     style: TextStyle(
-                                                        color: clrYellow,
+                                                        color: clrYellowText,
                                                         decoration: TextDecoration
                                                             .underline,
                                                         height: 1.5)),
@@ -490,7 +490,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 TextSpan(
                                                     text: " Privacy Policy.",
                                                     style: TextStyle(
-                                                        color: clrYellow,
+                                                        color: clrYellowText,
                                                         decoration: TextDecoration
                                                             .underline,
                                                         height: 1.5)),

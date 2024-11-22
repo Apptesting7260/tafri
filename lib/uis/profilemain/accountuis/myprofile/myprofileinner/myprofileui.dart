@@ -382,7 +382,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                 .profileData
                                                 .value
                                                 .result
-                                                ?.location == null ? Image.asset("assets/icons/dangericon.png",height: 25,) : SizedBox(),
+                                                ?.location == null ? Image.asset("assets/icons/dangericon.png",height: 17,) : SizedBox(),
                                             SizedBox(
                                               width: 5,
                                             ),
@@ -898,27 +898,27 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 SizedBox(
                                   height: Get.height * .03,
                                 ),
-                                Obx(() {
-                                  return Opacity(
-                                    opacity: controller.deleteloading.value ? 0.5 : 1,
-                                    child: SizedBox(
-                                      height: Res.h_btn,
-                                      child: CustomElevatedButton(
-                                          onTap: () {
-                                            alertDeleteAccount();
-                                          },
-                                          backgroundClr: clrBlacke,
-                                          child: controller.deleteloading.value ? CommonUi.buttonLoading() : Text(
-                                            "Delete Account",
-                                            style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
-                                          )
-                                      ),
-                                    ),
-                                  );
-                                },),
-                                SizedBox(
-                                  height: Get.height * .03,
-                                ),
+                                // Obx(() {
+                                //   return Opacity(
+                                //     opacity: controller.deleteloading.value ? 0.5 : 1,
+                                //     child: SizedBox(
+                                //       height: Res.h_btn,
+                                //       child: CustomElevatedButton(
+                                //           onTap: () {
+                                //             alertDeleteAccount();
+                                //           },
+                                //           backgroundClr: clrBlacke,
+                                //           child: controller.deleteloading.value ? CommonUi.buttonLoading() : Text(
+                                //             "Delete Account",
+                                //             style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),
+                                //           )
+                                //       ),
+                                //     ),
+                                //   );
+                                // },),
+                                // SizedBox(
+                                //   height: Get.height * .03,
+                                // ),
                               ],
                             ),
                           ),

@@ -149,6 +149,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                         options: CarouselOptions(
                                             height: h * .26,
                                             viewportFraction: 1,
+                                            enableInfiniteScroll: false,
                                             onPageChanged: (currIndex,
                                                 CarouselPageChangedReason
                                                 reason) {
@@ -671,7 +672,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                           onTap: () {},
                                           backgroundClr: clrGrey,
                                           child: Text(
-                                            "Pending Host Confirmation",
+                                            "Pending host confirmation",
                                             style: TextStyle(
                                                 color: clrWhite,
                                                 fontSize: 16,
@@ -1194,7 +1195,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                   () => SizedBox(
                   height: 30,
                   child: CustomRadioButton(
-                      text: "Fake profile or spam",
+                      text: "Scam or fraud",
                       activeColor: clrYellow,
                       value: 1,
                       groupValue: controller.selectedValue.value,
@@ -1215,7 +1216,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                   () => SizedBox(
                   height: 30,
                   child: CustomRadioButton(
-                      text: "Inappropriate or offensive behaviour",
+                      text: "Inappropriate or misleading content",
                       activeColor: clrYellow,
                       value: 2,
                       groupValue: controller.selectedValue.value,

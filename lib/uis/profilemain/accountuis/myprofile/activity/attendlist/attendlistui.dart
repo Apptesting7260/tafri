@@ -42,7 +42,7 @@ class AttendListUi extends GetView<AttendlistController>{
               const SizedBox(
                 height: 10,
               ),
-              ListView.builder(
+              controller.attData.value.result!.attendanceList!.isNotEmpty ? ListView.builder(
                   padding: EdgeInsets.symmetric(vertical:  h*.02,),
                   shrinkWrap: true,
                   itemCount: controller.attData.value.result?.attendanceList?.length,
@@ -151,7 +151,10 @@ class AttendListUi extends GetView<AttendlistController>{
                         ],
                       ),
                     );
-                  }),
+                  }) : const Expanded(child: Center(child: Text('No attendees found!',style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16
+              ),))),
             ],
           ),
         ),),

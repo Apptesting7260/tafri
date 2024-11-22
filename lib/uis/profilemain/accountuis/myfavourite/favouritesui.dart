@@ -139,6 +139,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                         options:
                                                             CarouselOptions(
                                                                 height: h * .25,
+                                                                enableInfiniteScroll: false,
                                                                 viewportFraction:
                                                                     1,
                                                                 onPageChanged:

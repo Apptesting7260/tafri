@@ -99,6 +99,7 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                   CarouselSlider(
                                                     options: CarouselOptions(
                                                         height: h * .26,
+                                                        enableInfiniteScroll: false,
                                                         viewportFraction: 1,
                                                         onPageChanged: (currIndex,
                                                             CarouselPageChangedReason
