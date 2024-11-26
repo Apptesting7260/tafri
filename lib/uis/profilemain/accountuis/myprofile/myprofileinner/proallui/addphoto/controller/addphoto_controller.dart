@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/colors.dart';
 
 import '../../../../../../../../utils/local_storage.dart';
@@ -30,6 +35,37 @@ class AddphotoController extends GetxController {
       debugPrint("photo is null");
     }
   }
+
+
+  CustomImageCropController cropController = CustomImageCropController();
+  var cropLoading = false.obs;
+
+  Future<XFile> convertImage(Uint8List imageBytes, String fileName) async {
+    final tempDir = await getTemporaryDirectory();
+    final filePath = '${tempDir.path}/$fileName';
+    final file = File(filePath);
+    await file.writeAsBytes(imageBytes);
+    return XFile(filePath);
+  }
+
+  Future<void> cropPhoto() async{
+
+    cropLoading.value = true;
+    try{
+      final image = await cropController.onCropImage();
+      if(image != null){
+        print('croped image == ${image}');
+        final cropImage = await convertImage(image.bytes, 'PlusOnes_${DateTime.now().microsecondsSinceEpoch}.jpg');
+        selectedImage.value = cropImage;
+        Get.back();
+      }
+    }catch(e){
+      print('crop errror == ${e.toString()}');
+    }
+    cropLoading.value = false;
+
+  }
+
 
   String? token = LocalStorage.getToken();
   String? uid = LocalStorage.getUid();
@@ -79,10 +115,11 @@ class AddphotoController extends GetxController {
       return
         CupertinoActionSheet(actions: [CupertinoActionSheetAction(onPressed: () async{
           final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-          if(image != null){
-            changePhoto(image);
-          }
+          // if(image != null){
+          //   changePhoto(image);
+          // }
           Get.back();
+          Get.toNamed(Routes.cropPhotoScreen,arguments: image);
         }, child: Center(
           child: Text('Select from library',style: TextStyle(
             fontSize: 18,
@@ -91,10 +128,12 @@ class AddphotoController extends GetxController {
           ),),
         )),CupertinoActionSheetAction(onPressed: () async{
           final XFile? image = await picker.pickImage(source: ImageSource.camera);
-          if(image != null){
-            changePhoto(image);
-          }
+          // if(image != null){
+          //   changePhoto(image);
+          // }
           Get.back();
+          Get.toNamed(Routes.cropPhotoScreen,arguments: image);
+
         }, child: Center(
           child: Text('Take a photo',style: TextStyle(
               fontSize: 18,

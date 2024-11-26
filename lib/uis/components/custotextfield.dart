@@ -42,7 +42,7 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
       keyboardType: widget.textKType??TextInputType.text,
       onChanged: widget.onChanged,
       inputFormatters: widget.inputFormatters,
-      textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
+      textCapitalization: widget.textCapitalization ?? TextCapitalization.words,
       decoration: InputDecoration(
           prefixIcon:widget.sufixIcon==null?null :widget.sufixIcon ,
           hintText: widget.hintText,

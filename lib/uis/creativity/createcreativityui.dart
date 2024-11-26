@@ -102,7 +102,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                   Column(children: [
                                     Expanded(
                                       child: ListView(
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                                           children: [
                                             SizedBox(
                                               height: Get.height * 0.02,

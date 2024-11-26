@@ -1,10 +1,12 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../routes/routes.dart';
 import '../../../utils/colors.dart';
 import 'controller/intro_controller.dart';
@@ -287,6 +289,9 @@ class IntroOneUi extends GetWidget<IntroController> {
                                               const TextSpan(text: ' '),
                                               TextSpan(
                                                   text: "Terms of Use",
+                                                  recognizer: TapGestureRecognizer()..onTap = () async{
+                                                    await launchUrl(Uri.parse('https://plusonesapp.com/terms-and-conditions'));
+                                                  },
                                                   style: TextStyle(
                                                       color: clrYellowText,
                                                       fontWeight:
@@ -304,6 +309,9 @@ class IntroOneUi extends GetWidget<IntroController> {
                                               const TextSpan(text: ' '),
                                               TextSpan(
                                                   text: "Privacy Policy",
+                                                  recognizer: TapGestureRecognizer()..onTap = () async{
+                                                    await launchUrl(Uri.parse('https://plusonesapp.com/privacy-policy'));
+                                                  },
                                                   style: TextStyle(
                                                       color: clrYellowText,
                                                       fontWeight:

@@ -80,6 +80,9 @@ dependencies:
   app_links:
 #  app_links: ^6.3.2
   path_provider: ^2.1.4
+  custom_image_crop: ^0.0.13
+  url_launcher: ^6.3.1
+  socket_io_client: ^3.0.2
 
 dev_dependencies:
   flutter_test:

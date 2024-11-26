@@ -1430,15 +1430,15 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                         height:
                                                         h * .005,
                                                       ),
-                                                      Text(
-                                                        '${activityData?[index].location}',
-                                                        style:
-                                                        TextStyle(color: clrGreyDark),
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                        h * .005,
-                                                      ),
+                                                      // Text(
+                                                      //   '${activityData?[index].location}',
+                                                      //   style:
+                                                      //   TextStyle(color: clrGreyDark),
+                                                      // ),
+                                                      // SizedBox(
+                                                      //   height:
+                                                      //   h * .005,
+                                                      // ),
                                                       Text(
                                                         '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
                                                         style:

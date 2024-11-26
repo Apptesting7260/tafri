@@ -213,6 +213,7 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
                       width: double.maxFinite,
                       child: CustomElevatedButton(
                           onTap: () async{
+                            FocusScope.of(context).unfocus();
                             await controller.funfactUpdate();
                           },
                           backgroundClr: clrBlacke,

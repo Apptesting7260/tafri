@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
@@ -130,6 +131,7 @@ class AddPhotoUi extends GetWidget<AddphotoController> {
                        }else{
                          controller.imagePopUp(context);
                        }
+                       // Get.toNamed(Routes.cropPhotoScreen);
                      },
                      backgroundClr: clrBlacke,
                      child: controller.photoLoading.value ? CommonUi.buttonLoading() : Text(

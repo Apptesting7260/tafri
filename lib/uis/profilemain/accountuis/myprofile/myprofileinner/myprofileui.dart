@@ -226,8 +226,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                               ?.profilePhoto ==
                                                           null
                                                   ? Image.asset(
-                                                      "assets/icons/dangericon.png",
-                                                      height: 15,
+                                                      "assets/icons/danger_new.png",
+                                                      height: 17,
                                                     )
                                                   : CommonUi.emptySizeBox(),
                                             ],
@@ -311,7 +311,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                 !.profile
                                                 !.bio!.isEmpty
                                                 ? Image.asset(
-                                                    "assets/icons/dangericon.png",
+                                                    "assets/icons/danger_new.png",
                                                     height: 17,
                                                   )
                                                 : CommonUi.emptySizeBox(),
@@ -382,9 +382,9 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                 .profileData
                                                 .value
                                                 .result
-                                                ?.location == null ? Image.asset("assets/icons/dangericon.png",height: 17,) : SizedBox(),
+                                                ?.location == null ? Image.asset("assets/icons/danger_new.png",height: 17,) : SizedBox(),
                                             SizedBox(
-                                              width: 5,
+                                              width: w * .02,
                                             ),
                                             Image.asset(
                                               'assets/icons/arrow right.png',
@@ -468,7 +468,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                 !.profile
                                                 !.occupation!.isEmpty
                                                 ? Image.asset(
-                                                    "assets/icons/dangericon.png",
+                                                    "assets/icons/danger_new.png",
                                                     height: 17,
                                                   )
                                                 : CommonUi.emptySizeBox(),
@@ -579,7 +579,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                     null || profileController.profileData.value
                                                 .result!.profile!.languageNames!.isEmpty
                                                 ? Image.asset(
-                                                    "assets/icons/dangericon.png",
+                                                    "assets/icons/danger_new.png",
                                                     height: 17,
                                                   )
                                                 : CommonUi.emptySizeBox(),
@@ -668,7 +668,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                 !.profile
                                                 !.activityTitles!.isEmpty) && controller.selectedActivity.isEmpty
                                                 ? Image.asset(
-                                                    "assets/icons/dangericon.png",
+                                                    "assets/icons/danger_new.png",
                                                     height: 17,
                                                   )
                                                 : CommonUi.emptySizeBox(),
@@ -757,7 +757,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                 !.profile
                                                 !.funFactsAboutMe!.isEmpty) && controller.funFactListDeta.isEmpty
                                                 ? Image.asset(
-                                                    "assets/icons/dangericon.png",
+                                                    "assets/icons/danger_new.png",
                                                     height: 17,
                                                   )
                                                 : CommonUi.emptySizeBox(),
@@ -878,7 +878,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                     ?.verifyLinkedin ==
                                                     "0"
                                                 ? Image.asset(
-                                                    "assets/icons/dangericon.png",
+                                                    "assets/icons/danger_new.png",
                                                     height: 17,
                                                   )
                                                 : CommonUi.emptySizeBox(),

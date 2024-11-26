@@ -62,6 +62,7 @@ import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/bindings/previousacti_bindings.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/previousactivityui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/binding/myprofileinnbinding.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/addphoto/crop%20photo/crop_photo.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/youractivities/attendancereview/attendancereviewui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/youractivities/attendancereview/bindings/attend_review_binding.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/youractivities/hostactivity_upcomming/bindings/host_upcommiacti_bindings.dart';
@@ -154,6 +155,7 @@ class Routes{
   static String mapexploreui='/mapexploreui';
   static String paymentScreen='/paymentScreen';
   static String contactSupport='/contactSupport';
+  static String cropPhotoScreen='/cropPhoto';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -208,5 +210,6 @@ class Routes{
     GetPage(name: mapexploreui, page:()=>  MapExploreUi(),binding: MapExploreBinding()),
     GetPage(name: paymentScreen, page:()=>  PaymentScreen(),),
     GetPage(name: contactSupport, page:()=>  Contactsupport(),binding: ContactSupportBinding()),
+    GetPage(name: cropPhotoScreen, page:()=>  CropPhotoScreen(),binding: AddphotoBinding()),
   ];
 }

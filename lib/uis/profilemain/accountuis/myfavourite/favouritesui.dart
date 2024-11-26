@@ -408,18 +408,18 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                           const SizedBox(
                                                             height: 5,
                                                           ),
-                                                          Text(
-                                                                  resultData[
-                                                                          index]
-                                                                      .location
-                                                                      .toString(),
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          clrGreyDark),
-                                                                ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
+                                                          // Text(
+                                                          //         resultData[
+                                                          //                 index]
+                                                          //             .location
+                                                          //             .toString(),
+                                                          //         style: TextStyle(
+                                                          //             color:
+                                                          //                 clrGreyDark),
+                                                          //       ),
+                                                          // const SizedBox(
+                                                          //   height: 5,
+                                                          // ),
                                                           Text(
                                                             '${resultData[index].formattedDate} ${homeController
                                                                 .homeData

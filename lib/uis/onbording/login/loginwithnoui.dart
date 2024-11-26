@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/onbording/login/controller/loginno_controller.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
 import '../../components/custoelevatedbtn.dart';
@@ -285,6 +287,9 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                         const TextSpan(text: ' '),
                                                         TextSpan(
                                                             text: "Terms of Use",
+                                                            recognizer: TapGestureRecognizer()..onTap = () async{
+                                                              await launchUrl(Uri.parse('https://plusonesapp.com/terms-and-conditions'));
+                                                            },
                                                             style: TextStyle(
                                                                 color: clrYellowText,
                                                                 fontWeight:
@@ -302,6 +307,9 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                         const TextSpan(text: ' '),
                                                         TextSpan(
                                                             text: "Privacy Policy",
+                                                            recognizer: TapGestureRecognizer()..onTap = () async{
+                                                              await launchUrl(Uri.parse('https://plusonesapp.com/privacy-policy'));
+                                                            },
                                                             style: TextStyle(
                                                                 color: clrYellowText,
                                                                 fontWeight:

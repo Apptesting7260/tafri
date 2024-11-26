@@ -830,18 +830,36 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                         children: [
                                                                                           Row(
                                                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                                                             children: [
                                                                                               Flexible(
                                                                                                 child: Text(
                                                                                                   "${data.activities?[ind].name.toString().trim()}",
+                                                                                                  maxLines: 2,
                                                                                                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                                                                                   overflow: TextOverflow.ellipsis,
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(width: 5,),
-                                                                                              Text(data.activities![ind].status.toString(),
-                                                                                                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-                                                                                              ),
+                                                                                              Container(
+                                                                                                padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 7),
+                                                                                                decoration: BoxDecoration(
+                                                                                                  color: darkYellow.withOpacity(.15),
+                                                                                                  borderRadius: BorderRadius.circular(50)
+                                                                                                ),
+                                                                                                child: Center(
+                                                                                                  child: Text(
+                                                                                                    '${data.activities?[ind].status?.substring(0, 1).toUpperCase()}${data.activities?[ind].status?.substring(1) ?? ''}',
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 10,
+                                                                                                      color: darkYellow,
+                                                                                                    ),
+                                                                                                  )
+                                                                                                ),
+                                                                                              )
+                                                                                              // Text(data.activities![ind].status.toString(),
+                                                                                              //   style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+                                                                                              // ),
                                                                                             ],
                                                                                           ),
                                                                                           Text("${data.activities?[ind].location.toString()}", style: TextStyle(color: clrGreyDark, fontSize: 12)),

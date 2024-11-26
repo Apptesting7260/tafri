@@ -366,41 +366,46 @@ class SearchActui extends GetWidget<SearchActController> {
                                                     SizedBox(
                                                       height: h * .005,
                                                     ),
-                                                    controller
-                                                        .homeData
-                                                        .value
-                                                        .result
-                                                        ?.profileComplete ==
-                                                        true &&
-                                                        controller
-                                                            .homeData
-                                                            .value
-                                                            .result
-                                                            ?.membershipStatus ==
-                                                            true ? Text(
-                                                      '${activityData?[index].location}',
-                                                      style: TextStyle(
-                                                          color: clrGreyDark),
-                                                    ) : SizedBox(),
-                                                    SizedBox(
-                                                      height: h * .005,
+                                                    // controller
+                                                    //     .homeData
+                                                    //     .value
+                                                    //     .result
+                                                    //     ?.profileComplete ==
+                                                    //     true &&
+                                                    //     controller
+                                                    //         .homeData
+                                                    //         .value
+                                                    //         .result
+                                                    //         ?.membershipStatus ==
+                                                    //         true ? Text(
+                                                    //   '${activityData?[index].location}',
+                                                    //   style: TextStyle(
+                                                    //       color: clrGreyDark),
+                                                    // ) : SizedBox(),
+                                                    // SizedBox(
+                                                    //   height: h * .005,
+                                                    // ),
+                                                    Text(
+                                                      '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
+                                                      style:
+                                                      TextStyle(color: clrGreyDark),
                                                     ),
-                                                    controller
-                                                        .homeData
-                                                        .value
-                                                        .result
-                                                        ?.profileComplete ==
-                                                        true &&
-                                                        controller
-                                                            .homeData
-                                                            .value
-                                                            .result
-                                                            ?.membershipStatus ==
-                                                            true ? Text(
-                                                      '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
-                                                      style: TextStyle(
-                                                          color: clrGreyDark),
-                                                    ) : SizedBox(),
+                                                    // controller
+                                                    //     .homeData
+                                                    //     .value
+                                                    //     .result
+                                                    //     ?.profileComplete ==
+                                                    //     true &&
+                                                    //     controller
+                                                    //         .homeData
+                                                    //         .value
+                                                    //         .result
+                                                    //         ?.membershipStatus ==
+                                                    //         true ? Text(
+                                                    //   '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
+                                                    //   style: TextStyle(
+                                                    //       color: clrGreyDark),
+                                                    // ) : SizedBox(),
                                                     SizedBox(
                                                       height: h * .008,
                                                     ),

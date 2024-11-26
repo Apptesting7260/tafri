@@ -7,6 +7,7 @@ import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/pushn
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/custom_switch.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/size.dart';
 import '../../../components/custoelevatedbtn.dart';
@@ -224,25 +225,40 @@ class SettingUi extends GetWidget<SettingController>{
                               color: clrGreyLight,
                               height: h*.037,
                             ),
-                            const Text(
-                              "Terms & conditions ",
-                              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                            GestureDetector(
+                              onTap: () async{
+                                  await launchUrl(Uri.parse('https://plusonesapp.com/terms-and-conditions'));
+                              },
+                              child: const Text(
+                                "Terms & conditions ",
+                                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                              ),
                             ),
                             Divider(
                               color: clrGreyLight,
                               height: h*.037,
                             ),
-                            const Text(
-                              "Privacy policy ",
-                              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                            GestureDetector(
+                              onTap: () async{
+                                  await launchUrl(Uri.parse('https://plusonesapp.com/privacy-policy'));
+                              },
+                              child: const Text(
+                                "Privacy policy ",
+                                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                              ),
                             ),
                             Divider(
                               color: clrGreyLight,
                               height: h*.037,
                             ),
-                            const Text(
-                              "Community Guidelines ",
-                              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                            GestureDetector(
+                              onTap: () async{
+                                await launchUrl(Uri.parse('https://plusonesapp.com/community-guideliness'));
+                              },
+                              child: const Text(
+                                "Community Guidelines ",
+                                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                              ),
                             ),
                             Divider(
                               color: clrGreyLight,
@@ -254,17 +270,17 @@ class SettingUi extends GetWidget<SettingController>{
                             SizedBox(
                               height:h*.017,
                             ),
-                            GestureDetector(
+                            Obx(() => GestureDetector(
                               onTap: () {
                                 controller.alertDeleteAccount();
                               },
-                              child: Text('Delete account',style: TextStyle(
-                                color: clrRed,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Nunito',
-                                fontSize: 15
+                              child: controller.deleteloading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text('Delete account',style: TextStyle(
+                                  color: clrRed,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Nunito',
+                                  fontSize: 15
                               ),),
-                            )
+                            ),)
                           ],
                         ),
                       ),

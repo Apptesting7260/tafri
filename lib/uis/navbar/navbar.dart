@@ -6,6 +6,7 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/creativity/createcreativityui.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/explore/explorelist/exploreui.dart';
+import 'package:plusone/uis/message/chats/controller/chat_controller.dart';
 import 'package:plusone/uis/message/messagelist/controller/messagelist_controller.dart';
 import 'package:plusone/uis/message/messagelist/messagelistui.dart';
 import 'package:plusone/uis/myactivity/myactivitylist/controller/myacti_controller.dart';
@@ -26,6 +27,7 @@ class Navbar extends GetWidget {
   // List<IconData> iconList=[IconData()];
   NavBarController navcontroller = Get.put(NavBarController());
   ExploreListController exploreListController=Get.put(ExploreListController());
+  ChatController chatController = Get.put(ChatController());
 
   final iconList = <IconData>[
     Icons.brightness_5,
@@ -71,7 +73,7 @@ class Navbar extends GetWidget {
 
       bottomNavigationBar: GetBuilder<NavBarController>(builder: (controller) {
         return Obx(() {
-          double dynamicHeight = ((exploreListController.bottomBarOffset.value > 0.0 ? 1 : 0) + exploreListController.bottomBarOffset.value) * 25;
+          double dynamicHeight = ((exploreListController.bottomBarOffset.value > 0.0 ? 1 : 0) + exploreListController.bottomBarOffset.value) * 30;
           print('bool == ${exploreListController.bottomBarOffset.value > 0.0}');
           print('off == ${exploreListController.bottomBarOffset.value}');
           print('height == ${dynamicHeight}');

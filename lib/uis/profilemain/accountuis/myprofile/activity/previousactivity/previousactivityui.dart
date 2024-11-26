@@ -269,17 +269,6 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                       style: const TextStyle(fontWeight: FontWeight.w700),
                                     ),
                                   ),
-                                  // Container(
-                                  //   padding: const EdgeInsets.all(6),
-                                  //   decoration: BoxDecoration(
-                                  //       color: clrWhite,
-                                  //       borderRadius:
-                                  //       BorderRadius.circular(100)),
-                                  //   child: const Icon(
-                                  //     Icons.favorite_border,
-                                  //     size: 20,
-                                  //   ),
-                                  // ),
                                   InkWell(
                                     onTap: () async {
                                       var id = controller
@@ -303,9 +292,6 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                       );
 
                                       controller.actData.refresh();
-                                      // controller
-                                      //     .changeFav(
-                                      //         index);
                                     },
                                     child: Container(
                                       padding:
@@ -332,28 +318,6 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                 ],
                               ),
                             ),
-                            // Align(
-                            //   alignment: Alignment.bottomCenter,
-                            //   child: Container(
-                            //     margin: EdgeInsets.only(bottom: 7),
-                            //     height: 16,
-                            //     child: ListView.builder(
-                            //         itemCount: 3,
-                            //         shrinkWrap: true,
-                            //         scrollDirection: Axis.horizontal,
-                            //         itemBuilder: (context, index) {
-                            //           return Padding(
-                            //             padding: const EdgeInsets.symmetric(
-                            //                 horizontal: 1.5),
-                            //             child: Icon(
-                            //               Icons.circle,
-                            //               color: clrWhite,
-                            //               size: 8,
-                            //             ),
-                            //           );
-                            //         }),
-                            //   ),
-                            // )
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
@@ -434,6 +398,9 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                 // ),
                               ],
                             ),
+                          ),
+                          const SizedBox(
+                            width: 5,
                           ),
                           // InkWell(
                           //   onTap: (){
@@ -568,9 +535,9 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       //   }),
                       // ),
 
-                      SizedBox(
+                      controller.actData.value.activity?.status == 'approved' && controller.actData.value.activity?.hostId.toString() == LocalStorage.getUid() ? SizedBox(
                         height: Get.height * 0.04,
-                      ),
+                      ) : SizedBox(),
                       controller.actData.value.activity?.status == 'approved' && controller.actData.value.activity?.hostId.toString() == LocalStorage.getUid() ? const Text("You created this activity",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),)
                           : controller.actData.value.activity?.status == 'pending' ? SizedBox(
                           width: double.maxFinite,
@@ -718,153 +685,6 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                               )
                           )
                       ) : const SizedBox() : const SizedBox(),
-
-                      controller.showreviewData.value.result == null ? const SizedBox() : const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                      controller.showreviewData.value.result == null ? const SizedBox() : SizedBox(
-                        height: Get.height*0.01,
-                      ),
-                      controller.showreviewData.value.result == null ? const SizedBox() : ListView.separated(
-                        itemCount: controller.showreviewData.value.result?.length ?? 0,
-                        shrinkWrap: true,
-                        physics:
-                        const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin:
-                            const EdgeInsets.only(bottom: 20),
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    // Container(
-                                    //   margin:
-                                    //   const EdgeInsets.only(right: 5),
-                                    //   clipBehavior: Clip.hardEdge,
-                                    //   height: h * .055,
-                                    //   width: h * .055,
-                                    //   decoration: BoxDecoration(
-                                    //     borderRadius: BorderRadius.circular(100),
-                                    //   ),
-                                    //   child: Image.asset(
-                                    //     "assets/images/cofee.png",
-                                    //     fit: BoxFit.cover,
-                                    //   ),
-                                    // ),
-                                    ClipRRect(
-                                      borderRadius:
-                                      BorderRadius.circular(100),
-                                      child:
-                                      CachedNetworkImage(
-                                        height: 40,
-                                        width: 40,
-                                        fit: BoxFit.cover,
-                                        imageUrl: '${controller.showreviewData.value.result?[index].profilePhoto}',
-                                        errorWidget: (context, url, error) => Container(
-                                          height: 40,
-                                          width: 40,
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
-                                          child: Image.asset(
-                                            "assets/icons/manicon.png",
-                                            color: clrGrey,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        placeholder: (context, url) => Shimmer.fromColors(
-                                          baseColor: grey300,
-                                          highlightColor: grey100,
-                                          child: Container(
-                                            height: 40,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                              color: grey300,
-                                              borderRadius: BorderRadius.circular(18),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Text(
-                                          '${controller.showreviewData.value.result?[index].firstName}  ${controller.showreviewData.value.result?[index].lastName}',
-                                          style: const TextStyle(
-                                              fontWeight:
-                                              FontWeight.w600,
-                                              fontSize: 16),
-                                        ),
-                                        RatingBar(
-                                          // tapOnlyMode:true
-                                          ignoreGestures: true,
-                                          initialRating: 4.5,
-                                          allowHalfRating: true,
-                                          itemSize: 20,
-                                          ratingWidget:
-                                          RatingWidget(
-                                            full: Icon(
-                                              Icons.star,
-                                              color: clrYellow,
-                                              size: 20,
-                                            ),
-                                            half: Stack(
-                                              children: [
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.grey.shade400, // Light grey for the right side
-                                                  size: 20,
-                                                ),
-                                                ClipRect(
-                                                  child: Align(
-                                                    alignment: Alignment.centerLeft,
-                                                    widthFactor: 0.5, // Clip the star to show only the left half
-                                                    child: Icon(
-                                                      Icons.star,
-                                                      color: clrYellow, // Yellow for the left side
-                                                      size: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            empty: Icon(
-                                              Icons.star_border,
-                                              color: clrYellow,
-                                              size: 20,
-                                            ),
-                                          ),
-                                          onRatingUpdate:
-                                              (rating) {
-                                            print(rating);
-                                          },
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10,),
-                                Text(
-                                  // "Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                  '${controller.showreviewData.value.result?[index].review}',
-                                  style: TextStyle(
-                                      color: clrGreyTextLight,fontSize: 14,fontWeight: FontWeight.w400),
-                                )
-                              ],
-                            ),
-                          );
-                        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },),
-
-
-                      const SizedBox(
-                        height: 10,
-                      ),
                       // controller.actData.value.activity?.status == 'approved' && (controller.actData.value.activity?.hostId.toString() != LocalStorage.getUid().toString()) ?  const SizedBox() :  Center(child: InkWell(
                       //     onTap: (){
                       //       alertDeleteActivity();
@@ -955,9 +775,9 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                               );
                             }),
                       ),
-                      SizedBox(
+                      controller.showreviewData.value.result != null ? SizedBox(
                         height: Get.height*0.03,
-                      ),
+                      ) : SizedBox(),
                       (controller.actData.value.activity?.status == 'completed' && controller.isHost == false) ? SizedBox(
                           width: double.maxFinite,
                           height: Res.h_btn,
@@ -985,6 +805,154 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                       ) : const SizedBox(),
                       SizedBox(
                         height: Get.height * 0.03,
+                      ),
+
+
+                      controller.showreviewData.value.result == null ? const SizedBox() : const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+                      controller.showreviewData.value.result == null ? const SizedBox() : SizedBox(
+                        height: Get.height*0.01,
+                      ),
+                      controller.showreviewData.value.result == null ? const SizedBox() : ListView.separated(
+                        itemCount: controller.showreviewData.value.result?.length ?? 0,
+                        shrinkWrap: true,
+                        physics:
+                        const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin:
+                            const EdgeInsets.only(bottom: 20),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    // Container(
+                                    //   margin:
+                                    //   const EdgeInsets.only(right: 5),
+                                    //   clipBehavior: Clip.hardEdge,
+                                    //   height: h * .055,
+                                    //   width: h * .055,
+                                    //   decoration: BoxDecoration(
+                                    //     borderRadius: BorderRadius.circular(100),
+                                    //   ),
+                                    //   child: Image.asset(
+                                    //     "assets/images/cofee.png",
+                                    //     fit: BoxFit.cover,
+                                    //   ),
+                                    // ),
+                                    ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(100),
+                                      child:
+                                      CachedNetworkImage(
+                                        height: 40,
+                                        width: 40,
+                                        fit: BoxFit.cover,
+                                        imageUrl: '${controller.showreviewData.value.result?[index].profilePhoto}',
+                                        errorWidget: (context, url, error) => Container(
+                                          height: 40,
+                                          width: 40,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            "assets/icons/manicon.png",
+                                            color: clrGrey,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        placeholder: (context, url) => Shimmer.fromColors(
+                                          baseColor: grey300,
+                                          highlightColor: grey100,
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              color: grey300,
+                                              borderRadius: BorderRadius.circular(18),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          '${controller.showreviewData.value.result?[index].firstName}  ${controller.showreviewData.value.result?[index].lastName}',
+                                          style: const TextStyle(
+                                              fontWeight:
+                                              FontWeight.w600,
+                                              fontSize: 16),
+                                        ),
+                                        RatingBar(
+                                          // tapOnlyMode:true
+                                          ignoreGestures: true,
+                                          initialRating: double.parse(controller.showreviewData.value.result![index].rating.toString()),
+                                          allowHalfRating: true,
+                                          itemSize: 20,
+                                          ratingWidget:
+                                          RatingWidget(
+                                            full: Icon(
+                                              Icons.star,
+                                              color: clrYellow,
+                                              size: 20,
+                                            ),
+                                            half: Stack(
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.grey.shade400, // Light grey for the right side
+                                                  size: 20,
+                                                ),
+                                                ClipRect(
+                                                  child: Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    widthFactor: 0.5, // Clip the star to show only the left half
+                                                    child: Icon(
+                                                      Icons.star,
+                                                      color: clrYellow, // Yellow for the left side
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            empty: Icon(
+                                              Icons.star_border,
+                                              color: clrYellow,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          onRatingUpdate:
+                                              (rating) {
+                                            print(rating);
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10,),
+                                Text(
+                                  // "Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                  '${controller.showreviewData.value.result?[index].review}',
+                                  style: TextStyle(
+                                      color: clrGreyTextLight,fontSize: 14,fontWeight: FontWeight.w400),
+                                )
+                              ],
+                            ),
+                          );
+                        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 5,); },),
+
+
+                      const SizedBox(
+                        height: 10,
                       ),
 
                     ],
