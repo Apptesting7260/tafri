@@ -20,14 +20,14 @@ class Navbar extends GetWidget {
   Navbar({super.key});
   List classes = [
      ExploreUi(),
-    const MessageListUi(),
+     MessageListUi(),
      MyActivitiesListUi(),
      ProfileUi()
   ];
   // List<IconData> iconList=[IconData()];
   NavBarController navcontroller = Get.put(NavBarController());
   ExploreListController exploreListController=Get.put(ExploreListController());
-  ChatController chatController = Get.put(ChatController());
+  ChatController chatController = Get.find<ChatController>();
 
   final iconList = <IconData>[
     Icons.brightness_5,
@@ -155,6 +155,9 @@ class Navbar extends GetWidget {
                       ? Get.put(MyactiController())
                       : Get.put(ProfilemainController());
                   controller.changeNavIndex(index);
+                  if(index == 1){
+                    chatController.fetchGroup();
+                  }
                 }
             ),
           );

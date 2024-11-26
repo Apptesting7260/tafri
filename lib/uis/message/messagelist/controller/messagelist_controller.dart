@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/networking/apiservices.dart';
@@ -61,8 +60,6 @@ class MessagelistController extends GetxController with GetTickerProviderStateMi
       print('delete not error == ${e.toString()}');
     }
   }
-
-
 
 
 }

@@ -38,6 +38,7 @@ class ProfilemainController extends GetxController{
     profileLoading.value = true;
     try{
       final response = await api.get('${EndPoints.profileViewUrl}${LocalStorage.getUid()}',headers: header);
+      print('profile == ${response.body}');
       if(response.statusCode == 200){
         var data = ProfileViewModel.fromJson(response.body);
         if(data.status == true){

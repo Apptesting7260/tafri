@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/message/chats/controller/chat_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:share_plus/share_plus.dart';
@@ -14,7 +15,9 @@ import '../../../../../components/custofilterbtn.dart';
 import 'controller/host_upcomiacti_controller.dart';
 
 class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
-  const HostUpcomActivityViewUi({super.key});
+   HostUpcomActivityViewUi({super.key});
+
+  final ChatController chatController = Get.find<ChatController>();
 
   @override
   Widget build(BuildContext context) {
@@ -444,7 +447,9 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                       width: double.maxFinite,
                                       height: Res.h_btn,
                                       child: CustomElevatedButton(
-                                          onTap: () {},
+                                          onTap: () {
+
+                                          },
                                           backgroundClr: clrBlacke,
                                           child: Text(
                                             "Message Group",
