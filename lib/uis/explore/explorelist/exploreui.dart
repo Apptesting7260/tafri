@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
@@ -719,7 +718,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                     /// map added in home page
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsets.only(top: Get.height*0.17,bottom: Get.height*0.03),
+                                        padding: EdgeInsets.only(top: Get.height*0.134,bottom: Get.height*0.03),
                                         child: GoogleMap(
                                           onMapCreated:
                                               (GoogleMapController googleMapController) {
@@ -1172,7 +1171,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
               /// slideable
               Obx(() => controller.homePageLoading.value && controller.homeData.value.result == null ? SizedBox() : controller.homeError.value.isNotEmpty ? SizedBox() : SlidingUpPanel(
                 minHeight: 40,
-                maxHeight: Get.height * .77,
+                maxHeight: Get.height * .79,
                 controller: controller.panelController,
                 defaultPanelState: PanelState.OPEN,
                 color: Colors.transparent,
@@ -1216,7 +1215,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                 ? Padding(
                               padding: const EdgeInsets.only(bottom: 0.0,top: 30),
                               child: ListView.builder(
-                                  controller:controller.scrollController,
+                                  controller:(controller.homeData.value.result?.profileComplete == true
+                              &&  controller.homeData.value.result?.membershipStatus == true) ? controller.scrollController : null,
                                   physics: controller.isTop.value ? BouncingScrollPhysics() : AlwaysScrollableScrollPhysics(),
                                   itemCount: controller.homeData.value.result?.activities
                                       ?.where((activity) => activity.status == 'approved').length,
@@ -1630,20 +1630,28 @@ class ExploreUi extends GetWidget<ExploreListController> {
 
 
               /// search and category
-             Obx(() => controller.homePageLoading.value && controller.homeData.value.result == null ? SizedBox() : controller.homeError.value.isNotEmpty ? SizedBox() : Container(
-               height: Get.height*0.18,
+             Obx(() => controller.homePageLoading.value && controller.homeData.value.result == null
+                 ? SizedBox()
+                 : controller.homeError.value.isNotEmpty
+                 ? SizedBox()
+                 : Container(
+               height: Get.height*0.135,
                color: clrWhite,
                child: Column(
                  children: [
                    Padding(
-                     padding: EdgeInsets.only(left: Res.Defalt_side_margin,right: Res.Defalt_side_margin,top: 20),
+                     padding: EdgeInsets.only(
+                         left: Res.Defalt_side_margin - 10,
+                         right: Res.Defalt_side_margin,
+                         top: 15
+                     ),
                      child: Row(
                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                        crossAxisAlignment: CrossAxisAlignment.center,
                        children: [
                          Flexible(
                            child: SizedBox(
-                               height: Get.height * .07,
+                               height: Get.height * .06,
                                width: Get.width * 0.76,
                                child:  CustoTextFormField(
                                  onTap: () {
@@ -1672,10 +1680,10 @@ class ExploreUi extends GetWidget<ExploreListController> {
                      ),
                    ),
                    const SizedBox(
-                     height: 15,
+                     height: 11,
                    ),
                    Container(
-                     height: h * .046,
+                     height: h * .042,
                      child: ListView.builder(
                        padding: EdgeInsets.only(
                            left: Res.Defalt_side_margin
@@ -1830,7 +1838,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                    ),
                  ],
                ),
-             ),)
+             ),
+             )
               /// search and category
 
 

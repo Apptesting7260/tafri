@@ -301,11 +301,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               children: [
                                                 Obx(() {
                                                   return Checkbox(
-                                                    value: controller
-                                                        .choosePhotoCheck.value,
+                                                    value: controller.choosePhotoCheck.value,
                                                     onChanged: (val) {
-                                                      controller
-                                                          .changeChoosePhotoVal();
+                                                      controller.changeChoosePhotoVal();
                                                     },
                                                     activeColor: clrYellow,
                                                   );
@@ -313,22 +311,17 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 const SizedBox(
                                                   width: 0,
                                                 ),
-                                                const Text(
-                                                    "Choose a photo for me")
+                                                const Text("Choose a photo for me")
                                               ],
                                             ),
                                             SizedBox(
                                               height: Get.height * 0.01,
                                             ),
-                                            Obx(() => controller
-                                                    .catLoading.value
+                                            Obx(() => controller.catLoading.value
                                                 ? Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey.shade300,
-                                                    highlightColor:
-                                                        Colors.grey.shade100,
-                                                    child:
-                                                        const CustoDropDownBtn(
+                                                    baseColor: Colors.grey.shade300,
+                                                    highlightColor: Colors.grey.shade100,
+                                                    child: const CustoDropDownBtn(
                                                       itemList: [],
                                                       hindtext: 'Select',
                                                     ))
@@ -356,11 +349,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 //     ),
                                                 //   ),
                                                 : CustomDropdown(
-                                                    items: controller.newList
-                                                        .map(
-                                                          (e) => e['value'],
-                                                        )
-                                                        .toList(),
+                                                    items: controller.newList.map((e) => e['value'],).toList(),
                                                     hintText: 'Select category',
                                                     initialItem: controller
                                                             .catName
@@ -1420,9 +1409,87 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                   // clipBehavior: Clip.none,
                                                   children: [
                                                     Obx(
-                                                      () => controller
-                                                              .galleryImages
-                                                              .isEmpty
+                                                      () => (controller.choosePhotoCheck.value == true && controller.subCatID.value.isNotEmpty)
+                                                          ?  CarouselSlider(
+                                                        options:
+                                                        CarouselOptions(
+                                                            height:
+                                                            h * .25,
+                                                            enableInfiniteScroll: false,
+                                                            viewportFraction:
+                                                            1),
+                                                        items: [1]
+                                                            .map((i) {
+                                                          return Builder(
+                                                            builder:
+                                                                (BuildContext
+                                                            context) {
+                                                              return Container(
+                                                                  clipBehavior:
+                                                                  Clip
+                                                                      .hardEdge,
+                                                                  width: MediaQuery.of(
+                                                                      context)
+                                                                      .size
+                                                                      .width,
+                                                                  height: double
+                                                                      .maxFinite,
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                      0),
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(
+                                                                          18)),
+                                                                  child:
+                                                                  // Image.network(
+                                                                  //   controller.subImage.value,
+                                                                  //   fit: BoxFit
+                                                                  //       .cover,
+                                                                  //   height: h *
+                                                                  //       .25,
+                                                                  //   width: double
+                                                                  //       .maxFinite,
+                                                                  // )
+                                                                  CachedNetworkImage(
+                                                                    imageUrl: controller.subImage.value,
+                                                                    fit: BoxFit.cover,
+                                                                    height: h * 0.25,
+                                                                    width: double.maxFinite,
+                                                                    placeholder: (context, url) =>  Shimmer
+                                                                        .fromColors(
+                                                                      baseColor:
+                                                                      grey300,
+                                                                      highlightColor:
+                                                                      grey100,
+                                                                      child:
+                                                                      Container(
+                                                                        width: double
+                                                                            .maxFinite,
+                                                                        height:
+                                                                        h * .26,
+                                                                        decoration:
+                                                                        BoxDecoration(
+                                                                          color:
+                                                                          grey300,
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              18),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    errorWidget: (context, url, error) => Icon(
+                                                                      Icons.error,
+                                                                      color: Colors.red,
+                                                                    ),
+                                                                  )
+
+                                                              );
+                                                            },
+                                                          );
+                                                        }).toList(),
+                                                      )
+                                                          : controller.galleryImages.isEmpty
                                                           ? CarouselSlider(
                                                               options:
                                                                   CarouselOptions(

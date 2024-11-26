@@ -386,7 +386,7 @@ class Creativitycontroller extends GetxController
     for(int i = 0; i<catData.value.result!.length;i++){
       if(catData.value.result![i].title == catID){
         catData.value.result![i].subcategories?.forEach((e) {
-          newSubList.add({'id':e.id.toString(),'value':e.title});
+          newSubList.add({'id':e.id.toString(),'value':e.title,'image':e.image});
           // subcategoryList.add(DropdownMenuItem(value: e.id,child: Text(e.title.toString())));
           // subcategoryNameList.add({
           //   'id':e.id,
@@ -397,13 +397,18 @@ class Creativitycontroller extends GetxController
     }
   }
 
+  var subImage = ''.obs;
   void getSubCatID(String value){
     subCatID.value = '';
     newSubList.forEach((e) {
       if(e['value'] == value){
         subCatID.value = e['id'];
+        subImage.value = e['image'];
       }
+      // print('image ==  ${e['image']}');
+
     },);
+    print('subimage == ${subImage.value}');
     print('subCatID == ${subCatID.value}');
   }
 

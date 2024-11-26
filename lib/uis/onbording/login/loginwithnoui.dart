@@ -19,6 +19,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     var h = Get.height;
     var w = Get.width;
     return Scaffold(
@@ -80,7 +81,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                       ),
                       SizedBox(
                           width: double.maxFinite,
-                          height: Res.h_btn,
+                          height: screenHeight * .05,
                           child: CustomElevatedButton(
                               onTap: () {
                                 Get.bottomSheet(BottomSheet(
