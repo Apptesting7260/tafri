@@ -3,9 +3,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
-import 'package:plusone/uis/message/chats/controller/chat_controller.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../utils/colors.dart';
@@ -17,7 +18,7 @@ import 'controller/host_upcomiacti_controller.dart';
 class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
    HostUpcomActivityViewUi({super.key});
 
-  final ChatController chatController = Get.find<ChatController>();
+  final SocketController chatController = Get.find<SocketController>();
 
   @override
   Widget build(BuildContext context) {
@@ -448,7 +449,22 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                       height: Res.h_btn,
                                       child: CustomElevatedButton(
                                           onTap: () {
-
+                                            print('gp == ${controller.actData.value.activity?.groupId}');
+                                            if(controller.actData.value.activity?.groupId != null) {
+                                              Get.toNamed(
+                                                  Routes.chatUi, arguments: {
+                                                'gpImage': controller.actData
+                                                    .value.activity!
+                                                    .banners?[0],
+                                                'gpName': controller.actData
+                                                    .value.activity?.name,
+                                                'gpID': controller.actData.value
+                                                    .activity?.groupId,
+                                                // 'members': data.allMember
+                                              });
+                                            }else{
+                                              showTostMsg('No group exist for this activity');
+                                            }
                                           },
                                           backgroundClr: clrBlacke,
                                           child: Text(

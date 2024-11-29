@@ -35,7 +35,7 @@ class CommonUi{
       onTap: onTap ?? () {
         Get.back();
       },
-      child: Image.asset('assets/images/appbar icon.png',height: 40,width: 40,),
+      child: Image.asset('assets/images/appbar icon.png',height: 40,width: 40),
     );
   }
 

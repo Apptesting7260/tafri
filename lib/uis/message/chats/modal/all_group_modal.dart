@@ -39,6 +39,7 @@ class Friend {
   bool? blockedBy;
   // Premium? premium;
   bool? userAcountDeleted;
+  int? allMember;
 
   Friend({
     this.groupId,
@@ -55,6 +56,7 @@ class Friend {
     this.groupUnSennMessage,
     this.userBlock,
     this.blockedBy,
+    this.allMember,
     // this.premium,
     this.userAcountDeleted,
   });
@@ -76,6 +78,7 @@ class Friend {
     blockedBy: json["blockedBy"],
     // premium: json["premium"] == null ? null : Premium.fromJson(json["premium"]),
     userAcountDeleted: json["userAcountDeleted"],
+    allMember: json['allMembers']
   );
 
   Map<String, dynamic> toJson() => {

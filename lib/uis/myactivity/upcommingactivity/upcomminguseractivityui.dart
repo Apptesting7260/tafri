@@ -10,9 +10,11 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/explore/hostprofile/hostprofileui.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/myactivity/upcommingactivity/controller/upcommingactiuser_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,6 +32,8 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
 
   ExploreListController exploreListController =
   Get.find<ExploreListController>();
+
+  final SocketController chatController = Get.find<SocketController>();
 
   @override
   Widget build(BuildContext context) {
@@ -686,7 +690,30 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                       width: double.maxFinite,
                                       height: Res.h_btn,
                                       child: CustomElevatedButton(
-                                          onTap: () {},
+                                          onTap: () {
+                                            if(controller.actData
+                                                .value.activity!.groupId != null) {
+                                              chatController.addMember(
+                                                groupID: controller.actData
+                                                    .value.activity!.groupId
+                                                    .toString(),
+                                                members: [
+                                                  int.parse(
+                                                      LocalStorage.getUid()
+                                                          .toString())
+                                                ],
+                                                hostID: controller.actData.value
+                                                    .activity!.hostId!,
+                                                gpName: controller.actData.value
+                                                    .activity?.name,
+                                                gpImage: controller.actData
+                                                    .value.activity!
+                                                    .banners?[0],
+                                              );
+                                            }else{
+                                              showTostMsg('No group exist for this activity');
+                                            }
+                                          },
                                           backgroundClr: clrBlacke,
                                           child: Text(
                                             "Join group chat",

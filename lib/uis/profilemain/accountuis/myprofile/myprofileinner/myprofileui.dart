@@ -1042,7 +1042,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             )
                                 : CommonUi.emptySizeBox(),
                             Center(
-                                child: profileController.profileData.value.result?.firstName != null
+                                child: profileController.profileData.value.result?.firstName != null && profileController.profileData.value.result!.age! > 0
                                     ? Text(
                                   "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
                                   style: TextStyle(

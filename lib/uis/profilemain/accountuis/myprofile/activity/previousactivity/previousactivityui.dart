@@ -563,7 +563,22 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                           width: double.maxFinite,
                           height: Res.h_btn,
                           child: CustomElevatedButton(
-                              onTap: () {},
+                              onTap: () {
+                                if(controller.actData.value.activity?.groupId != null) {
+                                  Get.toNamed(
+                                      Routes.chatUi, arguments: {
+                                    'gpImage': controller.actData
+                                        .value.activity!
+                                        .banners?[0],
+                                    'gpName': controller.actData
+                                        .value.activity?.name,
+                                    'gpID': controller.actData.value
+                                        .activity?.groupId,
+                                  });
+                                }else{
+                                  showTostMsg('No group exist for this activity');
+                                }
+                              },
                               backgroundClr: clrBlacke,
                               child: Text(
                                 "Message Group",

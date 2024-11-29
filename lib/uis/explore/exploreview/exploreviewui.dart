@@ -12,6 +12,7 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
@@ -35,6 +36,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
  final PaymentController payment = Get.find<PaymentController>();
  final ProfilemainController profile = Get.find<ProfilemainController>();
 
+ final SocketController chatController = Get.find<SocketController>();
 
   final formkey = GlobalKey<FormState>();
 
@@ -721,7 +723,26 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                     width: double.maxFinite,
                     height: Res.h_btn,
                     child: CustomElevatedButton(
-                        onTap: () {},
+                        onTap: () {
+                          print('gp == ${controller.actData.value.activity!.groupId}');
+                          if(controller.actData.value.activity!
+                              .groupId != null) {
+                            chatController.addMember(
+                                groupID: controller.actData.value.activity!
+                                    .groupId.toString(),
+                                members: [
+                                  int.parse(LocalStorage.getUid().toString())
+                                ],
+                                hostID: controller.actData.value.activity!
+                                    .hostId!,
+                                gpImage: controller.actData.value.activity
+                                    ?.banners?[0],
+                                gpName: controller.actData.value.activity?.name
+                            );
+                          }else{
+                            showTostMsg('No group exist for this activity');
+                          }
+                        },
                         backgroundClr: clrBlacke,
                         child: Text(
                           "Join group chat",

@@ -86,6 +86,7 @@ class Activity {
   dynamic requestStatus;
   int? spotLeft;
   int? spotPeople;
+  String? groupId;
 
   Activity({
     this.id,
@@ -118,6 +119,7 @@ class Activity {
     this.requestStatus,
     this.spotLeft,
     this.spotPeople,
+    this.groupId,
     RxInt? circleIndex,
   }): circleIndex = circleIndex ?? 0.obs;
 
@@ -152,6 +154,7 @@ class Activity {
     requestStatus: json["request_status"],
     spotLeft: json["spot_left"],
     spotPeople: json["spot_people"],
+    groupId: json['groupid']
   );
 
   Map<String, dynamic> toJson() => {

@@ -10,7 +10,7 @@ import 'package:plusone/networking/checkconnection.dart';
 import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
-import 'package:plusone/uis/message/chats/controller/chat_controller.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/onbording/introone/binding/intro_binding.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -92,8 +92,6 @@ class _MyAppState extends State<MyApp> {
   //   _navigatorKey.currentState?.pushNamed(uri.fragment);
   // }
 
-  ChatController chatController = Get.put(ChatController());
-
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +115,9 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: clrWhite,
         colorScheme: ColorScheme.fromSeed(seedColor: clrWhite),
         useMaterial3: true,
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: clrWhite,
+        ),
       ),
       initialRoute: token != null && token.isNotEmpty
           ? Routes.navbarUi

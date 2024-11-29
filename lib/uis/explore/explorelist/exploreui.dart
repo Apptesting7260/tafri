@@ -1635,7 +1635,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                  : controller.homeError.value.isNotEmpty
                  ? SizedBox()
                  : Container(
-               height: Get.height*0.135,
+               height: Get.height*0.137,
                color: clrWhite,
                child: Column(
                  children: [
