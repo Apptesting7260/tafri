@@ -88,7 +88,7 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["id"],
     firstName: json["first_name"],
-    lastName: json["last_name"],
+    lastName: json["last_name"] ?? '',
     countryCode: json["country_code"],
     mobile: json["mobile"],
     gender: json["gender"],

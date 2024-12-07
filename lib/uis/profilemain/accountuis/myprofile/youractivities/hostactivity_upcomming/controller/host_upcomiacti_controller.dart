@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import '../../../../../../../networking/apiservices.dart';
@@ -58,15 +59,15 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
         actError.value = '';
         print('home data == ${response.body}');
         actData.value = ActDataModal.fromJson(response.body);
-        if(actData.value.activity?.requestStatus == 'reject'){
-          // alertRequestNotAccepted();
-        }
+        // if(actData.value.activity?.requestStatus == 'reject'){
+        //   // alertRequestNotAccepted();
+        // }
       }else{
-        print('error == ${response.body}');
+        print('act error == ${response.body}');
         actError.value = 'ERROR';
       }
     }catch(e){
-      print('home api error == ${e.toString()}');
+      print('error == ${e.toString()}');
       actError.value = e.toString();
     }
 
@@ -238,6 +239,41 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
   RxInt selectedTab=1.obs;
   changeSlectedTab(val){
     selectedTab.value=val;
+  }
+
+
+  bool checkHour(BuildContext context,{
+    required String startDate,
+    required String startTime,
+    required String hours,
+  }) {
+    final String date = startDate;
+    final String startAt = startTime;
+    final int cancellationHours = int.parse(hours);
+
+    final String combinedDateTime = "$date $startAt";
+    print('date == ${date}');
+    print('sttime == ${startAt}');
+    print('time == ${combinedDateTime}');
+    DateTime? activityStartTime;
+    final DateFormat formatWithMinutes = DateFormat("yyyy-MM-dd h:mm a");
+    final DateFormat formatWithoutMinutes = DateFormat("yyyy-MM-dd h a");
+
+    try {
+      activityStartTime = formatWithMinutes.parse(combinedDateTime);
+    } catch (_) {
+      activityStartTime = formatWithoutMinutes.parse(combinedDateTime);
+    }
+
+    final DateTime cutoffTime = activityStartTime.subtract(Duration(hours: cancellationHours));
+
+    final DateTime now = DateTime.now();
+
+    if (now.isAfter(cutoffTime)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 

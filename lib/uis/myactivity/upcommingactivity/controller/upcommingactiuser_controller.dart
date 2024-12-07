@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/utils/size.dart';
 import '../../../../networking/apiservices.dart';
 import '../../../../networking/endpoints.dart';
@@ -18,6 +19,9 @@ class UpCommingActiUserController extends GetxController{
     String id = Get.arguments;
     upactapi(id);
     super.onInit();
+    reportDescriptionController.addListener(() {
+      firstNameCapital(reportDescriptionController);
+    },);
   }
 
   Rx<int> isReqSent=1.obs;  //1= not send, 2= sended
@@ -128,6 +132,19 @@ class UpCommingActiUserController extends GetxController{
   void updateSelectedValue(int? value) {
     selectedValue.value = value!;
   }
+
+  void firstNameCapital(TextEditingController controller) {
+    final text = controller.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      controller.value = controller.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length),
+        ),
+      );
+    }
+  }
+
 
   TextEditingController reportDescriptionController = TextEditingController();
 
@@ -298,6 +315,41 @@ class UpCommingActiUserController extends GetxController{
     }
 
 
+  }
+
+
+  bool checkHour(BuildContext context,{
+    required String startDate,
+    required String startTime,
+    required String hours,
+  }) {
+    final String date = startDate;
+    final String startAt = startTime;
+    final int cancellationHours = int.parse(hours);
+
+    final String combinedDateTime = "$date $startAt";
+    print('date == ${date}');
+    print('sttime == ${startAt}');
+    print('time == ${combinedDateTime}');
+    DateTime? activityStartTime;
+    final DateFormat formatWithMinutes = DateFormat("yyyy-MM-dd h:mm a");
+    final DateFormat formatWithoutMinutes = DateFormat("yyyy-MM-dd h a");
+
+    try {
+      activityStartTime = formatWithMinutes.parse(combinedDateTime);
+    } catch (_) {
+      activityStartTime = formatWithoutMinutes.parse(combinedDateTime);
+    }
+
+    final DateTime cutoffTime = activityStartTime.subtract(Duration(hours: cancellationHours));
+
+    final DateTime now = DateTime.now();
+
+    if (now.isAfter(cutoffTime)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 

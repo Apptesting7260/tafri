@@ -117,7 +117,7 @@ class ExploreListController extends GetxController {
       if(response.statusCode == 200){
         mapData.value = MapModel.fromJson(response.body);
         print('map == ${mapData.value}');
-        await addMarkers();
+        // await addMarkers();
       }else{
       }
     }catch(e){
@@ -129,29 +129,30 @@ class ExploreListController extends GetxController {
   Set<Marker> markers = <Marker>{}.obs;
 
   Future<void> addMarkers() async {
-    final List<MapResult>? results = mapData.value.result;
+    final List<Activity>? results = homeData.value.result?.activities;
     if (results != null) {
       markers.clear();
-      for (var result in results) {
-        final latitude = double.tryParse(result.latitude ?? '');
-        final longitude = double.tryParse(result.longitude ?? '');
+      for (var i in results) {
+        print('lat == ${i.latitude} long == ${i.longitude}');
+        final latitude = double.tryParse(i.latitude ?? '');
+        final longitude = double.tryParse(i.longitude ?? '');
 
         if (latitude != null && longitude != null) {
-          final icon = await getCustomIcon(result.icon ?? '');
+          final icon = await getCustomIcon(i.subcategoryIcon ?? '');
           final marker = Marker(
-            markerId: MarkerId(result.name ?? 'unknown'),
+            markerId: MarkerId(i.id.toString()),
             position: LatLng(latitude, longitude),
             icon: icon,
-            infoWindow: InfoWindow(title: result.name),
+            infoWindow: InfoWindow(title: i.name),
             onTap: () {
-              print('id == ${result.id}    ${result.hostId}');
-              if(result.hostId.toString() == LocalStorage.getUid()){
-                Get.toNamed(Routes.hostUpcommingActiview, arguments: result.id.toString());
+              print('id == ${i.id}    ${i.hostId}');
+              if(i.hostId.toString() == LocalStorage.getUid()){
+                Get.toNamed(Routes.hostUpcommingActiview, arguments: i.id.toString());
               }else {
                 Get.toNamed(
                     Routes
                         .exploreView,
-                    arguments: result.id.toString()
+                    arguments: i.id.toString()
                 );
               }
             },
@@ -222,7 +223,7 @@ class ExploreListController extends GetxController {
   void onInit() {
     super.onInit();
     homePageApi();
-    scrollController.addListener(handleScroll);
+    // scrollController.addListener(handleScroll);
     getMap();
     getUserLocation();
   }
@@ -264,6 +265,7 @@ class ExploreListController extends GetxController {
         homeError.value = '';
         print('home data == ${response.body}');
         homeData.value = HomePageModal.fromJson(response.body);
+        addMarkers();
       }else{
         print('error == ${response.body}');
         homeError.value = 'ERROR';

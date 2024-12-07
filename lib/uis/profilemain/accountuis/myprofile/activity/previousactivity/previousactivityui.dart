@@ -567,11 +567,6 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                 if(controller.actData.value.activity?.groupId != null) {
                                   Get.toNamed(
                                       Routes.chatUi, arguments: {
-                                    'gpImage': controller.actData
-                                        .value.activity!
-                                        .banners?[0],
-                                    'gpName': controller.actData
-                                        .value.activity?.name,
                                     'gpID': controller.actData.value
                                         .activity?.groupId,
                                   });
@@ -609,7 +604,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                   Get.toNamed(Routes.attendList,arguments: controller.actData.value.activity!.id.toString());
                                   // Get.back();
                                 },
-                                child: Text("See All",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: clrYellowText,decoration: TextDecoration.underline,decorationColor: clrYellowText,),))
+                                child: controller.attData.value.result!.attendanceList!.isNotEmpty ? Text("See All",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: clrYellowText,decoration: TextDecoration.underline,decorationColor: clrYellowText,),) : SizedBox())
                              : const SizedBox(),
                        ],
                      ),

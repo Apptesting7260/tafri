@@ -18,6 +18,7 @@ import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
 import 'package:plusone/uis/creativity/model/category_model.dart';
+import 'package:plusone/uis/creativity/model/time_zone_modal.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 
@@ -30,12 +31,15 @@ class Creativitycontroller extends GetxController
     tabController = TabController(length: 2, vsync: this);
     desController.value.addListener(() {
       currentLength.value = desController.value.text.length;
+      firstNameCapital(desController.value);
     });
     titleController.value.addListener(() {
       titleLength.value = titleController.value.text.length;
+      firstNameCapital(titleController.value);
     },);
     getCategory();
     getMaxOcc();
+    getCountry();
     getUserLocation();
     super.onInit();
   }
@@ -48,6 +52,7 @@ class Creativitycontroller extends GetxController
   var titleMaxLen = 40.obs;
 
   RxInt counter = 1.obs;
+  var countController = TextEditingController(text: '1').obs;
 
   var groupSizeController = TextEditingController();
 
@@ -497,6 +502,75 @@ class Creativitycontroller extends GetxController
   var titleController = TextEditingController().obs;
   var locController = TextEditingController().obs;
   var desController = TextEditingController().obs;
+  void firstNameCapital(TextEditingController controller) {
+    final text = controller.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      controller.value = controller.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length),
+        ),
+      );
+    }
+  }
+
+
+  var timeZoneData = TimeZoneModal().obs;
+  var selectedCountry = ''.obs;
+  var countryList = <Map<String,dynamic>>[].obs;
+  var timeZoneList = <Map<String,dynamic>>[].obs;
+
+  Future<void> getCountry() async{
+    var header = {
+      'Authorization': 'Bearer $token'
+    };
+    try{
+      final response = await api.get("${EndPoints.timeZone}",headers: header);
+      if(response.statusCode == 200){
+        catError.value = '';
+        countryList.clear();
+        timeZoneData.value = TimeZoneModal.fromJson(response.body);
+        timeZoneData.value.result?.forEach((e) {
+          countryList.add({'id':e.country,'value':e.country});
+        },);
+      }else{
+        catError.value = 'Error';
+      }
+
+    }catch(e){
+      catError.value = e.toString();
+      print('time zone err0r == ${e.toString()}');
+    }
+  }
+
+  var timeZoneId = ''.obs;
+  var timeZoneName = ''.obs;
+  void getTimeZone(String country){
+    timeZoneName.value = '';
+    timeZoneId.value = '';
+    timeZoneList.clear();
+    for(int i = 0; i < timeZoneData.value.result!.length;i++){
+      if(timeZoneData.value.result![i].country == country){
+        timeZoneData.value.result![i].timezones?.forEach((e) {
+          timeZoneList.add({
+            'id': e.id.toString(),
+            'value': e.timeZone.toString()
+          });
+        },);
+      }
+    }
+  }
+
+  void getTimeId(String value){
+    timeZoneId.value = '';
+    timeZoneList.forEach((e) {
+      if(e['value'] == value){
+        timeZoneId.value = e['id'];
+      }
+    },);
+    print('time id == ${timeZoneId.value}');
+  }
+
 
 
   bool isValidImageFormat(File imageFile) {
@@ -549,11 +623,13 @@ class Creativitycontroller extends GetxController
         showTostMsg('Please select valid location', gravity: ToastGravity.CENTER);
         return;
       }else if(date.value.isEmpty){
-        showTostMsg('Please Select date',gravity: ToastGravity.CENTER);
+        showTostMsg('Please select date',gravity: ToastGravity.CENTER);
+      } else if(timeZoneId.value.isEmpty){
+        showTostMsg('Please select country and timezone.',gravity: ToastGravity.CENTER);
       }else if(sTimeForApi.value.isEmpty){
-        showTostMsg('Please Select start time',gravity: ToastGravity.CENTER);
+        showTostMsg('Please select start time',gravity: ToastGravity.CENTER);
       }else if(eTimeForAPi.value.isEmpty){
-        showTostMsg('Please Select end time',gravity: ToastGravity.CENTER);
+        showTostMsg('Please select end time',gravity: ToastGravity.CENTER);
       }else if(
         !checkTime(TimeOfDay(
         hour: int.parse(sTime.value.split(":")[0]),
@@ -649,8 +725,9 @@ class Creativitycontroller extends GetxController
         request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
         request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
         request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+        request.fields['timezone_id'] = timeZoneId.value;
         if(repeats.value == true){
-          request.fields['repeat_every'] = counter.value.toString();
+          request.fields['repeat_every'] = countController.value.value.text.trim().isEmpty ? '1' : countController.value.value.text.trim().toString();
           request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
           if(wmValue.value == 1 ){
             request.fields['repeat_on'] = repeatday.value;
@@ -687,7 +764,7 @@ class Creativitycontroller extends GetxController
         print("Max People: ${groupSize.value}");
         print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
         print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
-        print("Repeat Every: ${counter.value}");
+        print("Repeat Every: ${countController.value.value.text.trim().toString()}");
         print("Repeat Type: ${wmValue.value == 1 ? 'week' : 'month'}");
         print("groupValue: ${groupValue.value}");
 
@@ -761,8 +838,9 @@ class Creativitycontroller extends GetxController
         request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
         request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
         request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
+        request.fields['timezone_id'] = timeZoneId.value;
         if(repeats.value == true){
-          request.fields['repeat_every'] = counter.value.toString();
+          request.fields['repeat_every'] = countController.value.value.text.trim().isEmpty ? '1' : countController.value.value.text.trim().toString();
           request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
           if(wmValue.value == 1 ){
             request.fields['repeat_on'] = repeatday.value;
@@ -799,7 +877,7 @@ class Creativitycontroller extends GetxController
         print("Max People: ${groupSize.value}");
         print("Gender: ${gender.value == 1 ? 'same' : 'all'}");
         print("Repeat Status: ${repeats.value ? 'repeats' : 'not_repeat'}");
-        print("Repeat Every: ${counter.value}");
+        print("Repeat Every: ${countController.value.value.text.trim().toString()}");
         print("Repeat Type: ${wmValue.value == 1 ? 'Week' : 'Month'}");
         print("groupValue: ${groupValue.value}");
         print("lat: ${latitude.value.toString()}");
@@ -837,6 +915,7 @@ class Creativitycontroller extends GetxController
 
   repeatRefresh(){
     counter.value = 1;
+    countController.value.text = '1';
     wmValue.value = 1;
     repeatday.value = '';
     repeatMonth.value = '';

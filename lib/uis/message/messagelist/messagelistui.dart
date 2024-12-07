@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,9 +79,15 @@ class MessageListUi extends GetWidget<MessagelistController> {
                       children: [
                         SizedBox(
                           height: Get.height*.07,
-                          child: const CustoTextFormField(
+                          child: CustoTextFormField(
                             hintText: "Search",
-                            sufixIcon: Icon(Icons.search),
+                            focusNode: chatController.focusNode,
+                            sufixIcon: const Icon(Icons.search),
+                            controll: chatController.searchController,
+                            onChanged: (val) {
+                              log('search value == ${val}');
+                              chatController.filterGroups(search: val);
+                            },
                           ),
                         ),
                         SizedBox(
@@ -88,7 +95,8 @@ class MessageListUi extends GetWidget<MessagelistController> {
                         ),
                         InkWell(
                           onTap: () {
-                            Get.toNamed(Routes.poSupportChat);
+                            // Get.toNamed(Routes.poSupportChat);
+                            Get.toNamed(Routes.supportUi);
                           },
                           child: Row(
                             children: [
@@ -122,7 +130,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w600),
                                           ),
-                                          Text("Hey Zoe, welcome to PlusOnes... ",
+                                          Text("Hey, welcome to PlusOnes... ",
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -131,35 +139,35 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                         ],
                                       ),
                                     ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        // Container(
-                                        //   padding: EdgeInsets.all(7),
-                                        //   decoration: BoxDecoration(
-                                        //     borderRadius: BorderRadius.circular(100),
-                                        //     color: clrBlacke
-                                        //   ),
-                                        //   child: Text("1",style: TextStyle(color: clrWhite),),
-                                        // ),
-                                        CircleAvatar(
-                                          backgroundColor: clrBlacke,
-                                          maxRadius: 10,
-                                          child: Text(
-                                            "1",
-                                            style: TextStyle(
-                                                color: clrWhite,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Just now",
-                                          style: TextStyle(
-                                              color: clrGreyDark, fontSize: 12),
-                                        )
-                                      ],
-                                    )
+                                    // Column(
+                                    //   crossAxisAlignment: CrossAxisAlignment.end,
+                                    //   children: [
+                                    //     // Container(
+                                    //     //   padding: EdgeInsets.all(7),
+                                    //     //   decoration: BoxDecoration(
+                                    //     //     borderRadius: BorderRadius.circular(100),
+                                    //     //     color: clrBlacke
+                                    //     //   ),
+                                    //     //   child: Text("1",style: TextStyle(color: clrWhite),),
+                                    //     // ),
+                                    //     CircleAvatar(
+                                    //       backgroundColor: clrBlacke,
+                                    //       maxRadius: 10,
+                                    //       child: Text(
+                                    //         "1",
+                                    //         style: TextStyle(
+                                    //             color: clrWhite,
+                                    //             fontSize: 10,
+                                    //             fontWeight: FontWeight.w600),
+                                    //       ),
+                                    //     ),
+                                    //     Text(
+                                    //       "Just now",
+                                    //       style: TextStyle(
+                                    //           color: clrGreyDark, fontSize: 12),
+                                    //     )
+                                    //   ],
+                                    // )
                                   ],
                                 ),
                               )
@@ -195,25 +203,24 @@ class MessageListUi extends GetWidget<MessagelistController> {
                             },
                             child: chatController.allGroup.value.friend!.isEmpty ? Center(child: Text('No group yet!',style: TextStyle(
                               fontSize: 16
-                            ),)) : ListView.builder(
-                                itemCount: chatController.allGroup.value.friend?.length ?? 0,
+                            ),)) : chatController.filteredGroups.isNotEmpty ? ListView.builder(
+                                itemCount: chatController.filteredGroups.length ?? 0,
                                 physics: const ScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
-                                  var data = chatController.allGroup.value.friend?[index];
+                                  var data = chatController.filteredGroups[index];
                                   return Container(
                                     margin: const EdgeInsets.symmetric(vertical: 3),
                                     child: Column(
                                       children: [
                                         InkWell(
                                           onTap: () {
+                                            chatController.focusNode.unfocus();
                                             Get.toNamed(Routes.chatUi,arguments: {
-                                              'gpImage': data.groupImg,
-                                              'gpName': data.groupName,
                                               'gpID': data.groupId,
-                                              'members': data.allMember
                                             })?.then((value) {
                                               chatController.fetchGroup();
+                                              chatController.searchController.clear();
                                             },);
                                           },
                                           child: Row(
@@ -225,6 +232,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                     BorderRadius.circular(100),
+                                                    color: clrGreyLight
                                                   ),
                                                   child: CachedNetworkImage(
                                                     imageUrl: '${data?.groupImg}',
@@ -241,6 +249,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                           ),
                                                         )
                                                     ),
+                                                    errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
                                                   )
                                               ),
                                               SizedBox(
@@ -322,7 +331,11 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                       ],
                                     ),
                                   );
-                                }),
+                                }) : Center(
+                              child: Text('No group find',style: TextStyle(
+                                  fontSize: 16
+                              ),),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20,)

@@ -723,7 +723,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                           onMapCreated:
                                               (GoogleMapController googleMapController) {
                                             controller.mapController = googleMapController;
-                                            controller.addMarkers();
+                                            // controller.addMarkers();
                                           },
                                           initialCameraPosition: CameraPosition(
                                             target: controller.currentLocation.value != null
@@ -1170,7 +1170,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
 
               /// slideable
               Obx(() => controller.homePageLoading.value && controller.homeData.value.result == null ? SizedBox() : controller.homeError.value.isNotEmpty ? SizedBox() : SlidingUpPanel(
-                minHeight: 40,
+                minHeight: 50,
                 maxHeight: Get.height * .79,
                 controller: controller.panelController,
                 defaultPanelState: PanelState.OPEN,
@@ -1213,11 +1213,13 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                 : controller.homeData.value.result!.activities!
                                 .where((element) => element.status == 'approved',).isNotEmpty
                                 ? Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0,top: 30),
+                              padding: EdgeInsets.only(bottom: 0.0,top: Get.height*0.05),
                               child: ListView.builder(
-                                  controller:(controller.homeData.value.result?.profileComplete == true
-                              &&  controller.homeData.value.result?.membershipStatus == true) ? controller.scrollController : null,
-                                  physics: controller.isTop.value ? BouncingScrollPhysics() : AlwaysScrollableScrollPhysics(),
+                              //     controller:(controller.homeData.value.result?.profileComplete == true
+                              // &&  controller.homeData.value.result?.membershipStatus == true) ? controller.scrollController : null,
+                                  // physics: controller.isTop.value ? BouncingScrollPhysics() : AlwaysScrollableScrollPhysics(),
+                                  controller: controller.scrollController,
+                                  physics: AlwaysScrollableScrollPhysics(),
                                   itemCount: controller.homeData.value.result?.activities
                                       ?.where((activity) => activity.status == 'approved').length,
                                   shrinkWrap: true,
@@ -1254,10 +1256,10 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                       },
                                       child: Container(
                                         margin:
-                                        const EdgeInsets
+                                        EdgeInsets
                                             .symmetric(
                                             vertical:
-                                            10),
+                                            Get.height*0.01),
                                         child: Column(
                                           crossAxisAlignment:
                                           CrossAxisAlignment
@@ -1596,7 +1598,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                 }else{
                                   controller.showHomePop();
                                 }
-                                // FirebaseApi.snackBar1('How to create a custom Snackbar that displays at the top ', 'R Programming Tutorial is designed for beginners and experts. This free R Tutorial gives you knowledge basic to advanced of concepts of the R programming language');
+                                // controller.panelController.animatePanelToPosition(0,duration: Duration(milliseconds: 500));
+                                // controller.scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.bounceIn);
                               },
                               backgroundClr: clrWhite,
                               child: Row(
@@ -1635,7 +1638,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                  : controller.homeError.value.isNotEmpty
                  ? SizedBox()
                  : Container(
-               height: Get.height*0.137,
+               height: Get.height*0.139,
                color: clrWhite,
                child: Column(
                  children: [
@@ -1679,8 +1682,8 @@ class ExploreUi extends GetWidget<ExploreListController> {
                        ],
                      ),
                    ),
-                   const SizedBox(
-                     height: 11,
+                   SizedBox(
+                     height: h*0.015,
                    ),
                    Container(
                      height: h * .042,
@@ -1789,7 +1792,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                  decoration: BoxDecoration(
                                    borderRadius:
                                    BorderRadius.circular(100),
-                                   color: controller.selectedIndex.value == index
+                                   color: controller.selectedIndex.value == index || categoryData[categoryIndex].selected == true
                                        ? clrBlacke
                                        : clrGreyLight,
                                  ),
@@ -1821,7 +1824,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                      Text(
                                        '${categoryData[categoryIndex].title}',
                                        style: TextStyle(
-                                         color: controller.selectedIndex.value == index
+                                         color: controller.selectedIndex.value == index || categoryData[categoryIndex].selected == true
                                              ? clrWhite
                                              : clrBlacke,
                                          fontWeight: FontWeight.w700,

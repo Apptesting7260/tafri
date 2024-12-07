@@ -65,14 +65,14 @@ class ProfilemainController extends GetxController{
         }
       }else{
         print('profile error');
-        showTostMsg('Something went wrong');
+        // showTostMsg('Something went wrong');
         profileLoading.value = false;
         profileError.value = 'error';
       }
     }catch(e,stacktrace){
       profileError.value = e.toString();
       print('stacktrace: ${stacktrace}');
-      showTostMsg('Something went wrong');
+      // showTostMsg('Something went wrong');
       profileLoading.value = false;
       print('error == ${e.toString()}');
     }

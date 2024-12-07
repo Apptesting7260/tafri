@@ -96,6 +96,7 @@
 //
 
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -103,6 +104,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:plusone/routes/routes.dart';
+import 'package:plusone/utils/local_storage.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
   if (message.data.containsKey('content-available')) {
@@ -154,25 +157,6 @@ class FirebaseApi {
     print(" APNS token is -> $apnToken");
   }
 
-  // Future<void> _initializeLocalNotification() async {
-  //   const DarwinInitializationSettings iosInitializationSettings =
-  //   DarwinInitializationSettings(
-  //     requestAlertPermission: true,
-  //     requestBadgePermission: true,
-  //     requestSoundPermission: true,
-  //   );
-  //
-  //   final InitializationSettings initializationSettings =
-  //   const InitializationSettings(iOS: iosInitializationSettings);
-  //
-  //   await _localNotificationsPlugin.initialize(
-  //     initializationSettings,
-  //     onDidReceiveNotificationResponse: (details) {
-  //       print(
-  //           'no details  =  ${details.id}  ===  ${details.notificationResponseType}  ==  ${details.input}   ===  ${details.payload}');
-  //     },
-  //   );
-  // }
 
   Future<void> _initializeLocalNotification() async {
     const AndroidInitializationSettings androidInitializationSettings =
@@ -190,13 +174,54 @@ class FirebaseApi {
     _localNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (details) {
-        if (details.input != null) {
-          print('notification type =   ${details.notificationResponseType}');
+
+        /// call when app is in running state and tap on notification
+
+        if (details.payload != null) {
           print(
-              'no details  =  ${details.id}  ===  ${details.notificationResponseType}  ==  ${details.input}   ===  ${details.payload}');
+              'details  =  ${details.id}  ===  ${details.notificationResponseType}  ==  ${details.input}   ===  ${details.payload}');
+          final Map<String, dynamic> data = jsonDecode(details.payload!);
+          print('data == ${data['activity_id']}');
+          if(LocalStorage.getUid().toString() == data['host_id']){
+
+            if(data['status'] == 'approved'){
+              Get.toNamed(Routes.hostUpcommingActiview, arguments: data['activity_id'].toString());
+            }else if(data['status'] == 'pending'){
+              Get.toNamed(Routes.hostUpcommingActiview, arguments: data['activity_id'].toString());
+            }else if(data['status'] == 'completed'){
+              Get.toNamed(Routes.previousActivityUi, arguments: {
+                "isHost": true,
+                'id': data['activity_id'].toString()
+              });
+            }else if(data['status'] == 'not_approved'){
+              Get.toNamed(Routes.hostUpcommingActiview, arguments: data['activity_id'].toString());
+            }else{
+              Get.toNamed(Routes.navbarUi);
+            }
+
+          }else{
+
+            if(data['status'] == 'approved'){
+              Get.toNamed(Routes.exploreView, arguments: data['activity_id'].toString());
+            }else if(data['status'] == 'pending'){
+              Get.toNamed(Routes.navbarUi);
+            }else if(data['status'] == 'completed'){
+              Get.toNamed(Routes.previousActivityUi, arguments: {
+                "isHost": false,
+                "id":  data['activity_id'].toString()
+              });
+            }else if(data['status'] == 'not_approved'){
+              Get.toNamed(Routes.navbarUi);
+            }else{
+              Get.toNamed(Routes.navbarUi);
+            }
+
+          }
+
         } else {
           print(
               'no details  =  ${details.id}  ===  ${details.notificationResponseType}  ==  ${details.input}   ===  ${details.payload}');
+          Get.toNamed(Routes.navbarUi);
         }
       },
     );
@@ -204,15 +229,6 @@ class FirebaseApi {
 
   Future<void> _handleNotification() async {
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   AndroidNotification? androidNotification = message.notification?.android;
-    //   AppleNotification? appleNotification = message.notification?.apple;
-    //   print('Received a foreground message');
-    //   if (message.notification != null && appleNotification != null) {
-    //     showNotification(message);
-    //   }
-    // });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       AndroidNotification? androidNotification = message.notification?.android;
@@ -232,6 +248,7 @@ class FirebaseApi {
       }
     });
 
+    /// call when app is in background and tap on notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Message clicked!');
     });
@@ -242,6 +259,53 @@ class FirebaseApi {
         // snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
 
       }
+
+      if(message != null) {
+        final Map<String, dynamic> data = message!.data;
+
+        if (data != null) {
+          print('data == ${data['activity_id']}');
+          if (LocalStorage.getUid().toString() == data['host_id']) {
+            if (data['status'] == 'approved') {
+              Get.toNamed(Routes.hostUpcommingActiview,
+                  arguments: data['activity_id'].toString());
+            } else if (data['status'] == 'pending') {
+              Get.toNamed(Routes.hostUpcommingActiview,
+                  arguments: data['activity_id'].toString());
+            } else if (data['status'] == 'completed') {
+              Get.toNamed(Routes.previousActivityUi, arguments: {
+                "isHost": true,
+                'id': data['activity_id'].toString()
+              });
+            } else if (data['status'] == 'not_approved') {
+              Get.toNamed(Routes.hostUpcommingActiview,
+                  arguments: data['activity_id'].toString());
+            } else {
+              Get.toNamed(Routes.navbarUi);
+            }
+          } else {
+            if (data['status'] == 'approved') {
+              Get.toNamed(Routes.exploreView,
+                  arguments: data['activity_id'].toString());
+            } else if (data['status'] == 'pending') {
+              Get.toNamed(Routes.navbarUi);
+            } else if (data['status'] == 'completed') {
+              Get.toNamed(Routes.previousActivityUi, arguments: {
+                "isHost": false,
+                "id": data['activity_id'].toString()
+              });
+            } else if (data['status'] == 'not_approved') {
+              Get.toNamed(Routes.navbarUi);
+            } else {
+              Get.toNamed(Routes.navbarUi);
+            }
+          }
+        } else {
+          Get.toNamed(Routes.navbarUi);
+        }
+      }
+
+
       print('FirebaseMessaging.instance.getInitialMessage');
     });
   }
@@ -272,37 +336,17 @@ class FirebaseApi {
 
       NotificationDetails notificationDetails =  NotificationDetails(
           iOS: iosNotificationDetails, android: androidNotificationDetails,);
-      await _localNotificationsPlugin.show(id, message.notification!.title,
-          message.notification!.body, notificationDetails);
+      await _localNotificationsPlugin.show(
+          id, message.notification!.title,
+          message.notification!.body,
+          notificationDetails,
+        payload: message.data.isNotEmpty ? jsonEncode(message.data) : null,
+      );
     } catch (e) {
       print('notification error  ---  ${e.toString()}');
     }
   }
 
-  // static snackBar1(String title, String message) {
-  //   Get.snackbar(
-  //     title,
-  //     message,
-  //     backgroundColor: Colors.white54,
-  //     colorText: Colors.black,
-  //     titleText: Text(
-  //       title,
-  //       style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold), // Title text color
-  //     ),
-  //     messageText: Text(
-  //       message,
-  //       style: TextStyle(color: Colors.black), // Message text color
-  //     ),
-  //     icon: Image.asset(
-  //       'assets/images/launcher.png',
-  //     ),
-  //     borderRadius: 20,
-  //     snackPosition: SnackPosition.TOP,
-  //     margin: EdgeInsets.only(left: 10, right: 10),
-  //     padding: EdgeInsets.symmetric(vertical: 8),
-  //     duration: Duration(seconds: 3),
-  //   );
-  // }
 
   static snackBar1(String title, String message) {
     Get.snackbar(
@@ -366,126 +410,6 @@ class FirebaseApi {
     );
   }
 
- // static void snackBar1(BuildContext context,String title, String message) {
- //    final snackBar = SnackBar(
- //      backgroundColor: Colors.red,
- //      content: Row(
- //        crossAxisAlignment: CrossAxisAlignment.start,
- //        children: [
- //          Container(
- //            margin: EdgeInsets.only(right: 10), // Space from the right of the image
- //            child: ClipRRect(
- //              borderRadius: BorderRadius.circular(5), // Circular border with radius of 5
- //              child: Image.asset(
- //                'assets/images/launcher.png',
- //                width: 40,  // Set width for the image
- //                height: 40, // Set height for the image
- //                fit: BoxFit.cover, // Ensures the image covers the container evenly
- //              ),
- //            ),
- //          ),
- //          Expanded( // Use Expanded to ensure the text takes the remaining space
- //            child: Column(
- //              crossAxisAlignment: CrossAxisAlignment.start,
- //              children: [
- //                Text(
- //                  title,
- //                  style: TextStyle(
- //                    color: Colors.black,
- //                    fontWeight: FontWeight.bold,
- //                  ),
- //                  softWrap: true,
- //                ),
- //                SizedBox(height: 4), // Space between title and message
- //                Text(
- //                  message,
- //                  style: TextStyle(color: Colors.black),
- //                  softWrap: true,
- //                ),
- //              ],
- //            ),
- //          ),
- //        ],
- //      ),
- //      duration: Duration(seconds: 3),
- //      behavior: SnackBarBehavior.floating, // Make it float above the content
- //      margin: EdgeInsets.symmetric(horizontal: 10), // Adjust margin if needed
- //      shape: RoundedRectangleBorder(
- //        borderRadius: BorderRadius.circular(20), // Rounded corners
- //      ),
- //    );
- //
- //    // Show the snackbar
- //    ScaffoldMessenger.of(context).showSnackBar(snackBar);
- //  }
-
-
-  // static void snackBar1(BuildContext context, String title, String message) {
-  //   // Create the overlay entry for the snackbar
-  //   OverlayEntry overlayEntry = OverlayEntry(
-  //     builder: (context) => Positioned(
-  //       top: MediaQuery.of(context).padding.top + 10, // Top padding
-  //       left: 10,
-  //       right: 10,
-  //       child: Material(
-  //         color: Colors.transparent,
-  //         child: Container(
-  //           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-  //           decoration: BoxDecoration(
-  //             color: Colors.white,
-  //             borderRadius: BorderRadius.circular(20),
-  //           ),
-  //           child: Row(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Container(
-  //                 margin: EdgeInsets.only(right: 10), // Space from the right of the image
-  //                 child: ClipRRect(
-  //                   borderRadius: BorderRadius.circular(5),
-  //                   child: Image.asset(
-  //                     'assets/images/launcher.png',
-  //                     width: 40, // Set width for the image
-  //                     height: 40, // Set height for the image
-  //                     fit: BoxFit.cover, // Ensures the image covers the container evenly
-  //                   ),
-  //                 ),
-  //               ),
-  //               Expanded(
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Text(
-  //                       title,
-  //                       style: TextStyle(
-  //                         color: Colors.black,
-  //                         fontWeight: FontWeight.bold,
-  //                       ),
-  //                       softWrap: true,
-  //                     ),
-  //                     SizedBox(height: 4), // Space between title and message
-  //                     Text(
-  //                       message,
-  //                       style: TextStyle(color: Colors.black),
-  //                       softWrap: true,
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  //
-  //   // Show the snackbar
-  //   Overlay.of(context)?.insert(overlayEntry);
-  //
-  //   // Remove the snackbar after a delay
-  //   Future.delayed(Duration(seconds: 3), () {
-  //     overlayEntry.remove();
-  //   });
-  // }
 
 
 

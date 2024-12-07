@@ -263,16 +263,16 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                                   RichText(
                                                                       text: TextSpan(
                                                                           children: [
-                                                                            TextSpan(
+                                                                            paymentController.profileController.profileData.value.result?.cardSave == false ? TextSpan(
                                                                               text:
                                                                               "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
                                                                               style: TextStyle(
                                                                                   color:
                                                                                   clrYellowText),
-                                                                            ),
+                                                                            ) : TextSpan(),
                                                                             TextSpan(
                                                                                 text:
-                                                                                " then €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                                                " ${paymentController.profileController.profileData.value.result?.cardSave == false ? 'then' : ''} €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
                                                                                 style: TextStyle(
                                                                                     color:
                                                                                     clrGrey5D5C5E))
@@ -303,163 +303,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               ),
                                             ),);
                                           },shrinkWrap: true, separatorBuilder: (context, index) => const SizedBox(height: 20,), itemCount: paymentController.plans.value.result!.length),
-                                          // Obx(() => GestureDetector(
-                                          //   onTap: () {
-                                          //     controller.updatePlan(1);
-                                          //   },
-                                          //   child: Container(
-                                          //     padding: const EdgeInsets.symmetric(
-                                          //         horizontal: 10, vertical: 18),
-                                          //     decoration: BoxDecoration(
-                                          //         color: controller.choosePlan.value == 1 ? clrGreyLight : clrWhite,
-                                          //         borderRadius:
-                                          //         BorderRadius.circular(10),
-                                          //         border: Border.all(
-                                          //             color: clrGrey
-                                          //                 .withOpacity(0.3))),
-                                          //     child: Row(
-                                          //       crossAxisAlignment:
-                                          //       CrossAxisAlignment.start,
-                                          //       children: [
-                                          //         Radio(
-                                          //           value: 1,
-                                          //           groupValue: controller.choosePlan.value,
-                                          //           onChanged: (val) {
-                                          //             controller.updatePlan(1);
-                                          //           },
-                                          //           visualDensity:
-                                          //           VisualDensity.compact,
-                                          //           activeColor: clrYellow,
-                                          //         ),
-                                          //         Flexible(
-                                          //             child: Row(
-                                          //               crossAxisAlignment:
-                                          //               CrossAxisAlignment.start,
-                                          //               mainAxisAlignment:
-                                          //               MainAxisAlignment
-                                          //                   .spaceBetween,
-                                          //               children: [
-                                          //                 Flexible(
-                                          //                   child: Column(
-                                          //                     crossAxisAlignment:
-                                          //                     CrossAxisAlignment
-                                          //                         .start,
-                                          //                     children: [
-                                          //                       const Text(
-                                          //                         "Annual",
-                                          //                         style: TextStyle(
-                                          //                             fontSize: 18,
-                                          //                             fontWeight:
-                                          //                             FontWeight
-                                          //                                 .w600),
-                                          //                       ),
-                                          //                       RichText(
-                                          //                           text: TextSpan(
-                                          //                               children: [
-                                          //                                 TextSpan(
-                                          //                                   text:
-                                          //                                   "3 months free",
-                                          //                                   style: TextStyle(
-                                          //                                       color:
-                                          //                                       clrYellowText),
-                                          //                                 ),
-                                          //                                 TextSpan(
-                                          //                                     text:
-                                          //                                     " then €23.99/year",
-                                          //                                     style: TextStyle(
-                                          //                                         color:
-                                          //                                         clrGrey5D5C5E))
-                                          //                               ])),
-                                          //                     ],
-                                          //                   ),
-                                          //                 ),
-                                          //                 Container(
-                                          //                   padding: const EdgeInsets
-                                          //                       .symmetric(
-                                          //                       horizontal: 8,
-                                          //                       vertical: 3),
-                                          //                   decoration: BoxDecoration(
-                                          //                       borderRadius:
-                                          //                       BorderRadius
-                                          //                           .circular(20),
-                                          //                       color: clrYellow),
-                                          //                   child: const Text(
-                                          //                     "Best value",
-                                          //                     style: TextStyle(
-                                          //                         fontSize: 10),
-                                          //                   ),
-                                          //                 )
-                                          //               ],
-                                          //             ))
-                                          //       ],
-                                          //     ),
-                                          //   ),
-                                          // ),),
-                                          // SizedBox(
-                                          //   height: Get.height * 0.03,
-                                          // ),
-                                          // Obx(() => GestureDetector(
-                                          //   onTap: () {
-                                          //     controller.updatePlan(2);
-                                          //   },
-                                          //   child: Container(
-                                          //     padding: const EdgeInsets.symmetric(
-                                          //         horizontal: 10, vertical: 18),
-                                          //     decoration: BoxDecoration(
-                                          //         color: controller.choosePlan.value == 2 ? clrGreyLight : clrTransparent,
-                                          //         borderRadius:
-                                          //         BorderRadius.circular(10),
-                                          //         border: Border.all(
-                                          //             color: clrGrey
-                                          //                 .withOpacity(0.3))),
-                                          //     child: Row(
-                                          //       crossAxisAlignment:
-                                          //       CrossAxisAlignment.start,
-                                          //       children: [
-                                          //         Radio(
-                                          //           value: 2,
-                                          //           groupValue: controller.choosePlan.value,
-                                          //           onChanged: (val) {
-                                          //             controller.updatePlan(2);
-                                          //           },
-                                          //           visualDensity:
-                                          //           VisualDensity.compact,
-                                          //           activeColor: clrYellow,
-                                          //         ),
-                                          //         Flexible(
-                                          //           child: Column(
-                                          //             crossAxisAlignment:
-                                          //             CrossAxisAlignment.start,
-                                          //             children: [
-                                          //               const Text("Monthly",
-                                          //                   style: TextStyle(
-                                          //                       fontSize: 18,
-                                          //                       fontWeight:
-                                          //                       FontWeight
-                                          //                           .w600)),
-                                          //               RichText(
-                                          //                   text:
-                                          //                   TextSpan(children: [
-                                          //                     TextSpan(
-                                          //                       text: "1 week free",
-                                          //                       style: TextStyle(
-                                          //                           color:
-                                          //                           clrYellowText),
-                                          //                     ),
-                                          //                     TextSpan(
-                                          //                         text:
-                                          //                         " then €3.99/month",
-                                          //                         style: TextStyle(
-                                          //                             color:
-                                          //                             clrGrey5D5C5E))
-                                          //                   ])),
-                                          //             ],
-                                          //           ),
-                                          //         )
-                                          //       ],
-                                          //     ),
-                                          //   ),
-                                          // ),),
+
                                           SizedBox(
                                             height: Get.height * 0.03,
                                           ),
@@ -494,9 +338,15 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                         decoration: TextDecoration
                                                             .underline,
                                                         height: 1.5)),
-                                                TextSpan(
+                                                paymentController.profileController.profileData.value.result?.cardSave == false ? TextSpan(
                                                   text:
                                                       " After the free trial, your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
+                                                  style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      height: 1.5),
+                                                ) : TextSpan(
+                                                  text:
+                                                  "Your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
                                                   style: TextStyle(
                                                       color: clrGrey5D5C5E,
                                                       height: 1.5),
@@ -515,32 +365,48 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             onTap: paymentController.loading.value ? (){} : () async{
                                               if(paymentController.profileController.profileData.value.result?.cardSave == false) {
                                                 if (paymentController.selectedPlan.value == 'yearly') {
-                                                  await paymentController
-                                                      .createCustomer(
-                                                      '${paymentController.profileController
-                                                          .profileData.value
-                                                          .result
-                                                          ?.firstName} ${paymentController.profileController
-                                                          .profileData.value
-                                                          .result?.lastName}',
-                                                      '${paymentController.profileController
-                                                          .profileData.value
-                                                          .result?.email}',
-                                                      'yearly',paymentController.price.value);
+                                                  // await paymentController
+                                                  //     .createCustomer(
+                                                  //     '${paymentController.profileController
+                                                  //         .profileData.value
+                                                  //         .result
+                                                  //         ?.firstName} ${paymentController.profileController
+                                                  //         .profileData.value
+                                                  //         .result?.lastName}',
+                                                  //     '${paymentController.profileController
+                                                  //         .profileData.value
+                                                  //         .result?.email}',
+                                                  //     'yearly',paymentController.price.value);
+                                                  await paymentController.createNewCustomer('${paymentController.profileController
+                                                      .profileData.value
+                                                      .result
+                                                      ?.firstName} ${paymentController.profileController
+                                                      .profileData.value
+                                                      .result?.lastName}', '${paymentController.profileController
+                                                      .profileData.value
+                                                      .result?.email}', 'yearly', paymentController.price.value);
                                                   await controller.homeController.homePageApi();
                                                 } else if (paymentController.selectedPlan.value == 'monthly') {
-                                                  await paymentController
-                                                      .createCustomer(
-                                                      '${paymentController.profileController
-                                                          .profileData.value
-                                                          .result
-                                                          ?.firstName} ${paymentController.profileController
-                                                          .profileData.value
-                                                          .result?.lastName}',
-                                                      '${paymentController.profileController
-                                                          .profileData.value
-                                                          .result?.email}',
-                                                      'monthly',paymentController.price.value);
+                                                  // await paymentController
+                                                  //     .createCustomer(
+                                                  //     '${paymentController.profileController
+                                                  //         .profileData.value
+                                                  //         .result
+                                                  //         ?.firstName} ${paymentController.profileController
+                                                  //         .profileData.value
+                                                  //         .result?.lastName}',
+                                                  //     '${paymentController.profileController
+                                                  //         .profileData.value
+                                                  //         .result?.email}',
+                                                  //     'monthly',paymentController.price.value);
+                                                  await paymentController.createNewCustomer('${paymentController.profileController
+                                                      .profileData.value
+                                                      .result
+                                                      ?.firstName} ${paymentController.profileController
+                                                      .profileData.value
+                                                      .result?.lastName}', '${paymentController.profileController
+                                                      .profileData.value
+                                                      .result?.email}', 'monthly', paymentController.price.value);
                                                   await controller.homeController
                                                       .homePageApi();
                                                 } else {
@@ -568,13 +434,16 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               }
                                             },
                                             backgroundClr: clrBlacke,
-                                            child: paymentController.loading.value ? CommonUi.buttonLoading() : Text(
+                                            child: paymentController.loading.value ? CommonUi.buttonLoading() : (paymentController.profileController.profileData.value.result?.cardSave == false ? Text(
                                               paymentController.choosePlan.value != (-1) ? "Start ${paymentController.getWeek(int.parse(paymentController.freeDays.value))} free" : 'Select plan',
                                               style: TextStyle(
                                                   color: clrWhite,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700),
-                                            )),),
+                                            ) : Text('Buy',style: TextStyle(
+                                                color: clrWhite,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700)))),),
                                     ),),
                                     SizedBox(
                                       height: Get.height * 0.01,

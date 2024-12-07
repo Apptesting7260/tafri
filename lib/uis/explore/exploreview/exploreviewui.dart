@@ -735,9 +735,6 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                 ],
                                 hostID: controller.actData.value.activity!
                                     .hostId!,
-                                gpImage: controller.actData.value.activity
-                                    ?.banners?[0],
-                                gpName: controller.actData.value.activity?.name
                             );
                           }else{
                             showTostMsg('No group exist for this activity');
@@ -763,7 +760,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                         backgroundClr:
                         clrBlacke,
                         child: Text(
-                          "Request sent",
+                          "Rejected",
                           style: TextStyle(
                               color: clrWhite,
                               fontSize: 16,
@@ -912,14 +909,29 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                     Center(
                         child: InkWell(
                             onTap: () {
-                              alertCancelRequestConfirmation(
-                                  controller
-                                      .actData
-                                      .value
-                                      .activity!
-                                      .id
-                                      .toString(),
-                                  true);
+                              if(controller.checkHour(context, startDate: controller
+                                  .actData
+                                  .value
+                                  .activity!.date.toString(), startTime: controller
+                                  .actData
+                                  .value
+                                  .activity!.startAt.toString(), hours: controller.actData.value.paymentSettings!.attendeeCancellationHour.toString())){
+                                alertCancelRequestConfirmation(
+                                    controller
+                                        .actData
+                                        .value
+                                        .activity!
+                                        .id
+                                        .toString(),
+                                    true,controller.actData.value.paymentSettings!.attendeeCancellationHour.toString(),controller.actData.value.paymentSettings!.attendeeCancellationFee.toString());
+                              }else{
+                                alertLeave(controller.actData.value.activity!.id.toString(),() async{
+                                      Get.back();
+                                      await controller.leaveActivity(controller.actData.value.activity!.id.toString());
+                                      await controller.actapi(controller.actData.value.activity!.id.toString());
+                                    },);
+                              }
+
                             },
                             child: const Text(
                               "Leave activity",
@@ -1266,9 +1278,11 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
                         ),
-                        ontap: () {
+                        ontap: () async{
                           Get.back();
-                          alertCancelRequestConfirmation(id, false);
+                          await controller.cancelActivity(id);
+                          await controller.actapi(id);
+                          // alertCancelRequestConfirmation(id, false,controller.actData.value.paymentSettings!.attendeeCancellationHour.toString(),controller.actData.value.paymentSettings!.attendeeCancellationFee.toString());
                         },
                         backgroundClr: Get.theme.scaffoldBackgroundColor),
                   )),
@@ -1304,7 +1318,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
     });
   }
 
-  alertCancelRequestConfirmation(String id, bool isLeave) {
+  alertCancelRequestConfirmation(String id, bool isLeave,String hours,String fees) {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
@@ -1331,7 +1345,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                   child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  "Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",
+                  "Canceling within ${hours} hours of the activity will incur a €${fees} fee. Are you sure you want to proceed?",
                   style: TextStyle(
                       color: clrGreyTextLight,
                       fontSize: 15,
@@ -1402,4 +1416,91 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
       ));
     });
   }
+
+  alertLeave(String id, dynamic Function() ontap) {
+    Future.delayed(Duration.zero, () {
+      Get.dialog(AlertDialog(
+        scrollable: true,
+        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child: Text(
+                  "Leave activity",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                  child: Text(
+                    "Are you sure you want to leave this activity?",
+                    style: TextStyle(
+                        color: clrGreyTextLight,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
+                  )),
+              SizedBox(
+                height: Get.height * .024,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(children: [
+                  Expanded(
+                      child: SizedBox(
+                        height: Res.h_btn,
+                        child: CustoFilterBtn(
+                            borderClr: clrBlacke,
+                            lable: Text(
+                              "Yes",
+                              style: TextStyle(
+                                  color: clrBlacke,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            ontap: ontap,
+                            backgroundClr: Get.theme.scaffoldBackgroundColor),
+                      )),
+                  SizedBox(
+                    width: Get.width * 0.05,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                        width: double.maxFinite,
+                        height: Res.h_btn,
+                        child: CustomElevatedButton(
+                            onTap: () {
+                              Get.back();
+                            },
+                            backgroundClr: clrBlacke,
+                            child: Text(
+                              "No",
+                              style: TextStyle(
+                                  color: clrWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ))),
+                  ),
+                ]),
+              ),
+              SizedBox(
+                height: Get.height * .014,
+              ),
+            ],
+          ),
+        ),
+      ));
+    });
+  }
+
+
 }

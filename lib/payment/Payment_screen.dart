@@ -48,7 +48,7 @@ class PaymentScreen extends GetWidget<PaymentController> {
                           'url match ${url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-success-url'}');
                       if (url.toString().trim() ==
                           'https://urlsdemo.online/plusone/api/redirect-success-url') {
-                        await controller.getPay(controller.paymentId.value);
+                        await controller.getPayDetail(controller.paymentId.value);
                       }else if(url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-cancel-url'){
                         showTostMsg('Your payment has been cancelled');
                         Get.back();

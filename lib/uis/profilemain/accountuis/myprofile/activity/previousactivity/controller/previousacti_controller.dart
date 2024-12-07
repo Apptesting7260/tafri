@@ -35,6 +35,12 @@ class PreviousActiController extends GetxController{
     showapi(id);
     attlistapi(id);
     super.onInit();
+    reportDescriptionController.addListener(() {
+      firstNameCapital(reportDescriptionController);
+    },);
+    waitlistMsgController.addListener(() {
+      firstNameCapital(waitlistMsgController);
+    },);
   }
 
 
@@ -101,6 +107,17 @@ class PreviousActiController extends GetxController{
   }
 
   TextEditingController reportDescriptionController = TextEditingController();
+  void firstNameCapital(TextEditingController controller) {
+    final text = controller.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      controller.value = controller.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length),
+        ),
+      );
+    }
+  }
 
   var reportactivityLoading = false.obs;
 
@@ -202,6 +219,7 @@ class PreviousActiController extends GetxController{
   Rx<bool> isLoadingRequest = false.obs;
 
   var waitlistMsgController = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
 
   Future<void> requestApi(String? id) async{
@@ -294,11 +312,11 @@ class PreviousActiController extends GetxController{
           alertActivitypending();
         }
       }else{
-        print('error == ${response.body}');
+        print('act error == ${response.body}');
         actError.value = 'ERROR';
       }
     }catch(e){
-      print('home api error == ${e.toString()}');
+      print('acti error == ${e.toString()}');
       actError.value = e.toString();
     }
 
@@ -334,11 +352,11 @@ class PreviousActiController extends GetxController{
         print('attendees data == ${response.body}');
         attData.value = AttendancelistModel.fromJson(response.body);
       }else{
-        print('error == ${response.body}');
+        print('att error == ${response.body}');
         attError.value = 'ERROR';
       }
     }catch(e){
-      print('home api error == ${e.toString()}');
+      print('attend error == ${e.toString()}');
       attError.value = e.toString();
     }
 
@@ -376,15 +394,15 @@ class PreviousActiController extends GetxController{
       final response = await api.post(EndPoints.showactreview, body, headers: header);
       if(response.statusCode == 200){
         showError.value = '';
-        print('home data == ${response.body}');
+        print('review data == ${response.body}');
         showreviewData.value = ShowReviewModel.fromJson(response.body);
 
       }else{
-        print('error == ${response.body}');
+        print('review error #== ${response.body}');
         showError.value = 'ERROR';
       }
     }catch(e){
-      print('home api error == ${e.toString()}');
+      print('review error == ${e.toString()}');
       showError.value = e.toString();
     }
 

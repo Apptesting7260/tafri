@@ -15,6 +15,9 @@ class UserProfileController extends GetxController{
     print(id);
     hostapi(id);
     super.onInit();
+    reportDescriptionController.addListener(() {
+      firstNameCapital(reportDescriptionController);
+    },);
   }
 
 
@@ -83,6 +86,17 @@ class UserProfileController extends GetxController{
   }
 
   TextEditingController reportDescriptionController = TextEditingController();
+  void firstNameCapital(TextEditingController controller) {
+    final text = controller.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      controller.value = controller.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length),
+        ),
+      );
+    }
+  }
 
   var reportuserLoading = false.obs;
 

@@ -9,10 +9,22 @@ import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 
-class CropPhotoScreen extends StatelessWidget {
+class CropPhotoScreen extends StatefulWidget {
   CropPhotoScreen({super.key});
 
+  @override
+  State<CropPhotoScreen> createState() => _CropPhotoScreenState();
+}
+
+class _CropPhotoScreenState extends State<CropPhotoScreen> {
   final AddphotoController controller = Get.find<AddphotoController>();
+
+  @override
+  void initState() {
+    super.initState();
+    image = Get.arguments ??'';
+  }
+  XFile? image;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +33,12 @@ class CropPhotoScreen extends StatelessWidget {
         statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark));
-    XFile image = Get.arguments;
     return Scaffold(
       body: SafeArea(
           child: Stack(
             children: [
               CustomImageCrop(
-                  image: FileImage(File(image.path)),
+                  image: FileImage(File(image!.path)),
                   customProgressIndicator: CommonUi.scaffoldLoading(color: clrYellow),
                   imageFit: CustomImageFit.fillVisibleHeight,
                   forceInsideCropArea: true,

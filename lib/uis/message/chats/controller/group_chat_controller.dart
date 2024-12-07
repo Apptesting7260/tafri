@@ -3,10 +3,13 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/message/chats/modal/all_message_modal.dart';
+import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:plusone/utils/tostmsg.dart';
@@ -20,16 +23,14 @@ class GroupChatController extends GetxController{
 
   ScrollController scrollController = ScrollController();
 
+  final focusNode = FocusNode();
+
 
   @override
   void onInit() {
     super.onInit();
     var gpData = Get.arguments;
-    gpImage.value = gpData['gpImage'];
-    gpName.value = gpData['gpName'];
     gpID.value = gpData['gpID'] ?? '';
-    members.value = gpData['members'].toString();
-    log('mm == ${members.value}');
     fetchMessage(
         groupID: gpID.value,
         userId: int.parse(userID),
@@ -43,9 +44,13 @@ class GroupChatController extends GetxController{
     sc.socket.on('group-receive-message', (data) {
       log('message data == ${data}');
 
-      allMessage.value.data!.removeWhere((test) => test.id == '0');
+      // allMessage.value.data!.removeWhere((test) => test.id == '0');
+      // allMessage.value.data?.insert(0, Data.fromJson(data));
 
-      allMessage.value.data?.insert(0, Data.fromJson(data));
+      // if(allMessage.value.message!.isNotEmpty) {
+        allMessage.value.message?[0].data?.removeWhere((e) => e.id == '0');
+      // }
+      allMessage.value.message?[0].data?.insert(0, Data.fromJson(data));
       allMessage.refresh();
     },);
 
@@ -54,6 +59,27 @@ class GroupChatController extends GetxController{
           scrollController.offset) {
         pagination();
       }
+    },);
+
+    sc.socket.on('SeenAboveMsg', (data) {
+      log(' === ${data}');
+      // allMessage.value.data?.forEach((e) {
+      //   e.messageStatus = 'seen';
+      // },);
+      allMessage.value.message?.forEach((e) {
+        e.data?.forEach((f){
+          f.messageStatus = 'seen';
+        },);
+      },);
+      allMessage.refresh();
+    },);
+
+    sc.socket.on('singelMessageDelete', (data) {
+      log('delete data == ${data}');
+      allMessage.value.message?.forEach((e) {
+        e.data?.removeWhere((f) => f.id.toString() == data['messageid'],);
+        allMessage.refresh();
+      },);
     },);
 
 
@@ -66,17 +92,17 @@ class GroupChatController extends GetxController{
     super.onClose();
     _stream.close();
     pageStatus(pageStatus: false);
+    sc.socket.off('group-receive-message');
+    sc.socket.off('SeenAboveMsg');
+    pageNo.value = 1;
   }
 
 
-  var gpImage = ''.obs;
-  var gpName = ''.obs;
   var gpID = ''.obs;
-  var members = ''.obs;
   var userID = LocalStorage.getUid().toString();
   TextEditingController msgController = TextEditingController();
   var pageNo = 1.obs;
-  var limit = 15.obs;
+  var limit = 35.obs;
 
   /// fetch messages
   var allMessage = AllMessageModal().obs;
@@ -98,26 +124,51 @@ class GroupChatController extends GetxController{
     sc.socket.on('fatchAllMessage', (data) {
       log('page no == ${page}');
       log('msg == ${data}');
+      var fetchedData = AllMessageModal.fromJson(data);
       if(page == 1) {
         log('first page');
-        allMessage.value = AllMessageModal.fromJson(data);
-        // log('all message == ${data}  ====\n ${allMessage.value.data?.length}');
-        allMessage.value.data?.forEach((e) => log('message === ${e.message?.textmessage}'),);
+        allMessage.value = fetchedData;
         msgLoading.value = false;
-      }else{
-        log('page == ${page}');
-        var msg = AllMessageModal.fromJson(data);
-        allMessage.value.data?.addAll(msg.data!);
-        // log('pagination == ${allMessage.value.data?.length}        ${allMessage.value.data}');
-        if(pageNo.value == msg.totalPages || msg.data!.length < 15){
-          log('stop pagination');
+      } else {
+        for (var newData in fetchedData.message!) {
+          var exist = allMessage.value.message?.firstWhere(
+                (group) => group.name == newData.name,
+              orElse: () => MessageElement(name: '', data: [])
+          );
+          if (exist!.name!.isNotEmpty) {
+            exist.data?.addAll(newData.data!);
+          } else {
+            allMessage.value.message?.add(newData);
+          }
+        }
+
+        if (pageNo.value == fetchedData.totalPages || pageNo.value > fetchedData.totalPages!) {
+          log('Stop pagination == ${fetchedData.totalPages} == ${fetchedData.message!.length}');
           stopPagination.value = true;
         }
-        allMessage.refresh();
 
-        allMessage.value.data?.forEach((e) => log('message === ${e.message?.textmessage}'),);
+        allMessage.refresh();
         paginationLoading.value = false;
       }
+      // else{
+      //   log('page == ${page}');
+      //   var msg = AllMessageModal.fromJson(data);
+      //   // allMessage.value.data?.addAll(msg.data!);
+      //   // allMessage.value.message?.addAll(msg.message!);
+      //   allMessage.value.message?.forEach((e) {
+      //     msg.message?.forEach((f) {
+      //       if(e.name == f.name){
+      //         e.data?.addAll(f.data!);
+      //       }
+      //     },);
+      //   },);
+      //   if(pageNo.value == msg.totalPages || msg.message!.length < 15){
+      //     log('stop pagination');
+      //     stopPagination.value = true;
+      //   }
+      //   allMessage.refresh();
+      //   paginationLoading.value = false;
+      // }
     },);
     Future.delayed(const Duration(seconds: 10),() => msgLoading.value = false,);
   }
@@ -135,6 +186,22 @@ class GroupChatController extends GetxController{
         },
         'chatGroupId': gpID.value,
       });
+
+      var dataMsg = Data(
+        username: sc.profileController.profileData.value.result?.firstName ?? '',
+        createdAt: DateTime.now(),
+        chatGroupId: gpID.value,
+        message: Message(
+          textmessage: message,
+        ),
+        messageStatus: '',
+        senderId: int.parse(userID),
+        loading: true,
+        id: '0',
+      );
+      print('ms == ${dataMsg}');
+      allMessage.value.message?[0].data?.insert(0, dataMsg);
+      allMessage.refresh();
       msgController.clear();
     }catch(e){
       log('send msg error == ${e.toString()}');
@@ -176,7 +243,7 @@ class GroupChatController extends GetxController{
 
   Future<void> sendImage({String? message,File? file}) async{
     try{
-      final url = Uri.parse('${sc.baseUrl}/message-create');
+      final url = Uri.parse('${EndPoints.chatUrl}/message-create');
       var request = http.MultipartRequest('POST', url);
       request.fields['sender_id'] = userID.toString();
       request.fields['chatGroupId'] = gpID.value;
@@ -208,7 +275,8 @@ class GroupChatController extends GetxController{
           loading: true,
           id: '0',
         );
-        allMessage.value.data?.insert(0, dataMsg);
+        // allMessage.value.data?.insert(0, dataMsg);
+        allMessage.value.message?[0].data?.insert(0, dataMsg);
       }
 
       selectedImages.clear();
@@ -221,12 +289,14 @@ class GroupChatController extends GetxController{
         log('image uploaded');
       }else{
         showTostMsg('Failed to upload');
-        allMessage.value.data!.removeWhere((test) => test.id == '0');
+        // allMessage.value.data!.removeWhere((test) => test.id == '0');
+        allMessage.value.message?[0].data?.removeWhere((e) => e.id == '0',);
         allMessage.refresh();
       }
     }catch(e){
       showTostMsg('Failed to upload');
-      allMessage.value.data!.removeWhere((test) => test.id == '0');
+      // allMessage.value.data!.removeWhere((test) => test.id == '0');
+      allMessage.value.message?[0].data?.removeWhere((e) => e.id == '0',);
       allMessage.refresh();
       print('send image error == ${e.toString()}');
     }
@@ -264,6 +334,66 @@ class GroupChatController extends GetxController{
     }
   }
   /// pagination
+
+
+  /// delete message
+  void deleteMessage({required String msgId}){
+    sc.socket.emit('singelMessageDelete',{
+      'messageid': msgId,
+    });
+  }
+  /// delete message
+
+  deletePopUp(BuildContext context,String msgId){
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 50,
+                height: 5,
+                margin: EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.delete, color: clrRed),
+                title: Text('Delete'),
+                onTap: () {
+                  Get.back();
+                  focusNode.unfocus();
+                  deleteMessage(msgId: msgId);
+                },
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.cancel, color: clrYellow),
+                title: Text('Cancel'),
+                onTap: () {
+                  Get.back();
+                  focusNode.unfocus();
+                },
+              ),
+
+            ],
+          ),
+        );
+      },
+    );
+  }
 
 
 }

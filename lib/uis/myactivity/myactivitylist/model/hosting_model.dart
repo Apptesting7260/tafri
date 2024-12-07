@@ -219,6 +219,8 @@ class ActivityElement {
   DateTime? createdAt;
   DateTime? updatedAt;
   String? formattedDate;
+  bool? markAttendance;
+  Timezone? timezone;
 
   ActivityElement({
     this.id,
@@ -243,6 +245,8 @@ class ActivityElement {
     this.createdAt,
     this.updatedAt,
     this.formattedDate,
+    this.markAttendance,
+    this.timezone
   });
 
   factory ActivityElement.fromJson(Map<String, dynamic> json) => ActivityElement(
@@ -268,6 +272,8 @@ class ActivityElement {
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     formattedDate: json["formatted_date"],
+    markAttendance: json['mark_attendance'],
+    timezone: json["timezone"] == null ? null : Timezone.fromJson(json["timezone"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -293,5 +299,43 @@ class ActivityElement {
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "formatted_date": formattedDate,
+  };
+}
+
+
+
+class Timezone {
+  int? id;
+  String? countryName;
+  String? timeZone;
+  String? gmtOffset;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+
+  Timezone({
+    this.id,
+    this.countryName,
+    this.timeZone,
+    this.gmtOffset,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory Timezone.fromJson(Map<String, dynamic> json) => Timezone(
+    id: json["id"],
+    countryName: json["country_name"],
+    timeZone: json["time_zone"],
+    gmtOffset: json["gmt_offset"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "country_name": countryName,
+    "time_zone": timeZone,
+    "gmt_offset": gmtOffset,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
   };
 }

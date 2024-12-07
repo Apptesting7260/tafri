@@ -453,11 +453,6 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                             if(controller.actData.value.activity?.groupId != null) {
                                               Get.toNamed(
                                                   Routes.chatUi, arguments: {
-                                                'gpImage': controller.actData
-                                                    .value.activity!
-                                                    .banners?[0],
-                                                'gpName': controller.actData
-                                                    .value.activity?.name,
                                                 'gpID': controller.actData.value
                                                     .activity?.groupId,
                                                 // 'members': data.allMember
@@ -872,7 +867,14 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                   Center(
                                       child: InkWell(
                                           onTap: () {
-                                            alertDeleteActivity();
+                                            if(controller.checkHour(context,
+                                                startDate: controller.actData.value.activity!.date.toString(),
+                                                startTime: controller.actData.value.activity!.startAt.toString(),
+                                                hours: controller.actData.value.paymentSettings!.hostCancellationHour.toString())){
+                                              alertConfirmCancelActivityFees(controller.actData.value.activity!.id.toString(),controller.actData.value.paymentSettings!.hostCancellationHour.toString(),controller.actData.value.paymentSettings!.hostCancellationFee.toString());
+                                            }else{
+                                              alertConfirmCancelActivity();
+                                            }
                                           },
                                           child: const Text(
                                             "Delete activity",
@@ -975,90 +977,90 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
   }
 
 
-  alertDeleteActivity() {
-    Future.delayed(Duration.zero, () {
-      Get.dialog(AlertDialog(
-        scrollable: true,
-        insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Center(
-                child: Text(
-                  "Are you sure?",
-                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                height: Get.height * .012,
-              ),
-              Center(
-                  child: Text(
-                "Are you sure you want to delete this activity?",
-                style: TextStyle(color: clrGreyTextLight, fontSize: 15),
-                textAlign: TextAlign.center,
-              )),
-              SizedBox(
-                height: Get.height * .024,
-              ),
-              Row(children: [
-                Expanded(
-                    child: SizedBox(
-                  height: Res.h_btn,
-                  child: CustoFilterBtn(
-                      borderClr: clrBlacke,
-                      lable: Text(
-                        "Go back",
-                        style: TextStyle(
-                            color: clrBlacke,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      ontap: () {
-                        Get.back();
-                        // alertCancelRequestConfirmation();
-                      },
-                      backgroundClr: Get.theme.scaffoldBackgroundColor),
-                )),
-                SizedBox(
-                  width: Get.width * 0.05,
-                ),
-                Expanded(
-                  child: SizedBox(
-                      width: double.maxFinite,
-                      height: Res.h_btn,
-                      child: CustomElevatedButton(
-                          onTap: () {
-                            Get.back();
-                            alertConfirmCancelActivityFees();
-                          },
-                          backgroundClr: clrBlacke,
-                          child: Text(
-                            "Delete",
-                            style: TextStyle(
-                                color: clrWhite,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ))),
-                ),
-              ]),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ),
-      ));
-    });
-  }
+  // alertDeleteActivity() {
+  //   Future.delayed(Duration.zero, () {
+  //     Get.dialog(AlertDialog(
+  //       scrollable: true,
+  //       insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+  //       contentPadding:
+  //           const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+  //       content: SizedBox(
+  //         width: double.maxFinite,
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             const Center(
+  //               child: Text(
+  //                 "Are you sure?",
+  //                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
+  //                 textAlign: TextAlign.center,
+  //               ),
+  //             ),
+  //             SizedBox(
+  //               height: Get.height * .012,
+  //             ),
+  //             Center(
+  //                 child: Text(
+  //               "Are you sure you want to delete this activity?",
+  //               style: TextStyle(color: clrGreyTextLight, fontSize: 15),
+  //               textAlign: TextAlign.center,
+  //             )),
+  //             SizedBox(
+  //               height: Get.height * .024,
+  //             ),
+  //             Row(children: [
+  //               Expanded(
+  //                   child: SizedBox(
+  //                 height: Res.h_btn,
+  //                 child: CustoFilterBtn(
+  //                     borderClr: clrBlacke,
+  //                     lable: Text(
+  //                       "Go back",
+  //                       style: TextStyle(
+  //                           color: clrBlacke,
+  //                           fontSize: 16,
+  //                           fontWeight: FontWeight.w700),
+  //                     ),
+  //                     ontap: () {
+  //                       Get.back();
+  //                       // alertCancelRequestConfirmation();
+  //                     },
+  //                     backgroundClr: Get.theme.scaffoldBackgroundColor),
+  //               )),
+  //               SizedBox(
+  //                 width: Get.width * 0.05,
+  //               ),
+  //               Expanded(
+  //                 child: SizedBox(
+  //                     width: double.maxFinite,
+  //                     height: Res.h_btn,
+  //                     child: CustomElevatedButton(
+  //                         onTap: () {
+  //                           Get.back();
+  //                           alertConfirmCancelActivityFees();
+  //                         },
+  //                         backgroundClr: clrBlacke,
+  //                         child: Text(
+  //                           "Delete",
+  //                           style: TextStyle(
+  //                               color: clrWhite,
+  //                               fontSize: 16,
+  //                               fontWeight: FontWeight.w700),
+  //                         ))),
+  //               ),
+  //             ]),
+  //             const SizedBox(
+  //               height: 10,
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ));
+  //   });
+  // }
 
-  alertConfirmCancelActivityFees() {
+  alertConfirmCancelActivityFees(String id, String hours,String fees) {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
@@ -1083,7 +1085,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
               ),
               Center(
                   child: Text(
-                "Canceling within 24 hours of the activity will incur a €3 fee. Are you sure you want to proceed?",
+                "Canceling within ${hours} hours of the activity will incur a €${fees} fee. Are you sure you want to proceed?",
                 style: TextStyle(color: clrGreyTextLight, fontSize: 15),
                 textAlign: TextAlign.center,
               )),
@@ -1105,7 +1107,12 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                       ),
                       ontap: () {
                         Get.back();
-                        alertConfCancelActiAttendies();
+                        if(controller.actData.value.going!.isNotEmpty){
+                          alertConfCancelActiAttendies();
+                        }else{
+                          alertConfirmCancelActivity();
+                        }
+
                       },
                       backgroundClr: Get.theme.scaffoldBackgroundColor),
                 )),

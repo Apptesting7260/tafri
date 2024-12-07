@@ -2,7 +2,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/message/chats/modal/all_group_modal.dart';
@@ -14,14 +16,28 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketController extends GetxService {
 
-
-  // String baseUrl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
-  String baseUrl = 'http://188.245.228.111:8000';
-
   late IO.Socket socket;
 
   final ProfilemainController profileController =
       Get.put(ProfilemainController());
+
+  TextEditingController searchController = TextEditingController();
+  final focusNode = FocusNode();
+
+  var filteredGroups = <Friend>[].obs;
+  void filterGroups({String? search}) {
+    final query = search?.toLowerCase();
+    if (query!.isEmpty) {
+      filteredGroups.assignAll(allGroup.value.friend ?? []);
+    } else {
+      filteredGroups.assignAll(
+        allGroup.value.friend?.where((group) {
+          return group.groupName?.toLowerCase().contains(query) ?? false;
+        }).toList() ?? [],
+      );
+    }
+    log('filtered group == ${filteredGroups}');
+  }
 
   @override
   void onInit() async {
@@ -53,8 +69,8 @@ class SocketController extends GetxService {
 
   @override
   void onClose() {
-    socket.close();
     socket.disconnect();
+    socket.close();
     super.onClose();
   }
 
@@ -68,7 +84,7 @@ class SocketController extends GetxService {
   /// socket connection
   Future<void> connectSocket() async {
     socket = IO.io(
-        baseUrl,
+        EndPoints.chatUrl,
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .enableAutoConnect()
@@ -161,6 +177,7 @@ class SocketController extends GetxService {
         allGroup.value = AllGroupModal.fromJson(data);
         log('all group data == ${data}');
         socket.off('fatchAllFriendsList');
+        filteredGroups.assignAll(allGroup.value.friend ?? []);
         gpLoading.value = false;
         log('et == ${DateTime.now()}');
       });
@@ -176,7 +193,7 @@ class SocketController extends GetxService {
 
 
   /// add member
-  void addMember({required String groupID,required List<int> members,required int hostID,String? gpImage,String? gpName}){
+  void addMember({required String groupID,required List<int> members,required int hostID}){
     log('adding member');
     log('group id == ${groupID}');
     log('st == ${DateTime.now()}');
@@ -190,14 +207,10 @@ class SocketController extends GetxService {
         log('add member == ${data.runtimeType}');
         if(data['status'] == true){
           Get.toNamed(Routes.chatUi,arguments: {
-            'gpImage': gpImage,
-            'gpName': gpName,
             'gpID': data['groupId'],
           });
         }else if(data['status'] == false){
           Get.toNamed(Routes.chatUi,arguments: {
-            'gpImage': gpImage,
-            'gpName': gpName,
             'gpID': data['groupId'],
           });
         }

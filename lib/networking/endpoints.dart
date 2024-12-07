@@ -82,5 +82,11 @@ class EndPoints{
   static String getPlan = '${baseUrl}get-plans';
 
   static String cancelSub = '${baseUrl}cancel-subscription';
+  static String timeZone = '${baseUrl}get-timezone';
+
+
+  static String chatUrl = 'https://chatapi.plusonesapp.com';
+  // static String chatUrl = 'http://188.245.228.111:8000';
+  // static String chatUrl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
 
 }

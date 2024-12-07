@@ -260,6 +260,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                         Get.toNamed(Routes.exploreView, arguments: data.activities?[ind].id.toString());
                                                                                       },
                                                                                       child: Row(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                                                         children: [
                                                                                           Container(
                                                                                             clipBehavior: Clip.hardEdge,
@@ -300,9 +301,38 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                               child: Column(
                                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                                 children: [
-                                                                                                  Text(
-                                                                                                    "${data.activities?[ind].name}",
-                                                                                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                  Row(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                    children: [
+                                                                                                      Flexible(
+                                                                                                        child: Text(
+                                                                                                          "${data.activities?[ind].name}",
+                                                                                                          maxLines: 2,
+                                                                                                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      const SizedBox(width: 5,),
+                                                                                                      Container(
+                                                                                                        padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 7),
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            color: darkYellow.withOpacity(.15),
+                                                                                                            borderRadius: BorderRadius.circular(50)
+                                                                                                        ),
+                                                                                                        child: Center(
+                                                                                                            child: data.activities?[ind].requestType?.toString() == 'waitlist' ? Text('Waitlist',style: TextStyle(
+                                                                                                              fontSize: 10,
+                                                                                                              color: darkYellow,
+                                                                                                            ),) : Text(
+                                                                                                              data.activities?[ind].requestStatus?.toString() == 'pending' ? '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}' : data.activities?[ind].requestStatus?.toString() == 'leave' ? '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}d' : '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}ed',
+                                                                                                              style: TextStyle(
+                                                                                                                fontSize: 10,
+                                                                                                                color: darkYellow,
+                                                                                                              ),
+                                                                                                            )
+                                                                                                        ),
+                                                                                                      )
+                                                                                                    ],
                                                                                                   ),
                                                                                                   Text("${data.activities?[ind].location}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
                                                                                                 ],
@@ -477,9 +507,37 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                   child: Column(
                                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                                                     children: [
-                                                                                                      Text(
-                                                                                                        "${data.activities?[ind].name.toString()}",
-                                                                                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                      Row(
+                                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                        children: [
+                                                                                                          Flexible(
+                                                                                                            child: Text(
+                                                                                                              "${data.activities?[ind].name.toString()}",
+                                                                                                              maxLines: 2,
+                                                                                                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                            padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 7),
+                                                                                                            decoration: BoxDecoration(
+                                                                                                                color: darkYellow.withOpacity(.15),
+                                                                                                                borderRadius: BorderRadius.circular(50)
+                                                                                                            ),
+                                                                                                            child: Center(
+                                                                                                                child: data.activities?[ind].requestType?.toString() == 'waitlist' ? Text('Waitlist',style: TextStyle(
+                                                                                                                  fontSize: 10,
+                                                                                                                  color: darkYellow,
+                                                                                                                ),) : Text(
+                                                                                                                  data.activities?[ind].requestStatus?.toString() == 'pending' ? '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}' : data.activities?[ind].requestStatus?.toString() == 'leave' ? '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}d' : '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}ed',
+                                                                                                                  style: TextStyle(
+                                                                                                                    fontSize: 10,
+                                                                                                                    color: darkYellow,
+                                                                                                                  ),
+                                                                                                                )
+                                                                                                            ),
+                                                                                                          )
+                                                                                                        ],
                                                                                                       ),
                                                                                                       Text("${data.activities?[ind].status.toString()}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
                                                                                                       data.activities?[ind].status.toString() == 'completed'
@@ -1085,7 +1143,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                         : const SizedBox()
                                                                                                   ],
                                                                                                 ),
-                                                                                                data.activities?[ind].status.toString() == 'completed'
+                                                                                                data.activities?[ind].status.toString() == 'completed' && data.activities?[ind].markAttendance == false
                                                                                                     ? Padding(
                                                                                                         padding: const EdgeInsets.symmetric(vertical: 3),
                                                                                                         child: Row(

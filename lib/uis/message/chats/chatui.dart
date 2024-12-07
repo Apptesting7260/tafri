@@ -1,17 +1,13 @@
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/message/chats/controller/group_chat_controller.dart';
-import 'package:plusone/uis/message/chats/modal/all_message_modal.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
@@ -63,6 +59,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                         child: CustoTextFormField(
                           hintText: "Type your message",
                           controll: controller.msgController,
+                          focusNode: controller.focusNode,
                           sufixIcon: GestureDetector(
                               onTap: () async {
                                 controller.openGallery();
@@ -114,7 +111,17 @@ class ChatUi extends GetWidget<GroupChatController> {
             leadingWidth: 40,
             title: Column(
               children: [
-                Container(
+                Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+                    baseColor: grey300,
+                    highlightColor: grey100,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: h * .08,
+                        width: h * .08,
+                        color: clrGrey,
+                      ),
+                    )) : Container(
                     clipBehavior: Clip.hardEdge,
                     height: h * .08,
                     width: h * .08,
@@ -122,7 +129,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: controller.gpImage.value,
+                      imageUrl: controller.allMessage.value.gpImg ?? '',
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Shimmer.fromColors(
                           baseColor: grey300,
@@ -135,19 +142,36 @@ class ChatUi extends GetWidget<GroupChatController> {
                               color: clrGrey,
                             ),
                           )),
-                    )),
+                    )),),
                 const SizedBox(
                   height: 7,
                 ),
-                Text(
-                  controller.gpName.value,
+                Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+                    baseColor: grey300,
+                    highlightColor: grey100,
+                    child: ClipRRect(
+                      child: Container(
+                        height: h * .01,
+                        width: h * .08,
+                        color: clrGrey,
+                      ),
+                    )) : Text(
+                  controller.allMessage.value.gpName ?? '',
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       height: 1.5),
-                ),
-                Obx(() => controller.msgLoading.value ? const SizedBox() : controller.members.value != 'null' ? Text("${controller.members.value} members",
-                    style: TextStyle(color: clrGrey, fontSize: 12)) : Text('${controller.allMessage.value.members} members',style: TextStyle(color: clrGrey, fontSize: 12)))
+                ),),
+                Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+                    baseColor: grey300,
+                    highlightColor: grey100,
+                    child: ClipRRect(
+                      child: Container(
+                        height: h * .01,
+                        width: h * .08,
+                        color: clrGrey,
+                      ),
+                    )) : Text('${controller.allMessage.value.members ?? '0'} members',style: TextStyle(color: clrGrey, fontSize: 12)))
               ],
             ),
             actions: const [Align(alignment: Alignment.topLeft,child: Icon(Icons.more_vert))],
@@ -159,187 +183,131 @@ class ChatUi extends GetWidget<GroupChatController> {
           padding: EdgeInsets.symmetric(
               horizontal: Res.Defalt_side_margin),
           child: Obx(() => ListView.builder(
-              itemCount: controller.allMessage.value.data?.length ?? 0,
+              itemCount: controller.allMessage.value.message?.length ?? 0,
               controller: controller.scrollController,
               physics: AlwaysScrollableScrollPhysics(),
               reverse: true,
               shrinkWrap: true,
               padding: EdgeInsets.only(bottom: controller.selectedImages.isEmpty ? 70 : 120),
               itemBuilder: (context, index) {
-                var msg = controller.allMessage.value.data?[index];
-                var time = DateTime.parse(msg!.createdAt.toString());
-                return Align(
-                  alignment: msg.senderId == int.parse(controller.userID)
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: SizedBox(
-                    width: Get.width * 0.72,
-                    child: Column(
-                      crossAxisAlignment: msg.senderId == int.parse(controller.userID)
-                          ? CrossAxisAlignment.end
-                          : CrossAxisAlignment.start,
-                      children: [
-                        msg.senderId != int.parse(controller.userID)
-                            ? Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                var message = controller.allMessage.value.message?[index];
+                return Column(
+                  children: [
+                    const SizedBox(height: 15,),
+                    Text('${message?.name}',style: TextStyle(
+                      fontSize: 13,
+                      color: clrGreyTextLight
+                    ),),
+                    const SizedBox(height: 15,),
+                    ListView.builder(
+                      itemCount: message?.data?.length ?? 0,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      reverse: true,
+                      itemBuilder: (context, ind) {
+                        var msg = message?.data?[ind];
+                        var time = DateTime.parse(msg!.createdAt.toString());
+                      return Align(
+                        alignment: msg.senderId == int.parse(controller.userID)
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: SizedBox(
+                          width: Get.width * 0.72,
+                          child: Column(
+                            crossAxisAlignment: msg.senderId == int.parse(controller.userID)
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                clipBehavior: Clip.hardEdge,
-                                height: h * .04,
-                                width: h * .04,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(100),
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl: '${msg.proImg}',
-                                  placeholder: (context, url) => Shimmer.fromColors(
-                                      baseColor: grey300,
-                                      highlightColor: grey100,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(100),
-                                        child: Container(
-                                          height: h * .04,
-                                          width: h * .04,
-                                          color: clrGrey,
+                              msg.senderId != int.parse(controller.userID)
+                                  ? Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      clipBehavior: Clip.hardEdge,
+                                      height: h * .04,
+                                      width: h * .04,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(100),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl: '${msg.proImg}',
+                                        placeholder: (context, url) => Shimmer.fromColors(
+                                            baseColor: grey300,
+                                            highlightColor: grey100,
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(100),
+                                              child: Container(
+                                                height: h * .04,
+                                                width: h * .04,
+                                                color: clrGrey,
+                                              ),
+                                            )
                                         ),
-                                      )
-                                  ),
-                                  errorWidget: (context, url, error) => Image.asset('assets/icons/manicon.png',color: clrGrey),
-                                ),
-                              ),
-                              SizedBox(
-                                width: w * 0.01,
-                              ),
-                              Flexible(
-                                child: Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 10),
-                                  // margin:
-                                  //     const EdgeInsets.symmetric(
-                                  //         vertical: 10),
-                                  decoration: BoxDecoration(
-                                      color: clrGreyLight,
-                                      borderRadius:
-                                      const BorderRadius.only(
-                                          bottomLeft:
-                                          Radius.circular(
-                                              8),
-                                          bottomRight:
-                                          Radius.circular(
-                                              8),
-                                          topRight:
-                                          Radius.circular(
-                                              8))),
-                                  child: Row(
-                                    mainAxisSize:
-                                    MainAxisSize.min,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: Column(
+                                        errorWidget: (context, url, error) => Image.asset('assets/icons/manicon.png',color: clrGrey),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: w * 0.01,
+                                    ),
+                                    Flexible(
+                                      child: Container(
+                                        padding:
+                                        const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 10),
+                                        // margin:
+                                        //     const EdgeInsets.symmetric(
+                                        //         vertical: 10),
+                                        decoration: BoxDecoration(
+                                            color: clrGreyLight,
+                                            borderRadius:
+                                            const BorderRadius.only(
+                                                bottomLeft:
+                                                Radius.circular(
+                                                    8),
+                                                bottomRight:
+                                                Radius.circular(
+                                                    8),
+                                                topRight:
+                                                Radius.circular(
+                                                    8))),
+                                        child: Row(
                                           mainAxisSize:
                                           MainAxisSize.min,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .start,
+                                          CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              "${msg.username}",
-                                              style: TextStyle(
-                                                  color:
-                                                  clrBlacke,
-                                                  fontSize: 10,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .w600),
-                                            ),
-                                            msg.message?.textmessage == null || msg.message?.textmessage == "null" ? SizedBox(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                            Flexible(
+                                              child: Column(
+                                                mainAxisSize:
+                                                MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
                                                 children: [
-                                                  Flexible(child:
-                                                  msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
-                                                    onTap: () {
-                                                      Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.grey.withOpacity(0.5),
-                                                        borderRadius: BorderRadius.circular(10),
-                                                      ),
-                                                      height: 60,
-                                                      width: 60,
-                                                      child: const Center(
-                                                        child: Icon(
-                                                          Icons.play_arrow,
-                                                          color: Colors.white, // Icon color
-                                                          size: 40, // Icon size
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ) : CachedNetworkImage(imageUrl: '${msg.message?.file}',errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
-                                                  color:
-                                                  clrBlacke,fontSize: 12)),)),
-                                                  const SizedBox(width: 5,),
-                                                  Flexible(
-                                                    child: Text(DateFormat('h:mm').format(time),
-                                                        style: TextStyle(
-                                                            color:
-                                                            clrGrey,
-                                                            fontSize:
-                                                            12)),
+                                                  Text(
+                                                    "${msg.username}",
+                                                    style: TextStyle(
+                                                        color:
+                                                        clrBlacke,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w600),
                                                   ),
-                                                ],
-                                              ),
-                                            ) : msg.message?.file == null || msg.message?.file == 'null' ? RichText(
-                                                softWrap: true,
-                                                text: TextSpan(
-                                                    children: [
-                                                      WidgetSpan(
-                                                          child:
-                                                          Text(
-                                                            "${msg.message?.textmessage}",
-                                                            style: TextStyle(
-                                                                color:
-                                                                clrBlacke),
-                                                          )),
-                                                      const WidgetSpan(
-                                                          child:
-                                                          SizedBox(
-                                                            width: 5,
-                                                          )),
-                                                      WidgetSpan(
-                                                          child:
-                                                          Text(
-                                                            DateFormat('h:mm').format(time),
-                                                            style: TextStyle(
-                                                                color:
-                                                                clrGrey,
-                                                                fontSize:
-                                                                12),
-                                                          ))
-                                                    ])) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: [
-                                                  Flexible(
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                  msg.message?.textmessage == null || msg.message?.textmessage == "null" ? SizedBox(
+                                                    child: Row(
                                                       mainAxisSize: MainAxisSize.min,
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
                                                       children: [
-                                                        const SizedBox(height: 5,),
+                                                        Flexible(child:
                                                         msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
                                                           onTap: () {
                                                             Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
@@ -359,197 +327,287 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                               ),
                                                             ),
                                                           ),
-                                                        ) : CachedNetworkImage(imageUrl: '${msg.message?.file}',errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
+                                                        ) : CachedNetworkImage(
+                                                          imageUrl: '${msg.message?.file}',
+                                                          placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
+                                                          errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
                                                             color:
-                                                            clrBlacke,fontSize: 12)),),
-                                                        const SizedBox(height: 5,),
-                                                        Text('${msg.message?.textmessage}')
+                                                            clrBlacke,fontSize: 12)),)),
+                                                        const SizedBox(width: 5,),
+                                                        Flexible(
+                                                          child: Text(DateFormat('h:mm').format(time),
+                                                              style: TextStyle(
+                                                                  color:
+                                                                  clrGrey,
+                                                                  fontSize:
+                                                                  12)),
+                                                        ),
                                                       ],
                                                     ),
-                                                  ),
-                                                  const SizedBox(width: 5,),
-                                                  Text(
-                                                    DateFormat('h:mm').format(time),
-                                                    style: TextStyle(
-                                                        color:
-                                                        clrGrey,
-                                                        fontSize:
-                                                        12),
-                                                  )
+                                                  ) : msg.message?.file == null || msg.message?.file == 'null' ? RichText(
+                                                      softWrap: true,
+                                                      text: TextSpan(
+                                                          children: [
+                                                            WidgetSpan(
+                                                                child:
+                                                                Text(
+                                                                  "${msg.message?.textmessage}",
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      clrBlacke),
+                                                                )),
+                                                            const WidgetSpan(
+                                                                child:
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                )),
+                                                            WidgetSpan(
+                                                                child:
+                                                                Text(
+                                                                  DateFormat('h:mm').format(time),
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      clrGrey,
+                                                                      fontSize:
+                                                                      12),
+                                                                ))
+                                                          ])) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      children: [
+                                                        Flexible(
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              const SizedBox(height: 5,),
+                                                              msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
+                                                                onTap: () {
+                                                                  Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
+                                                                },
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                    color: Colors.grey.withOpacity(0.5),
+                                                                    borderRadius: BorderRadius.circular(10),
+                                                                  ),
+                                                                  height: 60,
+                                                                  width: 60,
+                                                                  child: const Center(
+                                                                    child: Icon(
+                                                                      Icons.play_arrow,
+                                                                      color: Colors.white, // Icon color
+                                                                      size: 40, // Icon size
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ) : CachedNetworkImage(
+                                                                imageUrl: '${msg.message?.file}',
+                                                                placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
+                                                                errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
+                                                                  color:
+                                                                  clrBlacke,fontSize: 12)),),
+                                                              const SizedBox(height: 5,),
+                                                              Text('${msg.message?.textmessage}')
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 5,),
+                                                        Text(
+                                                          DateFormat('h:mm').format(time),
+                                                          style: TextStyle(
+                                                              color:
+                                                              clrGrey,
+                                                              fontSize:
+                                                              12),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ) : const SizedBox() ,
                                                 ],
                                               ),
-                                            ) : const SizedBox() ,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                            : Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 10),
-                            // margin: const EdgeInsets.symmetric(
-                            //     vertical: 5),
-                            decoration: BoxDecoration(
-                              color: clrBlackeChat,
-                              borderRadius:
-                              const BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  bottomLeft:
-                                  Radius.circular(8),
-                                  topRight:
-                                  Radius.circular(8)),
-                            ),
-                            child: msg.message?.textmessage == null || msg.message?.textmessage == "null" ? SizedBox(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
-                                    onTap: () {
-                                      Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      height: 60,
-                                      width: 60,
-                                      child: const Center(
-                                    child: Icon(
-                                      Icons.play_arrow,
-                                      color: Colors.white, // Icon color
-                                      size: 40, // Icon size
+                              )
+                                  : Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: GestureDetector(
+                                  onLongPress: () {
+                                    controller.focusNode.unfocus();
+                                    controller.deletePopUp(context,msg.id.toString());
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 10),
+                                    // margin: const EdgeInsets.symmetric(
+                                    //     vertical: 5),
+                                    decoration: BoxDecoration(
+                                      color: clrBlackeChat,
+                                      borderRadius:
+                                      const BorderRadius.only(
+                                          topLeft: Radius.circular(8),
+                                          bottomLeft:
+                                          Radius.circular(8),
+                                          topRight:
+                                          Radius.circular(8)),
                                     ),
-                                      ),
-                                    ),
-                                  ) : Flexible(
-                                      child: CachedNetworkImage(
-                                        imageUrl: '${msg.message?.file}',
-                                        errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
-                                  .withOpacity(0.8),
-                                  fontSize: 12)),
-                                      )
-                                  ),
-                                  const SizedBox(width: 5,),
-                                  Flexible(
-                                    child: Text(DateFormat('h:mm').format(time),
-                                        style: TextStyle(
-                                            color: clrWhite
-                                                .withOpacity(0.8),
-                                            fontSize: 12)),
-                                  ),
-                                  const SizedBox(width: 5,),
-                                  msg.messageStatus == 'seen' ? Icon(Icons.done_all,
-                                      color: clrWhite
-                                          .withOpacity(0.8),
-                                      size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
-                                      .withOpacity(0.8),
-                                      size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
-                                ],
-                              ),
-                            ) : msg.message?.file == null || msg.message?.file == 'null' ? RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: "${msg.message?.textmessage}",
-                                      style:
-                                      TextStyle(color: clrWhite)),
-                                  WidgetSpan(
-                                    child: SizedBox(
-                                      width: w * 0.01,
-                                    ),
-                                  ),
-                                  WidgetSpan(
+                                    child: msg.message?.textmessage == null || msg.message?.textmessage == "null" ? SizedBox(
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
-                                          Text(DateFormat('h:mm').format(time),
-                                              style: TextStyle(
-                                                  color: clrWhite
+                                          msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
+                                            onTap: () {
+                                              Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              height: 60,
+                                              width: 60,
+                                              child: const Center(
+                                                child: Icon(
+                                                  Icons.play_arrow,
+                                                  color: Colors.white, // Icon color
+                                                  size: 40, // Icon size
+                                                ),
+                                              ),
+                                            ),
+                                          ) : Flexible(
+                                              child: CachedNetworkImage(
+                                                imageUrl: '${msg.message?.file}',
+                                                placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
+                                                    .withOpacity(0.8),
+                                                    fontSize: 12)),
+                                              )
+                                          ),
+                                          const SizedBox(width: 5,),
+                                          Flexible(
+                                            child: Text(DateFormat('h:mm').format(time),
+                                                style: TextStyle(
+                                                    color: clrWhite
+                                                        .withOpacity(0.8),
+                                                    fontSize: 12)),
+                                          ),
+                                          const SizedBox(width: 5,),
+                                          msg.messageStatus == 'seen' ? Icon(Icons.done_all,
+                                              color: clrWhite
+                                                  .withOpacity(0.8),
+                                              size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
+                                              .withOpacity(0.8),
+                                              size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
+                                        ],
+                                      ),
+                                    ) : msg.message?.file == null || msg.message?.file == 'null' ? RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: "${msg.message?.textmessage}",
+                                              style:
+                                              TextStyle(color: clrWhite)),
+                                          WidgetSpan(
+                                            child: SizedBox(
+                                              width: w * 0.01,
+                                            ),
+                                          ),
+                                          WidgetSpan(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(DateFormat('h:mm').format(time),
+                                                      style: TextStyle(
+                                                          color: clrWhite
+                                                              .withOpacity(0.8),
+                                                          fontSize: 12)),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  msg.messageStatus == 'seen' ? Icon(Icons.done_all,
+                                                      color: clrWhite
+                                                          .withOpacity(0.8),
+                                                      size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
                                                       .withOpacity(0.8),
-                                                  fontSize: 12)),
+                                                      size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
+                                                ],
+                                              ))
+                                        ])) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
+                                      child:  Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Flexible(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const SizedBox(height: 5,),
+                                                msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
+                                                  onTap: () {
+                                                    Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey.withOpacity(0.5),
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    height: 60,
+                                                    width: 60,
+                                                    // padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                                    child: const Center(
+                                                      child: Icon(
+                                                        Icons.play_arrow,
+                                                        color: Colors.white, // Icon color
+                                                        size: 40, // Icon size
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ) : CachedNetworkImage(
+                                                  imageUrl: '${msg.message?.file}',
+                                                  placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                  errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
+                                                    color:
+                                                    clrWhite,fontSize: 12)),),
+                                                const SizedBox(height: 5,),
+                                                Text('${msg.message?.textmessage}',style:
+                                                TextStyle(color: clrWhite))
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            DateFormat('h:mm').format(time),
+                                            style: TextStyle(
+                                                color: clrWhite
+                                                    .withOpacity(0.8),
+                                                fontSize: 12),
+                                          ),
                                           const SizedBox(
                                             width: 5,
                                           ),
                                           msg.messageStatus == 'seen' ? Icon(Icons.done_all,
                                               color: clrWhite
                                                   .withOpacity(0.8),
-                                              size: 16) : Icon(Icons.done,color: clrWhite
+                                              size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
                                               .withOpacity(0.8),
-                                              size: 16)
+                                              size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
                                         ],
-                                      ))
-                                ])) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
-                              child:  Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const SizedBox(height: 5,),
-                                        msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
-                                          onTap: () {
-                                            Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.withOpacity(0.5),
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            height: 60,
-                                            width: 60,
-                                            // padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                            child: const Center(
-                                              child: Icon(
-                                                Icons.play_arrow,
-                                                color: Colors.white, // Icon color
-                                                size: 40, // Icon size
-                                              ),
-                                            ),
-                                          ),
-                                        ) : CachedNetworkImage(imageUrl: '${msg.message?.file}',errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
-                                            color:
-                                            clrWhite,fontSize: 12)),),
-                                        const SizedBox(height: 5,),
-                                        Text('${msg.message?.textmessage}',style:
-                                        TextStyle(color: clrWhite))
-                                      ],
-                                    ),
+                                      ),
+                                    ) : SizedBox(),
                                   ),
-                                  Text(
-                                    DateFormat('h:mm').format(time),
-                                    style: TextStyle(
-                                        color: clrWhite
-                                            .withOpacity(0.8),
-                                        fontSize: 12),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  msg.messageStatus == 'seen' ? Icon(Icons.done_all,
-                                      color: clrWhite
-                                          .withOpacity(0.8),
-                                      size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
-                                      .withOpacity(0.8),
-                                      size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
-                                ],
+                                ),
                               ),
-                            ) : SizedBox(),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
+                      );
+                    },)
+                  ],
                 );
               }),),
         ),),

@@ -120,9 +120,6 @@ class FilterExpController extends GetxController{
   }
 
 
-  ExploreListController exploreListController =
-  Get.find<ExploreListController>();
-
   var categoryid = false.obs;
 
 
@@ -338,9 +335,21 @@ class FilterExpController extends GetxController{
       final response = await api.post(EndPoints.homePage, body, headers: header);
       if(response.statusCode == 200){
         filterError.value = '';
-        print('home data == ${response.body}');
-        homeController.homeData.value = HomePageModal.fromJson(response.body);
+        var data = HomePageModal.fromJson(response.body);
+        homeController.homeData.value.result?.activities = data.result?.activities;
+        homeController.homeData.refresh();
         homeController.selectedIndex.value = (-1);
+        print('home data == ${data.result?.activities}');
+        for (var e in selected) {
+          homeController.homeData.value.result?.categories?.forEach((f) {
+            if(e == f.id){
+              print('=== ${e}   ${f.id}');
+              f.selected = true;
+            }
+          },);
+        }
+        homeController.homeData.refresh();
+
         // filterActData.value = FilteractivityModel.fromJson(response.body);
         // resetForm();
         // Get.toNamed(Routes.filterActUi);

@@ -13,11 +13,24 @@ class AddactreviewController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    textController.addListener(capital);
   }
 
   final PreviousActiController preController = Get.find<PreviousActiController>();
 
   TextEditingController textController = TextEditingController();
+  var rating = 0.0.obs;
+  void capital() {
+    final text = textController.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      textController.value = textController.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: textController.text.length),
+        ),
+      );
+    }
+  }
 
   final api = ApiServices();
   var addreviewLoading = false.obs;
@@ -25,13 +38,13 @@ class AddactreviewController extends GetxController{
   var addError = ''.obs;
 
 
-  Future<void> addreviewapi(String? id, double rating) async{
+  Future<void> addreviewapi(String? id, double ratingg) async{
 
 
     Map body = {
       'activity_id': id,
       'user_id': LocalStorage.getUid(),
-      'rating': rating,
+      'rating': ratingg,
       'review': textController.text.toString(),
     };
 
@@ -55,7 +68,7 @@ class AddactreviewController extends GetxController{
           // alertRequestNotAccepted();
           showTostMsg('Your review has been added');
           textController.clear();
-          rating = 0;
+          addreviewLoading.value = false;
           // await preController.actapi(id);
           await preController.showapi(id);
           // Get.back();

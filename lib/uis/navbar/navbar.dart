@@ -46,13 +46,15 @@ class Navbar extends GetWidget {
       body: Obx(() {
         return classes[navcontroller.navIndex.value ?? 0];
       }),
-      floatingActionButton: Obx((){
-        print('fab == ${exploreListController.calculateBottomBarOffset(from: 'FAB')}');
-        return Transform.translate(
-          offset: Offset(0, exploreListController.calculateBottomBarOffset(from: 'FAB')),
-          child: Visibility(
-            visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-            child: FloatingActionButton(
+      floatingActionButton:
+      // Obx((){
+      //   print('fab == ${exploreListController.calculateBottomBarOffset(from: 'FAB')}');
+      //   return Transform.translate(
+      //     offset: Offset(0, exploreListController.calculateBottomBarOffset(from: 'FAB')),
+      //     child: Visibility(
+      //       visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+      //       child:
+        FloatingActionButton(
                 backgroundColor: clrYellow,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100)),
@@ -68,22 +70,25 @@ class Navbar extends GetWidget {
                     exploreListController.showHomePop();
                   }
                 }),
-          ),
-        );
-      }),
+          // ),
+        // );
+      // }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       bottomNavigationBar: GetBuilder<NavBarController>(builder: (controller) {
-        return Obx(() {
-          double dynamicHeight = ((exploreListController.bottomBarOffset.value > 0.0 ? 1 : 0) + exploreListController.bottomBarOffset.value) * 30;
-          print('bool == ${exploreListController.bottomBarOffset.value > 0.0}');
-          print('off == ${exploreListController.bottomBarOffset.value}');
-          print('height == ${dynamicHeight}');
-          return Transform.translate(
-            offset: Offset(0, exploreListController.calculateBottomBarOffset()),
-            child: AnimatedBottomNavigationBar.builder(
+        return
+          // Obx(() {
+          // double dynamicHeight = ((exploreListController.bottomBarOffset.value > 0.0 ? 1 : 0) + exploreListController.bottomBarOffset.value) * 30;
+          // print('bool == ${exploreListController.bottomBarOffset.value > 0.0}');
+          // print('off == ${exploreListController.bottomBarOffset.value}');
+          // print('height == ${dynamicHeight}');
+          // return Transform.translate(
+          //   offset: Offset(0, exploreListController.calculateBottomBarOffset()),
+          //   child:
+            AnimatedBottomNavigationBar.builder(
               // backgroundGradient: LinearGradient(colors: [clrYellow,clrWhite]),
-                height:dynamicHeight,
+              //   height:dynamicHeight,
+              height: 60,
                 itemCount: iconList.length,
                 tabBuilder: (int index, bool isActive) {
                   final color =
@@ -158,12 +163,13 @@ class Navbar extends GetWidget {
                       : Get.put(ProfilemainController());
                   controller.changeNavIndex(index);
                   if(index == 1){
+                    chatController.searchController.clear();
                     chatController.fetchGroup();
                   }
                 }
-            ),
-          );
-        },);
+            );
+          // );
+        // },);
       }),
     );
   }

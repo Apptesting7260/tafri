@@ -8,11 +8,40 @@ import 'package:plusone/utils/tostmsg.dart';
 
 class ContactSupportController extends GetxController {
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+
+    messageController.addListener(() {
+      firstNameCapital(messageController);
+    },);
+
+    firstnameController.addListener(() {
+      firstNameCapital(firstnameController);
+    },);
+    lastnameController.addListener(() {
+      firstNameCapital(lastnameController);
+    },);
+  }
+
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
+
+  void firstNameCapital(TextEditingController controller) {
+    final text = controller.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      controller.value = controller.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length),
+        ),
+      );
+    }
+  }
 
   Rx<String> countryCode = '+31'.obs;
   RxString initialSelection = 'NL'.obs;

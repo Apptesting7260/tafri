@@ -23,7 +23,6 @@ class AddActReviewUi extends StatefulWidget {
 class _AddActReviewUiState extends State<AddActReviewUi> {
   final AddactreviewController controller = Get.put(AddactreviewController());
 
-  double rating = 0.0;
   late String? id;
   late String? hostImg;
   late List<Going>? goingImg;
@@ -34,7 +33,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
     super.initState();
     // Retrieve the arguments
     id = Get.arguments['id'];
-    hostImg = Get.arguments['hostimg'];
+    hostImg = Get.arguments['hostimg'] ?? '';
     goingImg = List<Going>.from(Get.arguments['goingimg']);
     hostId = Get.arguments['hostid'];
   }
@@ -119,8 +118,9 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                           ),
                         ) ,
                         onRatingUpdate: (val) {
-                          rating = val;
+                          controller.rating.value = val;
                           },
+                        initialRating: controller.rating.value,
                       ),
                       SizedBox(
                         height: Get.height * 0.03,
@@ -299,7 +299,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                           width: double.maxFinite,
                           child: CustomElevatedButton(
                               onTap: (){
-                                if (rating <= 0) {
+                                if (controller.rating.value <= 0) {
                                   showTostMsg('Please provide a rating');
                                   return;
                                 }
@@ -309,7 +309,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                                   return;
                                 }
 
-                                controller.addreviewapi(id,rating);
+                                controller.addreviewapi(id,controller.rating.value);
                               },
                               child: controller.addreviewLoading.value ? CommonUi.buttonLoading() : Text(
                                 "Submit review",

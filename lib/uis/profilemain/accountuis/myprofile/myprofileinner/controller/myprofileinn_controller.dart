@@ -37,7 +37,18 @@ class MyprofileInnController extends GetxController
     profileAlertPopUp();
     bioController.value.addListener(() {
       currentLength.value = bioController.value.text.length;
+      capitalLetter(bioController.value);
     });
+    ocupatController.addListener(() {
+      capitalLetter(ocupatController);
+    },);
+    organiController.addListener(() {
+      capitalLetter(organiController);
+    },);
+    locController.addListener(() {
+      capitalLetter(locController);
+    },);
+
     super.onInit();
   }
 
@@ -46,6 +57,21 @@ class MyprofileInnController extends GetxController
   TextEditingController locController = TextEditingController(text: profileController.profileData.value.result?.location ?? '');
   TextEditingController ocupatController = TextEditingController(text: profileController.profileData.value.result?.profile?.occupation ?? '');
   TextEditingController organiController = TextEditingController(text: profileController.profileData.value.result?.profile?.organisationName ?? '');
+
+  /// for capital letter
+  void capitalLetter(TextEditingController controller){
+    final text = controller.text;
+    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+      controller.value = controller.value.copyWith(
+        text: text[0].toUpperCase() + text.substring(1),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: controller.text.length),
+        ),
+      );
+    }
+  }
+  /// for capital letter
+
 
   String? token = LocalStorage.getToken();
   String? uid = LocalStorage.getUid();

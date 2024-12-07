@@ -8,6 +8,7 @@ class ActDataModal {
   bool? markAttendance;
   bool? cardSave;
   ActivitySettings? activitySettings;
+  PaymentSettings? paymentSettings;
 
   ActDataModal({
     this.status,
@@ -16,7 +17,8 @@ class ActDataModal {
     this.requests,
     this.markAttendance,
     this.cardSave,
-    this.activitySettings
+    this.activitySettings,
+    this.paymentSettings
   });
 
   factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
@@ -26,7 +28,8 @@ class ActDataModal {
     requests: json["requests"] == null ? [] : List<Request>.from(json["requests"]!.map((x) => Request.fromJson(x))),
     markAttendance: json["mark_attendance"],
     cardSave: json['isAuthCardActive'],
-    activitySettings: json["activity_settings"] == null ? null : ActivitySettings.fromJson(json["activity_settings"])
+    activitySettings: json["activity_settings"] == null ? null : ActivitySettings.fromJson(json["activity_settings"]),
+    paymentSettings: json['payment_settings'] == null ? null : PaymentSettings.fromJson(json['payment_settings'])
   );
 
   Map<String, dynamic> toJson() => {
@@ -54,6 +57,44 @@ class ActivitySettings {
   };
 }
 
+class PaymentSettings {
+  String? deductAmount;
+  String? attendeeNoShowFee;
+  String? attendeeCancellationFee;
+  String? attendeeCancellationHour;
+  String? hostCancellationHour;
+  String? hostCancellationFee;
+
+  PaymentSettings({
+    this.deductAmount,
+    this.attendeeNoShowFee,
+    this.attendeeCancellationFee,
+    this.attendeeCancellationHour,
+    this.hostCancellationHour,
+    this.hostCancellationFee,
+  });
+
+  factory PaymentSettings.fromJson(Map<String, dynamic> json) =>
+      PaymentSettings(
+        deductAmount: json["deduct_amount"],
+        attendeeNoShowFee: json["attendee_no_show_fee"],
+        attendeeCancellationFee: json["attendee_cancellation_fee"],
+        attendeeCancellationHour: json["attendee_cancellation_hour"],
+        hostCancellationHour: json["host_cancellation_hour"],
+        hostCancellationFee: json["host_cancellation_fee"],
+      );
+
+  Map<String, dynamic> toJson() =>
+      {
+        "deduct_amount": deductAmount,
+        "attendee_no_show_fee": attendeeNoShowFee,
+        "attendee_cancellation_fee": attendeeCancellationFee,
+        "attendee_cancellation_hour": attendeeCancellationHour,
+        "host_cancellation_hour": hostCancellationHour,
+        "host_cancellation_fee": hostCancellationFee,
+      };
+}
+
 class Activity {
   int? id;
   List<String>? banners;
@@ -66,7 +107,7 @@ class Activity {
   String? location;
   String? latitude;
   String? longitude;
-  DateTime? date;
+  String? date;
   String? startAt;
   String? endAt;
   int? maxPeople;
@@ -135,7 +176,7 @@ class Activity {
     location: json["location"],
     latitude: json["latitude"],
     longitude: json["longitude"],
-    date: json["date"] == null ? null : DateTime.parse(json["date"]),
+    date: json["date"],
     startAt: json["start_at"],
     endAt: json["end_at"],
     maxPeople: json["max_people"],
@@ -169,7 +210,7 @@ class Activity {
     "location": location,
     "latitude": latitude,
     "longitude": longitude,
-    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+    "date": date,
     "start_at": startAt,
     "end_at": endAt,
     "max_people": maxPeople,

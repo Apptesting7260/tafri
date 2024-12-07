@@ -82,6 +82,9 @@ class Activity {
   String? formattedDate;
   int? spotLeft;
   int? spotPeople;
+  String? subcategoryIcon;
+  String? latitude;
+  String? longitude;
 
   Activity({
     this.id,
@@ -112,6 +115,9 @@ class Activity {
     this.formattedDate,
     this.spotLeft,
     this.spotPeople,
+    this.subcategoryIcon,
+    this.latitude,
+    this.longitude,
   RxInt? circleIndex,
   }) : circleIndex = circleIndex ?? 0.obs;
 
@@ -143,7 +149,10 @@ class Activity {
     isFav: json["isFav"],
     formattedDate: json['formatted_date'],
     spotLeft: json['spot_left'],
-    spotPeople: json['spot_people']
+    spotPeople: json['spot_people'],
+    subcategoryIcon: json['subcategory_icon'],
+    longitude: json['longitude'],
+    latitude: json['latitude']
   );
 
   Map<String, dynamic> toJson() => {
@@ -186,6 +195,7 @@ class Category {
   DateTime? createdAt;
   DateTime? updatedAt;
   RxBool? loading;
+  bool? selected;
 
   Category({
     this.id,
@@ -194,6 +204,7 @@ class Category {
     this.status,
     this.createdAt,
     this.updatedAt,
+    this.selected,
     RxBool? loading,
   }) : loading = loading ?? false.obs;
 
@@ -204,6 +215,7 @@ class Category {
     status: json["status"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    selected: false
   );
 
   Map<String, dynamic> toJson() => {

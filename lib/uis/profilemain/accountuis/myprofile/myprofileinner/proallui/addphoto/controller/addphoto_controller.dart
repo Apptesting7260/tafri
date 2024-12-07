@@ -88,6 +88,7 @@ class AddphotoController extends GetxController {
       var resDeta = await responseRes.stream.toBytes();
       var responseString = String.fromCharCodes(resDeta);
       var jsonResponse = jsonDecode(responseString);
+      print('response == ${jsonResponse}');
       if (responseRes.statusCode == 200) {
         await profileController.viewProfile();
         selectedImage.value = null;
@@ -98,11 +99,11 @@ class AddphotoController extends GetxController {
         print('submit error ==');
       } else {
         print('submit error');
-        showTostMsg("Something went wrong");
+        showTostMsg("${jsonResponse['message']}");
       }
     } catch (e) {
       debugPrint("error==$e");
-      showTostMsg("Something went wrong");
+      showTostMsg("${e.toString()}");
     }
     photoLoading.value = false;
   }
@@ -115,11 +116,11 @@ class AddphotoController extends GetxController {
       return
         CupertinoActionSheet(actions: [CupertinoActionSheetAction(onPressed: () async{
           final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-          // if(image != null){
-          //   changePhoto(image);
-          // }
-          Get.back();
-          Get.toNamed(Routes.cropPhotoScreen,arguments: image);
+          if(image != null){
+            Get.back();
+            Get.toNamed(Routes.cropPhotoScreen,arguments: image);
+          }
+
         }, child: Center(
           child: Text('Select from library',style: TextStyle(
             fontSize: 18,
@@ -128,11 +129,11 @@ class AddphotoController extends GetxController {
           ),),
         )),CupertinoActionSheetAction(onPressed: () async{
           final XFile? image = await picker.pickImage(source: ImageSource.camera);
-          // if(image != null){
-          //   changePhoto(image);
-          // }
-          Get.back();
-          Get.toNamed(Routes.cropPhotoScreen,arguments: image);
+          if(image != null){
+            Get.back();
+            Get.toNamed(Routes.cropPhotoScreen,arguments: image);
+          }
+
 
         }, child: Center(
           child: Text('Take a photo',style: TextStyle(

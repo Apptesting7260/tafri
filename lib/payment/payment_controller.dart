@@ -501,6 +501,148 @@ class PaymentController extends GetxController{
 
 
 
+
+  /// new flow
+
+
+  Future<void> createNewCustomer(String name,String email,String plan,String amount) async{
+
+    planType.value = plan;
+    var body = {
+      'name': name,
+      'email': email,
+    };
+    loading.value = true;
+    try{
+      final response = await api.post('${baseUrl}customers', body,headers: header);
+      print('send data == ${body} \n cust response == ${response.body}');
+      if(response.statusCode == 200 || response.statusCode == 201) {
+        loading.value = false;
+        var data = jsonDecode(response.body);
+        customerId.value = data['id'];
+        await createTestPayment(customerId.value);
+      }else{
+        showTostMsg('Something went wrong.Please try again');
+      }
+    }catch(e){
+      showTostMsg('Something went wrong.Please try again');
+      print('error == ${e.toString()}');
+    }
+    loading.value = false;
+  }
+
+  Future<void> createTestPayment(String customerID) async{
+
+    var body = jsonEncode({
+      "amount": {
+        "currency": "EUR",
+        "value": '0.01',
+      },
+      'description': "Authorize card for future payments",
+      // 'method': 'creditcard',
+      "sequenceType": "first",
+      // "sequenceType": "recurring",
+      "customerId": customerID,
+      'redirectUrl': 'https://urlsdemo.online/plusone/api/redirect-success-url',
+      'cancelUrl': 'https://urlsdemo.online/plusone/api/redirect-cancel-url'
+    });
+    loading.value = true;
+    try{
+      final response = await api.post("${baseUrl}payments", body,headers: header);
+      print('payment bd == ${response.body}');
+      print('payment st == ${response.statusCode}');
+      if(response.statusCode == 200 || response.statusCode == 201){
+        loading.value = false;
+        var body = jsonDecode(response.body);
+        print('url === ${body['_links']['checkout']['href']}');
+        paymentUrl.value = body['_links']['checkout']['href'];
+        paymentId.value = body['id'];
+        await Get.toNamed(Routes.paymentScreen);
+      }else{
+        loading.value = false;
+        showTostMsg('Something went wrong.Please try again.');
+      }
+    }catch(e){
+      showTostMsg('Something went wrong.Please try again.');
+      print('error == ${e.toString()}');
+    }
+    loading.value = false;
+
+  }
+
+  Future<void> getPayDetail(String paymentId) async{
+    loading.value = true;
+    try{
+      final response = await api.get('${baseUrl}payments/$paymentId',headers: header);
+      print('get == ${response.statusCode}      ${response.body}');
+      if(response.statusCode == 200 || response.statusCode == 201){
+        final data = jsonDecode(response.body);
+        print('respos == ${response.body}');
+        print('cust == ${data['customerId']}  ${data['mandateId']}  ${data['details']['cardToken']}');
+        mandateID.value = data['mandateId'];
+        cardToken.value = data['details']['cardToken'];
+        await createMembership(customerId.value, price.value, planType.value == 'monthly' ? '1 month' : '12 months', planType.value == 'monthly' ? 'Monthly Membership' : 'Yearly Membership');
+      }else{
+        showTostMsg('Something went wrong.Please try again.');
+      }
+    }catch(e){
+      showTostMsg('Something went wrong.Please try again.');
+      print('get payment error == ${e.toString()}');
+    }
+    loading.value = false;
+
+  }
+
+  Future<void> createMembership(String customerID,String amount,String duration,String description) async{
+    var url = '${baseUrl}customers/$customerID/subscriptions';
+    loading.value = true;
+    DateTime now = DateTime.now();
+    DateTime oneMonthFromNow = profileController.profileData.value.result?.cardSave == false ? (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day + int.parse(freeDays.value),now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day + int.parse(freeDays.value),now.hour,now.minute,now.second)) : (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day,now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day,now.hour,now.minute,now.second));
+    String startDate = DateFormat('yyyy-MM-dd').format(oneMonthFromNow);
+
+    var body = {
+      "amount": {
+        "currency": "EUR",
+        "value": amount,
+      },
+      'interval': duration,
+      'description': description,
+      'startDate': startDate,
+      'webhookUrl': '${EndPoints.mollieWebhook}'
+    };
+
+    print('sub send data == ${body}');
+
+
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    String subscriptionDate = formatter.format(now);
+
+    String endDate = profileController.profileData.value.result?.cardSave == false ? formatter.format(oneMonthFromNow) : formatter.format(planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day,now.hour,now.minute,now.second) : DateTime(now.year+1,now.month,now.day,now.hour,now.minute,now.second));
+    print(endDate);
+
+    try{
+      final response = await api.post(url, body,headers: header);
+      var data = jsonDecode(response.body);
+      if(response.statusCode == 200 || response.statusCode == 201){
+        await saveCard(customerId.value, mandateID.value, cardToken.value, planType.value, '0.01', paymentId.value, subscriptionDate, data['id'],endDate);
+      }else{
+        showTostMsg('Failed.Please try again.');
+      }
+      print('create sub == ${response.body}');
+      print('create sub code == ${response.statusCode}');
+    }catch(e){
+      print('mollie sub error == ${e.toString()}');
+    }
+    loading.value = false;
+  }
+
+
+  /// new flow
+
+
+
+
+
   /// =======  SWITCH PLAN ======= ///
 
   var selectedval = (-1).obs;

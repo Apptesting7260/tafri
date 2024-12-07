@@ -1010,6 +1010,51 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
+                                            controller.country.value.value.text.isNotEmpty ? Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(100),
+                                                  color: clrGreyLight
+                                              ),
+                                              padding: const EdgeInsets.only(
+                                                  left: 15,
+                                                  right: 15,
+                                                  top: 15,
+                                                  bottom: 15
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.public_rounded),
+                                                  SizedBox(width: 10,),
+                                                  Text('${controller.country.value.value.text}'),
+                                                ],
+                                              ),
+                                            ) : SizedBox(),
+                                            controller.country.value.value.text.isNotEmpty ? SizedBox(
+                                              height: Get.height * 0.02,
+                                            ) : SizedBox(),
+                                            controller.timeZone.value.value.text.isNotEmpty ? Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(100),
+                                                color: clrGreyLight
+                                              ),
+                                              padding: const EdgeInsets.only(
+                                                left: 15,
+                                                right: 15,
+                                                top: 15,
+                                                bottom: 15
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.access_time_outlined),
+                                                  SizedBox(width: 10,),
+                                                  Text('${controller.timeZone.value.value.text}'),
+                                                ],
+                                              ),
+                                            ) : SizedBox(),
+                                            controller.timeZone.value.value.text.isNotEmpty ? SizedBox(
+                                              height: Get.height * 0.02,
+                                            ) : SizedBox(),
+
                                             Obx(() {
                                               return IgnorePointer(
                                                 ignoring: true,

@@ -150,10 +150,10 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                           height: Get.height * 0.007,
                         ),
                         Center(
-                            child: Text(
+                            child: controller.hostData.value.result!.age! > 0 ? Text(
                               "${controller.hostData.value.result?.age} years old |  ${controller.getPronoun(controller.hostData.value.result?.gender)}",
                               style: TextStyle(color: clrGreyTextLight, fontSize: 14, fontWeight: FontWeight.w400),
-                            )),
+                            ) : SizedBox()),
                         SizedBox(
                           height: Get.height * 0.02,
                         ),

@@ -62,6 +62,8 @@ class Repeatcreativitycontroller extends GetxController
       joinInstant.value = activities?.joinInstantly == 1 ? true : false;
       latitude.value = activities?.latitude.toString() ?? '';
       longitude.value = activities?.longitude.toString() ?? '';
+      timeZone.value.text = activities?.timezone?.timeZone ?? '';
+      country.value.text = activities?.timezone?.countryName ?? '';
       print('lat and long ${latitude.value} ${longitude.value}');
       updateGalleryImages();
     }
@@ -448,6 +450,8 @@ class Repeatcreativitycontroller extends GetxController
   var titleController = TextEditingController().obs;
   var locController = TextEditingController().obs;
   var desController = TextEditingController().obs;
+  var timeZone = TextEditingController().obs;
+  var country = TextEditingController().obs;
 
 
   // bool isValidImageFormat(File imageFile) {

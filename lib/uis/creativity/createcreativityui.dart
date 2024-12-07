@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -1152,6 +1154,125 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               height: Get.height * 0.02,
                                             ),
                                             Obx(() {
+                                              return CustomDropdown.search(
+                                                hintText:
+                                                "Select country",
+                                                initialItem: controller.selectedCountry.value.isNotEmpty
+                                                    ? controller.selectedCountry.value
+                                                    : null,
+                                                decoration:
+                                                CustomDropdownDecoration(
+                                                    hintStyle: TextStyle(
+                                                        color: clrBlacke
+                                                            .withOpacity(
+                                                            0.6),
+                                                        fontSize: 15),
+                                                    closedSuffixIcon:
+                                                    Image.asset(
+                                                      'assets/images/arrow down.png',
+                                                      scale: 4,
+                                                    ),
+                                                    expandedSuffixIcon:
+                                                    Image.asset(
+                                                      'assets/images/arrow down.png',
+                                                      scale: 4,
+                                                    ),
+                                                    prefixIcon: Icon(Icons.public_rounded),
+                                                    closedFillColor:
+                                                    clrGreyLight,
+                                                    closedBorderRadius:
+                                                    BorderRadius
+                                                        .circular(100)),
+                                                items: controller.countryList
+                                                    .map(
+                                                      (e) => e['value'],).toList(),
+                                                onChanged: (val) {
+                                                  print('$val');
+                                                  controller.selectedCountry.value = val;
+                                                  controller.getTimeZone(val);
+                                                },
+                                              );
+                                            }),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+
+                                            Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : FutureBuilder(
+                                              future: Future.delayed(
+                                              const Duration(
+                                              seconds: 1)),
+                                              builder:
+                                              (context, snapshot) {
+                                              if (snapshot
+                                                  .connectionState ==
+                                              ConnectionState
+                                                  .waiting) {
+                                              return Shimmer
+                                                  .fromColors(
+                                              baseColor: Colors
+                                                  .grey
+                                                  .shade300,
+                                              highlightColor:
+                                              Colors
+                                                  .grey
+                                                  .shade100,
+                                              child:
+                                              Container(
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                              color:
+                                              clrGrey,
+                                              borderRadius:
+                                              BorderRadius.circular(100)),
+                                              )); // Show loading indicator
+                                              }else{
+                                                return  CustomDropdown(
+                                                hintText:
+                                                "Select timezone",
+                                                initialItem: controller.timeZoneName.value.isNotEmpty
+                                                ? controller.timeZoneName.value
+                                                    : null,
+                                                decoration:
+                                                CustomDropdownDecoration(
+                                                hintStyle: TextStyle(
+                                                color: clrBlacke
+                                                    .withOpacity(
+                                                0.6),
+                                                fontSize: 15),
+                                                closedSuffixIcon:
+                                                Image.asset(
+                                                'assets/images/arrow down.png',
+                                                scale: 4,
+                                                ),
+                                                expandedSuffixIcon:
+                                                Image.asset(
+                                                'assets/images/arrow down.png',
+                                                scale: 4,
+                                                ),
+                                                prefixIcon: Icon(Icons.access_time),
+                                                closedFillColor:
+                                                clrGreyLight,
+                                                closedBorderRadius:
+                                                BorderRadius
+                                                    .circular(100)),
+                                              items: controller.timeZoneList
+                                                  .map(
+                                              (e) => e['value'],).toList(),
+                                              onChanged: (val) {
+                                              print('$val');
+                                              controller.timeZoneName.value =
+                                              val.toString();
+                                              controller.getTimeId(val);
+                                              },
+                                              );
+                                              }
+    }
+                                              )),
+                                            Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),),
+
+                                            Obx(() {
                                               return CustomDropdown(
                                                 hintText:
                                                     "Gender preference (optional)",
@@ -1975,8 +2096,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
             const SizedBox(
               height: 10,
             ),
-            Obx(
-              () => Padding(
+             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1987,52 +2107,61 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                       textAlign: TextAlign.center,
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                      // padding: const EdgeInsets.symmetric(
+                      //     horizontal: 25, vertical: 10),
+                      height: 40,
+                      width: Get.width * 0.15,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
                           color: clrGreyLight),
-                      child: Text(controller.counter.toString()),
-                    ),
-                    Container(
-                      height: 35,
-                      // color: Colors.red,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              controller.increment();
-                            },
-                            child: Container(
-                              height: 16,
-                              child: Image.asset(
-                                'assets/images/arrow up.png',
-                                scale: 3.5,
-                              ),
-                            ),
-                          ),
-                          // const SizedBox(
-                          //   height: 8,
-                          // ),
-                          InkWell(
-                            onTap: () {
-                              controller.decrement();
-                            },
-                            child: Container(
-                              height: 16,
-                              child: Image.asset(
-                                'assets/images/arrow down new.png',
-                                scale: 3.5,
-                              ),
-                            ),
-                          )
-                        ],
+                      child: CustoTextFormField(
+                        controll: controller.countController.value,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly,LengthLimitingTextInputFormatter(2)],
+                        textKType: TextInputType.number,
                       ),
                     ),
+                    // Container(
+                    //   height: 35,
+                    //   // color: Colors.red,
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       InkWell(
+                    //         onTap: () {
+                    //           controller.increment();
+                    //         },
+                    //         child: Container(
+                    //           height: 16,
+                    //           child: Image.asset(
+                    //             'assets/images/arrow up.png',
+                    //             scale: 3.5,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       // const SizedBox(
+                    //       //   height: 8,
+                    //       // ),
+                    //       InkWell(
+                    //         onTap: () {
+                    //           controller.decrement();
+                    //         },
+                    //         child: Container(
+                    //           height: 16,
+                    //           child: Image.asset(
+                    //             'assets/images/arrow down new.png',
+                    //             scale: 3.5,
+                    //           ),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 40,
-                      width: Get.width * 0.25,
+                      width: Get.width * 0.27,
                       child: PopupMenuButton<int>(
                         onSelected: (value) {
                           controller.wmValue.value = value;
@@ -2166,7 +2295,6 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                   ],
                 ),
               ),
-            ),
             Obx(
               () => controller.wmValue.value == 2
                   ? const SizedBox()
@@ -2520,10 +2648,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                     : controller.occsincrement();
                               },
                               child: Container(
-                                height: 16,
+                                height: 17,
                                 child: Image.asset(
                                   'assets/images/arrow up.png',
-                                  scale: 3.5,
+                                  scale: 1.5,
                                 ),
                               ),
                             ),
@@ -2538,10 +2666,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                     : controller.occsdecrement();
                               },
                               child: Container(
-                                height: 16,
+                                height: 17,
                                 child: Image.asset(
                                   'assets/images/arrow down new.png',
-                                  scale: 3.5,
+                                  scale: 1.5,
                                 ),
                               ),
                             )
@@ -2583,6 +2711,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             style: TextStyle(color: clrWhite),
                           ),
                           onTap: () {
+                            print('count == ${controller.countController.value.value.text.trim().isEmpty ? '1' : controller.countController.value.value.text.trim().toString()}');
                             Get.back();
                           },
                           backgroundClr: clrBlacke)),
