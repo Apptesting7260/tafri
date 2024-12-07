@@ -251,6 +251,50 @@ class FirebaseApi {
     /// call when app is in background and tap on notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Message clicked!');
+      if(message != null) {
+        final Map<String, dynamic> data = message!.data;
+
+        if (data != null) {
+          print('data == ${data['activity_id']}');
+          if (LocalStorage.getUid().toString() == data['host_id']) {
+            if (data['status'] == 'approved') {
+              Get.toNamed(Routes.hostUpcommingActiview,
+                  arguments: data['activity_id'].toString());
+            } else if (data['status'] == 'pending') {
+              Get.toNamed(Routes.hostUpcommingActiview,
+                  arguments: data['activity_id'].toString());
+            } else if (data['status'] == 'completed') {
+              Get.toNamed(Routes.previousActivityUi, arguments: {
+                "isHost": true,
+                'id': data['activity_id'].toString()
+              });
+            } else if (data['status'] == 'not_approved') {
+              Get.toNamed(Routes.hostUpcommingActiview,
+                  arguments: data['activity_id'].toString());
+            } else {
+              Get.toNamed(Routes.navbarUi);
+            }
+          } else {
+            if (data['status'] == 'approved') {
+              Get.toNamed(Routes.exploreView,
+                  arguments: data['activity_id'].toString());
+            } else if (data['status'] == 'pending') {
+              Get.toNamed(Routes.navbarUi);
+            } else if (data['status'] == 'completed') {
+              Get.toNamed(Routes.previousActivityUi, arguments: {
+                "isHost": false,
+                "id": data['activity_id'].toString()
+              });
+            } else if (data['status'] == 'not_approved') {
+              Get.toNamed(Routes.navbarUi);
+            } else {
+              Get.toNamed(Routes.navbarUi);
+            }
+          }
+        } else {
+          Get.toNamed(Routes.navbarUi);
+        }
+      }
     });
 
     _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
