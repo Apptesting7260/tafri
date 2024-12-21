@@ -53,6 +53,12 @@ class SwitchPlanUi extends GetWidget<MymembershipController> {
                     return Obx(
                       () => GestureDetector(
                         onTap: () {
+                          if(paymentController.profileController.profileData.value.result?.planType != data.billingPeriod){
+                            paymentController.updateSelectedValue(index);
+                            paymentController.purchasedPlan.value = data.billingPeriod!;
+                            paymentController.newAmount.value = data.price!;
+                            paymentController.newId.value = data.id.toString();
+                          }
                           // controller.updateSelectedValue(1);
                         },
                         child: Container(
@@ -81,6 +87,12 @@ class SwitchPlanUi extends GetWidget<MymembershipController> {
                                   groupValue:
                                       paymentController.selectedval.value,
                                   onChanged: (val) {
+                                    if(paymentController.profileController.profileData.value.result?.planType != data.billingPeriod){
+                                      paymentController.updateSelectedValue(index);
+                                      paymentController.purchasedPlan.value = data.billingPeriod!;
+                                      paymentController.newAmount.value = data.price!;
+                                      paymentController.newId.value = data.id.toString();
+                                    }
                                     // controller.updateSelectedValue(val);
                                   },
                                 ),
@@ -110,16 +122,16 @@ class SwitchPlanUi extends GetWidget<MymembershipController> {
                                         ),
                                         RichText(
                                             text: TextSpan(children: [
-                                          TextSpan(
-                                            text:
-                                                "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
-                                            style: TextStyle(
-                                                color: clrYellowText,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                          // TextSpan(
+                                          //   text:
+                                          //       "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
+                                          //   style: TextStyle(
+                                          //       color: clrYellowText,
+                                          //       fontWeight: FontWeight.w700),
+                                          // ),
                                           TextSpan(
                                               text:
-                                                  " then €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                  " €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
                                               style: TextStyle(
                                                   color: clrBlacke,
                                                   fontWeight: FontWeight.w700))
@@ -159,22 +171,31 @@ class SwitchPlanUi extends GetWidget<MymembershipController> {
                 height: Get.height * 0.03,
               ),
               // Obx(() =>
-              Opacity(
-                opacity: 1,
-                // opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
+              Obx(() => Opacity(
+                opacity: paymentController.switchLoading.value ? 0.5 : 1,
                 child: SizedBox(
                   height: Res.h_btn,
                   width: double.maxFinite,
                   child: CustomElevatedButton(
-                    onTap: () async {
-                      // if(!controller.buttonLoadingMonthly.value && !controller.buttonLoadingYearly.value && !controller.apiLoading.value) {
-                      //   print('button tap');
-                      //   await controller.buySubscription();
-                      // }
-                      // // changePlanAlert();
+                    onTap: paymentController.switchLoading.value ? (){} : () async {
+                      if(paymentController.profileController.profileData.value.result?.planType == paymentController.purchasedPlan.value){
+                        showTostMsg('Please select different plan');
+                      }else{
+                          paymentController.switchPlanPopUp(onTap: () {
+                            Get.back();
+                            paymentController.switchPlan(planID: paymentController.newId.value, amount: paymentController.newAmount.value);
+                            // paymentController.updateSub(
+                            //     amount: paymentController.newAmount.value,
+                            //     des: paymentController.purchasedPlan.value == 'monthly' ? 'Monthly membership' : 'Yearly membership',
+                            //     duration: paymentController.purchasedPlan.value == 'monthly' ? '1 month' : '12 months',
+                            //   date: DateTime.parse(paymentController.profileController.profileData.value.result!.trailDate.toString())
+                            // );
+                          },);
+                      }
+
                     },
                     backgroundClr: clrBlacke,
-                    child: Text(
+                    child: paymentController.switchLoading.value ? CommonUi.buttonLoading() : Text(
                       "Confirm change",
                       style: TextStyle(
                           color: clrWhite,
@@ -183,7 +204,26 @@ class SwitchPlanUi extends GetWidget<MymembershipController> {
                     ),
                   ),
                 ),
-              ),
+              ),)
+              // SizedBox(height: 15,),
+              // Obx(() => SizedBox(
+              //   height: Res.h_btn,
+              //   width: double.maxFinite,
+              //   child: CustomElevatedButton(
+              //     onTap: paymentController.billingLoading.value ? (){} : () async {
+              //       paymentController.updateBilling();
+              //     },
+              //     backgroundClr: clrWhite,
+              //     borderClr: clrBlacke,
+              //     child: paymentController.billingLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+              //       "Update billing",
+              //       style: TextStyle(
+              //           color: clrBlacke,
+              //           fontSize: 16,
+              //           fontWeight: FontWeight.w700),
+              //     ),
+              //   ),
+              // ),)
               // )
 
               //           Expanded(

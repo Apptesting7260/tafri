@@ -75,6 +75,8 @@ class _MyAppState extends State<MyApp> {
             Get.toNamed(Routes.initialPage,);
           } else if(uri.queryParameters['hostId'].toString() == LocalStorage.getUid()){
             Get.toNamed(Routes.hostUpcommingActiview, arguments: uri.queryParameters['activityid'].toString());
+          } else if(uri.queryParameters['refercode'].toString().isNotEmpty){
+            print('referal code == ${uri.queryParameters['refercode']}');
           }else{
             Get.put(ExploreListController());
             Get.toNamed(Routes.exploreView,
@@ -107,7 +109,7 @@ class _MyAppState extends State<MyApp> {
         statusBarBrightness: Brightness.light));
 
     return GetMaterialApp(
-      title: 'PlusOne',
+      title: 'PlusOnes',
 
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

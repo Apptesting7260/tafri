@@ -8,6 +8,7 @@ import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/payment/payment_model.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/modal/plan_modal.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
@@ -19,13 +20,14 @@ class PaymentController extends GetxController{
 
   @override
   void onInit() {
-    customerId.value = profileController.profileData.value.result?.customerId ?? "";
-    mandateID.value = profileController.profileData.value.result?.mandateId ?? '';
-    cardToken.value = profileController.profileData.value.result?.cardToken ?? '';
+    customerId.value = profileController.profileData.value.result?.cardDetail?.customerId ?? "";
+    mandateID.value = profileController.profileData.value.result?.cardDetail?.mandateId ?? '';
+    cardToken.value = profileController.profileData.value.result?.cardDetail?.cardToken ?? '';
     print('card details == ${customerId.value}   ${mandateID.value}  ${cardToken.value}');
     getPlan();
 
     profileController.profileData.value.result?.planType == 'monthly' ? updateSelectedValue(0) : updateSelectedValue(1);
+    purchasedPlan.value = profileController.profileData.value.result?.planType ?? '';
 
     super.onInit();
   }
@@ -99,7 +101,7 @@ class PaymentController extends GetxController{
         return '12 months (1 year)';
       default:
         if (days < 7) {
-          return '$days days';
+          return  days > 2 ? '$days days' : '$days day';
         } else if (days > 7 && days < 30) {
           int weeks = days ~/ 7;
           return '$weeks weeks';
@@ -108,6 +110,50 @@ class PaymentController extends GetxController{
           return '$months months';
         }
     }
+  }
+
+  // String getWeek(int days) {
+  //   if(days == 0){
+  //     return '0 day';
+  //   }else if (days < 30) {
+  //     // Handle days less than or equal to 30
+  //     if (days % 7 == 0) {
+  //       int weeks = days ~/ 7;
+  //       return weeks == 1 ? '1 week' : '$weeks weeks';
+  //     } else {
+  //       return days > 2 ? '$days days' : '1 day';
+  //     }
+  //   } else {
+  //     // Handle cases for days greater than 30
+  //     int months = days ~/ 30; // Calculate full months
+  //     int remainingDays = days % 30; // Calculate remaining days
+  //
+  //     if (remainingDays == 0) {
+  //       return months == 1 ? '1 month' : '$months months';
+  //     } else if (remainingDays % 7 == 0) {
+  //       int weeks = remainingDays ~/ 7;
+  //       String monthText = months == 1 ? '1 month' : '$months months';
+  //       String weekText = weeks == 1 ? '1 week' : '$weeks weeks';
+  //       return '$monthText $weekText';
+  //     } else {
+  //       String monthText = months == 1 ? '1 month' : '$months months';
+  //       String dayText = remainingDays == 1 ? '1 day' : '$remainingDays days';
+  //       return '$monthText $dayText';
+  //     }
+  //   }
+  // }
+
+
+  String matchPlan(String name) {
+    for(var i in plans.value.result!){
+      print('per == ${i.billingPeriod}');
+      print('name == ${name.toString() == i.billingPeriod.toString()}\n ${name}   ${i.billingPeriod}');
+      if(name.toString() == i.billingPeriod.toString()){
+        print('match found');
+        return getWeek(int.parse(i.trailDays.toString()));
+      }
+    }
+    return '';
   }
 
 
@@ -226,7 +272,7 @@ class PaymentController extends GetxController{
     var url = '${baseUrl}customers/$customerID/subscriptions';
     loading.value = true;
     DateTime now = DateTime.now();
-    DateTime oneMonthFromNow = profileController.profileData.value.result?.cardSave == false ? (planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day + int.parse(freeDays.value),now.hour,now.minute,now.second) : DateTime(now.year + 1,now.month,now.day + int.parse(freeDays.value),now.hour,now.minute,now.second)) : (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day,now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day,now.hour,now.minute,now.second));
+    DateTime oneMonthFromNow = profileController.profileData.value.result?.cardDetail?.cardSave == false ? (planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day + int.parse(freeDays.value),now.hour,now.minute,now.second) : DateTime(now.year + 1,now.month,now.day + int.parse(freeDays.value),now.hour,now.minute,now.second)) : (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day,now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day,now.hour,now.minute,now.second));
     String startDate = DateFormat('yyyy-MM-dd').format(oneMonthFromNow);
 
     var body = {
@@ -246,7 +292,7 @@ class PaymentController extends GetxController{
     DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     String subscriptionDate = formatter.format(now);
 
-    String endDate = profileController.profileData.value.result?.cardSave == false ? formatter.format(oneMonthFromNow) : formatter.format(planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day,now.hour,now.minute,now.second) : DateTime(now.year+1,now.month,now.day,now.hour,now.minute,now.second));
+    String endDate = profileController.profileData.value.result?.cardDetail?.cardSave == false ? formatter.format(oneMonthFromNow) : formatter.format(planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day,now.hour,now.minute,now.second) : DateTime(now.year+1,now.month,now.day,now.hour,now.minute,now.second));
     print(endDate);
 
     try{
@@ -267,19 +313,21 @@ class PaymentController extends GetxController{
 
 
 
-  Future<void> cancelSubscription(String customerID,String subID) async{
-    try{
-      final response = await api.delete('${baseUrl}customers/$customerID/subscriptions/$subID',headers: header);
-      print('cancel sub response == ${response.body}   \n   ${response.statusCode}');
-      if(response.statusCode == 200 || response.statusCode == 201){
-        showTostMsg('Membership cancelled successfully');
-      }else{
-
-      }
-    }catch(e){
-      print('cancel sub errror == ${e.toString()}');
-    }
-  }
+  // Future<bool> cancelSubscription(String customerID,String subID) async{
+  //   try{
+  //     final response = await api.delete('${baseUrl}customers/$customerID/subscriptions/$subID',headers: header);
+  //     print('cancel sub response == ${response.body}   \n   ${response.statusCode}');
+  //     if(response.statusCode == 200 || response.statusCode == 201){
+  //       showTostMsg('Membership cancelled successfully');
+  //       return true;
+  //     }else{
+  //       return false;
+  //     }
+  //   }catch(e){
+  //     print('cancel sub errror == ${e.toString()}');
+  //     return false;
+  //   }
+  // }
 
 
 
@@ -420,7 +468,11 @@ class PaymentController extends GetxController{
       if(response.statusCode == 200){
         Get.back();
         successPopUp();
-        profileController.viewProfile();
+        await profileController.viewProfile();
+        if(profileController.profileData.value.result?.planType != null){
+          profileController.profileData.value.result?.planType == 'monthly' ? updateSelectedValue(0) : updateSelectedValue(1);
+          purchasedPlan.value = profileController.profileData.value.result?.planType ?? '';
+        }
       }else{
         showTostMsg('Something went wrong. Please try again');
       }
@@ -431,52 +483,15 @@ class PaymentController extends GetxController{
   }
 
 
-  var allCustomer = AllCustomerModal().obs;
-  Future<void> getCustomer(String email) async{
-    var url = '${baseUrl}customers';
-    try{
-      final response = await api.get(url,headers: header);
-      print('get customer == ${response.body}');
-      if(response.statusCode == 200 || response.statusCode == 201) {
-        allCustomer.value = AllCustomerModal.fromJson(jsonDecode(response.body));
-
-        if(checkCustomer(email)){
-          createSub(customerId.value, '3.99', '1 month', 'Monthly membership');
-        }else{
-
-        }
-
-      }
-    }catch(e,stacktrace){
-      print('get customer error == ${e.toString()}');
-      print(stacktrace);
-    }
-
-  }
-
-
-  bool checkCustomer(String email) {
-    if (allCustomer.value.embedded?.customers != null) {
-      for (var e in allCustomer.value.embedded!.customers!) {
-        if (e.email == email) {
-          print('email == ${e.email}');
-          print('id == ${e.id}');
-          customerId.value = e.id!;
-          return true;
-        }
-      }
-    }
-    return false;
-  }
 
 
   var cancelSubLoading = false.obs;
-  Future<void> cancelSub()async{
+  Future<void> cancelSub({required String id})async{
 
     cancelSubLoading.value = true;
     var body = {
-      'customer_id': profileController.profileData.value.result?.customerId,
-      'subscription_id': profileController.profileData.value.result?.subscriptionId,
+      'customer_id': profileController.profileData.value.result?.cardDetail?.customerId,
+      'subscription_id': id,
     };
 
     var header = {
@@ -499,6 +514,81 @@ class PaymentController extends GetxController{
 
   }
 
+  cancelSubPopUp({required String endDate,required dynamic Function() onTap}) async {
+    Get.dialog(AlertDialog(
+        backgroundColor: clrWhite,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        content: SizedBox(
+          width: Get.width * 0.87,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: Get.height * .012),
+              const Center(
+                  child: Text(
+                    "Are you sure?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 19),
+                  )),
+              SizedBox(height: Get.height * .012),
+              Center(
+                  child: Text(
+                    "You will remain a member till $endDate and will not be charged further.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: clrGreyTextLight, fontSize: 16),
+                  )),
+              SizedBox(
+                height: Get.height * 0.03,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                        onTap: () {
+                          Get.back();
+                        },
+                        backgroundClr: clrWhite,
+                        borderClr: clrBlacke,
+                        child: Text(
+                          "No",
+                          style: TextStyle(
+                              color: clrBlacke,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                        onTap: onTap,
+                        backgroundClr: clrBlacke,
+                        child: Text(
+                          "Yes",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )));
+  }
 
 
 
@@ -597,7 +687,7 @@ class PaymentController extends GetxController{
     var url = '${baseUrl}customers/$customerID/subscriptions';
     loading.value = true;
     DateTime now = DateTime.now();
-    DateTime oneMonthFromNow = profileController.profileData.value.result?.cardSave == false ? (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day + int.parse(freeDays.value),now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day + int.parse(freeDays.value),now.hour,now.minute,now.second)) : (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day,now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day,now.hour,now.minute,now.second));
+    DateTime oneMonthFromNow = profileController.profileData.value.result?.cardDetail?.cardSave == false ? (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day + int.parse(freeDays.value),now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day + int.parse(freeDays.value),now.hour,now.minute,now.second)) : (planType.value == 'monthly' ? DateTime(now.year, now.month, now.day,now.hour,now.minute,now.second) : DateTime(now.year,now.month,now.day,now.hour,now.minute,now.second));
     String startDate = DateFormat('yyyy-MM-dd').format(oneMonthFromNow);
 
     var body = {
@@ -617,7 +707,7 @@ class PaymentController extends GetxController{
     DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     String subscriptionDate = formatter.format(now);
 
-    String endDate = profileController.profileData.value.result?.cardSave == false ? formatter.format(oneMonthFromNow) : formatter.format(planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day,now.hour,now.minute,now.second) : DateTime(now.year+1,now.month,now.day,now.hour,now.minute,now.second));
+    String endDate = profileController.profileData.value.result?.cardDetail?.cardSave == false ? formatter.format(oneMonthFromNow) : formatter.format(planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day,now.hour,now.minute,now.second) : DateTime(now.year+1,now.month,now.day,now.hour,now.minute,now.second));
     print(endDate);
 
     try{
@@ -642,15 +732,679 @@ class PaymentController extends GetxController{
 
 
 
+  /// update billing
+
+  updateBilling() async {
+    Get.dialog(AlertDialog(
+        backgroundColor: clrWhite,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        content: SizedBox(
+          width: Get.width * 0.87,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: Get.height * .012),
+              const Center(
+                  child: Text(
+                    "Update billing?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 19),
+                  )),
+              SizedBox(height: Get.height * .012),
+              Center(
+                  child: Text(
+                    "To update your billing, we will need to verify your card by making a test payment.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: clrGreyTextLight, fontSize: 16),
+                  )),
+              SizedBox(
+                height: Get.height * 0.03,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                        onTap: () {
+                          Get.back();
+                        },
+                        backgroundClr: clrWhite,
+                        borderClr: clrBlacke,
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                              color: clrBlacke,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                        onTap: () {
+                          Get.back();
+                          updateCard();
+                        },
+                        backgroundClr: clrBlacke,
+                        child: Text(
+                          "Update",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )));
+  }
+
+  billingSuccessPopUp() {
+    Get.dialog(AlertDialog(
+      scrollable: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18)
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(vertical: 30),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(child: Image.asset("assets/icons/congratesicon.png",height: 65,),),
+            const SizedBox(height: 15,),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Center(
+                child:  Text(
+                  "Congratulations",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height:Get.height*.014,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Center(child: Text("Your card has been verified.",style: TextStyle(color: clrGreyTextLight,),textAlign: TextAlign.center,)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+              child: SizedBox(width: Get.width,height: Res.h_btn,child: CustomElevatedButton(onTap: () {
+                Get.back();
+              }, backgroundClr: clrBlacke, child: Text("Let’s explore",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            ),
+            SizedBox(
+              height: Get.height*.014,
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
+
+
+  var billingLoading = false.obs;
+  var billingId = ''.obs;
+  var billingUrl = ''.obs;
+  var newMandateId = ''.obs;
+  var newCardToken = ''.obs;
+  Future<void> updateCard() async{
+
+      var body = jsonEncode({
+        "amount": {
+          "currency": "EUR",
+          "value": '0.01',
+        },
+        'description': "Authorize card for future payments",
+        "sequenceType": "first",
+        "customerId": customerId.value,
+        'redirectUrl': 'https://urlsdemo.online/plusone/api/redirect-success-url',
+        'cancelUrl': 'https://urlsdemo.online/plusone/api/redirect-cancel-url'
+      });
+      billingLoading.value = true;
+      try{
+        final response = await api.post("${baseUrl}payments", body,headers: header);
+        print('payment bd == ${response.body}');
+        print('payment st == ${response.statusCode}');
+        if(response.statusCode == 200 || response.statusCode == 201){
+          billingLoading.value = false;
+          var body = jsonDecode(response.body);
+          print('url === ${body['_links']['checkout']['href']}');
+          billingUrl.value = body['_links']['checkout']['href'];
+          billingId.value = body['id'];
+          await Get.toNamed(Routes.updateBilling);
+        }else{
+          billingLoading.value = false;
+          showTostMsg('Something went wrong.Please try again.');
+        }
+      }catch(e){
+        showTostMsg('Something went wrong.Please try again.');
+        print('error == ${e.toString()}');
+      }
+      billingLoading.value = false;
+
+  }
+
+
+  Future<void> getBilling(String billingID) async{
+
+    loading.value = true;
+    try{
+      final response = await api.get('${baseUrl}payments/$billingID',headers: header);
+      print('get == ${response.statusCode}      ${response.body}');
+      if(response.statusCode == 200 || response.statusCode == 201){
+        final data = jsonDecode(response.body);
+        print('respos == ${response.body}');
+        print('cust == ${data['customerId']}  ${data['mandateId']}  ${data['details']['cardToken']}');
+        newMandateId.value = data['mandateId'];
+        newCardToken.value = data['details']['cardToken'];
+        await updateMandateInSub(customerId.value, profileController.profileData.value.result!.subscriptionId.toString(), newMandateId.value);
+      }else{
+        showTostMsg('Something went wrong.Please try again.');
+      }
+    }catch(e){
+      showTostMsg('Something went wrong.Please try again.');
+      print('get payment error == ${e.toString()}');
+    }
+    loading.value = false;
+
+  }
+
+
+  Future<void> updateMandate(String mandateId,String cardToken) async{
+
+    var body = {
+      'mandate_id': mandateId,
+      'cart_token': cardToken,
+    };
+    var header = {
+      'Authorization': 'Bearer ${LocalStorage.getToken()}'
+    };
+    try{
+      final response = await api.post(EndPoints.updateMandate, body,headers: header);
+      print('send data==   ${body}\nsave == ${response.body}');
+      if(response.statusCode == 200){
+        Get.back();
+        billingSuccessPopUp();
+        profileController.viewProfile();
+      }else{
+        Get.back();
+        // showTostMsg('Something went wrong. Please try again');
+      }
+    }catch(e){
+      // showTostMsg('Something went wrong. Please try again');
+      print('update card error == ${e.toString()}');
+      Get.back();
+    }
+
+  }
+
+
+  Future<void> updateMandateInSub(String customerID,String subID,String mandateID) async{
+    var body = jsonEncode({
+      'mandateId': mandateID,
+      'webhookUrl': '${EndPoints.mollieWebhook}'
+    });
+    try{
+      final response = await api.patch('${baseUrl}customers/$customerID/subscriptions/$subID', body,headers: header);
+      print('update in mollie res == ${response.statusCode}   ${response.body}');
+      if(response.statusCode == 200 || response.statusCode == 201){
+        await updateMandate(newMandateId.value, newCardToken.value);
+      }else{
+        showTostMsg("Something went wrong");
+        Get.back();
+      }
+    }catch(e){
+      showTostMsg("Something went wrong. Please try again.");
+      Get.back();
+      print('update mandate in sub error = ${e.toString()}');
+    }
+  }
+
+  /// update billing
+
+
+
 
   /// =======  SWITCH PLAN ======= ///
 
   var selectedval = (-1).obs;
+  var purchasedPlan = ''.obs;
+  var newAmount = ''.obs;
+  var newId = ''.obs;
+  var switchLoading = false.obs;
 
   void updateSelectedValue(int? value) {
     selectedval.value = value!;
   }
 
+  switchPlanPopUp({required dynamic Function() onTap}) async {
+    Get.dialog(AlertDialog(
+        backgroundColor: clrWhite,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 13),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        content: SizedBox(
+          width: Get.width * 0.87,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: Get.height * .012),
+              const Center(
+                  child: Text(
+                    "Switch plan",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 19),
+                  )),
+              SizedBox(height: Get.height * .012),
+              Center(
+                  child: Text(
+                    "Do you want to switch your plan?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: clrGreyTextLight, fontSize: 16),
+                  )),
+              SizedBox(
+                height: Get.height * 0.03,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                        onTap: () {
+                          Get.back();
+                        },
+                        backgroundClr: clrWhite,
+                        borderClr: clrBlacke,
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                              color: clrBlacke,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    child: SizedBox(
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                        onTap: onTap,
+                        backgroundClr: clrBlacke,
+                        child: Text(
+                          "Switch",
+                          style: TextStyle(
+                              color: clrWhite,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )));
+  }
 
+  switchSuccessPopUp(){
+    Get.dialog(AlertDialog(
+      scrollable: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18)
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(vertical: 30),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(child: Image.asset("assets/icons/congratesicon.png",height: 65,),),
+            const SizedBox(height: 15,),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Center(
+                child:  Text(
+                  "All set!",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height:Get.height*.014,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Center(child: Text("Your plan is successfully changed.",style: TextStyle(color: clrGreyTextLight,),textAlign: TextAlign.center,)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+              child: SizedBox(width: Get.width,height: Res.h_btn,child: CustomElevatedButton(onTap: () {
+                Get.offAllNamed(Routes.navbarUi);
+              }, backgroundClr: clrBlacke, child: Text("Let’s explore",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            ),
+            SizedBox(
+              height: Get.height*.014,
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  Future<void> switchPlan({required String planID,required String amount}) async{
+    switchLoading.value = true;
+    var body = {
+      'plan_id': planID,
+      'amount': amount,
+      'customer_id': profileController.profileData.value.result?.cardDetail?.customerId,
+      'subscription_id': profileController.profileData.value.result?.subscriptionId,
+    };
+
+    var header = {
+      'Authorization': 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    try{
+      final response = await api.post(EndPoints.switchPlan, body, headers: header);
+      print('switch response == ${response.statusCode}     ${response.body}');
+      if(response.statusCode == 200){
+        Get.back();
+        switchSuccessPopUp();
+        profileController.viewProfile();
+      }else{
+        showTostMsg('Something went wrong. Please try again.');
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      print('switch error == ${e.toString()}');
+    }
+    switchLoading.value = false;
+  }
+
+
+  // Future<void> updateSub({required String amount,required String des,required String duration,required DateTime date}) async{
+  //
+  //   String startDate = DateFormat('yyyy-MM-dd').format(date);
+  //   print('start date == ${startDate}');
+  //   DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+  //   String endDate = formatter.format(duration == '1 month' ? DateTime(date.year, date.month + 1, date.day,date.hour,date.minute,date.second) : DateTime(date.year+1,date.month,date.day,date.hour,date.minute,date.second));
+  //   print('end date == ${endDate}');
+  //
+  //
+  //   var body = jsonEncode({
+  //     "amount": {
+  //       "currency": "EUR",
+  //       "value": amount
+  //     },
+  //     'description': des,
+  //     'interval': duration,
+  //     'webhookUrl': EndPoints.mollieWebhook,
+  //     // 'startDate': startDate
+  //   });
+  //
+  //   print('body == ${body}');
+  //
+  //   try{
+  //     final response = await api.patch('${baseUrl}customers/${customerId.value}/subscriptions/${profileController.profileData.value.result!.subscriptionId.toString()}', body,headers: header);
+  //     print('update sub response == ${response.statusCode}   ${response.body}');
+  //     if(response.statusCode == 200 || response.statusCode == 201){
+  //       updateSubInDb(trial: true, planID: newId.value, amount: amount, startDate: '', endDate: endDate, subID: '');
+  //     }else{
+  //       showTostMsg('Something went wrong');
+  //     }
+  //   }catch(e){
+  //     showTostMsg('Something went wrong');
+  //     print('update sub error == ${e.toString()}');
+  //   }
+  //
+  // }
+
+
+
+  // Future<void> updateSubInDb({required bool trial,required String planID,required String amount,required String startDate,required String endDate,required String subID}) async{
+  //
+  //   var body = trial == true ? {
+  //     'plan_id': planID,
+  //     'amount': amount,
+  //     'end_date': endDate,
+  //   } : {
+  //     'plan_id': planID,
+  //     'amount': amount,
+  //     'start_date': startDate,
+  //     'end_date': endDate,
+  //     'subscription_id': subID,
+  //   };
+  //
+  //   var header = {
+  //     'Authorization': 'Bearer ${LocalStorage.getToken()}'
+  //   };
+  //
+  //   try{
+  //     final response = await api.post(EndPoints.switchPlan, body, headers: header);
+  //     print('switch == ${response.statusCode}    ${response.body}');
+  //   }catch(e){
+  //     print('update in db error == ${e.toString()}');
+  //   }
+  //
+  // }
+
+
+  // Future<void> switchSub({required String customerID,required String subID}) async{
+  //
+  //   var body = {
+  //     'customer_id': customerID,
+  //     'subscription_id': subID,
+  //   };
+  //
+  //   var header = {
+  //     'Authorization': 'Bearer ${LocalStorage.getToken()}'
+  //   };
+  //   try{
+  //     final response = await api.post('${EndPoints.cancelSub}', body,headers: header);
+  //     print('cancel sub response == ${response.body}  \n ${response.statusCode}');
+  //     if(response.statusCode == 200){
+  //       // profileController.viewProfile();
+  //     }else{
+  //       showTostMsg('Something went wrong.Please try again.');
+  //     }
+  //   }catch(e){
+  //     showTostMsg('Something went wrong.');
+  //     print('switch sub error == ${e.toString()}');
+  //   }
+  //
+  // }
+
+
+  // Future<void> switchPlanMollie({required String customerID, required String amount, required String duration, required String description, required String date}) async{
+  //   var url = '${baseUrl}customers/$customerID/subscriptions';
+  //   String startDate = DateFormat('yyyy-MM-dd').format(oneMonthFromNow);
+  //
+  //   var body = {
+  //     "amount": {
+  //       "currency": "EUR",
+  //       "value": amount,
+  //     },
+  //     'interval': duration,
+  //     'description': description,
+  //     'startDate': startDate,
+  //     'webhookUrl': '${EndPoints.mollieWebhook}'
+  //   };
+  //
+  //   print('sub send data == ${body}');
+  //
+  //
+  //   DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+  //   String subscriptionDate = formatter.format(now);
+  //
+  //   String endDate = profileController.profileData.value.result?.cardSave == false ? formatter.format(oneMonthFromNow) : formatter.format(planType.value == 'monthly' ? DateTime(now.year, now.month + 1, now.day,now.hour,now.minute,now.second) : DateTime(now.year+1,now.month,now.day,now.hour,now.minute,now.second));
+  //   print(endDate);
+  //
+  //   try{
+  //     final response = await api.post(url, body,headers: header);
+  //     var data = jsonDecode(response.body);
+  //     if(response.statusCode == 200 || response.statusCode == 201){
+  //       // await saveCard(customerId.value, mandateID.value, cardToken.value, planType.value, '0.01', paymentId.value, subscriptionDate, data['id'],endDate);
+  //     }else{
+  //       showTostMsg('Failed.Please try again.');
+  //     }
+  //     print('create sub == ${response.body}');
+  //     print('create sub code == ${response.statusCode}');
+  //   }catch(e){
+  //     print('mollie sub error == ${e.toString()}');
+  //   }
+  // }
+
+
+  /// SWITCH PLAN ///
+
+
+  /// referral popup ///
+
+  var referalController = TextEditingController();
+  var referalLoading = false.obs;
+  referalPopUp(){
+    Get.dialog(AlertDialog(
+      scrollable: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18)
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(vertical: 30),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Center(
+                child:  Text(
+                  "Apply referral code",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            SizedBox(
+              height:Get.height*.014,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Center(child: Text("Do you have a referral code?",style: TextStyle(color: clrGreyTextLight,),textAlign: TextAlign.center,)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: CustoTextFormField(
+                hintText: 'Enter referral code',
+                controll: referalController,
+              ),
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SizedBox(height: Res.h_btn,child: CustomElevatedButton(
+                        onTap: () {
+                          Get.back();
+                    }, backgroundClr: clrWhite,borderClr: clrBlacke, child: Text("Cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),))),
+                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    child: SizedBox(height: Res.h_btn,child: CustomElevatedButton(onTap: () {
+                      applyCode();
+                    }, backgroundClr: clrBlacke, child: Text("Apply",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: Get.height*.014,
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
+
+  Future<void> applyCode() async{
+
+    if(referalController.value.text.trim().isEmpty){
+      showTostMsg("Please enter referal code.");
+      return;
+    }
+
+    var body = {
+      'referral_code': referalController.value.text.trim()
+    };
+
+    var header = {
+      'Authorization': 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    try{
+      final response = await api.post(EndPoints.referalCode, body,headers: header);
+      print('referal response == ${response.statusCode}    ${response.body}');
+      print('data == ${response.body['message']}');
+      if(response.statusCode == 200){
+
+      }else{
+        showTostMsg('${response.body['message']}');
+      }
+    }catch(e){
+      print('referal code error == ${e.toString()}');
+      showTostMsg('Something went wrong. Please try again.');
+    }
+
+  }
+
+
+  /// referral popup ///
 
 }

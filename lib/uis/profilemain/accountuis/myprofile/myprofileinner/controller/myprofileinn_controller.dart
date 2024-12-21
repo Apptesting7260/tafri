@@ -55,6 +55,7 @@ class MyprofileInnController extends GetxController
   var bioController = TextEditingController(text: profileController.profileData.value.result?.profile?.bio ?? '').obs;
   var currentLength = (profileController.profileData.value.result?.profile?.bio?.length ?? 0).obs;
   TextEditingController locController = TextEditingController(text: profileController.profileData.value.result?.location ?? '');
+  var timeZone = (profileController.profileData.value.result?.location ?? '').obs;
   TextEditingController ocupatController = TextEditingController(text: profileController.profileData.value.result?.profile?.occupation ?? '');
   TextEditingController organiController = TextEditingController(text: profileController.profileData.value.result?.profile?.organisationName ?? '');
 
@@ -524,13 +525,19 @@ class MyprofileInnController extends GetxController
 
   Future<void> locationUpdate() async{
 
+    if(timeZone.value.isEmpty){
+      showTostMsg('Please select complete location',gravity: ToastGravity.CENTER);
+      return;
+    }
+
     String? token = LocalStorage.getToken();
     String? uid = LocalStorage.getUid();
     print('token == $token        $uid');
 
     var body = {
       'user_id' : uid,
-      'location' : locController.value.text.trim()
+      'location' : locController.value.text.trim(),
+      'time_zone': timeZone.value
     };
 
     var header = {"Authorization": "Bearer $token"};
@@ -718,6 +725,15 @@ class MyprofileInnController extends GetxController
     return true;
   }
 
+  bool validateQues(){
+    for(var i in funFactListDeta){
+      if(i['question'].toString().isEmpty){
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   Rxn<int> existingItemIndex = Rxn<int>();
 
@@ -732,7 +748,10 @@ class MyprofileInnController extends GetxController
     if(!validateTextFields()){
       showTostMsg('Please enter your answer',gravity: ToastGravity.CENTER);
       return;
-    } else if(!validateQuestion()){
+    } else if(!validateQues()){
+      showTostMsg("Please select question.",gravity: ToastGravity.CENTER);
+      return;
+    }else if(!validateQuestion()){
       showTostMsg('Please remove duplicate questions.', gravity: ToastGravity.CENTER);
       return;
     }
@@ -758,6 +777,7 @@ class MyprofileInnController extends GetxController
         var data = response.body;
         if(data['status'] == true){
           await profileController.viewProfile();
+          showTostMsg('Fun fact updated successfully');
           funfactLoading.value = false;
         }else{
           print('profile error ==');
@@ -837,8 +857,10 @@ class MyprofileInnController extends GetxController
 
 
  /// place api
-  RxList<String?> places = <String?>[].obs;
+  RxList<Map<String, dynamic>> places = <Map<String,dynamic>>[].obs;
   RxString _searchTerm = ''.obs;
+  var latitude = ''.obs;
+  var longitude = ''.obs;
   final placesApi = GoogleMapsPlaces(apiKey: 'AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM');
 
   void onSearchChanged(String value, BuildContext context) async {
@@ -852,7 +874,7 @@ class MyprofileInnController extends GetxController
     }
   }
 
-  Future<List<String?>> searchPlaces(String searchTerm) async {
+  Future<List<Map<String,dynamic>>> searchPlaces(String searchTerm) async {
     // final response = await placesApi.searchByText(
     //   searchTerm,
     // );
@@ -862,11 +884,124 @@ class MyprofileInnController extends GetxController
     // }
     if (response.isOkay) {
       print('location == ${response.predictions}');
-      return response.predictions.map((e) => e.description,).toList();
+      return response.predictions.map((e) => {'des':e.description,'id':e.placeId},).toList();
     } else {
       return [];
     }
   }
+
+  Future<void> getLatLang(var placeId) async {
+    if (placeId != null) {
+      var placeDetails = await getPlaceDetails(placeId!);
+      updateLatLong(placeDetails['lat'], placeDetails['lng']);
+      getTimeZone(lat: latitude.value,long: longitude.value);
+      print("place Id ${placeId}");
+      print('Latitude: ${placeDetails['lat']}');
+      print('Longitude: ${placeDetails['lng']}');
+      print('House Number: ${placeDetails['houseNumber']}');
+      print('Street Name: ${placeDetails['streetName']}');
+      print('Street Type: ${placeDetails['streetType']}');
+      print('City: ${placeDetails['city']}');
+      print('Postal Code: ${placeDetails['postalCode']}');
+      print(
+          'State (Administrative Area): ${placeDetails['administrativeArea']}');
+
+      print('Country: ${placeDetails['country']}');
+    }
+  }
+
+  Future<Map<String, dynamic>> getPlaceDetails(String placeId) async {
+    final url =
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=AIzaSyCPAaERVd6ZlHs_EVKdaBixFIoYWW_-SL0';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final result = json['result'];
+      final geometry = result['geometry']['location'];
+      final addressComponents = result['address_components'];
+
+      print('Full Address Components: $addressComponents');
+
+      double lat = geometry['lat'];
+      double lng = geometry['lng'];
+      String houseNumber = '';
+      String streetName = '';
+      String streetType = '';
+      String city = '';
+      String postalCode = '';
+      String administrativeArea = '';
+      String country = '';
+
+      // Loop through addressComponents to extract the details
+      addressComponents.forEach((component) {
+        List types = component['types'];
+
+        print('Component Types: $types'); // Print types for each component
+
+        if (types.contains('street_number')) {
+          houseNumber = component['long_name'];
+        } else if (types.contains('route')) {
+          streetName = component['long_name'];
+        } else if (types.contains('locality')) {
+          city = component['long_name'];
+        } else if (types.contains('postal_code')) {
+          postalCode = component['long_name'];
+        } else if (types.contains('administrative_area_level_1')) {
+          administrativeArea = component['long_name'];
+        } else if (types.contains('country')) {
+          country = component['long_name'];
+        }
+      });
+
+      return {
+        'lat': lat,
+        'lng': lng,
+        'houseNumber': houseNumber,
+        'streetName': streetName,
+        'streetType': streetType, // Optional if you extract it
+        'city': city,
+        'postalCode': postalCode,
+        'administrativeArea': administrativeArea,
+        'country': country,
+      };
+    } else {
+      throw Exception('Failed to load place details');
+    }
+  }
+
+  var timeZoneLoading = false.obs;
+  Future<void> getTimeZone({required String lat,required String long}) async{
+    timeZone.value = '';
+
+    timeZoneLoading.value = true;
+    var timeStamp = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+    final url = 'https://maps.googleapis.com/maps/api/timezone/json?location=$lat,$long&timestamp=$timeStamp&key=AIzaSyAP3QLpyPPT0ba8RnZCCEIHpMLnh_hPNRM';
+
+    try{
+      final response = await api.get(url);
+      print('timezone == ${response.statusCode}    ${response.body}');
+      if(response.statusCode == 200){
+        var data = response.body;
+        timeZone.value = data['timeZoneId'];
+        print('time zone == ${timeZone.value}');
+      }
+    }catch(e){
+      print('timezone error == ${e.toString()}');
+    }
+
+    timeZoneLoading.value = false;
+
+  }
+
+  void updateLatLong(double lat, double long) {
+    latitude.value = lat.toString();
+    longitude.value = long.toString();
+    print('lat == ${latitude.value}   lon == ${longitude.value}');
+  }
+
+
   ///
 
   var deleteloading = false.obs;

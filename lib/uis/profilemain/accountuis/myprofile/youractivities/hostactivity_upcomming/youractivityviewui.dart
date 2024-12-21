@@ -463,7 +463,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           },
                                           backgroundClr: clrBlacke,
                                           child: Text(
-                                            "Message Group",
+                                            "Message group",
                                             style: TextStyle(
                                                 color: clrWhite,
                                                 fontSize: 16,

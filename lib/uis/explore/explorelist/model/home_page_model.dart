@@ -26,13 +26,15 @@ class Result {
   bool? profileComplete;
   bool? membershipStatus;
   String? planType;
+  String? trialEnd;
 
   Result({
     this.categories,
     this.activities,
     this.profileComplete,
     this.membershipStatus,
-    this.planType
+    this.planType,
+    this.trialEnd
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -40,7 +42,8 @@ class Result {
     activities: json["activities"] == null ? [] : List<Activity>.from(json["activities"]!.map((x) => Activity.fromJson(x))),
     profileComplete: json["profile_complete"],
     membershipStatus: json["membership_status"],
-    planType: json['plan_type'] ?? ''
+    planType: json['plan_type'] ?? '',
+    trialEnd: json['trail_end_at']
   );
 
   Map<String, dynamic> toJson() => {

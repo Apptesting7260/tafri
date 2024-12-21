@@ -62,7 +62,8 @@ class ChatUi extends GetWidget<GroupChatController> {
                           focusNode: controller.focusNode,
                           sufixIcon: GestureDetector(
                               onTap: () async {
-                                controller.openGallery();
+                                controller.imagePopUp(context);
+                                // controller.openGallery();
                               },
                               child: Icon(
                                 Icons.camera_alt,
@@ -171,7 +172,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                         width: h * .08,
                         color: clrGrey,
                       ),
-                    )) : Text('${controller.allMessage.value.members ?? '0'} members',style: TextStyle(color: clrGrey, fontSize: 12)))
+                    )) : controller.allMessage.value.members != null ? Text('${controller.allMessage.value.members ?? '0'} ${controller.allMessage.value.members! > 1 ? 'members' : 'member'}',style: TextStyle(color: clrGrey, fontSize: 12)) : SizedBox())
               ],
             ),
             actions: const [Align(alignment: Alignment.topLeft,child: Icon(Icons.more_vert))],
@@ -198,7 +199,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                       fontSize: 13,
                       color: clrGreyTextLight
                     ),),
-                    const SizedBox(height: 15,),
+                    // const SizedBox(height: 15,),
                     ListView.builder(
                       itemCount: message?.data?.length ?? 0,
                       physics: NeverScrollableScrollPhysics(),

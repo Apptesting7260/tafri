@@ -35,13 +35,17 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                 CommonUi.appBar(
                   onTap: () {
                     Get.back();
-                    Future.delayed(
-                      const Duration(milliseconds: 100),
-                      () => controller.locController.text =
-                          profilemainController
-                              .profileData.value.result!.location
-                              .toString(),
-                    );
+                    // Future.delayed(
+                    //   const Duration(milliseconds: 100),
+                    //   (){
+                    //     if(controller.locController.text.isNotEmpty) {
+                    //       controller.locController.text =
+                    //           profilemainController
+                    //               .profileData.value.result!.location
+                    //               .toString();
+                    //     }
+                    //   }
+                    // );
                   },
                 ),
                 const Text(
@@ -71,8 +75,12 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                     child: CustomLocationField(
                       itemBuilder: (context, suggestion) {
                         return ListTile(
-                          title: Text(suggestion.toString()),
+                          title: Text(suggestion['des']
+                              .toString()),
                         );
+                      },
+                      onChanged: (p0) {
+                        controller.timeZone.value = '';
                       },
                       suggestionsCallback: (value) async {
                         return controller.searchPlaces(value);
@@ -85,8 +93,10 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                         }
                         return null;
                       },
-                      onSelected: (value) {
-                        controller.locController.text = value.toString();
+                      onSelected: (value) async{
+                        controller.locController.text = value['des'].toString();
+                        await controller
+                            .getLatLang(value['id']);
                       },
                       sufixIcon: Container(
                           padding: const EdgeInsets.symmetric(
@@ -107,7 +117,7 @@ class LocationProUi extends GetWidget<MyprofileInnController> {
                   height: Res.h_btn,
                   width: double.maxFinite,
                   child: CustomElevatedButton(
-                      onTap: () async{
+                      onTap: controller.locationLoading.value || controller.timeZoneLoading.value ? (){} : () async{
                         if (_formState.currentState!.validate()) {
                           // profilemainController
                           //         .profileData.value.result?.location =

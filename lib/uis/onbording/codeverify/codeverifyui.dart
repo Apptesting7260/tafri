@@ -267,7 +267,11 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                 loadingIndicatorColor: clrBlacke,
                                 onPressed: () {
                                   print('resend otp');
-                                  loginnoController.resendOtp();
+                                  loginnoController.resendOtp().then((value) {
+                                    if(value){
+                                      pinController.clear();
+                                    }
+                                  },);
                                 },
                                 text: Text('Resend',
                                     style: TextStyle(color: clrYellowText)),
@@ -278,7 +282,11 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                                 loadingIndicatorColor: clrBlacke,
                                 onPressed: () {
                                   print('resend otp');
-                                  controller.resendOtp();
+                                  controller.resendOtp().then((value) {
+                                    if(value){
+                                      pinController.clear();
+                                    }
+                                  },);
                                 },
                                 text: Text('Resend',
                                     style: TextStyle(color: clrYellowText)),

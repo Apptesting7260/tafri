@@ -26,6 +26,7 @@ class Result {
   String? mobile;
   String? gender;
   String? location;
+  String? timeZone;
   DateTime? dob;
   dynamic googleId;
   dynamic appleId;
@@ -49,16 +50,19 @@ class Result {
   Profile? profile;
   List<Activity>? upcomingActivities;
   List<Activity>? previousActivities;
-  bool? cardSave;
-  String? customerId;
-  String? mandateId;
-  String? cardToken;
   String? planType;
   String? subscriptionId;
   String? cancelDate;
+  String? startDate;
+  String? endDate;
+  String? trailDate;
   String? cancelStatus;
   bool? membershipStatus;
-
+  SwitchPlan? switchPlan;
+  CardDetail? cardDetail;
+  String? referCode;
+  int? myReferDays;
+  ReferralSetting? referralSetting;
 
   Result({
     this.id,
@@ -75,6 +79,7 @@ class Result {
     this.emailVerifiedAt,
     this.status,
     this.isBlocked,
+    this.timeZone,
     this.userType,
     this.subscriptionStatus,
     this.currentStep,
@@ -91,15 +96,19 @@ class Result {
     this.profile,
     this.upcomingActivities,
     this.previousActivities,
-    this.cardSave,
-    this.customerId,
-    this.mandateId,
-    this.cardToken,
     this.planType,
     this.membershipStatus,
     this.subscriptionId,
     this.cancelDate,
-    this.cancelStatus
+    this.startDate,
+    this.endDate,
+    this.trailDate,
+    this.cancelStatus,
+    this.switchPlan,
+    this.cardDetail,
+    this.referCode,
+    this.myReferDays,
+    this.referralSetting
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -118,6 +127,7 @@ class Result {
     status: json["status"],
     isBlocked: json["is_blocked"],
     userType: json["user_type"],
+    timeZone: json['time_zone'],
     subscriptionStatus: json["subscription_status"],
     currentStep: json["current_step"],
     upcommingActivityStatus: json["upcomming_activity_status"],
@@ -133,15 +143,19 @@ class Result {
     profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
     upcomingActivities: json["upcoming_activities"] == null ? [] : List<Activity>.from(json["upcoming_activities"]!.map((x) => Activity.fromJson(x))),
     previousActivities: json["previous_activities"] == null ? [] : List<Activity>.from(json["previous_activities"]!.map((x) => Activity.fromJson(x))),
-    cardSave: json['isAuthCardActive'],
-    customerId: json['customerId'],
-    mandateId: json['merchantId'],
-    cardToken: json['cartToken'],
     planType: json['plan_type'],
     membershipStatus: json['membership_status'],
     subscriptionId: json['subscription_id'],
     cancelDate: json['canceled_date'],
-    cancelStatus: json['subscription_status']
+    cancelStatus: json['subscription_status'],
+    startDate: json['start_date'],
+    endDate: json['end_date'],
+    trailDate: json['trail_end_at'],
+    switchPlan: json["switch_plan"] == null ? null : SwitchPlan.fromJson(json["switch_plan"]),
+    cardDetail: json['card_active'] == null ? null : CardDetail.fromJson(json['card_active']),
+    referCode: json['referral_code'],
+    myReferDays: json['extra_days'],
+    referralSetting: json['referral_setting'] == null ? null : ReferralSetting.fromJson(json['referral_setting'])
   );
 
   Map<String, dynamic> toJson() => {
@@ -178,6 +192,63 @@ class Result {
   };
 }
 
+  class ReferralSetting{
+  int? referralDays;
+
+  ReferralSetting({
+    this.referralDays
+  });
+
+  factory ReferralSetting.fromJson(Map<String, dynamic> json) => ReferralSetting(
+    referralDays: json['referral_days']
+  );
+
+  }
+
+  class CardDetail{
+    String? customerId;
+    String? mandateId;
+    String? cardToken;
+    bool? cardSave;
+
+    CardDetail({
+      this.cardSave,
+      this.customerId,
+      this.mandateId,
+      this.cardToken,
+  });
+
+    factory CardDetail.fromJson(Map<String, dynamic> json) => CardDetail(
+      cardSave: json['isAuthCardActive'],
+      customerId: json['customerId'],
+      mandateId: json['merchantId'],
+      cardToken: json['cartToken'],
+    );
+
+  }
+
+  class SwitchPlan {
+    dynamic planId;
+    dynamic subscriptionId;
+    dynamic cancelDate;
+
+    SwitchPlan({
+      this.planId,
+      this.subscriptionId,
+      this.cancelDate
+    });
+
+    factory SwitchPlan.fromJson(Map<String, dynamic> json) => SwitchPlan(
+      planId: json["plan_type"],
+      subscriptionId: json["subscription_id"],
+      cancelDate: json['canceled_date']
+    );
+
+    Map<String, dynamic> toJson() => {
+      "plan_type ": planId,
+      "subscription_id": subscriptionId,
+    };
+  }
 
 class Activity {
   DateTime? date;

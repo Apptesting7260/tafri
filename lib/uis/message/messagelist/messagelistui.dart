@@ -95,8 +95,10 @@ class MessageListUi extends GetWidget<MessagelistController> {
                         ),
                         InkWell(
                           onTap: () {
-                            // Get.toNamed(Routes.poSupportChat);
-                            Get.toNamed(Routes.supportUi);
+                            Get.toNamed(Routes.poSupportChat,arguments: chatController.allGroup.value.support != null ? chatController.allGroup.value.support!.frientConvarsationId : '')?.then((value) {
+                              chatController.fetchGroup();
+                              chatController.searchController.clear();
+                            },);
                           },
                           child: Row(
                             children: [
@@ -108,7 +110,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: Image.asset(
-                                  "assets/images/cofee.png",
+                                  "assets/images/plusone.png",
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -130,44 +132,44 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w600),
                                           ),
-                                          Text("Hey, welcome to PlusOnes... ",
+                                          Obx(() => chatController.allGroup.value.friend!.isEmpty && chatController.gpLoading.value ? const Text('') : chatController.allGroup.value.support == null ? Text('Hey, welcome to PlusOnes...'): Text(
+                                              (chatController.allGroup.value.support!.lastMsg!.textmessage == 'null' && chatController.allGroup.value.support!.lastMsg!.file!.isNotEmpty) ? 'Media' : chatController.allGroup.value.support!.lastMsg!.textmessage!.isNotEmpty ? '${chatController.allGroup.value.support!.lastMsg!.textmessage}' : "Hey, welcome to PlusOnes...",
                                               maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
+                                              overflow:
+                                              TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   color: clrGrey868380,
-                                                  fontSize: 12)),
+                                                  fontSize: 12)),)
+                                          // Text("Hey, welcome to PlusOnes... ",
+                                          //     maxLines: 1,
+                                          //     overflow: TextOverflow.ellipsis,
+                                          //     style: TextStyle(
+                                          //         color: clrGrey868380,
+                                          //         fontSize: 12)),
                                         ],
                                       ),
                                     ),
-                                    // Column(
-                                    //   crossAxisAlignment: CrossAxisAlignment.end,
-                                    //   children: [
-                                    //     // Container(
-                                    //     //   padding: EdgeInsets.all(7),
-                                    //     //   decoration: BoxDecoration(
-                                    //     //     borderRadius: BorderRadius.circular(100),
-                                    //     //     color: clrBlacke
-                                    //     //   ),
-                                    //     //   child: Text("1",style: TextStyle(color: clrWhite),),
-                                    //     // ),
-                                    //     CircleAvatar(
-                                    //       backgroundColor: clrBlacke,
-                                    //       maxRadius: 10,
-                                    //       child: Text(
-                                    //         "1",
-                                    //         style: TextStyle(
-                                    //             color: clrWhite,
-                                    //             fontSize: 10,
-                                    //             fontWeight: FontWeight.w600),
-                                    //       ),
-                                    //     ),
-                                    //     Text(
-                                    //       "Just now",
-                                    //       style: TextStyle(
-                                    //           color: clrGreyDark, fontSize: 12),
-                                    //     )
-                                    //   ],
-                                    // )
+                                    Obx(() => chatController.gpLoading.value && chatController.allGroup.value.friend!.isEmpty ? SizedBox() : chatController.allGroup.value.support == null ? SizedBox() : chatController.allGroup.value.support!.friendUnSeenMessage! > 0 ? Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundColor: clrBlacke,
+                                          maxRadius: 10,
+                                          child: Text(
+                                            "${chatController.allGroup.value.support!.friendUnSeenMessage}",
+                                            style: TextStyle(
+                                                color: clrWhite,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                        Text(
+                                          timeago.format(chatController.allGroup.value.support!.updatedAt!),
+                                          style: TextStyle(
+                                              color: clrGreyDark, fontSize: 12),
+                                        )
+                                      ],
+                                    ) : SizedBox(),)
                                   ],
                                 ),
                               )
@@ -273,7 +275,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                                 FontWeight.w600),
                                                           ),
                                                           Text(
-                                                              (data!.lastMsg!.textmessage == 'null' && data.lastMsg!.file!.isNotEmpty) ? 'Media' : data.lastMsg!.textmessage!.isNotEmpty ? '${data.lastMsg!.textmessage}' : "",
+                                                              (data!.lastMsg!.textmessage == 'null' && data.lastMsg!.file!.isNotEmpty) ? 'Media' : data.lastMsg!.textmessage!.isNotEmpty ? '${data.lastMsg!.textmessage}' : "No messages yet",
                                                               maxLines: 1,
                                                               overflow:
                                                               TextOverflow.ellipsis,
@@ -361,7 +363,21 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                     itemBuilder: (context, index) {
                                       return InkWell(
                                         onTap: () {
-                                          Get.toNamed(Routes.viewNotifiUi,arguments: controller.notData.value.notifications?[index].message.toString());
+                                          Get.toNamed(Routes.viewNotifiUi,arguments: {
+                                                        'msg':controller
+                                                            .notData
+                                                            .value
+                                                            .notifications?[
+                                                                index]
+                                                            .message
+                                                            .toString(),
+                                            'userid': controller
+                                                .notData
+                                                .value
+                                                .notifications?[
+                                            index].userId.toString(),
+                                            'userimg': controller.notData.value.notifications?[index].profile
+                                                      });
                                         },
                                         child: Slidable(
                                           key: const ValueKey(0),

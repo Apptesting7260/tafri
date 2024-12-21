@@ -111,6 +111,8 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
                                            print(controller.existingItemIndex.value);
                                            if(controller.existingItemIndex.value != -1){
                                              showTostMsg('Question already selected.',gravity: ToastGravity.CENTER);
+                                             // controller.funFactListDeta[index]['question'] = '';
+                                             // controller.funFactListDeta[index]['id'] = '';
                                            }else{
                                              final selectedQuestion = controller.idToQuestionMap[selectedId] ?? '';
                                              controller.funFactListDeta[index]['question'] = selectedQuestion;
@@ -175,7 +177,11 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
                           horizontal: Res.Defalt_side_margin),
                       child: InkWell(
                         onTap: () {
-                          controller.addFunFactDeta('', '', null);
+                          if(controller.funFactListDeta.length < 3){
+                            controller.addFunFactDeta('', '', null);
+                          }else {
+                            showTostMsg('You can add upto 3 funfacts');
+                          }
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,

@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/message/chats/modal/all_message_modal.dart';
@@ -31,6 +32,7 @@ class GroupChatController extends GetxController{
     super.onInit();
     var gpData = Get.arguments;
     gpID.value = gpData['gpID'] ?? '';
+    print('gp id == ${gpID.value}');
     fetchMessage(
         groupID: gpID.value,
         userId: int.parse(userID),
@@ -48,10 +50,12 @@ class GroupChatController extends GetxController{
       // allMessage.value.data?.insert(0, Data.fromJson(data));
 
       // if(allMessage.value.message!.isNotEmpty) {
+      if(gpID.value == data['chatGroupId']){
         allMessage.value.message?[0].data?.removeWhere((e) => e.id == '0');
       // }
       allMessage.value.message?[0].data?.insert(0, Data.fromJson(data));
       allMessage.refresh();
+      }
     },);
 
     scrollController.addListener(() {
@@ -94,6 +98,7 @@ class GroupChatController extends GetxController{
     pageStatus(pageStatus: false);
     sc.socket.off('group-receive-message');
     sc.socket.off('SeenAboveMsg');
+    sc.socket.off('fatchAllMessage');
     pageNo.value = 1;
   }
 
@@ -102,7 +107,8 @@ class GroupChatController extends GetxController{
   var userID = LocalStorage.getUid().toString();
   TextEditingController msgController = TextEditingController();
   var pageNo = 1.obs;
-  var limit = 35.obs;
+  var limit = 10.obs;
+  var lastId = ''.obs;
 
   /// fetch messages
   var allMessage = AllMessageModal().obs;
@@ -119,6 +125,7 @@ class GroupChatController extends GetxController{
       'seenUserId': userId,
       'page': page,
       'limit': limit,
+      'lastId': lastId.value.isEmpty ? null : lastId.value
       // 'members': members
     });
     sc.socket.on('fatchAllMessage', (data) {
@@ -129,6 +136,14 @@ class GroupChatController extends GetxController{
         log('first page');
         allMessage.value = fetchedData;
         msgLoading.value = false;
+        if (pageNo.value == fetchedData.totalPages || pageNo.value > fetchedData.totalPages!) {
+          log('Stop pagination == ${fetchedData.totalPages} == ${fetchedData.message!.length}');
+          stopPagination.value = true;
+        }
+        if(allMessage.value.message!.first.data!.isNotEmpty) {
+          lastId.value = allMessage.value.message!.last.data!.last.id!;
+          print('last msg id == ${allMessage.value.message?.last.data?.last.id}');
+        }
       } else {
         for (var newData in fetchedData.message!) {
           var exist = allMessage.value.message?.firstWhere(
@@ -141,7 +156,10 @@ class GroupChatController extends GetxController{
             allMessage.value.message?.add(newData);
           }
         }
-
+        if(allMessage.value.message!.first.data!.isNotEmpty) {
+          lastId.value = allMessage.value.message!.last.data!.last.id!;
+          print('last msg id == ${allMessage.value.message?.last.data?.last.id}');
+        }
         if (pageNo.value == fetchedData.totalPages || pageNo.value > fetchedData.totalPages!) {
           log('Stop pagination == ${fetchedData.totalPages} == ${fetchedData.message!.length}');
           stopPagination.value = true;
@@ -214,6 +232,64 @@ class GroupChatController extends GetxController{
   /// send image and video
 
   final selectedImages = <File>[].obs;
+  final ImagePicker picker = ImagePicker();
+
+  imagePopUp(BuildContext context){
+    showCupertinoModalPopup(context: context, builder: (context){
+      return
+        CupertinoActionSheet(actions: [CupertinoActionSheetAction(onPressed: () async{
+          final XFile? image = await picker.pickMedia();
+          if(image != null){
+            int sizeInBytes = File(image.path).lengthSync();
+
+            double sizeInMb = sizeInBytes / (1024 * 1024);
+            if (sizeInMb > 50) {
+              showTostMsg('Size cannot be greater than 50 Mb');
+            } else {
+              selectedImages.add(File(image.path));
+              print('image == ${selectedImages}');
+            }
+            Get.back();
+          }
+        }, child: Center(
+          child: Text('Select from library',style: TextStyle(
+              fontSize: 18,
+              color: clrBlacke,
+              fontWeight: FontWeight.w500
+          ),),
+        )),CupertinoActionSheetAction(onPressed: () async{
+          final XFile? image = await picker.pickImage(source: ImageSource.camera);
+          if(image != null){
+            int sizeInBytes = File(image.path).lengthSync();
+
+            double sizeInMb = sizeInBytes / (1024 * 1024);
+            if (sizeInMb > 50) {
+              showTostMsg('Size cannot be greater than 50 Mb');
+            } else {
+              selectedImages.add(File(image.path));
+              print('image == ${selectedImages}');
+            }
+            Get.back();
+          }
+        }, child: Center(
+          child: Text('Take a photo',style: TextStyle(
+              fontSize: 18,
+              color: clrBlacke,
+              fontWeight: FontWeight.w500
+          ),),
+        ))],cancelButton: CupertinoActionSheetAction(onPressed: () {
+          Get.back();
+        },child: Center(
+          child: Text('Cancel',style: TextStyle(
+              color: clrBlacke,
+              fontWeight: FontWeight.bold,
+              fontSize: 18
+          ),),
+        ),));
+    });
+  }
+
+
 
   Future<void> openGallery() async {
     final res = await FilePicker.platform.pickFiles(

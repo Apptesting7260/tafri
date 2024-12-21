@@ -576,7 +576,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                               },
                               backgroundClr: clrBlacke,
                               child: Text(
-                                "Message Group",
+                                "Message group",
                                 style: TextStyle(
                                     color: clrWhite,
                                     fontSize: 16,

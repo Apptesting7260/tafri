@@ -1,6 +1,7 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:plusone/payment/Payment_screen.dart';
 import 'package:plusone/payment/payment_binding.dart';
+import 'package:plusone/payment/update_billing_screen.dart';
 import 'package:plusone/uis/creativity/createcreativityui.dart';
 import 'package:plusone/uis/creativity/map/mapui.dart';
 import 'package:plusone/uis/explore/Userprofile/bindings/userprofile_binding.dart';
@@ -23,7 +24,6 @@ import 'package:plusone/uis/explore/search/searchactui.dart';
 import 'package:plusone/uis/membership/plans/bindings/plan_binding.dart';
 import 'package:plusone/uis/message/chats/bindings/chat_binding.dart';
 import 'package:plusone/uis/message/chats/chatui.dart';
-import 'package:plusone/uis/message/chats/support_ui.dart';
 import 'package:plusone/uis/message/chats/video_play_screen.dart';
 import 'package:plusone/uis/message/messagelist/bindings/msglist_binding.dart';
 import 'package:plusone/uis/message/messagelist/messagelistui.dart';
@@ -159,7 +159,7 @@ class Routes{
   static String contactSupport='/contactSupport';
   static String cropPhotoScreen='/cropPhoto';
   static String videoPlayScreen='/videoPlay';
-  static String supportUi='/supportUi';
+  static String updateBilling='/updateBilling';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -216,6 +216,6 @@ class Routes{
     GetPage(name: contactSupport, page:()=>  Contactsupport(),binding: ContactSupportBinding()),
     GetPage(name: cropPhotoScreen, page:()=>  CropPhotoScreen(),binding: AddphotoBinding()),
     GetPage(name: videoPlayScreen, page: () => VideoPlayScreen(),),
-    GetPage(name: supportUi, page: () => SupportUi(),binding:ChatBinding()),
+    GetPage(name: updateBilling, page: () => UpdateBillingScreen(),binding: PaymentBinding())
   ];
 }

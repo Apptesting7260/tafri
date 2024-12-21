@@ -378,7 +378,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                 },
                 child: Container(
                   height: screenHeight * .05,
-                  width: screenWidth,
+                  width: screenWidth * 0.8,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: clrYellow),
@@ -395,7 +395,8 @@ class IntroOneUi extends GetWidget<IntroController> {
                 height: screenHeight * .014,
               ),
               SizedBox(
-                width: double.maxFinite,
+                // width: double.maxFinite,
+                width: screenWidth * 0.8,
                 height: screenHeight * .05,
                 child: CustomElevatedButton(
                   onTap: () {

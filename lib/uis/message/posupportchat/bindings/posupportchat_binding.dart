@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
+import 'package:plusone/uis/message/posupportchat/controller/posupportchat_controller.dart';
 
 class PoSupportChatBinding extends Bindings{
   @override
   void dependencies() {
-    Get.lazyPut(()=>SocketController());
+    Get.lazyPut(()=>PoSupportChatController());
   }
 }

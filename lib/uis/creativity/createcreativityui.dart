@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/payment/payment_controller.dart';
@@ -19,6 +20,7 @@ import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/custom_switch.dart';
 import 'package:plusone/utils/error_widget.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../utils/colors.dart';
 import '../../utils/size.dart';
@@ -2425,7 +2427,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                     ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(left: 20,right: 20,top: 10),
               child: Text(
                 "Ends",
                 style: TextStyle(color: clrGreyTextLight, fontSize: 15),
@@ -2711,9 +2713,34 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             style: TextStyle(color: clrWhite),
                           ),
                           onTap: () {
-                            print('count == ${controller.countController.value.value.text.trim().isEmpty ? '1' : controller.countController.value.value.text.trim().toString()}');
-                            Get.back();
+                            if (controller.wmValue.value == 0) {
+                              showTostMsg('Please select an option', gravity: ToastGravity.CENTER);
+                            } else if (controller.wmValue.value == 1) {
+                              if (controller.repeatday.value.isEmpty) {
+                                showTostMsg('Please select the weekday', gravity: ToastGravity.CENTER);
+                              } else if (controller.groupValue.value == 0) {
+                                showTostMsg('Please select the ends.', gravity: ToastGravity.CENTER);
+                              } else if (controller.groupValue.value == 2 && controller.Rdate.value.isEmpty) {
+                                showTostMsg('Please select the date', gravity: ToastGravity.CENTER);
+                              } else {
+                                print('All conditions met for wmValue == 1');
+                                Get.back(); // Proceed only when all conditions are satisfied
+                              }
+                            } else if (controller.wmValue.value == 2) {
+                              if (controller.groupValue.value == 0) {
+                                showTostMsg('Please select the ends.', gravity: ToastGravity.CENTER);
+                              } else if (controller.groupValue.value == 2 && controller.Rdate.value.isEmpty) {
+                                showTostMsg('Please select the date', gravity: ToastGravity.CENTER);
+                              } else {
+                                print('All conditions met for wmValue == 2');
+                                Get.back(); // Proceed only when all conditions are satisfied
+                              }
+                            } else {
+                              print('Unexpected wmValue');
+                              Get.back(); // Fallback for unexpected wmValue
+                            }
                           },
+
                           backgroundClr: clrBlacke)),
                 ],
               ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/customexpension.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/helpcenter/controller/helpcenter_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
@@ -14,6 +15,7 @@ import '../../../../utils/colors.dart';
 class HelpCenterUi extends GetWidget<HelpcenterController>{
   HelpCenterUi({super.key});
   bool isOpen=false;
+  final SocketController chatController = Get.find<SocketController>();
   @override
   Widget build(BuildContext context) {
     var h=Get.height;
@@ -142,7 +144,8 @@ class HelpCenterUi extends GetWidget<HelpcenterController>{
               width: double.maxFinite,
               height: Res.h_btn,
               child: CustomElevatedButton(onTap: () {
-                Get.toNamed(Routes.poSupportChat);
+                Get.back();
+                Get.toNamed(Routes.poSupportChat,arguments: chatController.allGroup.value.support != null ? chatController.allGroup.value.support!.frientConvarsationId : '');
               },
                 backgroundClr: clrBlacke,
                 child: Text("Chat with support",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),),),

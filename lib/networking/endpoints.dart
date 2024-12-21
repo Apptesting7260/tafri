@@ -73,6 +73,7 @@ class EndPoints{
   static String getNot = '${baseUrl}get-notifications';
   static String deleteNot = '${baseUrl}delete-notification/';
   static String cardPayment = '${baseUrl}cart-payment';
+  static String updateMandate = '${baseUrl}update-mandate';
 
   static String contactSupport = '${baseUrl}add-contact';
   static String logout = '${baseUrl}logout';
@@ -83,6 +84,8 @@ class EndPoints{
 
   static String cancelSub = '${baseUrl}cancel-subscription';
   static String timeZone = '${baseUrl}get-timezone';
+  static String switchPlan = '${baseUrl}switch-plan';
+  static String referalCode = '${baseUrl}apply-referral-code';
 
 
   static String chatUrl = 'https://chatapi.plusonesapp.com';

@@ -2,17 +2,20 @@ class AllGroupModal {
   bool? status;
   String? msg;
   List<Friend>? friend;
+  Support? support;
 
   AllGroupModal({
     this.status,
     this.msg,
     this.friend,
+    this.support
   });
 
   factory AllGroupModal.fromJson(Map<String, dynamic> json) => AllGroupModal(
     status: json["status"],
     msg: json["msg"],
     friend: json["friend"] == null ? [] : List<Friend>.from(json["friend"]!.map((x) => Friend.fromJson(x))),
+    support: json["support"] == null ? null : Support.fromJson(json["support"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -120,6 +123,56 @@ class LastMsg {
     "file": file == null ? [] : List<dynamic>.from(file!.map((x) => x)),
   };
 }
+
+
+class Support {
+  String? frientConvarsationId;
+  LastMsg? lastMsg;
+  String? discription;
+  bool? isgroup;
+  String? messageStatus;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? friendUnSeenMessage;
+  int? allMembers;
+
+  Support({
+    this.frientConvarsationId,
+    this.lastMsg,
+    this.discription,
+    this.isgroup,
+    this.messageStatus,
+    this.createdAt,
+    this.updatedAt,
+    this.friendUnSeenMessage,
+    this.allMembers,
+  });
+
+  factory Support.fromJson(Map<String, dynamic> json) => Support(
+    frientConvarsationId: json["frient_convarsation_id"],
+    lastMsg: json["last_msg"] == null ? null : LastMsg.fromJson(json["last_msg"]),
+    discription: json["discription"],
+    isgroup: json["isgroup"],
+    messageStatus: json["message_status"],
+    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+    updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+    friendUnSeenMessage: json["friendUnSeenMessage"],
+    allMembers: json["allMembers"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "frient_convarsation_id": frientConvarsationId,
+    "last_msg": lastMsg?.toJson(),
+    "discription": discription,
+    "isgroup": isgroup,
+    "message_status": messageStatus,
+    "createdAt": createdAt?.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "friendUnSeenMessage": friendUnSeenMessage,
+    "allMembers": allMembers,
+  };
+}
+
 
 class Premium {
   Premium();

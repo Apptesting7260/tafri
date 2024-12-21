@@ -16,7 +16,7 @@ class VideoPlayScreen extends StatefulWidget {
 }
 
 class _VideoPlayScreenState extends State<VideoPlayScreen> {
-  final GroupChatController controller = Get.find<GroupChatController>();
+  // final GroupChatController controller = Get.find<GroupChatController>();
 
   late CachedVideoPlayerPlusController videoController;
 
@@ -77,6 +77,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
       body: SafeArea(
           child: videoController.value.isInitialized
               ? Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AspectRatio(
                 aspectRatio: videoController.value.aspectRatio,

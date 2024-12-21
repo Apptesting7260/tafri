@@ -768,31 +768,31 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                               FontWeight
                                   .w700),
                         )))
-                    : controller
-                    .actData
-                    .value
-                    .activity!
-                    .requestStatus ==
-                    'leave'
-                    ? SizedBox(
-                    width: double.maxFinite,
-                    height: Res.h_btn,
-                    child:
-                    CustomElevatedButton(
-                        onTap: () {},
-                        backgroundClr:
-                        clrBlacke,
-                        child: Text(
-                          "Leaved",
-                          style: TextStyle(
-                              color:
-                              clrWhite,
-                              fontSize:
-                              16,
-                              fontWeight:
-                              FontWeight
-                                  .w700),
-                        )))
+                    // : controller
+                    // .actData
+                    // .value
+                    // .activity!
+                    // .requestStatus ==
+                    // 'leave'
+                    // ? SizedBox(
+                    // width: double.maxFinite,
+                    // height: Res.h_btn,
+                    // child:
+                    // CustomElevatedButton(
+                    //     onTap: () {},
+                    //     backgroundClr:
+                    //     clrBlacke,
+                    //     child: Text(
+                    //       "Leaved",
+                    //       style: TextStyle(
+                    //           color:
+                    //           clrWhite,
+                    //           fontSize:
+                    //           16,
+                    //           fontWeight:
+                    //           FontWeight
+                    //               .w700),
+                    //     )))
                     : int.parse(LocalStorage
                     .getUid()!) !=
                     controller

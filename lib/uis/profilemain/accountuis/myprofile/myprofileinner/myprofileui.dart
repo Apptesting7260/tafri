@@ -91,6 +91,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   child: Center(
                                     child: Stack(
                                       clipBehavior: Clip.none,
+                                      alignment: Alignment.bottomCenter,
                                       children: [
                                         Column(
                                           children: [
@@ -163,76 +164,124 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                             )
                                           ],
                                         ),
-                                        Positioned(
-                                          bottom: 0,
-                                          left: w*0.01,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              SizedBox(
-                                                width: w * .04,
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  Get.toNamed(
-                                                      Routes.addPhotoProUi);
-                                                },
-                                                child: Container(
-                                                  // height: 100,
-                                                  // width: 100,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 4),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      color: clrYellow),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Icon(
-                                                        Icons.camera_alt,
-                                                        color: clrWhite,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        "Add",
-                                                        style: TextStyle(
-                                                            color: clrWhite),
-                                                      )
-                                                    ],
-                                                  ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                ?.profile ==
+                                                null ||
+                                                profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.profilePhoto ==
+                                                    null ? SizedBox(
+                                              width: w * .04,
+                                            ) : SizedBox(),
+                                            profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                ?.profile ==
+                                                null ||
+                                                profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.profilePhoto ==
+                                                    null
+                                                ? SizedBox(
+                                              width: w * .04,
+                                            ) : SizedBox(),
+                                            InkWell(
+                                              onTap: () {
+                                                Get.toNamed(
+                                                    Routes.addPhotoProUi);
+                                              },
+                                              child: Container(
+                                                // height: 100,
+                                                // width: 100,
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 4),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color: clrYellow),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.camera_alt,
+                                                      color: clrWhite,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      profileController
+                                                          .profileData
+                                                          .value
+                                                          .result
+                                                          ?.profile
+                                                          ?.profilePhoto ==
+                                                          null ?"Add" : 'Update',
+                                                      style: TextStyle(
+                                                          color: clrWhite),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                width: 5,
+                                            ),
+                                            profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                ?.profile ==
+                                                null ||
+                                                profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.profilePhoto ==
+                                                    null
+                                                ? const SizedBox(
+                                              width: 5,
+                                            ) : SizedBox(),
+                                            profileController
+                                                .profileData
+                                                .value
+                                                .result
+                                                ?.profile ==
+                                                null ||
+                                                profileController
+                                                    .profileData
+                                                    .value
+                                                    .result
+                                                    ?.profile
+                                                    ?.profilePhoto ==
+                                                    null
+                                                ? Padding(
+                                              padding: const EdgeInsets.only(left: 5),
+                                              child: Image.asset(
+                                                "assets/icons/danger_new.png",
+                                                height: 17,
                                               ),
-                                              profileController
-                                                              .profileData
-                                                              .value
-                                                              .result
-                                                              ?.profile ==
-                                                          null ||
-                                                      profileController
-                                                              .profileData
-                                                              .value
-                                                              .result
-                                                              ?.profile
-                                                              ?.profilePhoto ==
-                                                          null
-                                                  ? Image.asset(
-                                                      "assets/icons/danger_new.png",
-                                                      height: 17,
-                                                    )
-                                                  : CommonUi.emptySizeBox(),
-                                            ],
-                                          ),
+                                            )
+                                                : CommonUi.emptySizeBox(),
+
+                                          ],
                                         ),
+
                                       ],
                                     ),
                                   ),

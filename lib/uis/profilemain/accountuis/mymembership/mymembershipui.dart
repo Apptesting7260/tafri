@@ -42,8 +42,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                       ? Center(child: CommonUi.scaffoldLoading(color: clrYellow))
                       : controller.homeController.homeError.value.isNotEmpty || paymentController.planError.value.isNotEmpty
                           ? const Center(child: ErrorScreen())
-                          : controller.homeController
-                                  .homeData.value.result!.planType!.isNotEmpty
+                          : paymentController.profileController.profileData.value.result?.membershipStatus == true
                               ? SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,8 +83,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              controller.homeController
-                                                  .homeData.value.result!.planType! == 'monthly' ?  'Monthly' : "Annual",
+                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annual",
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 18),
@@ -93,17 +91,15 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            Text(
-                                              controller.homeController
-                                                  .homeData.value.result!.planType! == 'monthly' ? 'You are in a 1-week free trial.' : "You are in a 3-month free trial.",
+                                            paymentController.profileController.profileData.value.result?.trailDate != null ? Text(
+                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'You are in a ${paymentController.matchPlan('monthly')} free trial.' : "You are in a ${paymentController.matchPlan('yearly')} free trial.",
                                               style: TextStyle(
                                                   color: clrGreyTextLight,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700),
-                                            ),
+                                            ) : const SizedBox(),
                                             Text(
-                                              controller.homeController
-                                                  .homeData.value.result!.planType! == 'monthly' ? "Your plan will renew for the regular price every month until canceled." : "Your plan will renew for the regular price every year until canceled.",
+                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ? "Your plan will renew for the regular price every month until canceled." : "Your plan will renew for the regular price every year until canceled.",
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   color: clrGrey5D5C5E),
@@ -111,10 +107,41 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
+                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? SizedBox(
+                                        height: Get.height * 0.025,
+                                      ) : const SizedBox(),
+                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 20),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            // color: clrGreyLight,
+                                            border: Border.all(
+                                                color: clrGrey.withOpacity(0.4))),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'You switch your plan from annually to monthly.' : 'You switch your plan from monthly to annually.',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            Text(
+                                              paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: clrGrey5D5C5E),
+                                            ),
+                                          ],
+                                        ),
+                                      ) : const SizedBox(),
+                                      paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
                                         height: Get.height * 0.035,
-                                      ),
-                                      SizedBox(
+                                      ) : SizedBox(),
+                                      paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
                                         width: double.maxFinite,
                                         height: Res.h_btn,
                                         child: CustomElevatedButton(
@@ -129,10 +156,11 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700),
                                             )),
-                                      ),
+                                      ) : SizedBox(),
                                       const SizedBox(
                                         height: 15,
                                       ),
+                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId == null ?
                                       paymentController.profileController.profileData.value.result?.cancelDate != null ?  IgnorePointer(
                                         ignoring: true,
                                         child: SizedBox(
@@ -157,7 +185,12 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           height: Res.h_btn,
                                           child: CustomElevatedButton(
                                               onTap: () async{
-                                                await paymentController.cancelSub();
+                                                DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
+                                                String endDate = DateFormat('dd MMMM yyyy').format(date);
+                                                paymentController.cancelSubPopUp(endDate: endDate, onTap: () async{
+                                                  Get.back();
+                                                  await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result!.subscriptionId.toString());
+                                                },);
                                               },
                                               backgroundClr: clrWhite,
                                               borderClr: clrBlacke,
@@ -168,6 +201,66 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w700),
                                               )),
+                                        ),
+                                      ),) : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null ? IgnorePointer(
+                                        ignoring: true,
+                                        child: SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () {},
+                                              backgroundClr: clrWhite,
+                                              borderClr: clrBlacke,
+                                              child: Text(
+                                                "Cancelled",
+                                                style: TextStyle(
+                                                    color: clrBlacke,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ),
+                                      ) : Obx(() => Opacity(
+                                        opacity: paymentController.cancelSubLoading.value ? 0.5 : 1,
+                                        child: SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () async{
+                                                DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
+                                                String endDate = DateFormat('dd MMMM yyyy').format(date);
+                                                paymentController.cancelSubPopUp(endDate: endDate, onTap: () async{
+                                                  Get.back();
+                                                  await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result?.switchPlan?.subscriptionId);
+                                                },);
+                                              },
+                                              backgroundClr: clrWhite,
+                                              borderClr: clrBlacke,
+                                              child: paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+                                                "Cancel",
+                                                style: TextStyle(
+                                                    color: clrBlacke,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ),
+                                      ),),
+                                      SizedBox(height: 15,),
+                                      Obx(() => SizedBox(
+                                        height: Res.h_btn,
+                                        width: double.maxFinite,
+                                        child: CustomElevatedButton(
+                                          onTap: paymentController.billingLoading.value ? (){} : () async {
+                                            paymentController.updateBilling();
+                                          },
+                                          backgroundClr: clrWhite,
+                                          borderClr: clrBlacke,
+                                          child: paymentController.billingLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+                                            "Update billing",
+                                            style: TextStyle(
+                                                color: clrBlacke,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700),
+                                          ),
                                         ),
                                       ),)
                                     ],
@@ -263,7 +356,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                                   RichText(
                                                                       text: TextSpan(
                                                                           children: [
-                                                                            paymentController.profileController.profileData.value.result?.cardSave == false ? TextSpan(
+                                                                            paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
                                                                               text:
                                                                               "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
                                                                               style: TextStyle(
@@ -272,7 +365,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                                             ) : TextSpan(),
                                                                             TextSpan(
                                                                                 text:
-                                                                                " ${paymentController.profileController.profileData.value.result?.cardSave == false ? 'then' : ''} €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                                                " ${paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? 'then' : ''} €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
                                                                                 style: TextStyle(
                                                                                     color:
                                                                                     clrGrey5D5C5E))
@@ -338,7 +431,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                         decoration: TextDecoration
                                                             .underline,
                                                         height: 1.5)),
-                                                paymentController.profileController.profileData.value.result?.cardSave == false ? TextSpan(
+                                                paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
                                                   text:
                                                       " After the free trial, your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
                                                   style: TextStyle(
@@ -363,20 +456,8 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                         width: double.maxFinite,
                                         child: CustomElevatedButton(
                                             onTap: paymentController.loading.value ? (){} : () async{
-                                              if(paymentController.profileController.profileData.value.result?.cardSave == false) {
+                                              if(paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false) {
                                                 if (paymentController.selectedPlan.value == 'yearly') {
-                                                  // await paymentController
-                                                  //     .createCustomer(
-                                                  //     '${paymentController.profileController
-                                                  //         .profileData.value
-                                                  //         .result
-                                                  //         ?.firstName} ${paymentController.profileController
-                                                  //         .profileData.value
-                                                  //         .result?.lastName}',
-                                                  //     '${paymentController.profileController
-                                                  //         .profileData.value
-                                                  //         .result?.email}',
-                                                  //     'yearly',paymentController.price.value);
                                                   await paymentController.createNewCustomer('${paymentController.profileController
                                                       .profileData.value
                                                       .result
@@ -387,18 +468,6 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                       .result?.email}', 'yearly', paymentController.price.value);
                                                   await controller.homeController.homePageApi();
                                                 } else if (paymentController.selectedPlan.value == 'monthly') {
-                                                  // await paymentController
-                                                  //     .createCustomer(
-                                                  //     '${paymentController.profileController
-                                                  //         .profileData.value
-                                                  //         .result
-                                                  //         ?.firstName} ${paymentController.profileController
-                                                  //         .profileData.value
-                                                  //         .result?.lastName}',
-                                                  //     '${paymentController.profileController
-                                                  //         .profileData.value
-                                                  //         .result?.email}',
-                                                  //     'monthly',paymentController.price.value);
                                                   await paymentController.createNewCustomer('${paymentController.profileController
                                                       .profileData.value
                                                       .result
@@ -417,14 +486,14 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 if (paymentController.selectedPlan.value ==
                                                     'yearly') {
                                                   paymentController.planType.value = 'yearly';
-                                                  await paymentController.createSub("${paymentController.profileController.profileData.value.result?.customerId}", paymentController.price.value, '12 months', 'Yearly Membership');
+                                                  await paymentController.createSub("${paymentController.profileController.profileData.value.result?.cardDetail?.customerId}", paymentController.price.value, '12 months', 'Yearly Membership');
                                                   await controller.homeController
                                                       .homePageApi();
                                                 } else
                                                 if (paymentController.selectedPlan.value ==
                                                     'monthly') {
                                                   paymentController.planType.value = 'monthly';
-                                                 await paymentController.createSub('${paymentController.profileController.profileData.value.result?.customerId}', paymentController.price.value, '1 month', 'Monthly Membership');
+                                                 await paymentController.createSub('${paymentController.profileController.profileData.value.result?.cardDetail?.customerId}', paymentController.price.value, '1 month', 'Monthly Membership');
                                                   await controller.homeController
                                                       .homePageApi();
                                                 } else {
@@ -434,7 +503,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               }
                                             },
                                             backgroundClr: clrBlacke,
-                                            child: paymentController.loading.value ? CommonUi.buttonLoading() : (paymentController.profileController.profileData.value.result?.cardSave == false ? Text(
+                                            child: paymentController.loading.value ? CommonUi.buttonLoading() : (paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Text(
                                               paymentController.choosePlan.value != (-1) ? "Start ${paymentController.getWeek(int.parse(paymentController.freeDays.value))} free" : 'Select plan',
                                               style: TextStyle(
                                                   color: clrWhite,

@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/colors.dart';
 
 import '../../../../../../../../utils/local_storage.dart';
@@ -20,6 +21,8 @@ class AddphotoController extends GetxController {
   // var selectedImage = Rx<XFile?>(null);
   static ProfilemainController profileController =
   Get.find<ProfilemainController>();
+
+  final SocketController sc = Get.find<SocketController>();
 
   @override
   void onInit() {
@@ -93,7 +96,10 @@ class AddphotoController extends GetxController {
         await profileController.viewProfile();
         selectedImage.value = null;
         Get.back();
-        showTostMsg("${jsonResponse['message']}");
+        showTostMsg("Profile photo updated successfully");
+        sc.socket.emit('updateProfileImage',{
+          'userId' : uid
+        });
       } else if (responseRes.statusCode == 401) {
         showTostMsg("${jsonResponse['message']}");
         print('submit error ==');

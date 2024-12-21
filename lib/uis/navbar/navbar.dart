@@ -69,6 +69,7 @@ class Navbar extends GetWidget {
                   }else{
                     exploreListController.showHomePop();
                   }
+                  // Get.toNamed(Routes.createActivityUi);
                 }),
           // ),
         // );
