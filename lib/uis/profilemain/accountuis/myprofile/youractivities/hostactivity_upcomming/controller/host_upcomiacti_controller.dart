@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../../../networking/apiservices.dart';
 import '../../../../../../../networking/endpoints.dart';
 import '../../../../../../../utils/colors.dart';
@@ -17,6 +18,8 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
 
   final MyactiController myactiController = Get.find<MyactiController>();
   final ExploreListController exploreListController = Get.find<ExploreListController>();
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+
 
 
   @override
@@ -75,6 +78,10 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
 
   }
 
+  Future<void> refresh()async{
+    await hostactapi(Get.arguments);
+    refreshController.refreshCompleted();
+  }
 
   var accuserLoading = false.obs;
   var accuserData = ActDataModal().obs;
