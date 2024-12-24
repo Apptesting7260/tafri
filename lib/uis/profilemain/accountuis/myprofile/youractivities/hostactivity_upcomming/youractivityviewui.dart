@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/common.dart';
@@ -17,7 +18,7 @@ import '../../../../../components/custofilterbtn.dart';
 import 'controller/host_upcomiacti_controller.dart';
 
 class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
-   HostUpcomActivityViewUi({super.key});
+  HostUpcomActivityViewUi({super.key});
 
   final SocketController chatController = Get.find<SocketController>();
 
@@ -62,7 +63,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Share.share('${controller.actData.value.activitySettings?.shareText} https://urlsdemo.online/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                          Share.share(
+                              '${controller.actData.value.activitySettings?.shareText} https://urlsdemo.online/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
@@ -98,7 +100,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                     controller.refresh();
                   },
                   child: Obx(
-                    () => controller.activityLoading.value && controller.actData.value.activity == null
+                    () => controller.activityLoading.value &&
+                            controller.actData.value.activity == null
                         ? Center(
                             child: CommonUi.scaffoldLoading(color: clrYellow),
                           )
@@ -148,60 +151,91 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                 onPageChanged: (currIndex,
                                                     CarouselPageChangedReason
                                                         reason) {
-                                                  controller.changeIndicator(currIndex);
-                                                  debugPrint(" currIndex $currIndex reason=$reason");
+                                                  controller.changeIndicator(
+                                                      currIndex);
+                                                  debugPrint(
+                                                      " currIndex $currIndex reason=$reason");
                                                 }),
-                                            items: controller.actData.value.activity!.banners
+                                            items: controller
+                                                .actData.value.activity!.banners
                                                 ?.map<Widget>((i) {
                                               return Builder(
-                                                builder: (BuildContext context) {
+                                                builder:
+                                                    (BuildContext context) {
                                                   return Container(
-                                                      clipBehavior: Clip.hardEdge,
-                                                      width: MediaQuery.of(context).size.width,
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
                                                       height: double.maxFinite,
-                                                      margin: const EdgeInsets.symmetric(horizontal: 0),
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 0),
                                                       decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(18)
-                                                      ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      18)),
                                                       child: CachedNetworkImage(
                                                         fit: BoxFit.cover,
                                                         height: h * .26,
                                                         width: double.maxFinite,
                                                         imageUrl: "$i",
-                                                        placeholder: (context, url) => Shimmer.fromColors(
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            Shimmer.fromColors(
                                                           baseColor: grey300,
-                                                          highlightColor: grey100,
+                                                          highlightColor:
+                                                              grey100,
                                                           child: Container(
-                                                            width: double.maxFinite,
+                                                            width: double
+                                                                .maxFinite,
                                                             height: h * .26,
-                                                            decoration: BoxDecoration(
+                                                            decoration:
+                                                                BoxDecoration(
                                                               color: grey300,
-                                                              borderRadius: BorderRadius.circular(18),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18),
                                                             ),
                                                           ),
                                                         ),
-                                                      )
-                                                  );
+                                                      ));
                                                 },
                                               );
                                             }).toList(),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 10),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
                                                   decoration: BoxDecoration(
                                                       color: clrWhite,
-                                                      borderRadius: BorderRadius.circular(20)
-                                                  ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
                                                   child: Text(
-                                                    controller.actData.value.activity!.subcategoryTitle.toString(),
+                                                    controller
+                                                        .actData
+                                                        .value
+                                                        .activity!
+                                                        .subcategoryTitle
+                                                        .toString(),
                                                     style: const TextStyle(
-                                                        fontWeight: FontWeight.w700
-                                                    ),
+                                                        fontWeight:
+                                                            FontWeight.w700),
                                                   ),
                                                 ),
                                                 const SizedBox(),
@@ -233,7 +267,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           Align(
                                             alignment: Alignment.bottomCenter,
                                             child: Container(
-                                              margin: const EdgeInsets.only(bottom: 7),
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 7),
                                               height: 16,
                                               child: ListView.builder(
                                                   itemCount: controller
@@ -243,10 +278,14 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                       .banners
                                                       ?.length,
                                                   shrinkWrap: true,
-                                                  scrollDirection: Axis.horizontal,
-                                                  itemBuilder: (context, indicatorIndex) {
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder: (context,
+                                                      indicatorIndex) {
                                                     return Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 1.5),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 1.5),
                                                       child: Obx(
                                                         () => Icon(
                                                           Icons.circle,
@@ -273,41 +312,80 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                       height: Get.height * 0.02,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        // Flexible(
-                                        //   child: Column(
-                                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                                        //     children: [
-                                        //       const Text("Picnic in the park",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),),
-                                        //       Text("Vondelpark",style: TextStyle(fontSize: 14,color:clrGreyDark,fontWeight: FontWeight.w500),),
-                                        //       Text("13 March 2024 | 2:30 PM - 6:00PM",style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),),
-                                        //       Text("Up to 3 people | 1 spot left",style: TextStyle(color: clrYellowText,fontSize: 14,fontWeight: FontWeight.w500),),
-                                        //     ],
-                                        //   ),
-                                        // ),
                                         Flexible(
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                controller.actData.value.activity!.name.toString(),
+                                                controller.actData.value
+                                                    .activity!.name
+                                                    .toString(),
                                                 style: const TextStyle(
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w600
-                                                ),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               SizedBox(
                                                 height: h * .005,
                                               ),
-                                              Text(
-                                                controller.actData.value.activity!
-                                                    .location
-                                                    .toString(),
-                                                style:
-                                                    TextStyle(color: clrGreyDark),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if (controller.actData.value
+                                                          .activity!.latitude ==
+                                                      null || !controller
+                                                      .actData
+                                                      .value
+                                                      .activity
+                                                  !.longitude!.contains('.') || !controller
+                                                      .actData
+                                                      .value
+                                                      .activity
+                                                  !.latitude!.contains('.')) {
+                                                    showTostMsg(
+                                                        'No location found');
+                                                  } else {
+                                                    Get.toNamed(
+                                                        Routes.mapexploreui,
+                                                        arguments: {
+                                                          'latitude': controller
+                                                              .actData
+                                                              .value
+                                                              .activity!
+                                                              .latitude,
+                                                          'longitude':
+                                                              controller
+                                                                  .actData
+                                                                  .value
+                                                                  .activity!
+                                                                  .longitude,
+                                                          'title': controller
+                                                              .actData
+                                                              .value
+                                                              .activity!
+                                                              .name
+                                                              .toString(),
+                                                          'image': controller
+                                                              .actData
+                                                              .value
+                                                              .activity!
+                                                              .banners?[0]
+                                                              .toString(),
+                                                        });
+                                                  }
+                                                },
+                                                child: Text(
+                                                  controller.actData.value
+                                                      .activity!.location
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: clrGreyDark),
+                                                ),
                                               ),
                                               SizedBox(
                                                 height: h * .005,
@@ -315,8 +393,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                               Text(
                                                 '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
                                                 style: TextStyle(
-                                                    color: clrGreyTextLight
-                                                ),
+                                                    color: clrGreyTextLight),
                                               ),
                                               SizedBox(
                                                 height: h * .008,
@@ -325,8 +402,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                 "Up to ${controller.actData.value.activity!.maxPeople} people | ${controller.actData.value.activity!.spotLeft} ${controller.actData.value.activity!.spotLeft! == 1 ? 'spot left' : 'spots left'}",
                                                 style: TextStyle(
                                                     color: clrYellowText,
-                                                    fontSize: 13
-                                                ),
+                                                    fontSize: 13),
                                               ),
 
                                               // Text(
@@ -341,45 +417,19 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                         const SizedBox(
                                           width: 5,
                                         ),
-                                        // InkWell(
-                                        //   onTap: (){
-                                        //     Get.toNamed(Routes.hostProfileUi);
-                                        //   },
-                                        //   child: Column(
-                                        //     children: [
-                                        //       Container(
-                                        //           height: h*.055,
-                                        //           width: h*.055,
-                                        //           decoration: BoxDecoration(
-                                        //               borderRadius:
-                                        //               BorderRadius.circular(100)),
-                                        //           child: Image.asset(
-                                        //             "assets/images/girldp.png",
-                                        //             fit: BoxFit.cover,
-                                        //           )),
-                                        //       const Text("Jenny",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),)
-                                        //     ],
-                                        //   ),
-                                        // )
                                         InkWell(
                                           onTap: () {
                                             Get.toNamed(Routes.hostProfileUi,
-                                                arguments: controller.actData.value.activity!.hostId.toString());
+                                                arguments: controller.actData
+                                                    .value.activity!.hostId
+                                                    .toString());
                                           },
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
-                                              // Container(
-                                              //     height: h*.055,
-                                              //     width: h*.055,
-                                              //     decoration: BoxDecoration(
-                                              //         borderRadius:
-                                              //         BorderRadius.circular(100)),
-                                              //     child: Image.asset(
-                                              //       "assets/images/girldp.png",
-                                              //       fit: BoxFit.cover,
-                                              //     )),
                                               ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(100),
@@ -387,22 +437,27 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                   height: 40,
                                                   width: 40,
                                                   fit: BoxFit.cover,
-                                                  imageUrl: '${controller.actData.value.activity!.profilePhoto}',
-                                                  errorWidget: (context, url, error) => Container(
+                                                  imageUrl:
+                                                      '${controller.actData.value.activity!.profilePhoto}',
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Container(
                                                     height: 40,
                                                     width: 40,
-                                                    padding: const EdgeInsets.all(10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     decoration: BoxDecoration(
                                                         color: clrGreyLight,
-                                                        shape: BoxShape.circle
-                                                    ),
+                                                        shape: BoxShape.circle),
                                                     child: Image.asset(
                                                       "assets/icons/manicon.png",
                                                       color: clrGrey,
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
-                                                  placeholder: (context, url) => Shimmer.fromColors(
+                                                  placeholder: (context, url) =>
+                                                      Shimmer.fromColors(
                                                     baseColor: grey300,
                                                     highlightColor: grey100,
                                                     child: Container(
@@ -410,7 +465,9 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                       width: 40,
                                                       decoration: BoxDecoration(
                                                         color: grey300,
-                                                        borderRadius: BorderRadius.circular(18),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(18),
                                                       ),
                                                     ),
                                                   ),
@@ -420,10 +477,12 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                 height: 3,
                                               ),
                                               Text(
-                                                controller.actData.value.activity!.hostName.toString(),
+                                                controller.actData.value
+                                                    .activity!.hostName
+                                                    .toString(),
                                                 style: const TextStyle(
-                                                    fontWeight: FontWeight.w700
-                                                ),
+                                                    fontWeight:
+                                                        FontWeight.w700),
                                               )
                                             ],
                                           ),
@@ -434,10 +493,12 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                       height: Get.height * 0.01,
                                     ),
                                     Text(
-                                      controller.actData.value.activity!.description.toString(),
+                                      controller
+                                          .actData.value.activity!.description
+                                          .toString(),
                                       style: TextStyle(
-                                          fontSize: 14, color: clrGreyTextLight
-                                      ),
+                                          fontSize: 14,
+                                          color: clrGreyTextLight),
                                     ),
                                     SizedBox(
                                       height: Get.height * 0.01,
@@ -448,137 +509,216 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
+                                    controller.actData.value.activity
+                                        ?.latitude !=
+                                        null &&
+                                        controller.actData.value.activity
+                                            ?.longitude !=
+                                            null && controller
+                                        .actData
+                                        .value
+                                        .activity
+                                    !.longitude!.contains('.') && controller
+                                        .actData
+                                        .value
+                                        .activity
+                                    !.latitude!.contains('.')
+                                        ? SizedBox(
+                                      height: Get.height * 0.02,
+                                    ) : SizedBox(),
+                                    controller.actData.value.activity
+                                                    ?.latitude !=
+                                                null &&
+                                            controller.actData.value.activity
+                                                    ?.longitude !=
+                                                null && controller
+                                        .actData
+                                        .value
+                                        .activity
+                                    !.longitude!.contains('.') && controller
+                                        .actData
+                                        .value
+                                        .activity
+                                    !.latitude!.contains('.')
+                                        ? Container(
+                                            height: 200,
+                                            child: GoogleMap(
+                                              onMapCreated: (GoogleMapController
+                                                  googleMapController) {
+                                                controller.mapController =
+                                                    googleMapController;
+                                                controller.addMarkerWithImage();
+                                              },
+                                              initialCameraPosition:
+                                                  CameraPosition(
+                                                target: LatLng(
+                                                    double.parse(controller
+                                                        .actData
+                                                        .value
+                                                        .activity!
+                                                        .latitude!),
+                                                    double.parse(controller
+                                                        .actData
+                                                        .value
+                                                        .activity!
+                                                        .longitude!)),
+                                                zoom: 14.0,
+                                              ),
+                                              myLocationEnabled: true,
+                                              myLocationButtonEnabled: true,
+                                              markers: Set<Marker>.from(
+                                                  controller.markers),
+                                            ))
+                                        : const SizedBox(),
                                     SizedBox(
                                       height: Get.height * 0.02,
                                     ),
-                                    SizedBox(
-                                        width: double.maxFinite,
-                                        height: Res.h_btn,
-                                        child: CustomElevatedButton(
-                                            onTap: () {
-                                              print('gp == ${controller.actData.value.activity?.groupId}');
-                                              if(controller.actData.value.activity?.groupId != null) {
-                                                Get.toNamed(
-                                                    Routes.chatUi, arguments: {
-                                                  'gpID': controller.actData.value
-                                                      .activity?.groupId,
-                                                  // 'members': data.allMember
-                                                });
-                                              }else{
-                                                showTostMsg('No group exist for this activity');
-                                              }
-                                            },
-                                            backgroundClr: clrBlacke,
-                                            child: Text(
-                                              "Message group",
-                                              style: TextStyle(
-                                                  color: clrWhite,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700
-                                              ),
-                                            )
-                                        )
-                                    ),
-                                    controller.actData.value.requests!.isNotEmpty || controller.actData.value.going!.isNotEmpty ? SizedBox(
-                                      height: Get.height * 0.04,
-                                    ) : const SizedBox(),
+                                    controller.actData.value.requests!
+                                                .isNotEmpty ||
+                                            controller
+                                                .actData.value.going!.isNotEmpty
+                                        ? SizedBox(
+                                            height: Get.height * 0.04,
+                                          )
+                                        : const SizedBox(),
                                     Obx(() {
-                                      return controller.actData.value.requests!.isNotEmpty || controller.actData.value.going!.isNotEmpty ? Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              controller.changeSlectedTab(1);
-                                            },
-                                            child: Column(
+                                      return controller.actData.value.requests!
+                                                  .isNotEmpty ||
+                                              controller.actData.value.going!
+                                                  .isNotEmpty
+                                          ? Row(
                                               children: [
-                                                Text(
-                                                  "Requests",
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight: controller.selectedTab.value == 1
-                                                          ? FontWeight.w700
-                                                          : FontWeight.w400
+                                                InkWell(
+                                                  onTap: () {
+                                                    controller
+                                                        .changeSlectedTab(1);
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        "Requests",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight: controller
+                                                                        .selectedTab
+                                                                        .value ==
+                                                                    1
+                                                                ? FontWeight
+                                                                    .w700
+                                                                : FontWeight
+                                                                    .w400),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      controller.selectedTab
+                                                                  .value ==
+                                                              1
+                                                          ? Container(
+                                                              height: 3,
+                                                              width: 70,
+                                                              decoration: BoxDecoration(
+                                                                  color:
+                                                                      clrYellow,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                            )
+                                                          : const SizedBox()
+                                                    ],
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  height: 5,
+                                                SizedBox(
+                                                  width: Get.width * 0.1,
                                                 ),
-                                                controller.selectedTab.value == 1
-                                                    ? Container(
-                                                        height: 3,
-                                                        width: 70,
-                                                        decoration: BoxDecoration(
-                                                            color: clrYellow,
-                                                            borderRadius: BorderRadius.circular(10)),
-                                                      ) : const SizedBox()
+                                                InkWell(
+                                                  onTap: () {
+                                                    controller
+                                                        .changeSlectedTab(2);
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      Text("Going",
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight: controller
+                                                                          .selectedTab
+                                                                          .value ==
+                                                                      2
+                                                                  ? FontWeight
+                                                                      .w700
+                                                                  : FontWeight
+                                                                      .w400)),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      controller.selectedTab
+                                                                  .value ==
+                                                              2
+                                                          ? Container(
+                                                              height: 3,
+                                                              width: 70,
+                                                              decoration: BoxDecoration(
+                                                                  color:
+                                                                      clrYellow,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                            )
+                                                          : const SizedBox()
+                                                    ],
+                                                  ),
+                                                )
                                               ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: Get.width * 0.1,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              controller.changeSlectedTab(2);
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                    "Going",
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: controller.selectedTab.value == 2
-                                                            ? FontWeight.w700
-                                                            : FontWeight.w400
-                                                    )
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                controller.selectedTab.value == 2
-                                                    ? Container(
-                                                        height: 3,
-                                                        width: 70,
-                                                        decoration: BoxDecoration(
-                                                            color: clrYellow,
-                                                            borderRadius: BorderRadius.circular(10)
-                                                        ),
-                                                      )
-                                                    : const SizedBox()
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                      :const SizedBox();
+                                            )
+                                          : const SizedBox();
                                     }),
-                                    controller.actData.value.requests!.isNotEmpty || controller.actData.value.going!.isNotEmpty ? SizedBox(
-                                      height: Get.height * 0.02,
-                                    ) : SizedBox(height: Get.height * 0.01,),
+                                    controller.actData.value.requests!
+                                                .isNotEmpty ||
+                                            controller
+                                                .actData.value.going!.isNotEmpty
+                                        ? SizedBox(
+                                            height: Get.height * 0.02,
+                                          )
+                                        : SizedBox(
+                                            height: Get.height * 0.01,
+                                          ),
                                     Obx(() {
                                       return controller.selectedTab.value == 1
                                           ? ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: controller.actData.value.requests?.length,
-                                              physics: const NeverScrollableScrollPhysics(),
+                                              itemCount: controller.actData
+                                                  .value.requests?.length,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
                                               itemBuilder: (context, index) {
                                                 return Container(
-                                                  margin: const EdgeInsets.symmetric(vertical: 0),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 0),
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           Flexible(
-                                                            child: GestureDetector(
+                                                            child:
+                                                                GestureDetector(
                                                               onTap: () {
                                                                 Get.toNamed(
-                                                                    Routes.userProfileui,
+                                                                    Routes
+                                                                        .userProfileui,
                                                                     arguments: controller
                                                                         .actData
                                                                         .value
-                                                                        .going?[index]
+                                                                        .going?[
+                                                                            index]
                                                                         .userId
                                                                         .toString());
                                                               },
@@ -586,52 +726,75 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                 children: [
                                                                   ClipRRect(
                                                                     borderRadius:
-                                                                    BorderRadius.circular(100),
-                                                                    child: CachedNetworkImage(
-                                                                      fit: BoxFit.cover,
-                                                                      height: 40,
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                    child:
+                                                                        CachedNetworkImage(
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      height:
+                                                                          40,
                                                                       width: 40,
-                                                                      imageUrl: "${controller.actData.value.requests?[index].profilePhoto}",
+                                                                      imageUrl:
+                                                                          "${controller.actData.value.requests?[index].profilePhoto}",
                                                                       placeholder: (context,
-                                                                          url) =>
-                                                                          Shimmer.fromColors(
-                                                                            baseColor: grey300,
-                                                                            highlightColor: grey100,
-                                                                            child: Container(
-                                                                              width: double.maxFinite,
-                                                                              height: h * .26,
-                                                                              decoration: BoxDecoration(
-                                                                                color: grey300,
-                                                                                borderRadius: BorderRadius.circular(18),
-                                                                              ),
-                                                                            ),
+                                                                              url) =>
+                                                                          Shimmer
+                                                                              .fromColors(
+                                                                        baseColor:
+                                                                            grey300,
+                                                                        highlightColor:
+                                                                            grey100,
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              double.maxFinite,
+                                                                          height:
+                                                                              h * .26,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                grey300,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(18),
                                                                           ),
-                                                                      errorWidget: (context, url, error) => ClipRRect(
-                                                                        borderRadius: BorderRadius.circular(100),
-                                                                        child: Container(
-                                                                          height: 55,
-                                                                          width: 55,
-                                                                          color: clrGreyLight,
-                                                                          child: Image.asset(
+                                                                        ),
+                                                                      ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(100),
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              55,
+                                                                          width:
+                                                                              55,
+                                                                          color:
+                                                                              clrGreyLight,
+                                                                          child:
+                                                                              Image.asset(
                                                                             'assets/icons/manicon.png',
-                                                                            color: clrGrey,
+                                                                            color:
+                                                                                clrGrey,
                                                                           ),
                                                                         ),
                                                                       ),
                                                                     ),
                                                                   ),
                                                                   SizedBox(
-                                                                    width: Get.width * 0.02,
+                                                                    width:
+                                                                        Get.width *
+                                                                            0.02,
                                                                   ),
                                                                   Flexible(
                                                                       child: Text(
                                                                           ' ${controller.actData.value.requests?[index].firstName}',
                                                                           style: const TextStyle(
                                                                               fontWeight: FontWeight.w600,
-                                                                              fontSize: 16
-                                                                          )
-                                                                      )
-                                                                  )
+                                                                              fontSize: 16)))
                                                                 ],
                                                               ),
                                                             ),
@@ -641,41 +804,71 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   // Get.toNamed(Routes.attendReviewUi);
-                                                                  controller.rejectuserapi(controller.actData.value.requests?[index].userId.toString());
+                                                                  controller.rejectuserapi(controller
+                                                                      .actData
+                                                                      .value
+                                                                      .requests?[
+                                                                          index]
+                                                                      .userId
+                                                                      .toString());
                                                                 },
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(4),
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(100),
-                                                                    color: clrBlacke,
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          4),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                    color:
+                                                                        clrBlacke,
                                                                   ),
                                                                   child: Icon(
                                                                     Icons.close,
-                                                                    color: clrWhite,
+                                                                    color:
+                                                                        clrWhite,
                                                                     size: 20,
                                                                   ),
                                                                 ),
                                                               ),
                                                               SizedBox(
-                                                                width: Get.width *
-                                                                    0.02,
+                                                                width:
+                                                                    Get.width *
+                                                                        0.02,
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   // Get.toNamed(Routes.attendReviewUi);
 
-                                                                  controller.acceptuserapi(controller.actData.value.requests?[index].userId.toString());
-
+                                                                  controller.acceptuserapi(controller
+                                                                      .actData
+                                                                      .value
+                                                                      .requests?[
+                                                                          index]
+                                                                      .userId
+                                                                      .toString());
                                                                 },
-                                                                child: Container(
-                                                                  padding: const EdgeInsets.all(4),
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(100),
-                                                                    color: clrYellow,
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          4),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                    color:
+                                                                        clrYellow,
                                                                   ),
                                                                   child: Icon(
                                                                     Icons.check,
-                                                                    color: clrWhite,
+                                                                    color:
+                                                                        clrWhite,
                                                                     size: 20,
                                                                   ),
                                                                 ),
@@ -694,7 +887,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                       ),
                                                       SizedBox(
                                                         height:
-                                                        Get.height * 0.007,
+                                                            Get.height * 0.007,
                                                       ),
                                                     ],
                                                   ),
@@ -702,16 +895,20 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                               })
                                           : ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: controller.actData.value.going?.length,
+                                              itemCount: controller
+                                                  .actData.value.going?.length,
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
                                               itemBuilder: (context, index) {
                                                 return Container(
-                                                  margin: const EdgeInsets.symmetric(vertical: 0),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 0),
                                                   child: Column(
                                                     children: [
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           // Flexible(
                                                           //   child: Row(
@@ -750,14 +947,17 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                           //   ),
                                                           // ),
                                                           Flexible(
-                                                            child: GestureDetector(
+                                                            child:
+                                                                GestureDetector(
                                                               onTap: () {
                                                                 Get.toNamed(
-                                                                    Routes.userProfileui,
+                                                                    Routes
+                                                                        .userProfileui,
                                                                     arguments: controller
                                                                         .actData
                                                                         .value
-                                                                        .going?[index]
+                                                                        .going?[
+                                                                            index]
                                                                         .userId
                                                                         .toString());
                                                               },
@@ -765,87 +965,121 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                 children: [
                                                                   ClipRRect(
                                                                     borderRadius:
-                                                                    BorderRadius.circular(100),
-                                                                    child: CachedNetworkImage(
-                                                                      fit: BoxFit.cover,
-                                                                      height: 40,
-                                                                      width: 40,
-                                                                      imageUrl: "${controller.actData.value.going?[index].profilePhoto}",
-                                                                      placeholder: (context,
-                                                                          url) =>
-                                                                          Shimmer.fromColors(
-                                                                            baseColor: grey300,
-                                                                            highlightColor: grey100,
-                                                                            child: Container(
-                                                                              width:
-                                                                              double.maxFinite,
-                                                                              height: h * .26,
-                                                                              decoration:
-                                                                              BoxDecoration(
-                                                                                color: grey300,
-                                                                                borderRadius:
-                                                                                BorderRadius
-                                                                                    .circular(
-                                                                                    18),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                      errorWidget: (context, url, error) => ClipRRect(
-                                                                        borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
+                                                                        BorderRadius.circular(
                                                                             100),
-                                                                        child: Container(
-                                                                          height: 55,
-                                                                          width: 55,
-                                                                          color: clrGreyLight,
-                                                                          child: Image.asset(
+                                                                    child:
+                                                                        CachedNetworkImage(
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      height:
+                                                                          40,
+                                                                      width: 40,
+                                                                      imageUrl:
+                                                                          "${controller.actData.value.going?[index].profilePhoto}",
+                                                                      placeholder: (context,
+                                                                              url) =>
+                                                                          Shimmer
+                                                                              .fromColors(
+                                                                        baseColor:
+                                                                            grey300,
+                                                                        highlightColor:
+                                                                            grey100,
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              double.maxFinite,
+                                                                          height:
+                                                                              h * .26,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                grey300,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(18),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(100),
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              55,
+                                                                          width:
+                                                                              55,
+                                                                          color:
+                                                                              clrGreyLight,
+                                                                          child:
+                                                                              Image.asset(
                                                                             'assets/icons/manicon.png',
-                                                                            color: clrGrey,
+                                                                            color:
+                                                                                clrGrey,
                                                                           ),
                                                                         ),
                                                                       ),
                                                                     ),
                                                                   ),
-
                                                                   SizedBox(
                                                                     width:
-                                                                    Get.width *
-                                                                        0.02,
+                                                                        Get.width *
+                                                                            0.02,
                                                                   ),
                                                                   Flexible(
                                                                       child: Text(
                                                                           ' ${controller.actData.value.going?[index].firstName}',
                                                                           style: const TextStyle(
-                                                                              fontWeight: FontWeight
-                                                                                  .w600,
-                                                                              fontSize:
-                                                                              16)))
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 16)))
                                                                 ],
                                                               ),
                                                             ),
                                                           ),
                                                           InkWell(
                                                             onTap: () {
-                                                              alertRemove((){
+                                                              alertRemove(() {
                                                                 Get.back();
-                                                                controller.removeuserapi(controller.actData.value.going?[index].userId.toString());
+                                                                controller.removeuserapi(
+                                                                    controller
+                                                                        .actData
+                                                                        .value
+                                                                        .going?[
+                                                                            index]
+                                                                        .userId
+                                                                        .toString());
                                                               });
                                                               // controller.removeuserapi(controller.actData.value.going?[index].userId.toString());
                                                             },
                                                             child: Container(
-                                                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(20),
-                                                                color: clrBlacke,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          15,
+                                                                      vertical:
+                                                                          5),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                color:
+                                                                    clrBlacke,
                                                               ),
                                                               child: Text(
                                                                 "Remove",
                                                                 style: TextStyle(
-                                                                    color: clrWhite,
-                                                                    fontSize: 12,
-                                                                    fontWeight: FontWeight.w700
-                                                                ),
+                                                                    color:
+                                                                        clrWhite,
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700),
                                                               ),
                                                             ),
                                                           ),
@@ -861,34 +1095,13 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                       ),
                                                       SizedBox(
                                                         height:
-                                                        Get.height * 0.007,
+                                                            Get.height * 0.007,
                                                       ),
                                                     ],
                                                   ),
                                                 );
                                               });
                                     }),
-                                    SizedBox(
-                                      height: Get.height * 0.01,
-                                    ),
-                                    Center(
-                                        child: InkWell(
-                                            onTap: () {
-                                              if(controller.checkHour(context,
-                                                  startDate: controller.actData.value.activity!.date.toString(),
-                                                  startTime: controller.actData.value.activity!.startAt.toString(),
-                                                  hours: controller.actData.value.paymentSettings!.hostCancellationHour.toString())){
-                                                alertConfirmCancelActivityFees(controller.actData.value.activity!.id.toString(),controller.actData.value.paymentSettings!.hostCancellationHour.toString(),controller.actData.value.paymentSettings!.hostCancellationFee.toString());
-                                              }else{
-                                                alertConfirmCancelActivity();
-                                              }
-                                            },
-                                            child: const Text(
-                                              "Delete activity",
-                                              style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.underline),
-                                            ))),
                                     SizedBox(
                                       height: Get.height * 0.02,
                                     ),
@@ -897,7 +1110,88 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                               ),
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 10,),
+              Obx(() => controller.activityLoading.value &&
+                  controller.actData.value.activity == null
+                  ? const SizedBox() : SizedBox(
+                  width: double.maxFinite,
+                  height: Res.h_btn,
+                  child: CustomElevatedButton(
+                      onTap: () {
+                        print(
+                            'gp == ${controller.actData.value.activity?.groupId}');
+                        if (controller.actData.value
+                            .activity?.groupId !=
+                            null) {
+                          Get.toNamed(Routes.chatUi,
+                              arguments: {
+                                'gpID': controller
+                                    .actData
+                                    .value
+                                    .activity
+                                    ?.groupId,
+                                // 'members': data.allMember
+                              });
+                        } else {
+                          showTostMsg(
+                              'No group exist for this activity');
+                        }
+                      },
+                      backgroundClr: clrBlacke,
+                      child: Text(
+                        "Message group",
+                        style: TextStyle(
+                            color: clrWhite,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ))),),
+              const SizedBox(height: 10,),
+              Obx(() => controller.activityLoading.value &&
+                  controller.actData.value.activity == null
+                  ? const SizedBox() : Center(
+                  child: InkWell(
+                      onTap: () {
+                        if (controller.checkHour(context,
+                            startDate: controller.actData
+                                .value.activity!.date
+                                .toString(),
+                            startTime: controller.actData
+                                .value.activity!.startAt
+                                .toString(),
+                            hours: controller
+                                .actData
+                                .value
+                                .paymentSettings!
+                                .hostCancellationHour
+                                .toString())) {
+                          alertConfirmCancelActivityFees(
+                              controller.actData.value
+                                  .activity!.id
+                                  .toString(),
+                              controller
+                                  .actData
+                                  .value
+                                  .paymentSettings!
+                                  .hostCancellationHour
+                                  .toString(),
+                              controller
+                                  .actData
+                                  .value
+                                  .paymentSettings!
+                                  .hostCancellationFee
+                                  .toString());
+                        } else {
+                          alertConfirmCancelActivity();
+                        }
+                      },
+                      child: const Text(
+                        "Delete activity",
+                        style: TextStyle(
+                            decoration:
+                            TextDecoration.underline),
+                      ))),),
+              const SizedBox(height: 10,),
             ],
           ),
         ),
@@ -911,7 +1205,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
         scrollable: true,
         insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
         contentPadding:
-        const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 22),
         content: SizedBox(
           width: double.maxFinite,
           child: Column(
@@ -930,31 +1224,31 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
               ),
               Center(
                   child: Text(
-                    "Are you sure you want to remove this user?",
-                    style: TextStyle(color: clrGreyTextLight, fontSize: 15),
-                    textAlign: TextAlign.center,
-                  )),
+                "Are you sure you want to remove this user?",
+                style: TextStyle(color: clrGreyTextLight, fontSize: 15),
+                textAlign: TextAlign.center,
+              )),
               SizedBox(
                 height: Get.height * .024,
               ),
               Row(children: [
                 Expanded(
                     child: SizedBox(
-                      height: Res.h_btn,
-                      child: CustoFilterBtn(
-                          borderClr: clrBlacke,
-                          lable: Text(
-                            "Go back",
-                            style: TextStyle(
-                                color: clrBlacke,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          ontap: () {
-                            Get.back();
-                          },
-                          backgroundClr: Get.theme.scaffoldBackgroundColor),
-                    )),
+                  height: Res.h_btn,
+                  child: CustoFilterBtn(
+                      borderClr: clrBlacke,
+                      lable: Text(
+                        "Go back",
+                        style: TextStyle(
+                            color: clrBlacke,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      ontap: () {
+                        Get.back();
+                      },
+                      backgroundClr: Get.theme.scaffoldBackgroundColor),
+                )),
                 SizedBox(
                   width: Get.width * 0.05,
                 ),
@@ -983,7 +1277,6 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
       ));
     });
   }
-
 
   // alertDeleteActivity() {
   //   Future.delayed(Duration.zero, () {
@@ -1068,7 +1361,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
   //   });
   // }
 
-  alertConfirmCancelActivityFees(String id, String hours,String fees) {
+  alertConfirmCancelActivityFees(String id, String hours, String fees) {
     Future.delayed(Duration.zero, () {
       Get.dialog(AlertDialog(
         scrollable: true,
@@ -1115,12 +1408,11 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                       ),
                       ontap: () {
                         Get.back();
-                        if(controller.actData.value.going!.isNotEmpty){
+                        if (controller.actData.value.going!.isNotEmpty) {
                           alertConfCancelActiAttendies();
-                        }else{
+                        } else {
                           alertConfirmCancelActivity();
                         }
-
                       },
                       backgroundClr: Get.theme.scaffoldBackgroundColor),
                 )),
@@ -1284,7 +1576,8 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                       ),
                       ontap: () {
                         Get.back();
-                        controller.deleteactapi(controller.actData.value.activity?.id.toString());
+                        controller.deleteactapi(
+                            controller.actData.value.activity?.id.toString());
                         // alertCancelRequestConfirmation();
                       },
                       backgroundClr: Get.theme.scaffoldBackgroundColor),

@@ -7,8 +7,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CommonUi{
 
-  static Widget buttonLoading({Color? color}){
-   return LoadingAnimationWidget.fourRotatingDots(color: color ?? clrWhite, size: 45);
+  static Widget buttonLoading({Color? color,double? size}){
+   return LoadingAnimationWidget.fourRotatingDots(color: color ?? clrWhite, size: size ?? 45);
   }
 
   static Widget loadingIndicator({Color? color}){

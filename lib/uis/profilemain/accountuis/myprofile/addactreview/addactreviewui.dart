@@ -40,17 +40,17 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
 
   @override
   Widget build(BuildContext context) {
-    var h=Get.height;
-    var w=Get.width;
+    var h = Get.height;
+    var w = Get.width;
     return Scaffold(
       body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-            child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-              SizedBox(
-              height: h*.012,
+        padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: h * .012,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +79,7 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                 ))),
                 SizedBox(
-                  width: Get.width*0.1,
+                  width: Get.width * 0.1,
                 )
               ],
             ),
@@ -88,250 +88,259 @@ class _AddActReviewUiState extends State<AddActReviewUi> {
             ),
             Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "How would you rate this activity?",
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "How would you rate this activity?",
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.01,
+                  ),
+                  RatingBar(
+                    allowHalfRating: true,
+                    ratingWidget: RatingWidget(
+                      full: Icon(
+                        Icons.star,
+                        color: clrYellow,
+                        size: 50,
                       ),
-                      SizedBox(
-                        height: Get.height * 0.01,
+                      half: Icon(
+                        Icons.star_half,
+                        color: clrYellow,
+                        size: 50,
                       ),
-                      RatingBar(
-                        allowHalfRating: true,
-                        ratingWidget:RatingWidget(
-                          full: Icon(
-                            Icons.star,
-                            color: clrYellow,
-                            size: 50,
-                          ),
-                          half: Icon(
-                            Icons.star_half,
-                            color: clrYellow,
-                            size: 50,
-                          ),
-                          empty: Icon(
-                            Icons.star_border,
-                            color: Colors.grey.shade400,
-                            size: 50,
-                          ),
-                        ) ,
-                        onRatingUpdate: (val) {
-                          controller.rating.value = val;
+                      empty: Icon(
+                        Icons.star_border,
+                        color: Colors.grey.shade400,
+                        size: 50,
+                      ),
+                    ),
+                    onRatingUpdate: (val) {
+                      controller.rating.value = val;
+                    },
+                    initialRating: controller.rating.value,
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.03,
+                  ),
+                  CustoTextFormField(
+                      controll: controller.textController,
+                      maxLines: 5,
+                      hintText:
+                          "Host and other members would love to hear about your experience.",
+                      borderRadius: 15),
+                  SizedBox(
+                    height: Get.height * 0.03,
+                  ),
+                  hostImg!.isEmpty
+                      ? SizedBox()
+                      : Text(
+                          "Hosted by",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 18),
+                        ),
+                  SizedBox(
+                    height: Get.height * 0.01,
+                  ),
+                  // Container(
+                  //     height: h*.075,
+                  //     width: h*.075,
+                  //     decoration: BoxDecoration(
+                  //         borderRadius:
+                  //         BorderRadius.circular(100)
+                  //     ),
+                  //     child: hostImg != null
+                  //         ? Image.network(
+                  //       hostImg!,
+                  //       fit: BoxFit.cover,
+                  //     )
+                  //         : Image.asset(
+                  //       "assets/images/girldp.png",
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  // ),
+                  hostImg!.isEmpty
+                      ? SizedBox()
+                      : GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.hostProfileUi,
+                                arguments: hostId);
                           },
-                        initialRating: controller.rating.value,
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.03,
-                      ),
-                      CustoTextFormField(
-                        controll: controller.textController,
-                        maxLines: 5,
-                        hintText: "Host and other members would love to hear about your experience.",
-                        borderRadius: 15
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.03,
-                      ),
-                      hostImg!.isEmpty  ? SizedBox() : Text("Hosted by",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
-                      SizedBox(
-                        height: Get.height * 0.01,
-                      ),
-                      // Container(
-                      //     height: h*.075,
-                      //     width: h*.075,
-                      //     decoration: BoxDecoration(
-                      //         borderRadius:
-                      //         BorderRadius.circular(100)
-                      //     ),
-                      //     child: hostImg != null
-                      //         ? Image.network(
-                      //       hostImg!,
-                      //       fit: BoxFit.cover,
-                      //     )
-                      //         : Image.asset(
-                      //       "assets/images/girldp.png",
-                      //       fit: BoxFit.cover,
-                      //     ),
-                      // ),
-                      hostImg!.isEmpty  ? SizedBox() : GestureDetector(
-                        onTap: () {
-                          Get.toNamed(Routes.hostProfileUi,
-                              arguments: hostId);
-                        },
-                        child: ClipRRect(
-                          borderRadius:
-                          BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            height: 52,
-                            width: 52,
-                            fit: BoxFit.cover,
-                            imageUrl:
-                            hostImg.toString(),
-                            errorWidget:
-                                (context, url, error) =>
-                                Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              height: 52,
+                              width: 52,
+                              fit: BoxFit.cover,
+                              imageUrl: hostImg.toString(),
+                              errorWidget: (context, url, error) => Container(
+                                height: 52,
+                                width: 52,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: clrGreyLight,
+                                    shape: BoxShape.circle),
+                                child: Image.asset(
+                                  "assets/icons/manicon.png",
+                                  color: clrGrey,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: grey300,
+                                highlightColor: grey100,
+                                child: Container(
                                   height: 52,
                                   width: 52,
-                                  padding:
-                                  const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                      color: clrGreyLight,
-                                      shape: BoxShape.circle),
-                                  child: Image.asset(
-                                    "assets/icons/manicon.png",
-                                    color: clrGrey,
-                                    fit: BoxFit.cover,
+                                    color: grey300,
+                                    borderRadius: BorderRadius.circular(18),
                                   ),
                                 ),
-                            placeholder: (context, url) =>
-                                Shimmer.fromColors(
-                                  baseColor: grey300,
-                                  highlightColor: grey100,
-                                  child: Container(
-                                    height: 52,
-                                    width: 52,
-                                    decoration: BoxDecoration(
-                                      color: grey300,
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                          18),
-                                    ),
-                                  ),
-                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.02,
-                      ),
-                      goingImg!.isEmpty ? SizedBox() : Text("Attendees",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
-                      SizedBox(
-                        height: Get.height * 0.01,
-                      ),
-                      goingImg!.isEmpty ? SizedBox() : SizedBox(
-                        height: 52,
-                        child: ListView.separated(
+                  SizedBox(
+                    height: Get.height * 0.02,
+                  ),
+                  goingImg!.isEmpty
+                      ? SizedBox()
+                      : Text(
+                          "Attendees",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 18),
+                        ),
+                  SizedBox(
+                    height: Get.height * 0.01,
+                  ),
+                  goingImg!.isEmpty
+                      ? SizedBox()
+                      : SizedBox(
+                          height: 52,
+                          child: ListView.separated(
                             itemCount: goingImg?.length ?? 0,
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            itemBuilder: (context,index){
-                              String? profilePhoto = goingImg?[index].profilePhoto;
-                          //     return Container(
-                          //       margin: const EdgeInsets.only(right: 5),
-                          //       clipBehavior: Clip.hardEdge,
-                          //       height: h*.075,
-                          //       width: h*.075,
-                          //       decoration: BoxDecoration(
-                          //         borderRadius: BorderRadius.circular(100),
-                          //       ),
-                          //       child:profilePhoto != null
-                          //           ? Image.network(
-                          //         profilePhoto,
-                          //         fit: BoxFit.cover,
-                          //       )
-                          //           : Image.asset(
-                          //         "assets/images/cofee.png",
-                          //         fit: BoxFit.cover,
-                          //       ),
-                          // );
+                            itemBuilder: (context, index) {
+                              String? profilePhoto =
+                                  goingImg?[index].profilePhoto;
+                              //     return Container(
+                              //       margin: const EdgeInsets.only(right: 5),
+                              //       clipBehavior: Clip.hardEdge,
+                              //       height: h*.075,
+                              //       width: h*.075,
+                              //       decoration: BoxDecoration(
+                              //         borderRadius: BorderRadius.circular(100),
+                              //       ),
+                              //       child:profilePhoto != null
+                              //           ? Image.network(
+                              //         profilePhoto,
+                              //         fit: BoxFit.cover,
+                              //       )
+                              //           : Image.asset(
+                              //         "assets/images/cofee.png",
+                              //         fit: BoxFit.cover,
+                              //       ),
+                              // );
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(
-                                      Routes.userProfileui,
-                                      arguments: goingImg?[index].userId
-                                          .toString());
+                                  Get.toNamed(Routes.userProfileui,
+                                      arguments:
+                                          goingImg?[index].userId.toString());
                                 },
                                 child: ClipRRect(
-                                  borderRadius:
-                                  BorderRadius.circular(100),
+                                  borderRadius: BorderRadius.circular(100),
                                   child: CachedNetworkImage(
                                     height: 52,
                                     width: 52,
                                     fit: BoxFit.cover,
-                                    imageUrl:
-                                    profilePhoto.toString(),
-                                    errorWidget:
-                                        (context, url, error) =>
+                                    imageUrl: profilePhoto.toString(),
+                                    errorWidget: (context, url, error) =>
                                         Container(
-                                          height: 52,
-                                          width: 52,
-                                          padding:
-                                          const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: clrGreyLight,
-                                              shape: BoxShape.circle),
-                                          child: Image.asset(
-                                            "assets/icons/manicon.png",
-                                            color: clrGrey,
-                                            fit: BoxFit.cover,
-                                            scale: 1.2,
-                                          ),
-                                        ),
+                                      height: 52,
+                                      width: 52,
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          color: clrGreyLight,
+                                          shape: BoxShape.circle),
+                                      child: Image.asset(
+                                        "assets/icons/manicon.png",
+                                        color: clrGrey,
+                                        fit: BoxFit.cover,
+                                        scale: 1.2,
+                                      ),
+                                    ),
                                     placeholder: (context, url) =>
                                         Shimmer.fromColors(
-                                          baseColor: grey300,
-                                          highlightColor: grey100,
-                                          child: Container(
-                                            height: 52,
-                                            width: 52,
-                                            decoration: BoxDecoration(
-                                              color: grey300,
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  18),
-                                            ),
-                                          ),
+                                      baseColor: grey300,
+                                      highlightColor: grey100,
+                                      child: Container(
+                                        height: 52,
+                                        width: 52,
+                                        decoration: BoxDecoration(
+                                          color: grey300,
+                                          borderRadius:
+                                              BorderRadius.circular(18),
                                         ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               );
-                        }, separatorBuilder: (BuildContext context, int index) {return SizedBox(width: 10,); },),
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.03,
-                      ),
-                      Obx(() =>  Opacity(
-                        opacity: controller.addreviewLoading.value ? .5 : 1,
-                        child: SizedBox(
-                          height: Res.h_btn,
-                          width: double.maxFinite,
-                          child: CustomElevatedButton(
-                              onTap: (){
-                                if (controller.rating.value <= 0) {
-                                  showTostMsg('Please provide a rating');
-                                  return;
-                                }
-
-                                if (controller.textController.text.trim().isEmpty) {
-                                  showTostMsg('Please enter a review description');
-                                  return;
-                                }
-
-                                controller.addreviewapi(id,controller.rating.value);
-                              },
-                              child: controller.addreviewLoading.value ? CommonUi.buttonLoading() : Text(
-                                "Submit review",
-                                style: TextStyle(
-                                    color: clrWhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              backgroundClr: clrBlacke
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 10,
+                              );
+                            },
                           ),
                         ),
-                      ),),
-                      SizedBox(
-                        height: Get.height * 0.01,
-                      ),
-                    ],
-                  ),
-                )
-            )],
+                ],
+              ),
+            )),
+            SizedBox(
+              height: Get.height * 0.03,
             ),
-          )
-      ),
+            Obx(() =>  Opacity(
+              opacity: controller.addreviewLoading.value ? .5 : 1,
+              child: SizedBox(
+                height: Res.h_btn,
+                width: double.maxFinite,
+                child: CustomElevatedButton(
+                    onTap: (){
+                      if (controller.rating.value <= 0) {
+                        showTostMsg('Please provide a rating');
+                        return;
+                      }
+
+                      if (controller.textController.text.trim().isEmpty) {
+                        showTostMsg('Please enter a review description');
+                        return;
+                      }
+
+                      controller.addreviewapi(id,controller.rating.value);
+                    },
+                    child: controller.addreviewLoading.value ? CommonUi.buttonLoading() : Text(
+                      "Submit review",
+                      style: TextStyle(
+                          color: clrWhite,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    backgroundClr: clrBlacke
+                ),
+              ),
+            ),),
+            SizedBox(
+              height: Get.height * 0.01,
+            ),
+          ],
+        ),
+      )),
     );
   }
 }

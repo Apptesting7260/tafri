@@ -29,6 +29,7 @@ class MyactiController extends GetxController with GetTickerProviderStateMixin{
   String? token = LocalStorage.getToken();
 
   Future<void> attendingActivity() async{
+    print('a');
     attendingLoading.value = true;
     var header = {
       'Authorization': 'Bearer $token'

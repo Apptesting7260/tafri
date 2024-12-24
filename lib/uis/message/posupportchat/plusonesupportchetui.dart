@@ -413,119 +413,32 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                           // controller.focusNode.unfocus();
                                           // controller.deletePopUp(context,msg.id.toString());
                                         },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 12, vertical: 10),
-                                          // margin: const EdgeInsets.symmetric(
-                                          //     vertical: 5),
-                                          decoration: BoxDecoration(
-                                            color: clrBlackeChat,
-                                            borderRadius:
-                                            const BorderRadius.only(
-                                                topLeft: Radius.circular(8),
-                                                bottomLeft:
-                                                Radius.circular(8),
-                                                topRight:
-                                                Radius.circular(8)),
-                                          ),
-                                          child: msg.message?.textmessage == null || msg.message?.textmessage == "null" ? SizedBox(
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-                                                msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
-                                                  onTap: () {
-                                                    Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.5),
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
-                                                    height: 60,
-                                                    width: 60,
-                                                    child: Center(
-                                                      child: msg.loading == true ? Shimmer.fromColors(
-                                                        direction: ShimmerDirection.btt,
-                                                          baseColor: clrWhite,
-                                                          highlightColor: clrBlacke,
-                                                          child: Icon(Icons.upload,color: clrWhite,size: 35,)) : const Icon(
-                                                        Icons.play_arrow,
-                                                        color: Colors.white, // Icon color
-                                                        size: 40, // Icon size
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ) : Flexible(
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: '${msg.message?.file}',
-                                                      placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
-                                                      errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
-                                                          .withOpacity(0.8),
-                                                          fontSize: 12)),
-                                                    )
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                              child: Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 12, vertical: 10),
+                                                // margin: const EdgeInsets.symmetric(
+                                                //     vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  color: clrBlackeChat,
+                                                  borderRadius:
+                                                  const BorderRadius.only(
+                                                      topLeft: Radius.circular(8),
+                                                      bottomLeft:
+                                                      Radius.circular(8),
+                                                      topRight:
+                                                      Radius.circular(8)),
                                                 ),
-                                                const SizedBox(width: 5,),
-                                                Flexible(
-                                                  child: Text(DateFormat('h:mm').format(time),
-                                                      style: TextStyle(
-                                                          color: clrWhite
-                                                              .withOpacity(0.8),
-                                                          fontSize: 12)),
-                                                ),
-                                                // const SizedBox(width: 5,),
-                                                // msg.messageStatus == 'seen' ? Icon(Icons.done_all,
-                                                //     color: clrWhite
-                                                //         .withOpacity(0.8),
-                                                //     size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
-                                                //     .withOpacity(0.8),
-                                                //     size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
-                                              ],
-                                            ),
-                                          ) : msg.message?.file == null || msg.message?.file == 'null' ?
-                                          RichText(
-                                              text: TextSpan(children: [
-                                                TextSpan(
-                                                    text: "${msg.message?.textmessage}",
-                                                    style:
-                                                    TextStyle(color: clrWhite)),
-                                                WidgetSpan(
-                                                  child: SizedBox(
-                                                    width: w * 0.01,
-                                                  ),
-                                                ),
-                                                WidgetSpan(
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        Text(DateFormat('h:mm').format(time),
-                                                            style: TextStyle(
-                                                                color: clrWhite
-                                                                    .withOpacity(0.8),
-                                                                fontSize: 12)),
-                                                        // const SizedBox(
-                                                        //   width: 5,
-                                                        // ),
-                                                        // msg.messageStatus == 'seen' ? Icon(Icons.done_all,
-                                                        //     color: clrWhite
-                                                        //         .withOpacity(0.8),
-                                                        //     size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
-                                                        //     .withOpacity(0.8),
-                                                        //     size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
-                                                      ],
-                                                    ))
-                                              ]))
-                                              : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
-                                            child:  Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-                                                Flexible(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                child: msg.message?.textmessage == null || msg.message?.textmessage == "null" ? SizedBox(
+                                                  child: Row(
                                                     mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
                                                     children: [
-                                                      const SizedBox(height: 5,),
                                                       msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
                                                         onTap: () {
                                                           Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
@@ -537,47 +450,171 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                           ),
                                                           height: 60,
                                                           width: 60,
-                                                          // padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                                          child: const Center(
-                                                            child: Icon(
+                                                          child: Center(
+                                                            child: msg.loading == true ? Shimmer.fromColors(
+                                                              direction: ShimmerDirection.btt,
+                                                                baseColor: clrWhite,
+                                                                highlightColor: clrBlacke,
+                                                                child: Icon(Icons.upload,color: clrWhite,size: 35,)) : const Icon(
                                                               Icons.play_arrow,
                                                               color: Colors.white, // Icon color
                                                               size: 40, // Icon size
                                                             ),
                                                           ),
                                                         ),
-                                                      ) : CachedNetworkImage(
-                                                        imageUrl: '${msg.message?.file}',
-                                                        placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
-                                                        errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
-                                                            color:
-                                                            clrWhite,fontSize: 12)),
+                                                      ) : Flexible(
+                                                          child: CachedNetworkImage(
+                                                            imageUrl: '${msg.message?.file}',
+                                                            placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                            errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
+                                                                .withOpacity(0.8),
+                                                                fontSize: 12)),
+                                                          )
                                                       ),
-                                                      const SizedBox(height: 5,),
-                                                      Text('${msg.message?.textmessage}',style:
-                                                      TextStyle(color: clrWhite))
+                                                      const SizedBox(width: 5,),
+                                                      Flexible(
+                                                        child: Text(DateFormat('h:mm').format(time),
+                                                            style: TextStyle(
+                                                                color: clrWhite
+                                                                    .withOpacity(0.8),
+                                                                fontSize: 12)),
+                                                      ),
+                                                      // const SizedBox(width: 5,),
+                                                      // msg.messageStatus == 'seen' ? Icon(Icons.done_all,
+                                                      //     color: clrWhite
+                                                      //         .withOpacity(0.8),
+                                                      //     size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
+                                                      //     .withOpacity(0.8),
+                                                      //     size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
                                                     ],
                                                   ),
-                                                ),
-                                                Text(
-                                                  DateFormat('h:mm').format(time),
-                                                  style: TextStyle(
-                                                      color: clrWhite
-                                                          .withOpacity(0.8),
-                                                      fontSize: 12),
-                                                ),
-                                                // const SizedBox(
-                                                //   width: 5,
-                                                // ),
-                                                // msg.messageStatus == 'seen' ? Icon(Icons.done_all,
-                                                //     color: clrWhite
-                                                //         .withOpacity(0.8),
-                                                //     size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
-                                                //     .withOpacity(0.8),
-                                                //     size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
-                                              ],
+                                                ) : msg.message?.file == null || msg.message?.file == 'null' ?
+                                                RichText(
+                                                    text: TextSpan(children: [
+                                                      TextSpan(
+                                                          text: "${msg.message?.textmessage}",
+                                                          style:
+                                                          TextStyle(color: clrWhite)),
+                                                      WidgetSpan(
+                                                        child: SizedBox(
+                                                          width: w * 0.01,
+                                                        ),
+                                                      ),
+                                                      WidgetSpan(
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              Text(DateFormat('h:mm').format(time),
+                                                                  style: TextStyle(
+                                                                      color: clrWhite
+                                                                          .withOpacity(0.8),
+                                                                      fontSize: 12)),
+                                                              // const SizedBox(
+                                                              //   width: 5,
+                                                              // ),
+                                                              // msg.messageStatus == 'seen' ? Icon(Icons.done_all,
+                                                              //     color: clrWhite
+                                                              //         .withOpacity(0.8),
+                                                              //     size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
+                                                              //     .withOpacity(0.8),
+                                                              //     size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
+                                                            ],
+                                                          ))
+                                                    ]))
+                                                    : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
+                                                  child:  Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      Flexible(
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            const SizedBox(height: 5,),
+                                                            msg.message?.file?.split('.').last.toLowerCase() == 'mp4' ? InkWell(
+                                                              onTap: () {
+                                                                Get.toNamed(Routes.videoPlayScreen,arguments: '${msg.message?.file}');
+                                                              },
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                  color: Colors.grey.withOpacity(0.5),
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                ),
+                                                                height: 60,
+                                                                width: 60,
+                                                                // padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                                                child: const Center(
+                                                                  child: Icon(
+                                                                    Icons.play_arrow,
+                                                                    color: Colors.white, // Icon color
+                                                                    size: 40, // Icon size
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ) : CachedNetworkImage(
+                                                              imageUrl: '${msg.message?.file}',
+                                                              placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                              errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
+                                                                  color:
+                                                                  clrWhite,fontSize: 12)),
+                                                            ),
+                                                            const SizedBox(height: 5,),
+                                                            Text('${msg.message?.textmessage}',style:
+                                                            TextStyle(color: clrWhite))
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        DateFormat('h:mm').format(time),
+                                                        style: TextStyle(
+                                                            color: clrWhite
+                                                                .withOpacity(0.8),
+                                                            fontSize: 12),
+                                                      ),
+                                                      // const SizedBox(
+                                                      //   width: 5,
+                                                      // ),
+                                                      // msg.messageStatus == 'seen' ? Icon(Icons.done_all,
+                                                      //     color: clrWhite
+                                                      //         .withOpacity(0.8),
+                                                      //     size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
+                                                      //     .withOpacity(0.8),
+                                                      //     size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
+                                                    ],
+                                                  ),
+                                                ) : SizedBox(),
+                                              ),
                                             ),
-                                          ) : SizedBox(),
+                                            SizedBox(
+                                              width: w * 0.01,
+                                            ),
+                                            Container(
+                                              clipBehavior: Clip.hardEdge,
+                                              height: h * .04,
+                                              width: h * .04,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(100),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                imageUrl: '${controller.sc.profileController.profileData.value.result?.profile?.profilePhoto ?? ''}',
+                                                placeholder: (context, url) => Shimmer.fromColors(
+                                                    baseColor: grey300,
+                                                    highlightColor: grey100,
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(100),
+                                                      child: Container(
+                                                        height: h * .04,
+                                                        width: h * .04,
+                                                        color: clrGrey,
+                                                      ),
+                                                    )
+                                                ),
+                                                errorWidget: (context, url, error) =>  Image.asset('assets/icons/manicon.png',color: clrGrey),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),

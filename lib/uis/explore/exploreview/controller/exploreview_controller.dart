@@ -1,23 +1,25 @@
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as loc;
+import 'package:plusone/networking/apiservices.dart';
+import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/explore/exploreview/model/exploreviewui_model.dart';
+import 'package:plusone/uis/explore/exploreview/model/requestmodel.dart';
+import 'package:plusone/utils/colors.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../networking/apiservices.dart';
-import '../../../../networking/endpoints.dart';
-import '../../../../utils/colors.dart';
-import '../../../../utils/local_storage.dart';
-import '../../../components/custoelevatedbtn.dart';
-import '../../../components/custotextfield.dart';
-import '../model/exploreviewui_model.dart';
-import '../model/requestmodel.dart';
+import 'package:http/http.dart' as http;
+
 
 class ExploreViewController extends GetxController{
   @override
@@ -59,16 +61,51 @@ class ExploreViewController extends GetxController{
   }
 
   TextEditingController reportDescriptionController = TextEditingController();
+  // void firstNameCapital(TextEditingController controller) {
+  //   final text = controller.text;
+  //   if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+  //     controller.value = controller.value.copyWith(
+  //       text: text[0].toUpperCase() + text.substring(1),
+  //       selection: TextSelection.fromPosition(
+  //         TextPosition(offset: controller.text.length),
+  //       ),
+  //     );
+  //   }
+  // }
+
   void firstNameCapital(TextEditingController controller) {
     final text = controller.text;
-    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+    if (text.isNotEmpty) {
+      final cursorPosition = controller.selection.base.offset;
+      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
       controller.value = controller.value.copyWith(
-        text: text[0].toUpperCase() + text.substring(1),
+        text: updatedText,
         selection: TextSelection.fromPosition(
-          TextPosition(offset: controller.text.length),
+          TextPosition(offset: updatedText.length),
         ),
       );
     }
+  }
+
+  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+    final buffer = StringBuffer();
+    bool capitalizeNext = true;
+
+    for (int i = 0; i < text.length; i++) {
+      final char = text[i];
+      if (capitalizeNext && char != ' ') {
+        buffer.write(char.toUpperCase());
+        capitalizeNext = false;
+      } else {
+        buffer.write(char);
+      }
+
+      if (char == '.' || char == '!' || char == '?') {
+        capitalizeNext = true;
+      }
+    }
+
+    return buffer.toString();
   }
 
   var reportactivityLoading = false.obs;
@@ -256,10 +293,10 @@ class ExploreViewController extends GetxController{
     isLoadingRequest.value = true;
 
     Map body = {
-      'activity_id': id,
-      'user_id': LocalStorage.getUid(),
+      'activity_id': id.toString(),
+      'user_id': LocalStorage.getUid().toString(),
       'request_type': actData.value.activity?.spotLeft == 0 ? 'waitlist' : 'immediate_join',
-      'waitlist_message': actData.value.activity?.spotLeft == 0 ? waitlistMsgController.value.text.trim() : null
+      if(actData.value.activity?.spotLeft == 0)'waitlist_message': actData.value.activity?.spotLeft == 0 ? waitlistMsgController.value.text.trim() : null
     };
 
     print(body);
@@ -270,11 +307,13 @@ class ExploreViewController extends GetxController{
 
 
     try{
-      final response = await api.post(EndPoints.requesttojoin, body,headers: header);
-      print("status code ${response.statusCode}");
+      // final response = await api.post(EndPoints.requesttojoin, body,headers: header);
+      final response = await http.post(Uri.parse(EndPoints.requesttojoin),body: body,headers: header);
+      print("status code ${response.statusCode}   ${response.body}");
+      final data = jsonDecode(response.body);
       if(response.statusCode == 200){
         print('change data == ${response.body}');
-        requestData.value = Requestmodel.fromJson(response.body);
+        requestData.value = Requestmodel.fromJson(data);
         actData.value.activity?.requestStatus = requestData.value.requestStatus;
         actData.value.activity?.spotLeft = requestData.value.spotsLeft;
         actData.refresh();
@@ -285,14 +324,14 @@ class ExploreViewController extends GetxController{
         }
         // await actapi(id);
       }else if(response.statusCode == 403){
-        showTostMsg('${response.body['message']}');
+        showTostMsg('${data['message']}');
       } else{
         print('error == ${response.body}');
         showTostMsg('Something went wrong');
       }
     }catch(e){
       showTostMsg('Something went wrong');
-      print('changeFav api error == ${e.toString()}');
+      print('api error == ${e.toString()}');
     }
 
     isLoadingRequest.value = false;

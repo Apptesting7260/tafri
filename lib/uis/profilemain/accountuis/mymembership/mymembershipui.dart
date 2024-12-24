@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/controller/mymembership_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/switchplanui.dart';
@@ -13,6 +15,7 @@ import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../utils/colors.dart';
 
 class MyMemberShipUi extends GetWidget<MymembershipController> {
@@ -24,27 +27,251 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
   Widget build(BuildContext context) {
     var h = Get.height;
     var w = Get.width;
-    return Scaffold(
-      backgroundColor: clrWhite,
-      body: SmartRefresher(
-        controller: controller.refreshController,
-        header: CommonUi.refreshHeader(),
-        onRefresh: () async{
-          paymentController.getPlan();
-          await controller.homeController.homePageApi();
-          controller.refreshController.refreshCompleted();
-        },
-        child: SafeArea(
-            child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-                child: Obx(
-                  () => (controller.homeController.homePageLoading.value || paymentController.plansLoading.value) && (paymentController.plans.value.result == null || paymentController.plans.value.result!.isEmpty)
-                      ? Center(child: CommonUi.scaffoldLoading(color: clrYellow))
-                      : controller.homeController.homeError.value.isNotEmpty || paymentController.planError.value.isNotEmpty
-                          ? const Center(child: ErrorScreen())
-                          : paymentController.profileController.profileData.value.result?.membershipStatus == true
-                              ? SingleChildScrollView(
-                                  child: Column(
+    return GestureDetector(
+      onTap: () => paymentController.referSuccessPopUp(),
+      child: Scaffold(
+        backgroundColor: clrWhite,
+        body: SmartRefresher(
+          controller: controller.refreshController,
+          header: CommonUi.refreshHeader(),
+          onRefresh: () async{
+            paymentController.getPlan();
+            await controller.homeController.homePageApi();
+            controller.refreshController.refreshCompleted();
+          },
+          child: SafeArea(
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+                  child: Obx(
+                    () => (controller.homeController.homePageLoading.value || paymentController.plansLoading.value) && (paymentController.plans.value.result == null || paymentController.plans.value.result!.isEmpty)
+                        ? Center(child: CommonUi.scaffoldLoading(color: clrYellow))
+                        : controller.homeController.homeError.value.isNotEmpty || paymentController.planError.value.isNotEmpty
+                            ? const Center(child: ErrorScreen())
+                            : paymentController.profileController.profileData.value.result?.membershipStatus == true
+                                ? SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CommonUi.appBar(),
+                                            const Text(
+                                              "My membership",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 19),
+                                            ),
+                                            SizedBox(
+                                              width: w * .05,
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: Get.height * 0.035,
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 20),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              // color: clrGreyLight,
+                                              border: Border.all(
+                                                  color: clrGrey.withOpacity(0.4))),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annual",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              paymentController.profileController.profileData.value.result?.trailDate != null ? Text(
+                                                paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'You are in a ${paymentController.matchPlan('monthly')} free trial.' : "You are in a ${paymentController.matchPlan('yearly')} free trial.",
+                                                style: TextStyle(
+                                                    color: clrGreyTextLight,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700),
+                                              ) : const SizedBox(),
+                                              Text(
+                                                paymentController.profileController.profileData.value.result?.planType == 'monthly' ? "Your plan will renew for the regular price every month until canceled." : "Your plan will renew for the regular price every year until canceled.",
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: clrGrey5D5C5E),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? SizedBox(
+                                          height: Get.height * 0.025,
+                                        ) : const SizedBox(),
+                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 20),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              // color: clrGreyLight,
+                                              border: Border.all(
+                                                  color: clrGrey.withOpacity(0.4))),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'You switch your plan from annually to monthly.' : 'You switch your plan from monthly to annually.',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18),
+                                              ),
+                                              const SizedBox(height: 5,),
+                                              Text(
+                                                paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: clrGrey5D5C5E),
+                                              ),
+                                            ],
+                                          ),
+                                        ) : const SizedBox(),
+                                        paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
+                                          height: Get.height * 0.035,
+                                        ) : const SizedBox(),
+                                        paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () {
+                                                Get.toNamed(Routes.switchPlanProUi);
+                                              },
+                                              backgroundClr: clrBlacke,
+                                              child: Text(
+                                                "Switch plan",
+                                                style: TextStyle(
+                                                    color: clrWhite,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ) : const SizedBox(),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId == null ?
+                                        paymentController.profileController.profileData.value.result?.cancelDate != null ?  IgnorePointer(
+                                          ignoring: true,
+                                          child: SizedBox(
+                                            width: double.maxFinite,
+                                            height: Res.h_btn,
+                                            child: CustomElevatedButton(
+                                                onTap: () {},
+                                                backgroundClr: clrWhite,
+                                                borderClr: clrBlacke,
+                                                child: Text(
+                                                  "Cancelled",
+                                                  style: TextStyle(
+                                                      color: clrBlacke,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700),
+                                                )),
+                                          ),
+                                        ) : Obx(() => Opacity(
+                                          opacity: paymentController.cancelSubLoading.value ? 0.5 : 1,
+                                          child: SizedBox(
+                                            width: double.maxFinite,
+                                            height: Res.h_btn,
+                                            child: CustomElevatedButton(
+                                                onTap: () async{
+                                                  DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
+                                                  String endDate = DateFormat('dd MMMM yyyy').format(date);
+                                                  paymentController.cancelSubPopUp(endDate: endDate, onTap: () async{
+                                                    Get.back();
+                                                    await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result!.subscriptionId.toString());
+                                                  },);
+                                                },
+                                                backgroundClr: clrWhite,
+                                                borderClr: clrBlacke,
+                                                child: paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                      color: clrBlacke,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700),
+                                                )),
+                                          ),
+                                        ),) : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null ? IgnorePointer(
+                                          ignoring: true,
+                                          child: SizedBox(
+                                            width: double.maxFinite,
+                                            height: Res.h_btn,
+                                            child: CustomElevatedButton(
+                                                onTap: () {},
+                                                backgroundClr: clrWhite,
+                                                borderClr: clrBlacke,
+                                                child: Text(
+                                                  "Cancelled",
+                                                  style: TextStyle(
+                                                      color: clrBlacke,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700),
+                                                )),
+                                          ),
+                                        ) : Obx(() => Opacity(
+                                          opacity: paymentController.cancelSubLoading.value ? 0.5 : 1,
+                                          child: SizedBox(
+                                            width: double.maxFinite,
+                                            height: Res.h_btn,
+                                            child: CustomElevatedButton(
+                                                onTap: () async{
+                                                  DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
+                                                  String endDate = DateFormat('dd MMMM yyyy').format(date);
+                                                  paymentController.cancelSubPopUp(endDate: endDate, onTap: () async{
+                                                    Get.back();
+                                                    await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result?.switchPlan?.subscriptionId);
+                                                  },);
+                                                },
+                                                backgroundClr: clrWhite,
+                                                borderClr: clrBlacke,
+                                                child: paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                      color: clrBlacke,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700),
+                                                )),
+                                          ),
+                                        ),),
+                                        const SizedBox(height: 15,),
+                                        Obx(() => SizedBox(
+                                          height: Res.h_btn,
+                                          width: double.maxFinite,
+                                          child: CustomElevatedButton(
+                                            onTap: paymentController.billingLoading.value ? (){} : () async {
+                                              paymentController.updateBilling();
+                                            },
+                                            backgroundClr: clrWhite,
+                                            borderClr: clrBlacke,
+                                            child: paymentController.billingLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+                                              "Update billing",
+                                              style: TextStyle(
+                                                  color: clrBlacke,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                          ),
+                                        ),)
+                                      ],
+                                    ),
+                                  )
+                                : Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       const SizedBox(
@@ -52,474 +279,289 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.start,
                                         children: [
                                           CommonUi.appBar(),
-                                          const Text(
-                                            "My membership",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 19),
-                                          ),
-                                          SizedBox(
-                                            width: w * .05,
-                                          )
                                         ],
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.035,
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 20),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            // color: clrGreyLight,
-                                            border: Border.all(
-                                                color: clrGrey.withOpacity(0.4))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annual",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 18),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            paymentController.profileController.profileData.value.result?.trailDate != null ? Text(
-                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'You are in a ${paymentController.matchPlan('monthly')} free trial.' : "You are in a ${paymentController.matchPlan('yearly')} free trial.",
-                                              style: TextStyle(
-                                                  color: clrGreyTextLight,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700),
-                                            ) : const SizedBox(),
-                                            Text(
-                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ? "Your plan will renew for the regular price every month until canceled." : "Your plan will renew for the regular price every year until canceled.",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: clrGrey5D5C5E),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? SizedBox(
                                         height: Get.height * 0.025,
-                                      ) : const SizedBox(),
-                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 20),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            // color: clrGreyLight,
-                                            border: Border.all(
-                                                color: clrGrey.withOpacity(0.4))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'You switch your plan from annually to monthly.' : 'You switch your plan from monthly to annually.',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 18),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            Text(
-                                              paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: clrGrey5D5C5E),
-                                            ),
-                                          ],
-                                        ),
-                                      ) : const SizedBox(),
-                                      paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
-                                        height: Get.height * 0.035,
-                                      ) : SizedBox(),
-                                      paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
-                                        width: double.maxFinite,
-                                        height: Res.h_btn,
-                                        child: CustomElevatedButton(
-                                            onTap: () {
-                                              Get.toNamed(Routes.switchPlanProUi);
-                                            },
-                                            backgroundClr: clrBlacke,
-                                            child: Text(
-                                              "Switch plan",
-                                              style: TextStyle(
-                                                  color: clrWhite,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700),
-                                            )),
-                                      ) : SizedBox(),
-                                      const SizedBox(
-                                        height: 15,
                                       ),
-                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId == null ?
-                                      paymentController.profileController.profileData.value.result?.cancelDate != null ?  IgnorePointer(
-                                        ignoring: true,
-                                        child: SizedBox(
-                                          width: double.maxFinite,
-                                          height: Res.h_btn,
-                                          child: CustomElevatedButton(
-                                              onTap: () {},
-                                              backgroundClr: clrWhite,
-                                              borderClr: clrBlacke,
-                                              child: Text(
-                                                "Cancelled",
+                                      const Text(
+                                        "Become a PlusOnes member",
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.02,
+                                      ),
+                                      Expanded(
+                                        child: ListView(
+                                          children: [
+                                            Text(
+                                                "Join our members-only platform to find like-minded activity partners in a high-quality and safe community.",
                                                 style: TextStyle(
-                                                    color: clrBlacke,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700),
-                                              )),
-                                        ),
-                                      ) : Obx(() => Opacity(
-                                        opacity: paymentController.cancelSubLoading.value ? 0.5 : 1,
-                                        child: SizedBox(
-                                          width: double.maxFinite,
-                                          height: Res.h_btn,
-                                          child: CustomElevatedButton(
-                                              onTap: () async{
-                                                DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
-                                                String endDate = DateFormat('dd MMMM yyyy').format(date);
-                                                paymentController.cancelSubPopUp(endDate: endDate, onTap: () async{
-                                                  Get.back();
-                                                  await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result!.subscriptionId.toString());
-                                                },);
-                                              },
-                                              backgroundClr: clrWhite,
-                                              borderClr: clrBlacke,
-                                              child: paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
-                                                "Cancel",
-                                                style: TextStyle(
-                                                    color: clrBlacke,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700),
-                                              )),
-                                        ),
-                                      ),) : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null ? IgnorePointer(
-                                        ignoring: true,
-                                        child: SizedBox(
-                                          width: double.maxFinite,
-                                          height: Res.h_btn,
-                                          child: CustomElevatedButton(
-                                              onTap: () {},
-                                              backgroundClr: clrWhite,
-                                              borderClr: clrBlacke,
-                                              child: Text(
-                                                "Cancelled",
-                                                style: TextStyle(
-                                                    color: clrBlacke,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700),
-                                              )),
-                                        ),
-                                      ) : Obx(() => Opacity(
-                                        opacity: paymentController.cancelSubLoading.value ? 0.5 : 1,
-                                        child: SizedBox(
-                                          width: double.maxFinite,
-                                          height: Res.h_btn,
-                                          child: CustomElevatedButton(
-                                              onTap: () async{
-                                                DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
-                                                String endDate = DateFormat('dd MMMM yyyy').format(date);
-                                                paymentController.cancelSubPopUp(endDate: endDate, onTap: () async{
-                                                  Get.back();
-                                                  await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result?.switchPlan?.subscriptionId);
-                                                },);
-                                              },
-                                              backgroundClr: clrWhite,
-                                              borderClr: clrBlacke,
-                                              child: paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
-                                                "Cancel",
-                                                style: TextStyle(
-                                                    color: clrBlacke,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700),
-                                              )),
-                                        ),
-                                      ),),
-                                      SizedBox(height: 15,),
-                                      Obx(() => SizedBox(
-                                        height: Res.h_btn,
-                                        width: double.maxFinite,
-                                        child: CustomElevatedButton(
-                                          onTap: paymentController.billingLoading.value ? (){} : () async {
-                                            paymentController.updateBilling();
-                                          },
-                                          backgroundClr: clrWhite,
-                                          borderClr: clrBlacke,
-                                          child: paymentController.billingLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
-                                            "Update billing",
-                                            style: TextStyle(
-                                                color: clrBlacke,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ),
-                                      ),)
-                                    ],
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        CommonUi.appBar(),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.025,
-                                    ),
-                                    const Text(
-                                      "Become a PlusOnes member",
-                                      style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    SizedBox(
-                                      height: Get.height * 0.02,
-                                    ),
-                                    Expanded(
-                                      child: ListView(
-                                        children: [
-                                          Text(
-                                              "Join our members-only platform to find like-minded activity partners in a high-quality and safe community.",
-                                              style: TextStyle(
-                                                  color: clrGrey5D5C5E)),
-                                          SizedBox(
-                                            height: Get.height * 0.03,
-                                          ),
-                                          ListView.separated(itemBuilder: (context, index) {
-                                            final data = paymentController.plans.value.result?[index];
-                                            return Obx(() => GestureDetector(
-                                              onTap: () {
-                                                paymentController.updatePlan(index,data.price!,data.trailDays!,data.billingPeriod.toString(),data.id.toString());
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 10, vertical: 18),
-                                                decoration: BoxDecoration(
-                                                    color: paymentController.choosePlan.value == index ? clrGreyLight : clrWhite,
-                                                    borderRadius:
-                                                    BorderRadius.circular(10),
-                                                    border: Border.all(
-                                                        color: clrGrey
-                                                            .withOpacity(0.3))),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Radio(
-                                                      value: data!.id! - 1,
-                                                      groupValue: paymentController.choosePlan.value,
-                                                      onChanged: (val) {
-                                                        paymentController.updatePlan(index,data.price!,data.trailDays!,data.billingPeriod.toString(),data.id.toString());
-                                                      },
-                                                      visualDensity:
-                                                      VisualDensity.compact,
-                                                      activeColor: clrYellow,
-                                                    ),
-                                                    Flexible(
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                          children: [
-                                                            Flexible(
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                                children: [
-                                                                  Text(
-                                                                    "${data.name}",
-                                                                    style: const TextStyle(
-                                                                        fontSize: 18,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                                  ),
-                                                                  RichText(
-                                                                      text: TextSpan(
-                                                                          children: [
-                                                                            paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
-                                                                              text:
-                                                                              "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
-                                                                              style: TextStyle(
-                                                                                  color:
-                                                                                  clrYellowText),
-                                                                            ) : TextSpan(),
-                                                                            TextSpan(
+                                                    color: clrGrey5D5C5E)),
+                                            SizedBox(
+                                              height: Get.height * 0.03,
+                                            ),
+                                            ListView.separated(itemBuilder: (context, index) {
+                                              final data = paymentController.plans.value.result?[index];
+                                              return Obx(() => GestureDetector(
+                                                onTap: () {
+                                                  paymentController.updatePlan(index,data.price!,data.trailDays!,data.billingPeriod.toString(),data.id.toString());
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 10, vertical: 18),
+                                                  decoration: BoxDecoration(
+                                                      color: paymentController.choosePlan.value == index ? clrGreyLight : clrWhite,
+                                                      borderRadius:
+                                                      BorderRadius.circular(10),
+                                                      border: Border.all(
+                                                          color: clrGrey
+                                                              .withOpacity(0.3))),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Radio(
+                                                        value: data!.id! - 1,
+                                                        groupValue: paymentController.choosePlan.value,
+                                                        onChanged: (val) {
+                                                          paymentController.updatePlan(index,data.price!,data.trailDays!,data.billingPeriod.toString(),data.id.toString());
+                                                        },
+                                                        visualDensity:
+                                                        VisualDensity.compact,
+                                                        activeColor: clrYellow,
+                                                      ),
+                                                      Flexible(
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            children: [
+                                                              Flexible(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      "${data.name}",
+                                                                      style: const TextStyle(
+                                                                          fontSize: 18,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                    ),
+                                                                    RichText(
+                                                                        text: TextSpan(
+                                                                            children: [
+                                                                              paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
                                                                                 text:
-                                                                                " ${paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? 'then' : ''} €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                                                "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
                                                                                 style: TextStyle(
                                                                                     color:
-                                                                                    clrGrey5D5C5E))
-                                                                          ])),
-                                                                ],
+                                                                                    clrYellowText),
+                                                                              ) : const TextSpan(),
+                                                                              TextSpan(
+                                                                                  text:
+                                                                                  " ${paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? 'then' : ''} €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                                                  style: TextStyle(
+                                                                                      color:
+                                                                                      clrGrey5D5C5E))
+                                                                            ])),
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ),
-                                                            data.billingPeriod == 'yearly' ? Container(
-                                                              padding: const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal: 8,
-                                                                  vertical: 3),
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(20),
-                                                                  color: clrYellow),
-                                                              child: const Text(
-                                                                "Best value",
-                                                                style: TextStyle(
-                                                                    fontSize: 10),
-                                                              ),
-                                                            ) : const SizedBox()
-                                                          ],
-                                                        ))
-                                                  ],
-                                                ),
-                                              ),
-                                            ),);
-                                          },shrinkWrap: true, separatorBuilder: (context, index) => const SizedBox(height: 20,), itemCount: paymentController.plans.value.result!.length),
-
-                                          SizedBox(
-                                            height: Get.height * 0.03,
-                                          ),
-                                          RichText(
-                                              textAlign: TextAlign.center,
-                                              text: TextSpan(children: [
-                                                TextSpan(
-                                                  text:
-                                                      "By starting your membership, you agree to our ",
-                                                  style: TextStyle(
-                                                    color: clrGrey5D5C5E,
-                                                    height: 1.5,
+                                                              data.billingPeriod == 'yearly' ? Container(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal: 8,
+                                                                    vertical: 3),
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(20),
+                                                                    color: clrYellow),
+                                                                child: const Text(
+                                                                  "Best value",
+                                                                  style: TextStyle(
+                                                                      fontSize: 10),
+                                                                ),
+                                                              ) : const SizedBox()
+                                                            ],
+                                                          ))
+                                                    ],
                                                   ),
                                                 ),
-                                                TextSpan(
-                                                    text: " Terms of Service",
-                                                    style: TextStyle(
-                                                        color: clrYellowText,
-                                                        decoration: TextDecoration
-                                                            .underline,
-                                                        height: 1.5)),
-                                                TextSpan(
-                                                  text: " and",
-                                                  style: TextStyle(
-                                                      color: clrGrey5D5C5E,
-                                                      height: 1.5),
+                                              ),);
+                                            },shrinkWrap: true, separatorBuilder: (context, index) => const SizedBox(height: 20,), itemCount: paymentController.plans.value.result!.length),
+
+                                            SizedBox(
+                                              height: Get.height * 0.03,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Flexible(
+                                                  child: Opacity(
+                                                    opacity: paymentController.profileController.profileData.value.result?.referalApplied == null ? 1 : 0.5,
+                                                    child: CustoTextFormField(
+                                                      hintText: 'Enter referral code',
+                                                      controll: paymentController.referalController,
+                                                      readonly: paymentController.profileController.profileData.value.result?.referalApplied == null ? false : true,
+                                                    ),
+                                                  ),
                                                 ),
-                                                TextSpan(
-                                                    text: " Privacy Policy.",
+                                                paymentController.profileController.profileData.value.result?.referalApplied == null ? SizedBox(width: Get.width*0.04,) :SizedBox(),
+                                                paymentController.profileController.profileData.value.result?.referalApplied == null ? Obx(() => Opacity(
+                                                  opacity: paymentController.referalLoading.value ? 0.5 : 1,
+                                                  child: SizedBox(
+                                                    height: Get.height*.06,
+                                                    child: CustomElevatedButton(onTap: () {
+                                                      paymentController.applyCode();
+                                                    }, backgroundClr: clrBlacke,paddingHz: 20,paddingVr: 10, child: paymentController.referalLoading.value ? CommonUi.buttonLoading() : Text('Apply',style: TextStyle(color: clrWhite,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w700),)),
+                                                  ),
+                                                ),) : SizedBox(),
+                                                paymentController.profileController.profileData.value.result?.referalApplied == null ? const SizedBox(width: 10,) : SizedBox(),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.03,
+                                            ),
+                                            RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text:
+                                                        "By starting your membership, you agree to our ",
                                                     style: TextStyle(
-                                                        color: clrYellowText,
-                                                        decoration: TextDecoration
-                                                            .underline,
-                                                        height: 1.5)),
-                                                paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
-                                                  text:
-                                                      " After the free trial, your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
-                                                  style: TextStyle(
                                                       color: clrGrey5D5C5E,
-                                                      height: 1.5),
-                                                ) : TextSpan(
-                                                  text:
-                                                  "Your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
-                                                  style: TextStyle(
-                                                      color: clrGrey5D5C5E,
-                                                      height: 1.5),
-                                                )
-                                              ])),
-                                        ],
+                                                      height: 1.5,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                      recognizer: TapGestureRecognizer()..onTap = () async{
+                                                        await launchUrl(Uri.parse('https://plusonesapp.com/terms-and-conditions'));
+                                                      },
+                                                      text: " Terms of Service",
+                                                      style: TextStyle(
+                                                          color: clrYellowText,
+                                                          decoration: TextDecoration
+                                                              .underline,
+                                                          height: 1.5)),
+                                                  TextSpan(
+                                                    text: " and",
+                                                    style: TextStyle(
+                                                        color: clrGrey5D5C5E,
+                                                        height: 1.5),
+                                                  ),
+                                                  TextSpan(
+                                                      text: " Privacy Policy.",
+                                                      recognizer: TapGestureRecognizer()..onTap = () async{
+                                                        await launchUrl(Uri.parse('https://plusonesapp.com/privacy-policy'));
+                                                      },
+                                                      style: TextStyle(
+                                                          color: clrYellowText,
+                                                          decoration: TextDecoration
+                                                              .underline,
+                                                          height: 1.5)),
+                                                  paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
+                                                    text:
+                                                        " After the free trial, your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
+                                                    style: TextStyle(
+                                                        color: clrGrey5D5C5E,
+                                                        height: 1.5),
+                                                  ) : TextSpan(
+                                                    text:
+                                                    "Your membership will auto-renew annually at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",
+                                                    style: TextStyle(
+                                                        color: clrGrey5D5C5E,
+                                                        height: 1.5),
+                                                  )
+                                                ])),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Obx(() => Opacity(
-                                      opacity: paymentController.loading.value ? 0.5 : 1,
-                                      // opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
-                                      child: SizedBox(
-                                        height: Res.h_btn,
-                                        width: double.maxFinite,
-                                        child: CustomElevatedButton(
-                                            onTap: paymentController.loading.value ? (){} : () async{
-                                              if(paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false) {
-                                                if (paymentController.selectedPlan.value == 'yearly') {
-                                                  await paymentController.createNewCustomer('${paymentController.profileController
-                                                      .profileData.value
-                                                      .result
-                                                      ?.firstName} ${paymentController.profileController
-                                                      .profileData.value
-                                                      .result?.lastName}', '${paymentController.profileController
-                                                      .profileData.value
-                                                      .result?.email}', 'yearly', paymentController.price.value);
-                                                  await controller.homeController.homePageApi();
-                                                } else if (paymentController.selectedPlan.value == 'monthly') {
-                                                  await paymentController.createNewCustomer('${paymentController.profileController
-                                                      .profileData.value
-                                                      .result
-                                                      ?.firstName} ${paymentController.profileController
-                                                      .profileData.value
-                                                      .result?.lastName}', '${paymentController.profileController
-                                                      .profileData.value
-                                                      .result?.email}', 'monthly', paymentController.price.value);
-                                                  await controller.homeController
-                                                      .homePageApi();
-                                                } else {
-                                                  showTostMsg(
-                                                      'Please select any plan.');
+                                      Obx(() => Opacity(
+                                        opacity: paymentController.loading.value ? 0.5 : 1,
+                                        // opacity: controller.buttonLoadingMonthly.value || controller.buttonLoadingYearly.value || controller.apiLoading.value ? 0.5 : 1,
+                                        child: SizedBox(
+                                          height: Res.h_btn,
+                                          width: double.maxFinite,
+                                          child: CustomElevatedButton(
+                                              onTap: paymentController.loading.value ? (){} : () async{
+                                                if(paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false) {
+                                                  if (paymentController.selectedPlan.value == 'yearly') {
+                                                    await paymentController.createNewCustomer('${paymentController.profileController
+                                                        .profileData.value
+                                                        .result
+                                                        ?.firstName} ${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.lastName}', '${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.email}', 'yearly', paymentController.price.value);
+                                                    await controller.homeController.homePageApi();
+                                                  } else if (paymentController.selectedPlan.value == 'monthly') {
+                                                    await paymentController.createNewCustomer('${paymentController.profileController
+                                                        .profileData.value
+                                                        .result
+                                                        ?.firstName} ${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.lastName}', '${paymentController.profileController
+                                                        .profileData.value
+                                                        .result?.email}', 'monthly', paymentController.price.value);
+                                                    await controller.homeController
+                                                        .homePageApi();
+                                                  } else {
+                                                    showTostMsg(
+                                                        'Please select any plan.');
+                                                  }
+                                                }else{
+                                                  if (paymentController.selectedPlan.value ==
+                                                      'yearly') {
+                                                    paymentController.planType.value = 'yearly';
+                                                    await paymentController.createSub("${paymentController.profileController.profileData.value.result?.cardDetail?.customerId}", paymentController.price.value, '12 months', 'Yearly Membership');
+                                                    await controller.homeController
+                                                        .homePageApi();
+                                                  } else
+                                                  if (paymentController.selectedPlan.value ==
+                                                      'monthly') {
+                                                    paymentController.planType.value = 'monthly';
+                                                   await paymentController.createSub('${paymentController.profileController.profileData.value.result?.cardDetail?.customerId}', paymentController.price.value, '1 month', 'Monthly Membership');
+                                                    await controller.homeController
+                                                        .homePageApi();
+                                                  } else {
+                                                    showTostMsg(
+                                                        'Please select any plan.');
+                                                  }
                                                 }
-                                              }else{
-                                                if (paymentController.selectedPlan.value ==
-                                                    'yearly') {
-                                                  paymentController.planType.value = 'yearly';
-                                                  await paymentController.createSub("${paymentController.profileController.profileData.value.result?.cardDetail?.customerId}", paymentController.price.value, '12 months', 'Yearly Membership');
-                                                  await controller.homeController
-                                                      .homePageApi();
-                                                } else
-                                                if (paymentController.selectedPlan.value ==
-                                                    'monthly') {
-                                                  paymentController.planType.value = 'monthly';
-                                                 await paymentController.createSub('${paymentController.profileController.profileData.value.result?.cardDetail?.customerId}', paymentController.price.value, '1 month', 'Monthly Membership');
-                                                  await controller.homeController
-                                                      .homePageApi();
-                                                } else {
-                                                  showTostMsg(
-                                                      'Please select any plan.');
-                                                }
-                                              }
-                                            },
-                                            backgroundClr: clrBlacke,
-                                            child: paymentController.loading.value ? CommonUi.buttonLoading() : (paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Text(
-                                              paymentController.choosePlan.value != (-1) ? "Start ${paymentController.getWeek(int.parse(paymentController.freeDays.value))} free" : 'Select plan',
-                                              style: TextStyle(
+                                              },
+                                              backgroundClr: clrBlacke,
+                                              child: paymentController.loading.value ? CommonUi.buttonLoading() : (paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Text(
+                                                paymentController.choosePlan.value != (-1) ? "Start ${paymentController.getWeek(int.parse(paymentController.freeDays.value))} free" : 'Start membership',
+                                                style: TextStyle(
+                                                    color: clrWhite,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              ) : Text('Start membership',style: TextStyle(
                                                   color: clrWhite,
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.w700),
-                                            ) : Text('Buy',style: TextStyle(
-                                                color: clrWhite,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700)))),),
-                                    ),),
-                                    SizedBox(
-                                      height: Get.height * 0.01,
-                                    ),
-                                  ],
-                                ),
-                ))),
+                                                  fontWeight: FontWeight.w700)))),),
+                                      ),),
+                                      SizedBox(
+                                        height: Get.height * 0.01,
+                                      ),
+                                    ],
+                                  ),
+                  ))),
+        ),
       ),
     );
   }

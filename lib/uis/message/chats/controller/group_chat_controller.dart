@@ -216,6 +216,7 @@ class GroupChatController extends GetxController{
         senderId: int.parse(userID),
         loading: true,
         id: '0',
+        proImg: sc.profileController.profileData.value.result?.profile?.profilePhoto ?? ''
       );
       print('ms == ${dataMsg}');
       allMessage.value.message?[0].data?.insert(0, dataMsg);
@@ -350,6 +351,7 @@ class GroupChatController extends GetxController{
           senderId: int.parse(userID),
           loading: true,
           id: '0',
+            proImg: sc.profileController.profileData.value.result?.profile?.profilePhoto ?? '',
         );
         // allMessage.value.data?.insert(0, dataMsg);
         allMessage.value.message?[0].data?.insert(0, dataMsg);

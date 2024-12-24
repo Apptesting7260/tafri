@@ -48,7 +48,7 @@ class ViewNotiUi extends GetWidget<ViewNotifiController>{
                         children: [
                           GestureDetector(
                             onTap: (){
-                              Get.toNamed(Routes.hostProfileUi,arguments: controller.userID.value);
+                              Get.toNamed(Routes.userProfileui,arguments: controller.userID.value);
                             },
                             child: Container(
                               clipBehavior: Clip.hardEdge,

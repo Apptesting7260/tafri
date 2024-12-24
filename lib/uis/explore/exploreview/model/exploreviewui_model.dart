@@ -9,6 +9,8 @@ class ActDataModal {
   bool? cardSave;
   ActivitySettings? activitySettings;
   PaymentSettings? paymentSettings;
+  bool? reviewAdded;
+  bool? isPresent;
 
   ActDataModal({
     this.status,
@@ -18,7 +20,9 @@ class ActDataModal {
     this.markAttendance,
     this.cardSave,
     this.activitySettings,
-    this.paymentSettings
+    this.paymentSettings,
+    this.reviewAdded,
+    this.isPresent
   });
 
   factory ActDataModal.fromJson(Map<String, dynamic> json) => ActDataModal(
@@ -28,6 +32,8 @@ class ActDataModal {
     requests: json["requests"] == null ? [] : List<Request>.from(json["requests"]!.map((x) => Request.fromJson(x))),
     markAttendance: json["mark_attendance"],
     cardSave: json['isAuthCardActive'],
+    reviewAdded: json['activity_review'],
+    isPresent: json['attendee_request_attendance'],
     activitySettings: json["activity_settings"] == null ? null : ActivitySettings.fromJson(json["activity_settings"]),
     paymentSettings: json['payment_settings'] == null ? null : PaymentSettings.fromJson(json['payment_settings'])
   );

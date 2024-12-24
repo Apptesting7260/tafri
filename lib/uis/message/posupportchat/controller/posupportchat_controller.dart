@@ -280,6 +280,7 @@ class PoSupportChatController extends GetxController{
           messageStatus: '',
           senderId: int.parse(userId),
           id: '0',
+          proImg: sc.profileController.profileData.value.result?.profile?.profilePhoto ?? ''
         );
         supportMsg.value.message?[0].data?.insert(0, dataMsg);
         supportMsg.refresh();
@@ -334,6 +335,7 @@ class PoSupportChatController extends GetxController{
         senderId: int.parse(userId),
         loading: true,
         id: '0',
+          proImg: sc.profileController.profileData.value.result?.profile?.profilePhoto ?? ''
       );
       msgController.clear();
       supportMsg.value.message?[0].data?.insert(0, dataMsg);

@@ -524,11 +524,13 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                                 color: darkYellow.withOpacity(.15),
                                                                                                                 borderRadius: BorderRadius.circular(50)
                                                                                                             ),
-                                                                                                            child: Center(
-                                                                                                                child: data.activities?[ind].requestType?.toString() == 'waitlist' ? Text('Waitlist',style: TextStyle(
-                                                                                                                  fontSize: 10,
-                                                                                                                  color: darkYellow,
-                                                                                                                ),) : Text(
+                                                                                                            child:
+                                                                                                            Center(
+                                                                                                                // child: data.activities?[ind].requestType?.toString() == 'waitlist' ? Text('Waitlist',style: TextStyle(
+                                                                                                                //   fontSize: 10,
+                                                                                                                //   color: darkYellow,
+                                                                                                                // ),) :
+                                                                                                                child: Text(
                                                                                                                   data.activities?[ind].requestStatus?.toString() == 'pending' ? '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}' : data.activities?[ind].requestStatus?.toString() == 'leave' ? '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}d' : '${data.activities?[ind].requestStatus?.substring(0, 1).toUpperCase()}${data.activities?[ind].requestStatus?.substring(1) ?? ''}ed',
                                                                                                                   style: TextStyle(
                                                                                                                     fontSize: 10,
@@ -991,6 +993,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                   .result
                                                                   ?.previousActivities
                                                                   ?.length,
+                                                              reverse: true,
                                                               physics:
                                                                   const NeverScrollableScrollPhysics(),
                                                               shrinkWrap: true,
@@ -1049,6 +1052,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                               physics: const NeverScrollableScrollPhysics(),
                                                                               itemCount: data!.activities!.length,
                                                                               shrinkWrap: true,
+                                                                              reverse: true,
                                                                               itemBuilder: (context, ind) {
                                                                                 var actdatas = data.activities?[ind];
                                                                                 return Padding(

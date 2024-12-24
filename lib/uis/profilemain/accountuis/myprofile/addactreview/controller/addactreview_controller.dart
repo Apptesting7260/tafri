@@ -7,6 +7,7 @@ import '../../../../../../networking/apiservices.dart';
 import '../../../../../../networking/endpoints.dart';
 import '../../../../../../utils/local_storage.dart';
 import '../../activity/previousactivity/controller/previousacti_controller.dart';
+import 'package:http/http.dart' as http;
 
 class AddactreviewController extends GetxController{
   @override
@@ -20,17 +21,55 @@ class AddactreviewController extends GetxController{
 
   TextEditingController textController = TextEditingController();
   var rating = 0.0.obs;
+  // void capital() {
+  //   final text = textController.text;
+  //   if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+  //     textController.value = textController.value.copyWith(
+  //       text: text[0].toUpperCase() + text.substring(1),
+  //       selection: TextSelection.fromPosition(
+  //         TextPosition(offset: textController.text.length),
+  //       ),
+  //     );
+  //   }
+  // }
+
   void capital() {
     final text = textController.text;
-    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+    if (text.isNotEmpty) {
+      final cursorPosition = textController.selection.base.offset;
+      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
       textController.value = textController.value.copyWith(
-        text: text[0].toUpperCase() + text.substring(1),
+        text: updatedText,
         selection: TextSelection.fromPosition(
-          TextPosition(offset: textController.text.length),
+          TextPosition(offset: updatedText.length),
         ),
       );
     }
   }
+
+  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+    final buffer = StringBuffer();
+    bool capitalizeNext = true;
+
+    for (int i = 0; i < text.length; i++) {
+      final char = text[i];
+      if (capitalizeNext && char != ' ') {
+        buffer.write(char.toUpperCase());
+        capitalizeNext = false;
+      } else {
+        buffer.write(char);
+      }
+
+      if (char == '.' || char == '!' || char == '?') {
+        capitalizeNext = true;
+      }
+    }
+
+    return buffer.toString();
+  }
+
+
+
 
   final api = ApiServices();
   var addreviewLoading = false.obs;
@@ -41,10 +80,10 @@ class AddactreviewController extends GetxController{
   Future<void> addreviewapi(String? id, double ratingg) async{
 
 
-    Map body = {
+    var body = {
       'activity_id': id,
       'user_id': LocalStorage.getUid(),
-      'rating': ratingg,
+      'rating': ratingg.toString(),
       'review': textController.text.toString(),
     };
 
@@ -57,25 +96,30 @@ class AddactreviewController extends GetxController{
     addreviewLoading.value = true;
 
     try{
-      final response = await api.post(EndPoints.addactreview, body, headers: header);
+      final response = await http.post(Uri.parse(EndPoints.addactreview), body: body, headers: header);
       if(response.statusCode == 200){
 
         addError.value = '';
         print('home data == ${response.body}');
         // addData.value = addDataModal.fromJson(response.body);
-        var responsedata = response.body;
+        var responsedata = jsonDecode(response.body);
         if(responsedata['status'] == true) {
           // alertRequestNotAccepted();
           showTostMsg('Your review has been added');
           textController.clear();
+          Get.back();
           addreviewLoading.value = false;
+          preController.actData.value.reviewAdded = true;
+          preController.actData.refresh();
           // await preController.actapi(id);
           await preController.showapi(id);
           // Get.back();
 
         }
       }else{
+        var responsedata = jsonDecode(response.body);
         print('error == ${response.body}');
+        showTostMsg(responsedata['message']);
         addError.value = 'ERROR';
       }
     }catch(e){

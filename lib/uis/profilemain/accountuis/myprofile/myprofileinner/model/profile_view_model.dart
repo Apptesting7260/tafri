@@ -56,6 +56,7 @@ class Result {
   String? startDate;
   String? endDate;
   String? trailDate;
+  String? referalApplied;
   String? cancelStatus;
   bool? membershipStatus;
   SwitchPlan? switchPlan;
@@ -90,6 +91,7 @@ class Result {
     this.createdAt,
     this.updatedAt,
     this.age,
+    this.referalApplied,
     this.attendanceRate,
     this.activitiesJoined,
     this.activitiesHosted,
@@ -118,6 +120,7 @@ class Result {
     countryCode: json["country_code"],
     mobile: json["mobile"],
     gender: json["gender"],
+    referalApplied: json['used_by_referral_code'],
     location: json["location"],
     dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
     googleId: json["google_id"],

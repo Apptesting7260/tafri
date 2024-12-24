@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
@@ -21,6 +22,40 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
   RefreshController refreshController = RefreshController(initialRefresh: false);
 
 
+  /// for map
+  GoogleMapController? mapController;
+  RxSet<Marker> markers = <Marker>{}.obs;
+  Future<void> addMarkerWithImage() async {
+    if (actData.value
+        .activity?.banners?[0]
+        .toString() != null && actData.value.activity!.banners![0].isNotEmpty) {
+      markers.clear();
+      markers.add(
+        Marker(
+          markerId: MarkerId('activity_marker'),
+          position: LatLng(double.parse(actData.value
+              .activity!.latitude!), double.parse(actData.value
+              .activity!
+              .longitude!)),
+          infoWindow: InfoWindow(
+            title: actData.value
+                .activity!.name
+                .toString(), // Title from arguments
+          ),
+          icon: BitmapDescriptor.defaultMarker, // Set custom icon
+        ),
+      );
+      print('Marker added at ${actData.value
+          .activity!.latitude}, ${actData.value
+          .activity!
+          .longitude} with icon: ${actData.value
+          .activity!
+          .banners?[0]
+          .toString()}');
+      update();
+    }
+  }
+  /// for map
 
   @override
   void onInit() {

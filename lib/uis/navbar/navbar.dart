@@ -29,6 +29,7 @@ class Navbar extends GetWidget {
   ExploreListController exploreListController=Get.put(ExploreListController());
   // SocketController chatController = Get.find<SocketController>();
   SocketController chatController = Get.put(SocketController());
+  MyactiController activityController =  Get.put(MyactiController());
 
 
   final iconList = <IconData>[
@@ -159,13 +160,14 @@ class Navbar extends GetWidget {
                 onTap: (index) {
                   index == 1
                       ? Get.put(MessagelistController())
-                      : index == 2
-                      ? Get.put(MyactiController())
                       : Get.put(ProfilemainController());
                   controller.changeNavIndex(index);
                   if(index == 1){
                     chatController.searchController.clear();
                     chatController.fetchGroup();
+                  }else if(index == 2){
+                    activityController.attendingActivity();
+                    activityController.hostingActivity();
                   }
                 }
             );

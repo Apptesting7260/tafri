@@ -86,16 +86,52 @@ class UserProfileController extends GetxController{
   }
 
   TextEditingController reportDescriptionController = TextEditingController();
+  // void firstNameCapital(TextEditingController controller) {
+  //   final text = controller.text;
+  //   if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+  //     controller.value = controller.value.copyWith(
+  //       text: text[0].toUpperCase() + text.substring(1),
+  //       selection: TextSelection.fromPosition(
+  //         TextPosition(offset: controller.text.length),
+  //       ),
+  //     );
+  //   }
+  // }
+
+
   void firstNameCapital(TextEditingController controller) {
     final text = controller.text;
-    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+    if (text.isNotEmpty) {
+      final cursorPosition = controller.selection.base.offset;
+      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
       controller.value = controller.value.copyWith(
-        text: text[0].toUpperCase() + text.substring(1),
+        text: updatedText,
         selection: TextSelection.fromPosition(
-          TextPosition(offset: controller.text.length),
+          TextPosition(offset: updatedText.length),
         ),
       );
     }
+  }
+
+  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+    final buffer = StringBuffer();
+    bool capitalizeNext = true;
+
+    for (int i = 0; i < text.length; i++) {
+      final char = text[i];
+      if (capitalizeNext && char != ' ') {
+        buffer.write(char.toUpperCase());
+        capitalizeNext = false;
+      } else {
+        buffer.write(char);
+      }
+
+      if (char == '.' || char == '!' || char == '?') {
+        capitalizeNext = true;
+      }
+    }
+
+    return buffer.toString();
   }
 
   var reportuserLoading = false.obs;

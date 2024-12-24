@@ -392,7 +392,15 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               onTap: () {
                                                 if (controller.actData.value
                                                         .activity!.latitude ==
-                                                    null) {
+                                                    null || !controller
+                                                    .actData
+                                                    .value
+                                                    .activity
+                                                !.longitude!.contains('.') || !controller
+                                                    .actData
+                                                    .value
+                                                    .activity
+                                                !.latitude!.contains('.')) {
                                                   showTostMsg(
                                                       'No location found');
                                                 } else {
@@ -636,7 +644,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               }),
                                         ),
                                   SizedBox(
-                                    height: Get.height * 0.03,
+                                    height: Get.height * 0.02,
                                   ),
                               Obx(() => controller.mapLoading.value
                                       ? Expanded(
@@ -652,7 +660,15 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                       .value
                                       .activity
                                       ?.longitude !=
-                                      null
+                                      null && controller
+                                  .actData
+                                  .value
+                                  .activity
+                              !.longitude!.contains('.') && controller
+                                  .actData
+                                  .value
+                                  .activity
+                              !.latitude!.contains('.')
                                   ? Container(
                                     height: 200,
                                     child:  GoogleMap(

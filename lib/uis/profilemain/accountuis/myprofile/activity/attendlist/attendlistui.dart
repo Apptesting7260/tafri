@@ -118,9 +118,38 @@ class AttendListUi extends GetView<AttendlistController>{
                                   ],
                                 ),
                               ),
-                              controller.attData.value.result?.attendanceList?[index].userAttendance == 'Joined'
-                                  ? Image.asset('assets/icons/joined.png',scale: 4,)
-                                  : Image.asset('assets/icons/notjoined.png',scale: 4)
+                              controller.attData.value.result?.attendanceList?[index].userAttendance == 'Joined' ? Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),
+                                  color: clrYellow
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
+                                child: Row(
+                                  children: [
+                                    Image.asset('assets/images/tick_image.png',scale:3,),
+                                    SizedBox(width: 5,),
+                                    Text('Joined',style: TextStyle(
+                                      color: clrBlacke
+                                    ),),
+                                  ],
+                                ),
+                              ) : Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),
+                                    color: clrGreyLight
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
+                                child: Row(
+                                  children: [
+                                    Image.asset('assets/images/cross_image.png',scale:3,),
+                                    SizedBox(width: 5,),
+                                    Text('Did not join',style: TextStyle(
+                                        color: clrBlacke,
+                                      fontWeight: FontWeight.w500
+                                    ),),
+                                  ],
+                                ),
+                              ),
+                                  // ? Image.asset('assets/icons/joined.png',scale: 4,)
+                                  // : Image.asset('assets/icons/notjoined.png',scale: 4)
                               // index >=0? Container(
                               //   padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
                               //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),

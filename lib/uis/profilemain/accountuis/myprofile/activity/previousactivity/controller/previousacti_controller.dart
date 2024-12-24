@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../../../networking/apiservices.dart';
 import '../../../../../../../networking/endpoints.dart';
 import '../../../../../../../routes/routes.dart';
@@ -23,6 +25,44 @@ class PreviousActiController extends GetxController{
   late bool isHost;
   late String? id;
 
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+
+
+  /// for map
+  GoogleMapController? mapController;
+  RxSet<Marker> markers = <Marker>{}.obs;
+  Future<void> addMarkerWithImage() async {
+    if (actData.value
+        .activity?.banners?[0]
+        .toString() != null && actData.value.activity!.banners![0].isNotEmpty) {
+      markers.clear();
+      markers.add(
+        Marker(
+          markerId: MarkerId('activity_marker'),
+          position: LatLng(double.parse(actData.value
+              .activity!.latitude!), double.parse(actData.value
+              .activity!
+              .longitude!)),
+          infoWindow: InfoWindow(
+            title: actData.value
+                .activity!.name
+                .toString(), // Title from arguments
+          ),
+          icon: BitmapDescriptor.defaultMarker, // Set custom icon
+        ),
+      );
+      print('Marker added at ${actData.value
+          .activity!.latitude}, ${actData.value
+          .activity!
+          .longitude} with icon: ${actData.value
+          .activity!
+          .banners?[0]
+          .toString()}');
+      update();
+    }
+  }
+  /// for map
+
   @override
   void onInit() {
 
@@ -41,6 +81,11 @@ class PreviousActiController extends GetxController{
     waitlistMsgController.addListener(() {
       firstNameCapital(waitlistMsgController);
     },);
+  }
+
+  Future<void> refreshData() async{
+    await Future.wait([actapi(id), showapi(id), attlistapi(id)]);
+    refreshController.refreshCompleted();
   }
 
 
@@ -107,17 +152,53 @@ class PreviousActiController extends GetxController{
   }
 
   TextEditingController reportDescriptionController = TextEditingController();
+
   void firstNameCapital(TextEditingController controller) {
     final text = controller.text;
-    if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+    if (text.isNotEmpty) {
+      final cursorPosition = controller.selection.base.offset;
+      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
       controller.value = controller.value.copyWith(
-        text: text[0].toUpperCase() + text.substring(1),
+        text: updatedText,
         selection: TextSelection.fromPosition(
-          TextPosition(offset: controller.text.length),
+          TextPosition(offset: updatedText.length),
         ),
       );
     }
   }
+
+  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+    final buffer = StringBuffer();
+    bool capitalizeNext = true;
+
+    for (int i = 0; i < text.length; i++) {
+      final char = text[i];
+      if (capitalizeNext && char != ' ') {
+        buffer.write(char.toUpperCase());
+        capitalizeNext = false;
+      } else {
+        buffer.write(char);
+      }
+
+      if (char == '.' || char == '!' || char == '?') {
+        capitalizeNext = true;
+      }
+    }
+
+    return buffer.toString();
+  }
+
+  // void firstNameCapital(TextEditingController controller) {
+  //   final text = controller.text;
+  //   if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
+  //     controller.value = controller.value.copyWith(
+  //       text: text[0].toUpperCase() + text.substring(1),
+  //       selection: TextSelection.fromPosition(
+  //         TextPosition(offset: controller.text.length),
+  //       ),
+  //     );
+  //   }
+  // }
 
   var reportactivityLoading = false.obs;
 
@@ -397,6 +478,8 @@ class PreviousActiController extends GetxController{
         print('review data == ${response.body}');
         showreviewData.value = ShowReviewModel.fromJson(response.body);
 
+      }else if(response.statusCode == 404){
+        showreviewData.value = ShowReviewModel.fromJson(response.body);
       }else{
         print('review error #== ${response.body}');
         showError.value = 'ERROR';

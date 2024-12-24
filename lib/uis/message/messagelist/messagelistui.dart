@@ -375,7 +375,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 .notData
                                                 .value
                                                 .notifications?[
-                                            index].userId.toString(),
+                                            index].senderId.toString(),
                                             'userimg': controller.notData.value.notifications?[index].profile
                                                       });
                                         },

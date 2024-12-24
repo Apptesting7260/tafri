@@ -28,10 +28,23 @@ class PaymentController extends GetxController{
 
     profileController.profileData.value.result?.planType == 'monthly' ? updateSelectedValue(0) : updateSelectedValue(1);
     purchasedPlan.value = profileController.profileData.value.result?.planType ?? '';
-
+    referalController.text = profileController.profileData.value.result?.referalApplied ?? '';
+    referalController.addListener(() {
+      final text = referalController.text;
+      final cleanedText = _removeExtraSpaces(text).toUpperCase();
+      if (text != cleanedText) {
+        referalController.value = TextEditingValue(
+          text: cleanedText,
+          selection: TextSelection.collapsed(offset: cleanedText.length),
+        );
+      }
+    });
     super.onInit();
   }
 
+  String _removeExtraSpaces(String input) {
+    return input.replaceAll(RegExp(r'\s+'), ' ').trim();
+  }
 
   final ProfilemainController profileController =
   Get.find<ProfilemainController>();
@@ -1301,70 +1314,36 @@ class PaymentController extends GetxController{
 
   var referalController = TextEditingController();
   var referalLoading = false.obs;
-  referalPopUp(){
+
+
+  referSuccessPopUp(){
     Get.dialog(AlertDialog(
       scrollable: true,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18)
       ),
       insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
-      contentPadding: const EdgeInsets.symmetric(vertical: 30),
+      contentPadding: const EdgeInsets.symmetric(vertical: 20),
       content: SizedBox(
         width: double.maxFinite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Center(
-                child:  Text(
-                  "Apply referral code",
-                  style: TextStyle(fontSize: 19
-                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: GestureDetector(onTap: () {
+                Get.back();
+              },child: const Icon(Icons.close)),
             ),
-            SizedBox(
-              height:Get.height*.014,
-            ),
+            Center(child: Image.asset("assets/icons/congratesicon.png",height: 65,),),
+            const SizedBox(height: 15,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Center(child: Text("Do you have a referral code?",style: TextStyle(color: clrGreyTextLight,),textAlign: TextAlign.center,)),
+              child: Center(child: Text("Your referral code has been successfully applied",style: TextStyle(color: clrBlacke,fontSize: 15),textAlign: TextAlign.center,)),
             ),
             const SizedBox(
               height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: CustoTextFormField(
-                hintText: 'Enter referral code',
-                controll: referalController,
-              ),
-            ),
-            SizedBox(height: 20,),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: SizedBox(height: Res.h_btn,child: CustomElevatedButton(
-                        onTap: () {
-                          Get.back();
-                    }, backgroundClr: clrWhite,borderClr: clrBlacke, child: Text("Cancel",style: TextStyle(color: clrBlacke,fontSize: 16,fontWeight: FontWeight.w700),))),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    child: SizedBox(height: Res.h_btn,child: CustomElevatedButton(onTap: () {
-                      applyCode();
-                    }, backgroundClr: clrBlacke, child: Text("Apply",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: Get.height*.014,
             ),
           ],
         ),
@@ -1379,11 +1358,12 @@ class PaymentController extends GetxController{
       showTostMsg("Please enter referal code.");
       return;
     }
-
+    referalLoading.value = true;
     var body = {
       'referral_code': referalController.value.text.trim()
     };
 
+    print('body == ${body}');
     var header = {
       'Authorization': 'Bearer ${LocalStorage.getToken()}'
     };
@@ -1393,7 +1373,9 @@ class PaymentController extends GetxController{
       print('referal response == ${response.statusCode}    ${response.body}');
       print('data == ${response.body['message']}');
       if(response.statusCode == 200){
-
+        profileController.profileData.value.result?.referalApplied = referalController.value.text.trim();
+        profileController.profileData.refresh();
+        referSuccessPopUp();
       }else{
         showTostMsg('${response.body['message']}');
       }
@@ -1401,6 +1383,7 @@ class PaymentController extends GetxController{
       print('referal code error == ${e.toString()}');
       showTostMsg('Something went wrong. Please try again.');
     }
+    referalLoading.value = false;
 
   }
 
