@@ -58,6 +58,8 @@ import 'package:plusone/uis/profilemain/accountuis/myfavourite/bindings/myfavour
 import 'package:plusone/uis/profilemain/accountuis/myfavourite/favouritesui.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/bindings/mymembership_binding.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/mymembershipui.dart';
+import 'package:plusone/uis/profilemain/accountuis/mymembership/restart%20membership/restart_binding.dart';
+import 'package:plusone/uis/profilemain/accountuis/mymembership/restart%20membership/restart_membership.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/switchplanui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist/attendlistui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist/bindings/attendlist_binding.dart';
@@ -160,6 +162,7 @@ class Routes{
   static String cropPhotoScreen='/cropPhoto';
   static String videoPlayScreen='/videoPlay';
   static String updateBilling='/updateBilling';
+  static String restartScreen='/restartScreen';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -216,6 +219,7 @@ class Routes{
     GetPage(name: contactSupport, page:()=>  Contactsupport(),binding: ContactSupportBinding()),
     GetPage(name: cropPhotoScreen, page:()=>  CropPhotoScreen(),binding: AddphotoBinding()),
     GetPage(name: videoPlayScreen, page: () => VideoPlayScreen(),),
-    GetPage(name: updateBilling, page: () => UpdateBillingScreen(),binding: PaymentBinding())
+    GetPage(name: updateBilling, page: () => UpdateBillingScreen(),binding: PaymentBinding()),
+    GetPage(name: restartScreen, page: () => ReStartMembershipScreen(),binding: ReStartBinding()),
   ];
 }

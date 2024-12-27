@@ -86,6 +86,7 @@ class EndPoints{
   static String timeZone = '${baseUrl}get-timezone';
   static String switchPlan = '${baseUrl}switch-plan';
   static String referalCode = '${baseUrl}apply-referral-code';
+  static String restartPlan = '${baseUrl}restart-plan';
 
 
   static String chatUrl = 'https://chatapi.plusonesapp.com';

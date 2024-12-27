@@ -485,7 +485,9 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                         width: double.maxFinite,
                                         height: Res.h_btn,
                                         child: CustomElevatedButton(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Get.toNamed(Routes.restartScreen);
+                                            },
                                             backgroundClr: clrBlacke,
                                             child: Text(
                                               "Restart Membership",
@@ -515,7 +517,9 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             width: double.maxFinite,
                                             height: Res.h_btn,
                                             child: CustomElevatedButton(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  Get.toNamed(Routes.restartScreen);
+                                                },
                                                 backgroundClr: clrBlacke,
                                                 child: Text(
                                                   "Restart Membership",
