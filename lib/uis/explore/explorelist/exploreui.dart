@@ -190,420 +190,6 @@ class ExploreUi extends GetWidget<ExploreListController> {
               ],
             ),
 
-
-
-            // DraggableScrollableSheet(
-            //   initialChildSize: 0.3,
-            //   minChildSize: 0.1,
-            //   maxChildSize: 0.9,
-            //   // controller: controller.dragController,
-            //   builder: (context, scrollController) {
-            //   return Container(
-            //     decoration: const BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            //     ),
-            //     child: Column(
-            //       children: [
-            //         Container(
-            //           height: 5,
-            //           width: 40,
-            //           margin: const EdgeInsets.symmetric(vertical: 8.0),
-            //           decoration: BoxDecoration(
-            //             color: Colors.black.withOpacity(0.3),
-            //             borderRadius: BorderRadius.circular(8),
-            //           ),
-            //         ),
-            //         Expanded(
-            //           child: Obx(() {
-            //             return Container(
-            //               margin: EdgeInsets.symmetric(
-            //                   horizontal: Res.Defalt_side_margin),
-            //               child: SmartRefresher(
-            //                   controller: controller.refreshController,
-            //                   onRefresh: () async {
-            //                     await controller.homePageApi();
-            //                     controller.refreshController.refreshCompleted();
-            //                   },
-            //                   header: CommonUi.refreshHeader(),
-            //                   child: controller.homeData.value.result!.activities!.isEmpty
-            //                       ? Center(
-            //                     child: NoActivityScreen(),
-            //                   )
-            //                       : controller.homeData.value.result!.activities!
-            //                       .where((element) => element.status == 'approved',).isNotEmpty
-            //                       ? Padding(
-            //                     padding: const EdgeInsets.only(bottom: 50.0,top: 20),
-            //                     child: ListView.builder(
-            //                         // physics: BouncingScrollPhysics(),
-            //                         // controller: scrollController,
-            //                         // controller: controller.scrollController,
-            //                         itemCount: controller.homeData.value.result?.activities
-            //                             ?.where((activity) => activity.status == 'approved').length,
-            //                         shrinkWrap: true,
-            //                         itemBuilder:
-            //                             (context, index) {
-            //                           var activityData = controller
-            //                               .homeData
-            //                               .value
-            //                               .result
-            //                               ?.activities
-            //                               ?.where((activity) =>
-            //                           activity
-            //                               .status ==
-            //                               'approved')
-            //                               .toList();
-            //                           return InkWell(
-            //                             onTap: () {
-            //                               if(controller.homeData.value.result?.profileComplete == true
-            //                                   &&  controller.homeData.value.result?.membershipStatus == true) {
-            //                                 if(controller.homeData.value.result?.activities?[index].hostId.toString() == LocalStorage.getUid()){
-            //                                   Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.homeData.value.result?.activities?[index].id.toString());
-            //                                 }else {
-            //                                   Get.toNamed(
-            //                                       Routes
-            //                                           .exploreView,
-            //                                       arguments: activityData?[index]
-            //                                           .id
-            //                                           .toString()
-            //                                   );
-            //                                 }
-            //                               } else {
-            //                                 controller.showHomePop();
-            //                               }
-            //                             },
-            //                             child: Container(
-            //                               margin:
-            //                               const EdgeInsets
-            //                                   .symmetric(
-            //                                   vertical:
-            //                                   10),
-            //                               child: Column(
-            //                                 crossAxisAlignment:
-            //                                 CrossAxisAlignment
-            //                                     .start,
-            //                                 children: [
-            //                                   SizedBox(
-            //                                     height:
-            //                                     h * .26,
-            //                                     child: Stack(
-            //                                       children: [
-            //                                         CarouselSlider(
-            //                                           options: CarouselOptions(
-            //                                               height: h * .26,
-            //                                               viewportFraction: 1,
-            //                                               onPageChanged: (currIndex, CarouselPageChangedReason reason) {
-            //                                                 controller.changeIndicator(index, currIndex);
-            //                                                 debugPrint(" currIndex $currIndex reason=$reason");
-            //                                               }),
-            //                                           items: activityData?[index]
-            //                                               .banners
-            //                                               ?.map<Widget>((i) {
-            //                                             return Builder(
-            //                                               builder:
-            //                                                   (BuildContext context) {
-            //                                                 return Container(
-            //                                                     clipBehavior: Clip.hardEdge,
-            //                                                     width: MediaQuery.of(context).size.width,
-            //                                                     height: double.maxFinite,
-            //                                                     margin: const EdgeInsets.symmetric(horizontal: 0),
-            //                                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
-            //                                                     child: CachedNetworkImage(
-            //                                                       fit: BoxFit.cover,
-            //                                                       height: h * .26,
-            //                                                       width: double.maxFinite,
-            //                                                       imageUrl: "$i",
-            //                                                       placeholder: (context, url) => Shimmer.fromColors(
-            //                                                         baseColor: grey300,
-            //                                                         highlightColor: grey100,
-            //                                                         child: Container(
-            //                                                           width: double.maxFinite,
-            //                                                           height: h * .26,
-            //                                                           decoration: BoxDecoration(
-            //                                                             color: grey300,
-            //                                                             borderRadius: BorderRadius.circular(18),
-            //                                                           ),
-            //                                                         ),
-            //                                                       ),
-            //                                                     ));
-            //                                               },
-            //                                             );
-            //                                           }).toList(),
-            //                                         ),
-            //                                         Padding(
-            //                                           padding: const EdgeInsets
-            //                                               .symmetric(
-            //                                               horizontal:
-            //                                               10,
-            //                                               vertical:
-            //                                               10),
-            //                                           child:
-            //                                           Row(
-            //                                             mainAxisAlignment:
-            //                                             MainAxisAlignment.spaceBetween,
-            //                                             children: [
-            //                                               Container(
-            //                                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            //                                                 decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(20)),
-            //                                                 child: Text(
-            //                                                   '${activityData?[index].subcategoryTitle}',
-            //                                                   style: const TextStyle(fontWeight: FontWeight.w600),
-            //                                                 ),
-            //                                               ),
-            //                                               InkWell(
-            //                                                 onTap: () async {
-            //                                                   if(controller.homeData.value.result?.profileComplete == true
-            //                                                       &&  controller.homeData.value.result?.membershipStatus == true) {
-            //                                                     var id = activityData?[index].id.toString();
-            //                                                     await controller.changeFavApi(id).then(
-            //                                                           (value) {
-            //                                                         if (value == true) {
-            //                                                           activityData?[index].isFav = !activityData[index].isFav!;
-            //                                                         }
-            //                                                       },
-            //                                                     );
-            //
-            //                                                     controller.homeData.refresh();
-            //                                                   } else {
-            //                                                     controller.showHomePop();
-            //                                                   }
-            //
-            //                                                   // controller
-            //                                                   //     .changeFav(
-            //                                                   //         index);
-            //                                                 },
-            //                                                 child: Container(
-            //                                                   padding: const EdgeInsets.all(6),
-            //                                                   decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(100)),
-            //                                                   child: activityData?[index].isFav == true
-            //                                                       ? Icon(
-            //                                                     Icons.favorite,
-            //                                                     size: 20,
-            //                                                     color: clrYellow,
-            //                                                   )
-            //                                                       : const Icon(
-            //                                                     Icons.favorite_border,
-            //                                                     size: 20,
-            //                                                   ),
-            //                                                 ),
-            //                                               ),
-            //                                             ],
-            //                                           ),
-            //                                         ),
-            //                                         Align(
-            //                                           alignment:
-            //                                           Alignment.bottomCenter,
-            //                                           child:
-            //                                           Container(
-            //                                             margin: const EdgeInsets
-            //                                                 .only(
-            //                                                 bottom: 7),
-            //                                             height:
-            //                                             16,
-            //                                             child: ListView.builder(
-            //                                                 itemCount: activityData?[index].banners?.length,
-            //                                                 shrinkWrap: true,
-            //                                                 scrollDirection: Axis.horizontal,
-            //                                                 itemBuilder: (context, indicatorIndex) {
-            //                                                   return Padding(
-            //                                                     padding: const EdgeInsets.symmetric(horizontal: 1.5),
-            //                                                     child: Obx(
-            //                                                           () => Icon(
-            //                                                         Icons.circle,
-            //                                                         color: activityData?[index].circleIndex?.value == indicatorIndex ? clrYellow : clrWhite,
-            //                                                         size: 8,
-            //                                                       ),
-            //                                                     ),
-            //                                                   );
-            //                                                 }),
-            //                                           ),
-            //                                         )
-            //                                       ],
-            //                                     ),
-            //                                   ),
-            //                                   SizedBox(
-            //                                     height:
-            //                                     Get.height *
-            //                                         0.02,
-            //                                   ),
-            //                                   Row(
-            //                                     mainAxisAlignment:
-            //                                     MainAxisAlignment
-            //                                         .spaceBetween,
-            //                                     crossAxisAlignment:
-            //                                     CrossAxisAlignment
-            //                                         .center,
-            //                                     children: [
-            //                                       Flexible(
-            //                                         child:
-            //                                         Column(
-            //                                           crossAxisAlignment:
-            //                                           CrossAxisAlignment.start,
-            //                                           children: [
-            //                                             Text(
-            //                                               "${activityData?[index].name}",
-            //                                               style:
-            //                                               const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            //                                             ),
-            //                                             SizedBox(
-            //                                               height:
-            //                                               h * .005,
-            //                                             ),
-            //                                             Text(
-            //                                               '${activityData?[index].location}',
-            //                                               style:
-            //                                               TextStyle(color: clrGreyDark),
-            //                                             ),
-            //                                             SizedBox(
-            //                                               height:
-            //                                               h * .005,
-            //                                             ),
-            //                                             Text(
-            //                                               '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
-            //                                               style:
-            //                                               TextStyle(color: clrGreyDark),
-            //                                             ),
-            //                                             SizedBox(
-            //                                               height:
-            //                                               h * .008,
-            //                                             ),
-            //                                             Text(
-            //                                               "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} ${activityData![index].spotLeft! == 1 ? 'spot left' : 'spots left'}",
-            //                                               style: TextStyle(color: clrYellowText, fontSize: 13),
-            //                                             ),
-            //
-            //                                             // Text(
-            //                                             //   "Up to ${activityData?[index].maxPeople} people | "${activityData?[index].spotLeft} ${activityData?[index].spotLeft > 1 ? 'spots left' : 'spot left'}"
-            //                                             //     style:
-            //                                             //       TextStyle(color: clrYellowText, fontSize: 13),
-            //                                             // ),
-            //                                           ],
-            //                                         ),
-            //                                       ),
-            //                                       const SizedBox(
-            //                                         width: 5,
-            //                                       ),
-            //                                       InkWell(
-            //                                         onTap:
-            //                                             () {
-            //                                           if(controller.homeData.value.result?.profileComplete == true && controller.homeData.value.result?.membershipStatus == true) {
-            //                                             Get.toNamed(
-            //                                                 Routes
-            //                                                     .hostProfileUi,
-            //                                                 arguments: activityData?[index]
-            //                                                     .hostId
-            //                                                     .toString());
-            //                                           }else{
-            //                                             controller.showHomePop();
-            //                                           }
-            //                                         },
-            //                                         child:
-            //                                         Column(
-            //                                           crossAxisAlignment:
-            //                                           CrossAxisAlignment.center,
-            //                                           mainAxisAlignment:
-            //                                           MainAxisAlignment.center,
-            //                                           children: [
-            //                                             ClipRRect(
-            //                                               borderRadius:
-            //                                               BorderRadius.circular(100),
-            //                                               child:
-            //                                               CachedNetworkImage(
-            //                                                 height: 40,
-            //                                                 width: 40,
-            //                                                 fit: BoxFit.cover,
-            //                                                 imageUrl: '${activityData?[index].profilePhoto}',
-            //                                                 errorWidget: (context, url, error) => Container(
-            //                                                   height: 40,
-            //                                                   width: 40,
-            //                                                   padding: const EdgeInsets.all(10),
-            //                                                   decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
-            //                                                   child: Image.asset(
-            //                                                     "assets/icons/manicon.png",
-            //                                                     color: clrGrey,
-            //                                                     fit: BoxFit.cover,
-            //                                                   ),
-            //                                                 ),
-            //                                                 placeholder: (context, url) => Shimmer.fromColors(
-            //                                                   baseColor: grey300,
-            //                                                   highlightColor: grey100,
-            //                                                   child: Container(
-            //                                                     height: 40,
-            //                                                     width: 40,
-            //                                                     decoration: BoxDecoration(
-            //                                                       color: grey300,
-            //                                                       borderRadius: BorderRadius.circular(18),
-            //                                                     ),
-            //                                                   ),
-            //                                                 ),
-            //                                               ),
-            //                                             ),
-            //                                             const SizedBox(height: 3,),
-            //                                             Text(
-            //                                               '${activityData?[index].hostName}',
-            //                                               style:
-            //                                               const TextStyle(fontWeight: FontWeight.w700),
-            //                                             )
-            //                                           ],
-            //                                         ),
-            //                                       )
-            //                                     ],
-            //                                   ),
-            //                                   SizedBox(
-            //                                     height:
-            //                                     Get.height *
-            //                                         0.015,
-            //                                   ),
-            //                                   Padding(
-            //                                     padding: const EdgeInsets.only(right: 13),
-            //                                     child: ReadMoreText(
-            //                                       '${activityData?[index].description}',
-            //                                       style: TextStyle(
-            //                                           color:
-            //                                           clrGreyDark),
-            //                                       trimMode:
-            //                                       TrimMode
-            //                                           .Line,
-            //                                       trimLines: 2,
-            //                                       colorClickableText:
-            //                                       Colors
-            //                                           .pink,
-            //                                       trimCollapsedText:
-            //                                       'Learn more',
-            //                                       trimExpandedText:
-            //                                       'Learn less',
-            //                                       moreStyle: TextStyle(
-            //                                           color:
-            //                                           clrBlacke,
-            //                                           fontWeight:
-            //                                           FontWeight
-            //                                               .w700),
-            //                                       lessStyle: TextStyle(
-            //                                         color:
-            //                                         clrBlacke,
-            //                                         fontWeight:
-            //                                         FontWeight
-            //                                             .w700),
-            //                                     ),
-            //                                   ),
-            //                                 ],
-            //                               ),
-            //                             ),
-            //                           );
-            //                         }),
-            //                   )
-            //                       : Center(
-            //                     child: NoActivityScreen(),
-            //                   )),
-            //             );
-            //           }),
-            //         ),
-            //       ],
-            //     ),
-            //   );
-            // },),
-
-
             /// slideable
             Obx(() => controller.homePageLoading.value && controller.homeData.value.result == null ? SizedBox() : controller.homeError.value.isNotEmpty ? SizedBox() : SlidingUpPanel(
               minHeight: 50,
@@ -611,7 +197,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
               controller: controller.panelController,
               defaultPanelState: PanelState.OPEN,
               color: Colors.transparent,
-              isDraggable: (controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true) ? true : false,
+              isDraggable: true ,
               onPanelSlide: (position) {
                 controller.bottomBarOffset.value = position;
               },
@@ -639,390 +225,382 @@ class ExploreUi extends GetWidget<ExploreListController> {
                     children: [
                       Align(
                         alignment: Alignment.topCenter,
-                        child: SmartRefresher(
-                          controller: controller.refreshController,
-                          // header: CommonUi.refreshHeader(),
-                          onRefresh: () async{
-                            await controller.homePageApi();
-                            controller.refreshController.refreshCompleted();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: Res.Defalt_side_margin),
-                            child: controller.homeData.value.result!.activities!.isEmpty
-                                ? Center(
-                              child: NoActivityScreen(),
-                            )
-                                : controller.homeData.value.result!.activities!
-                                .where((element) => element.status == 'approved',).isNotEmpty
-                                ? Padding(
-                              padding: EdgeInsets.only(bottom: 0.0,top: Get.height*0.05),
-                              child: ListView.builder(
-                              //     controller:(controller.homeData.value.result?.profileComplete == true
-                              // &&  controller.homeData.value.result?.membershipStatus == true) ? controller.scrollController : null,
-                                  // physics: controller.isTop.value ? BouncingScrollPhysics() : AlwaysScrollableScrollPhysics(),
-                                  controller: controller.scrollController,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: controller.homeData.value.result?.activities
-                                      ?.where((activity) => activity.status == 'approved').length,
-                                  shrinkWrap: true,
-                                  itemBuilder:
-                                      (context, index) {
-                                    var activityData = controller
-                                        .homeData
-                                        .value
-                                        .result
-                                        ?.activities
-                                        ?.where((activity) =>
-                                    activity
-                                        .status ==
-                                        'approved')
-                                        .toList();
-                                    return InkWell(
-                                      onTap: () {
-                                        if(controller.homeData.value.result?.profileComplete == true
-                                            &&  controller.homeData.value.result?.membershipStatus == true) {
-                                          if(controller.homeData.value.result?.activities?[index].hostId.toString() == LocalStorage.getUid()){
-                                            Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.homeData.value.result?.activities?[index].id.toString());
-                                          }else {
-                                            Get.toNamed(
-                                                Routes
-                                                    .exploreView,
-                                                arguments: activityData?[index]
-                                                    .id
-                                                    .toString()
-                                            );
-                                          }
-                                        } else {
-                                          controller.showHomePop();
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: Res.Defalt_side_margin),
+                          child: controller.homeData.value.result!.activities!.isEmpty
+                              ? Center(
+                            child: NoActivityScreen(),
+                          )
+                              : controller.homeData.value.result!.activities!
+                              .where((element) => element.status == 'approved',).isNotEmpty
+                              ? Padding(
+                            padding: EdgeInsets.only(bottom: 0.0,top: Get.height*0.05),
+                            child: ListView.builder(
+                            //     controller:(controller.homeData.value.result?.profileComplete == true
+                            // &&  controller.homeData.value.result?.membershipStatus == true) ? controller.scrollController : null,
+                                // physics: controller.isTop.value ? BouncingScrollPhysics() : AlwaysScrollableScrollPhysics(),
+                                controller: controller.scrollController,
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: controller.homeData.value.result?.activities
+                                    ?.where((activity) => activity.status == 'approved').length,
+                                shrinkWrap: true,
+                                itemBuilder:
+                                    (context, index) {
+                                  var activityData = controller
+                                      .homeData
+                                      .value
+                                      .result
+                                      ?.activities
+                                      ?.where((activity) =>
+                                  activity
+                                      .status ==
+                                      'approved')
+                                      .toList();
+                                  return InkWell(
+                                    onTap: () {
+                                      if(controller.homeData.value.result?.profileComplete == true
+                                          &&  controller.homeData.value.result?.membershipStatus == true) {
+                                        if(controller.homeData.value.result?.activities?[index].hostId.toString() == LocalStorage.getUid()){
+                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.homeData.value.result?.activities?[index].id.toString());
+                                        }else {
+                                          Get.toNamed(
+                                              Routes
+                                                  .exploreView,
+                                              arguments: activityData?[index]
+                                                  .id
+                                                  .toString()
+                                          );
                                         }
-                                      },
-                                      child: Container(
-                                        margin:
-                                        EdgeInsets
-                                            .symmetric(
-                                            vertical:
-                                            Get.height*0.01),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .start,
-                                          children: [
-                                            SizedBox(
-                                              height:
-                                              h * .26,
-                                              child: Stack(
-                                                children: [
-                                                  CarouselSlider(
-                                                    options: CarouselOptions(
-                                                        height: h * .26,
-                                                        enableInfiniteScroll: false,
-                                                        viewportFraction: 1,
-                                                        onPageChanged: (currIndex, CarouselPageChangedReason reason) {
-                                                          controller.changeIndicator(index, currIndex);
-                                                          debugPrint(" currIndex $currIndex reason=$reason");
-                                                        }),
-                                                    items: activityData?[index]
-                                                        .banners
-                                                        ?.map<Widget>((i) {
-                                                      return Builder(
-                                                        builder:
-                                                            (BuildContext context) {
-                                                          return Container(
-                                                              clipBehavior: Clip.hardEdge,
-                                                              width: MediaQuery.of(context).size.width,
-                                                              height: double.maxFinite,
-                                                              margin: const EdgeInsets.symmetric(horizontal: 0),
-                                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
-                                                              child: CachedNetworkImage(
-                                                                fit: BoxFit.cover,
-                                                                height: h * .26,
-                                                                width: double.maxFinite,
-                                                                // memCacheWidth: 500,
-                                                                // filterQuality: FilterQuality.low,
-                                                                imageUrl: "$i",
-                                                                placeholder: (context, url) => Shimmer.fromColors(
-                                                                  baseColor: grey300,
-                                                                  highlightColor: grey100,
-                                                                  child: Container(
-                                                                    width: double.maxFinite,
-                                                                    height: h * .26,
-                                                                    decoration: BoxDecoration(
-                                                                      color: grey300,
-                                                                      borderRadius: BorderRadius.circular(18),
-                                                                    ),
+                                      } else {
+                                        controller.showHomePop();
+                                      }
+                                    },
+                                    child: Container(
+                                      margin:
+                                      EdgeInsets
+                                          .symmetric(
+                                          vertical:
+                                          Get.height*0.01),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          SizedBox(
+                                            height:
+                                            h * .26,
+                                            child: Stack(
+                                              children: [
+                                                CarouselSlider(
+                                                  options: CarouselOptions(
+                                                      height: h * .26,
+                                                      enableInfiniteScroll: false,
+                                                      viewportFraction: 1,
+                                                      onPageChanged: (currIndex, CarouselPageChangedReason reason) {
+                                                        controller.changeIndicator(index, currIndex);
+                                                        debugPrint(" currIndex $currIndex reason=$reason");
+                                                      }),
+                                                  items: activityData?[index]
+                                                      .banners
+                                                      ?.map<Widget>((i) {
+                                                    return Builder(
+                                                      builder:
+                                                          (BuildContext context) {
+                                                        return Container(
+                                                            clipBehavior: Clip.hardEdge,
+                                                            width: MediaQuery.of(context).size.width,
+                                                            height: double.maxFinite,
+                                                            margin: const EdgeInsets.symmetric(horizontal: 0),
+                                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                                                            child: CachedNetworkImage(
+                                                              fit: BoxFit.cover,
+                                                              height: h * .26,
+                                                              width: double.maxFinite,
+                                                              // memCacheWidth: 500,
+                                                              // filterQuality: FilterQuality.low,
+                                                              imageUrl: "$i",
+                                                              placeholder: (context, url) => Shimmer.fromColors(
+                                                                baseColor: grey300,
+                                                                highlightColor: grey100,
+                                                                child: Container(
+                                                                  width: double.maxFinite,
+                                                                  height: h * .26,
+                                                                  decoration: BoxDecoration(
+                                                                    color: grey300,
+                                                                    borderRadius: BorderRadius.circular(18),
                                                                   ),
                                                                 ),
-                                                              ));
-                                                        },
-                                                      );
-                                                    }).toList(),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal:
-                                                        10,
-                                                        vertical:
-                                                        10),
-                                                    child:
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Container(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                          decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(20)),
-                                                          child: Text(
-                                                            '${activityData?[index].subcategoryTitle}',
-                                                            style: const TextStyle(fontWeight: FontWeight.w600),
-                                                          ),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () async {
-                                                            if(controller.homeData.value.result?.profileComplete == true
-                                                                &&  controller.homeData.value.result?.membershipStatus == true) {
-                                                              var id = activityData?[index].id.toString();
-                                                              await controller.changeFavApi(id).then(
-                                                                    (value) {
-                                                                  if (value == true) {
-                                                                    activityData?[index].isFav = !activityData[index].isFav!;
-                                                                  }
-                                                                },
-                                                              );
-
-                                                              controller.homeData.refresh();
-                                                            } else {
-                                                              controller.showHomePop();
-                                                            }
-
-                                                            // controller
-                                                            //     .changeFav(
-                                                            //         index);
-                                                          },
-                                                          child: Container(
-                                                            padding: const EdgeInsets.all(6),
-                                                            decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(100)),
-                                                            child: activityData?[index].isFav == true
-                                                                ? Icon(
-                                                              Icons.favorite,
-                                                              size: 20,
-                                                              color: clrYellow,
-                                                            )
-                                                                : const Icon(
-                                                              Icons.favorite_border,
-                                                              size: 20,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                    Alignment.bottomCenter,
-                                                    child:
-                                                    Container(
-                                                      margin: const EdgeInsets
-                                                          .only(
-                                                          bottom: 7),
-                                                      height:
-                                                      16,
-                                                      child: ListView.builder(
-                                                          itemCount: activityData?[index].banners?.length,
-                                                          shrinkWrap: true,
-                                                          scrollDirection: Axis.horizontal,
-                                                          itemBuilder: (context, indicatorIndex) {
-                                                            return Padding(
-                                                              padding: const EdgeInsets.symmetric(horizontal: 1.5),
-                                                              child: Obx(
-                                                                    () => Icon(
-                                                                  Icons.circle,
-                                                                  color: activityData?[index].circleIndex?.value == indicatorIndex ? clrYellow : clrWhite,
-                                                                  size: 8,
-                                                                ),
                                                               ),
-                                                            );
-                                                          }),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height:
-                                              Get.height *
-                                                  0.02,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                Flexible(
-                                                  child:
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "${activityData?[index].name}",
-                                                        style:
-                                                        const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                        h * .005,
-                                                      ),
-                                                      // Text(
-                                                      //   '${activityData?[index].location}',
-                                                      //   style:
-                                                      //   TextStyle(color: clrGreyDark),
-                                                      // ),
-                                                      // SizedBox(
-                                                      //   height:
-                                                      //   h * .005,
-                                                      // ),
-                                                      Text(
-                                                        '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
-                                                        style:
-                                                        TextStyle(color: clrGreyDark),
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                        h * .008,
-                                                      ),
-                                                      Text(
-                                                        "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} ${activityData![index].spotLeft! == 1 ? 'spot left' : 'spots left'}",
-                                                        style: TextStyle(color: clrYellowText, fontSize: 13),
-                                                      ),
-
-                                                      // Text(
-                                                      //   "Up to ${activityData?[index].maxPeople} people | "${activityData?[index].spotLeft} ${activityData?[index].spotLeft > 1 ? 'spots left' : 'spot left'}"
-                                                      //     style:
-                                                      //       TextStyle(color: clrYellowText, fontSize: 13),
-                                                      // ),
-                                                    ],
-                                                  ),
+                                                            ));
+                                                      },
+                                                    );
+                                                  }).toList(),
                                                 ),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                InkWell(
-                                                  onTap:
-                                                      () {
-                                                    if(controller.homeData.value.result?.profileComplete == true && controller.homeData.value.result?.membershipStatus == true) {
-                                                      Get.toNamed(
-                                                          Routes
-                                                              .hostProfileUi,
-                                                          arguments: activityData?[index]
-                                                              .hostId
-                                                              .toString());
-                                                    }else{
-                                                      controller.showHomePop();
-                                                    }
-                                                  },
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal:
+                                                      10,
+                                                      vertical:
+                                                      10),
                                                   child:
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                  Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius.circular(100),
-                                                        child:
-                                                        CachedNetworkImage(
-                                                          height: 40,
-                                                          width: 40,
-                                                          fit: BoxFit.cover,
-                                                          imageUrl: '${activityData?[index].profilePhoto}',
-                                                          errorWidget: (context, url, error) => Container(
-                                                            height: 40,
-                                                            width: 40,
-                                                            padding: const EdgeInsets.all(10),
-                                                            decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
-                                                            child: Image.asset(
-                                                              "assets/icons/manicon.png",
-                                                              color: clrGrey,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                          placeholder: (context, url) => Shimmer.fromColors(
-                                                            baseColor: grey300,
-                                                            highlightColor: grey100,
-                                                            child: Container(
-                                                              height: 40,
-                                                              width: 40,
-                                                              decoration: BoxDecoration(
-                                                                color: grey300,
-                                                                borderRadius: BorderRadius.circular(18),
-                                                              ),
-                                                            ),
+                                                      Container(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                        decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(20)),
+                                                        child: Text(
+                                                          '${activityData?[index].subcategoryTitle}',
+                                                          style: const TextStyle(fontWeight: FontWeight.w600),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          if(controller.homeData.value.result?.profileComplete == true
+                                                              &&  controller.homeData.value.result?.membershipStatus == true) {
+                                                            var id = activityData?[index].id.toString();
+                                                            await controller.changeFavApi(id).then(
+                                                                  (value) {
+                                                                if (value == true) {
+                                                                  activityData?[index].isFav = !activityData[index].isFav!;
+                                                                }
+                                                              },
+                                                            );
+
+                                                            controller.homeData.refresh();
+                                                          } else {
+                                                            controller.showHomePop();
+                                                          }
+
+                                                          // controller
+                                                          //     .changeFav(
+                                                          //         index);
+                                                        },
+                                                        child: Container(
+                                                          padding: const EdgeInsets.all(6),
+                                                          decoration: BoxDecoration(color: clrWhite, borderRadius: BorderRadius.circular(100)),
+                                                          child: activityData?[index].isFav == true
+                                                              ? Icon(
+                                                            Icons.favorite,
+                                                            size: 20,
+                                                            color: clrYellow,
+                                                          )
+                                                              : const Icon(
+                                                            Icons.favorite_border,
+                                                            size: 20,
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 3,),
-                                                      Text(
-                                                        '${activityData?[index].hostName}',
-                                                        style:
-                                                        const TextStyle(fontWeight: FontWeight.w700),
-                                                      )
                                                     ],
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                  Alignment.bottomCenter,
+                                                  child:
+                                                  Container(
+                                                    margin: const EdgeInsets
+                                                        .only(
+                                                        bottom: 7),
+                                                    height:
+                                                    16,
+                                                    child: ListView.builder(
+                                                        itemCount: activityData?[index].banners?.length,
+                                                        shrinkWrap: true,
+                                                        scrollDirection: Axis.horizontal,
+                                                        itemBuilder: (context, indicatorIndex) {
+                                                          return Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 1.5),
+                                                            child: Obx(
+                                                                  () => Icon(
+                                                                Icons.circle,
+                                                                color: activityData?[index].circleIndex?.value == indicatorIndex ? clrYellow : clrWhite,
+                                                                size: 8,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }),
                                                   ),
                                                 )
                                               ],
                                             ),
-                                            SizedBox(
-                                              height:
-                                              Get.height *
-                                                  0.015,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 13),
-                                              child: ReadMoreText(
-                                                '${activityData?[index].description}',
-                                                style: TextStyle(
-                                                    color:
-                                                    clrGreyDark),
-                                                trimMode:
-                                                TrimMode
-                                                    .Line,
-                                                trimLines: 2,
-                                                colorClickableText:
-                                                Colors
-                                                    .pink,
-                                                trimCollapsedText:
-                                                'Learn more',
-                                                trimExpandedText:
-                                                'Learn less',
-                                                moreStyle: TextStyle(
-                                                    color:
-                                                    clrBlacke,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w700),
-                                                lessStyle: TextStyle(
-                                                    color:
-                                                    clrBlacke,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w700),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                            Get.height *
+                                                0.02,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment
+                                                .center,
+                                            children: [
+                                              Flexible(
+                                                child:
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${activityData?[index].name}",
+                                                      style:
+                                                      const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                      h * .005,
+                                                    ),
+                                                    // Text(
+                                                    //   '${activityData?[index].location}',
+                                                    //   style:
+                                                    //   TextStyle(color: clrGreyDark),
+                                                    // ),
+                                                    // SizedBox(
+                                                    //   height:
+                                                    //   h * .005,
+                                                    // ),
+                                                    Text(
+                                                      '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
+                                                      style:
+                                                      TextStyle(color: clrGreyDark),
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                      h * .008,
+                                                    ),
+                                                    Text(
+                                                      "Up to ${activityData?[index].maxPeople} people | ${activityData?[index].spotLeft} ${activityData![index].spotLeft! == 1 ? 'spot left' : 'spots left'}",
+                                                      style: TextStyle(color: clrYellowText, fontSize: 13),
+                                                    ),
+
+                                                    // Text(
+                                                    //   "Up to ${activityData?[index].maxPeople} people | "${activityData?[index].spotLeft} ${activityData?[index].spotLeft > 1 ? 'spots left' : 'spot left'}"
+                                                    //     style:
+                                                    //       TextStyle(color: clrYellowText, fontSize: 13),
+                                                    // ),
+                                                  ],
+                                                ),
                                               ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              InkWell(
+                                                onTap:
+                                                    () {
+                                                  if(controller.homeData.value.result?.profileComplete == true && controller.homeData.value.result?.membershipStatus == true) {
+                                                    Get.toNamed(
+                                                        Routes
+                                                            .hostProfileUi,
+                                                        arguments: activityData?[index]
+                                                            .hostId
+                                                            .toString());
+                                                  }else{
+                                                    controller.showHomePop();
+                                                  }
+                                                },
+                                                child:
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                      BorderRadius.circular(100),
+                                                      child:
+                                                      CachedNetworkImage(
+                                                        height: 40,
+                                                        width: 40,
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: '${activityData?[index].profilePhoto}',
+                                                        errorWidget: (context, url, error) => Container(
+                                                          height: 40,
+                                                          width: 40,
+                                                          padding: const EdgeInsets.all(10),
+                                                          decoration: BoxDecoration(color: clrGreyLight, shape: BoxShape.circle),
+                                                          child: Image.asset(
+                                                            "assets/icons/manicon.png",
+                                                            color: clrGrey,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                        placeholder: (context, url) => Shimmer.fromColors(
+                                                          baseColor: grey300,
+                                                          highlightColor: grey100,
+                                                          child: Container(
+                                                            height: 40,
+                                                            width: 40,
+                                                            decoration: BoxDecoration(
+                                                              color: grey300,
+                                                              borderRadius: BorderRadius.circular(18),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 3,),
+                                                    Text(
+                                                      '${activityData?[index].hostName}',
+                                                      style:
+                                                      const TextStyle(fontWeight: FontWeight.w700),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height:
+                                            Get.height *
+                                                0.015,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 13),
+                                            child: ReadMoreText(
+                                              '${activityData?[index].description}',
+                                              style: TextStyle(
+                                                  color:
+                                                  clrGreyDark),
+                                              trimMode:
+                                              TrimMode
+                                                  .Line,
+                                              trimLines: 2,
+                                              colorClickableText:
+                                              Colors
+                                                  .pink,
+                                              trimCollapsedText:
+                                              'Learn more',
+                                              trimExpandedText:
+                                              'Learn less',
+                                              moreStyle: TextStyle(
+                                                  color:
+                                                  clrBlacke,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700),
+                                              lessStyle: TextStyle(
+                                                  color:
+                                                  clrBlacke,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  }),
-                                                      )
-                                : Center(
-                              child: NoActivityScreen(),
-                            ),
+                                    ),
+                                  );
+                                }),
+                                                    )
+                              : Center(
+                            child: NoActivityScreen(),
                           ),
                         ),
                       ),

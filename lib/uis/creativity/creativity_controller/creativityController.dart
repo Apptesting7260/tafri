@@ -39,7 +39,7 @@ class Creativitycontroller extends GetxController
     },);
     getCategory();
     getMaxOcc();
-    getCountry();
+    // getCountry();
     getUserLocation();
     super.onInit();
   }
@@ -551,61 +551,61 @@ class Creativitycontroller extends GetxController
   }
 
 
-  var timeZoneData = TimeZoneModal().obs;
-  var selectedCountry = ''.obs;
-  var countryList = <Map<String,dynamic>>[].obs;
-  var timeZoneList = <Map<String,dynamic>>[].obs;
+  // var timeZoneData = TimeZoneModal().obs;
+  // var selectedCountry = ''.obs;
+  // var countryList = <Map<String,dynamic>>[].obs;
+  // var timeZoneList = <Map<String,dynamic>>[].obs;
+  //
+  // Future<void> getCountry() async{
+  //   var header = {
+  //     'Authorization': 'Bearer $token'
+  //   };
+  //   try{
+  //     final response = await api.get("${EndPoints.timeZone}",headers: header);
+  //     if(response.statusCode == 200){
+  //       catError.value = '';
+  //       countryList.clear();
+  //       timeZoneData.value = TimeZoneModal.fromJson(response.body);
+  //       timeZoneData.value.result?.forEach((e) {
+  //         countryList.add({'id':e.country,'value':e.country});
+  //       },);
+  //     }else{
+  //       catError.value = 'Error';
+  //     }
+  //
+  //   }catch(e){
+  //     catError.value = e.toString();
+  //     print('time zone err0r == ${e.toString()}');
+  //   }
+  // }
 
-  Future<void> getCountry() async{
-    var header = {
-      'Authorization': 'Bearer $token'
-    };
-    try{
-      final response = await api.get("${EndPoints.timeZone}",headers: header);
-      if(response.statusCode == 200){
-        catError.value = '';
-        countryList.clear();
-        timeZoneData.value = TimeZoneModal.fromJson(response.body);
-        timeZoneData.value.result?.forEach((e) {
-          countryList.add({'id':e.country,'value':e.country});
-        },);
-      }else{
-        catError.value = 'Error';
-      }
+  // var timeZoneId = ''.obs;
+  // var timeZoneName = ''.obs;
+  // void getTimeZone(String country){
+  //   timeZoneName.value = '';
+  //   timeZoneId.value = '';
+  //   timeZoneList.clear();
+  //   for(int i = 0; i < timeZoneData.value.result!.length;i++){
+  //     if(timeZoneData.value.result![i].country == country){
+  //       timeZoneData.value.result![i].timezones?.forEach((e) {
+  //         timeZoneList.add({
+  //           'id': e.id.toString(),
+  //           'value': e.timeZone.toString()
+  //         });
+  //       },);
+  //     }
+  //   }
+  // }
 
-    }catch(e){
-      catError.value = e.toString();
-      print('time zone err0r == ${e.toString()}');
-    }
-  }
-
-  var timeZoneId = ''.obs;
-  var timeZoneName = ''.obs;
-  void getTimeZone(String country){
-    timeZoneName.value = '';
-    timeZoneId.value = '';
-    timeZoneList.clear();
-    for(int i = 0; i < timeZoneData.value.result!.length;i++){
-      if(timeZoneData.value.result![i].country == country){
-        timeZoneData.value.result![i].timezones?.forEach((e) {
-          timeZoneList.add({
-            'id': e.id.toString(),
-            'value': e.timeZone.toString()
-          });
-        },);
-      }
-    }
-  }
-
-  void getTimeId(String value){
-    timeZoneId.value = '';
-    timeZoneList.forEach((e) {
-      if(e['value'] == value){
-        timeZoneId.value = e['id'];
-      }
-    },);
-    print('time id == ${timeZoneId.value}');
-  }
+  // void getTimeId(String value){
+  //   timeZoneId.value = '';
+  //   timeZoneList.forEach((e) {
+  //     if(e['value'] == value){
+  //       timeZoneId.value = e['id'];
+  //     }
+  //   },);
+  //   print('time id == ${timeZoneId.value}');
+  // }
 
 
 
@@ -660,8 +660,8 @@ class Creativitycontroller extends GetxController
         return;
       }else if(date.value.isEmpty){
         showTostMsg('Please select date',gravity: ToastGravity.CENTER);
-      } else if(timeZoneId.value.isEmpty){
-        showTostMsg('Please select country and timezone.',gravity: ToastGravity.CENTER);
+      } else if(timeZone.value.isEmpty){
+        showTostMsg('Please select valid location.',gravity: ToastGravity.CENTER);
       }else if(sTimeForApi.value.isEmpty){
         showTostMsg('Please select start time',gravity: ToastGravity.CENTER);
       }else if(eTimeForAPi.value.isEmpty){
@@ -761,7 +761,8 @@ class Creativitycontroller extends GetxController
         request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
         request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
         request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
-        request.fields['timezone_id'] = timeZoneId.value;
+        request.fields['time_zone'] = timeZone.value;
+        request.fields['gmt_offset'] = gmtOffSet.value;
         if(repeats.value == true){
           request.fields['repeat_every'] = countController.value.value.text.trim().isEmpty ? '1' : countController.value.value.text.trim().toString();
           request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
@@ -874,7 +875,8 @@ class Creativitycontroller extends GetxController
         request.fields['gender'] = gender.value == 1 ? 'same' : 'all';
         request.fields['repeat_status'] = repeats.value ? 'repeats' : 'not_repeat';
         request.fields['join_instantly'] = joinInstant.value ? '1' : '0';
-        request.fields['timezone_id'] = timeZoneId.value;
+        request.fields['time_zone'] = timeZone.value;
+        request.fields['gmt_offset'] = gmtOffSet.value;
         if(repeats.value == true){
           request.fields['repeat_every'] = countController.value.value.text.trim().isEmpty ? '1' : countController.value.value.text.trim().toString();
           request.fields['repeat_type'] = wmValue.value == 1 ? 'week' : 'day' ;
@@ -1186,6 +1188,7 @@ class Creativitycontroller extends GetxController
     if (placeId != null) {
       var placeDetails = await getPlaceDetails(placeId!);
       updateLatLong(placeDetails['lat'], placeDetails['lng']);
+      getTimeZone(lat: placeDetails['lat'].toString(),long: placeDetails['lng'].toString());
       print("place Id ${placeId}");
       print('Latitude: ${placeDetails['lat']}');
       print('Longitude: ${placeDetails['lng']}');
@@ -1200,6 +1203,36 @@ class Creativitycontroller extends GetxController
       print('Country: ${placeDetails['country']}');
     }
   }
+
+  var timeZone = ''.obs;
+  var gmtOffSet = ''.obs;
+  Future<void> getTimeZone({required String lat,required String long}) async{
+
+    var timeStamp = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+    final url = 'https://maps.googleapis.com/maps/api/timezone/json?location=$lat,$long&timestamp=$timeStamp&key=$apiKey';
+
+    try{
+      final response = await api.get(url);
+      print('timezone == ${response.statusCode}    ${response.body}');
+      if(response.statusCode == 200){
+        var data = response.body;
+        timeZone.value = data['timeZoneId'];
+        var rawOffset = data['rawOffset'];
+        int hours = rawOffset ~/ 3600;
+        int minutes = (rawOffset % 3600) ~/ 60;
+        String formattedTimeZone =
+            "UTC${hours >= 0 ? '+' : ''}${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}";
+        gmtOffSet.value = formattedTimeZone;
+        print('gmt == ${gmtOffSet.value}');
+        print('time zone == ${timeZone.value}');
+      }
+    }catch(e){
+      print('timezone error == ${e.toString()}');
+    }
+
+  }
+
+
 
   Future<Map<String, dynamic>> getPlaceDetails(String placeId) async {
     final url =

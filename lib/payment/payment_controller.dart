@@ -117,44 +117,13 @@ class PaymentController extends GetxController{
           return  days > 2 ? '$days days' : '$days day';
         } else if (days > 7 && days < 30) {
           int weeks = days ~/ 7;
-          return '$weeks weeks';
+          return '$weeks ${weeks > 1 ? 'weeks' : 'week'}';
         } else {
           int months = days ~/ 30;
           return '$months months';
         }
     }
   }
-
-  // String getWeek(int days) {
-  //   if(days == 0){
-  //     return '0 day';
-  //   }else if (days < 30) {
-  //     // Handle days less than or equal to 30
-  //     if (days % 7 == 0) {
-  //       int weeks = days ~/ 7;
-  //       return weeks == 1 ? '1 week' : '$weeks weeks';
-  //     } else {
-  //       return days > 2 ? '$days days' : '1 day';
-  //     }
-  //   } else {
-  //     // Handle cases for days greater than 30
-  //     int months = days ~/ 30; // Calculate full months
-  //     int remainingDays = days % 30; // Calculate remaining days
-  //
-  //     if (remainingDays == 0) {
-  //       return months == 1 ? '1 month' : '$months months';
-  //     } else if (remainingDays % 7 == 0) {
-  //       int weeks = remainingDays ~/ 7;
-  //       String monthText = months == 1 ? '1 month' : '$months months';
-  //       String weekText = weeks == 1 ? '1 week' : '$weeks weeks';
-  //       return '$monthText $weekText';
-  //     } else {
-  //       String monthText = months == 1 ? '1 month' : '$months months';
-  //       String dayText = remainingDays == 1 ? '1 day' : '$remainingDays days';
-  //       return '$monthText $dayText';
-  //     }
-  //   }
-  // }
 
 
   String matchPlan(String name) {
@@ -164,6 +133,15 @@ class PaymentController extends GetxController{
       if(name.toString() == i.billingPeriod.toString()){
         print('match found');
         return getWeek(int.parse(i.trailDays.toString()));
+      }
+    }
+    return '';
+  }
+
+  String getAmount(String name){
+    for(var i in plans.value.result!){
+      if(name.toString() == i.billingPeriod.toString()){
+        return i.price.toString();
       }
     }
     return '';
@@ -527,7 +505,7 @@ class PaymentController extends GetxController{
 
   }
 
-  cancelSubPopUp({required String endDate,required dynamic Function() onTap}) async {
+  cancelSubPopUp({required bool inTrail,required dynamic Function() onTap}) async {
     Get.dialog(AlertDialog(
         backgroundColor: clrWhite,
         insetPadding: const EdgeInsets.symmetric(horizontal: 13),
@@ -549,7 +527,8 @@ class PaymentController extends GetxController{
               SizedBox(height: Get.height * .012),
               Center(
                   child: Text(
-                    "You will remain a member till $endDate and will not be charged further.",
+                    inTrail ? 'Your membership will be canceled at the end of your current trial.' :
+                    "Your membership will be canceled at the end of your current billing cycle.",
                     textAlign: TextAlign.center,
                     style: TextStyle(color: clrGreyTextLight, fontSize: 16),
                   )),
@@ -564,15 +543,15 @@ class PaymentController extends GetxController{
                     child: SizedBox(
                       height: Res.h_btn,
                       child: CustomElevatedButton(
+                        backgroundClr: clrBlacke,
                         onTap: () {
                           Get.back();
                         },
-                        backgroundClr: clrWhite,
-                        borderClr: clrBlacke,
+
                         child: Text(
-                          "No",
+                          "Go back",
                           style: TextStyle(
-                              color: clrBlacke,
+                              color: clrWhite,
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
                         ),
@@ -585,11 +564,12 @@ class PaymentController extends GetxController{
                       height: Res.h_btn,
                       child: CustomElevatedButton(
                         onTap: onTap,
-                        backgroundClr: clrBlacke,
+                        backgroundClr: clrWhite,
+                        borderClr: clrBlacke,
                         child: Text(
-                          "Yes",
+                          "Cancel",
                           style: TextStyle(
-                              color: clrWhite,
+                              color: clrBlacke,
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
                         ),
@@ -1351,6 +1331,41 @@ class PaymentController extends GetxController{
     ));
   }
 
+  referFailPopUp(){
+    Get.dialog(AlertDialog(
+      scrollable: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18)
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(vertical: 20),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: GestureDetector(onTap: () {
+                Get.back();
+              },child: const Icon(Icons.close)),
+            ),
+            Center(child: Image.asset("assets/images/invalid_refer.png",height: 65,),),
+            const SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Center(child: Text("Referral code invalid",style: TextStyle(color: clrBlacke,fontSize: 15),textAlign: TextAlign.center,)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
 
   Future<void> applyCode() async{
 
@@ -1377,7 +1392,8 @@ class PaymentController extends GetxController{
         profileController.profileData.refresh();
         referSuccessPopUp();
       }else{
-        showTostMsg('${response.body['message']}');
+        referFailPopUp();
+        // showTostMsg('${response.body['message']}');
       }
     }catch(e){
       print('referal code error == ${e.toString()}');

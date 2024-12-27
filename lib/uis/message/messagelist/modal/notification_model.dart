@@ -29,6 +29,9 @@ class Notification {
   DateTime? createdAt;
   DateTime? updatedAt;
   String? profile;
+  String? actImg;
+  String? actName;
+  int? actId;
 
   Notification({
     this.id,
@@ -40,6 +43,9 @@ class Notification {
     this.createdAt,
     this.updatedAt,
     this.profile,
+    this.actId,
+    this.actImg,
+    this.actName
   });
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
@@ -52,6 +58,9 @@ class Notification {
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     profile: json["profile"],
+    actId: json['activity_id'],
+    actImg: json['activity_img'],
+    actName: json['activity_name']
   );
 
   Map<String, dynamic> toJson() => {

@@ -865,7 +865,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         // ),
                   
                   
-                        (controller.isHost == false && controller.actData.value.isPresent == false) || controller.showreviewData.value.result == null ? const SizedBox() : const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+                        (controller.isHost == false && controller.actData.value.isPresent == false) || controller.showreviewData.value.result == null || controller.showreviewData.value.result!.isEmpty ? const SizedBox() : const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
                         (controller.isHost == false && controller.actData.value.isPresent == false) || controller.showreviewData.value.result == null ? const SizedBox() : SizedBox(
                           height: Get.height*0.01,
                         ),

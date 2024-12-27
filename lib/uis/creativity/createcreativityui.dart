@@ -1155,124 +1155,124 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
-                                            Obx(() {
-                                              return CustomDropdown.search(
-                                                hintText:
-                                                "Select country",
-                                                initialItem: controller.selectedCountry.value.isNotEmpty
-                                                    ? controller.selectedCountry.value
-                                                    : null,
-                                                decoration:
-                                                CustomDropdownDecoration(
-                                                    hintStyle: TextStyle(
-                                                        color: clrBlacke
-                                                            .withOpacity(
-                                                            0.6),
-                                                        fontSize: 15),
-                                                    closedSuffixIcon:
-                                                    Image.asset(
-                                                      'assets/images/arrow down.png',
-                                                      scale: 4,
-                                                    ),
-                                                    expandedSuffixIcon:
-                                                    Image.asset(
-                                                      'assets/images/arrow down.png',
-                                                      scale: 4,
-                                                    ),
-                                                    prefixIcon: Icon(Icons.public_rounded),
-                                                    closedFillColor:
-                                                    clrGreyLight,
-                                                    closedBorderRadius:
-                                                    BorderRadius
-                                                        .circular(100)),
-                                                items: controller.countryList
-                                                    .map(
-                                                      (e) => e['value'],).toList(),
-                                                onChanged: (val) {
-                                                  print('$val');
-                                                  controller.selectedCountry.value = val;
-                                                  controller.getTimeZone(val);
-                                                },
-                                              );
-                                            }),
-                                            SizedBox(
-                                              height: Get.height * 0.02,
-                                            ),
-
-                                            Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : FutureBuilder(
-                                              future: Future.delayed(
-                                              const Duration(
-                                              seconds: 1)),
-                                              builder:
-                                              (context, snapshot) {
-                                              if (snapshot
-                                                  .connectionState ==
-                                              ConnectionState
-                                                  .waiting) {
-                                              return Shimmer
-                                                  .fromColors(
-                                              baseColor: Colors
-                                                  .grey
-                                                  .shade300,
-                                              highlightColor:
-                                              Colors
-                                                  .grey
-                                                  .shade100,
-                                              child:
-                                              Container(
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                              color:
-                                              clrGrey,
-                                              borderRadius:
-                                              BorderRadius.circular(100)),
-                                              )); // Show loading indicator
-                                              }else{
-                                                return  CustomDropdown(
-                                                hintText:
-                                                "Select timezone",
-                                                initialItem: controller.timeZoneName.value.isNotEmpty
-                                                ? controller.timeZoneName.value
-                                                    : null,
-                                                decoration:
-                                                CustomDropdownDecoration(
-                                                hintStyle: TextStyle(
-                                                color: clrBlacke
-                                                    .withOpacity(
-                                                0.6),
-                                                fontSize: 15),
-                                                closedSuffixIcon:
-                                                Image.asset(
-                                                'assets/images/arrow down.png',
-                                                scale: 4,
-                                                ),
-                                                expandedSuffixIcon:
-                                                Image.asset(
-                                                'assets/images/arrow down.png',
-                                                scale: 4,
-                                                ),
-                                                prefixIcon: Icon(Icons.access_time),
-                                                closedFillColor:
-                                                clrGreyLight,
-                                                closedBorderRadius:
-                                                BorderRadius
-                                                    .circular(100)),
-                                              items: controller.timeZoneList
-                                                  .map(
-                                              (e) => e['value'],).toList(),
-                                              onChanged: (val) {
-                                              print('$val');
-                                              controller.timeZoneName.value =
-                                              val.toString();
-                                              controller.getTimeId(val);
-                                              },
-                                              );
-                                              }
-    }
-                                              )),
-                                            Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : SizedBox(
-                                              height: Get.height * 0.02,
-                                            ),),
+    //                                         Obx(() {
+    //                                           return CustomDropdown.search(
+    //                                             hintText:
+    //                                             "Select country",
+    //                                             initialItem: controller.selectedCountry.value.isNotEmpty
+    //                                                 ? controller.selectedCountry.value
+    //                                                 : null,
+    //                                             decoration:
+    //                                             CustomDropdownDecoration(
+    //                                                 hintStyle: TextStyle(
+    //                                                     color: clrBlacke
+    //                                                         .withOpacity(
+    //                                                         0.6),
+    //                                                     fontSize: 15),
+    //                                                 closedSuffixIcon:
+    //                                                 Image.asset(
+    //                                                   'assets/images/arrow down.png',
+    //                                                   scale: 4,
+    //                                                 ),
+    //                                                 expandedSuffixIcon:
+    //                                                 Image.asset(
+    //                                                   'assets/images/arrow down.png',
+    //                                                   scale: 4,
+    //                                                 ),
+    //                                                 prefixIcon: Icon(Icons.public_rounded),
+    //                                                 closedFillColor:
+    //                                                 clrGreyLight,
+    //                                                 closedBorderRadius:
+    //                                                 BorderRadius
+    //                                                     .circular(100)),
+    //                                             items: controller.countryList
+    //                                                 .map(
+    //                                                   (e) => e['value'],).toList(),
+    //                                             onChanged: (val) {
+    //                                               print('$val');
+    //                                               controller.selectedCountry.value = val;
+    //                                               controller.getTimeZone(val);
+    //                                             },
+    //                                           );
+    //                                         }),
+    //                                         SizedBox(
+    //                                           height: Get.height * 0.02,
+    //                                         ),
+    //
+    //                                         Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : FutureBuilder(
+    //                                           future: Future.delayed(
+    //                                           const Duration(
+    //                                           seconds: 1)),
+    //                                           builder:
+    //                                           (context, snapshot) {
+    //                                           if (snapshot
+    //                                               .connectionState ==
+    //                                           ConnectionState
+    //                                               .waiting) {
+    //                                           return Shimmer
+    //                                               .fromColors(
+    //                                           baseColor: Colors
+    //                                               .grey
+    //                                               .shade300,
+    //                                           highlightColor:
+    //                                           Colors
+    //                                               .grey
+    //                                               .shade100,
+    //                                           child:
+    //                                           Container(
+    //                                           height: 50,
+    //                                           decoration: BoxDecoration(
+    //                                           color:
+    //                                           clrGrey,
+    //                                           borderRadius:
+    //                                           BorderRadius.circular(100)),
+    //                                           )); // Show loading indicator
+    //                                           }else{
+    //                                             return  CustomDropdown(
+    //                                             hintText:
+    //                                             "Select timezone",
+    //                                             initialItem: controller.timeZoneName.value.isNotEmpty
+    //                                             ? controller.timeZoneName.value
+    //                                                 : null,
+    //                                             decoration:
+    //                                             CustomDropdownDecoration(
+    //                                             hintStyle: TextStyle(
+    //                                             color: clrBlacke
+    //                                                 .withOpacity(
+    //                                             0.6),
+    //                                             fontSize: 15),
+    //                                             closedSuffixIcon:
+    //                                             Image.asset(
+    //                                             'assets/images/arrow down.png',
+    //                                             scale: 4,
+    //                                             ),
+    //                                             expandedSuffixIcon:
+    //                                             Image.asset(
+    //                                             'assets/images/arrow down.png',
+    //                                             scale: 4,
+    //                                             ),
+    //                                             prefixIcon: Icon(Icons.access_time),
+    //                                             closedFillColor:
+    //                                             clrGreyLight,
+    //                                             closedBorderRadius:
+    //                                             BorderRadius
+    //                                                 .circular(100)),
+    //                                           items: controller.timeZoneList
+    //                                               .map(
+    //                                           (e) => e['value'],).toList(),
+    //                                           onChanged: (val) {
+    //                                           print('$val');
+    //                                           controller.timeZoneName.value =
+    //                                           val.toString();
+    //                                           controller.getTimeId(val);
+    //                                           },
+    //                                           );
+    //                                           }
+    // }
+    //                                           )),
+    //                                         Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : SizedBox(
+    //                                           height: Get.height * 0.02,
+    //                                         ),),
 
                                             Obx(() {
                                               return CustomDropdown(

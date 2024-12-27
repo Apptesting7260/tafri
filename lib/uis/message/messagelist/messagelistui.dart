@@ -376,7 +376,10 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 .value
                                                 .notifications?[
                                             index].senderId.toString(),
-                                            'userimg': controller.notData.value.notifications?[index].profile
+                                            'userimg': controller.notData.value.notifications?[index].profile.toString(),
+                                            'activity_id': controller.notData.value.notifications?[index].actId.toString(),
+                                            'activity_img': controller.notData.value.notifications?[index].actImg.toString(),
+                                            'activity_title': controller.notData.value.notifications?[index].actName.toString()
                                                       });
                                         },
                                         child: Slidable(

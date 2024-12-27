@@ -622,6 +622,8 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                       })
                                   : Center(
                                       child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           SizedBox(
                                             width: Get.width * 0.55,
