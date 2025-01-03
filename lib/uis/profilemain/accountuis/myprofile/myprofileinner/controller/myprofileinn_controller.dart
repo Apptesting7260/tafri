@@ -12,6 +12,7 @@ import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proa
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/language/models/langauagemodel.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
+import 'package:signin_with_linkedin/signin_with_linkedin.dart';
 import '../../../../../../networking/apiservices.dart';
 import '../../../../../../networking/endpoints.dart';
 import '../../../../../../utils/colors.dart';
@@ -210,11 +211,44 @@ class MyprofileInnController extends GetxController
   Rx<int> isLinkdinVerified = (profileController.profileData.value.result?.profile?.verifyLinkedin == null ? 0 : int.parse(profileController.profileData.value.result?.profile?.verifyLinkedin)).obs;
 
   changeVerifyInsta(val) {
-    isInstaVerified.value = val;
+    if(val == 0) {
+
+    }
   }
 
-  changeVerifyLinkdin(val) {
-    isLinkdinVerified.value = val;
+  changeVerifyLinkdin(BuildContext context,val) {
+    if(val == 1) {
+      verifyLinkedin(context, val);
+    }
+  }
+
+  var linkedinId = ''.obs;
+  var linkedinName = ''.obs;
+  var linkedinEmail = ''.obs;
+  Future<void> verifyLinkedin(BuildContext context,int val) async{
+    await SignInWithLinkedIn.logout();
+    SignInWithLinkedIn.signIn(
+      context,
+      config: LinkedInConfig(
+        clientId: '78ks11ldl2tbj5',
+        clientSecret: 'WPL_AP1.lZgN5e2rsrBh5kcY.0+11GA==',
+        redirectUrl: 'https://urlsdemo.online/plusone/api/redirect-success-url',
+        scope: ['openid', 'profile', 'email'],
+      ),
+      onGetAuthToken: (data) {
+        log('Auth token data: ${data.toJson()}');
+      },
+      onGetUserProfile: (tokenData, user) {
+        log('user == ${user.toJson()} \n token == ${tokenData.toJson()}');
+        linkedinId.value = user.sub.toString();
+        linkedinName.value = user.name.toString();
+        linkedinEmail.value = user.email.toString();
+        isLinkdinVerified.value = val;
+      },
+      onSignInError: (error) {
+        log('Error on sign in: $error');
+      },
+    );
   }
 
 ///************************************************language get dropdown api ****************
@@ -834,9 +868,6 @@ class MyprofileInnController extends GetxController
   }
 
 
-  TextEditingController instaurl = TextEditingController(text: profileController.profileData.value.result?.profile?.instagramUrl ?? '');
-  TextEditingController linkurl = TextEditingController(text: profileController.profileData.value.result?.profile?.linkedinUrl ?? '');
-
   var socialLoading = false.obs;
 
   Future<void> socialUpdate() async{
@@ -849,9 +880,15 @@ class MyprofileInnController extends GetxController
       'user_id' : uid,
       'verify_instagram' : isInstaVerified.value,
       'verify_linkedin' : isLinkdinVerified.value,
-      if(isInstaVerified.value == 1 )"instagram_url": instaurl.value.text.trim(),
-      if(isLinkdinVerified.value == 1 )"linkedin_url": linkurl.value.text.trim(),
+      // 'instagram_id':,
+      // 'instagram_email':,
+      // 'instagram_name':,
+      'linkedin_id': linkedinId.value,
+      'linkedin_email': linkedinEmail.value,
+      'linkedin_name': linkedinName.value,
     };
+
+    print('body == ${body}');
 
     var header = {"Authorization": "Bearer $token"};
 
@@ -865,12 +902,6 @@ class MyprofileInnController extends GetxController
           socialLoading.value = false;
           Get.back();
           await profileController.viewProfile();
-          if(isInstaVerified.value == 0 ){
-            instaurl.clear();
-          }
-          if(isLinkdinVerified.value == 0){
-            linkurl.clear();
-          }
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');

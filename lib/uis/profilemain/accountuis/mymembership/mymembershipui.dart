@@ -435,119 +435,201 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           ],
                                         ),
                                       ) : const SizedBox(),
+                                      SizedBox(height: 20,),
+
+                                      paymentController.profileController.profileData.value.result?.restartPlan?.planType != null && paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 20),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            // color: clrGreyLight,
+                                            border: Border.all(
+                                                color: clrGrey.withOpacity(0.4))),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'Monthly' : 'Annually',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18),
+                                            ),
+                                            const SizedBox(height: 5,),
+                                            // Text(
+                                            //   paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
+                                            //   style: TextStyle(
+                                            //       fontSize: 13,
+                                            //       color: clrGrey5D5C5E),
+                                            // ),
+                                            RichText(text: TextSpan(
+                                                children: [
+                                                  TextSpan(text: 'The changes to your membership have been made, and your new plan will renew at €${paymentController.getAmount(paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'monthly' : 'yearly')} per',style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: clrGrey5D5C5E,
+                                                    fontFamily: 'Nunito',
+                                                  )),
+                                                  TextSpan(text: ' ${paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'month' : 'year'} ',style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: clrYellowText,
+                                                    fontFamily: 'Nunito',
+                                                  )),
+                                                  TextSpan(text: 'starting ',style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: clrGrey5D5C5E,
+                                                    fontFamily: 'Nunito',
+                                                  )),
+                                                  TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: clrYellowText,
+                                                    fontFamily: 'Nunito',
+                                                  )),
+                                                  TextSpan(text: '.',style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: clrGrey5D5C5E,
+                                                    fontFamily: 'Nunito',
+                                                  )),
+                                                ]
+                                            ))
+                                          ],
+                                        ),
+                                      ) : const SizedBox(),
+
                                       paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
                                         height: Get.height * 0.035,
                                       ) : const SizedBox(),
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
-                                        width: double.maxFinite,
-                                        height: Res.h_btn,
-                                        child: CustomElevatedButton(
-                                            onTap: () {
-                                              Get.toNamed(Routes.switchPlanProUi);
+                                  Center(
+                                    child: Column(
+                                      children: [
+                                        paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () {
+                                                Get.toNamed(Routes.switchPlanProUi);
+                                              },
+                                              backgroundClr: clrBlacke,
+                                              child: Text(
+                                                "Switch plan",
+                                                style: TextStyle(
+                                                    color: clrWhite,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ) : const SizedBox(),
+                                        const SizedBox(height: 15,),
+                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId == null && paymentController.profileController.profileData.value.result?.cancelDate != null ? SizedBox() : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ? SizedBox() : paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Obx(() => SizedBox(
+                                          height: Res.h_btn,
+                                          width: double.maxFinite,
+                                          child: CustomElevatedButton(
+                                            onTap: paymentController.billingLoading.value ? (){} : () async {
+                                              paymentController.updateBilling();
                                             },
-                                            backgroundClr: clrBlacke,
-                                            child: Text(
-                                              "Switch plan",
-                                              style: TextStyle(
-                                                  color: clrWhite,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700),
-                                            )),
-                                      ) : const SizedBox(),
-                                      const SizedBox(height: 15,),
-                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId == null && paymentController.profileController.profileData.value.result?.cancelDate != null ? SizedBox() : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null ? SizedBox() : Obx(() => SizedBox(
-                                        height: Res.h_btn,
-                                        width: double.maxFinite,
-                                        child: CustomElevatedButton(
-                                          onTap: paymentController.billingLoading.value ? (){} : () async {
-                                            paymentController.updateBilling();
-                                          },
-                                          backgroundClr: clrWhite,
-                                          borderClr: clrBlacke,
-                                          child: paymentController.billingLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
-                                            "Change billing details",
-                                            style: TextStyle(
-                                                color: clrBlacke,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ),
-                                      ),),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId == null ?
-                                      paymentController.profileController.profileData.value.result?.cancelDate != null ?  SizedBox(
-                                        width: double.maxFinite,
-                                        height: Res.h_btn,
-                                        child: CustomElevatedButton(
-                                            onTap: () {
-                                              Get.toNamed(Routes.restartScreen);
-                                            },
-                                            backgroundClr: clrBlacke,
-                                            child: Text(
-                                              "Restart Membership",
-                                              style: TextStyle(
-                                                  color: clrWhite,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700),
-                                            )),
-                                      ) : Obx(() =>  paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : GestureDetector(
-                                            onTap: () {
-                                              // DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
-                                              // String endDate = DateFormat('dd MMMM yyyy').format(date);
-                                              bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null ? true : false;
-                                              paymentController.cancelSubPopUp(inTrail: inTrail, onTap: () async{
-                                                Get.back();
-                                                await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result!.subscriptionId.toString());
-                                              },);
-                                            },
-                                            child: Text(
-                                              paymentController.profileController.profileData.value.result?.trailDate != null ? "Cancel trial" : 'Cancel membership',
+                                            backgroundClr: clrWhite,
+                                            borderClr: clrBlacke,
+                                            child: paymentController.billingLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
+                                              "Change billing details",
                                               style: TextStyle(
                                                   color: clrBlacke,
                                                   fontSize: 16,
-                                                  decoration: TextDecoration.underline),
+                                                  fontWeight: FontWeight.w700),
                                             ),
-                                          ),) : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null ? SizedBox(
-                                            width: double.maxFinite,
-                                            height: Res.h_btn,
-                                            child: CustomElevatedButton(
-                                                onTap: () {
-                                                  Get.toNamed(Routes.restartScreen);
-                                                },
-                                                backgroundClr: clrBlacke,
-                                                child: Text(
-                                                  "Restart Membership",
-                                                  style: TextStyle(
-                                                      color: clrWhite,
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w700),
-                                                )),
-                                          ) : Obx(() => paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : GestureDetector(
-                                        onTap: () {
-                                          // DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
-                                          // String endDate = DateFormat('dd MMMM yyyy').format(date);
-                                          bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null ? true : false;
-                                          paymentController.cancelSubPopUp(inTrail: inTrail, onTap: () async{
-                                            Get.back();
-                                            await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result?.switchPlan?.subscriptionId);
-                                          },);
-                                        },
-                                        child: Text(
-                                          paymentController.profileController.profileData.value.result?.trailDate != null ? "Cancel trial" : 'Cancel membership',
-                                          style: TextStyle(
-                                              color: clrBlacke,
-                                              fontSize: 16,
-                                              decoration: TextDecoration.underline),
+                                          ),
+                                        ),) : SizedBox(),
+                                        const SizedBox(
+                                          height: 15,
                                         ),
-                                      ),),
-                                      SizedBox(height: 10,)
-                                    ],
+                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId == null ?
+                                        paymentController.profileController.profileData.value.result?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ?  SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () {
+                                                Get.toNamed(Routes.restartScreen);
+                                              },
+                                              backgroundClr: clrBlacke,
+                                              child: Text(
+                                                "Restart Membership",
+                                                style: TextStyle(
+                                                    color: clrWhite,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ) : Obx(() =>  paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : GestureDetector(
+                                              onTap: () {
+                                                // DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
+                                                // String endDate = DateFormat('dd MMMM yyyy').format(date);
+                                                bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null ? true : false;
+                                                paymentController.cancelSubPopUp(inTrail: inTrail, onTap: () async{
+                                                  Get.back();
+                                                  await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result!.subscriptionId.toString());
+                                                },);
+                                              },
+                                              child: Text(
+                                                paymentController.profileController.profileData.value.result?.trailDate != null ? "Cancel trial" : 'Cancel membership',
+                                                style: TextStyle(
+                                                    color: clrBlacke,
+                                                    fontSize: 16,
+                                                    decoration: TextDecoration.underline),
+                                              ),
+                                            ),) : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ? SizedBox(
+                                              width: double.maxFinite,
+                                              height: Res.h_btn,
+                                              child: CustomElevatedButton(
+                                                  onTap: () {
+                                                    Get.toNamed(Routes.restartScreen);
+                                                  },
+                                                  backgroundClr: clrBlacke,
+                                                  child: Text(
+                                                    "Restart Membership",
+                                                    style: TextStyle(
+                                                        color: clrWhite,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w700),
+                                                  )),
+                                            ) : paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Obx(() => paymentController.cancelSubLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : GestureDetector(
+                                          onTap: () {
+                                            // DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
+                                            // String endDate = DateFormat('dd MMMM yyyy').format(date);
+                                            bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null ? true : false;
+                                            var subId = paymentController.profileController.profileData.value.result?.restartPlan?.subId;
+                                            if(subId == null) {
+                                              paymentController.cancelSubPopUp(
+                                                inTrail: inTrail,
+                                                onTap: () async {
+                                                  Get.back();
+                                                  await paymentController
+                                                      .cancelSub(
+                                                      id: paymentController
+                                                          .profileController
+                                                          .profileData.value
+                                                          .result?.switchPlan
+                                                          ?.subscriptionId);
+                                                },);
+                                            }else{
+                                              paymentController.cancelSubPopUp(
+                                                inTrail: inTrail,
+                                                onTap: () async {
+                                                  Get.back();
+                                                  await paymentController
+                                                      .cancelSub(
+                                                      id: subId);
+                                                },);
+                                            }
+                                          },
+                                          child: Text(
+                                            paymentController.profileController.profileData.value.result?.trailDate != null ? "Cancel trial" : 'Cancel membership',
+                                            style: TextStyle(
+                                                color: clrBlacke,
+                                                fontSize: 16,
+                                                decoration: TextDecoration.underline),
+                                          ),
+                                        ),) : SizedBox(),
+                                        SizedBox(height: 10,)
+                                      ],
+                                    ),
                                   )
                                 ],
                               )

@@ -76,7 +76,7 @@ dependencies:
 #  in_app_purchase: ^3.2.0
   sliding_up_panel:
   timeago: ^3.7.0
-  flutter_inappwebview: ^6.0.0
+#  flutter_inappwebview:
   app_links:
 #  app_links: ^6.3.2
   path_provider: ^2.1.4
@@ -85,6 +85,8 @@ dependencies:
   socket_io_client: ^3.0.2
   file_picker: ^8.1.4
   cached_video_player_plus: ^3.0.3
+  signin_with_linkedin:
+  webview_flutter: ^4.8.0
 
 dev_dependencies:
   flutter_test:

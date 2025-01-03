@@ -64,6 +64,7 @@ class Result {
   String? referCode;
   int? myReferDays;
   ReferralSetting? referralSetting;
+  ReStartPlan? restartPlan;
 
   Result({
     this.id,
@@ -80,6 +81,7 @@ class Result {
     this.emailVerifiedAt,
     this.status,
     this.isBlocked,
+    this.restartPlan,
     this.timeZone,
     this.userType,
     this.subscriptionStatus,
@@ -158,7 +160,8 @@ class Result {
     cardDetail: json['card_active'] == null ? null : CardDetail.fromJson(json['card_active']),
     referCode: json['referral_code'],
     myReferDays: json['extra_days'],
-    referralSetting: json['referral_setting'] == null ? null : ReferralSetting.fromJson(json['referral_setting'])
+    referralSetting: json['referral_setting'] == null ? null : ReferralSetting.fromJson(json['referral_setting']),
+    restartPlan: json['restart_plan'] == null ? null : ReStartPlan.fromJson(json['restart_plan'])
   );
 
   Map<String, dynamic> toJson() => {
@@ -194,6 +197,26 @@ class Result {
     "previous_activities": previousActivities == null ? [] : List<dynamic>.from(previousActivities!.map((x) => x.toJson())),
   };
 }
+
+  class ReStartPlan{
+  String? planType;
+  String? subId;
+  String? cancelDate;
+
+  ReStartPlan({
+    this.planType,
+    this.subId,
+    this.cancelDate
+  });
+
+  factory ReStartPlan.fromJson(Map<String, dynamic> json) => ReStartPlan(
+    planType: json['plan_type'],
+    subId: json['subscription_id'],
+    cancelDate: json['canceled_date']
+  );
+
+  }
+
 
   class ReferralSetting{
   int? referralDays;

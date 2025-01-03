@@ -103,41 +103,11 @@ class GetVerifyUi extends GetWidget<MyprofileInnController> {
                                               : 1);
                                       },
                                   );
-                                  //   Switch(
-                                  //   activeTrackColor: clrYellow,
-                                  //   value: controller.isInstaVerified.value == 1
-                                  //       ? true
-                                  //       : false,
-                                  //   onChanged: (val) {
-                                  //     controller.changeVerifyInsta(
-                                  //         controller.isInstaVerified.value == 1
-                                  //             ? 0
-                                  //             : 1);
-                                  //   },
-                                  //   activeColor: clrWhite,
-                                  //   focusColor: clrWhite,
-                                  //   inactiveThumbColor: clrWhite,
-                                  //   trackOutlineColor:
-                                  //       WidgetStateProperty.all(clrTransparent),
-                                  //   inactiveTrackColor: clrTrack,
-                                  // );
                                 })
                               ],
                             ),
                           )
                         ],
-                      ),
-                      Obx(()=> controller.isInstaVerified.value == 1
-                          ? SizedBox(
-                        height: 100,
-                        child: Center(
-                          child: CustoTextFormField(
-                            controll: controller.instaurl,
-                            hintText: "Insta Url",
-                          ),
-                        ),
-                      )
-                          : SizedBox(),
                       ),
                       Divider(
                         height: h * .04,
@@ -167,49 +137,17 @@ class GetVerifyUi extends GetWidget<MyprofileInnController> {
                                         ? true
                                         : false,
                                     onChanged: (val) {
-                                      controller.changeVerifyLinkdin(
+                                      controller.changeVerifyLinkdin(context,
                                           controller.isLinkdinVerified.value == 1
                                               ? 0
                                               : 1);
                                       },
                                   );
-                                  //   Switch(
-                                  //   activeTrackColor: clrYellow,
-                                  //   value:
-                                  //       controller.isLinkdinVerified.value == 1
-                                  //           ? true
-                                  //           : false,
-                                  //   onChanged: (val) {
-                                  //     controller.changeVerifyLinkdin(
-                                  //         controller.isLinkdinVerified.value ==
-                                  //                 1
-                                  //             ? 0
-                                  //             : 1);
-                                  //   },
-                                  //   activeColor: clrWhite,
-                                  //   trackOutlineColor:
-                                  //       WidgetStateProperty.all(clrTransparent),
-                                  //   focusColor: clrWhite,
-                                  //   inactiveThumbColor: clrWhite,
-                                  //   inactiveTrackColor: clrTrack,
-                                  // );
                                 })
                               ],
                             ),
                           )
                         ],
-                      ),
-                      Obx(()=> controller.isLinkdinVerified.value == 1
-                          ? SizedBox(
-                        height: 100,
-                        child: Center(
-                          child: CustoTextFormField(
-                            controll: controller.linkurl,
-                            hintText: "Link Url",
-                          ),
-                        ),
-                      )
-                          : SizedBox(),
                       ),
                       Divider(
                         height: h * .04,
@@ -225,19 +163,7 @@ class GetVerifyUi extends GetWidget<MyprofileInnController> {
                       width: double.maxFinite,
                       child: CustomElevatedButton(
                           onTap: () {
-                            if(controller.isLinkdinVerified.value == 1 && controller.linkurl.value.text.isEmpty && controller.isInstaVerified.value == 1 && controller.instaurl.value.text.isEmpty){
-                              showTostMsg('Please enter instagram and linkedin profile url.');
-                            }else if(controller.isInstaVerified.value == 1 && controller.instaurl.value.text.isEmpty){
-                              showTostMsg('Please enter instagram profile url.');
-                            }else if(controller.isLinkdinVerified.value == 1 && controller.linkurl.value.text.isEmpty){
-                              showTostMsg('Please enter linkedin profile url.');
-                            }else if(controller.isInstaVerified.value == 1 && controller.instaurl.value.text.isNotEmpty && !controller.instaurl.value.text.contains('https://www.instagram.com/')){
-                              showTostMsg('Please enter valid instagram profile url.');
-                            }else if(controller.isLinkdinVerified.value == 1 && controller.linkurl.value.text.isNotEmpty && !controller.linkurl.value.text.contains('https://www.linkedin.com/in/')){
-                              showTostMsg('Please enter valid linkedin profile url.');
-                            }else{
                               controller.socialUpdate();
-                            }
                           },
                           backgroundClr: clrBlacke,
                           child: controller.socialLoading.value ? CommonUi.buttonLoading() : Text(

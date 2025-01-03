@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
-import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
@@ -10,6 +11,7 @@ import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:signin_with_linkedin/signin_with_linkedin.dart';
 
 class ProfileUi extends GetWidget<ProfilemainController> {
   ProfileUi({super.key});

@@ -252,11 +252,11 @@ class ReStartMembershipScreen extends StatelessWidget {
                           showTostMsg('Please select any plan.');
                         }else{
                           print('selected');
-                          // restartController.restartPlan(customerID: paymentController.profileController.profileData.value.result!.cardDetail!.customerId.toString());
+                          restartController.restartPlan(customerID: paymentController.profileController.profileData.value.result!.cardDetail!.customerId.toString());
                         }
                       },
                       backgroundClr: clrBlacke,
-                      child: Text('Start now',style: TextStyle(
+                      child: restartController.loading.value ? CommonUi.buttonLoading() : Text('Start now',style: TextStyle(
                           color: clrWhite,
                           fontSize: 16,
                           fontWeight: FontWeight.w700))),),

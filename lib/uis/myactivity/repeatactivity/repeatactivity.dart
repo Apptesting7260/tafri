@@ -675,9 +675,9 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                           );
                                                         },
                                                         firstDate:
-                                                            DateTime.now(),
+                                                            DateTime.now().add(Duration(days: 1)),
                                                         lastDate:
-                                                            DateTime(2025),
+                                                        DateTime.now().add(Duration(days: 365)),
                                                         currentDate: controller
                                                                 .dateForPicker
                                                                 .value
