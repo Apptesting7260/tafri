@@ -520,7 +520,9 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               )),
                                         ) : const SizedBox(),
                                         const SizedBox(height: 15,),
-                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId == null && paymentController.profileController.profileData.value.result?.cancelDate != null ? SizedBox() : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ? SizedBox() : paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Obx(() => SizedBox(
+                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId == null && paymentController.profileController.profileData.value.result?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ? SizedBox()
+                                            : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ? SizedBox()
+                                            : paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Obx(() => SizedBox(
                                           height: Res.h_btn,
                                           width: double.maxFinite,
                                           child: CustomElevatedButton(
@@ -568,7 +570,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 },);
                                               },
                                               child: Text(
-                                                paymentController.profileController.profileData.value.result?.trailDate != null ? "Cancel trial" : 'Cancel membership',
+                                                paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate == null ? "Cancel trial" : 'Cancel membership',
                                                 style: TextStyle(
                                                     color: clrBlacke,
                                                     fontSize: 16,
