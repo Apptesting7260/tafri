@@ -520,26 +520,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               )),
                                         ) : const SizedBox(),
                                         const SizedBox(height: 15,),
-                                        paymentController.profileController.profileData.value.result?.switchPlan?.planId == null && paymentController.profileController.profileData.value.result?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ? SizedBox()
-                                            : paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate != null && paymentController.profileController.profileData.value.result?.restartPlan?.planType == null ? SizedBox()
-                                            : paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Obx(() => SizedBox(
-                                          height: Res.h_btn,
-                                          width: double.maxFinite,
-                                          child: CustomElevatedButton(
-                                            onTap: paymentController.billingLoading.value ? (){} : () async {
-                                              paymentController.updateBilling();
-                                            },
-                                            backgroundClr: clrWhite,
-                                            borderClr: clrBlacke,
-                                            child: paymentController.billingLoading.value ? CommonUi.buttonLoading(color: clrBlacke) : Text(
-                                              "Change billing details",
-                                              style: TextStyle(
-                                                  color: clrBlacke,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                        ),) : SizedBox(),
+                                        buildBillingButton(),
                                         const SizedBox(
                                           height: 15,
                                         ),
@@ -563,10 +544,11 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               onTap: () {
                                                 // DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
                                                 // String endDate = DateFormat('dd MMMM yyyy').format(date);
-                                                bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null ? true : false;
+                                                bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate == null ? true : false;
+                                                var id = paymentController.profileController.profileData.value.result!.cancelDate == null ? paymentController.profileController.profileData.value.result!.subscriptionId.toString() : paymentController.profileController.profileData.value.result?.restartPlan?.subId;
                                                 paymentController.cancelSubPopUp(inTrail: inTrail, onTap: () async{
                                                   Get.back();
-                                                  await paymentController.cancelSub(id: paymentController.profileController.profileData.value.result!.subscriptionId.toString());
+                                                  await paymentController.cancelSub(id: id.toString());
                                                 },);
                                               },
                                               child: Text(
@@ -595,7 +577,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           onTap: () {
                                             // DateTime date = DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString());
                                             // String endDate = DateFormat('dd MMMM yyyy').format(date);
-                                            bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null ? true : false;
+                                            bool inTrail = paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate == null ? true : false;
                                             var subId = paymentController.profileController.profileData.value.result?.restartPlan?.subId;
                                             if(subId == null) {
                                               paymentController.cancelSubPopUp(
@@ -928,6 +910,45 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
       ),
     );
   }
+
+  Widget buildBillingButton() {
+    final result = paymentController.profileController.profileData.value.result;
+
+    final isCurrentPlanActive = result?.cancelDate == null;
+    final isSwitchPlanActive = result?.switchPlan?.cancelDate == null && result?.switchPlan?.planId != null;
+    final isRestartPlanActive = result?.restartPlan?.cancelDate == null && result?.restartPlan?.planType != null;
+
+    if (!isCurrentPlanActive && !isSwitchPlanActive && !isRestartPlanActive) {
+      return SizedBox();
+    }
+
+    return Obx(() => SizedBox(
+      height: Res.h_btn,
+      width: double.infinity,
+      child: CustomElevatedButton(
+        onTap: paymentController.billingLoading.value
+            ? () {}
+            : () async {
+          paymentController.updateBilling();
+        },
+        backgroundClr: clrWhite,
+        borderClr: clrBlacke,
+        child: paymentController.billingLoading.value
+            ? CommonUi.buttonLoading(color: clrBlacke)
+            : Text(
+          "Change billing details",
+          style: TextStyle(
+            color: clrBlacke,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    ));
+  }
+
+
+
 }
 
 // class SubscriptionScreen extends StatefulWidget {

@@ -626,6 +626,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                             ),
                                             child: CachedNetworkImage(
                                               imageUrl: '${msg.proImg}',
+                                              fit: BoxFit.cover,
                                               placeholder: (context, url) => Shimmer.fromColors(
                                                   baseColor: grey300,
                                                   highlightColor: grey100,

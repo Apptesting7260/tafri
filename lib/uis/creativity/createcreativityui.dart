@@ -1140,7 +1140,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               controll: controller.groupSizeController,
                                               hintText: "Up to 10 (incl. you)",
                                               inputFormatters: [
-                                                LengthLimitingTextInputFormatter(1),
+                                                LengthLimitingTextInputFormatter(2),
                                               ],
                                               // maxLength: 1,
                                               sufixIcon: Padding(

@@ -219,6 +219,7 @@ class ActivityElement {
   String? formattedDate;
   String? requestStatus;
   String? requestType;
+  bool? activityReview;
 
   ActivityElement({
     this.id,
@@ -242,7 +243,8 @@ class ActivityElement {
     this.updatedAt,
     this.formattedDate,
     this.requestStatus,
-    this.requestType
+    this.requestType,
+    this.activityReview
   });
 
   factory ActivityElement.fromJson(Map<String, dynamic> json) => ActivityElement(
@@ -267,7 +269,8 @@ class ActivityElement {
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     formattedDate: json["formatted_date"],
     requestStatus: json['request_status'],
-    requestType: json['request_type']
+    requestType: json['request_type'],
+    activityReview: json['activity_review']
   );
 
   Map<String, dynamic> toJson() => {

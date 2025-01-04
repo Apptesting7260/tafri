@@ -438,7 +438,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     height: Get.height * 0.01,
                                   ),
                                   Text(
-                                    "${controller.actData.value.activity?.spotPeople} ${controller.actData.value.activity!.spotPeople! > 1 ? 'Persons joined' : 'Person joined'}",
+                                    "${controller.actData.value.activity?.spotPeople} ${controller.actData.value.activity!.spotPeople == 0 ? 'Persons joined' :controller.actData.value.activity!.spotPeople! > 1 ? 'Persons joined' : 'Person joined'}",
                                     style: TextStyle(color: clrYellowText, fontSize: 13),
                                   ),
                                   // Text(
@@ -1057,7 +1057,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                     )
                 ),
               ) : const SizedBox() : const SizedBox()),
-              Obx(() => controller.activitypage.value || controller.actError.value.isNotEmpty ? SizedBox() : (controller.actData.value.activity?.status == 'completed' && controller.isHost == false && controller.actData.value.reviewAdded == false) ? Padding(
+              Obx(() => controller.activitypage.value || controller.actError.value.isNotEmpty ? SizedBox() : (controller.actData.value.activity?.status == 'completed' && controller.isHost == false && controller.actData.value.reviewAdded == false && controller.actData.value.isPresent == true) ? Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: SizedBox(
                     width: double.maxFinite,

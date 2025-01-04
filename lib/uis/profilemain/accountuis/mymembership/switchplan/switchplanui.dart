@@ -144,7 +144,7 @@ class SwitchPlanUi extends GetWidget<MymembershipController> {
                                   ),
                                 ],
                               )),
-                              controller.homeController.homeData.value.result!.planType == data.billingPeriod ? Container(
+                              paymentController.profileController.profileData.value.result?.planType == data.billingPeriod ? Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8,
                                     vertical: 3

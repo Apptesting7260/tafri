@@ -1142,7 +1142,9 @@ class PaymentController extends GetxController{
       if(response.statusCode == 200){
         Get.back();
         switchSuccessPopUp();
-        profileController.viewProfile();
+        await profileController.viewProfile();
+        profileController.profileData.value.result?.planType == 'monthly' ? updateSelectedValue(0) : updateSelectedValue(1);
+        purchasedPlan.value = profileController.profileData.value.result?.planType ?? '';
       }else{
         showTostMsg('Something went wrong. Please try again.');
       }

@@ -599,6 +599,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                               ),
                                               child: CachedNetworkImage(
                                                 imageUrl: '${controller.sc.profileController.profileData.value.result?.profile?.profilePhoto ?? ''}',
+                                                fit: BoxFit.cover,
                                                 placeholder: (context, url) => Shimmer.fromColors(
                                                     baseColor: grey300,
                                                     highlightColor: grey100,
