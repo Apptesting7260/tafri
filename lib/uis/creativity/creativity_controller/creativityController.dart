@@ -519,17 +519,21 @@ class Creativitycontroller extends GetxController
     final text = controller.text;
     if (text.isNotEmpty) {
       final cursorPosition = controller.selection.base.offset;
-      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
-      controller.value = controller.value.copyWith(
-        text: updatedText,
-        selection: TextSelection.fromPosition(
-          TextPosition(offset: updatedText.length),
-        ),
-      );
+      final updatedText = _capitalizeAfterPunctuationLogic(text);
+
+      // Only update if the text has actually changed
+      if (updatedText != text) {
+        controller.value = controller.value.copyWith(
+          text: updatedText,
+          selection: TextSelection.collapsed(
+            offset: cursorPosition, // Preserve cursor position
+          ),
+        );
+      }
     }
   }
 
-  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+  String _capitalizeAfterPunctuationLogic(String text) {
     final buffer = StringBuffer();
     bool capitalizeNext = true;
 
@@ -549,6 +553,7 @@ class Creativitycontroller extends GetxController
 
     return buffer.toString();
   }
+
 
 
   // var timeZoneData = TimeZoneModal().obs;

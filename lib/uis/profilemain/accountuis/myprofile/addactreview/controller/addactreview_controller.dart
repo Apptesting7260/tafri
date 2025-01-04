@@ -22,33 +22,27 @@ class AddactreviewController extends GetxController{
 
   TextEditingController textController = TextEditingController();
   var rating = 0.0.obs;
-  // void capital() {
-  //   final text = textController.text;
-  //   if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
-  //     textController.value = textController.value.copyWith(
-  //       text: text[0].toUpperCase() + text.substring(1),
-  //       selection: TextSelection.fromPosition(
-  //         TextPosition(offset: textController.text.length),
-  //       ),
-  //     );
-  //   }
-  // }
+
 
   void capital() {
     final text = textController.text;
     if (text.isNotEmpty) {
       final cursorPosition = textController.selection.base.offset;
-      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
-      textController.value = textController.value.copyWith(
-        text: updatedText,
-        selection: TextSelection.fromPosition(
-          TextPosition(offset: updatedText.length),
-        ),
-      );
+      final updatedText = _capitalizeAfterPunctuationLogic(text);
+
+      // Only update if the text has actually changed
+      if (updatedText != text) {
+        textController.value = textController.value.copyWith(
+          text: updatedText,
+          selection: TextSelection.collapsed(
+            offset: cursorPosition, // Preserve cursor position
+          ),
+        );
+      }
     }
   }
 
-  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+  String _capitalizeAfterPunctuationLogic(String text) {
     final buffer = StringBuffer();
     bool capitalizeNext = true;
 
@@ -68,6 +62,42 @@ class AddactreviewController extends GetxController{
 
     return buffer.toString();
   }
+
+
+  // void capital() {
+  //   final text = textController.text;
+  //   if (text.isNotEmpty) {
+  //     final cursorPosition = textController.selection.base.offset;
+  //     final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
+  //     textController.value = textController.value.copyWith(
+  //       text: updatedText,
+  //       selection: TextSelection.fromPosition(
+  //         TextPosition(offset: updatedText.length),
+  //       ),
+  //     );
+  //   }
+  // }
+  //
+  // String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+  //   final buffer = StringBuffer();
+  //   bool capitalizeNext = true;
+  //
+  //   for (int i = 0; i < text.length; i++) {
+  //     final char = text[i];
+  //     if (capitalizeNext && char != ' ') {
+  //       buffer.write(char.toUpperCase());
+  //       capitalizeNext = false;
+  //     } else {
+  //       buffer.write(char);
+  //     }
+  //
+  //     if (char == '.' || char == '!' || char == '?') {
+  //       capitalizeNext = true;
+  //     }
+  //   }
+  //
+  //   return buffer.toString();
+  // }
 
 
 

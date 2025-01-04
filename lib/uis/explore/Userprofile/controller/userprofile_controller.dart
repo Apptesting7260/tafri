@@ -16,7 +16,7 @@ class UserProfileController extends GetxController{
     hostapi(id);
     super.onInit();
     reportDescriptionController.addListener(() {
-      firstNameCapital(reportDescriptionController);
+      capitalLetter(reportDescriptionController);
     },);
   }
 
@@ -99,21 +99,25 @@ class UserProfileController extends GetxController{
   // }
 
 
-  void firstNameCapital(TextEditingController controller) {
+  void capitalLetter(TextEditingController controller) {
     final text = controller.text;
     if (text.isNotEmpty) {
       final cursorPosition = controller.selection.base.offset;
-      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
-      controller.value = controller.value.copyWith(
-        text: updatedText,
-        selection: TextSelection.fromPosition(
-          TextPosition(offset: updatedText.length),
-        ),
-      );
+      final updatedText = _capitalizeAfterPunctuationLogic(text);
+
+      // Only update if the text has actually changed
+      if (updatedText != text) {
+        controller.value = controller.value.copyWith(
+          text: updatedText,
+          selection: TextSelection.collapsed(
+            offset: cursorPosition, // Preserve cursor position
+          ),
+        );
+      }
     }
   }
 
-  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+  String _capitalizeAfterPunctuationLogic(String text) {
     final buffer = StringBuffer();
     bool capitalizeNext = true;
 
@@ -133,6 +137,41 @@ class UserProfileController extends GetxController{
 
     return buffer.toString();
   }
+
+  // void firstNameCapital(TextEditingController controller) {
+  //   final text = controller.text;
+  //   if (text.isNotEmpty) {
+  //     final cursorPosition = controller.selection.base.offset;
+  //     final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
+  //     controller.value = controller.value.copyWith(
+  //       text: updatedText,
+  //       selection: TextSelection.fromPosition(
+  //         TextPosition(offset: updatedText.length),
+  //       ),
+  //     );
+  //   }
+  // }
+  //
+  // String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+  //   final buffer = StringBuffer();
+  //   bool capitalizeNext = true;
+  //
+  //   for (int i = 0; i < text.length; i++) {
+  //     final char = text[i];
+  //     if (capitalizeNext && char != ' ') {
+  //       buffer.write(char.toUpperCase());
+  //       capitalizeNext = false;
+  //     } else {
+  //       buffer.write(char);
+  //     }
+  //
+  //     if (char == '.' || char == '!' || char == '?') {
+  //       capitalizeNext = true;
+  //     }
+  //   }
+  //
+  //   return buffer.toString();
+  // }
 
   var reportuserLoading = false.obs;
 

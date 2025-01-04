@@ -60,34 +60,26 @@ class MyprofileInnController extends GetxController
   TextEditingController ocupatController = TextEditingController(text: profileController.profileData.value.result?.profile?.occupation ?? '');
   TextEditingController organiController = TextEditingController(text: profileController.profileData.value.result?.profile?.organisationName ?? '');
 
-  /// for capital letter
-  // void capitalLetter(TextEditingController controller){
-  //   final text = controller.text;
-  //   if (text.isNotEmpty && text[0] != text[0].toUpperCase()) {
-  //     controller.value = controller.value.copyWith(
-  //       text: text[0].toUpperCase() + text.substring(1),
-  //       selection: TextSelection.fromPosition(
-  //         TextPosition(offset: controller.text.length),
-  //       ),
-  //     );
-  //   }
-  // }
 
   void capitalLetter(TextEditingController controller) {
     final text = controller.text;
     if (text.isNotEmpty) {
       final cursorPosition = controller.selection.base.offset;
-      final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
-      controller.value = controller.value.copyWith(
-        text: updatedText,
-        selection: TextSelection.fromPosition(
-          TextPosition(offset: updatedText.length),
-        ),
-      );
+      final updatedText = _capitalizeAfterPunctuationLogic(text);
+
+      // Only update if the text has actually changed
+      if (updatedText != text) {
+        controller.value = controller.value.copyWith(
+          text: updatedText,
+          selection: TextSelection.collapsed(
+            offset: cursorPosition, // Preserve cursor position
+          ),
+        );
+      }
     }
   }
 
-  String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+  String _capitalizeAfterPunctuationLogic(String text) {
     final buffer = StringBuffer();
     bool capitalizeNext = true;
 
@@ -107,6 +99,41 @@ class MyprofileInnController extends GetxController
 
     return buffer.toString();
   }
+
+  // void capitalLetter(TextEditingController controller) {
+  //   final text = controller.text;
+  //   if (text.isNotEmpty) {
+  //     final cursorPosition = controller.selection.base.offset;
+  //     final updatedText = _capitalizeAfterPunctuationLogic(text, cursorPosition);
+  //     controller.value = controller.value.copyWith(
+  //       text: updatedText,
+  //       selection: TextSelection.fromPosition(
+  //         TextPosition(offset: updatedText.length),
+  //       ),
+  //     );
+  //   }
+  // }
+  //
+  // String _capitalizeAfterPunctuationLogic(String text, int cursorPosition) {
+  //   final buffer = StringBuffer();
+  //   bool capitalizeNext = true;
+  //
+  //   for (int i = 0; i < text.length; i++) {
+  //     final char = text[i];
+  //     if (capitalizeNext && char != ' ') {
+  //       buffer.write(char.toUpperCase());
+  //       capitalizeNext = false;
+  //     } else {
+  //       buffer.write(char);
+  //     }
+  //
+  //     if (char == '.' || char == '!' || char == '?') {
+  //       capitalizeNext = true;
+  //     }
+  //   }
+  //
+  //   return buffer.toString();
+  // }
 
   /// for capital letter
 

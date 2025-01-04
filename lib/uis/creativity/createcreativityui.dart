@@ -586,6 +586,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                     focusNode: controller.desFocus,
                                                     maxLength:
                                                         controller.maxLength,
+                                                    onChanged: (value) {
+                                                      print('changfe == ${value}');
+                                                    },
                                                     decoration: InputDecoration(
                                                       hintText:
                                                           "Write a description (min. 30 characters)",
@@ -1141,6 +1144,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               hintText: "Up to 10 (incl. you)",
                                               inputFormatters: [
                                                 LengthLimitingTextInputFormatter(2),
+                                                FilteringTextInputFormatter.digitsOnly
                                               ],
                                               // maxLength: 1,
                                               sufixIcon: Padding(
