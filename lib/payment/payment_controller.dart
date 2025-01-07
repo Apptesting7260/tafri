@@ -85,6 +85,11 @@ class PaymentController extends GetxController{
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         planError.value = 'error';
       }

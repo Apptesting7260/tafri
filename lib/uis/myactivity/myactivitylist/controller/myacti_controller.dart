@@ -47,6 +47,11 @@ class MyactiController extends GetxController with GetTickerProviderStateMixin{
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         attendingData.value = AttendingActivityModel.fromJson(response.body);
         attendingError.value = '';
@@ -77,6 +82,11 @@ class MyactiController extends GetxController with GetTickerProviderStateMixin{
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         hostingError.value = '';
         hostingData.value = HostingActivityModel.fromJson(response.body);

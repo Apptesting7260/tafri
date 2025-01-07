@@ -308,6 +308,11 @@ class MyprofileInnController extends GetxController
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else {
         print('lang error =');
         showTostMsg("Something went wrong");
@@ -377,6 +382,11 @@ class MyprofileInnController extends GetxController
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else {
         print('act error');
         showTostMsg("Something went wrong");
@@ -513,6 +523,11 @@ class MyprofileInnController extends GetxController
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       } else {
         debugPrint("error=funfact statuscode");
         showTostMsg("Something went wrong");
@@ -571,6 +586,10 @@ class MyprofileInnController extends GetxController
       } else if (responseRes.statusCode == 401) {
         showTostMsg("${jsonResponse['message']}");
         print('submit error ==');
+      }else if(responseRes.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('${jsonResponse['message']}');
       } else {
         print('submit error');
         showTostMsg("Something went wrong");
@@ -615,6 +634,11 @@ class MyprofileInnController extends GetxController
           showTostMsg('Something went wrong');
           bioLoading.value = false;
         }
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         showTostMsg('Something went wrong');
@@ -666,6 +690,11 @@ class MyprofileInnController extends GetxController
           showTostMsg('Something went wrong');
           locationLoading.value = false;
         }
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         showTostMsg('Something went wrong');
@@ -712,6 +741,11 @@ class MyprofileInnController extends GetxController
           showTostMsg('Something went wrong');
           occLoading.value = false;
         }
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         showTostMsg('Something went wrong');
@@ -757,6 +791,11 @@ class MyprofileInnController extends GetxController
           showTostMsg('Something went wrong');
           langLoading.value = false;
         }
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         showTostMsg('Something went wrong');
@@ -802,6 +841,11 @@ class MyprofileInnController extends GetxController
           showTostMsg('Something went wrong');
           actintLoading.value = false;
         }
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         showTostMsg('Something went wrong');
@@ -893,6 +937,11 @@ class MyprofileInnController extends GetxController
           showTostMsg('Something went wrong');
           funfactLoading.value = false;
         }
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         showTostMsg('Something went wrong');
@@ -946,6 +995,11 @@ class MyprofileInnController extends GetxController
           showTostMsg('Something went wrong');
           socialLoading.value = false;
         }
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         showTostMsg('Something went wrong');

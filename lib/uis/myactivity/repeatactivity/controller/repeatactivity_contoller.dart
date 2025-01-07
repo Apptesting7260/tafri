@@ -11,6 +11,7 @@ import 'package:location/location.dart' as loc;
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/creativity/model/category_model.dart';
 import 'package:plusone/uis/myactivity/myactivitylist/controller/myacti_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -824,6 +825,15 @@ class Repeatcreativitycontroller extends GetxController
         if(response.statusCode == 200){
           showTostMsg('Activity created successfully.Your activity is under review.');
           Get.back();
+        }else if(response.statusCode == 401){
+          LocalStorage.removeToken();
+          Get.offAllNamed(Routes.initialPage);
+          showTostMsg('Session expired. Please login again.');
+        }else if(response.statusCode == 499){
+          LocalStorage.removeToken();
+          Get.offAllNamed(Routes.initialPage);
+          var data = response.body;
+          showTostMsg('${data['message']}');
         }else{
           showTostMsg('Something went wrong.Please try again');
         }

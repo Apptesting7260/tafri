@@ -17,6 +17,7 @@ import 'package:location/location.dart' as loc;
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:http/http.dart' as http;
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/creativity/model/category_model.dart';
 import 'package:plusone/uis/creativity/model/time_zone_modal.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -824,6 +825,10 @@ class Creativitycontroller extends GetxController
           loading.value = false;
           showTostMsg('Activity created successfully.Your activity is under review.');
           Get.back();
+        }else if(response.statusCode == 499){
+          LocalStorage.removeToken();
+          Get.offAllNamed(Routes.initialPage);
+          showTostMsg('${responseBody['message']}');
         } else {
           showTostMsg('Something went wrong');
           loading.value = false;
@@ -939,6 +944,10 @@ class Creativitycontroller extends GetxController
           loading.value = false;
           showTostMsg('Activity created successfully.Your activity is under review.');
           Get.back();
+        }else if(response.statusCode == 499){
+          LocalStorage.removeToken();
+          Get.offAllNamed(Routes.initialPage);
+          showTostMsg('${responseBody['message']}');
         } else {
           showTostMsg('Something went wrong');
           loading.value = false;

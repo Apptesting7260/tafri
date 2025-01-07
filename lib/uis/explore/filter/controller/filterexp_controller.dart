@@ -78,6 +78,11 @@ class FilterExpController extends GetxController{
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         catError.value = 'Error';
       }
@@ -358,6 +363,11 @@ class FilterExpController extends GetxController{
         // resetForm();
         // Get.toNamed(Routes.filterActUi);
         Get.back();
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         filterError.value = 'ERROR';
         print('error == ${response.body}');

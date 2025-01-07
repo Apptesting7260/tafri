@@ -67,6 +67,11 @@ class ProfilemainController extends GetxController{
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('profile error');
         // showTostMsg('Something went wrong');
@@ -109,6 +114,15 @@ class ProfilemainController extends GetxController{
             LocalStorage.getUid() == null) {
           Get.offAllNamed(Routes.initialPage);
         }
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }
 
     }catch(e){
