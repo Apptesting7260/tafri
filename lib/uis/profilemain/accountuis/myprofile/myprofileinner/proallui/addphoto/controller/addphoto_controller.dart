@@ -103,6 +103,10 @@ class AddphotoController extends GetxController {
       } else if (responseRes.statusCode == 401) {
         showTostMsg("${jsonResponse['message']}");
         print('submit error ==');
+      }else if(responseRes.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('${jsonResponse['message']}');
       } else {
         print('submit error');
         showTostMsg("${jsonResponse['message']}");
