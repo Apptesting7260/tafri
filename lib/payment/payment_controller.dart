@@ -81,6 +81,10 @@ class PaymentController extends GetxController{
       if(response.statusCode == 200){
         planError.value = '';
         plans.value = GetPlanModal.fromJson(response.body);
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         planError.value = 'error';
       }

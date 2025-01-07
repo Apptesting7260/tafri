@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:plusone/routes/routes.dart';
+import 'package:plusone/utils/tostmsg.dart';
 
 import '../../../../../networking/apiservices.dart';
 import '../../../../../networking/endpoints.dart';
@@ -36,6 +38,10 @@ class MyfavouriteController extends GetxController{
         favError.value = '';
         print('fav data == ${response.body}');
         favData.value = MyfavouriteModal.fromJson(response.body);
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         print('error == ${response.body}');
         favError.value = 'ERROR';

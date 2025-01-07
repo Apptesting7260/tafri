@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/myactivity/myactivitylist/model/attending_activity_model.dart';
 import 'package:plusone/uis/myactivity/myactivitylist/model/hosting_model.dart';
 import 'package:plusone/utils/local_storage.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MyactiController extends GetxController with GetTickerProviderStateMixin{
@@ -41,6 +43,10 @@ class MyactiController extends GetxController with GetTickerProviderStateMixin{
       if(response.statusCode == 200){
         attendingError.value = '';
         attendingData.value = AttendingActivityModel.fromJson(response.body);
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         attendingData.value = AttendingActivityModel.fromJson(response.body);
         attendingError.value = '';
@@ -67,6 +73,10 @@ class MyactiController extends GetxController with GetTickerProviderStateMixin{
       if(response.statusCode == 200){
         hostingError.value = '';
         hostingData.value = HostingActivityModel.fromJson(response.body);
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         hostingError.value = '';
         hostingData.value = HostingActivityModel.fromJson(response.body);

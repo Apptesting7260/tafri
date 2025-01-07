@@ -12,6 +12,7 @@ import 'package:plusone/uis/explore/explorelist/model/home_page_model.dart';
 import 'package:plusone/uis/explore/map/model/mapmodel.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
+import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../../routes/routes.dart';
@@ -266,6 +267,10 @@ class ExploreListController extends GetxController {
         print('home data == ${response.body}');
         homeData.value = HomePageModal.fromJson(response.body);
         addMarkers();
+      } else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         print('error == ${response.body}');
         homeError.value = 'ERROR';
@@ -329,6 +334,10 @@ class ExploreListController extends GetxController {
         print('change data == ${response.body}');
         log(isFavs.toString());
         return isFavs;
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         print('error == ${response.body}');
         return false;

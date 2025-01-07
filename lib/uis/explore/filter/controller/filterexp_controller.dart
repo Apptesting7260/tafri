@@ -74,6 +74,10 @@ class FilterExpController extends GetxController{
           categryList.addAll(catData.value.result!);
           selectedList.addAll(List<bool>.filled(categryList.length, false));
         }
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         catError.value = 'Error';
       }

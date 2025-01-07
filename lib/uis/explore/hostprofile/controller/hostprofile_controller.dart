@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/explore/hostprofile/model/hostprofile_model.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
@@ -81,6 +82,10 @@ class HostProfileController extends GetxController{
         for (var subcategory in interestList) {
           print('Title: ${subcategory.title}, Icon: ${subcategory.icon}');
         }
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         print('error == ${response.body}');
         hostError.value = 'ERROR';

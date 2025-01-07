@@ -63,6 +63,10 @@ class ProfilemainController extends GetxController{
           profileLoading.value = false;
           profileError.value = 'error';
         }
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         print('profile error');
         // showTostMsg('Something went wrong');

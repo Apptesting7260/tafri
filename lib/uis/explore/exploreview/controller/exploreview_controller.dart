@@ -415,6 +415,10 @@ class ExploreViewController extends GetxController{
         if(actData.value.activity?.requestStatus == 'reject'){
           alertRequestNotAccepted();
         }
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       }else{
         print('error == ${response.body}');
         actError.value = 'ERROR';

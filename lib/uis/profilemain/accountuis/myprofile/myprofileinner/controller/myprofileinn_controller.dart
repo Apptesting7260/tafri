@@ -304,7 +304,11 @@ class MyprofileInnController extends GetxController
           showTostMsg("Something went wrong");
           print('lang error ==');
         }
-      } else {
+      } else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
+      }else {
         print('lang error =');
         showTostMsg("Something went wrong");
       }
@@ -369,7 +373,11 @@ class MyprofileInnController extends GetxController
           print('act error ==');
           showTostMsg("Something went wrong");
         }
-      } else {
+      } else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
+      }else {
         print('act error');
         showTostMsg("Something went wrong");
       }
@@ -501,6 +509,10 @@ class MyprofileInnController extends GetxController
           debugPrint("error=funfact statu false");
           showTostMsg("Something went wrong");
         }
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
       } else {
         debugPrint("error=funfact statuscode");
         showTostMsg("Something went wrong");
