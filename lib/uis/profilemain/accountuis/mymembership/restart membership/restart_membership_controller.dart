@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
@@ -9,6 +10,9 @@ class ReStartMembershipController extends GetxController{
 
   final ProfilemainController profileController =
   Get.find<ProfilemainController>();
+
+  final PaymentController paymentController = Get.find<PaymentController>();
+
 
   var choosePlan = (-1).obs;
   var price = ''.obs;
@@ -45,8 +49,10 @@ class ReStartMembershipController extends GetxController{
       final response = await api.post(EndPoints.restartPlan, body,headers: header);
       print('restart response == ${response.statusCode}  ${response.body}');
       if(response.statusCode == 200){
-        profileController.viewProfile();
         Get.back();
+        await profileController.viewProfile();
+        profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? paymentController.restartUpdateSelectedValue(0) : paymentController.restartUpdateSelectedValue(1);
+        paymentController.restartPurchasedPlan.value = profileController.profileData.value.result?.restartPlan?.planType ?? '';
       }else{
         showTostMsg('msg');
       }

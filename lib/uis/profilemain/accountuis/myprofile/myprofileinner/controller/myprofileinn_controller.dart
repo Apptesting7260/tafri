@@ -259,7 +259,7 @@ class MyprofileInnController extends GetxController
       config: LinkedInConfig(
         clientId: '78ks11ldl2tbj5',
         clientSecret: 'WPL_AP1.lZgN5e2rsrBh5kcY.0+11GA==',
-        redirectUrl: 'https://urlsdemo.online/plusone/api/redirect-success-url',
+        redirectUrl: '${EndPoints.redirectSuccessUrl}',
         scope: ['openid', 'profile', 'email'],
       ),
       onGetAuthToken: (data) {

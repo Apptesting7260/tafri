@@ -35,7 +35,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="urlsdemo.online"
+                    android:host="nbttech.xyz"
                     android:pathPrefix="/activity"/>
             </intent-filter>
 
@@ -45,7 +45,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="urlsdemo.online"
+                    android:host="nbttech.xyz"
                     android:pathPrefix="/refer"/>
             </intent-filter>
 

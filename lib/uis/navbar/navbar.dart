@@ -168,6 +168,8 @@ class Navbar extends GetWidget {
                   }else if(index == 2){
                     activityController.attendingActivity();
                     activityController.hostingActivity();
+                  }else if(index == 0){
+                    exploreListController.homePageApi();
                   }
                 }
             );

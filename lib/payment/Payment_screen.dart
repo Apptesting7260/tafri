@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
@@ -38,11 +39,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
             print('url change == ${change.url}');
             print('load stop == ${url}');
             print(
-                'url match ${url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-success-url'}');
+                'url match ${url.toString().trim() == '${EndPoints.redirectSuccessUrl}'}');
             if (url.toString().trim() ==
-                'https://urlsdemo.online/plusone/api/redirect-success-url') {
+                '${EndPoints.redirectSuccessUrl}') {
               await controller.getPayDetail(controller.paymentId.value);
-            }else if(url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-cancel-url'){
+            }else if(url.toString().trim() == '${EndPoints.redirectCancelUrl}'){
               showTostMsg('Your payment has been cancelled');
               Get.back();
             }

@@ -104,7 +104,7 @@ class ReferFrndUi extends GetWidget<ReferFrndController> {
                                           //   showTostMsg('You are not eligible for referral.');
                                           // }
                                           Share.share(
-                                              'https://urlsdemo.online/refer?refercode=${controller
+                                              'https://nbttech.xyz/refer?refercode=${controller
                                                   .profileController
                                                   .profileData.value.result
                                                   ?.referCode}');

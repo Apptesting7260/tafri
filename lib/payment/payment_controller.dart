@@ -28,6 +28,10 @@ class PaymentController extends GetxController{
 
     profileController.profileData.value.result?.planType == 'monthly' ? updateSelectedValue(0) : updateSelectedValue(1);
     purchasedPlan.value = profileController.profileData.value.result?.planType ?? '';
+
+    profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? restartUpdateSelectedValue(0) : restartUpdateSelectedValue(1);
+    restartPurchasedPlan.value = profileController.profileData.value.result?.restartPlan?.planType ?? '';
+
     referalController.text = profileController.profileData.value.result?.referalApplied ?? '';
     referalController.addListener(() {
       final text = referalController.text;
@@ -204,8 +208,8 @@ class PaymentController extends GetxController{
       // "sequenceType": "recurring",
       "customerId": customerID,
       // "mandateId": 'mdt_GVSvwruSn7',
-      'redirectUrl': 'https://urlsdemo.online/plusone/api/redirect-success-url',
-      'cancelUrl': 'https://urlsdemo.online/plusone/api/redirect-cancel-url'
+      'redirectUrl': '${EndPoints.redirectSuccessUrl}',
+      'cancelUrl': '${EndPoints.redirectCancelUrl}'
     });
     loading.value = true;
     try{
@@ -301,25 +305,6 @@ class PaymentController extends GetxController{
     }
     loading.value = false;
   }
-
-
-
-  // Future<bool> cancelSubscription(String customerID,String subID) async{
-  //   try{
-  //     final response = await api.delete('${baseUrl}customers/$customerID/subscriptions/$subID',headers: header);
-  //     print('cancel sub response == ${response.body}   \n   ${response.statusCode}');
-  //     if(response.statusCode == 200 || response.statusCode == 201){
-  //       showTostMsg('Membership cancelled successfully');
-  //       return true;
-  //     }else{
-  //       return false;
-  //     }
-  //   }catch(e){
-  //     print('cancel sub errror == ${e.toString()}');
-  //     return false;
-  //   }
-  // }
-
 
 
   alertRequestSent(dynamic Function() onVerifyTap) {
@@ -626,8 +611,8 @@ class PaymentController extends GetxController{
       "sequenceType": "first",
       // "sequenceType": "recurring",
       "customerId": customerID,
-      'redirectUrl': 'https://urlsdemo.online/plusone/api/redirect-success-url',
-      'cancelUrl': 'https://urlsdemo.online/plusone/api/redirect-cancel-url'
+      'redirectUrl': '${EndPoints.redirectSuccessUrl}',
+      'cancelUrl': '${EndPoints.redirectCancelUrl}'
     });
     loading.value = true;
     try{
@@ -875,8 +860,8 @@ class PaymentController extends GetxController{
         'description': "Authorize card for future payments",
         "sequenceType": "first",
         "customerId": customerId.value,
-        'redirectUrl': 'https://urlsdemo.online/plusone/api/redirect-success-url',
-        'cancelUrl': 'https://urlsdemo.online/plusone/api/redirect-cancel-url'
+        'redirectUrl': '${EndPoints.redirectSuccessUrl}',
+        'cancelUrl': '${EndPoints.redirectCancelUrl}'
       });
       billingLoading.value = true;
       try{
@@ -1290,6 +1275,56 @@ class PaymentController extends GetxController{
 
 
   /// SWITCH PLAN ///
+
+
+
+  /// restart switch plan ///
+
+  var restartSelectedValue = (-1).obs;
+  var restartPurchasedPlan = ''.obs;
+  var restartNewAmount = ''.obs;
+  var restartNewId = ''.obs;
+  var restartSwitchLoading = false.obs;
+
+  void restartUpdateSelectedValue(int? value) {
+    restartSelectedValue.value = value!;
+  }
+
+  Future<void> switchRestartPlan({required String planID,required String amount}) async{
+    restartSwitchLoading.value = true;
+    var body = {
+      'plan_id': planID,
+      'amount': amount,
+      'customer_id': profileController.profileData.value.result?.cardDetail?.customerId,
+      'subscription_id': profileController.profileData.value.result?.restartPlan?.subId,
+    };
+
+    var header = {
+      'Authorization': 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    try{
+      final response = await api.post(EndPoints.switchRestartPlan, body, headers: header);
+      print('switch response == ${response.statusCode}     ${response.body}');
+      if(response.statusCode == 200){
+        Get.back();
+        switchSuccessPopUp();
+        await profileController.viewProfile();
+        profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? restartUpdateSelectedValue(0) : restartUpdateSelectedValue(1);
+        restartPurchasedPlan.value = profileController.profileData.value.result?.restartPlan?.planType ?? '';
+      }else{
+        showTostMsg('Something went wrong. Please try again.');
+      }
+    }catch(e){
+      showTostMsg('Something went wrong');
+      print('switch error == ${e.toString()}');
+    }
+    restartSwitchLoading.value = false;
+  }
+
+
+  /// restart switch plan ///
+
 
 
   /// referral popup ///

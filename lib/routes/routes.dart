@@ -60,6 +60,7 @@ import 'package:plusone/uis/profilemain/accountuis/mymembership/bindings/mymembe
 import 'package:plusone/uis/profilemain/accountuis/mymembership/mymembershipui.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/restart%20membership/restart_binding.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/restart%20membership/restart_membership.dart';
+import 'package:plusone/uis/profilemain/accountuis/mymembership/restart%20switch%20plan/restart_switch_plan.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/switchplanui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist/attendlistui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/attendlist/bindings/attendlist_binding.dart';
@@ -163,6 +164,7 @@ class Routes{
   static String videoPlayScreen='/videoPlay';
   static String updateBilling='/updateBilling';
   static String restartScreen='/restartScreen';
+  static String restartSwitchScreen='/restartSwitchScreen';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -221,5 +223,6 @@ class Routes{
     GetPage(name: videoPlayScreen, page: () => VideoPlayScreen(),),
     GetPage(name: updateBilling, page: () => UpdateBillingScreen(),binding: PaymentBinding()),
     GetPage(name: restartScreen, page: () => ReStartMembershipScreen(),binding: ReStartBinding()),
+    GetPage(name: restartSwitchScreen, page: () => RestartSwitchPlanUi()),
   ];
 }

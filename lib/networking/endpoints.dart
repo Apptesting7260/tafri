@@ -1,6 +1,7 @@
 class EndPoints{
 
-  static String baseUrl="https://urlsdemo.online/plusone/api/";
+  // static String baseUrl="https://urlsdemo.online/plusone/api/";
+  static String baseUrl="https://nbttech.xyz/plusone/api/";
   static String addNewUserUrl="${baseUrl}addnewuser";
   static String loginApiUrl="${baseUrl}login";
   static String completeProfileApiUrl="${baseUrl}complete-profile";
@@ -87,6 +88,9 @@ class EndPoints{
   static String switchPlan = '${baseUrl}switch-plan';
   static String referalCode = '${baseUrl}apply-referral-code';
   static String restartPlan = '${baseUrl}restart-plan';
+  static String switchRestartPlan = '${baseUrl}restart-switch-plan';
+  static String redirectSuccessUrl = '${baseUrl}redirect-success-url';
+  static String redirectCancelUrl = '${baseUrl}redirect-cancel-url';
 
 
   static String chatUrl = 'https://chatapi.plusonesapp.com';

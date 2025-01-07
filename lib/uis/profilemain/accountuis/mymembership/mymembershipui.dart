@@ -519,6 +519,22 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                     fontWeight: FontWeight.w700),
                                               )),
                                         ) : const SizedBox(),
+                                        paymentController.profileController.profileData.value.result?.restartPlan?.planType != null && paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? SizedBox(
+                                          width: double.maxFinite,
+                                          height: Res.h_btn,
+                                          child: CustomElevatedButton(
+                                              onTap: () {
+                                                Get.toNamed(Routes.restartSwitchScreen);
+                                              },
+                                              backgroundClr: clrBlacke,
+                                              child: Text(
+                                                "Switch plan",
+                                                style: TextStyle(
+                                                    color: clrWhite,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                        ) : SizedBox(),
                                         const SizedBox(height: 15,),
                                         buildBillingButton(),
                                         const SizedBox(
@@ -748,10 +764,10 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             ),);
                                           },shrinkWrap: true, separatorBuilder: (context, index) => const SizedBox(height: 20,), itemCount: paymentController.plans.value.result!.length),
 
-                                          paymentController.profileController.profileData.value.result?.referalApplied == null ? SizedBox(
+                                          paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? SizedBox(
                                             height: Get.height * 0.03,
                                           ) : SizedBox(),
-                                          paymentController.profileController.profileData.value.result?.referalApplied == null ? Row(
+                                          paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Row(
                                             children: [
                                               Flexible(
                                                 child: Opacity(

@@ -444,7 +444,7 @@ class Profile {
     verifyLinkedin: json["verify_linkedin"],
     instagramUrl: json["instagram_url"],
     linkedinUrl: json["linkedin_url"],
-    profilePhoto: json["profile_photo"] == 'https://urlsdemo.online/plusone/admin/assets/dist/img/default-profile.png' ? null : json['profile_photo'],
+    profilePhoto: json["profile_photo"] == 'https://nbttech.xyz/plusone/admin/assets/dist/img/default-profile.png' ? null : json['profile_photo'],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     languageNames: json["language_names"] == null ? [] : List<String>.from(json["language_names"]!.map((x) => x)),

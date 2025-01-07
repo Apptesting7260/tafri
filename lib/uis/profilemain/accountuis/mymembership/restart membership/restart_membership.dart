@@ -154,10 +154,10 @@ class ReStartMembershipScreen extends StatelessWidget {
                       ),);
                     },shrinkWrap: true, separatorBuilder: (context, index) => const SizedBox(height: 20,), itemCount: paymentController.plans.value.result!.length),
 
-                    paymentController.profileController.profileData.value.result?.referalApplied == null ? SizedBox(
+                    paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? SizedBox(
                       height: Get.height * 0.03,
                     ) : SizedBox(),
-                    paymentController.profileController.profileData.value.result?.referalApplied == null ? Row(
+                    paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Row(
                       children: [
                         Flexible(
                           child: Opacity(

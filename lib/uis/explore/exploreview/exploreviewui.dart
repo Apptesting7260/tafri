@@ -66,7 +66,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Share.share('${controller.actData.value.activitySettings?.shareText} https://urlsdemo.online/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                          Share.share('${controller.actData.value.activitySettings?.shareText} https://nbttech.xyz/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,

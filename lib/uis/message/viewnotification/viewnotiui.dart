@@ -127,10 +127,12 @@ class ViewNotiUi extends GetWidget<ViewNotifiController>{
                                 ),
                               ),
                               const SizedBox(width: 10,),
-                              Text('${controller.actTitle.value}',style: TextStyle(
-                                  color: clrBlacke,
-                                  fontWeight: FontWeight.w700
-                              ),)
+                              Flexible(
+                                child: Text('${controller.actTitle.value}',style: TextStyle(
+                                    color: clrBlacke,
+                                    fontWeight: FontWeight.w700
+                                ),),
+                              )
                             ],
                           ),
                         ),
