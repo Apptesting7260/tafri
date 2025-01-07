@@ -75,13 +75,20 @@ class _MyAppState extends State<MyApp> {
             Get.toNamed(Routes.initialPage,);
           } else if(uri.queryParameters['hostId'].toString() == LocalStorage.getUid()){
             Get.toNamed(Routes.hostUpcommingActiview, arguments: uri.queryParameters['activityid'].toString());
-          } else if(uri.queryParameters['refercode'].toString().isNotEmpty){
-            print('referal code == ${uri.queryParameters['refercode']}');
-          }else{
+          } else if(uri.queryParameters['activityid'].toString().isNotEmpty && uri.queryParameters['activityid'].toString() != 'null'){
             Get.put(ExploreListController());
             Get.toNamed(Routes.exploreView,
                 arguments: uri.queryParameters['activityid'].toString()
             );
+          } else if(uri.queryParameters['refercode'].toString().isNotEmpty && uri.queryParameters['refercode'].toString() != 'null'){
+            print('referal code == ${uri.queryParameters['refercode']}');
+            // Get.toNamed(Routes.mymembershipProUi);
+          }else{
+            Get.toNamed(Routes.navbarUi);
+            // Get.put(ExploreListController());
+            // Get.toNamed(Routes.exploreView,
+            //     arguments: uri.queryParameters['activityid'].toString()
+            // );
           }
         }
       });
