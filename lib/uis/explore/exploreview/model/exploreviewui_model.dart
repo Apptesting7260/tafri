@@ -10,7 +10,7 @@ class ActDataModal {
   ActivitySettings? activitySettings;
   PaymentSettings? paymentSettings;
   bool? reviewAdded;
-  bool? isPresent;
+  String? isPresent;
 
   ActDataModal({
     this.status,

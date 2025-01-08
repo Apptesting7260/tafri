@@ -306,14 +306,14 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                     color:
                                                                     clrBlacke,fontSize: 12)),)),
                                                               const SizedBox(width: 5,),
-                                                              Flexible(
+                                                              msg.loading == false ? Flexible(
                                                                 child: Text(DateFormat('h:mm').format(time),
                                                                     style: TextStyle(
                                                                         color:
                                                                         clrGrey,
                                                                         fontSize:
                                                                         12)),
-                                                              ),
+                                                              ) : SizedBox(),
                                                             ],
                                                           ),
                                                         ) : msg.message?.file == null || msg.message?.file == 'null' ? RichText(
@@ -335,14 +335,14 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                       )),
                                                                   WidgetSpan(
                                                                       child:
-                                                                      Text(
+                                                                      msg.loading == false ? Text(
                                                                         DateFormat('h:mm').format(time),
                                                                         style: TextStyle(
                                                                             color:
                                                                             clrGrey,
                                                                             fontSize:
                                                                             12),
-                                                                      ))
+                                                                      ) : SizedBox())
                                                                 ])) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
                                                           child: Row(
                                                             mainAxisSize: MainAxisSize.min,
@@ -385,14 +385,14 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                 ),
                                                               ),
                                                               const SizedBox(width: 5,),
-                                                              Text(
+                                                              msg.loading == false ? Text(
                                                                 DateFormat('h:mm').format(time),
                                                                 style: TextStyle(
                                                                     color:
                                                                     clrGrey,
                                                                     fontSize:
                                                                     12),
-                                                              )
+                                                              ) : SizedBox()
                                                             ],
                                                           ),
                                                         ) : const SizedBox() ,
@@ -472,13 +472,13 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                           )
                                                       ),
                                                       const SizedBox(width: 5,),
-                                                      Flexible(
+                                                      msg.loading == false ? Flexible(
                                                         child: Text(DateFormat('h:mm').format(time),
                                                             style: TextStyle(
                                                                 color: clrWhite
                                                                     .withOpacity(0.8),
                                                                 fontSize: 12)),
-                                                      ),
+                                                      ) : SizedBox(),
                                                       // const SizedBox(width: 5,),
                                                       // msg.messageStatus == 'seen' ? Icon(Icons.done_all,
                                                       //     color: clrWhite
@@ -504,11 +504,11 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                           child: Row(
                                                             mainAxisSize: MainAxisSize.min,
                                                             children: [
-                                                              Text(DateFormat('h:mm').format(time),
+                                                              msg.loading == false ? Text(DateFormat('h:mm').format(time),
                                                                   style: TextStyle(
                                                                       color: clrWhite
                                                                           .withOpacity(0.8),
-                                                                      fontSize: 12)),
+                                                                      fontSize: 12)) : SizedBox(),
                                                               // const SizedBox(
                                                               //   width: 5,
                                                               // ),
@@ -565,13 +565,13 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                           ],
                                                         ),
                                                       ),
-                                                      Text(
+                                                      msg.loading == false ? Text(
                                                         DateFormat('h:mm').format(time),
                                                         style: TextStyle(
                                                             color: clrWhite
                                                                 .withOpacity(0.8),
                                                             fontSize: 12),
-                                                      ),
+                                                      ) : SizedBox(),
                                                       // const SizedBox(
                                                       //   width: 5,
                                                       // ),

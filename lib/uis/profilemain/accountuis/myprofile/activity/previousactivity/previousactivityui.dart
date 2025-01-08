@@ -865,11 +865,11 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         // ),
                   
                   
-                        (controller.isHost == false && controller.actData.value.isPresent == false) || controller.showreviewData.value.result == null || controller.showreviewData.value.result!.isEmpty ? const SizedBox() : const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                        (controller.isHost == false && controller.actData.value.isPresent == false) || controller.showreviewData.value.result == null ? const SizedBox() : SizedBox(
+                        (controller.isHost == false && controller.actData.value.isPresent != 'Present') || controller.showreviewData.value.result == null || controller.showreviewData.value.result!.isEmpty ? const SizedBox() : const Text("Reviews",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+                        (controller.isHost == false && controller.actData.value.isPresent != 'Present') || controller.showreviewData.value.result == null ? const SizedBox() : SizedBox(
                           height: Get.height*0.01,
                         ),
-                        (controller.isHost == false && controller.actData.value.isPresent == false) || controller.showreviewData.value.result == null ? const SizedBox() : ListView.separated(
+                        (controller.isHost == false && controller.actData.value.isPresent != 'Present') || controller.showreviewData.value.result == null ? const SizedBox() : ListView.separated(
                           itemCount: controller.showreviewData.value.result?.length ?? 0,
                           shrinkWrap: true,
                           physics:
@@ -1057,7 +1057,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                     )
                 ),
               ) : const SizedBox() : const SizedBox()),
-              Obx(() => controller.activitypage.value || controller.actError.value.isNotEmpty ? SizedBox() : (controller.actData.value.activity?.status == 'completed' && controller.isHost == false && controller.actData.value.reviewAdded == false && controller.actData.value.isPresent == true) ? Padding(
+              Obx(() => controller.activitypage.value || controller.actError.value.isNotEmpty ? SizedBox() : (controller.actData.value.activity?.status == 'completed' && controller.isHost == false && controller.actData.value.reviewAdded == false && controller.actData.value.isPresent == 'Present') ? Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: SizedBox(
                     width: double.maxFinite,
@@ -1083,6 +1083,46 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                 fontWeight: FontWeight.w700),
                         )
                     )
+                ),
+              ) : controller.actData.value.activity?.status == 'completed' && controller.isHost == false && controller.actData.value.reviewAdded == false && controller.actData.value.isPresent == 'Pending' ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Opacity(
+                  opacity: 0.5,
+                  child: SizedBox(
+                      width: double.maxFinite,
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                          onTap: (){},
+                          backgroundClr: clrBlacke,
+                          child: Text(
+                            "Host confirmation pending",
+                            style: TextStyle(
+                                color: clrWhite,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700),
+                          )
+                      )
+                  ),
+                ),
+              ) : controller.actData.value.activity?.status == 'completed' && controller.isHost == false && controller.actData.value.reviewAdded == false && controller.actData.value.isPresent == 'Absent' ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Opacity(
+                  opacity: 0.5,
+                  child: SizedBox(
+                      width: double.maxFinite,
+                      height: Res.h_btn,
+                      child: CustomElevatedButton(
+                          onTap: (){},
+                          backgroundClr: clrBlacke,
+                          child: Text(
+                            "Marked absent",
+                            style: TextStyle(
+                                color: clrWhite,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700),
+                          )
+                      )
+                  ),
                 ),
               ) : const SizedBox())
             ],

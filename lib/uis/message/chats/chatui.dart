@@ -133,6 +133,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                         width: h * .08,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
+                          color: clrGreyLight
                         ),
                         child: CachedNetworkImage(
                           imageUrl: controller.allMessage.value.gpImg ?? '',

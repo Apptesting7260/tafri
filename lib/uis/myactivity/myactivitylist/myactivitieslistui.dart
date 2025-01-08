@@ -549,7 +549,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                                 children: [
                                                                                                                   Flexible(child: Text("Rate and review your activity", style: TextStyle(color: clrYellowText, fontSize: 12, fontWeight: FontWeight.w600))),
                                                                                                                   SizedBox(
-                                                                                                                    width: w * .00,
+                                                                                                                    width: w * .00
                                                                                                                   ),
                                                                                                                   Icon(
                                                                                                                     Icons.arrow_right,

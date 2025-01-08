@@ -220,7 +220,11 @@
 
 
 
-
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 
 class AllMessageModal {
@@ -334,6 +338,28 @@ class Data {
     this.loading
   });
 
+  static String convertTime({String? messageTime}){
+
+    try{
+      tz.initializeTimeZones();
+
+      String targetTimeZone = Get.find<SocketController>().profileController.profileData.value.result?.timeZone == 'Asia/Calcutta' ? 'Asia/Kolkata' : Get.find<SocketController>().profileController.profileData.value.result?.timeZone ?? '';
+
+      DateTime dateTime = DateTime.parse(messageTime!);
+      final targetTZ = tz.getLocation(targetTimeZone);
+
+      final targetTime = tz.TZDateTime.from(dateTime, targetTZ);
+
+      final formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+      print('Converted time: ${formatter.format(targetTime)}');
+      return formatter.format(targetTime).toString();
+    }catch(e){
+      print('time zone error == ${e.toString()}');
+      return messageTime!;
+    }
+
+  }
+
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     message: json["message"] == null ? null : Message.fromJson(json["message"]),
     pollMessage: json["poll_message"] == null ? null : PollMessage.fromJson(json["poll_message"]),
@@ -349,7 +375,7 @@ class Data {
     messageStatus: json["messageType"],
     messageRection: json["message_rection"] == null ? [] : List<dynamic>.from(json["message_rection"]!.map((x) => x)),
     seenUserMessage: json["seen_user_message"] == null ? [] : List<SeenUserMessage>.from(json["seen_user_message"]!.map((x) => SeenUserMessage.fromJson(x))),
-    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+    createdAt: json["createdAt"] == null ? null : DateTime.parse(convertTime(messageTime: json["createdAt"].toString())),
     updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
     fullName: json["full_name"],

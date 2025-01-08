@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/message/chats/modal/all_message_modal.dart';
@@ -14,6 +15,8 @@ import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:plusone/utils/tostmsg.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class GroupChatController extends GetxController{
 
@@ -472,6 +475,28 @@ class GroupChatController extends GetxController{
       },
     );
   }
+
+
+  /// convert time
+
+  String convertTime({String? messageTime}){
+
+    tz.initializeTimeZones();
+
+    String targetTimeZone = sc.profileController.profileData.value.result?.timeZone == 'Asia/Calcutta' ? 'Asia/Kolkata' : sc.profileController.profileData.value.result?.timeZone ?? '';
+
+    DateTime dateTime = DateTime.parse(messageTime!);
+    final targetTZ = tz.getLocation(targetTimeZone);
+
+    final targetTime = tz.TZDateTime.from(dateTime, targetTZ);
+
+    final formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    print('Converted time: ${formatter.format(targetTime)}');
+    return formatter.format(targetTime).toString();
+
+  }
+
+  /// convert time
 
 
 }

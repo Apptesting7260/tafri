@@ -84,7 +84,7 @@ class PreviousActiController extends GetxController{
   }
 
   Future<void> refreshData() async{
-    await Future.wait([actapi(id), showapi(id), attlistapi(id)]);
+    Future.wait([actapi(id), showapi(id), attlistapi(id)]);
     refreshController.refreshCompleted();
   }
 

@@ -5,6 +5,7 @@ import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/model/profile_view_model.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
@@ -88,6 +89,9 @@ class ProfilemainController extends GetxController{
 
   }
 
+
+  // SocketController sc = Get.put(SocketController());
+
   var logoutloading = false.obs;
 
   Future<void> logout() async{
@@ -113,6 +117,7 @@ class ProfilemainController extends GetxController{
         if (LocalStorage.getToken() == null ||
             LocalStorage.getUid() == null) {
           Get.offAllNamed(Routes.initialPage);
+          Get.find<SocketController>().socket.disconnect();
         }
       }else if(response.statusCode == 401){
         LocalStorage.removeToken();
