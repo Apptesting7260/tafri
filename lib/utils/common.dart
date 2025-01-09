@@ -22,8 +22,8 @@ class CommonUi{
     return LoadingAnimationWidget.discreteCircle(color: color ?? clrGreyDark, size: 40);
   }
 
-  static Widget fallingDot(){
-    return LoadingAnimationWidget.fallingDot(color: clrWhite, size: 25);
+  static Widget fallingDot({Color? color}){
+    return LoadingAnimationWidget.fallingDot(color: color ?? clrWhite, size: 25);
   }
 
   static Widget emptySizeBox(){

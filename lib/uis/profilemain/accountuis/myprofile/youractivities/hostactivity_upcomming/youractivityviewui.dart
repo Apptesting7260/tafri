@@ -799,7 +799,11 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Row(
+                                                          Obx(() => controller
+                                                              .actData
+                                                              .value
+                                                              .requests?[
+                                                          index].loading.value == true ? CommonUi.fallingDot(color: clrBlacke) : Row(
                                                             children: [
                                                               GestureDetector(
                                                                 onTap: () {
@@ -808,36 +812,40 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                       .actData
                                                                       .value
                                                                       .requests?[
-                                                                          index]
+                                                                  index]
                                                                       .userId
-                                                                      .toString());
+                                                                      .toString(),controller
+                                                                      .actData
+                                                                      .value
+                                                                      .requests?[
+                                                                  index].loading);
                                                                 },
                                                                 child:
-                                                                    Container(
+                                                                Container(
                                                                   padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          4),
+                                                                  const EdgeInsets
+                                                                      .all(
+                                                                      4),
                                                                   decoration:
-                                                                      BoxDecoration(
+                                                                  BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            100),
+                                                                    BorderRadius.circular(
+                                                                        100),
                                                                     color:
-                                                                        clrBlacke,
+                                                                    clrBlacke,
                                                                   ),
                                                                   child: Icon(
                                                                     Icons.close,
                                                                     color:
-                                                                        clrWhite,
+                                                                    clrWhite,
                                                                     size: 20,
                                                                   ),
                                                                 ),
                                                               ),
                                                               SizedBox(
                                                                 width:
-                                                                    Get.width *
-                                                                        0.02,
+                                                                Get.width *
+                                                                    0.02,
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
@@ -847,34 +855,38 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                       .actData
                                                                       .value
                                                                       .requests?[
-                                                                          index]
+                                                                  index]
                                                                       .userId
-                                                                      .toString());
+                                                                      .toString(),controller
+                                                                      .actData
+                                                                      .value
+                                                                      .requests?[
+                                                                  index].loading);
                                                                 },
                                                                 child:
-                                                                    Container(
+                                                                Container(
                                                                   padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          4),
+                                                                  const EdgeInsets
+                                                                      .all(
+                                                                      4),
                                                                   decoration:
-                                                                      BoxDecoration(
+                                                                  BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            100),
+                                                                    BorderRadius.circular(
+                                                                        100),
                                                                     color:
-                                                                        clrYellow,
+                                                                    clrYellow,
                                                                   ),
                                                                   child: Icon(
                                                                     Icons.check,
                                                                     color:
-                                                                        clrWhite,
+                                                                    clrWhite,
                                                                     size: 20,
                                                                   ),
                                                                 ),
                                                               )
                                                             ],
-                                                          )
+                                                          ),)
                                                         ],
                                                       ),
                                                       SizedBox(

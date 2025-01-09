@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,6 +15,7 @@ import '../../../../../../components/custoelevatedbtn.dart';
 import '../../../../../../explore/explorelist/controller/explorelist_controller.dart';
 import '../../../../../../explore/exploreview/model/exploreviewui_model.dart';
 import '../../../../../../myactivity/myactivitylist/controller/myacti_controller.dart';
+import 'package:http/http.dart' as http;
 
 class HostUpcomiActiController extends GetxController  with GetTickerProviderStateMixin{
   late TabController tabController;
@@ -122,11 +125,13 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
   var accuserData = ActDataModal().obs;
   var accuserError = ''.obs;
 
-  Future<void> acceptuserapi(String? userid) async{
+  Future<void> acceptuserapi(String? userid,Rx<bool?>? loading) async{
+
+    loading?.value = true;
 
     Map body = {
-      'activity_id': actData.value.activity?.id,
-      'user_id': userid
+      'activity_id': actData.value.activity?.id.toString(),
+      'user_id': userid.toString()
     };
 
     print(body);
@@ -138,11 +143,11 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
     accuserLoading.value = true;
 
     try{
-      final response = await api.post(EndPoints.acceptuser, body, headers: header);
+      final response = await http.post(Uri.parse(EndPoints.acceptuser), body: body, headers: header);
       if(response.statusCode == 200){
         accuserError.value = '';
         print('home data == ${response.body}');
-        accuserData.value = ActDataModal.fromJson(response.body);
+        accuserData.value = ActDataModal.fromJson(jsonDecode(response.body));
         print('work data == ${response.body}');
         hostactapi(actData.value.activity?.id.toString());
       }else{
@@ -154,6 +159,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
       accuserError.value = e.toString();
     }
 
+    loading?.value = false;
     accuserLoading.value = false;
 
   }
@@ -163,10 +169,11 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
   var rejuserData = ActDataModal().obs;
   var rejuserError = ''.obs;
 
-  Future<void> rejectuserapi(String? userid) async{
+  Future<void> rejectuserapi(String? userid,Rx<bool?>? loading) async{
 
+    loading?.value = true;
     Map body = {
-      'activity_id': actData.value.activity?.id,
+      'activity_id': actData.value.activity?.id.toString(),
       'user_id': userid
     };
 
@@ -179,21 +186,21 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
     rejuserLoading.value = true;
 
     try{
-      final response = await api.post(EndPoints.rejectuser, body, headers: header);
+      final response = await http.post(Uri.parse(EndPoints.rejectuser), body: body, headers: header);
       if(response.statusCode == 200){
         rejuserError.value = '';
         print('home data == ${response.body}');
-        rejuserData.value = ActDataModal.fromJson(response.body);
+        rejuserData.value = ActDataModal.fromJson(jsonDecode(response.body));
         hostactapi(actData.value.activity?.id.toString());
       }else{
         print('error == ${response.body}');
         rejuserError.value = 'ERROR';
       }
     }catch(e){
-      print('home api error == ${e.toString()}');
+      print('error == ${e.toString()}');
       rejuserError.value = e.toString();
     }
-
+    loading?.value = false;
     rejuserLoading.value = false;
 
   }

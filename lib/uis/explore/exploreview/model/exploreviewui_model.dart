@@ -276,19 +276,22 @@ class Request {
   String? profilePhoto;
   String? firstName;
   String? lastName;
+  Rx<bool?> loading;
 
   Request({
     this.userId,
     this.profilePhoto,
     this.firstName,
     this.lastName,
-  });
+    bool? loading,
+  }) : loading = Rx(loading);
 
   factory Request.fromJson(Map<String, dynamic> json) => Request(
     userId: json["user_id"],
     profilePhoto: json["profile_photo"],
     firstName: json["first_name"],
     lastName: json["last_name"],
+    loading: false,
   );
 
   Map<String, dynamic> toJson() => {
