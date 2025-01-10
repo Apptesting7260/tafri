@@ -154,7 +154,10 @@ class _SwitchPlanUiState extends State<SwitchPlanUi> {
                                                 ])),
                                             const SizedBox(
                                               height: 5,
-                                            )
+                                            ),
+                                            paymentController.profileController.profileData.value.result?.myReferDays != null ? Text('Your referral code has been added',style: TextStyle(
+                                                color: clrBlacke.withOpacity(0.5)
+                                            ),) : SizedBox()
                                           ],
                                         ),
                                       ),

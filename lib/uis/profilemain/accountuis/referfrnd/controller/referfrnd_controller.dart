@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -12,6 +13,17 @@ class ReferFrndController extends GetxController{
   @override
   void onInit() {
     super.onInit();
+  }
+
+  var copied = false.obs;
+
+  void copy(String text) async{
+    try{
+      await Clipboard.setData(ClipboardData(text: text));
+      copied.value = true;
+    }catch(e){
+      copied.value = false;
+    }
   }
 
   Future<void> refresh() async{
@@ -49,7 +61,7 @@ class ReferFrndController extends GetxController{
           return  days > 2 ? '$days days' : '$days day';
         } else if (days > 7 && days < 30) {
           int weeks = days ~/ 7;
-          return '$weeks weeks';
+          return weeks == 1 ? '$weeks week' : '$weeks weeks';
         } else {
           int months = days ~/ 30;
           return '$months months';

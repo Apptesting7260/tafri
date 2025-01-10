@@ -1,4 +1,7 @@
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
@@ -57,7 +60,7 @@ class ReferFrndUi extends GetWidget<ReferFrndController> {
                   onRefresh: () {
                     controller.refresh();
                   },
-                  child: Center(child: ErrorScreen())))
+                  child: const Center(child: ErrorScreen())))
                       : Expanded(
                         child: SmartRefresher(
                           controller: controller.refreshController1,
@@ -65,60 +68,117 @@ class ReferFrndUi extends GetWidget<ReferFrndController> {
                           onRefresh: () {
                             controller.refresh();
                           },
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Image(
-                                  image: AssetImage("assets/images/refer.png"),
-                                ),
-                                Text(
-                                  "Invite friends and enjoy a free ${controller.getWeek(controller.profileController.profileData.value.result!.referralSetting!.referralDays!)} membership",
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600, fontSize: 18),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.02,
-                                ),
-                                Text(
-                                  "Once your friend sign up and successfully joins an event, you both receive ${controller.getWeek(controller.profileController.profileData.value.result!.referralSetting!.referralDays!)} of free membership.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 14, color: clrGreyTextLight),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.02,
-                                ),
-                                SizedBox(
-                                    width: double.maxFinite,
-                                    height: Res.h_btn,
-                                    child: CustomElevatedButton(
-                                        onTap: () {
-                                          // if(controller.profileController.profileData.value.result?.referCode != null) {
-                                          //   Share.share(
-                                          //       'https://urlsdemo.online/refer?refercode=${controller
-                                          //           .profileController
-                                          //           .profileData.value.result
-                                          //           ?.referCode}');
-                                          // }else{
-                                          //   showTostMsg('You are not eligible for referral.');
-                                          // }
-                                          Share.share(
-                                              'https://nbttech.xyz/refer?refercode=${controller
-                                                  .profileController
-                                                  .profileData.value.result
-                                                  ?.referCode}');
-                                        },
-                                        backgroundClr: clrBlacke,
-                                        child: Text(
-                                          "Invite friends",
-                                          style: TextStyle(
-                                              color: clrWhite,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700),
-                                        )))
-                              ],
-                            ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Image(
+                                    image: AssetImage("assets/images/refer.png"),
+                                  ),
+                                  Text(
+                                    "Invite friends and enjoy a free ${controller.getWeek(controller.profileController.profileData.value.result!.referralSetting!.referralDays!)} membership",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600, fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  Text(
+                                    "Once your friend sign up and successfully joins an event, you both receive ${controller.getWeek(controller.profileController.profileData.value.result!.referralSetting!.referralDays!)} of free membership.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14, color: clrGreyTextLight),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.02,
+                                  ),
+                                  SizedBox(
+                                      width: double.maxFinite,
+                                      height: Res.h_btn,
+                                      child: CustomElevatedButton(
+                                          onTap: () {
+                                            if(controller.profileController.profileData.value.result?.referCode != null) {
+                                              Share.share(
+                                                  'https://nbttech.xyz/refer?refercode=${controller
+                                                      .profileController
+                                                      .profileData.value.result
+                                                      ?.referCode}');
+                                            }else{
+                                              showTostMsg('You are not eligible for referral.');
+                                            }
+                                            // Share.share(
+                                            //     'https://nbttech.xyz/refer?refercode=${controller
+                                            //         .profileController
+                                            //         .profileData.value.result
+                                            //         ?.referCode}');
+                                          },
+                                          backgroundClr: clrBlacke,
+                                          child: Text(
+                                            "Invite friends",
+                                            style: TextStyle(
+                                                color: clrWhite,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700),
+                                          ))),
+                                  controller
+                                      .profileController
+                                      .profileData.value.result
+                                      ?.referCode != null ? const SizedBox(height: 20,) : const SizedBox(),
+                                  controller
+                                      .profileController
+                                      .profileData.value.result
+                                      ?.referCode != null ? DottedBorder(
+                                      color: clrGrey.withOpacity(0.5),
+                                      dashPattern: const [6, 3],
+                                      borderType: BorderType.RRect,
+                                      strokeWidth: 2,
+                                      radius: const Radius.circular(12),
+                                      child: Container(
+                                        clipBehavior: Clip.hardEdge,
+                                        width: Get.width,
+                                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                        // height: 50,
+                                        decoration: BoxDecoration(color: clrGreyLight.withOpacity(0.5), borderRadius: BorderRadius.circular(10)),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text('${controller
+                                                .profileController
+                                                .profileData.value.result
+                                                ?.referCode}',style:TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20,
+                                              color: clrBlacke.withOpacity(0.5)
+                                            ),),
+                                            GestureDetector(
+                                              onTap: (){
+                                                if(!controller.copied.value) {
+                                                  controller.copy('${controller
+                                                      .profileController
+                                                      .profileData.value.result
+                                                      ?.referCode}');
+                                                }
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Obx(() => Text(controller.copied.value ? 'Copied' :'Copy',style: const TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                    // color: clrBlacke.withOpacity(0.5)
+                                                  )),),
+                                                  const SizedBox(width: 5,),
+                                                  const Icon(Icons.content_copy,size: 20,)
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      )) : const SizedBox(),
+                                ],
+                              ),
+                          ),
                         ),
                       ),
             )

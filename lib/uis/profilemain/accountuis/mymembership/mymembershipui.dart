@@ -676,7 +676,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               },
                                               child: Container(
                                                 padding: const EdgeInsets.symmetric(
-                                                    horizontal: 10, vertical: 18),
+                                                    horizontal: 10, vertical: 15),
                                                 decoration: BoxDecoration(
                                                     color: paymentController.choosePlan.value == index ? clrGreyLight : clrWhite,
                                                     borderRadius:
@@ -737,6 +737,10 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                                                     color:
                                                                                     clrGrey5D5C5E))
                                                                           ])),
+                                                                  paymentController.profileController.profileData.value.result?.myReferDays != null ? SizedBox(height: 3,) : SizedBox(),
+                                                                  paymentController.profileController.profileData.value.result?.myReferDays != null ? Text('Your referral code has been added',style: TextStyle(
+                                                                    color: clrBlacke.withOpacity(0.5)
+                                                                  ),) : SizedBox()
                                                                 ],
                                                               ),
                                                             ),

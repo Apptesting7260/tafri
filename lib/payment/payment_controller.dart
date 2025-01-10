@@ -1377,7 +1377,7 @@ class PaymentController extends GetxController{
     ));
   }
 
-  referFailPopUp(){
+  referFailPopUp({String? message}){
     Get.dialog(AlertDialog(
       scrollable: true,
       shape: RoundedRectangleBorder(
@@ -1401,7 +1401,7 @@ class PaymentController extends GetxController{
             const SizedBox(height: 15,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Center(child: Text("Referral code invalid",style: TextStyle(color: clrBlacke,fontSize: 15),textAlign: TextAlign.center,)),
+              child: Center(child: Text(message ?? "Referral code invalid",style: TextStyle(color: clrBlacke,fontSize: 15),textAlign: TextAlign.center,)),
             ),
             const SizedBox(
               height: 20,
@@ -1435,8 +1435,11 @@ class PaymentController extends GetxController{
       print('data == ${response.body['message']}');
       if(response.statusCode == 200){
         profileController.profileData.value.result?.referalApplied = referalController.value.text.trim();
+        profileController.profileData.value.result?.myReferDays = 5;
         profileController.profileData.refresh();
         referSuccessPopUp();
+      }else if(response.statusCode == 400){
+        referFailPopUp(message: response.body['message']);
       }else{
         referFailPopUp();
         // showTostMsg('${response.body['message']}');

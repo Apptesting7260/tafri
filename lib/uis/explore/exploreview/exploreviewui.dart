@@ -221,27 +221,6 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                           FontWeight.w700),
                                                 ),
                                               ),
-                                              // InkWell(
-                                              //   onTap: (){
-                                              //     // log("message");
-                                              //     return controller.changeFav();
-                                              //   },
-                                              //   child: Obx((){
-                                              //     return Container(
-                                              //       padding: const EdgeInsets.all(6),
-                                              //       decoration: BoxDecoration(
-                                              //           color: clrWhite,
-                                              //           borderRadius:
-                                              //           BorderRadius.circular(100)),
-                                              //       child: Icon(
-                                              //         controller.isFav.value?Icons.favorite:
-                                              //       Icons.favorite_border,
-                                              //         size: 20,
-                                              //         color: controller.isFav.value?clrYellow:null,
-                                              //       ),
-                                              //     );
-                                              //   }),
-                                              // ),
                                               InkWell(
                                                 onTap: () async {
                                                   var id = controller.actData
@@ -297,28 +276,6 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                             ],
                                           ),
                                         ),
-                                        // Align(
-                                        //   alignment: Alignment.bottomCenter,
-                                        //   child: Container(
-                                        //     margin: const EdgeInsets.only(bottom: 7),
-                                        //     height: 16,
-                                        //     child: ListView.builder(
-                                        //         itemCount: 3,
-                                        //         shrinkWrap: true,
-                                        //         scrollDirection: Axis.horizontal,
-                                        //         itemBuilder: (context, index) {
-                                        //           return Padding(
-                                        //             padding: const EdgeInsets.symmetric(
-                                        //                 horizontal: 1.5),
-                                        //             child: Icon(
-                                        //               Icons.circle,
-                                        //               color: clrWhite,
-                                        //               size: 8,
-                                        //             ),
-                                        //           );
-                                        //         }),
-                                        //   ),
-                                        // )
                                         Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Container(
