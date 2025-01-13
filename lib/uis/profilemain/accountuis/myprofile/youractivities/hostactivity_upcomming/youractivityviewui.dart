@@ -509,6 +509,552 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
                                     ),
+
+                                    controller.actData.value.requests!
+                                        .isNotEmpty ||
+                                        controller
+                                            .actData.value.going!.isNotEmpty
+                                        ? SizedBox(
+                                      height: Get.height * 0.02,
+                                    )
+                                        : const SizedBox(),
+                                    Obx(() {
+                                      return controller.actData.value.requests!
+                                          .isNotEmpty ||
+                                          controller.actData.value.going!
+                                              .isNotEmpty
+                                          ? Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              controller
+                                                  .changeSlectedTab(1);
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "Requests",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: controller
+                                                          .selectedTab
+                                                          .value ==
+                                                          1
+                                                          ? FontWeight
+                                                          .w700
+                                                          : FontWeight
+                                                          .w400),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                controller.selectedTab
+                                                    .value ==
+                                                    1
+                                                    ? Container(
+                                                  height: 3,
+                                                  width: 70,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                      clrYellow,
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          10)),
+                                                )
+                                                    : const SizedBox()
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: Get.width * 0.1,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              controller
+                                                  .changeSlectedTab(2);
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Text("Going",
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: controller
+                                                            .selectedTab
+                                                            .value ==
+                                                            2
+                                                            ? FontWeight
+                                                            .w700
+                                                            : FontWeight
+                                                            .w400)),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                controller.selectedTab
+                                                    .value ==
+                                                    2
+                                                    ? Container(
+                                                  height: 3,
+                                                  width: 70,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                      clrYellow,
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          10)),
+                                                )
+                                                    : const SizedBox()
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                          : const SizedBox();
+                                    }),
+                                    controller.actData.value.requests!
+                                        .isNotEmpty ||
+                                        controller
+                                            .actData.value.going!.isNotEmpty
+                                        ? SizedBox(
+                                      height: Get.height * 0.02,
+                                    )
+                                        : SizedBox(
+                                      height: Get.height * 0.01,
+                                    ),
+                                    Obx(() {
+                                      return controller.selectedTab.value == 1
+                                          ? ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: controller.actData
+                                              .value.requests?.length,
+                                          physics:
+                                          const NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              margin: const EdgeInsets
+                                                  .symmetric(vertical: 0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Flexible(
+                                                        child:
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Get.toNamed(
+                                                                Routes
+                                                                    .userProfileui,
+                                                                arguments: controller
+                                                                    .actData
+                                                                    .value
+                                                                    .going?[
+                                                                index]
+                                                                    .userId
+                                                                    .toString());
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              ClipRRect(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    100),
+                                                                child:
+                                                                CachedNetworkImage(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  height:
+                                                                  40,
+                                                                  width: 40,
+                                                                  imageUrl:
+                                                                  "${controller.actData.value.requests?[index].profilePhoto}",
+                                                                  placeholder: (context,
+                                                                      url) =>
+                                                                      Shimmer
+                                                                          .fromColors(
+                                                                        baseColor:
+                                                                        grey300,
+                                                                        highlightColor:
+                                                                        grey100,
+                                                                        child:
+                                                                        Container(
+                                                                          width:
+                                                                          double.maxFinite,
+                                                                          height:
+                                                                          h * .26,
+                                                                          decoration:
+                                                                          BoxDecoration(
+                                                                            color:
+                                                                            grey300,
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(18),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                  errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                      ClipRRect(
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(100),
+                                                                        child:
+                                                                        Container(
+                                                                          height:
+                                                                          55,
+                                                                          width:
+                                                                          55,
+                                                                          color:
+                                                                          clrGreyLight,
+                                                                          child:
+                                                                          Image.asset(
+                                                                            'assets/icons/manicon.png',
+                                                                            color:
+                                                                            clrGrey,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width:
+                                                                Get.width *
+                                                                    0.02,
+                                                              ),
+                                                              Flexible(
+                                                                  child: Text(
+                                                                      ' ${controller.actData.value.requests?[index].firstName}',
+                                                                      style: const TextStyle(
+                                                                          fontWeight: FontWeight.w600,
+                                                                          fontSize: 16)))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Obx(() => controller
+                                                          .actData
+                                                          .value
+                                                          .requests?[
+                                                      index].loading.value == true ? CommonUi.fallingDot(color: clrBlacke) : Row(
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              // Get.toNamed(Routes.attendReviewUi);
+                                                              controller.rejectuserapi(controller
+                                                                  .actData
+                                                                  .value
+                                                                  .requests?[
+                                                              index]
+                                                                  .userId
+                                                                  .toString(),controller
+                                                                  .actData
+                                                                  .value
+                                                                  .requests?[
+                                                              index].loading);
+                                                            },
+                                                            child:
+                                                            Container(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .all(
+                                                                  7),
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    100),
+                                                                color:
+                                                                clrBlacke,
+                                                              ),
+                                                              child: Icon(
+                                                                Icons.close,
+                                                                color:
+                                                                clrWhite,
+                                                                size: 20,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                            Get.width *
+                                                                0.04,
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              // Get.toNamed(Routes.attendReviewUi);
+
+                                                              controller.acceptuserapi(controller
+                                                                  .actData
+                                                                  .value
+                                                                  .requests?[
+                                                              index]
+                                                                  .userId
+                                                                  .toString(),controller
+                                                                  .actData
+                                                                  .value
+                                                                  .requests?[
+                                                              index].loading);
+                                                            },
+                                                            child:
+                                                            Container(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .all(
+                                                                  7),
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    100),
+                                                                color:
+                                                                clrYellow,
+                                                              ),
+                                                              child: Icon(
+                                                                Icons.check,
+                                                                color:
+                                                                clrWhite,
+                                                                size: 20,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),)
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                    Get.height * 0.007,
+                                                  ),
+                                                  Divider(
+                                                    color: clrGreyLight,
+                                                    height: 8,
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                    Get.height * 0.007,
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          })
+                                          : ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: controller
+                                              .actData.value.going?.length,
+                                          physics:
+                                          const NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              margin: const EdgeInsets
+                                                  .symmetric(vertical: 0),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      // Flexible(
+                                                      //   child: Row(
+                                                      //     children: [
+                                                      //       Container(
+                                                      //           height:
+                                                      //               h * .05,
+                                                      //           width:
+                                                      //               h * .05,
+                                                      //           decoration: BoxDecoration(
+                                                      //               borderRadius:
+                                                      //                   BorderRadius.circular(
+                                                      //                       100)),
+                                                      //           child: Image
+                                                      //               .asset(
+                                                      //             "assets/images/girldp.png",
+                                                      //             fit: BoxFit
+                                                      //                 .cover,
+                                                      //           )),
+                                                      //       SizedBox(
+                                                      //         width:
+                                                      //             Get.width *
+                                                      //                 0.02,
+                                                      //       ),
+                                                      //       const Flexible(
+                                                      //           child: Text(
+                                                      //         "Isabelle Wilson",
+                                                      //         style: TextStyle(
+                                                      //             fontWeight:
+                                                      //                 FontWeight
+                                                      //                     .w600,
+                                                      //             fontSize:
+                                                      //                 16),
+                                                      //       ))
+                                                      //     ],
+                                                      //   ),
+                                                      // ),
+                                                      Flexible(
+                                                        child:
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Get.toNamed(
+                                                                Routes
+                                                                    .userProfileui,
+                                                                arguments: controller
+                                                                    .actData
+                                                                    .value
+                                                                    .going?[
+                                                                index]
+                                                                    .userId
+                                                                    .toString());
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              ClipRRect(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    100),
+                                                                child:
+                                                                CachedNetworkImage(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  height:
+                                                                  40,
+                                                                  width: 40,
+                                                                  imageUrl:
+                                                                  "${controller.actData.value.going?[index].profilePhoto}",
+                                                                  placeholder: (context,
+                                                                      url) =>
+                                                                      Shimmer
+                                                                          .fromColors(
+                                                                        baseColor:
+                                                                        grey300,
+                                                                        highlightColor:
+                                                                        grey100,
+                                                                        child:
+                                                                        Container(
+                                                                          width:
+                                                                          double.maxFinite,
+                                                                          height:
+                                                                          h * .26,
+                                                                          decoration:
+                                                                          BoxDecoration(
+                                                                            color:
+                                                                            grey300,
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(18),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                  errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                      ClipRRect(
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(100),
+                                                                        child:
+                                                                        Container(
+                                                                          height:
+                                                                          55,
+                                                                          width:
+                                                                          55,
+                                                                          color:
+                                                                          clrGreyLight,
+                                                                          child:
+                                                                          Image.asset(
+                                                                            'assets/icons/manicon.png',
+                                                                            color:
+                                                                            clrGrey,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width:
+                                                                Get.width *
+                                                                    0.02,
+                                                              ),
+                                                              Flexible(
+                                                                  child: Text(
+                                                                      ' ${controller.actData.value.going?[index].firstName}',
+                                                                      style: const TextStyle(
+                                                                          fontWeight: FontWeight.w600,
+                                                                          fontSize: 16)))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          alertRemove(() {
+                                                            Get.back();
+                                                            controller.removeuserapi(
+                                                                controller
+                                                                    .actData
+                                                                    .value
+                                                                    .going?[
+                                                                index]
+                                                                    .userId
+                                                                    .toString());
+                                                          });
+                                                          // controller.removeuserapi(controller.actData.value.going?[index].userId.toString());
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal:
+                                                              15,
+                                                              vertical:
+                                                              5),
+                                                          decoration:
+                                                          BoxDecoration(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                20),
+                                                            color:
+                                                            clrBlacke,
+                                                          ),
+                                                          child: Text(
+                                                            "Remove",
+                                                            style: TextStyle(
+                                                                color:
+                                                                clrWhite,
+                                                                fontSize:
+                                                                12,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                    Get.height * 0.007,
+                                                  ),
+                                                  Divider(
+                                                    color: clrGreyLight,
+                                                    height: 8,
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                    Get.height * 0.007,
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    }),
+                                    SizedBox(
+                                      height: Get.height * 0.01,
+                                    ),
+
                                     controller.actData.value.activity
                                         ?.latitude !=
                                         null &&
@@ -573,550 +1119,550 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                     SizedBox(
                                       height: Get.height * 0.02,
                                     ),
-                                    controller.actData.value.requests!
-                                                .isNotEmpty ||
-                                            controller
-                                                .actData.value.going!.isNotEmpty
-                                        ? SizedBox(
-                                            height: Get.height * 0.04,
-                                          )
-                                        : const SizedBox(),
-                                    Obx(() {
-                                      return controller.actData.value.requests!
-                                                  .isNotEmpty ||
-                                              controller.actData.value.going!
-                                                  .isNotEmpty
-                                          ? Row(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    controller
-                                                        .changeSlectedTab(1);
-                                                  },
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                        "Requests",
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight: controller
-                                                                        .selectedTab
-                                                                        .value ==
-                                                                    1
-                                                                ? FontWeight
-                                                                    .w700
-                                                                : FontWeight
-                                                                    .w400),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      controller.selectedTab
-                                                                  .value ==
-                                                              1
-                                                          ? Container(
-                                                              height: 3,
-                                                              width: 70,
-                                                              decoration: BoxDecoration(
-                                                                  color:
-                                                                      clrYellow,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10)),
-                                                            )
-                                                          : const SizedBox()
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: Get.width * 0.1,
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    controller
-                                                        .changeSlectedTab(2);
-                                                  },
-                                                  child: Column(
-                                                    children: [
-                                                      Text("Going",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: controller
-                                                                          .selectedTab
-                                                                          .value ==
-                                                                      2
-                                                                  ? FontWeight
-                                                                      .w700
-                                                                  : FontWeight
-                                                                      .w400)),
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      controller.selectedTab
-                                                                  .value ==
-                                                              2
-                                                          ? Container(
-                                                              height: 3,
-                                                              width: 70,
-                                                              decoration: BoxDecoration(
-                                                                  color:
-                                                                      clrYellow,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10)),
-                                                            )
-                                                          : const SizedBox()
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          : const SizedBox();
-                                    }),
-                                    controller.actData.value.requests!
-                                                .isNotEmpty ||
-                                            controller
-                                                .actData.value.going!.isNotEmpty
-                                        ? SizedBox(
-                                            height: Get.height * 0.02,
-                                          )
-                                        : SizedBox(
-                                            height: Get.height * 0.01,
-                                          ),
-                                    Obx(() {
-                                      return controller.selectedTab.value == 1
-                                          ? ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: controller.actData
-                                                  .value.requests?.length,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemBuilder: (context, index) {
-                                                return Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(vertical: 0),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Flexible(
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                Get.toNamed(
-                                                                    Routes
-                                                                        .userProfileui,
-                                                                    arguments: controller
-                                                                        .actData
-                                                                        .value
-                                                                        .going?[
-                                                                            index]
-                                                                        .userId
-                                                                        .toString());
-                                                              },
-                                                              child: Row(
-                                                                children: [
-                                                                  ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            100),
-                                                                    child:
-                                                                        CachedNetworkImage(
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      height:
-                                                                          40,
-                                                                      width: 40,
-                                                                      imageUrl:
-                                                                          "${controller.actData.value.requests?[index].profilePhoto}",
-                                                                      placeholder: (context,
-                                                                              url) =>
-                                                                          Shimmer
-                                                                              .fromColors(
-                                                                        baseColor:
-                                                                            grey300,
-                                                                        highlightColor:
-                                                                            grey100,
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              double.maxFinite,
-                                                                          height:
-                                                                              h * .26,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            color:
-                                                                                grey300,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(18),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(100),
-                                                                        child:
-                                                                            Container(
-                                                                          height:
-                                                                              55,
-                                                                          width:
-                                                                              55,
-                                                                          color:
-                                                                              clrGreyLight,
-                                                                          child:
-                                                                              Image.asset(
-                                                                            'assets/icons/manicon.png',
-                                                                            color:
-                                                                                clrGrey,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width:
-                                                                        Get.width *
-                                                                            0.02,
-                                                                  ),
-                                                                  Flexible(
-                                                                      child: Text(
-                                                                          ' ${controller.actData.value.requests?[index].firstName}',
-                                                                          style: const TextStyle(
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontSize: 16)))
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Obx(() => controller
-                                                              .actData
-                                                              .value
-                                                              .requests?[
-                                                          index].loading.value == true ? CommonUi.fallingDot(color: clrBlacke) : Row(
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  // Get.toNamed(Routes.attendReviewUi);
-                                                                  controller.rejectuserapi(controller
-                                                                      .actData
-                                                                      .value
-                                                                      .requests?[
-                                                                  index]
-                                                                      .userId
-                                                                      .toString(),controller
-                                                                      .actData
-                                                                      .value
-                                                                      .requests?[
-                                                                  index].loading);
-                                                                },
-                                                                child:
-                                                                Container(
-                                                                  padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      4),
-                                                                  decoration:
-                                                                  BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.circular(
-                                                                        100),
-                                                                    color:
-                                                                    clrBlacke,
-                                                                  ),
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    color:
-                                                                    clrWhite,
-                                                                    size: 20,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width:
-                                                                Get.width *
-                                                                    0.02,
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  // Get.toNamed(Routes.attendReviewUi);
-
-                                                                  controller.acceptuserapi(controller
-                                                                      .actData
-                                                                      .value
-                                                                      .requests?[
-                                                                  index]
-                                                                      .userId
-                                                                      .toString(),controller
-                                                                      .actData
-                                                                      .value
-                                                                      .requests?[
-                                                                  index].loading);
-                                                                },
-                                                                child:
-                                                                Container(
-                                                                  padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      4),
-                                                                  decoration:
-                                                                  BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.circular(
-                                                                        100),
-                                                                    color:
-                                                                    clrYellow,
-                                                                  ),
-                                                                  child: Icon(
-                                                                    Icons.check,
-                                                                    color:
-                                                                    clrWhite,
-                                                                    size: 20,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),)
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            Get.height * 0.007,
-                                                      ),
-                                                      Divider(
-                                                        color: clrGreyLight,
-                                                        height: 8,
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            Get.height * 0.007,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              })
-                                          : ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: controller
-                                                  .actData.value.going?.length,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemBuilder: (context, index) {
-                                                return Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(vertical: 0),
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          // Flexible(
-                                                          //   child: Row(
-                                                          //     children: [
-                                                          //       Container(
-                                                          //           height:
-                                                          //               h * .05,
-                                                          //           width:
-                                                          //               h * .05,
-                                                          //           decoration: BoxDecoration(
-                                                          //               borderRadius:
-                                                          //                   BorderRadius.circular(
-                                                          //                       100)),
-                                                          //           child: Image
-                                                          //               .asset(
-                                                          //             "assets/images/girldp.png",
-                                                          //             fit: BoxFit
-                                                          //                 .cover,
-                                                          //           )),
-                                                          //       SizedBox(
-                                                          //         width:
-                                                          //             Get.width *
-                                                          //                 0.02,
-                                                          //       ),
-                                                          //       const Flexible(
-                                                          //           child: Text(
-                                                          //         "Isabelle Wilson",
-                                                          //         style: TextStyle(
-                                                          //             fontWeight:
-                                                          //                 FontWeight
-                                                          //                     .w600,
-                                                          //             fontSize:
-                                                          //                 16),
-                                                          //       ))
-                                                          //     ],
-                                                          //   ),
-                                                          // ),
-                                                          Flexible(
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                Get.toNamed(
-                                                                    Routes
-                                                                        .userProfileui,
-                                                                    arguments: controller
-                                                                        .actData
-                                                                        .value
-                                                                        .going?[
-                                                                            index]
-                                                                        .userId
-                                                                        .toString());
-                                                              },
-                                                              child: Row(
-                                                                children: [
-                                                                  ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            100),
-                                                                    child:
-                                                                        CachedNetworkImage(
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      height:
-                                                                          40,
-                                                                      width: 40,
-                                                                      imageUrl:
-                                                                          "${controller.actData.value.going?[index].profilePhoto}",
-                                                                      placeholder: (context,
-                                                                              url) =>
-                                                                          Shimmer
-                                                                              .fromColors(
-                                                                        baseColor:
-                                                                            grey300,
-                                                                        highlightColor:
-                                                                            grey100,
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              double.maxFinite,
-                                                                          height:
-                                                                              h * .26,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            color:
-                                                                                grey300,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(18),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(100),
-                                                                        child:
-                                                                            Container(
-                                                                          height:
-                                                                              55,
-                                                                          width:
-                                                                              55,
-                                                                          color:
-                                                                              clrGreyLight,
-                                                                          child:
-                                                                              Image.asset(
-                                                                            'assets/icons/manicon.png',
-                                                                            color:
-                                                                                clrGrey,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width:
-                                                                        Get.width *
-                                                                            0.02,
-                                                                  ),
-                                                                  Flexible(
-                                                                      child: Text(
-                                                                          ' ${controller.actData.value.going?[index].firstName}',
-                                                                          style: const TextStyle(
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontSize: 16)))
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              alertRemove(() {
-                                                                Get.back();
-                                                                controller.removeuserapi(
-                                                                    controller
-                                                                        .actData
-                                                                        .value
-                                                                        .going?[
-                                                                            index]
-                                                                        .userId
-                                                                        .toString());
-                                                              });
-                                                              // controller.removeuserapi(controller.actData.value.going?[index].userId.toString());
-                                                            },
-                                                            child: Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          15,
-                                                                      vertical:
-                                                                          5),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20),
-                                                                color:
-                                                                    clrBlacke,
-                                                              ),
-                                                              child: Text(
-                                                                "Remove",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        clrWhite,
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            Get.height * 0.007,
-                                                      ),
-                                                      Divider(
-                                                        color: clrGreyLight,
-                                                        height: 8,
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            Get.height * 0.007,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              });
-                                    }),
-                                    SizedBox(
-                                      height: Get.height * 0.02,
-                                    ),
+                                    // controller.actData.value.requests!
+                                    //             .isNotEmpty ||
+                                    //         controller
+                                    //             .actData.value.going!.isNotEmpty
+                                    //     ? SizedBox(
+                                    //         height: Get.height * 0.04,
+                                    //       )
+                                    //     : const SizedBox(),
+                                    // Obx(() {
+                                    //   return controller.actData.value.requests!
+                                    //               .isNotEmpty ||
+                                    //           controller.actData.value.going!
+                                    //               .isNotEmpty
+                                    //       ? Row(
+                                    //           children: [
+                                    //             InkWell(
+                                    //               onTap: () {
+                                    //                 controller
+                                    //                     .changeSlectedTab(1);
+                                    //               },
+                                    //               child: Column(
+                                    //                 children: [
+                                    //                   Text(
+                                    //                     "Requests",
+                                    //                     style: TextStyle(
+                                    //                         fontSize: 16,
+                                    //                         fontWeight: controller
+                                    //                                     .selectedTab
+                                    //                                     .value ==
+                                    //                                 1
+                                    //                             ? FontWeight
+                                    //                                 .w700
+                                    //                             : FontWeight
+                                    //                                 .w400),
+                                    //                   ),
+                                    //                   const SizedBox(
+                                    //                     height: 5,
+                                    //                   ),
+                                    //                   controller.selectedTab
+                                    //                               .value ==
+                                    //                           1
+                                    //                       ? Container(
+                                    //                           height: 3,
+                                    //                           width: 70,
+                                    //                           decoration: BoxDecoration(
+                                    //                               color:
+                                    //                                   clrYellow,
+                                    //                               borderRadius:
+                                    //                                   BorderRadius
+                                    //                                       .circular(
+                                    //                                           10)),
+                                    //                         )
+                                    //                       : const SizedBox()
+                                    //                 ],
+                                    //               ),
+                                    //             ),
+                                    //             SizedBox(
+                                    //               width: Get.width * 0.1,
+                                    //             ),
+                                    //             InkWell(
+                                    //               onTap: () {
+                                    //                 controller
+                                    //                     .changeSlectedTab(2);
+                                    //               },
+                                    //               child: Column(
+                                    //                 children: [
+                                    //                   Text("Going",
+                                    //                       style: TextStyle(
+                                    //                           fontSize: 16,
+                                    //                           fontWeight: controller
+                                    //                                       .selectedTab
+                                    //                                       .value ==
+                                    //                                   2
+                                    //                               ? FontWeight
+                                    //                                   .w700
+                                    //                               : FontWeight
+                                    //                                   .w400)),
+                                    //                   const SizedBox(
+                                    //                     height: 5,
+                                    //                   ),
+                                    //                   controller.selectedTab
+                                    //                               .value ==
+                                    //                           2
+                                    //                       ? Container(
+                                    //                           height: 3,
+                                    //                           width: 70,
+                                    //                           decoration: BoxDecoration(
+                                    //                               color:
+                                    //                                   clrYellow,
+                                    //                               borderRadius:
+                                    //                                   BorderRadius
+                                    //                                       .circular(
+                                    //                                           10)),
+                                    //                         )
+                                    //                       : const SizedBox()
+                                    //                 ],
+                                    //               ),
+                                    //             )
+                                    //           ],
+                                    //         )
+                                    //       : const SizedBox();
+                                    // }),
+                                    // controller.actData.value.requests!
+                                    //             .isNotEmpty ||
+                                    //         controller
+                                    //             .actData.value.going!.isNotEmpty
+                                    //     ? SizedBox(
+                                    //         height: Get.height * 0.02,
+                                    //       )
+                                    //     : SizedBox(
+                                    //         height: Get.height * 0.01,
+                                    //       ),
+                                    // Obx(() {
+                                    //   return controller.selectedTab.value == 1
+                                    //       ? ListView.builder(
+                                    //           shrinkWrap: true,
+                                    //           itemCount: controller.actData
+                                    //               .value.requests?.length,
+                                    //           physics:
+                                    //               const NeverScrollableScrollPhysics(),
+                                    //           itemBuilder: (context, index) {
+                                    //             return Container(
+                                    //               margin: const EdgeInsets
+                                    //                   .symmetric(vertical: 0),
+                                    //               child: Column(
+                                    //                 mainAxisAlignment:
+                                    //                     MainAxisAlignment
+                                    //                         .center,
+                                    //                 children: [
+                                    //                   Row(
+                                    //                     mainAxisAlignment:
+                                    //                         MainAxisAlignment
+                                    //                             .spaceBetween,
+                                    //                     children: [
+                                    //                       Flexible(
+                                    //                         child:
+                                    //                             GestureDetector(
+                                    //                           onTap: () {
+                                    //                             Get.toNamed(
+                                    //                                 Routes
+                                    //                                     .userProfileui,
+                                    //                                 arguments: controller
+                                    //                                     .actData
+                                    //                                     .value
+                                    //                                     .going?[
+                                    //                                         index]
+                                    //                                     .userId
+                                    //                                     .toString());
+                                    //                           },
+                                    //                           child: Row(
+                                    //                             children: [
+                                    //                               ClipRRect(
+                                    //                                 borderRadius:
+                                    //                                     BorderRadius.circular(
+                                    //                                         100),
+                                    //                                 child:
+                                    //                                     CachedNetworkImage(
+                                    //                                   fit: BoxFit
+                                    //                                       .cover,
+                                    //                                   height:
+                                    //                                       40,
+                                    //                                   width: 40,
+                                    //                                   imageUrl:
+                                    //                                       "${controller.actData.value.requests?[index].profilePhoto}",
+                                    //                                   placeholder: (context,
+                                    //                                           url) =>
+                                    //                                       Shimmer
+                                    //                                           .fromColors(
+                                    //                                     baseColor:
+                                    //                                         grey300,
+                                    //                                     highlightColor:
+                                    //                                         grey100,
+                                    //                                     child:
+                                    //                                         Container(
+                                    //                                       width:
+                                    //                                           double.maxFinite,
+                                    //                                       height:
+                                    //                                           h * .26,
+                                    //                                       decoration:
+                                    //                                           BoxDecoration(
+                                    //                                         color:
+                                    //                                             grey300,
+                                    //                                         borderRadius:
+                                    //                                             BorderRadius.circular(18),
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                   errorWidget: (context,
+                                    //                                           url,
+                                    //                                           error) =>
+                                    //                                       ClipRRect(
+                                    //                                     borderRadius:
+                                    //                                         BorderRadius.circular(100),
+                                    //                                     child:
+                                    //                                         Container(
+                                    //                                       height:
+                                    //                                           55,
+                                    //                                       width:
+                                    //                                           55,
+                                    //                                       color:
+                                    //                                           clrGreyLight,
+                                    //                                       child:
+                                    //                                           Image.asset(
+                                    //                                         'assets/icons/manicon.png',
+                                    //                                         color:
+                                    //                                             clrGrey,
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                               ),
+                                    //                               SizedBox(
+                                    //                                 width:
+                                    //                                     Get.width *
+                                    //                                         0.02,
+                                    //                               ),
+                                    //                               Flexible(
+                                    //                                   child: Text(
+                                    //                                       ' ${controller.actData.value.requests?[index].firstName}',
+                                    //                                       style: const TextStyle(
+                                    //                                           fontWeight: FontWeight.w600,
+                                    //                                           fontSize: 16)))
+                                    //                             ],
+                                    //                           ),
+                                    //                         ),
+                                    //                       ),
+                                    //                       Obx(() => controller
+                                    //                           .actData
+                                    //                           .value
+                                    //                           .requests?[
+                                    //                       index].loading.value == true ? CommonUi.fallingDot(color: clrBlacke) : Row(
+                                    //                         children: [
+                                    //                           GestureDetector(
+                                    //                             onTap: () {
+                                    //                               // Get.toNamed(Routes.attendReviewUi);
+                                    //                               controller.rejectuserapi(controller
+                                    //                                   .actData
+                                    //                                   .value
+                                    //                                   .requests?[
+                                    //                               index]
+                                    //                                   .userId
+                                    //                                   .toString(),controller
+                                    //                                   .actData
+                                    //                                   .value
+                                    //                                   .requests?[
+                                    //                               index].loading);
+                                    //                             },
+                                    //                             child:
+                                    //                             Container(
+                                    //                               padding:
+                                    //                               const EdgeInsets
+                                    //                                   .all(
+                                    //                                   7),
+                                    //                               decoration:
+                                    //                               BoxDecoration(
+                                    //                                 borderRadius:
+                                    //                                 BorderRadius.circular(
+                                    //                                     100),
+                                    //                                 color:
+                                    //                                 clrBlacke,
+                                    //                               ),
+                                    //                               child: Icon(
+                                    //                                 Icons.close,
+                                    //                                 color:
+                                    //                                 clrWhite,
+                                    //                                 size: 20,
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                           SizedBox(
+                                    //                             width:
+                                    //                             Get.width *
+                                    //                                 0.02,
+                                    //                           ),
+                                    //                           GestureDetector(
+                                    //                             onTap: () {
+                                    //                               // Get.toNamed(Routes.attendReviewUi);
+                                    //
+                                    //                               controller.acceptuserapi(controller
+                                    //                                   .actData
+                                    //                                   .value
+                                    //                                   .requests?[
+                                    //                               index]
+                                    //                                   .userId
+                                    //                                   .toString(),controller
+                                    //                                   .actData
+                                    //                                   .value
+                                    //                                   .requests?[
+                                    //                               index].loading);
+                                    //                             },
+                                    //                             child:
+                                    //                             Container(
+                                    //                               padding:
+                                    //                               const EdgeInsets
+                                    //                                   .all(
+                                    //                                   7),
+                                    //                               decoration:
+                                    //                               BoxDecoration(
+                                    //                                 borderRadius:
+                                    //                                 BorderRadius.circular(
+                                    //                                     100),
+                                    //                                 color:
+                                    //                                 clrYellow,
+                                    //                               ),
+                                    //                               child: Icon(
+                                    //                                 Icons.check,
+                                    //                                 color:
+                                    //                                 clrWhite,
+                                    //                                 size: 20,
+                                    //                               ),
+                                    //                             ),
+                                    //                           )
+                                    //                         ],
+                                    //                       ),)
+                                    //                     ],
+                                    //                   ),
+                                    //                   SizedBox(
+                                    //                     height:
+                                    //                         Get.height * 0.007,
+                                    //                   ),
+                                    //                   Divider(
+                                    //                     color: clrGreyLight,
+                                    //                     height: 8,
+                                    //                   ),
+                                    //                   SizedBox(
+                                    //                     height:
+                                    //                         Get.height * 0.007,
+                                    //                   ),
+                                    //                 ],
+                                    //               ),
+                                    //             );
+                                    //           })
+                                    //       : ListView.builder(
+                                    //           shrinkWrap: true,
+                                    //           itemCount: controller
+                                    //               .actData.value.going?.length,
+                                    //           physics:
+                                    //               const NeverScrollableScrollPhysics(),
+                                    //           itemBuilder: (context, index) {
+                                    //             return Container(
+                                    //               margin: const EdgeInsets
+                                    //                   .symmetric(vertical: 0),
+                                    //               child: Column(
+                                    //                 children: [
+                                    //                   Row(
+                                    //                     mainAxisAlignment:
+                                    //                         MainAxisAlignment
+                                    //                             .spaceBetween,
+                                    //                     children: [
+                                    //                       // Flexible(
+                                    //                       //   child: Row(
+                                    //                       //     children: [
+                                    //                       //       Container(
+                                    //                       //           height:
+                                    //                       //               h * .05,
+                                    //                       //           width:
+                                    //                       //               h * .05,
+                                    //                       //           decoration: BoxDecoration(
+                                    //                       //               borderRadius:
+                                    //                       //                   BorderRadius.circular(
+                                    //                       //                       100)),
+                                    //                       //           child: Image
+                                    //                       //               .asset(
+                                    //                       //             "assets/images/girldp.png",
+                                    //                       //             fit: BoxFit
+                                    //                       //                 .cover,
+                                    //                       //           )),
+                                    //                       //       SizedBox(
+                                    //                       //         width:
+                                    //                       //             Get.width *
+                                    //                       //                 0.02,
+                                    //                       //       ),
+                                    //                       //       const Flexible(
+                                    //                       //           child: Text(
+                                    //                       //         "Isabelle Wilson",
+                                    //                       //         style: TextStyle(
+                                    //                       //             fontWeight:
+                                    //                       //                 FontWeight
+                                    //                       //                     .w600,
+                                    //                       //             fontSize:
+                                    //                       //                 16),
+                                    //                       //       ))
+                                    //                       //     ],
+                                    //                       //   ),
+                                    //                       // ),
+                                    //                       Flexible(
+                                    //                         child:
+                                    //                             GestureDetector(
+                                    //                           onTap: () {
+                                    //                             Get.toNamed(
+                                    //                                 Routes
+                                    //                                     .userProfileui,
+                                    //                                 arguments: controller
+                                    //                                     .actData
+                                    //                                     .value
+                                    //                                     .going?[
+                                    //                                         index]
+                                    //                                     .userId
+                                    //                                     .toString());
+                                    //                           },
+                                    //                           child: Row(
+                                    //                             children: [
+                                    //                               ClipRRect(
+                                    //                                 borderRadius:
+                                    //                                     BorderRadius.circular(
+                                    //                                         100),
+                                    //                                 child:
+                                    //                                     CachedNetworkImage(
+                                    //                                   fit: BoxFit
+                                    //                                       .cover,
+                                    //                                   height:
+                                    //                                       40,
+                                    //                                   width: 40,
+                                    //                                   imageUrl:
+                                    //                                       "${controller.actData.value.going?[index].profilePhoto}",
+                                    //                                   placeholder: (context,
+                                    //                                           url) =>
+                                    //                                       Shimmer
+                                    //                                           .fromColors(
+                                    //                                     baseColor:
+                                    //                                         grey300,
+                                    //                                     highlightColor:
+                                    //                                         grey100,
+                                    //                                     child:
+                                    //                                         Container(
+                                    //                                       width:
+                                    //                                           double.maxFinite,
+                                    //                                       height:
+                                    //                                           h * .26,
+                                    //                                       decoration:
+                                    //                                           BoxDecoration(
+                                    //                                         color:
+                                    //                                             grey300,
+                                    //                                         borderRadius:
+                                    //                                             BorderRadius.circular(18),
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                   errorWidget: (context,
+                                    //                                           url,
+                                    //                                           error) =>
+                                    //                                       ClipRRect(
+                                    //                                     borderRadius:
+                                    //                                         BorderRadius.circular(100),
+                                    //                                     child:
+                                    //                                         Container(
+                                    //                                       height:
+                                    //                                           55,
+                                    //                                       width:
+                                    //                                           55,
+                                    //                                       color:
+                                    //                                           clrGreyLight,
+                                    //                                       child:
+                                    //                                           Image.asset(
+                                    //                                         'assets/icons/manicon.png',
+                                    //                                         color:
+                                    //                                             clrGrey,
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                               ),
+                                    //                               SizedBox(
+                                    //                                 width:
+                                    //                                     Get.width *
+                                    //                                         0.02,
+                                    //                               ),
+                                    //                               Flexible(
+                                    //                                   child: Text(
+                                    //                                       ' ${controller.actData.value.going?[index].firstName}',
+                                    //                                       style: const TextStyle(
+                                    //                                           fontWeight: FontWeight.w600,
+                                    //                                           fontSize: 16)))
+                                    //                             ],
+                                    //                           ),
+                                    //                         ),
+                                    //                       ),
+                                    //                       InkWell(
+                                    //                         onTap: () {
+                                    //                           alertRemove(() {
+                                    //                             Get.back();
+                                    //                             controller.removeuserapi(
+                                    //                                 controller
+                                    //                                     .actData
+                                    //                                     .value
+                                    //                                     .going?[
+                                    //                                         index]
+                                    //                                     .userId
+                                    //                                     .toString());
+                                    //                           });
+                                    //                           // controller.removeuserapi(controller.actData.value.going?[index].userId.toString());
+                                    //                         },
+                                    //                         child: Container(
+                                    //                           padding:
+                                    //                               const EdgeInsets
+                                    //                                   .symmetric(
+                                    //                                   horizontal:
+                                    //                                       15,
+                                    //                                   vertical:
+                                    //                                       5),
+                                    //                           decoration:
+                                    //                               BoxDecoration(
+                                    //                             borderRadius:
+                                    //                                 BorderRadius
+                                    //                                     .circular(
+                                    //                                         20),
+                                    //                             color:
+                                    //                                 clrBlacke,
+                                    //                           ),
+                                    //                           child: Text(
+                                    //                             "Remove",
+                                    //                             style: TextStyle(
+                                    //                                 color:
+                                    //                                     clrWhite,
+                                    //                                 fontSize:
+                                    //                                     12,
+                                    //                                 fontWeight:
+                                    //                                     FontWeight
+                                    //                                         .w700),
+                                    //                           ),
+                                    //                         ),
+                                    //                       ),
+                                    //                     ],
+                                    //                   ),
+                                    //                   SizedBox(
+                                    //                     height:
+                                    //                         Get.height * 0.007,
+                                    //                   ),
+                                    //                   Divider(
+                                    //                     color: clrGreyLight,
+                                    //                     height: 8,
+                                    //                   ),
+                                    //                   SizedBox(
+                                    //                     height:
+                                    //                         Get.height * 0.007,
+                                    //                   ),
+                                    //                 ],
+                                    //               ),
+                                    //             );
+                                    //           });
+                                    // }),
+                                    // SizedBox(
+                                    //   height: Get.height * 0.02,
+                                    // ),
                                   ],
                                 ),
                               ),
