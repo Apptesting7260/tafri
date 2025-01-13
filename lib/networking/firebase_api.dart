@@ -376,7 +376,11 @@ class FirebaseApi {
         channelShowBadge: true,
         styleInformation: bigTextStyleInformation, // Assign BigTextStyle
       );
-      const iosNotificationDetails = DarwinNotificationDetails();
+      const iosNotificationDetails = DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      );
 
       NotificationDetails notificationDetails =  NotificationDetails(
           iOS: iosNotificationDetails, android: androidNotificationDetails,);
@@ -412,7 +416,7 @@ class FirebaseApi {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5), // Circular border with radius of 15
               child: Image.asset(
-                'assets/images/launcher.png',
+                'assets/images/launcher.webp',
                 width: 40,  // Set width for the image
                 height: 40, // Set height for the image
                 fit: BoxFit.cover, // Ensures the image covers the container evenly
