@@ -85,7 +85,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                             imageUrl: '${controller.profileData.value.result?.profile?.profilePhoto}',
                             fit: BoxFit.cover,
                             height: h * .13,
-                            width: w * .28,
+                            width: h * .13,
                             placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: grey300,
                                 highlightColor: grey100,
@@ -93,7 +93,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                                   borderRadius: BorderRadius.circular(100),
                                   child: Container(
                                     height: h * .13,
-                                    width: w * .28,
+                                    width: h * .13,
                                     color: clrGrey,
                                   ),
                                 )
