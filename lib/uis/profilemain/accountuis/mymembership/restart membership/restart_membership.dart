@@ -219,7 +219,7 @@ class ReStartMembershipScreen extends StatelessWidget {
                                 height: 1.5),
                           ),
                           TextSpan(
-                              text: "Privacy Policy.",
+                              text: "Privacy Policy",
                               recognizer: TapGestureRecognizer()..onTap = () async{
                                 await launchUrl(Uri.parse('https://plusonesapp.com/privacy-policy'));
                               },
@@ -228,6 +228,12 @@ class ReStartMembershipScreen extends StatelessWidget {
                                   decoration: TextDecoration
                                       .underline,
                                   height: 1.5)),
+                          TextSpan(
+                            text: ". ",
+                            style: TextStyle(
+                                color: clrGrey5D5C5E,
+                                height: 1.5),
+                          ),
                           paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
                             text:
                             " After the free trial, your membership will auto-renew ${restartController.selectedPlan.value.isNotEmpty ? restartController.selectedPlan.value == 'yearly' ? 'annually' : 'monthly' : ''} at ${restartController.choosePlan.value != (-1) ? '€${restartController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",

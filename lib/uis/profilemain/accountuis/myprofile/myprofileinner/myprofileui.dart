@@ -1496,7 +1496,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     SizedBox(
-                      height: Get.height * 0.015,
+                      height: Get.height * 0.01,
                     ),
                     profileController.profileData.value.result!.upcomingActivities!.isEmpty
                         ? SizedBox()
@@ -1588,6 +1588,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 12),
                                         child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             // Container(
                                             //   clipBehavior: Clip.hardEdge,
@@ -1681,7 +1682,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                       TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     SizedBox(
-                      height: Get.height * 0.015,
+                      height: Get.height * 0.01,
                     ),
                     profileController.profileData.value.result!.previousActivities!.isEmpty
                         ? SizedBox()
@@ -1724,6 +1725,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                      child: Padding(
                                        padding: const EdgeInsets.only(top: 12),
                                        child: Row(
+                                         crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             // Container(
                                             //   clipBehavior: Clip.hardEdge,

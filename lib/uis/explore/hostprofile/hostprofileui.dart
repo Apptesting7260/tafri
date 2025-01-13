@@ -765,7 +765,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                             style: TextStyle(fontWeight: FontWeight.w800),
                           ) : SizedBox(),
                           SizedBox(
-                            height: Get.height * 0.015,
+                            height: Get.height * 0.01,
                           ),
                           // ListView.builder(
                           //     itemCount: controller.hostData.value.result?.upcomingActivities?.length,
@@ -1068,6 +1068,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 12),
                                               child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   // Container(
                                                   //   clipBehavior: Clip.hardEdge,
@@ -1164,7 +1165,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                             TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                           ) : SizedBox(),
                           SizedBox(
-                            height: Get.height * 0.015,
+                            height: Get.height * 0.01,
                           ),
                           controller.hostData.value.result!.previousActivities!.isEmpty
                               ? SizedBox()
@@ -1209,6 +1210,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 12),
                                               child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   // Container(
                                                   //   clipBehavior: Clip.hardEdge,
@@ -1272,12 +1274,15 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                                                 fontWeight:
                                                                 FontWeight.w600),
                                                           ),
-                                                          Text(
-                                                              controller.hostData.value.result!.previousActivities![index].activities![ind].status.toString() ?? '',
-                                                              style: TextStyle(
-                                                                  color: clrGreyTextLight,
-                                                                  fontSize: 12)
-                                                          ),
+                                                          Text(controller.hostData.value.result!.previousActivities![index].activities![ind].location.toString(),style: TextStyle(
+                                                              color: clrGreyTextLight,
+                                                              fontSize: 12))
+                                                          // Text(
+                                                          //     controller.hostData.value.result!.previousActivities![index].activities![ind].status.toString() ?? '',
+                                                          //     style: TextStyle(
+                                                          //         color: clrGreyTextLight,
+                                                          //         fontSize: 12)
+                                                          // ),
                                                         ],
                                                       ),
                                                     ),

@@ -829,7 +829,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                       height: 1.5),
                                                 ),
                                                 TextSpan(
-                                                    text: "Privacy Policy.",
+                                                    text: "Privacy Policy",
                                                     recognizer: TapGestureRecognizer()..onTap = () async{
                                                       await launchUrl(Uri.parse('https://plusonesapp.com/privacy-policy'));
                                                     },
@@ -838,6 +838,12 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                         decoration: TextDecoration
                                                             .underline,
                                                         height: 1.5)),
+                                                TextSpan(
+                                                  text: ". ",
+                                                  style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      height: 1.5),
+                                                ),
                                                 paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
                                                   text:
                                                       " After the free trial, your membership will auto-renew ${paymentController.selectedPlan.value.isNotEmpty ? paymentController.selectedPlan.value == 'yearly' ? 'annually' : 'monthly' : ''} at ${paymentController.choosePlan.value != (-1) ? '€${paymentController.price.value}' : 'regular price'} unless cancelled. You authorise charges for late cancellations and no-shows. These policies ensure a committed and genuine community.",

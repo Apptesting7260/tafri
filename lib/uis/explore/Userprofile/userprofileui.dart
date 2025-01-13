@@ -739,227 +739,17 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                         ),
                         controller.hostData.value.result!.upcomingActivities!.isEmpty
                             ? SizedBox()
-                            :  controller.hostData.value.result!.upcommingActivityStatus == 1
+                            :  controller.hostData.value.result!.upcommingActivityStatus == '1'
                             ? Text(
                           "Upcoming activities",
                           style: TextStyle(fontWeight: FontWeight.w800),
                         ) : SizedBox(),
                         SizedBox(
-                          height: Get.height * 0.015,
+                          height: Get.height * 0.01,
                         ),
-                        // ListView.builder(
-                        //     itemCount: controller.hostData.value.result?.upcomingActivities?.length,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     shrinkWrap: true,
-                        //     itemBuilder: (context, index) {
-                        //       return Container(
-                        //         margin: const EdgeInsets.symmetric(vertical: 5),
-                        //         padding: const EdgeInsets.symmetric(
-                        //             vertical: 10, horizontal: 10),
-                        //         decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(5),
-                        //             color: clrGreyLight),
-                        //         child: Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                        //           children: [
-                        //             Text(
-                        //               controller.hostData.value
-                        //                   .result?.upcomingActivities?[index].formattedDate ?? '',
-                        //               style: TextStyle(color: clrGreyDark),
-                        //             ),
-                        //             SizedBox(
-                        //               height: Get.height * 0.003,
-                        //             ),
-                        //             Row(
-                        //               children: [
-                        //                 Container(
-                        //                   clipBehavior: Clip.hardEdge,
-                        //                   height: 57,
-                        //                   width: 57,
-                        //                   decoration: BoxDecoration(
-                        //                     borderRadius: BorderRadius.circular(10),
-                        //                   ),
-                        //                   child: Image.asset(
-                        //                     "assets/images/parkimage.png",
-                        //                     fit: BoxFit.cover,
-                        //                   ),
-                        //                 ),
-                        //                 SizedBox(
-                        //                   width: Get.width * 0.02,
-                        //                 ),
-                        //                 Expanded(
-                        //                   child: Container(
-                        //                     padding: const EdgeInsets.symmetric(
-                        //                         horizontal: 10, vertical: 10),
-                        //                     decoration: BoxDecoration(
-                        //                         color: clrWhite,
-                        //                         borderRadius:
-                        //                         BorderRadius.circular(5)),
-                        //                     child: Column(
-                        //                       crossAxisAlignment:
-                        //                       CrossAxisAlignment.start,
-                        //                       children: [
-                        //                         const Text(
-                        //                           "10KM Vondelpark run",
-                        //                           style: TextStyle(
-                        //                               fontSize: 14,
-                        //                               fontWeight: FontWeight.w500),
-                        //                         ),
-                        //                         Text(
-                        //                             "Padel next, 1055 AH, Amsterdam ",
-                        //                             style: TextStyle(
-                        //                                 color: clrGreyDark,
-                        //                                 fontSize: 12)),
-                        //                       ],
-                        //                     ),
-                        //                   ),
-                        //                 )
-                        //               ],
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     }),
-                        // SizedBox(
-                        //   height: Get.height * 0.015,
-                        // ),
-                        // const Text(
-                        //   "Previous activities",
-                        //   style: TextStyle(fontWeight: FontWeight.w800),
-                        // ),
-                        // SizedBox(
-                        //   height: Get.height * 0.015,
-                        // ),
-                        // ListView.builder(
-                        //     itemCount: 1,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     shrinkWrap: true,
-                        //     itemBuilder: (context, index) {
-                        //       return Container(
-                        //         margin: const EdgeInsets.symmetric(vertical: 5),
-                        //         padding: const EdgeInsets.symmetric(
-                        //             vertical: 10, horizontal: 10),
-                        //         decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(5),
-                        //             color: clrGreyLight),
-                        //         child: Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                        //           children: [
-                        //             Text(
-                        //               "20 May",
-                        //               style: TextStyle(color: clrGreyDark),
-                        //             ),
-                        //             SizedBox(
-                        //               height: Get.height * 0.003,
-                        //             ),
-                        //             Column(
-                        //               children: [
-                        //                 Row(
-                        //                   children: [
-                        //                     Container(
-                        //                       clipBehavior: Clip.hardEdge,
-                        //                       height: 57,
-                        //                       width: 57,
-                        //                       decoration: BoxDecoration(
-                        //                         borderRadius:
-                        //                         BorderRadius.circular(10),
-                        //                       ),
-                        //                       child: Image.asset(
-                        //                         "assets/images/parkimage.png",
-                        //                         fit: BoxFit.cover,
-                        //                       ),
-                        //                     ),
-                        //                     SizedBox(
-                        //                       width: Get.width * 0.02,
-                        //                     ),
-                        //                     Expanded(
-                        //                       child: Container(
-                        //                         padding: const EdgeInsets.symmetric(
-                        //                             horizontal: 10, vertical: 10),
-                        //                         decoration: BoxDecoration(
-                        //                             color: clrWhite,
-                        //                             borderRadius:
-                        //                             BorderRadius.circular(5)),
-                        //                         child: Column(
-                        //                           crossAxisAlignment:
-                        //                           CrossAxisAlignment.start,
-                        //                           children: [
-                        //                             const Text(
-                        //                               "Salsa night at Tulp",
-                        //                               style: TextStyle(
-                        //                                   fontSize: 14,
-                        //                                   fontWeight:
-                        //                                   FontWeight.w500),
-                        //                             ),
-                        //                             Text("Confirm attendance",
-                        //                                 style: TextStyle(
-                        //                                     color: clrYellowText,
-                        //                                     fontSize: 12)),
-                        //                           ],
-                        //                         ),
-                        //                       ),
-                        //                     )
-                        //                   ],
-                        //                 ),
-                        //                 const SizedBox(
-                        //                   height: 8,
-                        //                 ),
-                        //                 Row(
-                        //                   children: [
-                        //                     Container(
-                        //                       clipBehavior: Clip.hardEdge,
-                        //                       height: 57,
-                        //                       width: 57,
-                        //                       decoration: BoxDecoration(
-                        //                         borderRadius:
-                        //                         BorderRadius.circular(10),
-                        //                       ),
-                        //                       child: Image.asset(
-                        //                         "assets/images/cofee.png",
-                        //                         fit: BoxFit.cover,
-                        //                       ),
-                        //                     ),
-                        //                     SizedBox(
-                        //                       width: Get.width * 0.02,
-                        //                     ),
-                        //                     Expanded(
-                        //                       child: Container(
-                        //                         padding: const EdgeInsets.symmetric(
-                        //                             horizontal: 10, vertical: 10),
-                        //                         decoration: BoxDecoration(
-                        //                             color: clrWhite,
-                        //                             borderRadius:
-                        //                             BorderRadius.circular(5)),
-                        //                         child: Column(
-                        //                           crossAxisAlignment:
-                        //                           CrossAxisAlignment.start,
-                        //                           children: [
-                        //                             const Text(
-                        //                               "Sunday morning coffee",
-                        //                               style: TextStyle(
-                        //                                   fontSize: 14,
-                        //                                   fontWeight:
-                        //                                   FontWeight.w500),
-                        //                             ),
-                        //                             Text("Cancelled",
-                        //                                 style: TextStyle(
-                        //                                     color: clrGreyTextLight,
-                        //                                     fontSize: 12)),
-                        //                           ],
-                        //                         ),
-                        //                       ),
-                        //                     )
-                        //                   ],
-                        //                 ),
-                        //               ],
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     }),
                         controller.hostData.value.result!.upcomingActivities!.isEmpty
                             ? SizedBox()
-                            : controller.hostData.value.result!.upcommingActivityStatus == 1
+                            : controller.hostData.value.result!.upcommingActivityStatus == '1'
                             ? ListView.builder(
                             itemCount: controller.hostData.value
                                 .result?.upcomingActivities?.length,
@@ -985,52 +775,6 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                     SizedBox(
                                       height: Get.height * 0.003,
                                     ),
-                                    // Row(
-                                    //   children: [
-                                    //     Container(
-                                    //       clipBehavior: Clip.hardEdge,
-                                    //       height: h * .075,
-                                    //       width: h * .075,
-                                    //       decoration: BoxDecoration(
-                                    //         borderRadius: BorderRadius.circular(10),
-                                    //       ),
-                                    //       child: Image.asset(
-                                    //         "assets/images/parkimage.png",
-                                    //         fit: BoxFit.cover,
-                                    //       ),
-                                    //     ),
-                                    //     SizedBox(
-                                    //       width: Get.width * 0.02,
-                                    //     ),
-                                    //     Expanded(
-                                    //       child: Container(
-                                    //         padding: const EdgeInsets.symmetric(
-                                    //             horizontal: 10, vertical: 10),
-                                    //         decoration: BoxDecoration(
-                                    //             color: clrWhite,
-                                    //             borderRadius:
-                                    //             BorderRadius.circular(5)),
-                                    //         child: Column(
-                                    //           crossAxisAlignment:
-                                    //           CrossAxisAlignment.start,
-                                    //           children: [
-                                    //             Text(
-                                    //               "10KM Vondelpark run",
-                                    //               style: TextStyle(
-                                    //                   fontSize: 14,
-                                    //                   fontWeight: FontWeight.w600),
-                                    //             ),
-                                    //             Text(
-                                    //                 "Padel next, 1055 AH, Amsterdam ",
-                                    //                 style: TextStyle(
-                                    //                     color: clrGreyDark,
-                                    //                     fontSize: 12)),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //     )
-                                    //   ],
-                                    // ),
                                     ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount: controller.hostData.value
@@ -1048,20 +792,9 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                           child: Padding(
                                             padding: const EdgeInsets.only(top: 12),
                                             child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                // Container(
-                                                //   clipBehavior: Clip.hardEdge,
-                                                //   height: h * .075,
-                                                //   width: h * .075,
-                                                //   decoration: BoxDecoration(
-                                                //     borderRadius:
-                                                //     BorderRadius.circular(10),
-                                                //   ),
-                                                //   child: Image.asset(
-                                                //     "assets/images/parkimage.png",
-                                                //     fit: BoxFit.cover,
-                                                //   ),
-                                                // ),
+
                                                 Container(
                                                   clipBehavior: Clip.hardEdge,
                                                   height: Get.height * .075,
@@ -1136,7 +869,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                         ),
                         controller.hostData.value.result!.previousActivities!.isEmpty
                             ? SizedBox()
-                            : controller.hostData.value.result!.previousActivityStatus == 1
+                            : controller.hostData.value.result!.previousActivityStatus == '1'
                             ? Text(
                           "Previous activities",
                           style:
@@ -1147,7 +880,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                         ),
                         controller.hostData.value.result!.previousActivities!.isEmpty
                             ? SizedBox()
-                            : controller.hostData.value.result!.previousActivityStatus == 1
+                            : controller.hostData.value.result!.previousActivityStatus == '1'
                             ? ListView.builder(
                             itemCount: controller.hostData.value
                                 .result?.previousActivities?.length,
@@ -1252,7 +985,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                                               FontWeight.w600),
                                                         ),
                                                         Text(
-                                                            controller.hostData.value.result!.previousActivities![index].activities![ind].status.toString() ?? '',
+                                                            controller.hostData.value.result!.previousActivities![index].activities![ind].location.toString() ?? '',
                                                             style: TextStyle(
                                                                 color: clrGreyTextLight,
                                                                 fontSize: 12)
