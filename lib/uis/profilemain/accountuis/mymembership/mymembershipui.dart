@@ -27,6 +27,10 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
   Widget build(BuildContext context) {
     var h = Get.height;
     var w = Get.width;
+
+    var referCode = Get.arguments ?? '';
+    paymentController.referalController.text = referCode ?? '';
+
     return Scaffold(
       backgroundColor: clrWhite,
       body: SmartRefresher(
