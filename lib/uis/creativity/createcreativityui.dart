@@ -2671,6 +2671,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                     child: CustoTextFormField(
                       hintText: 'Max ${controller.maxOcc.value} ${controller.maxOcc.value == 1 ? 'occurrence' : 'occurrences'}',
                       hintSize: 13,
+                      maxLines: 1,
                       controll: controller.occurController.value,
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
