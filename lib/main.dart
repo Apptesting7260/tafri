@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
             );
           } else if(uri.queryParameters['refercode'].toString().isNotEmpty && uri.queryParameters['refercode'].toString() != 'null'){
             print('referal code == ${uri.queryParameters['refercode']}');
-            // Get.toNamed(Routes.mymembershipProUi);
+            Get.toNamed(Routes.mymembershipProUi);
           }else{
             Get.toNamed(Routes.navbarUi);
             // Get.put(ExploreListController());
