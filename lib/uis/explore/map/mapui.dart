@@ -1330,6 +1330,7 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                              child: CachedNetworkImage(
                                                height: 28,
                                                width: 28,
+                                               memCacheWidth: 500,
                                                fit: BoxFit.cover,
                                                imageUrl: '${categoryData[categoryIndex].icon}',
                                                errorWidget: (context, url, error) =>
@@ -1435,6 +1436,7 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                        fit: BoxFit.cover,
                                                                        height: h * .26,
                                                                        width: double.maxFinite,
+                                                                       memCacheWidth: 500,
                                                                        imageUrl: "$i",
                                                                        placeholder: (context, url) => Shimmer.fromColors(
                                                                          baseColor: grey300,
@@ -1610,6 +1612,7 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                  height: 40,
                                                                  width: 40,
                                                                  fit: BoxFit.cover,
+                                                                 memCacheWidth: 500,
                                                                  imageUrl: '${activityData?[index].profilePhoto}',
                                                                  errorWidget: (context, url, error) => Container(
                                                                    height: 40,

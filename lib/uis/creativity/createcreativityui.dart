@@ -1592,6 +1592,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                     imageUrl: controller.subImage.value,
                                                                     fit: BoxFit.cover,
                                                                     height: h * 0.25,
+                                                                    memCacheWidth: 500,
                                                                     width: double.maxFinite,
                                                                     placeholder: (context, url) =>  Shimmer
                                                                         .fromColors(
@@ -1971,6 +1972,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                           height: 40,
                                                           width: 40,
                                                           fit: BoxFit.cover,
+                                                          memCacheWidth: 500,
                                                           imageUrl:
                                                               '${profileController.profileData.value.result?.profile?.profilePhoto}',
                                                           errorWidget: (context,

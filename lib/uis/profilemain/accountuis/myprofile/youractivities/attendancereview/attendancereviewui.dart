@@ -85,6 +85,7 @@ class AttendanceReviewUi extends GetWidget<AttendReviewController>{
                                        fit: BoxFit.cover,
                                        height: 46,
                                        width: 46,
+                                       memCacheWidth: 500,
                                        placeholder: (context, url) => Shimmer.fromColors(
                                            baseColor: Colors.grey.shade300,
                                            highlightColor: Colors.grey.shade100,

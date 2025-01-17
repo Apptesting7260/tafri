@@ -86,6 +86,7 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                             fit: BoxFit.cover,
                             height: h * .13,
                             width: h * .13,
+                            memCacheWidth: 500,
                             placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: grey300,
                                 highlightColor: grey100,

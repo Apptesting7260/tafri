@@ -94,6 +94,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                   '${controller.hostData.value.result?.profile?.profilePhoto}',
                                   fit: BoxFit.cover,
                                   height: Get.height * .14,
+                                  memCacheWidth: 500,
                                   width: Get.width * .3,
                                   placeholder: (context, url) => Shimmer.fromColors(
                                       baseColor: Colors.grey.shade300,
@@ -705,6 +706,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                                       controller.hostData.value.result!.upcomingActivities![index].activities![ind].banners!.isNotEmpty
                                                       ? CachedNetworkImage(
                                                     fit: BoxFit.cover,
+                                                    memCacheWidth: 500,
                                                     imageUrl: controller.hostData.value.result!.upcomingActivities![index].activities![ind].banners![0],
                                                     placeholder: (context, url) => Shimmer.fromColors(
                                                       baseColor: grey300,
@@ -845,6 +847,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                                       controller.hostData.value.result!.previousActivities![index].activities![ind].banners!.isNotEmpty
                                                       ? CachedNetworkImage(
                                                     fit: BoxFit.cover,
+                                                    memCacheWidth: 500,
                                                     imageUrl: controller.hostData.value.result!.previousActivities![index].activities![ind].banners![0],
                                                     placeholder: (context, url) => Shimmer.fromColors(
                                                       baseColor: grey300,

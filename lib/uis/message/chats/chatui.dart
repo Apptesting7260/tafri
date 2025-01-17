@@ -138,6 +138,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                         child: CachedNetworkImage(
                           imageUrl: controller.allMessage.value.gpImg ?? '',
                           fit: BoxFit.cover,
+                          memCacheWidth: 500,
                           placeholder: (context, url) => Shimmer.fromColors(
                               baseColor: grey300,
                               highlightColor: grey100,
@@ -244,6 +245,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                           ),
                                           child: CachedNetworkImage(
                                             imageUrl: '${msg.proImg}',
+                                            memCacheWidth: 500,
                                             placeholder: (context, url) => Shimmer.fromColors(
                                                 baseColor: grey300,
                                                 highlightColor: grey100,
@@ -337,6 +339,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                               ),
                                                             ) : CachedNetworkImage(
                                                               imageUrl: '${msg.message?.file}',
+                                                              memCacheWidth: 500,
                                                               placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
                                                               errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
                                                                 color:
@@ -411,6 +414,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                                     ),
                                                                   ) : CachedNetworkImage(
                                                                     imageUrl: '${msg.message?.file}',
+                                                                    memCacheWidth: 500,
                                                                     placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
                                                                     errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
                                                                       color:
@@ -496,6 +500,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                     ) : Flexible(
                                                         child: CachedNetworkImage(
                                                           imageUrl: '${msg.message?.file}',
+                                                          memCacheWidth: 500,
                                                           placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
                                                           errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
                                                               .withOpacity(0.8),
@@ -583,6 +588,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                             ),
                                                           ) : CachedNetworkImage(
                                                             imageUrl: '${msg.message?.file}',
+                                                            memCacheWidth: 500,
                                                             placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
                                                             errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
                                                               color:
@@ -628,6 +634,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                             child: CachedNetworkImage(
                                               imageUrl: '${msg.proImg}',
                                               fit: BoxFit.cover,
+                                              memCacheWidth: 500,
                                               placeholder: (context, url) => Shimmer.fromColors(
                                                   baseColor: grey300,
                                                   highlightColor: grey100,

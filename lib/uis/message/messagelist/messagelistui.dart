@@ -238,6 +238,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                   ),
                                                   child: CachedNetworkImage(
                                                     imageUrl: '${data?.groupImg}',
+                                                    memCacheWidth: 500,
                                                     fit: BoxFit.cover,
                                                     placeholder: (context, url) => Shimmer.fromColors(
                                                         baseColor: grey300,
@@ -454,6 +455,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                   ),
                                                   child: CachedNetworkImage(
                                                     imageUrl: '${controller.notData.value.notifications?[index].profile}',fit: BoxFit.cover,
+                                                    memCacheWidth: 500,
                                                     errorWidget: (context, url, error) => Container(
                                                       height: 35,
                                                       width: 35,

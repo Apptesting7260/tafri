@@ -182,6 +182,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                       fit: BoxFit.cover,
                                                       height: h * .26,
                                                       width: double.maxFinite,
+                                                      memCacheWidth: 500,
                                                       imageUrl: "$i",
                                                       placeholder: (context, url) =>
                                                           Shimmer.fromColors(
@@ -447,6 +448,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                 height: 40,
                                                 width: 40,
                                                 fit: BoxFit.cover,
+                                                memCacheWidth: 500,
                                                 imageUrl:
                                                     '${controller.actData.value.activity!.profilePhoto}',
                                                 errorWidget:
@@ -554,6 +556,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                                           height: 55,
                                                           width: 55,
                                                           fit: BoxFit.cover,
+                                                          memCacheWidth: 500,
                                                           imageUrl:
                                                               '${controller.actData.value.going?[index].profilePhoto}',
                                                           placeholder: (context, url) => Shimmer

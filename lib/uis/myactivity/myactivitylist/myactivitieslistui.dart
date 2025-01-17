@@ -293,6 +293,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                               child: data.activities![ind].banners!.isNotEmpty
                                                                                                   ? CachedNetworkImage(
                                                                                                       imageUrl: '${data.activities?[ind].banners?[0]}',
+                                                                                                memCacheWidth: 500,
                                                                                                       errorWidget: (context, url, error) => Image.asset(
                                                                                                         "assets/images/parkimage.png",
                                                                                                         fit: BoxFit.cover,
@@ -520,6 +521,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                       ? CachedNetworkImage(
                                                                                                           imageUrl: '${data.activities?[ind].banners?[0]}',
                                                                                                           fit: BoxFit.cover,
+                                                                                                    memCacheWidth: 500,
                                                                                                           errorWidget: (context, url, error) => Image.asset(
                                                                                                             "assets/images/parkimage.png",
                                                                                                             fit: BoxFit.cover,
@@ -930,6 +932,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                       child: data.activities![ind].banners!.isNotEmpty
                                                                                           ? CachedNetworkImage(
                                                                                               imageUrl: '${data.activities?[ind].banners?[0]}',
+                                                                                        memCacheWidth: 500,
                                                                                               fit: BoxFit.cover,
                                                                                               height: 57,
                                                                                               width: 57,
@@ -1168,6 +1171,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                             child: data.activities![ind].banners!.isNotEmpty
                                                                                                 ? CachedNetworkImage(
                                                                                                     imageUrl: '${data.activities?[ind].banners?[0]}',
+                                                                                              memCacheWidth: 500,
                                                                                                     fit: BoxFit.cover,
                                                                                                     errorWidget: (context, url, error) => Image.asset(
                                                                                                       "assets/images/parkimage.png",

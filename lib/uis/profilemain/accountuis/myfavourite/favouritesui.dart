@@ -199,6 +199,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                                       CachedNetworkImage(
                                                                     fit: BoxFit
                                                                         .cover,
+                                                                        memCacheWidth: 500,
                                                                     height:
                                                                         h * .26,
                                                                     width: double
@@ -514,6 +515,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                                 CachedNetworkImage(
                                                               height: 40,
                                                               width: 40,
+                                                                  memCacheWidth: 500,
                                                               fit: BoxFit.cover,
                                                               imageUrl:
                                                                   '${resultData[index].profilePhoto}',

@@ -237,6 +237,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             ? null
                                                             : CachedNetworkImage(
                                                           imageUrl: '${e.icon}',
+                                                          memCacheWidth: 500,
                                                           scale: 1,
                                                         ),
                                                       ),

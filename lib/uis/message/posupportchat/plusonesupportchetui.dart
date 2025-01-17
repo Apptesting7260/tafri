@@ -208,6 +208,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                             ),
                                             child: CachedNetworkImage(
                                               imageUrl: '${msg.proImg}',
+                                              memCacheWidth: 500,
                                               placeholder: (context, url) => Shimmer.fromColors(
                                                   baseColor: grey300,
                                                   highlightColor: grey100,
@@ -301,6 +302,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                 ),
                                                               ) : CachedNetworkImage(
                                                                 imageUrl: '${msg.message?.file}',
+                                                                memCacheWidth: 500,
                                                                 placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
                                                                 errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
                                                                     color:
@@ -375,6 +377,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                       ),
                                                                     ) : CachedNetworkImage(
                                                                       imageUrl: '${msg.message?.file}',
+                                                                      memCacheWidth: 500,
                                                                       placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
                                                                       errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
                                                                           color:
@@ -465,6 +468,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                       ) : Flexible(
                                                           child: CachedNetworkImage(
                                                             imageUrl: '${msg.message?.file}',
+                                                            memCacheWidth: 500,
                                                             placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
                                                             errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
                                                                 .withOpacity(0.8),
@@ -554,6 +558,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                               ),
                                                             ) : CachedNetworkImage(
                                                               imageUrl: '${msg.message?.file}',
+                                                              memCacheWidth: 500,
                                                               placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
                                                               errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
                                                                   color:
@@ -599,6 +604,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                               ),
                                               child: CachedNetworkImage(
                                                 imageUrl: '${controller.sc.profileController.profileData.value.result?.profile?.profilePhoto ?? ''}',
+                                                memCacheWidth: 500,
                                                 fit: BoxFit.cover,
                                                 placeholder: (context, url) => Shimmer.fromColors(
                                                     baseColor: grey300,

@@ -141,6 +141,7 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                                   CachedNetworkImage(
                                                                 fit: BoxFit.cover,
                                                                 height: h * .26,
+                                                                    memCacheWidth: 500,
                                                                 width: double
                                                                     .maxFinite,
                                                                 imageUrl: "$i",
@@ -372,6 +373,7 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                         child: CachedNetworkImage(
                                                           height: 40,
                                                           width: 40,
+                                                          memCacheWidth: 500,
                                                           fit: BoxFit.cover,
                                                           imageUrl:
                                                               '${activityData?[index].profilePhoto}',

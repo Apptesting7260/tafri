@@ -113,6 +113,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                     imageUrl:
                                     '${controller.hostData.value.result?.profile?.profilePhoto}',
                                     fit: BoxFit.cover,
+                                    memCacheWidth: 500,
                                     height: Get.height * .14,
                                     width: Get.width * .3,
                                     placeholder: (context, url) => Shimmer.fromColors(
@@ -785,6 +786,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                                         controller.hostData.value.result!.upcomingActivities![index].activities![ind].banners!.isNotEmpty
                                                         ? CachedNetworkImage(
                                                       fit: BoxFit.cover,
+                                                      memCacheWidth: 500,
                                                       imageUrl: controller.hostData.value.result!.upcomingActivities![index].activities![ind].banners![0],
                                                       placeholder: (context, url) => Shimmer.fromColors(
                                                         baseColor: grey300,
@@ -926,6 +928,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                                         controller.hostData.value.result!.previousActivities![index].activities![ind].banners!.isNotEmpty
                                                         ? CachedNetworkImage(
                                                       fit: BoxFit.cover,
+                                                      memCacheWidth: 500,
                                                       imageUrl: controller.hostData.value.result!.previousActivities![index].activities![ind].banners![0],
                                                       placeholder: (context, url) => Shimmer.fromColors(
                                                         baseColor: grey300,

@@ -317,7 +317,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                               fit: BoxFit.cover,
                                                               height: h * .26,
                                                               width: double.maxFinite,
-                                                              // memCacheWidth: 500,
+                                                              memCacheWidth: 500,
                                                               // filterQuality: FilterQuality.low,
                                                               imageUrl: "$i",
                                                               placeholder: (context, url) => Shimmer.fromColors(
@@ -518,6 +518,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                       CachedNetworkImage(
                                                         height: 40,
                                                         width: 40,
+                                                        memCacheWidth: 500,
                                                         fit: BoxFit.cover,
                                                         imageUrl: '${activityData?[index].profilePhoto}',
                                                         errorWidget: (context, url, error) => Container(
@@ -833,6 +834,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                      child: CachedNetworkImage(
                                        height: 28,
                                        width: 28,
+                                       memCacheWidth: 500,
                                        fit: BoxFit.cover,
                                        imageUrl: '${categoryData[categoryIndex].icon}',
                                        errorWidget: (context, url, error) =>

@@ -73,6 +73,7 @@ class AttendListUi extends GetView<AttendlistController>{
                                       child: CachedNetworkImage(
                                         height: 52,
                                         width: 52,
+                                        memCacheWidth: 500,
                                         fit: BoxFit.cover,
                                         imageUrl: '${controller.attData.value.result?.attendanceList?[index].profilePhoto}',
                                         errorWidget:

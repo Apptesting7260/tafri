@@ -177,6 +177,7 @@ class SearchActui extends GetWidget<SearchActController> {
                                                                 CachedNetworkImage(
                                                               fit: BoxFit.cover,
                                                               height: h * .26,
+                                                                  memCacheWidth: 500,
                                                               width: double
                                                                   .maxFinite,
                                                               imageUrl: "$i",
@@ -442,6 +443,7 @@ class SearchActui extends GetWidget<SearchActController> {
                                                         height: 40,
                                                         width: 40,
                                                         fit: BoxFit.cover,
+                                                        memCacheWidth: 500,
                                                         imageUrl:
                                                             '${activityData?[index].profilePhoto}',
                                                         errorWidget: (context,

@@ -95,6 +95,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                                                 child: CachedNetworkImage(
                                                   height: 18,
                                                   width: 18,
+                                                  memCacheWidth: 500,
                                                   fit: BoxFit.cover,
                                                   imageUrl:
                                                       '${singleSubCatData?[i].icon}',

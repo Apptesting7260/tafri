@@ -183,6 +183,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                         fit: BoxFit.cover,
                                                         height: h * .26,
                                                         width: double.maxFinite,
+                                                        memCacheWidth: 500,
                                                         imageUrl: "$i",
                                                         placeholder: (context,
                                                                 url) =>
@@ -438,6 +439,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                   height: 40,
                                                   width: 40,
                                                   fit: BoxFit.cover,
+                                                  memCacheWidth: 500,
                                                   imageUrl:
                                                       '${controller.actData.value.activity!.profilePhoto}',
                                                   errorWidget:
@@ -673,6 +675,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                   height:
                                                                   40,
                                                                   width: 40,
+                                                                  memCacheWidth: 500,
                                                                   imageUrl:
                                                                   "${controller.actData.value.requests?[index].profilePhoto}",
                                                                   placeholder: (context,
@@ -921,6 +924,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                 CachedNetworkImage(
                                                                   fit: BoxFit
                                                                       .cover,
+                                                                  memCacheWidth: 500,
                                                                   height:
                                                                   40,
                                                                   width: 40,

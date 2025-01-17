@@ -127,6 +127,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                       child: CachedNetworkImage(
                                                         imageUrl:
                                                             '${profileController.profileData.value.result?.profile?.profilePhoto}',
+                                                        memCacheWidth: 500,
                                                         fit: BoxFit.cover,
                                                         errorWidget: (context,
                                                                 url, error) =>
@@ -1017,6 +1018,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                     borderRadius: BorderRadius.circular(100),
                                     child: CachedNetworkImage(
                                         imageUrl: '${profileController.profileData.value.result?.profile?.profilePhoto}',
+                                        memCacheWidth: 500,
                                         fit: BoxFit.cover,
                                         height: h * .14,
                                         width: w * .3,
@@ -1629,6 +1631,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                   profileController.profileData.value.result!.upcomingActivities![index].activities![ind].banners!.isNotEmpty
                                                   ? CachedNetworkImage(
                                                 fit: BoxFit.cover,
+                                                memCacheWidth: 500,
                                                 imageUrl: profileController.profileData.value.result!.upcomingActivities![index].activities![ind].banners![0],
                                                 placeholder: (context, url) => Shimmer.fromColors(
                                                   baseColor: grey300,
@@ -1766,6 +1769,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                   profileController.profileData.value.result!.previousActivities![index].activities![ind].banners!.isNotEmpty
                                                   ? CachedNetworkImage(
                                                 fit: BoxFit.cover,
+                                                memCacheWidth: 500,
                                                 imageUrl: profileController.profileData.value.result!.previousActivities![index].activities![ind].banners![0],
                                                 placeholder: (context, url) => Shimmer.fromColors(
                                                   baseColor: grey300,
