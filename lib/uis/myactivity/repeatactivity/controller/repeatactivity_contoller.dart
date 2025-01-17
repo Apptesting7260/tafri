@@ -60,7 +60,7 @@ class Repeatcreativitycontroller extends GetxController
       gender.value = activities?.gender == 'same' ? 1 : activities?.gender == 'all' ? 2 : 0;
       // repeats.value = activities?.repeatStatus == 'repeats' ? true : false;
       print('repet == ${repeats.value}');
-      joinInstant.value = activities?.joinInstantly == 1 ? true : false;
+      joinInstant.value = activities?.joinInstantly == "1" ? true : false;
       latitude.value = activities?.latitude.toString() ?? '';
       longitude.value = activities?.longitude.toString() ?? '';
       // timeZone.value.text = activities?.timezone?.timeZone ?? '';

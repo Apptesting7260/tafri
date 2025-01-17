@@ -76,7 +76,7 @@ class ReferFrndUi extends GetWidget<ReferFrndController> {
                                     image: AssetImage("assets/images/refer.png"),
                                   ),
                                   Text(
-                                    "Invite friends and enjoy a free ${controller.getWeek(controller.profileController.profileData.value.result!.referralSetting!.referralDays!)} membership",
+                                    "Invite friends and enjoy a free ${controller.profileController.profileData.value.result!.referralSetting!.referralDays} ${controller.profileController.profileData.value.result!.referralSetting!.referralDays == 1 ? 'day' : 'days'} membership",
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w600, fontSize: 18),
@@ -85,7 +85,7 @@ class ReferFrndUi extends GetWidget<ReferFrndController> {
                                     height: Get.height * 0.02,
                                   ),
                                   Text(
-                                    "Once your friend sign up and successfully joins an event, you both receive ${controller.getWeek(controller.profileController.profileData.value.result!.referralSetting!.referralDays!)} of free membership.",
+                                    "Once your friend sign up and successfully joins an event, you both receive ${controller.profileController.profileData.value.result!.referralSetting!.referralDays} ${controller.profileController.profileData.value.result!.referralSetting!.referralDays == 1 ? 'day' : 'days'} of free membership.",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 14, color: clrGreyTextLight),

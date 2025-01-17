@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
@@ -68,19 +69,19 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
-                          width: h * .045,
-                          height: h * .045,
+                          width: h * .05,
+                          height: h * .05,
                           decoration: BoxDecoration(
                             color: clrBlacke,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              "assets/icons/actshare.png",
+                            child: Image(
+                              image: Svg('assets/images/share-2.svg'),
                               color: clrWhite,
-                              height: 20,
-                              width: 20,
+                              height: h * .06,
+                              width: w * .06,
                             ), //
                           ),
                         ),
@@ -1672,7 +1673,21 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
               const SizedBox(height: 10,),
               Obx(() => controller.activityLoading.value &&
                   controller.actData.value.activity == null
-                  ? const SizedBox() : SizedBox(
+                  ? const SizedBox() : controller.actData.value.activity?.status == 'pending' ? SizedBox(
+                  width: double.maxFinite,
+                  height: Res.h_btn,
+                  child: CustomElevatedButton(
+                      onTap: () {
+
+                      },
+                      backgroundClr: clrBlacke,
+                      child: Text(
+                        "In review",
+                        style: TextStyle(
+                            color: clrWhite,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ))) : SizedBox(
                   width: double.maxFinite,
                   height: Res.h_btn,
                   child: CustomElevatedButton(

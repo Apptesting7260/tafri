@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:plusone/uis/explore/search/model/searchact_model.dart';
+import 'package:plusone/utils/tostmsg.dart';
 
 import '../../../../networking/apiservices.dart';
 import '../../../../networking/endpoints.dart';
@@ -49,6 +50,15 @@ class SearchActController extends GetxController{
         homeError.value = '';
         print('home data == ${response.body}');
         homeData.value = SearchActModal.fromJson(response.body);
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
+        showTostMsg('${data['message']}');
       }else{
         print('error == ${response.body}');
         homeError.value = 'ERROR';

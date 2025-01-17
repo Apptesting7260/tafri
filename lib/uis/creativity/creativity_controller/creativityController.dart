@@ -27,6 +27,24 @@ class Creativitycontroller extends GetxController
     with GetTickerProviderStateMixin {
   late TabController tabController;
 
+  final sc = ScrollController();
+  var isScrolling = false.obs;
+
+  void _onScroll() {
+    print('scroll == ${isScrolling.value}  ${sc.position.isScrollingNotifier.value}');
+    if (sc.position.isScrollingNotifier.value) {
+        isScrolling.value = true;
+        titleFocus.unfocus();
+        desFocus.unfocus();
+        locationFocus.unfocus();
+        uptoFocus.unfocus();
+    } else if (!sc.position.isScrollingNotifier.value) {
+        isScrolling.value = false;
+        print('off');
+    }
+  }
+
+
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
@@ -42,12 +60,14 @@ class Creativitycontroller extends GetxController
     getMaxOcc();
     // getCountry();
     getUserLocation();
+    sc.addListener(_onScroll);
     super.onInit();
   }
 
   final FocusNode locationFocus = FocusNode();
   final FocusNode titleFocus = FocusNode();
   final FocusNode desFocus = FocusNode();
+  final FocusNode uptoFocus = FocusNode();
 
   var titleLength = 0.obs;
   var titleMaxLen = 40.obs;
@@ -55,7 +75,7 @@ class Creativitycontroller extends GetxController
   RxInt counter = 1.obs;
   var countController = TextEditingController(text: '1').obs;
 
-  var groupSizeController = TextEditingController();
+  var groupSizeController = TextEditingController().obs;
 
   var Rdate = ''.obs;
   var RdateForPicker = ''.obs;
@@ -79,15 +99,16 @@ class Creativitycontroller extends GetxController
   }
 
   RxInt occs = 1.obs;
+  var occurController = TextEditingController().obs;
 
   void occsincrement() {
-    if(occs < 3){
+    if(occs < maxOcc.value){
       occs.value++ ;
     }
   }
 
   void occsdecrement() {
-    if(occs >1){
+    if(occs > 1){
       occs.value-- ;
     }
   }
@@ -636,7 +657,8 @@ class Creativitycontroller extends GetxController
     print("Latitude: ${latitude.value}");
     print("Longitude: ${longitude.value}");
 
-    groupSize.value = int.parse(groupSizeController.value.text.isEmpty ? '0' : groupSizeController.value.text.toString());
+    groupSize.value = int.parse(groupSizeController.value.value.text.isEmpty ? '0' : groupSizeController.value.value.text.toString());
+    occs.value = int.parse(occurController.value.value.text.trim().isEmpty ? '1' : occurController.value.value.text.trim().toString());
 
     print('test == ${groupValue.value}  ${repeats.value}  ${wmValue.value}  ${repeatday.value}  ${wmValue.value}  ${repeatMonth.value}');
 
@@ -976,6 +998,7 @@ class Creativitycontroller extends GetxController
     occs.value = 1;
     dayIndex.value = -1;
     monthIndex.value = -1;
+    occurController.value.clear();
   }
 
 
@@ -1312,6 +1335,20 @@ class Creativitycontroller extends GetxController
   void updateLatLong(double lat, double long) {
     latitude.value = lat.toString();
     longitude.value = long.toString();
+    mapController1?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(double.parse(latitude.value), double.parse(longitude.value)),
+      zoom: 15,
+    ),));
+    markers.add(
+      Marker(
+        markerId: MarkerId('1'),
+        position: LatLng(double.parse(latitude.value), double.parse(longitude.value)),
+        infoWindow: InfoWindow(
+          title: 'Selected Location',
+          snippet: '${latitude.value}, ${longitude.value}',
+        ),
+      ),
+    );
     print('lat == ${latitude.value}   lon == ${longitude.value}');
   }
 

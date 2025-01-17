@@ -104,6 +104,8 @@ class ProfilemainController extends GetxController{
       'fcm_token': fcmtoken
     };
 
+    print('logout ==${body}');
+
     logoutloading.value = true;
 
     try{

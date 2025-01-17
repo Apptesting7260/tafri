@@ -78,6 +78,12 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                             indicatorSize: TabBarIndicatorSize.tab,
                             unselectedLabelColor: clrBlacke,
                             labelColor: tabBarColor,
+                            onTap: (value) {
+                              controller.titleFocus.unfocus();
+                              controller.desFocus.unfocus();
+                              controller.locationFocus.unfocus();
+                              controller.uptoFocus.unfocus();
+                            },
                             labelStyle: const TextStyle(
                                 fontWeight: FontWeight.w700, fontSize: 18),
                             unselectedLabelStyle: const TextStyle(
@@ -106,7 +112,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                   Column(children: [
                                     Expanded(
                                       child: ListView(
-                                          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                                          // keyboardDismissBehavior: controller.isScrolling.value ? ScrollViewKeyboardDismissBehavior.onDrag : ScrollViewKeyboardDismissBehavior.manual,
+                                          controller: controller.sc,
                                           children: [
                                             SizedBox(
                                               height: Get.height * 0.02,
@@ -778,6 +785,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 controller.locationFocus.unfocus();
                                                 controller.titleFocus.unfocus();
                                                 controller.desFocus.unfocus();
+                                                controller.uptoFocus.unfocus();
                                               },
                                               child: Container(
                                                   padding: EdgeInsets.symmetric(
@@ -1140,8 +1148,9 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             //       ],
                                             //     )),
                                             CustoTextFormField(
-                                              controll: controller.groupSizeController,
+                                              controll: controller.groupSizeController.value,
                                               hintText: "Up to 10 (incl. you)",
+                                              focusNode: controller.uptoFocus,
                                               inputFormatters: [
                                                 LengthLimitingTextInputFormatter(2),
                                                 FilteringTextInputFormatter.digitsOnly
@@ -1159,124 +1168,124 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
-    //                                         Obx(() {
-    //                                           return CustomDropdown.search(
-    //                                             hintText:
-    //                                             "Select country",
-    //                                             initialItem: controller.selectedCountry.value.isNotEmpty
-    //                                                 ? controller.selectedCountry.value
-    //                                                 : null,
-    //                                             decoration:
-    //                                             CustomDropdownDecoration(
-    //                                                 hintStyle: TextStyle(
-    //                                                     color: clrBlacke
-    //                                                         .withOpacity(
-    //                                                         0.6),
-    //                                                     fontSize: 15),
-    //                                                 closedSuffixIcon:
-    //                                                 Image.asset(
-    //                                                   'assets/images/arrow down.png',
-    //                                                   scale: 4,
-    //                                                 ),
-    //                                                 expandedSuffixIcon:
-    //                                                 Image.asset(
-    //                                                   'assets/images/arrow down.png',
-    //                                                   scale: 4,
-    //                                                 ),
-    //                                                 prefixIcon: Icon(Icons.public_rounded),
-    //                                                 closedFillColor:
-    //                                                 clrGreyLight,
-    //                                                 closedBorderRadius:
-    //                                                 BorderRadius
-    //                                                     .circular(100)),
-    //                                             items: controller.countryList
-    //                                                 .map(
-    //                                                   (e) => e['value'],).toList(),
-    //                                             onChanged: (val) {
-    //                                               print('$val');
-    //                                               controller.selectedCountry.value = val;
-    //                                               controller.getTimeZone(val);
-    //                                             },
-    //                                           );
-    //                                         }),
-    //                                         SizedBox(
-    //                                           height: Get.height * 0.02,
-    //                                         ),
-    //
-    //                                         Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : FutureBuilder(
-    //                                           future: Future.delayed(
-    //                                           const Duration(
-    //                                           seconds: 1)),
-    //                                           builder:
-    //                                           (context, snapshot) {
-    //                                           if (snapshot
-    //                                               .connectionState ==
-    //                                           ConnectionState
-    //                                               .waiting) {
-    //                                           return Shimmer
-    //                                               .fromColors(
-    //                                           baseColor: Colors
-    //                                               .grey
-    //                                               .shade300,
-    //                                           highlightColor:
-    //                                           Colors
-    //                                               .grey
-    //                                               .shade100,
-    //                                           child:
-    //                                           Container(
-    //                                           height: 50,
-    //                                           decoration: BoxDecoration(
-    //                                           color:
-    //                                           clrGrey,
-    //                                           borderRadius:
-    //                                           BorderRadius.circular(100)),
-    //                                           )); // Show loading indicator
-    //                                           }else{
-    //                                             return  CustomDropdown(
-    //                                             hintText:
-    //                                             "Select timezone",
-    //                                             initialItem: controller.timeZoneName.value.isNotEmpty
-    //                                             ? controller.timeZoneName.value
-    //                                                 : null,
-    //                                             decoration:
-    //                                             CustomDropdownDecoration(
-    //                                             hintStyle: TextStyle(
-    //                                             color: clrBlacke
-    //                                                 .withOpacity(
-    //                                             0.6),
-    //                                             fontSize: 15),
-    //                                             closedSuffixIcon:
-    //                                             Image.asset(
-    //                                             'assets/images/arrow down.png',
-    //                                             scale: 4,
-    //                                             ),
-    //                                             expandedSuffixIcon:
-    //                                             Image.asset(
-    //                                             'assets/images/arrow down.png',
-    //                                             scale: 4,
-    //                                             ),
-    //                                             prefixIcon: Icon(Icons.access_time),
-    //                                             closedFillColor:
-    //                                             clrGreyLight,
-    //                                             closedBorderRadius:
-    //                                             BorderRadius
-    //                                                 .circular(100)),
-    //                                           items: controller.timeZoneList
-    //                                               .map(
-    //                                           (e) => e['value'],).toList(),
-    //                                           onChanged: (val) {
-    //                                           print('$val');
-    //                                           controller.timeZoneName.value =
-    //                                           val.toString();
-    //                                           controller.getTimeId(val);
-    //                                           },
-    //                                           );
-    //                                           }
-    // }
-    //                                           )),
-    //                                         Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : SizedBox(
-    //                                           height: Get.height * 0.02,
-    //                                         ),),
+                                          //                                         Obx(() {
+                                          //                                           return CustomDropdown.search(
+                                          //                                             hintText:
+                                          //                                             "Select country",
+                                          //                                             initialItem: controller.selectedCountry.value.isNotEmpty
+                                          //                                                 ? controller.selectedCountry.value
+                                          //                                                 : null,
+                                          //                                             decoration:
+                                          //                                             CustomDropdownDecoration(
+                                          //                                                 hintStyle: TextStyle(
+                                          //                                                     color: clrBlacke
+                                          //                                                         .withOpacity(
+                                          //                                                         0.6),
+                                          //                                                     fontSize: 15),
+                                          //                                                 closedSuffixIcon:
+                                          //                                                 Image.asset(
+                                          //                                                   'assets/images/arrow down.png',
+                                          //                                                   scale: 4,
+                                          //                                                 ),
+                                          //                                                 expandedSuffixIcon:
+                                          //                                                 Image.asset(
+                                          //                                                   'assets/images/arrow down.png',
+                                          //                                                   scale: 4,
+                                          //                                                 ),
+                                          //                                                 prefixIcon: Icon(Icons.public_rounded),
+                                          //                                                 closedFillColor:
+                                          //                                                 clrGreyLight,
+                                          //                                                 closedBorderRadius:
+                                          //                                                 BorderRadius
+                                          //                                                     .circular(100)),
+                                          //                                             items: controller.countryList
+                                          //                                                 .map(
+                                          //                                                   (e) => e['value'],).toList(),
+                                          //                                             onChanged: (val) {
+                                          //                                               print('$val');
+                                          //                                               controller.selectedCountry.value = val;
+                                          //                                               controller.getTimeZone(val);
+                                          //                                             },
+                                          //                                           );
+                                          //                                         }),
+                                          //                                         SizedBox(
+                                          //                                           height: Get.height * 0.02,
+                                          //                                         ),
+                                          //
+                                          //                                         Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : FutureBuilder(
+                                          //                                           future: Future.delayed(
+                                          //                                           const Duration(
+                                          //                                           seconds: 1)),
+                                          //                                           builder:
+                                          //                                           (context, snapshot) {
+                                          //                                           if (snapshot
+                                          //                                               .connectionState ==
+                                          //                                           ConnectionState
+                                          //                                               .waiting) {
+                                          //                                           return Shimmer
+                                          //                                               .fromColors(
+                                          //                                           baseColor: Colors
+                                          //                                               .grey
+                                          //                                               .shade300,
+                                          //                                           highlightColor:
+                                          //                                           Colors
+                                          //                                               .grey
+                                          //                                               .shade100,
+                                          //                                           child:
+                                          //                                           Container(
+                                          //                                           height: 50,
+                                          //                                           decoration: BoxDecoration(
+                                          //                                           color:
+                                          //                                           clrGrey,
+                                          //                                           borderRadius:
+                                          //                                           BorderRadius.circular(100)),
+                                          //                                           )); // Show loading indicator
+                                          //                                           }else{
+                                          //                                             return  CustomDropdown(
+                                          //                                             hintText:
+                                          //                                             "Select timezone",
+                                          //                                             initialItem: controller.timeZoneName.value.isNotEmpty
+                                          //                                             ? controller.timeZoneName.value
+                                          //                                                 : null,
+                                          //                                             decoration:
+                                          //                                             CustomDropdownDecoration(
+                                          //                                             hintStyle: TextStyle(
+                                          //                                             color: clrBlacke
+                                          //                                                 .withOpacity(
+                                          //                                             0.6),
+                                          //                                             fontSize: 15),
+                                          //                                             closedSuffixIcon:
+                                          //                                             Image.asset(
+                                          //                                             'assets/images/arrow down.png',
+                                          //                                             scale: 4,
+                                          //                                             ),
+                                          //                                             expandedSuffixIcon:
+                                          //                                             Image.asset(
+                                          //                                             'assets/images/arrow down.png',
+                                          //                                             scale: 4,
+                                          //                                             ),
+                                          //                                             prefixIcon: Icon(Icons.access_time),
+                                          //                                             closedFillColor:
+                                          //                                             clrGreyLight,
+                                          //                                             closedBorderRadius:
+                                          //                                             BorderRadius
+                                          //                                                 .circular(100)),
+                                          //                                           items: controller.timeZoneList
+                                          //                                               .map(
+                                          //                                           (e) => e['value'],).toList(),
+                                          //                                           onChanged: (val) {
+                                          //                                           print('$val');
+                                          //                                           controller.timeZoneName.value =
+                                          //                                           val.toString();
+                                          //                                           controller.getTimeId(val);
+                                          //                                           },
+                                          //                                           );
+                                          //                                           }
+                                          // }
+                                          //                                           )),
+                                          //                                         Obx(() => controller.selectedCountry.value.isEmpty ? SizedBox() : SizedBox(
+                                          //                                           height: Get.height * 0.02,
+                                          //                                         ),),
 
                                             Obx(() {
                                               return CustomDropdown(
@@ -1403,6 +1412,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                       .value.isNotEmpty
                                                   ? controller.repeatName.value
                                                   : null,
+                                              excludeSelected: false,
                                               decoration:
                                                   CustomDropdownDecoration(
                                                       hintStyle: TextStyle(
@@ -1617,51 +1627,63 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         }).toList(),
                                                       )
                                                           : controller.galleryImages.isEmpty
-                                                          ? CarouselSlider(
-                                                              options:
-                                                                  CarouselOptions(
-                                                                      height:
-                                                                          h * .25,
-                                                                      enableInfiniteScroll: false,
-                                                                      viewportFraction:
-                                                                          1),
-                                                              items: [1, 2, 3]
-                                                                  .map((i) {
-                                                                return Builder(
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                                    return Container(
-                                                                        clipBehavior:
-                                                                            Clip
-                                                                                .hardEdge,
-                                                                        width: MediaQuery.of(
-                                                                                context)
-                                                                            .size
-                                                                            .width,
-                                                                        height: double
-                                                                            .maxFinite,
-                                                                        margin: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                0),
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius.circular(
-                                                                                18)),
-                                                                        child: Image
-                                                                            .asset(
-                                                                          "assets/images/cofee.png",
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                          height: h *
-                                                                              .25,
-                                                                          width: double
-                                                                              .maxFinite,
-                                                                        ));
-                                                                  },
-                                                                );
-                                                              }).toList(),
-                                                            )
+                                                          ? Container(
+                                                        decoration: BoxDecoration(
+                                                          color: clrGreyLight,
+                                                          borderRadius: BorderRadius.circular(18),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text('Add photos',style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.w600
+                                                          ),),
+                                                        ),
+                                                      )
+                                                      // CarouselSlider(
+                                                      //         options:
+                                                      //             CarouselOptions(
+                                                      //                 height:
+                                                      //                     h * .25,
+                                                      //                 enableInfiniteScroll: false,
+                                                      //                 viewportFraction:
+                                                      //                     1),
+                                                      //         items: [1, 2, 3]
+                                                      //             .map((i) {
+                                                      //           return Builder(
+                                                      //             builder:
+                                                      //                 (BuildContext
+                                                      //                     context) {
+                                                      //               return Container(
+                                                      //                   clipBehavior:
+                                                      //                       Clip
+                                                      //                           .hardEdge,
+                                                      //                   width: MediaQuery.of(
+                                                      //                           context)
+                                                      //                       .size
+                                                      //                       .width,
+                                                      //                   height: double
+                                                      //                       .maxFinite,
+                                                      //                   margin: const EdgeInsets
+                                                      //                       .symmetric(
+                                                      //                       horizontal:
+                                                      //                           0),
+                                                      //                   decoration: BoxDecoration(
+                                                      //                       borderRadius: BorderRadius.circular(
+                                                      //                           18)),
+                                                      //                   child: Image
+                                                      //                       .asset(
+                                                      //                     "assets/images/cofee.png",
+                                                      //                     fit: BoxFit
+                                                      //                         .cover,
+                                                      //                     height: h *
+                                                      //                         .25,
+                                                      //                     width: double
+                                                      //                         .maxFinite,
+                                                      //                   ));
+                                                      //             },
+                                                      //           );
+                                                      //         }).toList(),
+                                                      //       )
                                                           : CarouselSlider(
                                                               items: controller
                                                                   .galleryImages
@@ -1743,12 +1765,15 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                             20)),
                                                             child: Obx(
                                                               () => Text(
-                                                                controller
+                                                                controller.catName.value.isEmpty && controller
                                                                         .subCatName
                                                                         .value
                                                                         .isEmpty
-                                                                    ? "Coffee"
-                                                                    : '${controller.subCatName.value}',
+                                                                    ? "Select category"
+                                                                    : controller
+                                                                    .subCatName
+                                                                    .value
+                                                                    .isEmpty ? "Select subcategory" : '${controller.subCatName.value}',
                                                                 style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
@@ -1760,7 +1785,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         ],
                                                       ),
                                                     ),
-                                                    Align(
+                                                    controller.galleryImages.isEmpty ? SizedBox() : Align(
                                                       alignment:
                                                           Alignment.bottomCenter,
                                                       child: Container(
@@ -1855,7 +1880,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                     .value
                                                                     .text
                                                                     .isEmpty
-                                                                ? "Picnic in the park"
+                                                                ? "Add an activity title"
                                                                 : '${controller.titleController.value.value.text}',
                                                             style: const TextStyle(
                                                                 fontSize: 16,
@@ -1868,28 +1893,47 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                           height:
                                                               Get.height * 0.005,
                                                         ),
-                                                        Obx(
-                                                          () => Text(
-                                                            controller
-                                                                    .locController
-                                                                    .value
-                                                                    .value
-                                                                    .text
-                                                                    .isEmpty
-                                                                ? "Vondelpark"
-                                                                : '${controller.locController.value.value.text}',
-                                                            style: TextStyle(
+                                                        Obx(() => controller
+                                                            .locController
+                                                            .value
+                                                            .value
+                                                            .text
+                                                            .isEmpty ? Row(
+                                                          children: [
+                                                            Icon(Icons.location_on_outlined,size: 18,),
+                                                            Text(' Add location',style: TextStyle(
                                                                 color:
-                                                                    clrGreyDark),
-                                                          ),
-                                                        ),
+                                                                clrGreyDark),)
+                                                          ],
+                                                        ) : Text('${controller.locController.value.value.text}',
+                                                          style: TextStyle(
+                                                              color:
+                                                              clrGreyDark),
+                                                        ),),
+                                                        // Obx(
+                                                        //   () => Text(
+                                                        //     controller
+                                                        //             .locController
+                                                        //             .value
+                                                        //             .value
+                                                        //             .text
+                                                        //             .isEmpty
+                                                        //         ? "Add location"
+                                                        //         : '${controller.locController.value.value.text}',
+                                                        //     style: TextStyle(
+                                                        //         color:
+                                                        //             clrGreyDark),
+                                                        //   ),
+                                                        // ),
                                                         SizedBox(
                                                           height:
                                                               Get.height * 0.005,
                                                         ),
                                                         Obx(
-                                                          () => Text(
-                                                              '${controller.date.value.isEmpty ? "13 March 2024" : controller.dateForView.value} ${controller.sTimeForApi.value.isEmpty ? " | 2:30 PM" : " | ${controller.sTimeForApi.value}"} ${controller.eTimeForAPi.value.isEmpty && controller.sTimeForApi.value.isEmpty ? "- 6:00PM" : '- ${controller.eTimeForAPi.value}'}',
+                                                          () => controller.date.value.isEmpty || controller.sTimeForApi.value.isEmpty || controller.eTimeForAPi.value.isEmpty ? Text('Set date and time',style: TextStyle(
+                                                              color:
+                                                              clrGreyDark)) : Text(
+                                                              '${controller.dateForView.value} ${" | ${controller.sTimeForApi.value}"} ${'- ${controller.eTimeForAPi.value}'}',
                                                               style: TextStyle(
                                                                   color:
                                                                       clrGreyDark)),
@@ -1900,7 +1944,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         ),
                                                         Obx(
                                                           () => Text(
-                                                            "${controller.groupSize.value > 1 ? 'Up to ${controller.groupSize.value} people' : 'Up to 3 people'} | 1 spot left",
+                                                            "${controller.groupSizeController.value.value.text.isNotEmpty ? 'Up to ${controller.groupSizeController.value.value.text} ${int.parse(controller.groupSizeController.value.value.text) == 1 ? 'people' : 'peoples'}' : 'Set group size'}",
                                                             style: TextStyle(
                                                                 color:
                                                                     clrYellowText,
@@ -2008,7 +2052,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                 () => Text(
                                                   controller.desController.value
                                                           .value.text.isEmpty
-                                                      ? "Hey guys! Looking for 2 others who would like to join me for a picnic in the park today ,we all do games and dinner"
+                                                      ? "Write a description(minimum 30 characters)"
                                                       : "${controller.desController.value.value.text}",
                                                   style: TextStyle(
                                                       fontSize: 14,
@@ -2018,7 +2062,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                               const SizedBox(
                                                 height: 20,
                                               ),
-                                              SizedBox(
+                                              controller.latitude.value.isNotEmpty && controller.longitude.value.isNotEmpty ? SizedBox(
                                                   height: 200,
                                                   child:  GoogleMap(
                                                     onMapCreated:
@@ -2037,6 +2081,15 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                     myLocationButtonEnabled: true,
                                                     markers: controller.markers,
                                                   ),
+                                              ) : Container(
+                                                height: 200,
+                                                color: clrGreyLight,
+                                                child: Center(
+                                                  child: Text('Map will appear here',style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16
+                                                  ),),
+                                                ),
                                               ),
                                               const SizedBox(
                                                 height: 20,
@@ -2521,7 +2574,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                   borderRadius: BorderRadius.circular(70),
                                   color: clrGreyLight),
                               child: Text(
-                                "18 Sep 2024",
+                                "DD/MM/YYYY",
                                 style: TextStyle(color: clrGreyTextLight),
                               ),
                             )
@@ -2529,8 +2582,8 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                               onTap: () async {
                                 DateTime? date = await showDatePicker(
                                     context: context,
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2025),
+                                    firstDate: DateTime.now().add(Duration(days: 1)),
+                                    lastDate: DateTime.now().add(Duration(days: 365)),
                                     builder:
                                         (BuildContext context, Widget? child) {
                                       return Theme(
@@ -2609,81 +2662,95 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                     ),
                   ),
                   const SizedBox(
-                    width: 30,
+                    width: 25,
                   ),
-                  Flexible(
-                    child: Obx(
-                      () => Opacity(
-                        opacity: controller.groupValue.value == 1 ||
-                                controller.groupValue.value == 2
-                            ? 0.5
-                            : 1,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 8),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(70),
-                              color: clrGreyLight),
-                          child: Text(
-                            "${controller.occs.value} occurrences",
-                            style: TextStyle(color: clrGreyTextLight),
-                          ),
-                        ),
-                      ),
+
+                  SizedBox(
+                    height: 35,
+                    width: Get.width*0.35,
+                    child: CustoTextFormField(
+                      hintText: 'Max ${controller.maxOcc.value} ${controller.maxOcc.value == 1 ? 'occurrence' : 'occurrences'}',
+                      hintSize: 13,
+                      controll: controller.occurController.value,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      textKType: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Obx(
-                    () => Opacity(
-                      opacity: controller.groupValue.value == 1 ||
-                              controller.groupValue.value == 2
-                          ? 0.5
-                          : 1,
-                      child: Container(
-                        height: 35,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                controller.groupValue.value == 1 ||
-                                        controller.groupValue.value == 2
-                                    ? null
-                                    : controller.occsincrement();
-                              },
-                              child: Container(
-                                height: 17,
-                                child: Image.asset(
-                                  'assets/images/arrow up.png',
-                                  scale: 1.5,
-                                ),
-                              ),
-                            ),
-                            // const SizedBox(
-                            //   height: 8,
-                            // ),
-                            InkWell(
-                              onTap: () {
-                                controller.groupValue.value == 1 ||
-                                        controller.groupValue.value == 2
-                                    ? null
-                                    : controller.occsdecrement();
-                              },
-                              child: Container(
-                                height: 17,
-                                child: Image.asset(
-                                  'assets/images/arrow down new.png',
-                                  scale: 1.5,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
+
+                  // Flexible(
+                  //   child: Obx(
+                  //     () => Opacity(
+                  //       opacity: controller.groupValue.value == 1 ||
+                  //               controller.groupValue.value == 2
+                  //           ? 0.5
+                  //           : 1,
+                  //       child: Container(
+                  //         padding: const EdgeInsets.symmetric(
+                  //             horizontal: 25, vertical: 8),
+                  //         decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(70),
+                  //             color: clrGreyLight),
+                  //         child: Text(
+                  //           "${controller.occs.value} occurrences",
+                  //           style: TextStyle(color: clrGreyTextLight),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // Obx(
+                  //   () => Opacity(
+                  //     opacity: controller.groupValue.value == 1 ||
+                  //             controller.groupValue.value == 2
+                  //         ? 0.5
+                  //         : 1,
+                  //     child: Container(
+                  //       height: 35,
+                  //       child: Column(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         children: [
+                  //           InkWell(
+                  //             onTap: () {
+                  //               controller.groupValue.value == 1 ||
+                  //                       controller.groupValue.value == 2
+                  //                   ? null
+                  //                   : controller.occsincrement();
+                  //             },
+                  //             child: Container(
+                  //               height: 17,
+                  //               child: Image.asset(
+                  //                 'assets/images/arrow up.png',
+                  //                 scale: 1.5,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           // const SizedBox(
+                  //           //   height: 8,
+                  //           // ),
+                  //           InkWell(
+                  //             onTap: () {
+                  //               controller.groupValue.value == 1 ||
+                  //                       controller.groupValue.value == 2
+                  //                   ? null
+                  //                   : controller.occsdecrement();
+                  //             },
+                  //             child: Container(
+                  //               height: 17,
+                  //               child: Image.asset(
+                  //                 'assets/images/arrow down new.png',
+                  //                 scale: 1.5,
+                  //               ),
+                  //             ),
+                  //           )
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ),
@@ -2726,6 +2793,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 showTostMsg('Please select the ends.', gravity: ToastGravity.CENTER);
                               } else if (controller.groupValue.value == 2 && controller.Rdate.value.isEmpty) {
                                 showTostMsg('Please select the date', gravity: ToastGravity.CENTER);
+                              } else if(controller.groupValue.value == 3 && controller.occurController.value.value.text.trim().isEmpty){
+                                showTostMsg('Please fill occurrences', gravity: ToastGravity.CENTER);
+                              } else if(controller.groupValue.value == 3 && controller.occurController.value.value.text.trim().isNotEmpty && (int.parse(controller.occurController.value.value.text.trim().toString()) > controller.maxOcc.value)){
+                                showTostMsg('Occurrences value exceeds max value', gravity: ToastGravity.CENTER);
                               } else {
                                 print('All conditions met for wmValue == 1');
                                 Get.back(); // Proceed only when all conditions are satisfied
@@ -2735,6 +2806,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                 showTostMsg('Please select the ends.', gravity: ToastGravity.CENTER);
                               } else if (controller.groupValue.value == 2 && controller.Rdate.value.isEmpty) {
                                 showTostMsg('Please select the date', gravity: ToastGravity.CENTER);
+                              } else if(controller.groupValue.value == 3 && controller.occurController.value.value.text.trim().isEmpty){
+                                showTostMsg('Please fill occurrences', gravity: ToastGravity.CENTER);
+                              } else if(controller.groupValue.value == 3 && controller.occurController.value.value.text.trim().isNotEmpty && (int.parse(controller.occurController.value.value.text.trim().toString()) > controller.maxOcc.value)){
+                                showTostMsg('Occurrences value exceeds max value', gravity: ToastGravity.CENTER);
                               } else {
                                 print('All conditions met for wmValue == 2');
                                 Get.back(); // Proceed only when all conditions are satisfied

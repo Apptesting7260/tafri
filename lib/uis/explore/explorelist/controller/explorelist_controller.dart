@@ -227,6 +227,7 @@ class ExploreListController extends GetxController {
     // scrollController.addListener(handleScroll);
     getMap();
     getUserLocation();
+    api.tt();
   }
 
   RefreshController refreshController = RefreshController(initialRefresh: false);

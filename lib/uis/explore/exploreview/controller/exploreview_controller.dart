@@ -344,15 +344,16 @@ class ExploreViewController extends GetxController{
       'Authorization' : 'Bearer ${LocalStorage.getToken()}'
     };
 
+    print(" time ${DateTime.now()}");
 
     try{
-      // final response = await api.post(EndPoints.requesttojoin, body,headers: header);
-      final response = await http.post(Uri.parse(EndPoints.requesttojoin),body: body,headers: header);
-      print("status code ${response.statusCode}   ${response.body}");
-      final data = jsonDecode(response.body);
+      final response = await api.post(EndPoints.requesttojoin, body,headers: header);
+      // final response = await http.post(Uri.parse(EndPoints.requesttojoin),body: body,headers: header).timeout(Duration(seconds: 30));
+      print(" time ${DateTime.now()} status code ${response.statusCode}   ${response.body} time ${DateTime.now()}");
+      // final data = jsonDecode(response.body);
       if(response.statusCode == 200){
-        print('change data == ${response.body}');
-        requestData.value = Requestmodel.fromJson(data);
+        print('change data == ${response.body}   ${DateTime.now()}');
+        requestData.value = Requestmodel.fromJson(response.body);
         actData.value.activity?.requestStatus = requestData.value.requestStatus;
         actData.value.activity?.spotLeft = requestData.value.spotsLeft;
         actData.refresh();
@@ -363,6 +364,15 @@ class ExploreViewController extends GetxController{
         }
         // await actapi(id);
       }else if(response.statusCode == 403){
+        showTostMsg('${response.body['message']}');
+      }else if(response.statusCode == 401){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        showTostMsg('Session expired. Please login again.');
+      }else if(response.statusCode == 499){
+        LocalStorage.removeToken();
+        Get.offAllNamed(Routes.initialPage);
+        var data = response.body;
         showTostMsg('${data['message']}');
       } else{
         print('error == ${response.body}');

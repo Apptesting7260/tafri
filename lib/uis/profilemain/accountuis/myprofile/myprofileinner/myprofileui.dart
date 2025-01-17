@@ -66,7 +66,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 9),
-                  child: Text("View"),
+                  child: Text("Preview"),
                 )
               ],
               controller: controller.tabController,
@@ -332,7 +332,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                     : '${profileController.profileData.value.result?.profile?.bio}',
                                                 style: TextStyle(
                                                     fontSize: 13,
-                                                    color: clrGreyTextLight),
+                                                    // color: clrGreyTextLight
+                                                ),
                                               ),
                                             )
                                           ],
@@ -415,7 +416,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                     'Add your location',
                                                 style: TextStyle(
                                                     fontSize: 13,
-                                                    color: clrGreyTextLight),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -490,7 +491,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                   : '${profileController.profileData.value.result?.profile?.occupation}',
                                               style: TextStyle(
                                                   fontSize: 13,
-                                                  color: clrGreyTextLight),
+                                              ),
                                             ),
                                           ],
                                         )),
@@ -578,8 +579,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                     "Select languages you speak",
                                                     style: TextStyle(
                                                         fontSize: 13,
-                                                        color:
-                                                            clrGreyTextLight),
+                                                    ),
                                                   )
                                                 : Container(
                                                     height: 20,
@@ -690,7 +690,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                   : 'Click to adjust.',
                                               style: TextStyle(
                                                   fontSize: 13,
-                                                  color: clrGreyTextLight),
+                                              ),
                                             ),
                                           ],
                                         )),
@@ -778,8 +778,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                   ? "Select 1-3 questions"
                                                   : '${profileController.profileData.value.result?.profile?.funFactsAboutMe?[0].question}',
                                               style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: clrGreyTextLight),
+                                                  fontSize: 13,),
                                             ),
                                           ],
                                         )),
@@ -884,8 +883,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                   ? "Click to verify (Optional)"
                                                   : 'Verified.',
                                               style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: clrGreyTextLight),
+                                                  fontSize: 13,),
                                             ),
                                           ],
                                         )),
@@ -1095,7 +1093,6 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                     ? Text(
                                   "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
                                   style: TextStyle(
-                                      color: clrGreyTextLight,
                                       fontSize: 13
                                   ),
                                 )
@@ -1282,7 +1279,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                           profileController.profileData.value.result
                               ?.profile?.bio !=
                               null ? Text("${profileController.profileData.value.result?.profile?.bio}",
-                              style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                              // style: TextStyle(color: clrGreyTextLight)
+                          ) : CommonUi.emptySizeBox(),
                         ],
                       ),
                     ),
@@ -1306,7 +1304,8 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                           ),
                           Text(
                               "${profileController.profileData.value.result?.location ?? ''}",
-                              style: TextStyle(color: clrGreyTextLight)),
+                              // style: TextStyle(color: clrGreyTextLight)
+                          ),
                         ],
                       ),
                     ),
@@ -1328,19 +1327,35 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
-                          Row(
-                            children: [
-                              profileController.profileData.value.result
-                                  ?.profile?.occupation !=
-                                  null ? Text("${profileController.profileData.value.result?.profile?.occupation}",
-                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
-                              profileController.profileData.value.result
-                                  ?.profile?.organisationName !=
-                                  null && profileController.profileData.value.result
-                                  !.profile!.organisationName!.isNotEmpty ? Text(", ${profileController.profileData.value.result?.profile?.organisationName}",
-                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
-                            ],
-                          )
+
+                          profileController.profileData.value.result
+                              ?.profile?.occupation !=
+                              null ? Text("${ profileController.profileData.value.result?.profile?.occupation}${ profileController.profileData.value.result
+                              ?.profile?.organisationName !=
+                              null &&  profileController.profileData.value.result
+                          !.profile!.organisationName!.isNotEmpty ? ", ${ profileController.profileData.value.result?.profile?.organisationName}" : ''}",
+                            // style: TextStyle(color: clrGreyTextLight)
+                          ) : CommonUi.emptySizeBox()
+                          
+                          // Row(
+                          //   children: [
+                          //     profileController.profileData.value.result
+                          //         ?.profile?.occupation !=
+                          //         null ? Flexible(
+                          //           child: Text("${profileController.profileData.value.result?.profile?.occupation}",
+                          //           // style: TextStyle(color: clrGreyTextLight)
+                          //                                         ),
+                          //         ) : CommonUi.emptySizeBox(),
+                          //     profileController.profileData.value.result
+                          //         ?.profile?.organisationName !=
+                          //         null && profileController.profileData.value.result
+                          //         !.profile!.organisationName!.isNotEmpty ? Flexible(
+                          //           child: Text(", ${profileController.profileData.value.result?.profile?.organisationName}",
+                          //           // style: TextStyle(color: clrGreyTextLight)
+                          //                                         ),
+                          //         ) : CommonUi.emptySizeBox(),
+                          //   ],
+                          // )
 
                         ],
                       ),
@@ -1470,7 +1485,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                 ),
                                 Text(
                                     "${profileController.profileData.value.result?.profile?.funFactsAboutMe?[index].answer}",
-                                    style: TextStyle(color: clrGreyTextLight)),
+                                    ),
                               ],
                             ),
                             itemCount: profileController.profileData.value

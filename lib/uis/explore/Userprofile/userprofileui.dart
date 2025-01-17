@@ -152,7 +152,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                         Center(
                             child: controller.hostData.value.result!.age! > 0 ? Text(
                               "${controller.hostData.value.result?.age} years old |  ${controller.getPronoun(controller.hostData.value.result?.gender)}",
-                              style: TextStyle(color: clrGreyTextLight, fontSize: 14, fontWeight: FontWeight.w400),
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                             ) : SizedBox()),
                         SizedBox(
                           height: Get.height * 0.02,
@@ -415,7 +415,8 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                               controller.hostData.value.result
                                   ?.profile?.bio !=
                                   null ? Text("${controller.hostData.value.result?.profile?.bio}",
-                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                                  // style: TextStyle(color: clrGreyTextLight)
+                              ) : CommonUi.emptySizeBox(),
                             ],
                           ),
                         ),
@@ -438,7 +439,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                               ),
                               Text(
                                   controller.hostData.value.result!.location.toString(),
-                                  style: TextStyle(color: clrGreyTextLight)
+                                  // style: TextStyle(color: clrGreyTextLight)
                               ),
                             ],
                           ),
@@ -462,8 +463,12 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                               ),
                               controller.hostData.value.result
                                   ?.profile?.occupation !=
-                                  null ? Text("${controller.hostData.value.result?.profile?.occupation}",
-                                  style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                                  null ? Text("${controller.hostData.value.result?.profile?.occupation}${controller.hostData.value.result
+                                      ?.profile?.organisationName !=
+                                      null && controller.hostData.value.result
+                                  !.profile!.organisationName!.isNotEmpty ? ", ${controller.hostData.value.result?.profile?.organisationName}" : ''}",
+                                    // style: TextStyle(color: clrGreyTextLight)
+                                  ) : CommonUi.emptySizeBox()
                             ],
                           ),
                         ),
@@ -549,113 +554,6 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                 style: TextStyle(
                                     fontWeight: FontWeight.w800, fontSize: 15),
                               ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // const Text("Sports and fitness",
-                              //     style: TextStyle(
-                              //         fontSize: 13, fontWeight: FontWeight.w800)),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // Wrap(
-                              //   spacing: 8,
-                              //   runSpacing: 8,
-                              //   children: [
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: Row(
-                              //         mainAxisSize: MainAxisSize.min,
-                              //         children: [
-                              //           Image.asset(
-                              //             "assets/icons/cycleicon.png",
-                              //             height: 20,
-                              //           ),
-                              //           const SizedBox(
-                              //             width: 4,
-                              //           ),
-                              //           const Text("Cycling"),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // const Text("Social",
-                              //     style: TextStyle(
-                              //         fontSize: 13, fontWeight: FontWeight.w800)),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // Wrap(
-                              //   spacing: 8,
-                              //   runSpacing: 8,
-                              //   children: [
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: Row(
-                              //         mainAxisSize: MainAxisSize.min,
-                              //         children: [
-                              //           Image.asset(
-                              //             "assets/icons/dinner.png",
-                              //             height: 20,
-                              //           ),
-                              //           const SizedBox(
-                              //             width: 4,
-                              //           ),
-                              //           const Text("Dining out"),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // const Text(
-                              //   "Learning",
-                              //   style: TextStyle(
-                              //       fontSize: 13, fontWeight: FontWeight.w800),
-                              // ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-                              // Wrap(
-                              //   spacing: 8,
-                              //   runSpacing: 8,
-                              //   children: [
-                              //     Container(
-                              //       padding: const EdgeInsets.symmetric(
-                              //           horizontal: 13, vertical: 5),
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15),
-                              //           color: clrWhite),
-                              //       child: Row(
-                              //         mainAxisSize: MainAxisSize.min,
-                              //         children: [
-                              //           Image.asset(
-                              //             "assets/icons/languagetrn.png",
-                              //             height: 20,
-                              //           ),
-                              //           const SizedBox(
-                              //             width: 4,
-                              //           ),
-                              //           const Text("Language exchange"),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                               SizedBox(
                                 height: Get.height * .008,
                               ),
@@ -719,7 +617,8 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                     ),
                                     Text(
                                         "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].answer}",
-                                        style: TextStyle(color: clrGreyTextLight)),
+                                        // style: TextStyle(color: clrGreyTextLight)
+                                    ),
                                   ],
                                 ),
                                 itemCount: controller.hostData.value

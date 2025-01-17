@@ -626,9 +626,9 @@ class MyprofileInnController extends GetxController
       if(response.statusCode == 200){
         var data = response.body;
         if(data['status'] == true){
+          await profileController.viewProfile();
           bioLoading.value = false;
           Get.back();
-          await profileController.viewProfile();
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');

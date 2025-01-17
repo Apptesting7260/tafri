@@ -115,8 +115,8 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                           const Text(
                                             "Filter",
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 20),
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 24),
                                           ),
                                           const SizedBox(
                                             width: 20,
@@ -145,6 +145,10 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                 controller
                                                     .changeHideWaitListAct();
                                               },
+                                              height: 20,
+                                              width: 35,
+                                              iWidth: 16,
+                                              iHeight: 16,
                                             );
                                           })
                                         ],
@@ -306,29 +310,36 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       SizedBox(
                                         height: Get.height * 0.01,
                                       ),
-                                      CustomLocationField(
-                                        itemBuilder: (context, suggestion) {
-                                          return ListTile(
-                                            title: Text(suggestion.toString()),
-                                          );
-                                        },
-                                        suggestionsCallback: (value) async{
-                                          return controller.searchPlaces(value);
-                                        },
-                                        hintText: "Search Location",
-                                        controller: controller.locController,
-                                        onSelected: (value) {
-                                          controller.locController.text = value.toString();
-                                        },
-                                        sufixIcon: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 13),
-                                            child: const Image(
-                                              image: AssetImage(
-                                                  "assets/icons/locationicon.png"),
-                                              height: 1,
-                                              width: 1,
-                                            )),
+                                      SizedBox(
+                                        height: 40,
+                                        child: CustomLocationField(
+                                          itemBuilder: (context, suggestion) {
+                                            return ListTile(
+                                              title: Text(suggestion.toString()),
+                                            );
+                                          },
+                                            cursorHeight: 25,
+                                          suggestionsCallback: (value) async{
+                                            return controller.searchPlaces(value);
+                                          },
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 0),
+                                          hintText: "Search location",
+                                          controller: controller.locController,
+                                          onSelected: (value) {
+                                            controller.locController.text = value.toString();
+                                          },
+                                          sufixIcon: Image.asset('assets/icons/locationicon.png',scale: 2.5,)
+                                          // Container(
+                                          //     padding: const EdgeInsets.symmetric(
+                                          //         horizontal: 12, vertical: 13),
+                                          //     child: const Image(
+                                          //       image: AssetImage(
+                                          //           "assets/icons/locationicon.png"),
+                                          //       height: 1,
+                                          //       width: 1,
+                                          //     )),
+                                        ),
                                       ),
                                       // CustoTextFormField(
                                       //   controll: controller.locController,
@@ -364,131 +375,22 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                       //   ),
                                       // ),
 
-                                      CustoTextFormField(
-                                        controll: controller.groupSizeController,
-                                        hintText: "Up to 10 (incl. you)",
-                                        sufixIcon: Padding(
-                                          padding: const EdgeInsets.all(13.0),
-                                          child: Image.asset(
+                                      SizedBox(
+                                        height: 40,
+                                        child: CustoTextFormField(
+                                          controll: controller.groupSizeController,
+                                          hintText: "Up to 10 (incl. you)",
+                                          sufixIcon: Image.asset(
                                             "assets/icons/manicon.png",
-                                            height: 20,
+                                            scale: 2.5,
                                           ),
+                                          hintSize: 14,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 0),
+                                          textKType: TextInputType.number,
                                         ),
-                                        textKType: TextInputType.number,
                                       ),
-                                      // Container(
-                                      //   height: Res.h_btn,
-                                      //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-                                      //   decoration: BoxDecoration(
-                                      //     borderRadius: BorderRadius.circular(100),
-                                      //     color: clrGreyLight,
-                                      //   ),
-                                      //   child: Row(
-                                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      //     children: [
-                                      //       Flexible(
-                                      //         child: Row(
-                                      //           children: [
-                                      //             Image.asset(
-                                      //               "assets/icons/manicon.png",
-                                      //               height: 20,
-                                      //             ),
-                                      //           ],
-                                      //         ),
-                                      //       ),
-                                      //       SizedBox(
-                                      //         width: w * .01,
-                                      //       ),
-                                      //       Flexible(
-                                      //         child: Obx(() {
-                                      //           return TextField(
-                                      //             controller: TextEditingController(
-                                      //               text: controller.groupSize.value == 1 ? '' : "${controller.groupSize.value}",
-                                      //             ),
-                                      //             onChanged: (value) {
-                                      //               if (value.isNotEmpty) {
-                                      //                 controller.groupSize.value = int.tryParse(value) ?? 1;
-                                      //               }
-                                      //             },
-                                      //             keyboardType: TextInputType.number,
-                                      //             textAlign: TextAlign.center,
-                                      //             decoration: InputDecoration(
-                                      //               hintText: 'Up to 10 (incl. you)',
-                                      //               border: InputBorder.none,
-                                      //               contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                                      //             ),
-                                      //             style: const TextStyle(fontSize: 16),
-                                      //           );
-                                      //         }),
-                                      //       ),
-                                      //       SizedBox(
-                                      //         width: w * .01,
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
 
-
-                                      // Container(
-                                      //     height: Res.h_btn,
-                                      //     padding: const EdgeInsets.symmetric(
-                                      //         vertical: 10, horizontal: 13),
-                                      //     decoration: BoxDecoration(
-                                      //         borderRadius:
-                                      //             BorderRadius.circular(100),
-                                      //         color: clrGreyLight),
-                                      //     child: Row(
-                                      //       mainAxisAlignment:
-                                      //           MainAxisAlignment.spaceBetween,
-                                      //       children: [
-                                      //         Flexible(
-                                      //           child: Row(
-                                      //             children: [
-                                      //               Image.asset(
-                                      //                 "assets/icons/manicon.png",
-                                      //                 height: 20,
-                                      //               ),
-                                      //               const SizedBox(
-                                      //                 width: 12,
-                                      //               ),
-                                      //               Flexible(
-                                      //                   child: Text(
-                                      //                 "Up to 10 (incl. you)",
-                                      //                 maxLines: 1,
-                                      //                 overflow:
-                                      //                     TextOverflow.ellipsis,
-                                      //                 style: TextStyle(
-                                      //                     color:
-                                      //                         clrGreyTextLight),
-                                      //               ))
-                                      //             ],
-                                      //           ),
-                                      //         ),
-                                      //         InkWell(
-                                      //             onTap: () {
-                                      //               controller
-                                      //                   .decGroupSize();
-                                      //             },
-                                      //             child:
-                                      //                 const Icon(Icons.remove)),
-                                      //         SizedBox(
-                                      //           width: w * .01,
-                                      //         ),
-                                      //         Obx(() {
-                                      //           return Text(
-                                      //               "${controller.groupSize}");
-                                      //         }),
-                                      //         SizedBox(
-                                      //           width: w * .01,
-                                      //         ),
-                                      //         InkWell(
-                                      //             onTap: () {
-                                      //               controller
-                                      //                   .incGroupSize();
-                                      //             },
-                                      //             child: const Icon(Icons.add))
-                                      //       ],
-                                      //     )),
                                       SizedBox(
                                         height: Get.height * 0.025,
                                       ),
@@ -614,150 +516,6 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                     )
                                                   ],
                                                 ),
-                                                // ontap: () async {
-                                                //   DateTimeRange? dateRange =
-                                                //       await showDateRangePicker(
-                                                //     firstDate: DateTime(1950),
-                                                //     lastDate: DateTime.now(),
-                                                //     context: context,
-                                                //     builder: (context, child) {
-                                                //       return Theme(
-                                                //         data: ThemeData.light().copyWith(
-                                                //           colorScheme: ColorScheme.light(
-                                                //             primary: clrYellow, // Circle color
-                                                //             onPrimary: clrBlacke, // Text color when selected
-                                                //             surface: clrBlacke, // Circle background color
-                                                //           ),
-                                                //           datePickerTheme: DatePickerThemeData(
-                                                //             rangeSelectionBackgroundColor: clrGrey
-                                                //           ),
-                                                //           dialogBackgroundColor: Colors.white, // Background color
-                                                //           inputDecorationTheme: InputDecorationTheme(
-                                                //             focusedBorder: OutlineInputBorder(
-                                                //               borderSide: BorderSide(color: clrYellow),
-                                                //               borderRadius: BorderRadius.circular(8.0),
-                                                //             ),
-                                                //           ),
-                                                //         ),
-                                                //         child: child!,
-                                                //       );
-                                                //     },
-                                                //     // initialDateRange: controller.filterDateStart.value != '' &&
-                                                //     //     controller.filterDateCalenderEnd.value !=''?DateTime.parse("") : null
-                                                //   );
-                                                //   if (dateRange != null) {
-                                                //     print("gk=====$dateRange");
-                                                //     controller
-                                                //         .changeFilterDate(dateRange);
-                                                //   }
-                                                // },
-
-                                                // ontap: () async{
-                                                //   showDialog(
-                                                //       context: context,
-                                                //       builder:  (BuildContext context){
-                                                //         return Dialog(
-                                                //           backgroundColor: clrWhite,
-                                                //           insetPadding: EdgeInsets.all(0),
-                                                //           child: Container(
-                                                //             height: h * .6,
-                                                //             width: w * .8,
-                                                //             child: Column(
-                                                //               children: [
-                                                //                 Padding(
-                                                //                   padding: const EdgeInsets.only(top: 24.0,left: 12),
-                                                //                   child: Row(
-                                                //                     children: [
-                                                //                       Image.asset('assets/icons/close.png',scale: 4,),
-                                                //                     ],
-                                                //                   ),
-                                                //                 )
-                                                //               ],
-                                                //             ),
-                                                //           ),
-                                                //         );
-                                                //       }
-                                                //   );
-                                                // },
-
-                                                // ontap: () async{
-                                                //   Get.dialog(
-                                                //     AlertDialog(
-                                                //       insetPadding: EdgeInsets.all(0),
-                                                //       content: Container(
-                                                //         height: 300,
-                                                //         child: Column(
-                                                //           children: [
-                                                //             Row(
-                                                //               children: [
-                                                //                 Expanded(child: Image.asset('assets/icons/close.png',scale: 4,)),
-                                                //                 Expanded(child: Text("August 2024")),
-                                                //               ],
-                                                //             )
-                                                //           ],
-                                                //         ),
-                                                //       ),
-                                                //     )
-                                                //   );
-                                                // },
-
-                                                // ontap: () async {
-                                                //   Get.dialog(
-                                                //     AlertDialog(
-                                                //       insetPadding: EdgeInsets.all(0),
-                                                //       content: Center(
-                                                //         child: Container(
-                                                //           height: 300, // Adjust the height to ensure everything fits
-                                                //           child: Column(
-                                                //             children: [
-                                                //               Row(
-                                                //                 children: [
-                                                //                   Expanded(
-                                                //                     child: GestureDetector(
-                                                //                       onTap: () => Get.back(),
-                                                //                       child: Image.asset('assets/icons/close.png', scale: 4),
-                                                //                     ),
-                                                //                   ),
-                                                //                   Expanded(
-                                                //                     child: Center(
-                                                //                       child: Text("Select Month", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                                //                     ),
-                                                //                   ),
-                                                //                   Expanded(child: Container()), // Empty Expanded to balance the row
-                                                //                 ],
-                                                //               ),
-                                                //               SizedBox(height: 20),
-                                                //               Expanded(
-                                                //                 child: PageView.builder(
-                                                //                   controller: pageController,
-                                                //                   onPageChanged: (index) {
-                                                //                     controller.updatePage(index); // Using the controller method to update state
-                                                //                   },
-                                                //                   itemBuilder: (context, index) {
-                                                //                     final year = (index ~/ 12);
-                                                //                     final month = (index % 12) + 1;
-                                                //                     final date = DateTime(year, month);
-                                                //                     return Center(
-                                                //                       child: Obx(() => Text(
-                                                //                         DateFormat.yMMMM().format(date),
-                                                //                         style: TextStyle(
-                                                //                           fontSize: 18.09,
-                                                //                           fontWeight: FontWeight.w500,
-                                                //                           color: Color(0xff696565),
-                                                //                         ),
-                                                //                       )),
-                                                //                     );
-                                                //                   },
-                                                //                 ),
-                                                //               ),
-                                                //             ],
-                                                //           ),
-                                                //         ),
-                                                //       ),
-                                                //     ),
-                                                //   );
-                                                // },
-
                                                 borderClr: clrBlacke,
                                                 backgroundClr: controller
                                                                 .filterDateStart
@@ -901,13 +659,14 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             fontSize: 16),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.01,
+                                        height: Get.height * 0.005,
                                       ),
                                       Obx(() {
                                         // int val=controller.timeFilter.value;
                                         return CustomDropdown(
                                           initialItem: controller.time(),
-                                          hintText: 'Select Time',
+                                          closedHeaderPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 17),
+                                          hintText: 'Select time',
                                             items: controller.timelist.map((e) {
                                               return e['value'];
                                             },).toList(),
@@ -942,7 +701,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               ),
                                               prefixIcon: Image.asset(
                                                 'assets/icons/timericon.png',
-                                                scale: 1.5,
+                                                scale: 2.5,
                                               ),
                                               closedFillColor: clrGreyLight,
                                               closedBorderRadius: BorderRadius.circular(100)
@@ -1014,11 +773,12 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             fontSize: 16),
                                       ),
                                       SizedBox(
-                                        height: Get.height * 0.01,
+                                        height: Get.height * 0.005,
                                       ),
                                       Obx(() {
                                         return CustomDropdown(
                                           initialItem: controller.gender(),
+                                          closedHeaderPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 17),
                                           hintText: 'Select Gender',
                                           items: controller.genderlist.map((e) {
                                             return e['value'];
@@ -1046,7 +806,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               ),
                                               prefixIcon: Image.asset(
                                                 'assets/icons/gendericon.png',
-                                                scale: 1.5,
+                                                scale: 2.5,
                                               ),
                                               closedFillColor: clrGreyLight,
                                               closedBorderRadius: BorderRadius.circular(100)
@@ -1105,28 +865,28 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                   children: [
                                     Expanded(
                                         child: SizedBox(
-                                      height: Res.h_btn,
-                                      child: CustoFilterBtn(
-                                        lable: Text(
-                                          "Reset",
-                                          style: TextStyle(
-                                              color: clrBlacke,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700),
-                                        ),
-                                        ontap: () {
-                                          controller.resetForm();
-                                        },
-                                        backgroundClr: clrWhite,
-                                        borderClr: clrBlacke,
-                                      ),
+                                          // height: h*0.05,
+                                          child: CustomElevatedButton(
+                                              onTap: () {
+                                                controller.resetForm();
+                                              },
+                                              backgroundClr: clrWhite,
+                                              borderClr: clrBlacke,
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                                child: Text("Reset",
+                                                    style: TextStyle(
+                                                        color: clrBlacke,
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.w700)),
+                                              )),
                                     )),
                                     SizedBox(
                                       width: w * .03,
                                     ),
                                     Expanded(
                                         child: SizedBox(
-                                      height: Res.h_btn,
+                                      // height: h*0.05,
                                       child: CustomElevatedButton(
                                           onTap: () {
                                             controller.filterActivity();
@@ -1134,11 +894,14 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                           backgroundClr: controller.filterLoading.value ? clrGrey : clrBlacke,
                                           child: controller.filterLoading.value
                                               ? CommonUi.buttonLoading()
-                                              : Text("Apply filter",
-                                              style: TextStyle(
-                                                  color: clrWhite,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700))),
+                                              : Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                                child: Text("Apply filter",
+                                                style: TextStyle(
+                                                    color: clrWhite,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w700)),
+                                              )),
                                     )),
                                   ],
                                 ),

@@ -112,8 +112,8 @@ class AddphotoController extends GetxController {
         showTostMsg("${jsonResponse['message']}");
       }
     } catch (e) {
-      debugPrint("error==$e");
-      showTostMsg("${e.toString()}");
+      print("error==${e.toString()}");
+      showTostMsg("Something went wrong.Please try again");
     }
     photoLoading.value = false;
   }

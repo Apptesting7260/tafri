@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/explore/search/controller/searchact_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
@@ -33,7 +34,7 @@ class SearchActui extends GetWidget<SearchActController> {
             ),
             CommonUi.appBar(),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -58,7 +59,7 @@ class SearchActui extends GetWidget<SearchActController> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.filterExploreUi);
+                    Get.offNamed(Routes.filterExploreUi);
                   },
                   child: Image.asset(
                     "assets/images/filtericon.png",
@@ -67,6 +68,7 @@ class SearchActui extends GetWidget<SearchActController> {
                 ),
               ],
             ),
+            SizedBox(height: 10,),
             Obx(
               () => controller.homeError.value.isNotEmpty
                   ? Expanded(child: Center(child: ErrorScreen()))
@@ -83,6 +85,7 @@ class SearchActui extends GetWidget<SearchActController> {
                                         activity.status == 'approved')
                                     .length,
                                 shrinkWrap: true,
+                                padding: EdgeInsets.zero,
                                 itemBuilder: (context, index) {
                                   var activityData = controller
                                       .homeData.value.result?.activities
@@ -97,17 +100,30 @@ class SearchActui extends GetWidget<SearchActController> {
                                           controller.homeData.value.result
                                                   ?.membershipStatus ==
                                               true) {
-                                        Get.toNamed(Routes.exploreView,
-                                            arguments: activityData?[index]
-                                                .id
-                                                .toString());
+
+                                        if(controller.homeData.value.result?.activities?[index].hostId.toString() == LocalStorage.getUid()){
+                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: activityData?[index].id.toString());
+                                        }else {
+                                          Get.toNamed(
+                                              Routes
+                                                  .exploreView,
+                                              arguments: activityData?[index]
+                                                  .id
+                                                  .toString()
+                                          );
+                                        }
+
+                                        // Get.toNamed(Routes.exploreView,
+                                        //     arguments: activityData?[index]
+                                        //         .id
+                                        //         .toString());
                                       } else {
                                         controller.showHomePop();
                                       }
                                     },
                                     child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 10),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 15),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -366,46 +382,11 @@ class SearchActui extends GetWidget<SearchActController> {
                                                     SizedBox(
                                                       height: h * .005,
                                                     ),
-                                                    // controller
-                                                    //     .homeData
-                                                    //     .value
-                                                    //     .result
-                                                    //     ?.profileComplete ==
-                                                    //     true &&
-                                                    //     controller
-                                                    //         .homeData
-                                                    //         .value
-                                                    //         .result
-                                                    //         ?.membershipStatus ==
-                                                    //         true ? Text(
-                                                    //   '${activityData?[index].location}',
-                                                    //   style: TextStyle(
-                                                    //       color: clrGreyDark),
-                                                    // ) : SizedBox(),
-                                                    // SizedBox(
-                                                    //   height: h * .005,
-                                                    // ),
                                                     Text(
                                                       '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
                                                       style:
                                                       TextStyle(color: clrGreyDark),
                                                     ),
-                                                    // controller
-                                                    //     .homeData
-                                                    //     .value
-                                                    //     .result
-                                                    //     ?.profileComplete ==
-                                                    //     true &&
-                                                    //     controller
-                                                    //         .homeData
-                                                    //         .value
-                                                    //         .result
-                                                    //         ?.membershipStatus ==
-                                                    //         true ? Text(
-                                                    //   '${activityData?[index].formattedDate} | ${activityData?[index].startAt} - ${activityData?[index].endAt}',
-                                                    //   style: TextStyle(
-                                                    //       color: clrGreyDark),
-                                                    // ) : SizedBox(),
                                                     SizedBox(
                                                       height: h * .008,
                                                     ),
@@ -415,12 +396,6 @@ class SearchActui extends GetWidget<SearchActController> {
                                                           color: clrYellowText,
                                                           fontSize: 13),
                                                     ),
-
-                                                    // Text(
-                                                    //   "Up to ${activityData?[index].maxPeople} people | "${activityData?[index].spotLeft} ${activityData?[index].spotLeft > 1 ? 'spots left' : 'spot left'}"
-                                                    //     style:
-                                                    //       TextStyle(color: clrYellowText, fontSize: 13),
-                                                    // ),
                                                   ],
                                                 ),
                                               ),

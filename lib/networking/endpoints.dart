@@ -1,7 +1,8 @@
 class EndPoints{
 
   // static String baseUrl="https://urlsdemo.online/plusone/api/";
-  static String baseUrl="https://nbttech.xyz/plusone/api/";
+  // static String baseUrl="https://nbttech.xyz/plusone/api/";
+  static String baseUrl="https://api.plusonesapp.com/api/";
   static String addNewUserUrl="${baseUrl}addnewuser";
   static String loginApiUrl="${baseUrl}login";
   static String completeProfileApiUrl="${baseUrl}complete-profile";

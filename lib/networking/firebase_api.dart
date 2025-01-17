@@ -368,7 +368,7 @@ class FirebaseApi {
 
        var androidNotificationDetails = AndroidNotificationDetails(
         'PlusOne',
-        'PlusOne kdfjldskjflsdkjfldsjflsddfldsjfldsfldskjfldsjfldsfldsjfdslkjfdlsjfldskjfd',
+        'PlusOne',
         importance: Importance.max,
         priority: Priority.max,
         icon: '@drawable/ic_launcher',

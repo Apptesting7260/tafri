@@ -1131,25 +1131,28 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text(
-                                                  "Join instantly without approval",
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                ),
-                                                Obx(() {
-                                                  return CustomSwitch(
-                                                    value: controller
-                                                        .joinInstant.value,
-                                                    onChanged: (p0) => controller
-                                                        .changejoinInstant(),
-                                                  );
-                                                })
-                                              ],
+                                            IgnorePointer(
+                                              ignoring: true,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    "Join instantly without approval",
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                  ),
+                                                  Obx(() {
+                                                    return CustomSwitch(
+                                                      value: controller
+                                                          .joinInstant.value,
+                                                      onChanged: (p0) => controller
+                                                          .changejoinInstant(),
+                                                    );
+                                                  })
+                                                ],
+                                              ),
                                             ),
                                             SizedBox(
                                               height: Get.height * 0.03,
@@ -2027,8 +2030,8 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                               onTap: () async {
                                 DateTime? date = await showDatePicker(
                                     context: context,
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2025),
+                                    firstDate: DateTime.now().add(Duration(days: 1)),
+                                    lastDate: DateTime.now().add(Duration(days: 365)),
                                     currentDate: controller
                                             .RdateForPicker.value.isNotEmpty
                                         ? DateTime.parse(

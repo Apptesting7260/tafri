@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
@@ -89,7 +90,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
-                          width: w * .1,
+                          width: h * .05,
                           height: h * .05,
                           decoration: BoxDecoration(
                             color: clrBlacke,
@@ -97,8 +98,12 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
-                            child: Image.asset("assets/icons/uploadicon.png",color: clrWhite, height: h * .06,
-                              width: w * .06,),//
+                            child: Image(
+                              image: Svg('assets/images/share-2.svg'),
+                              color: clrWhite,
+                              height: h * .06,
+                              width: w * .06,
+                            ),//
                           ),
                         ),
                       ),

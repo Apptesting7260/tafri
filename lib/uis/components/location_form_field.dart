@@ -18,6 +18,8 @@ class CustomLocationField extends StatefulWidget {
   final Future<List<dynamic>> Function(String) suggestionsCallback;
   final void Function(dynamic)? onSelected;
   final FocusNode? focusNode;
+  final EdgeInsetsGeometry? contentPadding;
+  final double? cursorHeight;
 
   const CustomLocationField(
       {super.key,
@@ -26,10 +28,12 @@ class CustomLocationField extends StatefulWidget {
       this.maxLines,
       this.validation,
       this.maxLength,
+        this.cursorHeight,
       this.controller,
       this.sufixIcon,
       this.textKType,
       this.keyboardType,
+        this.contentPadding,
       required this.itemBuilder,
       required this.suggestionsCallback,
       this.onSelected, this.focusNode});
@@ -65,6 +69,7 @@ class _CustomLocationFieldState extends State<CustomLocationField> {
           maxLength: widget.maxLength,
           onChanged: widget.onChanged,
           keyboardType: widget.keyboardType,
+          cursorHeight: widget.cursorHeight,
           decoration: InputDecoration(
               prefixIcon: widget.sufixIcon == null ? null : widget.sufixIcon,
               hintText: widget.hintText,
@@ -72,7 +77,7 @@ class _CustomLocationFieldState extends State<CustomLocationField> {
                   fontWeight: FontWeight.w400,
                   fontSize: 15,
                   color: clrGreyTextLight),
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(
                   horizontal: 15, vertical: Get.height * .02),
               fillColor: clrGreyLight,
               filled: true,

@@ -172,7 +172,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                           Center(
                               child: controller.hostData.value.result!.age! > 0 ? Text(
                                 "${controller.hostData.value.result?.age} years old |  ${controller.getPronoun(controller.hostData.value.result?.gender)}",
-                                style: TextStyle(color: clrGreyTextLight, fontSize: 14, fontWeight: FontWeight.w400),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                               ) : SizedBox()),
                           SizedBox(
                             height: Get.height * 0.02,
@@ -435,7 +435,8 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 controller.hostData.value.result
                                     ?.profile?.bio !=
                                     null ? Text("${controller.hostData.value.result?.profile?.bio}",
-                                    style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                                    // style: TextStyle(color: clrGreyTextLight)
+                                ) : CommonUi.emptySizeBox(),
                               ],
                             ),
                           ),
@@ -458,7 +459,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 ),
                                 Text(
                                     controller.hostData.value.result!.location ?? '',
-                                    style: TextStyle(color: clrGreyTextLight)
+                                    // style: TextStyle(color: clrGreyTextLight)
                                 ),
                               ],
                             ),
@@ -482,8 +483,12 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                 ),
                                 controller.hostData.value.result
                                     ?.profile?.occupation !=
-                                    null ? Text("${controller.hostData.value.result?.profile?.occupation}",
-                                    style: TextStyle(color: clrGreyTextLight)) : CommonUi.emptySizeBox(),
+                                    null ? Text("${controller.hostData.value.result?.profile?.occupation}${controller.hostData.value.result
+                                    ?.profile?.organisationName !=
+                                    null && controller.hostData.value.result
+                                !.profile!.organisationName!.isNotEmpty ? ", ${controller.hostData.value.result?.profile?.organisationName}" : ''}",
+                                  // style: TextStyle(color: clrGreyTextLight)
+                                ) : CommonUi.emptySizeBox()
                               ],
                             ),
                           ),
@@ -569,113 +574,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800, fontSize: 15),
                                 ),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                // const Text("Sports and fitness",
-                                //     style: TextStyle(
-                                //         fontSize: 13, fontWeight: FontWeight.w800)),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                // Wrap(
-                                //   spacing: 8,
-                                //   runSpacing: 8,
-                                //   children: [
-                                //     Container(
-                                //       padding: const EdgeInsets.symmetric(
-                                //           horizontal: 13, vertical: 5),
-                                //       decoration: BoxDecoration(
-                                //           borderRadius: BorderRadius.circular(15),
-                                //           color: clrWhite),
-                                //       child: Row(
-                                //         mainAxisSize: MainAxisSize.min,
-                                //         children: [
-                                //           Image.asset(
-                                //             "assets/icons/cycleicon.png",
-                                //             height: 20,
-                                //           ),
-                                //           const SizedBox(
-                                //             width: 4,
-                                //           ),
-                                //           const Text("Cycling"),
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                // const Text("Social",
-                                //     style: TextStyle(
-                                //         fontSize: 13, fontWeight: FontWeight.w800)),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                // Wrap(
-                                //   spacing: 8,
-                                //   runSpacing: 8,
-                                //   children: [
-                                //     Container(
-                                //       padding: const EdgeInsets.symmetric(
-                                //           horizontal: 13, vertical: 5),
-                                //       decoration: BoxDecoration(
-                                //           borderRadius: BorderRadius.circular(15),
-                                //           color: clrWhite),
-                                //       child: Row(
-                                //         mainAxisSize: MainAxisSize.min,
-                                //         children: [
-                                //           Image.asset(
-                                //             "assets/icons/dinner.png",
-                                //             height: 20,
-                                //           ),
-                                //           const SizedBox(
-                                //             width: 4,
-                                //           ),
-                                //           const Text("Dining out"),
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                // const Text(
-                                //   "Learning",
-                                //   style: TextStyle(
-                                //       fontSize: 13, fontWeight: FontWeight.w800),
-                                // ),
-                                // const SizedBox(
-                                //   height: 5,
-                                // ),
-                                // Wrap(
-                                //   spacing: 8,
-                                //   runSpacing: 8,
-                                //   children: [
-                                //     Container(
-                                //       padding: const EdgeInsets.symmetric(
-                                //           horizontal: 13, vertical: 5),
-                                //       decoration: BoxDecoration(
-                                //           borderRadius: BorderRadius.circular(15),
-                                //           color: clrWhite),
-                                //       child: Row(
-                                //         mainAxisSize: MainAxisSize.min,
-                                //         children: [
-                                //           Image.asset(
-                                //             "assets/icons/languagetrn.png",
-                                //             height: 20,
-                                //           ),
-                                //           const SizedBox(
-                                //             width: 4,
-                                //           ),
-                                //           const Text("Language exchange"),
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
+
                                 SizedBox(
                                   height: Get.height * .008,
                                 ),
@@ -739,7 +638,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                                       ),
                                       Text(
                                           "${controller.hostData.value.result?.profile?.funFactsAboutMe?[index].answer}",
-                                          style: TextStyle(color: clrGreyTextLight)),
+                                      ),
                                     ],
                                   ),
                                   itemCount: controller.hostData.value
@@ -767,216 +666,7 @@ class HostProfileUi extends GetWidget<HostProfileController>{
                           SizedBox(
                             height: Get.height * 0.01,
                           ),
-                          // ListView.builder(
-                          //     itemCount: controller.hostData.value.result?.upcomingActivities?.length,
-                          //     physics: const NeverScrollableScrollPhysics(),
-                          //     shrinkWrap: true,
-                          //     itemBuilder: (context, index) {
-                          //       return Container(
-                          //         margin: const EdgeInsets.symmetric(vertical: 5),
-                          //         padding: const EdgeInsets.symmetric(
-                          //             vertical: 10, horizontal: 10),
-                          //         decoration: BoxDecoration(
-                          //             borderRadius: BorderRadius.circular(5),
-                          //             color: clrGreyLight),
-                          //         child: Column(
-                          //           crossAxisAlignment: CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               controller.hostData.value
-                          //                   .result?.upcomingActivities?[index].formattedDate ?? '',
-                          //               style: TextStyle(color: clrGreyDark),
-                          //             ),
-                          //             SizedBox(
-                          //               height: Get.height * 0.003,
-                          //             ),
-                          //             Row(
-                          //               children: [
-                          //                 Container(
-                          //                   clipBehavior: Clip.hardEdge,
-                          //                   height: 57,
-                          //                   width: 57,
-                          //                   decoration: BoxDecoration(
-                          //                     borderRadius: BorderRadius.circular(10),
-                          //                   ),
-                          //                   child: Image.asset(
-                          //                     "assets/images/parkimage.png",
-                          //                     fit: BoxFit.cover,
-                          //                   ),
-                          //                 ),
-                          //                 SizedBox(
-                          //                   width: Get.width * 0.02,
-                          //                 ),
-                          //                 Expanded(
-                          //                   child: Container(
-                          //                     padding: const EdgeInsets.symmetric(
-                          //                         horizontal: 10, vertical: 10),
-                          //                     decoration: BoxDecoration(
-                          //                         color: clrWhite,
-                          //                         borderRadius:
-                          //                         BorderRadius.circular(5)),
-                          //                     child: Column(
-                          //                       crossAxisAlignment:
-                          //                       CrossAxisAlignment.start,
-                          //                       children: [
-                          //                         const Text(
-                          //                           "10KM Vondelpark run",
-                          //                           style: TextStyle(
-                          //                               fontSize: 14,
-                          //                               fontWeight: FontWeight.w500),
-                          //                         ),
-                          //                         Text(
-                          //                             "Padel next, 1055 AH, Amsterdam ",
-                          //                             style: TextStyle(
-                          //                                 color: clrGreyDark,
-                          //                                 fontSize: 12)),
-                          //                       ],
-                          //                     ),
-                          //                   ),
-                          //                 )
-                          //               ],
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       );
-                          //     }),
-                          // SizedBox(
-                          //   height: Get.height * 0.015,
-                          // ),
-                          // const Text(
-                          //   "Previous activities",
-                          //   style: TextStyle(fontWeight: FontWeight.w800),
-                          // ),
-                          // SizedBox(
-                          //   height: Get.height * 0.015,
-                          // ),
-                          // ListView.builder(
-                          //     itemCount: 1,
-                          //     physics: const NeverScrollableScrollPhysics(),
-                          //     shrinkWrap: true,
-                          //     itemBuilder: (context, index) {
-                          //       return Container(
-                          //         margin: const EdgeInsets.symmetric(vertical: 5),
-                          //         padding: const EdgeInsets.symmetric(
-                          //             vertical: 10, horizontal: 10),
-                          //         decoration: BoxDecoration(
-                          //             borderRadius: BorderRadius.circular(5),
-                          //             color: clrGreyLight),
-                          //         child: Column(
-                          //           crossAxisAlignment: CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               "20 May",
-                          //               style: TextStyle(color: clrGreyDark),
-                          //             ),
-                          //             SizedBox(
-                          //               height: Get.height * 0.003,
-                          //             ),
-                          //             Column(
-                          //               children: [
-                          //                 Row(
-                          //                   children: [
-                          //                     Container(
-                          //                       clipBehavior: Clip.hardEdge,
-                          //                       height: 57,
-                          //                       width: 57,
-                          //                       decoration: BoxDecoration(
-                          //                         borderRadius:
-                          //                         BorderRadius.circular(10),
-                          //                       ),
-                          //                       child: Image.asset(
-                          //                         "assets/images/parkimage.png",
-                          //                         fit: BoxFit.cover,
-                          //                       ),
-                          //                     ),
-                          //                     SizedBox(
-                          //                       width: Get.width * 0.02,
-                          //                     ),
-                          //                     Expanded(
-                          //                       child: Container(
-                          //                         padding: const EdgeInsets.symmetric(
-                          //                             horizontal: 10, vertical: 10),
-                          //                         decoration: BoxDecoration(
-                          //                             color: clrWhite,
-                          //                             borderRadius:
-                          //                             BorderRadius.circular(5)),
-                          //                         child: Column(
-                          //                           crossAxisAlignment:
-                          //                           CrossAxisAlignment.start,
-                          //                           children: [
-                          //                             const Text(
-                          //                               "Salsa night at Tulp",
-                          //                               style: TextStyle(
-                          //                                   fontSize: 14,
-                          //                                   fontWeight:
-                          //                                   FontWeight.w500),
-                          //                             ),
-                          //                             Text("Confirm attendance",
-                          //                                 style: TextStyle(
-                          //                                     color: clrYellowText,
-                          //                                     fontSize: 12)),
-                          //                           ],
-                          //                         ),
-                          //                       ),
-                          //                     )
-                          //                   ],
-                          //                 ),
-                          //                 const SizedBox(
-                          //                   height: 8,
-                          //                 ),
-                          //                 Row(
-                          //                   children: [
-                          //                     Container(
-                          //                       clipBehavior: Clip.hardEdge,
-                          //                       height: 57,
-                          //                       width: 57,
-                          //                       decoration: BoxDecoration(
-                          //                         borderRadius:
-                          //                         BorderRadius.circular(10),
-                          //                       ),
-                          //                       child: Image.asset(
-                          //                         "assets/images/cofee.png",
-                          //                         fit: BoxFit.cover,
-                          //                       ),
-                          //                     ),
-                          //                     SizedBox(
-                          //                       width: Get.width * 0.02,
-                          //                     ),
-                          //                     Expanded(
-                          //                       child: Container(
-                          //                         padding: const EdgeInsets.symmetric(
-                          //                             horizontal: 10, vertical: 10),
-                          //                         decoration: BoxDecoration(
-                          //                             color: clrWhite,
-                          //                             borderRadius:
-                          //                             BorderRadius.circular(5)),
-                          //                         child: Column(
-                          //                           crossAxisAlignment:
-                          //                           CrossAxisAlignment.start,
-                          //                           children: [
-                          //                             const Text(
-                          //                               "Sunday morning coffee",
-                          //                               style: TextStyle(
-                          //                                   fontSize: 14,
-                          //                                   fontWeight:
-                          //                                   FontWeight.w500),
-                          //                             ),
-                          //                             Text("Cancelled",
-                          //                                 style: TextStyle(
-                          //                                     color: clrGreyTextLight,
-                          //                                     fontSize: 12)),
-                          //                           ],
-                          //                         ),
-                          //                       ),
-                          //                     )
-                          //                   ],
-                          //                 ),
-                          //               ],
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       );
-                          //     }),
+
                           controller.hostData.value.result!.upcomingActivities!.isEmpty
                               ? SizedBox()
                               : controller.hostData.value.result!.upcommingActivityStatus == '1'
