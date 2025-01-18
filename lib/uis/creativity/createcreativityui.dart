@@ -47,15 +47,15 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
             : controller.catError.value.isNotEmpty
                 ? const Center(child: ErrorScreen())
                 : SafeArea(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Res.Defalt_side_margin),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Row(
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Res.Defalt_side_margin),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CommonUi.appBar(),
@@ -69,47 +69,52 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                               )
                             ],
                           ),
-                          SizedBox(
-                            height: h * 0.03,
-                          ),
-                          TabBar(
-                            indicatorColor: tabBarColor,
-                            dividerHeight: 0,
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            unselectedLabelColor: clrBlacke,
-                            labelColor: tabBarColor,
-                            onTap: (value) {
-                              controller.titleFocus.unfocus();
-                              controller.desFocus.unfocus();
-                              controller.locationFocus.unfocus();
-                              controller.uptoFocus.unfocus();
-                            },
-                            labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 18),
-                            unselectedLabelStyle: const TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 18),
-                            tabs: const [
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 10),
-                                child: Text(
-                                  "Edit",
-                                ),
+                        ),
+                        SizedBox(
+                          height: h * 0.03,
+                        ),
+                        TabBar(
+                          indicatorColor: tabBarColor,
+                          dividerHeight: 0,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          unselectedLabelColor: clrBlacke,
+                          labelColor: tabBarColor,
+                          indicatorPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+                          onTap: (value) {
+                            controller.titleFocus.unfocus();
+                            controller.desFocus.unfocus();
+                            controller.locationFocus.unfocus();
+                            controller.uptoFocus.unfocus();
+                          },
+                          labelStyle: const TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 18),
+                          unselectedLabelStyle: const TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 18),
+                          tabs: const [
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                "Edit",
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 10),
-                                child: Text("Preview"),
-                              )
-                            ],
-                            controller: controller.tabController,
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.02,
-                          ),
-                          Expanded(
-                            child: TabBarView(
-                                controller: controller.tabController,
-                                children: [
-                                  Column(children: [
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Text("Preview"),
+                            )
+                          ],
+                          controller: controller.tabController,
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                              controller: controller.tabController,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: Res.Defalt_side_margin),
+                                  child: Column(children: [
                                     Expanded(
                                       child: ListView(
                                           // keyboardDismissBehavior: controller.isScrolling.value ? ScrollViewKeyboardDismissBehavior.onDrag : ScrollViewKeyboardDismissBehavior.manual,
@@ -1526,8 +1531,12 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                       ),
                                     ),
                                   ]),
-                                  ////////////////////////////////////////////////////preview ui
-                                  SingleChildScrollView(
+                                ),
+                                ////////////////////////////////////////////////////preview ui
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: Res.Defalt_side_margin),
+                                  child: SingleChildScrollView(
                                     child: Column(
                                       children: [
                                         Container(
@@ -2101,11 +2110,11 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                         ),
                                       ],
                                     ),
-                                  )
-                                ]),
-                          ),
-                        ],
-                      ),
+                                  ),
+                                )
+                              ]),
+                        ),
+                      ],
                     ),
                   ),
       ),

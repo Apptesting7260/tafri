@@ -43,6 +43,7 @@ class Friend {
   // Premium? premium;
   bool? userAcountDeleted;
   int? allMember;
+  String? startDate;
 
   Friend({
     this.groupId,
@@ -60,6 +61,7 @@ class Friend {
     this.userBlock,
     this.blockedBy,
     this.allMember,
+    this.startDate,
     // this.premium,
     this.userAcountDeleted,
   });
@@ -81,6 +83,7 @@ class Friend {
     blockedBy: json["blockedBy"],
     // premium: json["premium"] == null ? null : Premium.fromJson(json["premium"]),
     userAcountDeleted: json["userAcountDeleted"],
+    startDate: json['activityStartDate'],
     allMember: json['allMembers']
   );
 

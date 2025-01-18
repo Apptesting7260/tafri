@@ -7,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
@@ -238,7 +239,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                   ),
                                                   child: CachedNetworkImage(
                                                     imageUrl: '${data?.groupImg}',
-                                                    memCacheWidth: 500,
+                                                    memCacheWidth: 400,
                                                     fit: BoxFit.cover,
                                                     placeholder: (context, url) => Shimmer.fromColors(
                                                         baseColor: grey300,
@@ -262,6 +263,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 child: Row(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Flexible(
                                                       child: Column(
@@ -274,6 +276,8 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                                 fontSize: 15,
                                                                 fontWeight:
                                                                 FontWeight.w600),
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
                                                           ),
                                                           Text(
                                                               (data!.lastMsg!.textmessage == 'null' && data.lastMsg!.file!.isNotEmpty) ? 'Media' : data.lastMsg!.textmessage!.isNotEmpty ? '${data.lastMsg!.textmessage}' : "No messages yet",
@@ -317,7 +321,12 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                               fontSize: 12),
                                                         ) : const SizedBox()
                                                       ],
-                                                    )
+                                                    ),
+                                                    data.startDate != null ? Text('${DateFormat('d MMM').format(DateTime.parse(data.startDate.toString()))}',style: TextStyle(
+                                                       fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: clrGreyTextLight
+                                                    ),) : SizedBox()
                                                   ],
                                                 ),
                                               )
