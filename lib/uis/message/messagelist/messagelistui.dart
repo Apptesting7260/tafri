@@ -290,43 +290,47 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                         ],
                                                       ),
                                                     ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                                    Row(
                                                       children: [
-                                                        // Container(
-                                                        //   padding: EdgeInsets.all(7),
-                                                        //   decoration: BoxDecoration(
-                                                        //     borderRadius: BorderRadius.circular(100),
-                                                        //     color: clrBlacke
-                                                        //   ),
-                                                        //   child: Text("1",style: TextStyle(color: clrWhite),),
-                                                        // ),
-                                                        data!.groupUnSennMessage! > 0 ? CircleAvatar(
-                                                          backgroundColor: clrBlacke,
-                                                          maxRadius: 10,
-                                                          child: Text(
-                                                            "${data.groupUnSennMessage}",
-                                                            style: TextStyle(
-                                                                color: clrWhite,
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                FontWeight.w700),
-                                                          ),
-                                                        ) : const SizedBox(),
-                                                        data.groupUnSennMessage! > 0 ? Text(
-                                                          timeago.format(data.updatedAt!),
-                                                          style: TextStyle(
-                                                              color: clrGreyDark,
-                                                              fontSize: 12),
-                                                        ) : const SizedBox()
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.end,
+                                                          children: [
+                                                            // Container(
+                                                            //   padding: EdgeInsets.all(7),
+                                                            //   decoration: BoxDecoration(
+                                                            //     borderRadius: BorderRadius.circular(100),
+                                                            //     color: clrBlacke
+                                                            //   ),
+                                                            //   child: Text("1",style: TextStyle(color: clrWhite),),
+                                                            // ),
+                                                            data!.groupUnSennMessage! > 0 ? CircleAvatar(
+                                                              backgroundColor: clrBlacke,
+                                                              maxRadius: 10,
+                                                              child: Text(
+                                                                "${data.groupUnSennMessage}",
+                                                                style: TextStyle(
+                                                                    color: clrWhite,
+                                                                    fontSize: 10,
+                                                                    fontWeight:
+                                                                    FontWeight.w700),
+                                                              ),
+                                                            ) : const SizedBox(),
+                                                            data.groupUnSennMessage! > 0 ? Text(
+                                                              timeago.format(data.updatedAt!),
+                                                              style: TextStyle(
+                                                                  color: clrGreyDark,
+                                                                  fontSize: 12),
+                                                            ) : const SizedBox()
+                                                          ],
+                                                        ),
+                                                        data.startDate != null ? Text('${DateFormat('d MMM').format(DateTime.parse(data.startDate.toString()))}',style: TextStyle(
+                                                            fontSize: 13,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: clrGreyTextLight
+                                                        ),) : SizedBox()
                                                       ],
-                                                    ),
-                                                    data.startDate != null ? Text('${DateFormat('d MMM').format(DateTime.parse(data.startDate.toString()))}',style: TextStyle(
-                                                       fontSize: 13,
-                                                      fontWeight: FontWeight.w600,
-                                                      color: clrGreyTextLight
-                                                    ),) : SizedBox()
+                                                    )
                                                   ],
                                                 ),
                                               )
