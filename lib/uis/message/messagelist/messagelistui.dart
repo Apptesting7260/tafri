@@ -291,6 +291,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                       ),
                                                     ),
                                                     Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Column(
                                                           crossAxisAlignment:
@@ -324,6 +325,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                             ) : const SizedBox()
                                                           ],
                                                         ),
+                                                        data.startDate != null ? SizedBox(width: 8,) : SizedBox(),
                                                         data.startDate != null ? Text('${DateFormat('d MMM').format(DateTime.parse(data.startDate.toString()))}',style: TextStyle(
                                                             fontSize: 13,
                                                             fontWeight: FontWeight.w600,
