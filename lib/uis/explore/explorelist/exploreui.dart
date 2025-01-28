@@ -577,9 +577,9 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                               Colors
                                                   .pink,
                                               trimCollapsedText:
-                                              'Learn more',
+                                              ' Show more',
                                               trimExpandedText:
-                                              'Learn less',
+                                              ' Show less',
                                               moreStyle: TextStyle(
                                                   color:
                                                   clrBlacke,

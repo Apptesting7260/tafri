@@ -33,7 +33,7 @@ class LoginnoController extends GetxController {
   }
 
   bool validatePhoneNumber(String phoneNumber, String countryCode) {
-    Map<String, int> countryPhoneLengths = {
+    Map<String, dynamic> countryPhoneLengths = {
       'AF': 9, // Afghanistan
       'AL': 9, // Albania
       'DZ': 9, // Algeria
@@ -55,7 +55,7 @@ class LoginnoController extends GetxController {
       'BO': 8, // Bolivia
       'BA': 8, // Bosnia and Herzegovina
       'BW': 7, // Botswana
-      'BR': 11, // Brazil
+      'BR': [10,11], // Brazil
       'BN': 7, // Brunei
       'BG': 9, // Bulgaria
       'BF': 8, // Burkina Faso
@@ -95,7 +95,7 @@ class LoginnoController extends GetxController {
       'GA': 7, // Gabon
       'GM': 7, // Gambia
       'GE': 9, // Georgia
-      'DE': 10, // Germany
+      'DE': [10,11], // Germany
       'GH': 9, // Ghana
       'GR': 10, // Greece
       'GL': 6, // Greenland
@@ -213,7 +213,7 @@ class LoginnoController extends GetxController {
       'UG': 9, // Uganda
       'UA': 9, // Ukraine
       'AE': 9, // United Arab Emirates
-      'GB': 10, // United Kingdom
+      'GB': [10,11], // United Kingdom
       'UY': 9, // Uruguay
       'UZ': 9, // Uzbekistan
       'VU': 7, // Vanuatu
@@ -224,11 +224,22 @@ class LoginnoController extends GetxController {
       'ZW': 9 // Zimbabwe
     };
 
-    int? expectedLength = countryPhoneLengths[countryCode];
+    // int? expectedLength = countryPhoneLengths[countryCode];
+    // if (expectedLength != null) {
+    //   return phoneNumber.length == expectedLength;
+    // }
+    // return false;
+
+    dynamic expectedLength = countryPhoneLengths[countryCode];
     if (expectedLength != null) {
-      return phoneNumber.length == expectedLength;
+      if (expectedLength is int) {
+        return phoneNumber.length == expectedLength;
+      } else if (expectedLength is List<int>) {
+        return expectedLength.contains(phoneNumber.length);
+      }
     }
     return false;
+
   }
 
   Rx<bool> isLoadingLogin = false.obs;
@@ -241,6 +252,7 @@ class LoginnoController extends GetxController {
         "country_code": countryCode.value,
         'fcm_token': FirebaseApi.fcmToken
       };
+      print('data == ${detaBody}');
       final response = await api.post(EndPoints.loginApiUrl, detaBody);
       LoginModel body = LoginModel.fromJson(response.body);
       if (response.statusCode == 200) {
@@ -263,7 +275,7 @@ class LoginnoController extends GetxController {
         showTostMsg(body.message);
       }
     } catch (e) {
-      debugPrint("error==$e");
+      debugPrint("log in error==$e");
       showTostMsg("Something went wrong");
     }
     isLoadingLogin.value = false;
@@ -408,19 +420,25 @@ class LoginnoController extends GetxController {
     print('re == ${resendToken.value}');
     print('no == ${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
+      // await auth.setSettings(
+      //   appVerificationDisabledForTesting: true,
+      //   forceRecaptchaFlow: true,
+      // );
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         // forceResendingToken: !Platform.isIOS ? (resendToken.value != 0 ? resendToken.value : null) : null,
+
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          print('verification complete');
+          // await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             print('${e.code}');
             showTostMsg('The provided phone number is not valid.');
           }else{
-            showTostMsg('Something went wrong');
+            showTostMsg('${e.code}');
           }
           print(e.toString());
 
@@ -463,7 +481,7 @@ class LoginnoController extends GetxController {
       if(e.code == 'invalid-verification-code'){
         showTostMsg('Invalid otp.');
       }else{
-        showTostMsg('Please check your otp and try again.');
+        showTostMsg('${e.code}');
       }
       otpVerify.value = false;
       return false;
@@ -482,14 +500,14 @@ class LoginnoController extends GetxController {
         timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          // await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             print('${e.code}');
             showTostMsg('The provided phone number is not valid.');
           }else{
-            showTostMsg('Something went wrong');
+            showTostMsg('${e.code}');
           }
           otpTimerButtonController.enableButton();
           completer.complete(false);

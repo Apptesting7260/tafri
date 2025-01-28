@@ -179,7 +179,11 @@ class SocketController extends GetxService {
         socket.off('fatchAllFriendsList');
         filteredGroups.assignAll(allGroup.value.friend ?? []);
         gpLoading.value = false;
+        unreadMsg();
         log('et == ${DateTime.now()}');
+
+        socket.off('fatchAllFriendsList');
+
       });
       // if(gpLoading.value = true){
       //   Future.delayed(Duration(seconds: 10),() => allGroup.value = AllGroupModal());
@@ -188,6 +192,32 @@ class SocketController extends GetxService {
       log('fetch group error == ${e.toString()}');
     }
   }
+
+
+  var unReadMsg = false.obs;
+  void unreadMsg() async{
+
+    if(allGroup.value.support != null) {
+      if (allGroup.value.support!.friendUnSeenMessage! > 0) {
+        unReadMsg.value = true;
+        return;
+      }
+    }
+
+    for(var i in allGroup.value.friend!){
+      if(i.groupUnSennMessage! > 0){
+        print('unread');
+        unReadMsg.value = true;
+        return;
+      }else{
+        print('read');
+        unReadMsg.value = false;
+      }
+    }
+
+  }
+
+
   /// fetch all group
 
 

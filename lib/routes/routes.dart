@@ -23,6 +23,7 @@ import 'package:plusone/uis/explore/search/bindings/searchact_binding.dart';
 import 'package:plusone/uis/explore/search/searchactui.dart';
 import 'package:plusone/uis/membership/plans/bindings/plan_binding.dart';
 import 'package:plusone/uis/message/chats/bindings/chat_binding.dart';
+import 'package:plusone/uis/message/chats/chat_photo_screen.dart';
 import 'package:plusone/uis/message/chats/chatui.dart';
 import 'package:plusone/uis/message/chats/video_play_screen.dart';
 import 'package:plusone/uis/message/messagelist/bindings/msglist_binding.dart';
@@ -165,6 +166,7 @@ class Routes{
   static String updateBilling='/updateBilling';
   static String restartScreen='/restartScreen';
   static String restartSwitchScreen='/restartSwitchScreen';
+  static String chatPhotoScreen='/chatPhotoScreen';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -224,5 +226,6 @@ class Routes{
     GetPage(name: updateBilling, page: () => UpdateBillingScreen(),binding: PaymentBinding()),
     GetPage(name: restartScreen, page: () => ReStartMembershipScreen(),binding: ReStartBinding()),
     GetPage(name: restartSwitchScreen, page: () => RestartSwitchPlanUi()),
+    GetPage(name: chatPhotoScreen, page: () => ChatPhotoScreen()),
   ];
 }

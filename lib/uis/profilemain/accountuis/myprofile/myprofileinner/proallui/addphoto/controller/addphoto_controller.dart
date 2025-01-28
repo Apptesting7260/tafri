@@ -79,6 +79,11 @@ class AddphotoController extends GetxController {
   Future<void> photoUpdate() async {
     photoLoading.value = true;
     try {
+      int sizeInBytes = File(selectedImage.value!.path).lengthSync();
+
+      double sizeInMb = sizeInBytes / (1024 * 1024);
+      print('image == ${selectedImage.value?.path}   size == ${sizeInMb}');
+
       var request = http.MultipartRequest(
           'POST', Uri.parse(EndPoints.editphotoprofile));
       request.headers['Authorization'] = 'Bearer $token';

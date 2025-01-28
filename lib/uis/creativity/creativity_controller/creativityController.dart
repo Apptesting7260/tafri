@@ -656,6 +656,7 @@ class Creativitycontroller extends GetxController
     loading.value = true;
     print("Latitude: ${latitude.value}");
     print("Longitude: ${longitude.value}");
+    print('images == ${galleryImages}');
 
     groupSize.value = int.parse(groupSizeController.value.value.text.isEmpty ? '0' : groupSizeController.value.value.text.toString());
     occs.value = int.parse(occurController.value.value.text.trim().isEmpty ? '1' : occurController.value.value.text.trim().toString());
@@ -852,7 +853,7 @@ class Creativitycontroller extends GetxController
           Get.offAllNamed(Routes.initialPage);
           showTostMsg('${responseBody['message']}');
         } else {
-          showTostMsg('Something went wrong');
+          showTostMsg('${responseBody['errors']}');
           loading.value = false;
         }
 
@@ -971,7 +972,7 @@ class Creativitycontroller extends GetxController
           Get.offAllNamed(Routes.initialPage);
           showTostMsg('${responseBody['message']}');
         } else {
-          showTostMsg('Something went wrong');
+          showTostMsg('${responseBody['errors']}');
           loading.value = false;
         }
       }

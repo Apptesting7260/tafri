@@ -11,6 +11,7 @@ class CustoTextFormField extends StatefulWidget {
   final int? maxLines;
   final String? Function(String?)? validation;
   final int? maxLength;
+  final int? minLines;
   final TextEditingController? controll;
   final Widget? sufixIcon;
   final TextInputType? textKType;
@@ -24,7 +25,7 @@ class CustoTextFormField extends StatefulWidget {
   final TextCapitalization? textCapitalization;
   final EdgeInsetsGeometry? contentPadding;
   final TextAlign? textAlign;
-  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize, this.readonly, this.onTap, this.inputFormatters, this.focusNode, this.textCapitalization, this.contentPadding, this.textAlign});
+  const CustoTextFormField({super.key,this.hintText,this.sufixIcon,this.controll,this.textKType,this.maxLines,this.maxLength,this.validation, this.onChanged, this.borderRadius, this.hintSize, this.readonly, this.onTap, this.inputFormatters, this.focusNode, this.textCapitalization, this.contentPadding, this.textAlign, this.minLines});
 
   @override
   State<CustoTextFormField> createState() => _CustoTextFormFieldState();
@@ -40,6 +41,7 @@ class _CustoTextFormFieldState extends State<CustoTextFormField> {
       validator:widget.validation,
       controller: widget.controll,
       maxLines: widget.maxLines,
+      minLines: widget.minLines,
       maxLength: widget.maxLength,
       keyboardType: widget.textKType??TextInputType.text,
       onChanged: widget.onChanged,

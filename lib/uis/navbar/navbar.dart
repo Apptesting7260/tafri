@@ -107,13 +107,27 @@ class Navbar extends GetWidget {
                             : clrGrey,
                       )
                           : index == 1
-                          ? Image.asset(
-                        "assets/icons/msgicon.png",
-                        height: 23,
-                        color: controller.navIndex.value == 1
-                            ? clrYellow
-                            : clrGrey,
-                      )
+                          ? Stack(
+                        alignment: Alignment.topRight,
+                            children: [
+                              Image.asset(
+                                "assets/icons/msgicon.png",
+                                height: 23,
+                                color: controller.navIndex.value == 1
+                                ? clrYellow
+                                : clrGrey,
+                              ),
+
+                              Obx(() => chatController.unReadMsg.value ? CircleAvatar(
+                                radius: 4,
+                                backgroundColor: clrWhite,
+                                child: CircleAvatar(
+                                  radius: 3,
+                                  backgroundColor: clrBlacke,
+                                ),
+                              ) : SizedBox(),)
+                            ],
+                          )
                           : index == 2
                           ? Image.asset(
                         "assets/icons/calendericon.png",

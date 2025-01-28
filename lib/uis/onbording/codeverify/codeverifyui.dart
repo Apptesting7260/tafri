@@ -100,6 +100,7 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                           fieldWidth: 50,
                           inactiveColor: clrGreyLight,
                           activeFillColor: clrGreyLight,
+                          selectedColor: clrYellow
                         ),
                         cursorColor: Colors.black,
                         animationDuration: const Duration(milliseconds: 300),

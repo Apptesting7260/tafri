@@ -35,7 +35,7 @@ class MyprofileInnController extends GetxController
     funfactQuestionApi();
     activityGetDataApi();
     tabController = TabController(length: 2, vsync: this);
-    profileAlertPopUp();
+    // profileAlertPopUp();
     bioController.value.addListener(() {
       currentLength.value = bioController.value.text.length;
       capitalLetter(bioController.value);
@@ -141,13 +141,13 @@ class MyprofileInnController extends GetxController
   String? token = LocalStorage.getToken();
   String? uid = LocalStorage.getUid();
 
-  profileAlertPopUp() async  {
+  profileAlertPopUp({void Function()? completeOnTap,void Function()? doLatterTap}) async  {
     print('bio == ${profileController.profileData.value.result?.profile?.bio}');
     if(profileController.profileData.value.result?.profile == null || profileController.profileData.value.result?.profile?.bio == null || profileController.profileData.value.result!.profile!.bio!.isEmpty ||
         profileController.profileData.value.result?.profile?.occupation == null || profileController.profileData.value.result!.profile!.occupation!.isEmpty ||
         profileController.profileData.value.result!.location == null || profileController.profileData.value.result!.location!.isEmpty || profileController.profileData.value.result!.profile!.languageId!.isEmpty ||
-        profileController.profileData.value.result!.profile!.activityTitles!.isEmpty || profileController.profileData.value.result!.profile!.funFactsAboutMe!.isEmpty) {
-      Future.delayed(const Duration(seconds: 2), () {
+        profileController.profileData.value.result!.profile!.activityTitles!.isEmpty || profileController.profileData.value.result!.profile!.funFactsAboutMe!.isEmpty || profileController.profileData.value.result?.profile?.profilePhoto == null) {
+      Future.delayed(const Duration(seconds: 0), () {
         return Get.dialog(AlertDialog(
             insetPadding: const EdgeInsets.symmetric(horizontal: 0),
             contentPadding:
@@ -183,7 +183,7 @@ class MyprofileInnController extends GetxController
                       width: Get.width * 0.6,
                       height: Res.h_btn,
                       child: CustomElevatedButton(
-                          onTap: () {
+                          onTap: completeOnTap ?? () {
                             Get.back();
                           },
                           backgroundClr: clrBlacke,
@@ -201,7 +201,7 @@ class MyprofileInnController extends GetxController
                   ),
                   Center(
                     child: InkWell(
-                        onTap: () {
+                        onTap: doLatterTap ?? () {
                           Get.back();
                         },
                         child: Text(
@@ -216,6 +216,8 @@ class MyprofileInnController extends GetxController
               ),
             )));
       });
+    }else{
+      Get.back();
     }
   }
 
@@ -246,6 +248,8 @@ class MyprofileInnController extends GetxController
   changeVerifyLinkdin(BuildContext context,val) {
     if(val == 1) {
       verifyLinkedin(context, val);
+    }else{
+      isLinkdinVerified.value = val;
     }
   }
 
@@ -992,7 +996,7 @@ class MyprofileInnController extends GetxController
           await profileController.viewProfile();
         }else{
           print('profile error ==');
-          showTostMsg('Something went wrong');
+          showTostMsg('${data['error']}');
           socialLoading.value = false;
         }
       }else if(response.statusCode == 499){
@@ -1001,8 +1005,9 @@ class MyprofileInnController extends GetxController
         var data = response.body;
         showTostMsg('${data['message']}');
       }else{
+        var data = response.body;
         print('profile error');
-        showTostMsg('Something went wrong');
+        showTostMsg('${data['error']}');
         socialLoading.value = false;
       }
     }catch(e){

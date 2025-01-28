@@ -1154,7 +1154,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                             //     )),
                                             CustoTextFormField(
                                               controll: controller.groupSizeController.value,
-                                              hintText: "Up to 10 (incl. you)",
+                                              hintText: "Up to 10",
                                               focusNode: controller.uptoFocus,
                                               inputFormatters: [
                                                 LengthLimitingTextInputFormatter(2),

@@ -59,7 +59,7 @@ class ActivityInterestUi extends GetWidget<MyprofileInnController> {
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Add 3 to 10 activities you are interested in partnering with others",
+                            "Add a minimum of 3 activities you are interested in partnering with others",
                             style: TextStyle(fontSize: 15),
                           ),
                           SizedBox(

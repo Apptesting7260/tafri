@@ -44,6 +44,7 @@ class ProfilemainController extends GetxController{
         var data = ProfileViewModel.fromJson(response.body);
         if(data.status == true){
           profileData.value = data;
+          print('profile url == ${profileData.value.result?.profile?.profilePhoto}');
           interestList.clear();
           if(data.result?.profile?.activityTitles != null){
             for(var i in data.result!.profile!.activityTitles!){

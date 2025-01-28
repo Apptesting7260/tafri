@@ -59,12 +59,14 @@ class ChatUi extends GetWidget<GroupChatController> {
                       Flexible(
                         child: SizedBox(
                             width: double.maxFinite,
-                            height: Res.h_btn,
+                            // height: Res.h_btn,
                             child: CustoTextFormField(
                               hintText: "Type your message",
                               controll: controller.msgController,
                               focusNode: controller.focusNode,
-                              maxLines: 1,
+                              maxLines: 8,
+                              minLines: 1,
+                              borderRadius: 50,
                               sufixIcon: GestureDetector(
                                   onTap: () async {
                                     controller.imagePopUp(context);
@@ -337,13 +339,18 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ) : CachedNetworkImage(
-                                                              imageUrl: '${msg.message?.file}',
-                                                              memCacheWidth: 500,
-                                                              placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
-                                                              errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
-                                                                color:
-                                                                clrBlacke,fontSize: 12)),)),
+                                                            ) : GestureDetector(
+                                                              onTap: () {
+                                                                Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                              },
+                                                              child: CachedNetworkImage(
+                                                                imageUrl: '${msg.message?.file}',
+                                                                memCacheWidth: 500,
+                                                                placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
+                                                                errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
+                                                                  color:
+                                                                  clrBlacke,fontSize: 12)),),
+                                                            )),
                                                             const SizedBox(width: 5,),
                                                             Flexible(
                                                               child: Text(DateFormat('h:mm').format(time),
@@ -412,13 +419,18 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ) : CachedNetworkImage(
-                                                                    imageUrl: '${msg.message?.file}',
-                                                                    memCacheWidth: 500,
-                                                                    placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
-                                                                    errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
-                                                                      color:
-                                                                      clrBlacke,fontSize: 12)),),
+                                                                  ) : GestureDetector(
+                                                                    onTap: () {
+                                                                      Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                                    },
+                                                                    child: CachedNetworkImage(
+                                                                      imageUrl: '${msg.message?.file}',
+                                                                      memCacheWidth: 500,
+                                                                      placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
+                                                                      errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
+                                                                        color:
+                                                                        clrBlacke,fontSize: 12)),),
+                                                                  ),
                                                                   const SizedBox(height: 5,),
                                                                   Text('${msg.message?.textmessage}')
                                                                 ],
@@ -498,13 +510,18 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                         ),
                                                       ),
                                                     ) : Flexible(
-                                                        child: CachedNetworkImage(
-                                                          imageUrl: '${msg.message?.file}',
-                                                          memCacheWidth: 500,
-                                                          placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
-                                                          errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
-                                                              .withOpacity(0.8),
-                                                              fontSize: 12)),
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                          },
+                                                          child: CachedNetworkImage(
+                                                            imageUrl: '${msg.message?.file}',
+                                                            memCacheWidth: 500,
+                                                            placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                            errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
+                                                                .withOpacity(0.8),
+                                                                fontSize: 12)),
+                                                          ),
                                                         )
                                                     ),
                                                     const SizedBox(width: 5,),
@@ -586,13 +603,18 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                                 ),
                                                               ),
                                                             ),
-                                                          ) : CachedNetworkImage(
-                                                            imageUrl: '${msg.message?.file}',
-                                                            memCacheWidth: 500,
-                                                            placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
-                                                            errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
-                                                              color:
-                                                              clrWhite,fontSize: 12)),),
+                                                          ) : GestureDetector(
+                                                            onTap: () {
+                                                              Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                            },
+                                                            child: CachedNetworkImage(
+                                                              imageUrl: '${msg.message?.file}',
+                                                              memCacheWidth: 500,
+                                                              placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                              errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
+                                                                color:
+                                                                clrWhite,fontSize: 12)),),
+                                                          ),
                                                           const SizedBox(height: 5,),
                                                           Text('${msg.message?.textmessage}',style:
                                                           TextStyle(color: clrWhite))

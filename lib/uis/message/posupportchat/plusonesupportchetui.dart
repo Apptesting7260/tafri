@@ -99,7 +99,9 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                             height: Res.h_btn,
                             child: CustoTextFormField(
                               hintText: "Type your message",
-                              maxLines: 1,
+                              maxLines: 8,
+                              minLines: 1,
+                              borderRadius: 50,
                               controll: controller.msgController,
                               focusNode: controller.focusNode,
                               sufixIcon: GestureDetector(
@@ -300,13 +302,18 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ) : CachedNetworkImage(
-                                                                imageUrl: '${msg.message?.file}',
-                                                                memCacheWidth: 500,
-                                                                placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
-                                                                errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
-                                                                    color:
-                                                                    clrBlacke,fontSize: 12)),)),
+                                                              ) : GestureDetector(
+                                                                onTap: () {
+                                                                  Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                                },
+                                                                child: CachedNetworkImage(
+                                                                  imageUrl: '${msg.message?.file}',
+                                                                  memCacheWidth: 500,
+                                                                  placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
+                                                                  errorWidget: (context, url, error) => Text("Couldn't load image",style:TextStyle(
+                                                                      color:
+                                                                      clrBlacke,fontSize: 12)),),
+                                                              )),
                                                               const SizedBox(width: 5,),
                                                               msg.loading == false ? Flexible(
                                                                 child: Text(DateFormat('h:mm').format(time),
@@ -375,13 +382,18 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ) : CachedNetworkImage(
-                                                                      imageUrl: '${msg.message?.file}',
-                                                                      memCacheWidth: 500,
-                                                                      placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
-                                                                      errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
-                                                                          color:
-                                                                          clrBlacke,fontSize: 12)),),
+                                                                    ) : GestureDetector(
+                                                                      onTap: () {
+                                                                        Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                                      },
+                                                                      child: CachedNetworkImage(
+                                                                        imageUrl: '${msg.message?.file}',
+                                                                        memCacheWidth: 500,
+                                                                        placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrBlackeChat,),
+                                                                        errorWidget: (context, url, error) =>  Text("Couldn't load image",style: TextStyle(
+                                                                            color:
+                                                                            clrBlacke,fontSize: 12)),),
+                                                                    ),
                                                                     const SizedBox(height: 5,),
                                                                     Text('${msg.message?.textmessage}')
                                                                   ],
@@ -466,13 +478,18 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                           ),
                                                         ),
                                                       ) : Flexible(
-                                                          child: CachedNetworkImage(
-                                                            imageUrl: '${msg.message?.file}',
-                                                            memCacheWidth: 500,
-                                                            placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
-                                                            errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
-                                                                .withOpacity(0.8),
-                                                                fontSize: 12)),
+                                                          child: GestureDetector(
+                                                            onTap: () {
+                                                              Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                            },
+                                                            child: CachedNetworkImage(
+                                                              imageUrl: '${msg.message?.file}',
+                                                              memCacheWidth: 500,
+                                                              placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                              errorWidget: (context, url, error) => Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(color: clrWhite
+                                                                  .withOpacity(0.8),
+                                                                  fontSize: 12)),
+                                                            ),
                                                           )
                                                       ),
                                                       const SizedBox(width: 5,),
@@ -556,13 +573,18 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ) : CachedNetworkImage(
-                                                              imageUrl: '${msg.message?.file}',
-                                                              memCacheWidth: 500,
-                                                              placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
-                                                              errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
-                                                                  color:
-                                                                  clrWhite,fontSize: 12)),
+                                                            ) : GestureDetector(
+                                                              onTap: () {
+                                                                Get.toNamed(Routes.chatPhotoScreen,arguments: '${msg.message?.file}');
+                                                              },
+                                                              child: CachedNetworkImage(
+                                                                imageUrl: '${msg.message?.file}',
+                                                                memCacheWidth: 500,
+                                                                placeholder: (context, url) => Icon(Icons.image_outlined,size: 35,color: clrWhite,),
+                                                                errorWidget: (context, url, error) =>  Text(msg.loading == true ? 'Sending...' : "Couldn't load image",style: TextStyle(
+                                                                    color:
+                                                                    clrWhite,fontSize: 12)),
+                                                              ),
                                                             ),
                                                             const SizedBox(height: 5,),
                                                             Text('${msg.message?.textmessage}',style:

@@ -32,7 +32,7 @@ class IntroController extends GetxController {
   var loading = false.obs;
 
   bool validatePhoneNumber(String phoneNumber, String countryCode) {
-    Map<String, int> countryPhoneLengths = {
+    Map<String, dynamic> countryPhoneLengths = {
       'AF': 9, // Afghanistan
       'AL': 9, // Albania
       'DZ': 9, // Algeria
@@ -54,7 +54,7 @@ class IntroController extends GetxController {
       'BO': 8, // Bolivia
       'BA': 8, // Bosnia and Herzegovina
       'BW': 7, // Botswana
-      'BR': 11, // Brazil
+      'BR': [10,11], // Brazil
       'BN': 7, // Brunei
       'BG': 9, // Bulgaria
       'BF': 8, // Burkina Faso
@@ -94,7 +94,7 @@ class IntroController extends GetxController {
       'GA': 7, // Gabon
       'GM': 7, // Gambia
       'GE': 9, // Georgia
-      'DE': 10, // Germany
+      'DE': [10,11], // Germany
       'GH': 9, // Ghana
       'GR': 10, // Greece
       'GL': 6, // Greenland
@@ -212,7 +212,7 @@ class IntroController extends GetxController {
       'UG': 9, // Uganda
       'UA': 9, // Ukraine
       'AE': 9, // United Arab Emirates
-      'GB': 10, // United Kingdom
+      'GB': [10,11], // United Kingdom
       'UY': 9, // Uruguay
       'UZ': 9, // Uzbekistan
       'VU': 7, // Vanuatu
@@ -223,11 +223,22 @@ class IntroController extends GetxController {
       'ZW': 9 // Zimbabwe
     };
 
-    int? expectedLength = countryPhoneLengths[countryCode];
+    // int? expectedLength = countryPhoneLengths[countryCode];
+    // if (expectedLength != null) {
+    //   return phoneNumber.length == expectedLength;
+    // }
+    // return false;
+
+    dynamic expectedLength = countryPhoneLengths[countryCode];
     if (expectedLength != null) {
-      return phoneNumber.length == expectedLength;
+      if (expectedLength is int) {
+        return phoneNumber.length == expectedLength;
+      } else if (expectedLength is List<int>) {
+        return expectedLength.contains(phoneNumber.length);
+      }
     }
     return false;
+
   }
 
   Future<void> checkMobNoApi() async {
@@ -339,15 +350,15 @@ class IntroController extends GetxController {
         phoneNumber: '${countryCode.value.toString()}${mobnoController.value.text.trim().toString()}',
         forceResendingToken: !Platform.isIOS ? (resendToken.value != 0 ? resendToken.value : null) : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          print('verification complete');
+          // await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           print('firebase error == ${e.toString()}');
           if (e.code == 'invalid-phone-number') {
-            print('${e.code}');
             showTostMsg('The provided phone number is not valid.');
           }else{
-            showTostMsg('Something went wrong');
+            showTostMsg('${e.code}');
           }
           otpLoading.value = false;
           completer.complete(false);
@@ -388,14 +399,14 @@ class IntroController extends GetxController {
         timeout: const Duration(seconds: 59),
         phoneNumber: '${countryCode.value.toString()}${mobnoController.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          // await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             print('${e.code}');
             showTostMsg('The provided phone number is not valid.');
           }else{
-            showTostMsg('Something went wrong');
+            showTostMsg('${e.code}');
           }
           otpTimerButtonController.enableButton();
 
@@ -434,7 +445,7 @@ class IntroController extends GetxController {
       if(e.code == 'invalid-verification-code'){
         showTostMsg('Invalid otp.');
       }else{
-        showTostMsg('Please check your otp and try again.');
+        showTostMsg('${e.code}');
       }
       otpVerify.value = false;
       return false;

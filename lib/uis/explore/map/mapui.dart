@@ -1663,8 +1663,8 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                        trimMode: TrimMode.Line,
                                                        trimLines: 2,
                                                        colorClickableText: Colors.pink,
-                                                       trimCollapsedText: 'Learn more',
-                                                       trimExpandedText: 'Learn less',
+                                                       trimCollapsedText: ' Show more',
+                                                       trimExpandedText: ' Show less',
                                                        moreStyle: TextStyle(
                                                            color: clrBlacke,
                                                            fontWeight: FontWeight.w700

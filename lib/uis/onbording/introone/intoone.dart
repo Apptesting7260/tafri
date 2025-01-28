@@ -89,7 +89,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                             opacity: controller.otpLoading.value || controller.numberLoading.value ? 0.5 : 1,
                             child: Container(
                                 width: double.maxFinite,
-                                height: screenHeight * .5,
+                                height: screenHeight * .65,
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: SingleChildScrollView(
@@ -210,6 +210,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                                               if (!controller.numberLoading.value) {
                                                 if (_formKey.currentState!
                                                     .validate()) {
+                                                  FocusScope.of(context).unfocus();
                                                   controller.numberCheck();
                                                   // controller.checkMobNoApi();
                                                 }
@@ -349,7 +350,10 @@ class IntroOneUi extends GetWidget<IntroController> {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text("Need help?"),
+                                          Text("Need help?",style: TextStyle(
+                                            color: clrGreyTextLight,
+                                            fontSize: 14
+                                          ),),
                                           SizedBox(width: 5,),
                                           InkWell(
                                             onTap: () {

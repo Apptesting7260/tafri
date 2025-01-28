@@ -90,7 +90,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                     builder: (context) {
                                       return Container(
                                           width: double.maxFinite,
-                                          height: h * .45,
+                                          height: h * .52,
                                           padding: EdgeInsets.symmetric(
                                               horizontal:
                                                   Res.Defalt_side_margin),
@@ -242,6 +242,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                   if (_formKey
                                                                       .currentState!
                                                                       .validate()) {
+                                                                    FocusScope.of(context).unfocus();
                                                                     controller
                                                                         .loginApi();
                                                                   }
@@ -327,7 +328,9 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    Text("Need help?"),
+                                                    Text("Need help?",style: TextStyle(
+                                                        color: clrGreyTextLight,
+                                                        fontSize: 14),),
                                                     SizedBox(width: 5,),
                                                     InkWell(
                                                       onTap: () {

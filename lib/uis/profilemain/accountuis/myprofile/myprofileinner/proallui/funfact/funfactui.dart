@@ -136,7 +136,7 @@ class FunFactUi extends GetWidget<MyprofileInnController> {
                                          maxLines: 3,
                                          onChanged: (value) {
                                            controller.funFactListDeta[index]['answer'] = value.toString();
-                                           controller.textEditingList[index].text = value.toString();
+                                           // controller.textEditingList[index].text = value.toString();
                                          },
                                          controll: controller.textEditingList[index],
                                        )

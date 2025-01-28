@@ -602,9 +602,9 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                       colorClickableText:
                                                           Colors.pink,
                                                       trimCollapsedText:
-                                                          'Learn more',
+                                                          ' Show more',
                                                       trimExpandedText:
-                                                          'Learn less',
+                                                          ' Show less',
                                                       moreStyle: TextStyle(
                                                           color: clrBlacke,
                                                           fontWeight:

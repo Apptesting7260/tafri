@@ -414,9 +414,13 @@ class ExploreListController extends GetxController {
                 SizedBox(
                   height: Get.height * 0.025,
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: () {
-                    Get.toNamed(Routes.mymembershipProUi);
+                    if(homeData.value.result?.membershipStatus == true){
+
+                    }else {
+                      Get.toNamed(Routes.mymembershipProUi);
+                    }
                   },
                   child: Container(
                     width: double.maxFinite,
@@ -456,9 +460,13 @@ class ExploreListController extends GetxController {
                 const SizedBox(
                   height: 15,
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: () {
-                    Get.toNamed(Routes.myprofileInnUi);
+                    if(homeData.value.result?.profileComplete == true){
+
+                    }else {
+                      Get.toNamed(Routes.myprofileInnUi);
+                    }
                   },
                   child: Container(
                     width: double.maxFinite,

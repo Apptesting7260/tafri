@@ -128,7 +128,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                         CrossAxisAlignment.start,
                                         children: [
                                           const Text(
-                                            "PlusOnes Support",
+                                            "Plus Ones Support",
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w600),

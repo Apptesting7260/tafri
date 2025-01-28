@@ -82,7 +82,7 @@ class BioUi extends GetWidget<MyprofileInnController> {
                                 return null;
                               }
                             },
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.multiline,
                             maxLines: 8,
                             maxLength: maxLength,
                             decoration: InputDecoration(
