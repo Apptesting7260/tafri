@@ -64,10 +64,10 @@
 
 	<key>com.apple.developer.associated-domains</key>
         <array>
-            <string>applinks:urlsdemo.online</string> <!-- Your domain for Universal Links -->
-            <string>applinks:www.urlsdemo.online</string>
-            <string>urlsdemo.online</string>
-            <string>www.urlsdemo.online</string>
+            <string>applinks:api.plusonesapp.com</string> <!-- Your domain for Universal Links -->
+            <string>applinks:www.api.plusonesapp.com</string>
+            <string>api.plusonesapp.com</string>
+            <string>www.api.plusonesapp.com</string>
        </array>
 
     <key>NSUserActivityTypes</key>

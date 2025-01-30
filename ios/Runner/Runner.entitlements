@@ -10,10 +10,10 @@
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:nbttech.xyz</string>
-		<string>applinks:www.nbttech.xyz</string>
-		<string>nbttech.xyz</string>
-		<string>www.nbttech.xyz</string>
+		<string>applinks:api.plusonesapp.com</string>
+		<string>applinks:www.api.plusonesapp.com</string>
+		<string>api.plusonesapp.com</string>
+		<string>www.api.plusonesapp.com</string>
 	</array>
 </dict>
 </plist>
