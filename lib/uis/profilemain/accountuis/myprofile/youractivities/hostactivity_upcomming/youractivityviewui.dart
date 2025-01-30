@@ -78,10 +78,11 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Image(
-                              image: Svg('assets/images/share-2.svg'),
-                              color: clrWhite,
-                              height: h * .06,
-                              width: w * .06,
+                              image: Svg('assets/images/share-2 1.svg'),
+                              filterQuality: FilterQuality.high,
+                              // color: clrWhite,
+                              // height: h * .06,
+                              // width: w * .06,
                             ), //
                           ),
                         ),
@@ -266,7 +267,12 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                           //         }),
                                           //   ),
                                           // )
-                                          Align(
+                                          controller
+                                              .actData
+                                              .value
+                                              .activity!
+                                              .banners
+                                              ?.length != 1 ? Align(
                                             alignment: Alignment.bottomCenter,
                                             child: Container(
                                               margin: const EdgeInsets.only(
@@ -306,7 +312,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                     );
                                                   }),
                                             ),
-                                          )
+                                          ) : SizedBox()
                                         ],
                                       ),
                                     ),

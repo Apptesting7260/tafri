@@ -1133,7 +1133,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                               Center(
                                   child: profileController.profileData.value.result?.firstName != null && profileController.profileData.value.result!.age! > 0
                                       ? Text(
-                                    "${profileController.profileData.value.result?.age ?? ''} years old | ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
+                                    "${profileController.profileData.value.result?.age ?? ''} years old ${profileController.profileData.value.result?.gender == 'male' || profileController.profileData.value.result?.gender == 'female' ? '|' : ''} ${profileController.profileData.value.result?.gender == 'male' ? "He/Him" : profileController.profileData.value.result?.gender == 'female' ? "She/Her" : ''}",
                                     style: TextStyle(
                                         fontSize: 13
                                     ),
@@ -1636,11 +1636,12 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                     itemBuilder: (context,ind) {
                                       return InkWell(
                                         onTap: () {
-                                          Get.toNamed(Routes.previousActivityUi,
-                                              arguments: {
-                                                "isHost": false,
-                                                "id": profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].id.toString()
-                                              });
+                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].id.toString());
+                                          // Get.toNamed(Routes.previousActivityUi,
+                                          //     arguments: {
+                                          //       "isHost": false,
+                                          //       "id": profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].id.toString()
+                                          //     });
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.only(top: 12),
@@ -1749,6 +1750,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                               .result?.previousActivities?.length,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
+                          reverse: true,
                           itemBuilder: (context, index) {
                             return Container(
                               margin: const EdgeInsets.symmetric(vertical: 5),
@@ -1771,6 +1773,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                     itemCount: profileController.profileData.value
                                         .result?.previousActivities?[index].activities?.length,
                                     shrinkWrap: true,
+                                    reverse: true,
                                     itemBuilder: (context,ind) {
                                      return InkWell(
                                        onTap: () {

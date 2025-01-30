@@ -316,7 +316,9 @@ class SearchActui extends GetWidget<SearchActController> {
                                                     ],
                                                   ),
                                                 ),
-                                                Align(
+                                                activityData?[index]
+                                                    .banners
+                                                    ?.length != 1 ? Align(
                                                   alignment:
                                                       Alignment.bottomCenter,
                                                   child: Container(
@@ -355,7 +357,7 @@ class SearchActui extends GetWidget<SearchActController> {
                                                           );
                                                         }),
                                                   ),
-                                                )
+                                                ) : SizedBox()
                                               ],
                                             ),
                                           ),

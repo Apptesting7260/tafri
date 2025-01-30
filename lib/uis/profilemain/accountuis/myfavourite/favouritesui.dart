@@ -332,7 +332,10 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                           ],
                                                         ),
                                                       ),
-                                                      Align(
+                                                      resultData[
+                                                      index]
+                                                          .banners
+                                                          ?.length != 1 ? Align(
                                                         alignment: Alignment
                                                             .bottomCenter,
                                                         child: Container(
@@ -376,7 +379,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                                     );
                                                                   }),
                                                         ),
-                                                      )
+                                                      ) : SizedBox()
                                                     ],
                                                   ),
                                                 ),

@@ -26,7 +26,7 @@ class GenderaddController extends GetxController{
   var genderlist = [
     {'id' : 'male' , 'value' : 'Male'},
     {'id' : 'female' , 'value' : 'Female'},
-    {'id' : 'none-binary' , 'value' : 'None-binary'},
+    {'id' : 'none-binary' , 'value' : 'Non-binary'},
     {'id' : 'other' , 'value' : 'Other'},
   ].obs;
 

@@ -311,7 +311,12 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                       //         }),
                                       //   ),
                                       // )
-                                      Align(
+                                      controller
+                                          .actData
+                                          .value
+                                          .activity!
+                                          .banners
+                                          ?.length != 1 ? Align(
                                         alignment: Alignment.bottomCenter,
                                         child: Container(
                                           margin:
@@ -350,7 +355,7 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                                 );
                                               }),
                                         ),
-                                      )
+                                      ) : SizedBox()
                                     ],
                                   ),
                                 ),

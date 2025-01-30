@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
@@ -31,16 +32,18 @@ class Creativitycontroller extends GetxController
   var isScrolling = false.obs;
 
   void _onScroll() {
-    print('scroll == ${isScrolling.value}  ${sc.position.isScrollingNotifier.value}');
-    if (sc.position.isScrollingNotifier.value) {
+    if (sc.position.userScrollDirection != ScrollDirection.idle) {
+      print('scroll == ${isScrolling.value}  ${sc.position.isScrollingNotifier.value}');
+      if (sc.position.isScrollingNotifier.value) {
         isScrolling.value = true;
         titleFocus.unfocus();
         desFocus.unfocus();
         locationFocus.unfocus();
         uptoFocus.unfocus();
-    } else if (!sc.position.isScrollingNotifier.value) {
+      } else {
         isScrolling.value = false;
         print('off');
+      }
     }
   }
 

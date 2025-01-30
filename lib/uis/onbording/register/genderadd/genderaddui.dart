@@ -125,7 +125,7 @@ class GenderAddUi extends GetWidget<GenderaddController> {
                                       case 'Female':
                                         controller.genderValue.value = "female";
                                         break;
-                                      case 'None-binary':
+                                      case 'Non-binary':
                                         controller.genderValue.value = "none-binary";
                                         break;
                                       case 'Other':

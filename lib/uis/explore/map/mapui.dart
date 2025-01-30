@@ -1504,7 +1504,7 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                              ],
                                                            ),
                                                          ),
-                                                         Align(
+                                                         activityData?[index].banners?.length != 1 ? Align(
                                                            alignment: Alignment.bottomCenter,
                                                            child:
                                                            Container(
@@ -1527,7 +1527,7 @@ class MapActivityUi extends GetWidget<MapActivityController> {
                                                                    );
                                                                  }),
                                                            ),
-                                                         )
+                                                         ) : SizedBox()
                                                        ],
                                                      ),
                                                    ),

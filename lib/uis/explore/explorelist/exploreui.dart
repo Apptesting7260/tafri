@@ -397,7 +397,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                     ],
                                                   ),
                                                 ),
-                                                Align(
+                                                activityData?[index].banners?.length != 1 ? Align(
                                                   alignment:
                                                   Alignment.bottomCenter,
                                                   child:
@@ -424,7 +424,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                           );
                                                         }),
                                                   ),
-                                                )
+                                                ) : SizedBox()
                                               ],
                                             ),
                                           ),

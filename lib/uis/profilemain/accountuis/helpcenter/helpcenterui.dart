@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/customexpension.dart';
@@ -81,10 +82,16 @@ class HelpCenterUi extends GetWidget<HelpcenterController>{
                                     item.name.toString(),
                                     style: TextStyle(fontSize: 15),
                                   ),
-                                  body: Text(
+                                  body: HtmlWidget(
                                       item.description.toString(),
-                                      style: TextStyle(fontSize: 15)
+                                    textStyle: TextStyle(
+                                      fontSize: 15
+                                    ),
                                   )
+                                  // Text(
+                                  //     item.description.toString(),
+                                  //     style: TextStyle(fontSize: 15)
+                                  // )
                               );
                             }, separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(height: 20,);

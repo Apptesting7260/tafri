@@ -76,7 +76,6 @@ class Navbar extends GetWidget {
         // );
       // }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
       bottomNavigationBar: GetBuilder<NavBarController>(builder: (controller) {
         return
           // Obx(() {
@@ -120,7 +119,7 @@ class Navbar extends GetWidget {
 
                               Obx(() => chatController.unReadMsg.value ? CircleAvatar(
                                 radius: 4,
-                                backgroundColor: clrWhite,
+                                backgroundColor: clrGrey,
                                 child: CircleAvatar(
                                   radius: 3,
                                   backgroundColor: clrBlacke,

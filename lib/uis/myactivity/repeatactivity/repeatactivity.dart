@@ -1370,7 +1370,9 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                         margin: const EdgeInsets
                                                             .only(bottom: 7),
                                                         height: 16,
-                                                        child: Obx(
+                                                        child: controller
+        .galleryImages
+        .length != 1 ? Obx(
                                                           () => controller
                                                                   .galleryImages
                                                                   .isEmpty
@@ -1429,7 +1431,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                                           ),
                                                                         );
                                                                       }),
-                                                        )),
+                                                        ) : SizedBox()),
                                                   )
                                                 ],
                                               ),

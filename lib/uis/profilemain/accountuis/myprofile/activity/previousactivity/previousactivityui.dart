@@ -86,7 +86,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                     children: [
                       InkWell(
                         onTap: () {
-                          Share.share('${controller.actData.value.activitySettings?.shareText} https://nbttech.xyz/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                          Share.share('${controller.actData.value.activitySettings?.shareText} https://api.plusonesapp.com/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
@@ -99,10 +99,11 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Image(
-                              image: Svg('assets/images/share-2.svg'),
-                              color: clrWhite,
-                              height: h * .06,
-                              width: w * .06,
+                              image: Svg('assets/images/share-2 1.svg'),
+                              filterQuality: FilterQuality.high,
+                              // color: clrWhite,
+                              // height: h * .06,
+                              // width: w * .06,
                             ),//
                           ),
                         ),
@@ -328,7 +329,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                   ],
                                 ),
                               ),
-                              Align(
+                              controller.actData.value.activity?.banners?.length != 1 ? Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
                                   margin:
@@ -361,7 +362,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                         );
                                       }),
                                 ),
-                              )
+                              ) : SizedBox()
                             ],
                           ),
                         ),

@@ -244,7 +244,9 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                       ],
                                                     ),
                                                   ),
-                                                  Align(
+                                                  activityData?[index]
+                                                      .banners
+                                                      ?.length != 1 ? Align(
                                                     alignment:
                                                         Alignment.bottomCenter,
                                                     child: Container(
@@ -283,7 +285,7 @@ class FilterActUi extends GetWidget<FilterActController> {
                                                             );
                                                           }),
                                                     ),
-                                                  )
+                                                  ) : SizedBox()
                                                 ],
                                               ),
                                             ),

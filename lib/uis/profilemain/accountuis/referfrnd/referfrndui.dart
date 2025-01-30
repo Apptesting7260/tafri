@@ -100,7 +100,7 @@ class ReferFrndUi extends GetWidget<ReferFrndController> {
                                           onTap: () {
                                             if(controller.profileController.profileData.value.result?.referCode != null) {
                                               Share.share(
-                                                  'https://nbttech.xyz/refer?refercode=${controller
+                                                  'https://api.plusonesapp.com/refer?refercode=${controller
                                                       .profileController
                                                       .profileData.value.result
                                                       ?.referCode}');

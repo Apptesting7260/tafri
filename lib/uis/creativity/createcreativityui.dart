@@ -1795,7 +1795,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                         ],
                                                       ),
                                                     ),
-                                                    controller.galleryImages.isEmpty ? SizedBox() : Align(
+                                                    controller.galleryImages.isEmpty ? SizedBox() : controller.galleryImages.length !=1 ? Align(
                                                       alignment:
                                                           Alignment.bottomCenter,
                                                       child: Container(
@@ -1862,7 +1862,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                           );
                                                                         }),
                                                           )),
-                                                    )
+                                                    ) : SizedBox()
                                                   ],
                                                 ),
                                               ),

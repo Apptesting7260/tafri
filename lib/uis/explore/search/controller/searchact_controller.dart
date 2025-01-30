@@ -33,7 +33,7 @@ class SearchActController extends GetxController{
     Map body = {
       'category_id': categoryID.value,
       'user_id': LocalStorage.getUid(),
-      'location_or_subcategory': locController.value.text.trim()
+      'location_or_subcategory_or_name': locController.value.text.trim()
     };
 
     print(body);

@@ -185,7 +185,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                         )) : controller.allMessage.value.members != null ? Text('${controller.allMessage.value.members ?? '0'} ${controller.allMessage.value.members! > 1 ? 'members' : 'member'}',style: TextStyle(color: clrGrey, fontSize: 12)) : SizedBox())
                   ],
                 ),
-                actions: const [Align(alignment: Alignment.topLeft,child: Icon(Icons.more_vert))],
+                // actions: const [Align(alignment: Alignment.topLeft,child: Icon(Icons.more_vert))],
               ),
             ),),
             body: Obx(() => controller.msgLoading.value ? Center(
@@ -248,6 +248,7 @@ class ChatUi extends GetWidget<GroupChatController> {
                                           child: CachedNetworkImage(
                                             imageUrl: '${msg.proImg}',
                                             memCacheWidth: 500,
+                                            fit: BoxFit.cover,
                                             placeholder: (context, url) => Shimmer.fromColors(
                                                 baseColor: grey300,
                                                 highlightColor: grey100,
@@ -362,9 +363,9 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                             ),
                                                           ],
                                                         ),
-                                                      ) : msg.message?.file == null || msg.message?.file == 'null' ? RichText(
-                                                          softWrap: true,
-                                                          text: TextSpan(
+                                                      ) : msg.message?.file == null || msg.message?.file == 'null' ?
+                                                          SelectableText.rich(
+                                                              TextSpan(
                                                               children: [
                                                                 WidgetSpan(
                                                                     child:
@@ -389,7 +390,36 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                                           fontSize:
                                                                           12),
                                                                     ))
-                                                              ])) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
+                                                              ]))
+                                                      // RichText(
+                                                      //     softWrap: true,
+                                                      //     text: TextSpan(
+                                                      //         children: [
+                                                      //           WidgetSpan(
+                                                      //               child:
+                                                      //               Text(
+                                                      //                 "${msg.message?.textmessage}",
+                                                      //                 style: TextStyle(
+                                                      //                     color:
+                                                      //                     clrBlacke),
+                                                      //               )),
+                                                      //           const WidgetSpan(
+                                                      //               child:
+                                                      //               SizedBox(
+                                                      //                 width: 5,
+                                                      //               )),
+                                                      //           WidgetSpan(
+                                                      //               child:
+                                                      //               Text(
+                                                      //                 DateFormat('h:mm').format(time),
+                                                      //                 style: TextStyle(
+                                                      //                     color:
+                                                      //                     clrGrey,
+                                                      //                     fontSize:
+                                                      //                     12),
+                                                      //               ))
+                                                      //         ]))
+                                                          : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
                                                         child: Row(
                                                           mainAxisSize: MainAxisSize.min,
                                                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -432,7 +462,8 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                                         clrBlacke,fontSize: 12)),),
                                                                   ),
                                                                   const SizedBox(height: 5,),
-                                                                  Text('${msg.message?.textmessage}')
+                                                                  SelectableText('${msg.message?.textmessage}')
+                                                                  // Text('${msg.message?.textmessage}')
                                                                 ],
                                                               ),
                                                             ),
@@ -541,38 +572,39 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                         size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
                                                   ],
                                                 ),
-                                              ) : msg.message?.file == null || msg.message?.file == 'null' ? RichText(
-                                                  text: TextSpan(children: [
-                                                    TextSpan(
-                                                        text: "${msg.message?.textmessage}",
-                                                        style:
-                                                        TextStyle(color: clrWhite)),
-                                                    WidgetSpan(
-                                                      child: SizedBox(
-                                                        width: w * 0.01,
-                                                      ),
+                                              ) : msg.message?.file == null || msg.message?.file == 'null' ? SelectableText.rich(
+                                                TextSpan(children: [
+                                                  TextSpan(
+                                                      text: "${msg.message?.textmessage}",
+                                                      style:
+                                                      TextStyle(color: clrWhite)),
+                                                  WidgetSpan(
+                                                    child: SizedBox(
+                                                      width: w * 0.01,
                                                     ),
-                                                    WidgetSpan(
-                                                        child: Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: [
-                                                            msg.loading == false ? Text(DateFormat('h:mm').format(time),
-                                                                style: TextStyle(
-                                                                    color: clrWhite
-                                                                        .withOpacity(0.8),
-                                                                    fontSize: 12)):SizedBox(),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            msg.messageStatus == 'seen' ? Icon(Icons.done_all,
-                                                                color: clrWhite
-                                                                    .withOpacity(0.8),
-                                                                size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
-                                                                .withOpacity(0.8),
-                                                                size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
-                                                          ],
-                                                        ))
-                                                  ])) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
+                                                  ),
+                                                  WidgetSpan(
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          msg.loading == false ? Text(DateFormat('h:mm').format(time),
+                                                              style: TextStyle(
+                                                                  color: clrWhite
+                                                                      .withOpacity(0.8),
+                                                                  fontSize: 12)):SizedBox(),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          msg.messageStatus == 'seen' ? Icon(Icons.done_all,
+                                                              color: clrWhite
+                                                                  .withOpacity(0.8),
+                                                              size: 16) : msg.messageStatus == 'unseen' ? Icon(Icons.done,color: clrWhite
+                                                              .withOpacity(0.8),
+                                                              size: 16) : Icon(CupertinoIcons.clock,color: clrWhite.withOpacity(0.8),size: 15,)
+                                                        ],
+                                                      ))
+                                                ]),
+                                              ) : msg.message!.textmessage!.isNotEmpty && msg.message?.textmessage != null && msg.message?.textmessage != 'null' && msg.message!.file != null ? SizedBox(
                                                 child:  Row(
                                                   mainAxisSize: MainAxisSize.min,
                                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -616,8 +648,11 @@ class ChatUi extends GetWidget<GroupChatController> {
                                                                 clrWhite,fontSize: 12)),),
                                                           ),
                                                           const SizedBox(height: 5,),
-                                                          Text('${msg.message?.textmessage}',style:
-                                                          TextStyle(color: clrWhite))
+                                                          SelectableText('${msg.message?.textmessage}',style: TextStyle(
+                                                            color: clrWhite
+                                                          ),),
+                                                          // Text('${msg.message?.textmessage}',style:
+                                                          // TextStyle(color: clrWhite))
                                                         ],
                                                       ),
                                                     ),
