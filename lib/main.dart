@@ -63,35 +63,81 @@ class _MyAppState extends State<MyApp> {
   late AppLinks _appLinks;
 
   Future<void> initDeepLink() async {
-    print('deep link ');
     try{
       _appLinks = AppLinks();
+      final homeController = Get.put(ExploreListController());
 
-      _appLinks.uriLinkStream.listen((Uri? uri) {
-        if (uri != null) {
-          print('act id == ${uri.queryParameters['activityid']}');
-          print('host id == ${uri.queryParameters['hostId']}');
-          if(LocalStorage.getUid() == null || LocalStorage.getUid()!.isEmpty){
-            Get.toNamed(Routes.initialPage,);
-          } else if(uri.queryParameters['hostId'].toString() == LocalStorage.getUid()){
-            Get.toNamed(Routes.hostUpcommingActiview, arguments: uri.queryParameters['activityid'].toString());
-          } else if(uri.queryParameters['activityid'].toString().isNotEmpty && uri.queryParameters['activityid'].toString() != 'null'){
-            Get.put(ExploreListController());
-            Get.toNamed(Routes.exploreView,
-                arguments: uri.queryParameters['activityid'].toString()
-            );
-          } else if(uri.queryParameters['refercode'].toString().isNotEmpty && uri.queryParameters['refercode'].toString() != 'null'){
-            print('referal code == ${uri.queryParameters['refercode']}');
-            Get.toNamed(Routes.mymembershipProUi,arguments: '${uri.queryParameters['refercode']}');
-          }else{
-            Get.toNamed(Routes.navbarUi);
-            // Get.put(ExploreListController());
-            // Get.toNamed(Routes.exploreView,
-            //     arguments: uri.queryParameters['activityid'].toString()
-            // );
+      ever(homeController.homeData, (callback) {
+        _appLinks.uriLinkStream.listen((Uri? uri) {
+          print('deep link ');
+          if (uri != null) {
+            print('act id == ${uri.queryParameters['activityid']}');
+            print('host id == ${uri.queryParameters['hostId']}');
+            if(LocalStorage.getUid() == null || LocalStorage.getUid()!.isEmpty){
+              Get.toNamed(Routes.initialPage,);
+            } else if(uri.queryParameters['hostId'].toString() == LocalStorage.getUid()){
+              if(homeController.homeData.value.result?.membershipStatus == true && homeController.homeData.value.result?.profileComplete == true) {
+                Get.toNamed(Routes.hostUpcommingActiview,
+                    arguments: uri.queryParameters['activityid'].toString());
+              }else{
+                print('deep link host');
+                Get.toNamed(Routes.navbarUi);
+                homeController.showHomePop();
+              }
+            } else if(uri.queryParameters['activityid'].toString().isNotEmpty && uri.queryParameters['activityid'].toString() != 'null'){
+              if(homeController.homeData.value.result?.membershipStatus == true && homeController.homeData.value.result?.profileComplete == true) {
+                Get.toNamed(Routes.exploreView,
+                    arguments: uri.queryParameters['activityid'].toString()
+                );
+              }else{
+                print('deep link user');
+                Get.toNamed(Routes.navbarUi);
+                homeController.showHomePop();
+              }
+            } else if(uri.queryParameters['refercode'].toString().isNotEmpty && uri.queryParameters['refercode'].toString() != 'null'){
+              print('referal code == ${uri.queryParameters['refercode']}');
+              Get.toNamed(Routes.mymembershipProUi,arguments: '${uri.queryParameters['refercode']}');
+            }else{
+              Get.toNamed(Routes.navbarUi);
+              print('deep link none');
+              // Get.put(ExploreListController());
+              // Get.toNamed(Routes.exploreView,
+              //     arguments: uri.queryParameters['activityid'].toString()
+              // );
+            }
           }
-        }
-      });
+        });
+      },);
+
+      // _appLinks.uriLinkStream.listen((Uri? uri) {
+      //   if (uri != null) {
+      //     print('act id == ${uri.queryParameters['activityid']}');
+      //     print('host id == ${uri.queryParameters['hostId']}');
+      //     if(LocalStorage.getUid() == null || LocalStorage.getUid()!.isEmpty){
+      //       Get.toNamed(Routes.initialPage,);
+      //     } else if(uri.queryParameters['hostId'].toString() == LocalStorage.getUid()){
+      //       if(homeController.homeData.value.result?.membershipStatus == true && homeController.homeData.value.result?.profileComplete == true) {
+      //         Get.toNamed(Routes.hostUpcommingActiview,
+      //             arguments: uri.queryParameters['activityid'].toString());
+      //       }
+      //     } else if(uri.queryParameters['activityid'].toString().isNotEmpty && uri.queryParameters['activityid'].toString() != 'null'){
+      //       if(homeController.homeData.value.result?.membershipStatus == true && homeController.homeData.value.result?.profileComplete == true) {
+      //         Get.toNamed(Routes.exploreView,
+      //             arguments: uri.queryParameters['activityid'].toString()
+      //         );
+      //       }
+      //     } else if(uri.queryParameters['refercode'].toString().isNotEmpty && uri.queryParameters['refercode'].toString() != 'null'){
+      //       print('referal code == ${uri.queryParameters['refercode']}');
+      //       Get.toNamed(Routes.mymembershipProUi,arguments: '${uri.queryParameters['refercode']}');
+      //     }else{
+      //       Get.toNamed(Routes.navbarUi);
+      //       // Get.put(ExploreListController());
+      //       // Get.toNamed(Routes.exploreView,
+      //       //     arguments: uri.queryParameters['activityid'].toString()
+      //       // );
+      //     }
+      //   }
+      // });
     }catch(e){
       print('deep link error == ${e.toString()}');
     }
