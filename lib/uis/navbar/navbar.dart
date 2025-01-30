@@ -119,10 +119,10 @@ class Navbar extends GetWidget {
 
                               Obx(() => chatController.unReadMsg.value ? CircleAvatar(
                                 radius: 4,
-                                backgroundColor: clrGrey,
+                                backgroundColor: clrWhite,
                                 child: CircleAvatar(
                                   radius: 3,
-                                  backgroundColor: clrBlacke,
+                                  backgroundColor: clrGrey,
                                 ),
                               ) : SizedBox(),)
                             ],
