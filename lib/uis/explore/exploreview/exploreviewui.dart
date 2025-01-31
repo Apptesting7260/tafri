@@ -811,26 +811,32 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                             // await profile.viewProfile();
                             // },);
                             // } else
-                            if (controller
+                            // if (controller
+                            //     .actData
+                            //     .value
+                            //     .activity
+                            //     ?.spotLeft ==
+                            //     0) {
+                            //   controller.alertAddaMessage(controller
+                            //       .actData
+                            //       .value
+                            //       .activity!
+                            //       .id
+                            //       .toString());
+                            // } else {
+                            //   controller.requestApi(controller
+                            //       .actData
+                            //       .value
+                            //       .activity!
+                            //       .id
+                            //       .toString());
+                            // }
+                            controller.alertAddaMessage(controller
                                 .actData
                                 .value
-                                .activity
-                                ?.spotLeft ==
-                                0) {
-                              controller.alertAddaMessage(controller
-                                  .actData
-                                  .value
-                                  .activity!
-                                  .id
-                                  .toString());
-                            } else {
-                              controller.requestApi(controller
-                                  .actData
-                                  .value
-                                  .activity!
-                                  .id
-                                  .toString());
-                            }
+                                .activity!
+                                .id
+                                .toString());
                           },
                           backgroundClr: clrBlacke,
                           child: controller.isLoadingRequest.value || payment.loading.value

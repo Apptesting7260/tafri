@@ -335,7 +335,7 @@ class ExploreViewController extends GetxController{
       'activity_id': id.toString(),
       'user_id': LocalStorage.getUid().toString(),
       'request_type': actData.value.activity?.spotLeft == 0 ? 'waitlist' : 'immediate_join',
-      if(actData.value.activity?.spotLeft == 0)'waitlist_message': actData.value.activity?.spotLeft == 0 ? waitlistMsgController.value.text.trim() : null
+      'waitlist_message': waitlistMsgController.value.text.trim()
     };
 
     print(body);
