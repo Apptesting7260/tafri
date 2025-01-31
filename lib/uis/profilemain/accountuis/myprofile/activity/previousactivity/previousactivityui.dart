@@ -97,14 +97,15 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Image(
-                              image: Svg('assets/images/share-2 1.svg'),
-                              filterQuality: FilterQuality.high,
-                              // color: clrWhite,
-                              // height: h * .06,
-                              // width: w * .06,
-                            ),//
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset('assets/images/share-2 1.png')
+                            // Image(
+                            //   image: Svg('assets/images/share-2 1.svg'),
+                            //   filterQuality: FilterQuality.high,
+                            //   // color: clrWhite,
+                            //   // height: h * .06,
+                            //   // width: w * .06,
+                            // ),//
                           ),
                         ),
                       ),

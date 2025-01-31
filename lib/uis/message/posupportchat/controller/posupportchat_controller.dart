@@ -46,6 +46,10 @@ class PoSupportChatController extends GetxController{
       supportMsg.refresh();
     },);
 
+    msgController.addListener(() {
+      firstNameCapital(msgController);
+    },);
+
   }
 
   @override
@@ -57,6 +61,50 @@ class PoSupportChatController extends GetxController{
     sc.socket.off('support-receive-message');
     sc.socket.off('fetchAllSupportMessage');
   }
+
+
+
+  /// for first letter capital
+  void firstNameCapital(TextEditingController controller) {
+    final text = controller.text;
+    if (text.isNotEmpty) {
+      final cursorPosition = controller.selection.base.offset;
+      final updatedText = _capitalizeAfterPunctuationLogic(text);
+
+      // Only update if the text has actually changed
+      if (updatedText != text) {
+        controller.value = controller.value.copyWith(
+          text: updatedText,
+          selection: TextSelection.collapsed(
+            offset: cursorPosition, // Preserve cursor position
+          ),
+        );
+      }
+    }
+  }
+
+  String _capitalizeAfterPunctuationLogic(String text) {
+    final buffer = StringBuffer();
+    bool capitalizeNext = true;
+
+    for (int i = 0; i < text.length; i++) {
+      final char = text[i];
+      if (capitalizeNext && char != ' ') {
+        buffer.write(char.toUpperCase());
+        capitalizeNext = false;
+      } else {
+        buffer.write(char);
+      }
+
+      if (char == '.' || char == '!' || char == '?') {
+        capitalizeNext = true;
+      }
+    }
+
+    return buffer.toString();
+  }
+
+  /// for first letter capital
 
   final SocketController sc = Get.find<SocketController>();
   ScrollController scrollController = ScrollController();

@@ -588,7 +588,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                           ],
                                                                                                         ),
                                                                                                         Text("${data.activities?[ind].status.toString()}", style: TextStyle(color: clrGreyDark, fontSize: 12)),
-                                                                                                        data.activities?[ind].status.toString() == 'completed' && data.activities?[ind].activityReview == false
+                                                                                                        data.activities?[ind].status.toString() == 'completed' && data.activities?[ind].activityReview == false && data.activities?[ind].attendanceStatus == 'Present'
                                                                                                             ? Padding(
                                                                                                                 padding: const EdgeInsets.symmetric(vertical: 3),
                                                                                                                 child: Row(

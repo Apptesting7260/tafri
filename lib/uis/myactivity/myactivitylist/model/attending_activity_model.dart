@@ -220,6 +220,7 @@ class ActivityElement {
   String? requestStatus;
   String? requestType;
   bool? activityReview;
+  String? attendanceStatus;
 
   ActivityElement({
     this.id,
@@ -244,7 +245,8 @@ class ActivityElement {
     this.formattedDate,
     this.requestStatus,
     this.requestType,
-    this.activityReview
+    this.activityReview,
+    this.attendanceStatus
   });
 
   factory ActivityElement.fromJson(Map<String, dynamic> json) => ActivityElement(
@@ -270,7 +272,8 @@ class ActivityElement {
     formattedDate: json["formatted_date"],
     requestStatus: json['request_status'],
     requestType: json['request_type'],
-    activityReview: json['activity_review']
+    activityReview: json['activity_review'],
+    attendanceStatus: json['attendee_request_attendance'] ?? ''
   );
 
   Map<String, dynamic> toJson() => {

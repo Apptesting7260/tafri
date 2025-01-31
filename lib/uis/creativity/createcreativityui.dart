@@ -902,6 +902,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                     },
                                                   );
                                                   if (stime != null) {
+                                                    print('start time == ${stime}');
                                                     controller
                                                         .changeStime(stime);
                                                   }

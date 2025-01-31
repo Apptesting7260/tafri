@@ -283,7 +283,7 @@ class Creativitycontroller extends GetxController
 
   changeStime(TimeOfDay stime) {
     sTime.value = "${stime.hour}:${stime.minute}";
-    sTimeForApi.value = '${stime.hour > 12 ? stime.hour - 12 : stime.hour}:${stime.minute.toString().padLeft(2,'0')} ${stime.period == DayPeriod.am ? "AM" : "PM"}';
+    sTimeForApi.value = '${stime.hour > 12 ? stime.hour - 12 : stime.hour == 0 ? 12 : stime.hour}:${stime.minute.toString().padLeft(2,'0')} ${stime.period == DayPeriod.am ? "AM" : "PM"}';
   }
 
   RxString eTime = "".obs;
@@ -291,7 +291,7 @@ class Creativitycontroller extends GetxController
 
   changeEtime(TimeOfDay etime) {
     eTime.value = "${etime.hour}:${etime.minute}";
-    eTimeForAPi.value = '${etime.hour > 12 ? etime.hour - 12 : etime.hour}:${etime.minute.toString().padLeft(2,'0')} ${etime.period == DayPeriod.am ? "AM" : "PM"}';
+    eTimeForAPi.value = '${etime.hour > 12 ? etime.hour - 12 : etime.hour == 0 ? 12 : etime.hour}:${etime.minute.toString().padLeft(2,'0')} ${etime.period == DayPeriod.am ? "AM" : "PM"}';
   }
 
   bool checkTime(TimeOfDay stime, TimeOfDay etime) {

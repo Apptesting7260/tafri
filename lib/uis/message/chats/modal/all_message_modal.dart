@@ -344,7 +344,7 @@ class Data {
       tz.initializeTimeZones();
 
       String targetTimeZone = Get.find<SocketController>().profileController.profileData.value.result?.timeZone == 'Asia/Calcutta' ? 'Asia/Kolkata' : Get.find<SocketController>().profileController.profileData.value.result?.timeZone ?? '';
-
+      print('user time zone == ${Get.find<SocketController>().profileController.profileData.value.result?.timeZone}');
       DateTime dateTime = DateTime.parse(messageTime!);
       final targetTZ = tz.getLocation(targetTimeZone);
 

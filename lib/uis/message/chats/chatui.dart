@@ -237,31 +237,36 @@ class ChatUi extends GetWidget<GroupChatController> {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          clipBehavior: Clip.hardEdge,
-                                          height: h * .04,
-                                          width: h * .04,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(100),
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl: '${msg.proImg}',
-                                            memCacheWidth: 500,
-                                            fit: BoxFit.cover,
-                                            placeholder: (context, url) => Shimmer.fromColors(
-                                                baseColor: grey300,
-                                                highlightColor: grey100,
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(100),
-                                                  child: Container(
-                                                    height: h * .04,
-                                                    width: h * .04,
-                                                    color: clrGrey,
-                                                  ),
-                                                )
+                                        GestureDetector(
+                                          onTap: (){
+                                            Get.toNamed(Routes.userProfileui,arguments: msg.senderId.toString());
+                                          },
+                                          child: Container(
+                                            clipBehavior: Clip.hardEdge,
+                                            height: h * .04,
+                                            width: h * .04,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(100),
                                             ),
-                                            errorWidget: (context, url, error) => Image.asset('assets/icons/manicon.png',color: clrGrey),
+                                            child: CachedNetworkImage(
+                                              imageUrl: '${msg.proImg}',
+                                              memCacheWidth: 500,
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) => Shimmer.fromColors(
+                                                  baseColor: grey300,
+                                                  highlightColor: grey100,
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(100),
+                                                    child: Container(
+                                                      height: h * .04,
+                                                      width: h * .04,
+                                                      color: clrGrey,
+                                                    ),
+                                                  )
+                                              ),
+                                              errorWidget: (context, url, error) => Image.asset('assets/icons/manicon.png',color: clrGrey),
+                                            ),
                                           ),
                                         ),
                                         SizedBox(

@@ -1779,7 +1779,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                        onTap: () {
                                          Get.toNamed(Routes.previousActivityUi,
                                              arguments: {
-                                               "isHost": false,
+                                               "isHost": true,
                                                "id": profileController.profileData.value.result?.previousActivities?[index].activities?[ind].id.toString()
                                              });
                                        },

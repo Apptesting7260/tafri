@@ -68,7 +68,7 @@ class OccupationUi extends GetWidget<MyprofileInnController> {
                       controll: controller.ocupatController,
                       validation: (val) {
                         if (val == null || val.isEmpty || val == '') {
-                          return "Please enter your ocupation";
+                          return "Please enter your occupation";
                         }
                         return null;
                       },

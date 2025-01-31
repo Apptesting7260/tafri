@@ -79,19 +79,19 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Image(
-                              image: Svg('assets/images/share-2 1.svg'),
-                              filterQuality: FilterQuality.high,
+                            // child: Image(
+                            //   image: Svg('assets/images/share-2 1.svg'),
+                            //   filterQuality: FilterQuality.high,
+                            //   // color: clrWhite,
+                            //   // height: h * .06,
+                            //   // width: w * .06,
+                            // )
+                            child: Image.asset(
+                              "assets/images/share-2 1.png",
                               // color: clrWhite,
                               // height: h * .06,
                               // width: w * .06,
-                            )
-                            // Image.asset(
-                            //   "assets/icons/uploadicon.png",
-                            //   color: clrWhite,
-                            //   height: h * .06,
-                            //   width: w * .06,
-                            // ), //
+                            ), //
                           ),
                         ),
                       ),

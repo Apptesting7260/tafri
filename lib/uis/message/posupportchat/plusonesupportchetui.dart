@@ -96,7 +96,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                       Flexible(
                         child: SizedBox(
                             width: double.maxFinite,
-                            height: Res.h_btn,
+                            // height: Res.h_btn,
                             child: CustoTextFormField(
                               hintText: "Type your message",
                               maxLines: 8,
