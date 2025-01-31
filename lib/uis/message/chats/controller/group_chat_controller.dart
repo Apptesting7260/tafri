@@ -133,6 +133,36 @@ class GroupChatController extends GetxController{
     final buffer = StringBuffer();
     bool capitalizeNext = true;
 
+    // Regular expression to detect URLs
+    final urlPattern = RegExp(r'(https?://[^\s]+)');
+    final matches = urlPattern.allMatches(text);
+
+    int lastIndex = 0;
+
+    for (final match in matches) {
+      // Process the text before the URL
+      String beforeUrl = text.substring(lastIndex, match.start);
+      buffer.write(_applyCapitalization(beforeUrl));
+
+      // Add the URL without modification
+      buffer.write(match.group(0));
+
+      lastIndex = match.end;
+    }
+
+    // Process the remaining text after the last URL
+    if (lastIndex < text.length) {
+      buffer.write(_applyCapitalization(text.substring(lastIndex)));
+    }
+
+    return buffer.toString();
+  }
+
+// Helper function to capitalize text while handling punctuation
+  String _applyCapitalization(String text) {
+    final buffer = StringBuffer();
+    bool capitalizeNext = true;
+
     for (int i = 0; i < text.length; i++) {
       final char = text[i];
       if (capitalizeNext && char != ' ') {
@@ -149,6 +179,7 @@ class GroupChatController extends GetxController{
 
     return buffer.toString();
   }
+
 
   /// for first letter capital
 

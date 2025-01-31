@@ -183,7 +183,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                                     clipBehavior: Clip.hardEdge,
                                                                                     width: Get.width * 0.4,
                                                                                     height: 120,
-                                                                                    decoration: BoxDecoration(color: clrGreyLight, borderRadius: BorderRadius.circular(15)),
+                                                                                    decoration: BoxDecoration(color: clrGreyLight, borderRadius: BorderRadius.circular(12)),
                                                                                     child: Obx(() => index < controller.galleryImages.length
                                                                                         ? Image.file(
                                                                                             controller.galleryImages[index],

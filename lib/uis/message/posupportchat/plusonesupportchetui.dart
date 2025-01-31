@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,7 @@ import 'package:plusone/uis/message/posupportchat/controller/posupportchat_contr
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/colors.dart';
 
 class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
@@ -331,12 +333,20 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                 children: [
                                                                   WidgetSpan(
                                                                       child:
-                                                                      Text(
-                                                                        "${msg.message?.textmessage}",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                            clrBlacke),
-                                                                      )),
+                                                                      Linkify(text: "${msg.message?.textmessage}",style: TextStyle(
+                                                                          color:
+                                                                          clrBlacke),linkStyle: TextStyle(
+                                                                        decoration: TextDecoration.none
+                                                                      ),onOpen: (link) async{
+                                                                        await launchUrl(Uri.parse(link.url));
+                                                                      },)
+                                                                      // Text(
+                                                                      //   "${msg.message?.textmessage}",
+                                                                      //   style: TextStyle(
+                                                                      //       color:
+                                                                      //       clrBlacke),
+                                                                      // )
+                                                                  ),
                                                                   const WidgetSpan(
                                                                       child:
                                                                       SizedBox(
@@ -424,7 +434,12 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                                             clrBlacke,fontSize: 12)),),
                                                                     ),
                                                                     const SizedBox(height: 5,),
-                                                                    SelectableText('${msg.message?.textmessage}')
+                                                                    Linkify(text: "${msg.message?.textmessage}",linkStyle: TextStyle(
+                                                                        decoration: TextDecoration.none
+                                                                    ),onOpen: (link) async{
+                                                                      await launchUrl(Uri.parse(link.url));
+                                                                    },)
+                                                                    // SelectableText('${msg.message?.textmessage}')
                                                                     // Text('${msg.message?.textmessage}')
                                                                   ],
                                                                 ),
@@ -541,10 +556,17 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                   ),
                                                 ) : msg.message?.file == null || msg.message?.file == 'null' ?
                                                     SelectableText.rich(TextSpan(children: [
-                                                      TextSpan(
-                                                          text: "${msg.message?.textmessage}",
-                                                          style:
-                                                          TextStyle(color: clrWhite)),
+                                                      WidgetSpan(child: Linkify(text: "${msg.message?.textmessage}",style: TextStyle(
+                                                          color:
+                                                          clrWhite),linkStyle: TextStyle(
+                                                          decoration: TextDecoration.none
+                                                      ),onOpen: (link) async{
+                                                        await launchUrl(Uri.parse(link.url));
+                                                      },)),
+                                                      // TextSpan(
+                                                      //     text: "${msg.message?.textmessage}",
+                                                      //     style:
+                                                      //     TextStyle(color: clrWhite)),
                                                       WidgetSpan(
                                                         child: SizedBox(
                                                           width: w * 0.01,
@@ -648,8 +670,15 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                               ),
                                                             ),
                                                             const SizedBox(height: 5,),
-                                                            SelectableText('${msg.message?.textmessage}',style:
-                                                            TextStyle(color: clrWhite)),
+                                                            // SelectableText('${msg.message?.textmessage}',style:
+                                                            // TextStyle(color: clrWhite)),
+                                                            Linkify(text: "${msg.message?.textmessage}",style: TextStyle(
+                                                                color:
+                                                                clrWhite),linkStyle: TextStyle(
+                                                                decoration: TextDecoration.none
+                                                            ),onOpen: (link) async{
+                                                              await launchUrl(Uri.parse(link.url));
+                                                            },)
                                                             // Text('${msg.message?.textmessage}',style:
                                                             // TextStyle(color: clrWhite))
                                                           ],

@@ -74,14 +74,14 @@ class _MyAppState extends State<MyApp> {
             print('act id == ${uri.queryParameters['activityid']}');
             print('host id == ${uri.queryParameters['hostId']}');
             if(LocalStorage.getUid() == null || LocalStorage.getUid()!.isEmpty){
-              Get.toNamed(Routes.initialPage,);
+              Get.offAllNamed(Routes.initialPage,);
             } else if(uri.queryParameters['hostId'].toString() == LocalStorage.getUid()){
               if(homeController.homeData.value.result?.membershipStatus == true && homeController.homeData.value.result?.profileComplete == true) {
                 Get.toNamed(Routes.hostUpcommingActiview,
                     arguments: uri.queryParameters['activityid'].toString());
               }else{
                 print('deep link host');
-                Get.toNamed(Routes.navbarUi);
+                Get.offAllNamed(Routes.navbarUi);
                 homeController.showHomePop();
               }
             } else if(uri.queryParameters['activityid'].toString().isNotEmpty && uri.queryParameters['activityid'].toString() != 'null'){
@@ -91,14 +91,14 @@ class _MyAppState extends State<MyApp> {
                 );
               }else{
                 print('deep link user');
-                Get.toNamed(Routes.navbarUi);
+                Get.offAllNamed(Routes.navbarUi);
                 homeController.showHomePop();
               }
             } else if(uri.queryParameters['refercode'].toString().isNotEmpty && uri.queryParameters['refercode'].toString() != 'null'){
               print('referal code == ${uri.queryParameters['refercode']}');
               Get.toNamed(Routes.mymembershipProUi,arguments: '${uri.queryParameters['refercode']}');
             }else{
-              Get.toNamed(Routes.navbarUi);
+              Get.offAllNamed(Routes.navbarUi);
               print('deep link none');
               // Get.put(ExploreListController());
               // Get.toNamed(Routes.exploreView,

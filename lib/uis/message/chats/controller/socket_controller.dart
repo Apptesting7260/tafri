@@ -194,26 +194,33 @@ class SocketController extends GetxService {
   }
 
 
-  var unReadMsg = false.obs;
+  var unReadMsg = 0.obs;
   void unreadMsg() async{
+    print('here');
+    var count = 0.obs;
 
     if(allGroup.value.support != null) {
       if (allGroup.value.support!.friendUnSeenMessage! > 0) {
-        unReadMsg.value = true;
-        return;
+        count.value += allGroup.value.support!.friendUnSeenMessage ?? 0;
       }
     }
 
-    for(var i in allGroup.value.friend!){
-      if(i.groupUnSennMessage! > 0){
-        print('unread');
-        unReadMsg.value = true;
-        return;
-      }else{
-        print('read');
-        unReadMsg.value = false;
-      }
+    for (var i in allGroup.value.friend!) {
+      count.value += i.groupUnSennMessage ?? 0;
     }
+
+    unReadMsg.value = count.value;
+    print('unread count == ${count.value}');
+
+    // for(var i in allGroup.value.friend!){
+    //   if(i.groupUnSennMessage! > 0){
+    //     print('unread');
+    //     unReadMsg.value = true;
+    //   }else{
+    //     print('read');
+    //
+    //   }
+    // }
 
   }
 

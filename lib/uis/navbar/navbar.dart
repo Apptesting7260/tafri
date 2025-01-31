@@ -94,73 +94,85 @@ class Navbar extends GetWidget {
                 tabBuilder: (int index, bool isActive) {
                   final color =
                   controller.navIndex.value == index ? clrYellow : clrGrey;
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  return Stack(
+                    alignment: Alignment.center,
                     children: [
-                      index == 0
-                          ? Icon(
-                        Icons.home,
-                        color: controller.navIndex.value == 0
-                            ? clrYellow
-                            : clrGrey,
-                      )
-                          : index == 1
-                          ? Stack(
-                        alignment: Alignment.topRight,
-                            children: [
-                              Image.asset(
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          index == 0
+                              ? Icon(
+                            Icons.home,
+                            color: controller.navIndex.value == 0
+                                ? clrYellow
+                                : clrGrey,
+                          )
+                              : index == 1
+                              ? Image.asset(
                                 "assets/icons/msgicon.png",
                                 height: 23,
                                 color: controller.navIndex.value == 1
                                 ? clrYellow
                                 : clrGrey,
-                              ),
-
-                              Obx(() => chatController.unReadMsg.value ? CircleAvatar(
-                                radius: 4,
-                                backgroundColor: clrWhite,
-                                child: CircleAvatar(
-                                  radius: 3,
-                                  backgroundColor: clrGrey,
-                                ),
-                              ) : SizedBox(),)
-                            ],
-                          )
-                          : index == 2
-                          ? Image.asset(
-                        "assets/icons/calendericon.png",
-                        height: 23,
-                        color: controller.navIndex.value == 2
-                            ? clrYellow
-                            : clrGrey,
-                      )
-                          : index == 3
-                          ? Image.asset(
-                        "assets/icons/manicon.png",
-                        height: 23,
-                        color: controller.navIndex.value == 3
-                            ? clrYellow
-                            : clrGrey,
-                      )
-                          : const Icon(Icons.home),
-                      const SizedBox(height: 4),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 0),
-                        child: Text(
-                          index == 0
-                              ? "Explore"
-                              : index == 1
-                              ? 'Messages'
+                              )
                               : index == 2
-                              ? "My activities"
+                              ? Image.asset(
+                            "assets/icons/calendericon.png",
+                            height: 23,
+                            color: controller.navIndex.value == 2
+                                ? clrYellow
+                                : clrGrey,
+                          )
                               : index == 3
-                              ? "Profile"
-                              : '',
-                          maxLines: 1,
-                          style: TextStyle(color: color, fontSize: 10),
-                        ),
-                      )
+                              ? Image.asset(
+                            "assets/icons/manicon.png",
+                            height: 23,
+                            color: controller.navIndex.value == 3
+                                ? clrYellow
+                                : clrGrey,
+                          )
+                              : const Icon(Icons.home),
+                          const SizedBox(height: 4),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 0),
+                            child: Text(
+                              index == 0
+                                  ? "Explore"
+                                  : index == 1
+                                  ? 'Messages'
+                                  : index == 2
+                                  ? "My activities"
+                                  : index == 3
+                                  ? "Profile"
+                                  : '',
+                              maxLines: 1,
+                              style: TextStyle(color: color, fontSize: 10),
+                            ),
+                          )
+                        ],
+                      ),
+                      if(index == 1)
+                        Obx(() => chatController.unReadMsg.value > 0 ? Padding(
+                          padding: EdgeInsets.only(right: Get.width*0.05,top: 3),
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: CircleAvatar(
+                            radius: 9,
+                            backgroundColor: clrWhite,
+                            child: CircleAvatar(
+                              radius: 8,
+                              backgroundColor: clrRed,
+                              child: Center(
+                                child: Text('${chatController.unReadMsg.value}',style: TextStyle(
+                                    color: clrWhite,
+                                    fontSize: 8
+                                ),),
+                              ),
+                            ),
+                                                  ),
+                          ),
+                        ) : SizedBox(),)
                     ],
                   );
                 },
