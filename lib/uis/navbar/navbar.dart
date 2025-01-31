@@ -158,13 +158,13 @@ class Navbar extends GetWidget {
                           child: Align(
                             alignment: Alignment.topRight,
                             child: CircleAvatar(
-                            radius: 9,
+                            radius: 10,
                             backgroundColor: clrWhite,
                             child: CircleAvatar(
-                              radius: 8,
+                              radius: 9,
                               backgroundColor: clrRed,
                               child: Center(
-                                child: Text('${chatController.unReadMsg.value}',style: TextStyle(
+                                child: Text('${chatController.unReadMsg.value > 99 ? '99+' : chatController.unReadMsg.value}',style: TextStyle(
                                     color: clrWhite,
                                     fontSize: 8
                                 ),),
