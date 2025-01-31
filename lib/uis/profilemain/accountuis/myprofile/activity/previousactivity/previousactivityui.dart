@@ -712,10 +712,11 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         (controller.actData.value.activity?.status == 'completed' && controller.actData.value.markAttendance.toString() == 'true') ? SizedBox(
                           height: controller.attData.value.result!.attendanceList!.isNotEmpty ? 52 : 20,
                           child: controller.attData.value.result!.attendanceList!.isNotEmpty? ListView.separated(
-                            itemCount: controller.attData.value.result!.attendanceList!.length,
+                            itemCount: controller.attData.value.result!.attendanceList!.where((e) => e.userAttendance == 'Joined').length,
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
                             itemBuilder: (context,index){
+                              print('att user == ${controller.attData.value.result?.attendanceList?[index].userId}');
                               return GestureDetector(
                                 onTap: () {
                                   Get.toNamed(
