@@ -191,7 +191,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
             ),
 
             /// slideable
-            Obx(() => controller.homePageLoading.value && controller.homeData.value.result == null ? SizedBox() : controller.homeError.value.isNotEmpty ? SizedBox() : SlidingUpPanel(
+            Obx(() => controller.homePageLoading.value && controller.homeData.value.result == null ? SizedBox() : controller.homeData.value.result == null ? SizedBox() : controller.homeError.value.isNotEmpty ? SizedBox() : SlidingUpPanel(
               minHeight: 50,
               maxHeight: (Platform.isIOS && isNotch(context)) ? Get.height * 0.73 : Get.height * .79,
               controller: controller.panelController,

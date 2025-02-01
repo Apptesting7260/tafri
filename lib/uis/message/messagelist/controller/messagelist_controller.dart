@@ -35,6 +35,7 @@ class MessagelistController extends GetxController with GetTickerProviderStateMi
       if(response.statusCode == 200){
         notError.value = '';
         notData.value = NotificationModal.fromJson(response.body);
+        unreadMsg();
       }else{
         notError.value = 'error';
       }
@@ -59,6 +60,43 @@ class MessagelistController extends GetxController with GetTickerProviderStateMi
       showTostMsg('Please try again');
       print('delete not error == ${e.toString()}');
     }
+  }
+
+
+  Future<void> readNotification(String id) async{
+
+    try{
+      var body = {
+        'user_id': LocalStorage.getUid(),
+        'id': id,
+        'is_read': '1'
+      };
+      final response = await api.post(EndPoints.readNotificationUrl, body,headers: header);
+      print('read not response == ${response.body}');
+      if(response.statusCode == 200){
+        getNotification();
+      }else{
+
+      }
+    }catch(e){
+      print('read not error == ${e.toString()}');
+    }
+
+  }
+
+  var unReadNot = 0.obs;
+  void unreadMsg() async{
+    var count = 0.obs;
+
+    for (var i in notData.value.notifications!) {
+      if (i.isRead == '0') {
+        count.value += 1;
+      }
+    }
+
+    unReadNot.value = count.value;
+    print('unread not count == ${count.value}');
+
   }
 
 

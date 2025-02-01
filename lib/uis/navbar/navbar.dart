@@ -30,6 +30,7 @@ class Navbar extends GetWidget {
   // SocketController chatController = Get.find<SocketController>();
   SocketController chatController = Get.put(SocketController());
   MyactiController activityController =  Get.put(MyactiController());
+  MessagelistController notController = Get.put(MessagelistController());
 
 
   final iconList = <IconData>[
@@ -153,26 +154,56 @@ class Navbar extends GetWidget {
                         ],
                       ),
                       if(index == 1)
-                        Obx(() => chatController.unReadMsg.value > 0 ? Padding(
-                          padding: EdgeInsets.only(right: Get.width*0.05,top: 3),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: CircleAvatar(
-                            radius: 10,
-                            backgroundColor: clrWhite,
-                            child: CircleAvatar(
-                              radius: 9,
-                              backgroundColor: clrRed,
-                              child: Center(
-                                child: Text('${chatController.unReadMsg.value > 99 ? '99+' : chatController.unReadMsg.value}',style: TextStyle(
-                                    color: clrWhite,
-                                    fontSize: 8
-                                ),),
+                        Obx(() {
+                          int totalUnread = chatController.unReadMsg.value + notController.unReadNot.value;
+
+                          return totalUnread > 0
+                              ? Padding(
+                            padding: EdgeInsets.only(right: Get.width * 0.05, top: 3),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: CircleAvatar(
+                                radius: 10,
+                                backgroundColor: clrWhite,
+                                child: CircleAvatar(
+                                  radius: 9,
+                                  backgroundColor: clrRed,
+                                  child: Center(
+                                    child: Text(
+                                      totalUnread > 99 ? '99+' : '$totalUnread',
+                                      style: TextStyle(
+                                        color: clrWhite,
+                                        fontSize: 8,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                                                  ),
-                          ),
-                        ) : SizedBox(),)
+                          )
+                              : SizedBox();
+                        })
+
+                      // Obx(() => chatController.unReadMsg.value > 0 || notController.unReadNot.value > 0 ? Padding(
+                      //     padding: EdgeInsets.only(right: Get.width*0.05,top: 3),
+                      //     child: Align(
+                      //       alignment: Alignment.topRight,
+                      //       child: CircleAvatar(
+                      //       radius: 10,
+                      //       backgroundColor: clrWhite,
+                      //       child: CircleAvatar(
+                      //         radius: 9,
+                      //         backgroundColor: clrRed,
+                      //         child: Center(
+                      //           child: Text('${chatController.unReadMsg.value > 99 ? '99+' : chatController.unReadMsg.value}',style: TextStyle(
+                      //               color: clrWhite,
+                      //               fontSize: 8
+                      //           ),),
+                      //         ),
+                      //       ),
+                      //                             ),
+                      //     ),
+                      //   ) : SizedBox(),)
                     ],
                   );
                 },
@@ -183,9 +214,9 @@ class Navbar extends GetWidget {
                 leftCornerRadius: 20,
                 rightCornerRadius: 20,
                 onTap: (index) {
-                  index == 1
-                      ? Get.put(MessagelistController())
-                      : Get.put(ProfilemainController());
+                  if(index == 3) {
+                    Get.put(ProfilemainController());
+                  }
                   controller.changeNavIndex(index);
                   if(index == 1){
                     chatController.searchController.clear();

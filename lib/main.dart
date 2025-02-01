@@ -64,8 +64,9 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> initDeepLink() async {
     try{
+      print('deep link');
       _appLinks = AppLinks();
-      final homeController = Get.put(ExploreListController());
+      ExploreListController homeController = Get.put(ExploreListController());
 
       ever(homeController.homeData, (callback) {
         _appLinks.uriLinkStream.listen((Uri? uri) {

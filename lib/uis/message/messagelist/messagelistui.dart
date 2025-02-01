@@ -377,7 +377,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                     itemCount: controller.notData.value.notifications?.length,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
-                                      return InkWell(
+                                      return GestureDetector(
                                         onTap: () {
                                           Get.toNamed(Routes.viewNotifiUi,arguments: {
                                                         'msg':controller
@@ -397,6 +397,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                             'activity_img': controller.notData.value.notifications?[index].actImg.toString(),
                                             'activity_title': controller.notData.value.notifications?[index].actName.toString()
                                                       });
+                                          controller.readNotification(controller.notData.value.notifications![index].id.toString());
                                         },
                                         child: Slidable(
                                           key: const ValueKey(0),
@@ -517,9 +518,13 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                     ],
                                                   ),
                                                 ),
-                                                // SizedBox(
-                                                //   width: Get.width * 0.02,
-                                                // ),
+                                                SizedBox(
+                                                  width: Get.width * 0.02,
+                                                ),
+                                                controller.notData.value.notifications?[index].isRead == '0' ? CircleAvatar(
+                                                  radius: 4,
+                                                  backgroundColor: clrYellow,
+                                                ) : SizedBox()
                                                 // Icon(Icons.more_vert,color: Color.fromRGBO(85, 92, 105, 1),)
                                               ],
                                             ),

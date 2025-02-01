@@ -10,6 +10,7 @@ import 'package:http/http.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/networking/firebase_api.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/onbording/login/model/LoginModel.dart';
 import 'package:plusone/uis/onbording/login/model/social_login_model.dart';
 import 'package:plusone/utils/local_storage.dart';
@@ -330,6 +331,9 @@ class LoginnoController extends GetxController {
       print(response.body);
       print(response.statusCode);
       if(response.statusCode == 200){
+        if(Get.isRegistered<ExploreListController>()){
+          Get.delete<ExploreListController>();
+        }
         var data = SocialLoginModel.fromJson(response.body);
         if(data.status == true){
           LocalStorage.saveToken(data.data!.accessToken.toString());
@@ -385,6 +389,9 @@ class LoginnoController extends GetxController {
       print("response ${response.body}");
       print(response.statusCode);
       if(response.statusCode == 200){
+        if(Get.isRegistered<ExploreListController>()){
+          Get.delete<ExploreListController>();
+        }
         var data = SocialLoginModel.fromJson(response.body);
         if(data.status == true){
           LocalStorage.saveToken(data.data!.accessToken.toString());

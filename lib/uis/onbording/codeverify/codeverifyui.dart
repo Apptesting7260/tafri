@@ -4,6 +4,7 @@ import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
+import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/onbording/introone/controller/intro_controller.dart';
 import 'package:plusone/uis/onbording/login/controller/loginno_controller.dart';
 import 'package:plusone/utils/colors.dart';
@@ -116,6 +117,9 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                           )
                         ],
                         onCompleted: (v) async {
+                          if(Get.isRegistered<ExploreListController>()){
+                            Get.delete<ExploreListController>();
+                          }
                           String? token = Get.arguments['token'];
                           String? uId = Get.arguments['uid'];
                           pinController.text = v;
@@ -178,6 +182,9 @@ class CodeVerifyUi extends GetWidget<IntroController> {
                             height: Res.h_btn,
                             child: CustomElevatedButton(
                               onTap: () async {
+                                if(Get.isRegistered<ExploreListController>()){
+                                  Get.delete<ExploreListController>();
+                                }
                                 String? token = Get.arguments['token'];
                                 String? uId = Get.arguments['uid'];
                                 if (_formKey.currentState!.validate()) {
