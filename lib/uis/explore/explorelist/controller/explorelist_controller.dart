@@ -271,7 +271,7 @@ class ExploreListController extends GetxController {
       } else if(response.statusCode == 401){
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);
-        showTostMsg('Session expired. Please login again.');
+        // showTostMsg('Session expired. Please login again.');
       }else if(response.statusCode == 499){
         LocalStorage.removeToken();
         Get.offAllNamed(Routes.initialPage);

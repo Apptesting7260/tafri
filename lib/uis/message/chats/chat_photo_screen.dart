@@ -40,11 +40,13 @@ class _ChatPhotoScreenState extends State<ChatPhotoScreen> {
               height: 15,
             ),
             Expanded(
-              child: CachedNetworkImage(
-                imageUrl: imageUrl.value,
-                placeholder: (context, url) => Center(
-                  child: CommonUi.scaffoldLoading(
-                    color: clrYellow
+              child: Center(
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl.value,
+                  placeholder: (context, url) => Center(
+                    child: CommonUi.scaffoldLoading(
+                      color: clrYellow
+                    ),
                   ),
                 ),
               ),
