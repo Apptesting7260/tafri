@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/message/chats/modal/all_message_modal.dart';
@@ -29,12 +30,17 @@ class GroupChatController extends GetxController{
 
   final focusNode = FocusNode();
 
+  var actId = ''.obs;
+  var hostId = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
     var gpData = Get.arguments;
     gpID.value = gpData['gpID'] ?? '';
+    actId.value = gpData['activityId'] ?? '';
+    hostId.value = gpData['hostId'] ?? '';
+    getActivityStatus(actId.value.toString());
     print('gp id == ${gpID.value}');
     fetchMessage(
         groupID: gpID.value,
@@ -576,6 +582,36 @@ class GroupChatController extends GetxController{
   }
 
   /// convert time
+
+
+  final api = ApiServices();
+  var actStatus = ''.obs;
+
+  Future<void> getActivityStatus(String actId) async{
+
+    var body = {
+      'id': actId
+    };
+
+    var header = {
+      'Authorization': 'Bearer ${LocalStorage.getToken()}',
+    };
+
+    try{
+      print('send data == ${body}');
+      final response = await api.post(EndPoints.activityStatusUrl, body,headers: header);
+      if(response.statusCode == 200){
+        actStatus.value = response.body['activity-status'];
+      }else{
+        actStatus.value = '';
+      }
+      print('act status == ${response.body}');
+    }catch(e){
+      actStatus.value = '';
+      print('act status error == ${e.toString()}');
+    }
+
+  }
 
 
 }

@@ -1709,13 +1709,19 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                         if (controller.actData.value
                             .activity?.groupId !=
                             null) {
-                          Get.toNamed(Routes.chatUi,
+                          Get.offNamed(Routes.chatUi,
                               arguments: {
                                 'gpID': controller
                                     .actData
                                     .value
                                     .activity
                                     ?.groupId,
+                                'activityId': controller
+                                  .actData
+                                  .value
+                                  .activity
+                                  ?.id.toString(),
+                                'hostId': controller.actData.value.activity?.hostId.toString()
                                 // 'members': data.allMember
                               });
                         } else {

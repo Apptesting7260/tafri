@@ -13,6 +13,7 @@ class ViewNotifiController extends GetxController{
     actId.value = data['activity_id'];
     actImg.value = data['activity_img'];
     actTitle.value = data['activity_title'];
+    hostId.value = data['hostid'];
     getActivityStatus();
     super.onInit();
   }
@@ -23,6 +24,7 @@ class ViewNotifiController extends GetxController{
   var actId = ''.obs;
   var actImg = ''.obs;
   var actTitle = ''.obs;
+  var hostId = ''.obs;
 
   final api = ApiServices();
 
@@ -31,7 +33,6 @@ class ViewNotifiController extends GetxController{
   Future<void> getActivityStatus() async{
 
     var body = {
-      'user_id': LocalStorage.getUid(),
       'id': actId.value
     };
 

@@ -724,6 +724,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                 ],
                                 hostID: controller.actData.value.activity!
                                     .hostId!,
+                              actId: controller.actData.value.activity!.id.toString()
                             );
                           }else{
                             showTostMsg('No group exist for this activity');

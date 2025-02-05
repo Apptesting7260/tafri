@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/message/viewnotification/controller/viewnotifi_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/colors.dart';
@@ -87,7 +88,32 @@ class ViewNotiUi extends GetWidget<ViewNotifiController>{
                       controller.actTitle.value == 'null' || controller.actImg.value == 'null' || controller.actTitle.value == 'null' ? SizedBox() :const SizedBox(height: 20,),
                       controller.actTitle.value == 'null' || controller.actImg.value == 'null' || controller.actTitle.value == 'null' ? SizedBox() : GestureDetector(
                         onTap: () {
+                          if(controller.actStatus.value.isEmpty){
 
+                          }else if(controller.actStatus.value == 'completed'){
+                            Get.toNamed(Routes.previousActivityUi, arguments: {
+                              "isHost": LocalStorage.getUid() == controller.hostId.value ? true : false,
+                              "id": controller.actId.value
+                            });
+                          }else if(controller.actStatus.value == 'approved'){
+                            if(LocalStorage.getUid() == controller.hostId.value){
+                              Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                            }else{
+                              Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                            }
+                          }else if(controller.actStatus.value == 'pending'){
+                            if(LocalStorage.getUid() == controller.hostId.value){
+                              Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                            }else{
+                              Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                            }
+                          }else if(controller.actStatus.value == 'not_approved'){
+                            if(LocalStorage.getUid() == controller.hostId.value){
+                              Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                            }else{
+                              Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                            }
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 12,vertical: 12),

@@ -44,6 +44,8 @@ class Friend {
   bool? userAcountDeleted;
   int? allMember;
   String? startDate;
+  int? activityId;
+  int? createdBy;
 
   Friend({
     this.groupId,
@@ -62,6 +64,8 @@ class Friend {
     this.blockedBy,
     this.allMember,
     this.startDate,
+    this.activityId,
+    this.createdBy,
     // this.premium,
     this.userAcountDeleted,
   });
@@ -84,7 +88,9 @@ class Friend {
     // premium: json["premium"] == null ? null : Premium.fromJson(json["premium"]),
     userAcountDeleted: json["userAcountDeleted"],
     startDate: json['activityStartDate'],
-    allMember: json['allMembers']
+    allMember: json['allMembers'],
+    activityId: json['activityId'],
+    createdBy: json['createdBy']
   );
 
   Map<String, dynamic> toJson() => {

@@ -10,6 +10,7 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/message/chats/controller/group_chat_controller.dart';
 import 'package:plusone/utils/common.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -131,31 +132,61 @@ class ChatUi extends GetWidget<GroupChatController> {
                             width: h * .08,
                             color: clrGrey,
                           ),
-                        )) : Container(
-                        clipBehavior: Clip.hardEdge,
-                        height: h * .08,
-                        width: h * .08,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: clrGreyLight
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: controller.allMessage.value.gpImg ?? '',
-                          fit: BoxFit.cover,
-                          memCacheWidth: 500,
-                          placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: grey300,
-                              highlightColor: grey100,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Container(
-                                  height: h * .055,
-                                  width: h * .055,
-                                  color: clrGrey,
-                                ),
-                              )),
-                          errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
-                        )),),
+                        )) : GestureDetector(
+                      onTap: () {
+                        if(controller.actStatus.value.isEmpty){
+
+                        }else if(controller.actStatus.value == 'completed'){
+                          Get.toNamed(Routes.previousActivityUi, arguments: {
+                            "isHost": LocalStorage.getUid() == controller.hostId.value ? true : false,
+                            "id": controller.actId.value
+                          });
+                        }else if(controller.actStatus.value == 'approved'){
+                          if(LocalStorage.getUid() == controller.hostId.value){
+                            Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                          }else{
+                            Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                          }
+                        }else if(controller.actStatus.value == 'pending'){
+                          if(LocalStorage.getUid() == controller.hostId.value){
+                            Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                          }else{
+                            Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                          }
+                        }else if(controller.actStatus.value == 'not_approved'){
+                          if(LocalStorage.getUid() == controller.hostId.value){
+                            Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                          }else{
+                            Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                          }
+                        }
+                      },
+                          child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          height: h * .08,
+                          width: h * .08,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: clrGreyLight
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: controller.allMessage.value.gpImg ?? '',
+                            fit: BoxFit.cover,
+                            memCacheWidth: 500,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: grey300,
+                                highlightColor: grey100,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                    height: h * .055,
+                                    width: h * .055,
+                                    color: clrGrey,
+                                  ),
+                                )),
+                            errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
+                          )),
+                        ),),
                     const SizedBox(
                       height: 7,
                     ),

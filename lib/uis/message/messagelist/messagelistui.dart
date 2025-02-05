@@ -221,6 +221,8 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                             chatController.focusNode.unfocus();
                                             Get.toNamed(Routes.chatUi,arguments: {
                                               'gpID': data.groupId,
+                                              'activityId': data.activityId.toString(),
+                                              'hostId': data.createdBy.toString()
                                             })?.then((value) {
                                               chatController.fetchGroup();
                                               chatController.searchController.clear();
@@ -387,6 +389,11 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                                 index]
                                                             .message
                                                             .toString(),
+                                            'hostid': controller
+                                                .notData
+                                                .value
+                                                .notifications?[
+                                            index].userId.toString(),
                                             'userid': controller
                                                 .notData
                                                 .value

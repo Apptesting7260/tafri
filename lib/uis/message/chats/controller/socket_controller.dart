@@ -175,7 +175,7 @@ class SocketController extends GetxService {
       });
       socket.on('fatchAllFriendsList', (data){
         allGroup.value = AllGroupModal.fromJson(data);
-        log('all group data == ${data}');
+        print('all group data == ${data}');
         socket.off('fatchAllFriendsList');
         filteredGroups.assignAll(allGroup.value.friend ?? []);
         gpLoading.value = false;
@@ -230,7 +230,7 @@ class SocketController extends GetxService {
 
 
   /// add member
-  void addMember({required String groupID,required List<int> members,required int hostID}){
+  void addMember({required String groupID,required List<int> members,required int hostID,required String actId}){
     log('adding member');
     log('group id == ${groupID}');
     log('st == ${DateTime.now()}');
@@ -245,10 +245,14 @@ class SocketController extends GetxService {
         if(data['status'] == true){
           Get.toNamed(Routes.chatUi,arguments: {
             'gpID': data['groupId'],
+            'activityId': actId,
+            'hostId': hostID.toString()
           });
         }else if(data['status'] == false){
           Get.toNamed(Routes.chatUi,arguments: {
             'gpID': data['groupId'],
+            'activityId': actId,
+            'hostId': hostID.toString()
           });
         }
         // if(response[''])
