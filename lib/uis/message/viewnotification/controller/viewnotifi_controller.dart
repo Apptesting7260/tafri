@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:plusone/networking/apiservices.dart';
+import 'package:plusone/networking/endpoints.dart';
+import 'package:plusone/utils/local_storage.dart';
 
 class ViewNotifiController extends GetxController{
   @override
@@ -10,6 +13,7 @@ class ViewNotifiController extends GetxController{
     actId.value = data['activity_id'];
     actImg.value = data['activity_img'];
     actTitle.value = data['activity_title'];
+    getActivityStatus();
     super.onInit();
   }
 
@@ -19,5 +23,37 @@ class ViewNotifiController extends GetxController{
   var actId = ''.obs;
   var actImg = ''.obs;
   var actTitle = ''.obs;
+
+  final api = ApiServices();
+
+  var actStatus = ''.obs;
+
+  Future<void> getActivityStatus() async{
+
+    var body = {
+      'user_id': LocalStorage.getUid(),
+      'id': actId.value
+    };
+
+    var header = {
+      'Authorization': 'Bearer ${LocalStorage.getToken()}',
+    };
+
+    try{
+      print('send data == ${body}');
+      final response = await api.post(EndPoints.activityStatusUrl, body,headers: header);
+      if(response.statusCode == 200){
+        actStatus.value = response.body['activity-status'];
+      }else{
+        actStatus.value = '';
+      }
+      print('act status == ${response.body}');
+    }catch(e){
+      actStatus.value = '';
+      print('act status error == ${e.toString()}');
+    }
+
+  }
+
 
 }

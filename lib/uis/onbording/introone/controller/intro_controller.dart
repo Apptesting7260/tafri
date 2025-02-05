@@ -259,7 +259,7 @@ class IntroController extends GetxController {
       if (body.status == true) {
         // loading.value = false;
         if (body.message == 'Mobile number exists' && body.currentStep == '4') {
-          showTostMsg('Mobile number exists. Please login to continue');
+          showTostMsg('An account already exists with this number. Please log in instead.');
           // Get.back();
           // mobnoController.clear();
           // countryCode.value = '+31';

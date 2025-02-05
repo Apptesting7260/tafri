@@ -40,7 +40,7 @@ class IntroOneUi extends GetWidget<IntroController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: screenHeight * .26,
+                height: screenHeight * .24,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +73,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                   ),
                 ],
               ),
-              SizedBox(height: screenHeight * .27),
+              SizedBox(height: screenHeight * .25),
               InkWell(
                 onTap: () {
                   Get.bottomSheet(BottomSheet(
@@ -250,20 +250,20 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                 text: TextSpan(children: [
                                                   TextSpan(
                                                       text:
-                                                      "Already have a Account ?",
+                                                      "Already have an Account?",
                                                       style: TextStyle(
                                                           color: clrGreyDark,
                                                           fontWeight:
                                                           FontWeight.w300,
-                                                          fontSize: 12)),
+                                                          fontSize: 14)),
                                                   const TextSpan(text: ' '),
                                                   TextSpan(
-                                                      text: "Login",
+                                                      text: "Log in",
                                                       style: TextStyle(
                                                           color: clrYellowText,
                                                           fontWeight:
                                                           FontWeight.w300,
-                                                          fontSize: 12,
+                                                          fontSize: 14,
                                                           decoration: TextDecoration
                                                               .underline)),
                                                 ])),
@@ -323,56 +323,64 @@ class IntroOneUi extends GetWidget<IntroController> {
                                             ])),
                                       ),
                                       SizedBox(height: screenHeight * 0.04),
-                                      // Container(
-                                      //   alignment: Alignment.center,
-                                      //   padding: const EdgeInsets.symmetric(
-                                      //       horizontal: 20),
-                                      //   child: RichText(
-                                      //       textAlign: TextAlign.center,
-                                      //       text: TextSpan(children: [
-                                      //         TextSpan(
-                                      //             text: "Need Help? Contact ",
-                                      //             style: TextStyle(
-                                      //                 color: clrBlacke,
-                                      //                 fontWeight:
-                                      //                     FontWeight.w300,
-                                      //                 fontSize: 12)),
-                                      //         TextSpan(
-                                      //             text: "info@plusonesapp.com",
+
+                                      Center(
+                                        child: RichText(
+                                            textAlign: TextAlign.center,
+                                            text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text:
+                                                "Need help? ",
+                                                style: TextStyle(
+                                                    color: clrGreyDark,
+                                                    fontWeight:
+                                                    FontWeight.w300,
+                                                    fontSize: 12)),
+                                            TextSpan(
+                                                text: "Contact Us",
+                                                recognizer: TapGestureRecognizer()..onTap = () async{
+                                                          Get.toNamed(Routes.contactSupport);
+                                                },
+                                                style: TextStyle(
+                                                    color: clrYellowText,
+                                                    fontWeight:
+                                                    FontWeight.w300,
+                                                    fontSize: 12,
+                                                    decoration: TextDecoration
+                                                        .underline)),
+
+                                          ]
+                                        )),
+                                      ),
+
+                                      // Row(
+                                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                                      //   mainAxisAlignment: MainAxisAlignment.center,
+                                      //   children: [
+                                      //     Text("Need help?",style: TextStyle(
+                                      //       color: clrGreyTextLight,
+                                      //       fontSize: 14
+                                      //     ),),
+                                      //     SizedBox(width: 5,),
+                                      //     InkWell(
+                                      //       onTap: () {
+                                      //         Get.toNamed(Routes.contactSupport);
+                                      //       },
+                                      //       child: Center(
+                                      //         child: Text(
+                                      //             'Contact Us',
                                       //             style: TextStyle(
                                       //                 color: clrYellowText,
-                                      //                 fontWeight:
-                                      //                     FontWeight.w300,
-                                      //                 fontSize: 12)),
-                                      //       ])),
+                                      //                 fontWeight: FontWeight.w300,
+                                      //                 fontSize: 12,
+                                      //                 decoration: TextDecoration.underline
+                                      //             )
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ],
                                       // ),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text("Need help?",style: TextStyle(
-                                            color: clrGreyTextLight,
-                                            fontSize: 14
-                                          ),),
-                                          SizedBox(width: 5,),
-                                          InkWell(
-                                            onTap: () {
-                                              Get.toNamed(Routes.contactSupport);
-                                            },
-                                            child: Center(
-                                              child: Text(
-                                                  'Contact Us',
-                                                  style: TextStyle(
-                                                      color: clrYellowText,
-                                                      fontWeight: FontWeight.w300,
-                                                      fontSize: 12,
-                                                      decoration: TextDecoration.underline
-                                                  )
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                                     ],
                                   ),
                                 )),
@@ -381,8 +389,8 @@ class IntroOneUi extends GetWidget<IntroController> {
                       }));
                 },
                 child: Container(
-                  height: screenHeight * .05,
-                  width: screenWidth * 0.8,
+                  height: screenHeight * .06,
+                  width: screenWidth * 0.65,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: clrYellow),
@@ -400,8 +408,8 @@ class IntroOneUi extends GetWidget<IntroController> {
               ),
               SizedBox(
                 // width: double.maxFinite,
-                width: screenWidth * 0.8,
-                height: screenHeight * .05,
+                width: screenWidth * 0.65,
+                height: screenHeight * .06,
                 child: CustomElevatedButton(
                   onTap: () {
                     controller.mobnoController.clear();

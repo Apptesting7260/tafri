@@ -163,10 +163,10 @@ class Navbar extends GetWidget {
                             child: Align(
                               alignment: Alignment.topRight,
                               child: CircleAvatar(
-                                radius: 10,
+                                radius: 9,
                                 backgroundColor: clrWhite,
                                 child: CircleAvatar(
-                                  radius: 9,
+                                  radius: 8,
                                   backgroundColor: clrRed,
                                   child: Center(
                                     child: Text(

@@ -58,75 +58,78 @@ class BioUi extends GetWidget<MyprofileInnController> {
               height: Get.height * 0.03,
             ),
             Expanded(
-              child: Column(
-                children: [
-                  const Text(
-                    "Share a bit about yourself helps members understand you better and find like-minded activity partners.",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.025,
-                  ),
-                  Form(
-                    key: _formState,
-                    child: Obx(() {
-                      return Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          TextFormField(
-                            controller: controller.bioController.value,
-                            validator: (val) {
-                              if (val == null || val.isEmpty || val == '') {
-                                return "Please tell about yourself";
-                              } else {
-                                return null;
-                              }
-                            },
-                            keyboardType: TextInputType.multiline,
-                            maxLines: 8,
-                            maxLength: maxLength,
-                            decoration: InputDecoration(
-                              hintText: "Introduce yourself...",
-                              hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: clrGreyTextLight),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
-                              fillColor: clrGreyLight,
-                              filled: true,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10)),
-                              counterText: '',
-                              // Error border
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.red, width: 1.5),
-                                borderRadius: BorderRadius.circular(10),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Text(
+                      "Share a bit about yourself helps members understand you better and find like-minded activity partners.",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.025,
+                    ),
+                    Form(
+                      key: _formState,
+                      child: Obx(() {
+                        return Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            TextFormField(
+                              controller: controller.bioController.value,
+                              validator: (val) {
+                                if (val == null || val.isEmpty || val == '') {
+                                  return "Please tell about yourself";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              keyboardType: TextInputType.multiline,
+                              minLines: 8,
+                              maxLines: 20,
+                              maxLength: maxLength,
+                              decoration: InputDecoration(
+                                hintText: "Introduce yourself...",
+                                hintStyle: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: clrGreyTextLight),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 10),
+                                fillColor: clrGreyLight,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10)),
+                                counterText: '',
+                                // Error border
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                // Error border when focused
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red, width: 1.5),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                              // Error border when focused
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.red, width: 1.5),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                              onChanged: (value) {
+                                print(
+                                    'object == ${controller.bioController.value.text.length}');
+                              },
                             ),
-                            onChanged: (value) {
-                              print(
-                                  'object == ${controller.bioController.value.text.length}');
-                            },
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(bottom: 15, right: 15),
-                              child: Text(
-                                '${controller.currentLength.value}/$maxLength',
-                                style: TextStyle(
-                                    fontSize: 13, color: clrGreyTextLight),
-                              )
-                          )
-                        ],
-                      );
-                    },),
-                  )
-                ],
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 15, right: 15),
+                                child: Text(
+                                  '${controller.currentLength.value}/$maxLength',
+                                  style: TextStyle(
+                                      fontSize: 13, color: clrGreyTextLight),
+                                )
+                            )
+                          ],
+                        );
+                      },),
+                    )
+                  ],
+                ),
               ),
             ),
            Obx(() =>  Opacity(

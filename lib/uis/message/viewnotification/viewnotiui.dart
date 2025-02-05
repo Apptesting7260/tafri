@@ -86,7 +86,9 @@ class ViewNotiUi extends GetWidget<ViewNotifiController>{
                       const Text("Thank you for being a part of our community! \n\nBest regards, Team PlusOnes"),
                       controller.actTitle.value == 'null' || controller.actImg.value == 'null' || controller.actTitle.value == 'null' ? SizedBox() :const SizedBox(height: 20,),
                       controller.actTitle.value == 'null' || controller.actImg.value == 'null' || controller.actTitle.value == 'null' ? SizedBox() : GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+
+                        },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 12,vertical: 12),
                           decoration: BoxDecoration(

@@ -272,6 +272,32 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                 SizedBox(
                                                   height: Get.height * 0.025,
                                                 ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.offAllNamed(Routes.initialPage);
+                                                  },
+                                                  child: Center(
+                                                    child: RichText(text: TextSpan(
+                                                      children: [
+                                                        TextSpan(text: 'Don’t have an account? ',style: TextStyle(
+                                                            color: clrGreyDark,
+                                                            fontWeight:
+                                                            FontWeight.w300,
+                                                            fontSize: 14)),
+                                                        TextSpan(text: 'Sign up',style: TextStyle(
+                                                            color: clrYellowText,
+                                                            fontWeight:
+                                                            FontWeight.w300,
+                                                            fontSize: 14,
+                                                            decoration: TextDecoration
+                                                                .underline))
+                                                      ]
+                                                    )),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.025,
+                                                ),
                                                 Container(
                                                   padding: const EdgeInsets.symmetric(
                                                       horizontal: 20),
@@ -324,32 +350,61 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                 SizedBox(
                                                   height: h * .025,
                                                 ),
-                                                Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Text("Need help?",style: TextStyle(
-                                                        color: clrGreyTextLight,
-                                                        fontSize: 14),),
-                                                    SizedBox(width: 5,),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        Get.toNamed(Routes.contactSupport);
-                                                      },
-                                                      child: Center(
-                                                        child: Text(
-                                                            'Contact Us',
-                                                            style: TextStyle(
-                                                                color: clrYellowText,
-                                                                fontWeight: FontWeight.w300,
-                                                                fontSize: 12,
-                                                                decoration: TextDecoration.underline
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
+                                                Center(
+                                                  child: RichText(
+                                                      textAlign: TextAlign.center,
+                                                      text: TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                                text:
+                                                                "Need help? ",
+                                                                style: TextStyle(
+                                                                    color: clrGreyDark,
+                                                                    fontWeight:
+                                                                    FontWeight.w300,
+                                                                    fontSize: 12)),
+                                                            TextSpan(
+                                                                text: "Contact Us",
+                                                                recognizer: TapGestureRecognizer()..onTap = () async{
+                                                                  Get.toNamed(Routes.contactSupport);
+                                                                },
+                                                                style: TextStyle(
+                                                                    color: clrYellowText,
+                                                                    fontWeight:
+                                                                    FontWeight.w300,
+                                                                    fontSize: 12,
+                                                                    decoration: TextDecoration
+                                                                        .underline)),
+
+                                                          ]
+                                                      )),
+                                                ),
+                                                // Row(
+                                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                                //   children: [
+                                                //     Text("Need help?",style: TextStyle(
+                                                //         color: clrGreyTextLight,
+                                                //         fontSize: 14),),
+                                                //     SizedBox(width: 5,),
+                                                //     InkWell(
+                                                //       onTap: () {
+                                                //         Get.toNamed(Routes.contactSupport);
+                                                //       },
+                                                //       child: Center(
+                                                //         child: Text(
+                                                //             'Contact Us',
+                                                //             style: TextStyle(
+                                                //                 color: clrYellowText,
+                                                //                 fontWeight: FontWeight.w300,
+                                                //                 fontSize: 12,
+                                                //                 decoration: TextDecoration.underline
+                                                //             )
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                                //   ],
+                                                // )
                                               ],
                                             ),
                                           ));
