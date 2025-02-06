@@ -31,7 +31,7 @@ class MessagelistController extends GetxController with GetTickerProviderStateMi
     notLoading.value = true;
     try{
       final response = await api.get(EndPoints.getNot,headers: header);
-      print(response.body);
+      print("get not == ${response.body}");
       if(response.statusCode == 200){
         notError.value = '';
         notData.value = NotificationModal.fromJson(response.body);

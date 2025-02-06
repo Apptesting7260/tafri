@@ -326,7 +326,7 @@ class ExploreViewController extends GetxController{
   Rx<bool> isLoadingRequest = false.obs;
 
   var waitlistMsgController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
+  // var formKey = GlobalKey<FormState>();
 
   Future<void> requestApi(String? id) async{
     isLoadingRequest.value = true;
@@ -612,21 +612,18 @@ class ExploreViewController extends GetxController{
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Form(
-                  key: formKey,
-                  child: CustoTextFormField(
-                    hintText: "Hi! I’d like to join you for...",
-                    maxLines: 4,
-                    borderRadius: 15,
-                    controll: waitlistMsgController,
-                    validation: (value) {
-                      if(value == null || value.isEmpty){
-                        return 'Please type any message';
-                      }else{
-                        return null;
-                      }
-                    },
-                  ),
+                child: CustoTextFormField(
+                  hintText: "Hi! I’d like to join you for...",
+                  maxLines: 4,
+                  borderRadius: 15,
+                  controll: waitlistMsgController,
+                  validation: (value) {
+                    // if(value == null || value.isEmpty){
+                    //   return 'Please type any message';
+                    // }else{
+                    //   return null;
+                    // }
+                  },
                 ),
               ),
                 SizedBox(
@@ -635,10 +632,10 @@ class ExploreViewController extends GetxController{
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: () async{
-                  if(formKey.currentState!.validate()){
+                  // if(formKey.currentState!.validate()){
                     Get.back();
                     await requestApi(id);
-                  }
+                  // }
                 }, backgroundClr: clrBlacke, child: Text("Send Request",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
               ),
                 SizedBox(

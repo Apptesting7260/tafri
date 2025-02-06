@@ -214,6 +214,7 @@ class Navbar extends GetWidget {
                 leftCornerRadius: 20,
                 rightCornerRadius: 20,
                 onTap: (index) {
+                  notController.getNotification();
                   if(index == 3) {
                     Get.put(ProfilemainController());
                   }

@@ -32,6 +32,7 @@ class Notification {
   String? actImg;
   String? actName;
   int? actId;
+  String? waitListMsg;
 
   Notification({
     this.id,
@@ -45,7 +46,8 @@ class Notification {
     this.profile,
     this.actId,
     this.actImg,
-    this.actName
+    this.actName,
+    this.waitListMsg
   });
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
@@ -60,7 +62,8 @@ class Notification {
     profile: json["profile"],
     actId: json['activity_id'],
     actImg: json['activity_img'],
-    actName: json['activity_name']
+    actName: json['activity_name'],
+    waitListMsg: json['waitlist_message']
   );
 
   Map<String, dynamic> toJson() => {

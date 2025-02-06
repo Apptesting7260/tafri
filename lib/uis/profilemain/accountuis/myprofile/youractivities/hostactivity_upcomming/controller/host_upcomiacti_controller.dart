@@ -272,9 +272,10 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
         exploreListController.homePageApi();
 
       }else{
+        var data = response.body;
         print('error == ${response.body}');
         delError.value = 'ERROR';
-        showTostMsg('there has been some error try again');
+        showTostMsg(data['message']);
       }
     }catch(e){
       print('home api error == ${e.toString()}');
