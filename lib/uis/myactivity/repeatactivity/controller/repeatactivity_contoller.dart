@@ -823,7 +823,7 @@ class Repeatcreativitycontroller extends GetxController
         var response = await api.post(EndPoints.repeatActivity, body,headers: header);
         print('repeat res == ${response.body} \n ${response.statusCode}');
         if(response.statusCode == 200){
-          showTostMsg('Activity created successfully.Your activity is under review.');
+          showTostMsg('Activity created successfully.');
           Get.back();
         }else if(response.statusCode == 401){
           LocalStorage.removeToken();
