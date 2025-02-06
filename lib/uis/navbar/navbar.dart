@@ -217,6 +217,10 @@ class Navbar extends GetWidget {
                   notController.getNotification();
                   if(index == 3) {
                     Get.put(ProfilemainController());
+                    if(Get.isRegistered<ProfilemainController>()){
+                      final ProfilemainController pc = ProfilemainController();
+                      pc.viewProfile();
+                    }
                   }
                   controller.changeNavIndex(index);
                   if(index == 1){

@@ -122,6 +122,7 @@ class ViewNotiUi extends GetWidget<ViewNotifiController>{
                             borderRadius: BorderRadius.circular(15)
                           ),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -156,10 +157,19 @@ class ViewNotiUi extends GetWidget<ViewNotifiController>{
                               ),
                               const SizedBox(width: 10,),
                               Flexible(
-                                child: Text('${controller.actTitle.value}',style: TextStyle(
-                                    color: clrBlacke,
-                                    fontWeight: FontWeight.w700
-                                ),),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text('${controller.actTitle.value}',style: TextStyle(
+                                          color: clrBlacke,
+                                          fontWeight: FontWeight.w700
+                                      ),),
+                                    ),
+                                    Flexible(child: Text('${controller.waitlistMsg.value}'))
+                                  ],
+                                ),
                               )
                             ],
                           ),

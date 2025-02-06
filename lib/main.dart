@@ -42,7 +42,7 @@ Future<void> main() async {
   await GetStorage.init();
   runApp(const MyApp());
   // Get.put(ChatController());
-  await FirebaseApi().initializeNotification();
+  // await FirebaseApi().initializeNotification();
 }
 
 class MyApp extends StatefulWidget {
@@ -58,6 +58,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initDeepLink();
+    FirebaseApi().initializeNotification(context);
   }
 
   late AppLinks _appLinks;

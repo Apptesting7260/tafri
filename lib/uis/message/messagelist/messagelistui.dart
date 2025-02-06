@@ -402,7 +402,8 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                             'userimg': controller.notData.value.notifications?[index].profile.toString(),
                                             'activity_id': controller.notData.value.notifications?[index].actId.toString(),
                                             'activity_img': controller.notData.value.notifications?[index].actImg.toString(),
-                                            'activity_title': controller.notData.value.notifications?[index].actName.toString()
+                                            'activity_title': controller.notData.value.notifications?[index].actName.toString(),
+                                            'waitlist_msg': controller.notData.value.notifications?[index].waitListMsg
                                                       });
                                           if(controller.notData.value.notifications?[index].isRead == '0') {
                                             controller.readNotification(

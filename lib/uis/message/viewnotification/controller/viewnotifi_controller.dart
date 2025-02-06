@@ -14,6 +14,7 @@ class ViewNotifiController extends GetxController{
     actImg.value = data['activity_img'];
     actTitle.value = data['activity_title'];
     hostId.value = data['hostid'];
+    waitlistMsg.value = data['waitlist_msg'] ?? '';
     getActivityStatus();
     super.onInit();
   }
@@ -25,6 +26,7 @@ class ViewNotifiController extends GetxController{
   var actImg = ''.obs;
   var actTitle = ''.obs;
   var hostId = ''.obs;
+  var waitlistMsg = ''.obs;
 
   final api = ApiServices();
 

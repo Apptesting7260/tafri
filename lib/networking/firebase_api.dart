@@ -105,6 +105,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
@@ -128,11 +129,11 @@ class FirebaseApi {
   final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
-  Future<void> initializeNotification() async {
+  Future<void> initializeNotification(BuildContext context) async {
     await _requestPermission();
     await _getToken();
     await _initializeLocalNotification();
-    await _handleNotification();
+    await _handleNotification(context);
   }
 
   Future<void> _requestPermission() async {
@@ -227,7 +228,7 @@ class FirebaseApi {
     );
   }
 
-  Future<void> _handleNotification() async {
+  Future<void> _handleNotification(BuildContext context) async {
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -244,7 +245,8 @@ class FirebaseApi {
         print(
             'messageSSSS ===  ${message.data}  ===   ${message.notification?.body}   ====   ${message.notification?.title}');
         // showNotification(message);
-        snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
+        // snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
+        showCustomSnackbar(message.notification!.title.toString(), message.notification!.body.toString(), context);
       }
     });
 
@@ -458,6 +460,61 @@ class FirebaseApi {
     );
   }
 
+
+  static showCustomSnackbar(String title, String message,BuildContext context) {
+    final snackBar = SnackBar(
+      content: Row(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Image.asset(
+            'assets/images/launcher.webp',
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
+          SizedBox(width: 10),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.bold,color: clrBlacke),
+                  maxLines: 1,
+                ),
+                Flexible(
+                  child: Text(
+                    message,
+                    style: TextStyle(color: clrGreyDark),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: clrGreyLight,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15)
+      ),
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(seconds: 3),
+      padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
+      margin: EdgeInsets.only(
+        bottom: Get.height - (Get.height*0.28),
+        left: 10,
+        right: 10
+      ),
+      dismissDirection: DismissDirection.up,
+    );
+
+    // Show the custom Snackbar
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
 
 

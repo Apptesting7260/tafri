@@ -6,6 +6,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../utils/colors.dart';
@@ -1636,7 +1637,25 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                     itemBuilder: (context,ind) {
                                       return InkWell(
                                         onTap: () {
-                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].id.toString());
+                                          if(LocalStorage.getUid() == profileController.profileData.value.result?.upcomingActivities?[index].activities?[ind].hostId.toString()) {
+                                            Get.toNamed(
+                                                Routes.hostUpcommingActiview,
+                                                arguments: profileController
+                                                    .profileData.value.result
+                                                    ?.upcomingActivities?[index]
+                                                    .activities?[ind].id
+                                                    .toString());
+                                          }else{
+                                            Get.toNamed(
+                                                Routes
+                                                    .exploreView,
+                                                arguments: profileController
+                                                    .profileData.value.result
+                                                    ?.upcomingActivities?[index]
+                                                    .activities?[ind].id
+                                                    .toString()
+                                            );
+                                          }
                                           // Get.toNamed(Routes.previousActivityUi,
                                           //     arguments: {
                                           //       "isHost": false,
@@ -1779,7 +1798,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                        onTap: () {
                                          Get.toNamed(Routes.previousActivityUi,
                                              arguments: {
-                                               "isHost": true,
+                                               "isHost": LocalStorage.getUid() == profileController.profileData.value.result?.previousActivities?[index].activities?[ind].hostId.toString() ? true : false,
                                                "id": profileController.profileData.value.result?.previousActivities?[index].activities?[ind].id.toString()
                                              });
                                        },
@@ -1852,11 +1871,17 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                             FontWeight.w600),
                                                       ),
                                                       Text(
-                                                          profileController.profileData.value.result!.previousActivities![index].activities![ind].status.toString() ?? '',
+                                                          profileController.profileData.value.result!.previousActivities![index].activities![ind].location.toString() ?? '',
                                                           style: TextStyle(
                                                               color: clrGreyTextLight,
                                                               fontSize: 12)
                                                       ),
+                                                      // Text(
+                                                      //     profileController.profileData.value.result!.previousActivities![index].activities![ind].status.toString() ?? '',
+                                                      //     style: TextStyle(
+                                                      //         color: clrGreyTextLight,
+                                                      //         fontSize: 12)
+                                                      // ),
                                                     ],
                                                   ),
                                                 ),
