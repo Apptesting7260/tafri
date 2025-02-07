@@ -665,7 +665,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                 arguments: controller
                                                                     .actData
                                                                     .value
-                                                                    .going?[
+                                                                    .requests?[
                                                                 index]
                                                                     .userId
                                                                     .toString());
