@@ -46,13 +46,13 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                     const CircleAvatar(
                       radius: 45,
                       backgroundColor: Colors.transparent,
-                      backgroundImage: AssetImage("assets/images/plusone.png"),
+                      backgroundImage: AssetImage("assets/images/plusones.png"),
                     ),
                     SizedBox(
                       height: Get.width * 0.02,
                     ),
                     const Text(
-                      "Plus Ones Support",
+                      "PlusOnes Support",
                       style:
                       TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
@@ -225,7 +225,7 @@ class PlusOneSupportChetUi extends GetWidget<PoSupportChatController> {
                                                     ),
                                                   )
                                               ),
-                                              errorWidget: (context, url, error) => Image.asset('assets/images/plusone.png'),
+                                              errorWidget: (context, url, error) => Image.asset('assets/images/plusones.png'),
                                             ),
                                           ),
                                           SizedBox(

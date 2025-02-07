@@ -111,7 +111,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: Image.asset(
-                                  "assets/images/plusone.png",
+                                  "assets/images/plusones.png",
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -128,7 +128,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                         CrossAxisAlignment.start,
                                         children: [
                                           const Text(
-                                            "Plus Ones Support",
+                                            "PlusOnes Support",
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w600),

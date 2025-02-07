@@ -719,11 +719,14 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                             shrinkWrap: true,
                             itemBuilder: (context,index){
                               print('att user == ${controller.attData.value.result?.attendanceList?[index].userId}');
+                              final joinedUsers = controller.attData.value.result!.attendanceList!
+                                  .where((e) => e.userAttendance == 'Joined')
+                                  .toList();
                               return GestureDetector(
                                 onTap: () {
                                   Get.toNamed(
                                       Routes.userProfileui,
-                                      arguments: controller.attData.value.result?.attendanceList?[index].userId.toString());
+                                      arguments: joinedUsers[index].userId.toString());
                                 },
                                 child: ClipRRect(
                                   borderRadius:
@@ -732,7 +735,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     height: 52,
                                     width: 52,
                                     fit: BoxFit.cover,
-                                    imageUrl: '${controller.attData.value.result?.attendanceList?[index].profilePhoto}',
+                                    imageUrl: '${joinedUsers[index].profilePhoto}',
                                     errorWidget:
                                         (context, url, error) =>
                                         Container(
