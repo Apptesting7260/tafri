@@ -719,7 +719,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                                       controller
                                                                           .date
                                                                           .value)
-                                                              : "DD/MM/YYYY",
+                                                              : "Start date",
                                                           style: TextStyle(
                                                               color: controller
                                                                       .date
@@ -735,9 +735,102 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             SizedBox(
                                               height: Get.height * 0.02,
                                             ),
+                                            InkWell(
+                                              onTap: () async {
+                                                DateTime? date =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                    context,
+                                                        Widget? child) {
+                                                      return Theme(
+                                                        data: ThemeData
+                                                            .light()
+                                                            .copyWith(
+                                                          colorScheme:
+                                                          ColorScheme
+                                                              .light(
+                                                            primary:
+                                                            clrYellow,
+                                                            // Change the color to yellow
+                                                            onPrimary:
+                                                            Colors
+                                                                .black,
+                                                            // Text color on selected date
+                                                            onSurface: Colors
+                                                                .black, // Text color on unselected dates
+                                                          ),
+                                                          dialogBackgroundColor:
+                                                          Colors
+                                                              .white, // Background color of the date picker
+                                                        ),
+                                                        child: child!,
+                                                      );
+                                                    },
+                                                    firstDate:
+                                                    DateTime.now().add(Duration(days: 1)),
+                                                    lastDate:
+                                                    DateTime.now().add(Duration(days: 365)),
+                                                    currentDate: controller
+                                                        .endDateForPicker
+                                                        .value
+                                                        .isNotEmpty
+                                                        ? DateTime.parse(
+                                                        controller
+                                                            .endDateForPicker
+                                                            .value)
+                                                        : DateTime.now());
+                                                if (date != null) {
+                                                  controller.changeEndDate(date);
+                                                }
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical:
+                                                      Get.height * .022,
+                                                      horizontal: 15),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                      color: clrGreyLight),
+                                                  child: Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        "assets/icons/calendericon.png",
+                                                        height: 20,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 12,
+                                                      ),
+                                                      Obx(
+                                                            () => Text(
+                                                          controller.endDate.value
+                                                              .isNotEmpty
+                                                              ? controller
+                                                              .formatDate(
+                                                              controller
+                                                                  .endDate
+                                                                  .value)
+                                                              : "End date",
+                                                          style: TextStyle(
+                                                              color: controller
+                                                                  .endDate
+                                                                  .value
+                                                                  .isNotEmpty
+                                                                  ? clrBlacke
+                                                                  : clrGreyTextLight),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
                                             Obx(() {
                                               return IgnorePointer(
-                                                ignoring: true,
+                                                ignoring: false,
                                                 child: InkWell(
                                                   onTap: () async {
                                                     TimeOfDay? stime =
@@ -827,7 +920,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                             ),
                                             Obx(() {
                                               return IgnorePointer(
-                                                ignoring: true,
+                                                ignoring: false,
                                                 child: InkWell(
                                                   onTap: () async {
                                                     TimeOfDay? etime =
@@ -1173,7 +1266,9 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                               child: CustomElevatedButton(
                                                   onTap: () {
                                                     if(controller.date.value.isEmpty){
-                                                      showTostMsg('Please add date');
+                                                      showTostMsg('Please add start date');
+                                                    } else if(controller.endDate.value.isEmpty){
+                                                      showTostMsg('Please add end date');
                                                     }else {
                                                       controller.repeatActivity();
                                                     }
