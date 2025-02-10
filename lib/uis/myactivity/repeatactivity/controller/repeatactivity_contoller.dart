@@ -619,9 +619,10 @@ class Repeatcreativitycontroller extends GetxController
           showTostMsg('Activity created successfully.');
           Get.back();
         }else if(response.statusCode == 401){
-          LocalStorage.removeToken();
-          Get.offAllNamed(Routes.initialPage);
-          showTostMsg('Session expired. Please login again.');
+          // LocalStorage.removeToken();
+          // Get.offAllNamed(Routes.initialPage);
+          var data = response.body;
+          showTostMsg('${data['message']}');
         }else if(response.statusCode == 499){
           LocalStorage.removeToken();
           Get.offAllNamed(Routes.initialPage);
