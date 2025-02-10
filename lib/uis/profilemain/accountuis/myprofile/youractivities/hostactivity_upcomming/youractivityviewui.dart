@@ -65,7 +65,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                       InkWell(
                         onTap: () {
                           Share.share(
-                              '${controller.actData.value.activitySettings?.shareText} https://nbttech.xyz/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                              '${controller.actData.value.activitySettings?.shareText ?? ''} https://api.plusonesapp.com/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
@@ -810,7 +810,9 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                   .actData
                                                                   .value
                                                                   .requests?[
-                                                              index].loading);
+                                                              index].loading,actId: controller.actData.value.activity!.id.toString(),gpID: controller.actData.value.activity!.groupId.toString(),hostID: int.parse(controller.actData.value.activity!.hostId.toString()),members: [
+                                                                int.parse(controller.actData.value.requests![index].userId.toString())
+                                                              ]);
                                                             },
                                                             child:
                                                             Container(
@@ -1011,7 +1013,7 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                                                     .going?[
                                                                 index]
                                                                     .userId
-                                                                    .toString());
+                                                                    .toString(),gpID: controller.actData.value.activity!.groupId.toString(),memberId: controller.actData.value.going![index].userId.toString());
                                                           });
                                                           // controller.removeuserapi(controller.actData.value.going?[index].userId.toString());
                                                         },

@@ -300,9 +300,27 @@ class Creativitycontroller extends GetxController
     return endTimeInMinutes > startTimeInMinutes;
   }
 
+
+  bool checkDateTime(String sDate, String eDate, TimeOfDay sTime, TimeOfDay eTime) {
+    DateTime startDate = DateTime.parse(sDate);
+    DateTime endDate = DateTime.parse(eDate);
+
+    if (startDate.year == endDate.year && startDate.month == endDate.month && startDate.day == endDate.day) {
+      int startTimeInMinutes = sTime.hour * 60 + sTime.minute;
+      int endTimeInMinutes = eTime.hour * 60 + eTime.minute;
+      return endTimeInMinutes > startTimeInMinutes;
+    }
+    return true;
+  }
+
+
+
+
   var date = ''.obs;
   var dateForView = ''.obs;
 
+  var endDate = ''.obs;
+  var endDateForView = ''.obs;
 
   String formatDate(String date) {
     DateTime parsedDate = DateTime.parse(date); // Assuming date is in yyyy-MM-dd format
@@ -312,6 +330,7 @@ class Creativitycontroller extends GetxController
 
 
   var dateForPicker = ''.obs;
+  var endDateForPicker = ''.obs;
   changeDate(DateTime dateTime) {
     dateForPicker.value = dateTime.toString();
 
@@ -320,6 +339,16 @@ class Creativitycontroller extends GetxController
 
     date.value = '${dateTime.year}-$formattedMonth-$formattedDay';
     dateForView.value = '${formattedDay} ${getMonthName(int.parse(formattedMonth))} ${dateTime.year}';
+  }
+
+  changeEndDate(DateTime date){
+    endDateForPicker.value = date.toString();
+
+    String formattedMonth = date.month.toString().padLeft(2, '0');
+    String formattedDay = date.day.toString().padLeft(2, '0');
+
+    endDate.value = '${date.year}-$formattedMonth-$formattedDay';
+    endDateForView.value = '${formattedDay} ${getMonthName(int.parse(formattedMonth))} ${date.year}';
   }
 
   String getMonthName(int monthNumber) {
@@ -692,6 +721,8 @@ class Creativitycontroller extends GetxController
         return;
       }else if(date.value.isEmpty){
         showTostMsg('Please select date',gravity: ToastGravity.CENTER);
+      }else if(endDate.value.isEmpty){
+        showTostMsg('Please select end date',gravity: ToastGravity.CENTER);
       } else if(timeZone.value.isEmpty){
         showTostMsg('Please select valid location.',gravity: ToastGravity.CENTER);
       }else if(sTimeForApi.value.isEmpty){
@@ -699,13 +730,20 @@ class Creativitycontroller extends GetxController
       }else if(eTimeForAPi.value.isEmpty){
         showTostMsg('Please select end time',gravity: ToastGravity.CENTER);
       }else if(
-        !checkTime(TimeOfDay(
+      !checkDateTime(date.value, endDate.value, TimeOfDay(
         hour: int.parse(sTime.value.split(":")[0]),
         minute: int.parse(sTime.value.split(":")[1]),
-        ),TimeOfDay(
+      ), TimeOfDay(
         hour: int.parse(eTime.value.split(":")[0]),
         minute: int.parse(eTime.value.split(":")[1]),
-        ))
+      ))
+        // !checkTime(TimeOfDay(
+        // hour: int.parse(sTime.value.split(":")[0]),
+        // minute: int.parse(sTime.value.split(":")[1]),
+        // ),TimeOfDay(
+        // hour: int.parse(eTime.value.split(":")[0]),
+        // minute: int.parse(eTime.value.split(":")[1]),
+        // ))
       ){
         showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
       }else if(groupSize.value == 1 || groupSize.value == 0){
@@ -786,6 +824,7 @@ class Creativitycontroller extends GetxController
         request.fields['latitude'] = latitude.value.toString();
         request.fields['longitude'] = longitude.value.toString();
         request.fields['date'] = date.value;
+        request.fields['activity_end_date'] = endDate.value;
         request.fields['name'] = titleController.value.value.text.trim();
         request.fields['start_at'] = sTimeForApi.value;
         request.fields['end_at'] = eTimeForAPi.value;
@@ -904,6 +943,7 @@ class Creativitycontroller extends GetxController
         request.fields['latitude'] = latitude.value.toString();
         request.fields['longitude'] = longitude.value.toString();
         request.fields['date'] = date.value;
+        request.fields['activity_end_date'] = endDate.value;
         request.fields['name'] = titleController.value.value.text.trim();
         request.fields['start_at'] = sTimeForApi.value;
         request.fields['end_at'] = eTimeForAPi.value;

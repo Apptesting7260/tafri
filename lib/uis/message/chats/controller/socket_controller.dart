@@ -230,7 +230,7 @@ class SocketController extends GetxService {
 
 
   /// add member
-  void addMember({required String groupID,required List<int> members,required int hostID,required String actId}){
+  void addMember({required String groupID,required List<int> members,required int hostID,required String actId,bool? fromHost}){
     log('adding member');
     log('group id == ${groupID}');
     log('st == ${DateTime.now()}');
@@ -242,18 +242,22 @@ class SocketController extends GetxService {
       });
       socket.on('addnewMemeberOfGropup', (data) {
         log('add member == ${data.runtimeType}');
-        if(data['status'] == true){
-          Get.toNamed(Routes.chatUi,arguments: {
-            'gpID': data['groupId'],
-            'activityId': actId,
-            'hostId': hostID.toString()
-          });
-        }else if(data['status'] == false){
-          Get.toNamed(Routes.chatUi,arguments: {
-            'gpID': data['groupId'],
-            'activityId': actId,
-            'hostId': hostID.toString()
-          });
+        bool fH = fromHost ?? false;
+        log('from host == ${fH}');
+        if(fH != true) {
+          if (data['status'] == true) {
+            Get.toNamed(Routes.chatUi, arguments: {
+              'gpID': data['groupId'],
+              'activityId': actId,
+              'hostId': hostID.toString()
+            });
+          } else if (data['status'] == false) {
+            Get.toNamed(Routes.chatUi, arguments: {
+              'gpID': data['groupId'],
+              'activityId': actId,
+              'hostId': hostID.toString()
+            });
+          }
         }
         // if(response[''])
         socket.off('addnewMemeberOfGropup');
@@ -266,6 +270,15 @@ class SocketController extends GetxService {
   /// add member
 
 
+  
+  /// leave group///
+  void leaveGroup({required String gpID,required String memberId}){
+    socket.emit('removeMemeberOfGropup',{
+      'groupId': gpID,
+      'membersId': memberId,
+    });
+  }
+  /// leave group///
 
 
 

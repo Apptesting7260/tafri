@@ -66,6 +66,7 @@ class Activity {
   String? description;
   String? location;
   String? date;
+  String? endDate;
   String? startAt;
   String? endAt;
   int? maxPeople;
@@ -120,6 +121,7 @@ class Activity {
     this.spotPeople,
     this.subcategoryIcon,
     this.latitude,
+    this.endDate,
     this.longitude,
   RxInt? circleIndex,
   }) : circleIndex = circleIndex ?? 0.obs;
@@ -155,7 +157,8 @@ class Activity {
     spotPeople: json['spot_people'],
     subcategoryIcon: json['subcategory_icon'],
     longitude: json['longitude'],
-    latitude: json['latitude']
+    latitude: json['latitude'],
+    endDate: json['formatted_activity_end_date']
   );
 
   Map<String, dynamic> toJson() => {

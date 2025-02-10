@@ -13,6 +13,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/exploreview/model/exploreviewui_model.dart';
 import 'package:plusone/uis/explore/exploreview/model/requestmodel.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
@@ -41,6 +42,9 @@ class ExploreViewController extends GetxController{
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
   RefreshController refreshController1 = RefreshController(initialRefresh: false);
+
+  final SocketController socketController = Get.find<SocketController>();
+
   Future<void> refreshApi() async{
     await actapi(Get.arguments);
     refreshController.refreshCompleted();
@@ -245,8 +249,7 @@ class ExploreViewController extends GetxController{
   var leaveactivityLoading = false.obs;
 
 
-  Future<void> leaveActivity(String? id) async{
-
+  Future<void> leaveActivity(String? id,{required String gpID}) async{
 
     Map body = {
       'activity_id': id,
@@ -266,6 +269,7 @@ class ExploreViewController extends GetxController{
       if(response.statusCode == 200){
         print('home data == ${response.body}');
         showTostMsg('You have successfuly left the Activity');
+        socketController.leaveGroup(gpID: gpID, memberId: LocalStorage.getUid().toString());
         // Get.back();
       }else{
         print('error == ${response.body}');

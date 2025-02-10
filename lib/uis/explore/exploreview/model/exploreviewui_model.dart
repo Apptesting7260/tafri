@@ -128,6 +128,7 @@ class Activity {
   String? hostName;
   dynamic profilePhoto;
   String? formattedDate;
+  String? endDate;
   bool? isFav;
   RxInt? circleIndex;
   dynamic requestStatus;
@@ -166,6 +167,7 @@ class Activity {
     this.requestStatus,
     this.spotLeft,
     this.spotPeople,
+    this.endDate,
     this.groupId,
     RxInt? circleIndex,
   }): circleIndex = circleIndex ?? 0.obs;
@@ -201,6 +203,7 @@ class Activity {
     requestStatus: json["request_status"],
     spotLeft: json["spot_left"],
     spotPeople: json["spot_people"],
+    endDate: json['formatted_activity_end_date'],
     groupId: json['groupid']
   );
 

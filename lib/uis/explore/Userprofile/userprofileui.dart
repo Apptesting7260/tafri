@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import  'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/Userprofile/controller/userprofile_controller.dart';
+import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
+import 'package:plusone/uis/explore/exploreview/exploreviewui.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/colors.dart';
@@ -683,11 +687,27 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                       itemBuilder: (context,ind) {
                                         return InkWell(
                                           onTap: () {
-                                            // Get.toNamed(Routes.previousActivityUi,
-                                            //     arguments: {
-                                            //       "isHost": false,
-                                            //       "id": controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].id.toString()
-                                            //     });
+                                            if(LocalStorage.getUid() == controller.hostData.value
+                                                .result?.upcomingActivities?[index].activities?[ind].hostId.toString()){
+                                              // Get.offNamedUntil(Routes.hostUpcommingActiview,(route) => route.settings.name , arguments: controller.hostData.value
+                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
+                                              // Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.hostData.value
+                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
+                                            }else{
+                                              // print('previous route == ${Get.previousRoute}');
+                                              // var previousRoute = Get.previousRoute;
+                                              // Get.removeRoute(GetPageRoute(routeName: Routes.exploreView));
+                                              // if(Get.isRegistered<ExploreViewController>(tag: )){
+                                              //
+                                              // }
+                                              // Get.toNamed(Routes.exploreView,arguments: controller.hostData.value
+                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
+
+                                              // Get.offNamedUntil(Routes.exploreView, (route) => false,arguments: controller.hostData.value
+                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
+
+
+                                            }
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.only(top: 12),

@@ -505,7 +505,9 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                               Get.toNamed(Routes.previousActivityUi, arguments: {
                                                                                                 "isHost": false,
                                                                                                 "id": data.activities?[ind].id.toString()
-                                                                                              });
+                                                                                              })?.then((value) async{
+                                                                                                await controller.attendingActivity();
+                                                                                              },);
                                                                                             },
                                                                                             child: Row(
                                                                                               // crossAxisAlignment: CrossAxisAlignment.start,
@@ -1076,7 +1078,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                     .value
                                                                     .result
                                                                     ?.previousActivities?[index];
-                                                                return InkWell(
+                                                                return GestureDetector(
                                                                   onTap: () {
                                                                     // Get.toNamed(
                                                                     //     Routes
@@ -1156,7 +1158,9 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                         Get.toNamed(Routes.previousActivityUi, arguments: {
                                                                                           "isHost": true,
                                                                                           'id': data.activities?[ind].id
-                                                                                        });
+                                                                                        })?.then((value) async{
+                                                                                          await controller.hostingActivity();
+                                                                                        },);
                                                                                       },
                                                                                       child: Row(
                                                                                         // crossAxisAlignment: CrossAxisAlignment.start,

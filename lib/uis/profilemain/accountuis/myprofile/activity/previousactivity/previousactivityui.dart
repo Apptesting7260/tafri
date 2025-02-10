@@ -86,7 +86,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                     children: [
                       InkWell(
                         onTap: () {
-                          Share.share('${controller.actData.value.activitySettings?.shareText} https://api.plusonesapp.com/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                          Share.share('${controller.actData.value.activitySettings?.shareText ?? ''} https://api.plusonesapp.com/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,

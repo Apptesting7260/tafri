@@ -425,7 +425,7 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                           //   height: 5,
                                                           // ),
                                                           Text(
-                                                            '${resultData[index].formattedDate} ${homeController
+                                                            '${resultData[index].formattedDate}${resultData[index].endDate != null ? ' - ${resultData[index].endDate}' : ''} ${homeController
                                                                 .homeData
                                                                 .value
                                                                 .result

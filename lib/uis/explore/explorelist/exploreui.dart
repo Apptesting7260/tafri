@@ -466,7 +466,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                     //   h * .005,
                                                     // ),
                                                     Text(
-                                                      '${activityData?[index].formattedDate} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
+                                                      '${activityData?[index].formattedDate}${activityData?[index].endDate != null ? ' - ${activityData?[index].endDate}' : ''} ${controller.homeData.value.result?.membershipStatus == true && controller.homeData.value.result?.profileComplete == true ? '| ${activityData?[index].startAt} - ${activityData?[index].endAt}' : ''} ',
                                                       style:
                                                       TextStyle(color: clrGreyDark),
                                                     ),

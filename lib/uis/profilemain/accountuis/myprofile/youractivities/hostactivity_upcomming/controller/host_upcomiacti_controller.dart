@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,6 +23,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
 
   final MyactiController myactiController = Get.find<MyactiController>();
   final ExploreListController exploreListController = Get.find<ExploreListController>();
+  final SocketController socketController = Get.find<SocketController>();
   RefreshController refreshController = RefreshController(initialRefresh: false);
 
 
@@ -125,7 +127,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
   var accuserData = ActDataModal().obs;
   var accuserError = ''.obs;
 
-  Future<void> acceptuserapi(String? userid,Rx<bool?>? loading) async{
+  Future<void> acceptuserapi(String? userid,Rx<bool?>? loading,{required String gpID,required List<int> members,required int hostID,required String actId}) async{
 
     loading?.value = true;
 
@@ -149,6 +151,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
         print('home data == ${response.body}');
         accuserData.value = ActDataModal.fromJson(jsonDecode(response.body));
         print('work data == ${response.body}');
+        socketController.addMember(groupID: gpID, members: members, hostID: hostID, actId: actId,fromHost: true);
         hostactapi(actData.value.activity?.id.toString());
       }else{
         print('error == ${response.body}');
@@ -209,7 +212,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
   var remuserData = ActDataModal().obs;
   var remuserError = ''.obs;
 
-  Future<void> removeuserapi(String? userid) async{
+  Future<void> removeuserapi(String? userid,{required String gpID,required String memberId}) async{
 
     Map body = {
       'activity_id': actData.value.activity?.id,
@@ -230,6 +233,7 @@ class HostUpcomiActiController extends GetxController  with GetTickerProviderSta
         remuserError.value = '';
         print('home data == ${response.body}');
         remuserData.value = ActDataModal.fromJson(response.body);
+        socketController.leaveGroup(gpID: gpID, memberId: memberId);
         hostactapi(actData.value.activity?.id.toString());
       }else{
         print('error == ${response.body}');

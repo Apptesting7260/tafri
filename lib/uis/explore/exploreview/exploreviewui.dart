@@ -67,7 +67,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Share.share('${controller.actData.value.activitySettings?.shareText} https://api.plusonesapp.com/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
+                          Share.share('${controller.actData.value.activitySettings?.shareText ?? ''} https://api.plusonesapp.com/activity?activityid=${controller.actData.value.activity?.id}&hostId=${controller.actData.value.activity?.hostId}');
                         },
                         child: Container(
                           clipBehavior: Clip.hardEdge,
@@ -415,7 +415,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               height: h * .005,
                                             ),
                                             Text(
-                                              '${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
+                                              '${controller.actData.value.activity!.formattedDate}${controller.actData.value.activity!.endDate != null ? ' - ${controller.actData.value.activity!.endDate}' : ''} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
                                               style: TextStyle(
                                                   color: clrGreyTextLight),
                                             ),
@@ -539,7 +539,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: true,
                                               itemBuilder: (context, index) {
-                                                return InkWell(
+                                                return GestureDetector(
                                                   onTap: () {
                                                     Get.toNamed(
                                                         Routes.userProfileui,
@@ -923,7 +923,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                               }else{
                                 alertLeave(controller.actData.value.activity!.id.toString(),() async{
                                       Get.back();
-                                      await controller.leaveActivity(controller.actData.value.activity!.id.toString());
+                                      await controller.leaveActivity(controller.actData.value.activity!.id.toString(),gpID: controller.actData.value.activity!.groupId.toString());
                                       await controller.actapi(controller.actData.value.activity!.id.toString());
                                     },);
                               }
@@ -1371,7 +1371,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                           // controller.changeReqSent(1);
                           if (isLeave) {
                             Get.back();
-                            await controller.leaveActivity(id);
+                            await controller.leaveActivity(id,gpID: controller.actData.value.activity!.groupId.toString());
                             await controller.actapi(id);
                           } else {
                             Get.back();

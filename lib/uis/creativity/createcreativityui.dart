@@ -820,12 +820,111 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                       controller
                                                                           .date
                                                                           .value)
-                                                              : "DD/MM/YYYY",
+                                                              : "Start date",
                                                           style: TextStyle(
                                                               color: controller
                                                                       .date
                                                                       .value
                                                                       .isNotEmpty
+                                                                  ? clrBlacke
+                                                                  : clrGreyTextLight),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.02,
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                DateTime? date =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                    context,
+                                                        Widget? child) {
+                                                      return Theme(
+                                                        data: ThemeData
+                                                            .light()
+                                                            .copyWith(
+                                                          colorScheme:
+                                                          ColorScheme
+                                                              .light(
+                                                            primary:
+                                                            clrYellow,
+                                                            // Change the color to yellow
+                                                            onPrimary:
+                                                            Colors
+                                                                .black,
+                                                            // Text color on selected date
+                                                            onSurface: Colors
+                                                                .black, // Text color on unselected dates
+                                                          ),
+                                                          dialogBackgroundColor:
+                                                          Colors
+                                                              .white, // Background color of the date picker
+                                                        ),
+                                                        child: child!,
+                                                      );
+                                                    },
+                                                    firstDate:
+                                                    DateTime.now().add(
+                                                        const Duration(
+                                                            days: 1)),
+                                                    lastDate:
+                                                    DateTime.now().add(Duration(days: 365)),
+                                                    currentDate: controller
+                                                        .endDateForPicker
+                                                        .value
+                                                        .isNotEmpty
+                                                        ? DateTime.parse(
+                                                        controller
+                                                            .endDateForPicker
+                                                            .value)
+                                                        : DateTime.now());
+                                                if (date != null) {
+                                                  controller.changeEndDate(date);
+                                                }
+                                                controller.locationFocus.unfocus();
+                                                controller.titleFocus.unfocus();
+                                                controller.desFocus.unfocus();
+                                                controller.uptoFocus.unfocus();
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical:
+                                                      Get.height * .022,
+                                                      horizontal: 15),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                      color: clrGreyLight),
+                                                  child: Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        "assets/icons/calendericon.png",
+                                                        height: 20,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 12,
+                                                      ),
+                                                      Obx(
+                                                            () => Text(
+                                                          controller.endDate.value
+                                                              .isNotEmpty
+                                                              ? controller
+                                                              .formatDate(
+                                                              controller
+                                                                  .endDate
+                                                                  .value)
+                                                              : "End date",
+                                                          style: TextStyle(
+                                                              color: controller
+                                                                  .endDate
+                                                                  .value
+                                                                  .isNotEmpty
                                                                   ? clrBlacke
                                                                   : clrGreyTextLight),
                                                         ),
@@ -1941,10 +2040,10 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                               Get.height * 0.005,
                                                         ),
                                                         Obx(
-                                                          () => controller.date.value.isEmpty || controller.sTimeForApi.value.isEmpty || controller.eTimeForAPi.value.isEmpty ? Text('Set date and time',style: TextStyle(
+                                                          () => controller.date.value.isEmpty || controller.endDate.value.isEmpty || controller.sTimeForApi.value.isEmpty || controller.eTimeForAPi.value.isEmpty ? Text('Set date and time',style: TextStyle(
                                                               color:
                                                               clrGreyDark)) : Text(
-                                                              '${controller.dateForView.value} ${" | ${controller.sTimeForApi.value}"} ${'- ${controller.eTimeForAPi.value}'}',
+                                                              '${controller.dateForView.value} - ${controller.endDateForView.value} ${" | ${controller.sTimeForApi.value}"} ${'- ${controller.eTimeForAPi.value}'}',
                                                               style: TextStyle(
                                                                   color:
                                                                       clrGreyDark)),
