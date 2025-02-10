@@ -838,7 +838,45 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                       context: context,
                                                       initialEntryMode:
                                                           TimePickerEntryMode
-                                                              .input,
+                                                              .inputOnly,
+                                                          builder:
+                                                              (BuildContext context,
+                                                              Widget? child) {
+                                                            return MediaQuery(
+                                                              data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                                                              child: Theme(
+                                                                data: ThemeData.light()
+                                                                    .copyWith(
+                                                                  colorScheme:
+                                                                  ColorScheme.light(
+                                                                    primary: clrYellow,
+                                                                    // Change the color to yellow
+                                                                    onPrimary:
+                                                                    Colors.black,
+                                                                    // Text color on selected time
+                                                                    onSurface: Colors
+                                                                        .black, // Text color on unselected items
+                                                                  ),
+                                                                  timePickerTheme:
+                                                                  TimePickerThemeData(
+                                                                    dayPeriodColor: MaterialStateColor.resolveWith((states) =>
+                                                                    states.contains(
+                                                                        MaterialState
+                                                                            .selected)
+                                                                        ? clrYellow
+                                                                        : clrWhite),
+                                                                    backgroundColor:
+                                                                    Colors.white,
+                                                                    // Background color of the time picker
+                                                                    hourMinuteTextColor:
+                                                                    Colors
+                                                                        .black, // Text color of the hour and minute
+                                                                  ),
+                                                                ),
+                                                                child: child!,
+                                                              ),
+                                                            );
+                                                          },
                                                       initialTime: controller
                                                               .sTime
                                                               .value
@@ -928,7 +966,45 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                             context: context,
                                                             initialEntryMode:
                                                                 TimePickerEntryMode
-                                                                    .input,
+                                                                    .inputOnly,
+                                                            builder:
+                                                                (BuildContext context,
+                                                                Widget? child) {
+                                                              return MediaQuery(
+                                                                data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                                                                child: Theme(
+                                                                  data: ThemeData.light()
+                                                                      .copyWith(
+                                                                    colorScheme:
+                                                                    ColorScheme.light(
+                                                                      primary: clrYellow,
+                                                                      // Change the color to yellow
+                                                                      onPrimary:
+                                                                      Colors.black,
+                                                                      // Text color on selected time
+                                                                      onSurface: Colors
+                                                                          .black, // Text color on unselected items
+                                                                    ),
+                                                                    timePickerTheme:
+                                                                    TimePickerThemeData(
+                                                                      dayPeriodColor: MaterialStateColor.resolveWith((states) =>
+                                                                      states.contains(
+                                                                          MaterialState
+                                                                              .selected)
+                                                                          ? clrYellow
+                                                                          : clrWhite),
+                                                                      backgroundColor:
+                                                                      Colors.white,
+                                                                      // Background color of the time picker
+                                                                      hourMinuteTextColor:
+                                                                      Colors
+                                                                          .black, // Text color of the hour and minute
+                                                                    ),
+                                                                  ),
+                                                                  child: child!,
+                                                                ),
+                                                              );
+                                                            },
                                                             initialTime:
                                                                 controller
                                                                         .eTime
