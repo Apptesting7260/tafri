@@ -694,7 +694,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
               SizedBox(
                 height: Get.height * 0.01,
               ),
-              Obx(() => controller.activitypage.value ? const SizedBox() : Obx(() {
+              Obx(() => controller.activitypage.value ? const SizedBox() : controller.actError.value.isNotEmpty ? const SizedBox() : Obx(() {
                 print('re');
                 return controller.actData.value.activity!
                     .requestStatus ==
@@ -870,7 +870,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                           fontSize: 16),
                     ));
               }),),
-              Obx(() => controller.activitypage.value ? const SizedBox() : Obx(() {
+              Obx(() => controller.activitypage.value ? const SizedBox() : controller.actError.value.isNotEmpty ? const SizedBox() : Obx(() {
                 return controller.actData.value.activity!
                     .requestStatus ==
                     'pending'
