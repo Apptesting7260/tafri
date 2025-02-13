@@ -7,6 +7,8 @@ import  'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/Userprofile/controller/userprofile_controller.dart';
 import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
 import 'package:plusone/uis/explore/exploreview/exploreviewui.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/controller/previousacti_controller.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/youractivities/hostactivity_upcomming/controller/host_upcomiacti_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:shimmer/shimmer.dart';
@@ -143,12 +145,16 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                             const SizedBox(
                               width: 5,
                             ),
-                            InkWell(
-                                onTap: () {},
+                            controller.hostData.value.result?.profile?.verifyInstagram == '1'
+                                || controller.hostData.value.result?.profile?.verifyLinkedin == '1'
+                                ? GestureDetector(
+                                onTap: () {
+                                  verificationAlert();
+                                },
                                 child: Icon(
                                   Icons.verified,
                                   color: clrYellow,
-                                ))
+                                )) : SizedBox()
                           ],
                         ),
                         SizedBox(
@@ -685,28 +691,21 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                           .result?.upcomingActivities?[index].activities?.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context,ind) {
-                                        return InkWell(
+                                        return GestureDetector(
                                           onTap: () {
                                             if(LocalStorage.getUid() == controller.hostData.value
                                                 .result?.upcomingActivities?[index].activities?[ind].hostId.toString()){
-                                              // Get.offNamedUntil(Routes.hostUpcommingActiview,(route) => route.settings.name , arguments: controller.hostData.value
-                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
-                                              // Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.hostData.value
-                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
+                                              if(Get.isRegistered<HostUpcomiActiController>()){
+                                                Get.delete<HostUpcomiActiController>();
+                                              }
+                                              Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.hostData.value
+                                                  .result?.upcomingActivities?[index].activities?[ind].id.toString());
                                             }else{
-                                              // print('previous route == ${Get.previousRoute}');
-                                              // var previousRoute = Get.previousRoute;
-                                              // Get.removeRoute(GetPageRoute(routeName: Routes.exploreView));
-                                              // if(Get.isRegistered<ExploreViewController>(tag: )){
-                                              //
-                                              // }
-                                              // Get.toNamed(Routes.exploreView,arguments: controller.hostData.value
-                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
-
-                                              // Get.offNamedUntil(Routes.exploreView, (route) => false,arguments: controller.hostData.value
-                                              //     .result?.upcomingActivities?[index].activities?[ind].id.toString());
-
-
+                                              if(Get.isRegistered<ExploreViewController>()){
+                                                Get.delete<ExploreViewController>();
+                                              }
+                                              Get.toNamed(Routes.exploreView,arguments: controller.hostData.value
+                                                  .result?.upcomingActivities?[index].activities?[ind].id.toString());
                                             }
                                           },
                                           child: Padding(
@@ -831,8 +830,30 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                           .result?.previousActivities?[index].activities?.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context,ind) {
-                                        return InkWell(
+                                        return GestureDetector(
                                           onTap: () {
+
+                                            if(LocalStorage.getUid() == controller.hostData.value
+                                                .result?.previousActivities?[index].activities?[ind].hostId.toString()){
+                                              if(Get.isRegistered<PreviousActiController>()){
+                                                Get.delete<PreviousActiController>();
+                                              }
+                                              Get.toNamed(Routes.previousActivityUi,
+                                                  arguments: {
+                                                    "isHost": true,
+                                                    "id": controller.hostData.value.result?.previousActivities?[index].activities?[ind].id.toString()
+                                                  });
+                                            }else{
+                                              if(Get.isRegistered<PreviousActiController>()){
+                                                Get.delete<PreviousActiController>();
+                                              }
+                                              Get.toNamed(Routes.previousActivityUi,
+                                                  arguments: {
+                                                    "isHost": false,
+                                                    "id": controller.hostData.value.result?.previousActivities?[index].activities?[ind].id.toString()
+                                                  });
+                                            }
+
                                             // Get.toNamed(Routes.previousActivityUi,
                                             //     arguments: {
                                             //       "isHost": false,
@@ -942,6 +963,60 @@ class UserProfileUi extends GetWidget<UserProfileController>{
           )),
     );
   }
+
+   verificationAlert() {
+     return Get.dialog(AlertDialog(
+       shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.circular(10)
+       ),
+       insetPadding: const EdgeInsets.symmetric(horizontal: 65),
+       contentPadding: const EdgeInsets.symmetric(vertical: 10),
+       content: Column(
+         mainAxisSize: MainAxisSize.min,
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           Padding(
+             padding: const EdgeInsets.symmetric(horizontal: 10,),
+             child: InkWell(
+                 onTap: () {
+                   return Get.back();
+                 },
+                 child: const Icon(
+                   Icons.close,
+                   size: 25,
+                 )),
+           ),
+           SizedBox(
+             height: Get.height * .013,
+           ),
+           Center(
+             child: Padding(
+               padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
+               child: Icon(
+                 Icons.verified,
+                 color: clrYellow,
+                 size: 40,
+               ),
+             ),
+           ),
+           const Center(
+             child: Padding(
+               padding: EdgeInsets.symmetric(horizontal: 40),
+               child: Text(
+                 "Social media account verified",
+                 textAlign: TextAlign.center,
+                 style: TextStyle(fontSize: 16),
+               ),
+             ),
+           ),
+           const SizedBox(
+             height: 20,
+           ),
+         ],
+       ),
+     ));
+   }
+
 
   alertReport() {
     Get.dialog(AlertDialog(

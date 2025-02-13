@@ -69,6 +69,7 @@ import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousac
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/previousactivityui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/binding/myprofileinnbinding.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/addphoto/crop%20photo/crop_photo.dart';
+import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/verifysocialmedia/insta_login_view.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/youractivities/attendancereview/attendancereviewui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/youractivities/attendancereview/bindings/attend_review_binding.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/youractivities/hostactivity_upcomming/bindings/host_upcommiacti_bindings.dart';
@@ -167,6 +168,7 @@ class Routes{
   static String restartScreen='/restartScreen';
   static String restartSwitchScreen='/restartSwitchScreen';
   static String chatPhotoScreen='/chatPhotoScreen';
+  static String instaLoginScreen='/instaLoginScreen';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -227,5 +229,6 @@ class Routes{
     GetPage(name: restartScreen, page: () => ReStartMembershipScreen(),binding: ReStartBinding()),
     GetPage(name: restartSwitchScreen, page: () => RestartSwitchPlanUi()),
     GetPage(name: chatPhotoScreen, page: () => ChatPhotoScreen()),
+    GetPage(name: instaLoginScreen, page: () => InstaLoginView()),
   ];
 }

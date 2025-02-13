@@ -5,6 +5,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/size.dart';
@@ -427,8 +428,11 @@ class HostUpcomActivityViewUi extends GetWidget<HostUpcomiActiController> {
                                         const SizedBox(
                                           width: 5,
                                         ),
-                                        InkWell(
+                                        GestureDetector(
                                           onTap: () {
+                                            if(Get.isRegistered<HostProfileController>()){
+                                              Get.delete<HostProfileController>();
+                                            }
                                             Get.toNamed(Routes.hostProfileUi,
                                                 arguments: controller.actData
                                                     .value.activity!.hostId

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
+import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
 import 'package:readmore/readmore.dart';
@@ -478,6 +479,9 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                                     .result
                                                                     ?.membershipStatus ==
                                                                 true) {
+                                                          if(Get.isRegistered<HostProfileController>()){
+                                                            Get.delete<HostProfileController>();
+                                                          }
                                                           Get.toNamed(
                                                               Routes
                                                                   .hostProfileUi,

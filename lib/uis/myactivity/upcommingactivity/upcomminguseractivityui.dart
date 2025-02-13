@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
+import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/uis/explore/hostprofile/hostprofileui.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/myactivity/upcommingactivity/controller/upcommingactiuser_controller.dart';
@@ -440,8 +441,11 @@ class UpcommingUserActivityUi extends GetWidget<UpCommingActiUserController>{
                                     //     ],
                                     //   ),
                                     // )
-                                    InkWell(
+                                    GestureDetector(
                                       onTap: () {
+                                        if(Get.isRegistered<HostProfileController>()){
+                                          Get.delete<HostProfileController>();
+                                        }
                                         Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity!.hostId.toString());
                                       },
                                       child: Column(

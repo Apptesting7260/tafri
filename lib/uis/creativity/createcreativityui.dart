@@ -770,9 +770,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                           );
                                                         },
                                                         firstDate:
-                                                            DateTime.now().add(
-                                                                const Duration(
-                                                                    days: 1)),
+                                                            DateTime.now(),
                                                         lastDate:
                                                             DateTime.now().add(Duration(days: 365)),
                                                         currentDate: controller
@@ -869,9 +867,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                       );
                                                     },
                                                     firstDate:
-                                                    DateTime.now().add(
-                                                        const Duration(
-                                                            days: 1)),
+                                                    DateTime.now(),
                                                     lastDate:
                                                     DateTime.now().add(Duration(days: 365)),
                                                     currentDate: controller

@@ -240,8 +240,10 @@ class MyprofileInnController extends GetxController
   Rx<int> isLinkdinVerified = (profileController.profileData.value.result?.profile?.verifyLinkedin == null ? 0 : int.parse(profileController.profileData.value.result?.profile?.verifyLinkedin)).obs;
 
   changeVerifyInsta(val) {
-    if(val == 0) {
-
+    if(val == 1) {
+      Get.toNamed(Routes.instaLoginScreen);
+    }else{
+      isInstaVerified.value = val;
     }
   }
 
@@ -253,9 +255,13 @@ class MyprofileInnController extends GetxController
     }
   }
 
-  var linkedinId = ''.obs;
-  var linkedinName = ''.obs;
-  var linkedinEmail = ''.obs;
+  var linkedinId = (profileController.profileData.value.result?.profile?.linkedinID ?? '').obs;
+  var linkedinName = (profileController.profileData.value.result?.profile?.linkedinName ?? '').obs;
+  var linkedinEmail = (profileController.profileData.value.result?.profile?.linkedinMail ?? '').obs;
+
+  var instaID = (profileController.profileData.value.result?.profile?.instaId ?? '').obs;
+  var instaName = (profileController.profileData.value.result?.profile?.instaName ?? '').obs;
+
   Future<void> verifyLinkedin(BuildContext context,int val) async{
     await SignInWithLinkedIn.logout();
     SignInWithLinkedIn.signIn(
@@ -281,6 +287,76 @@ class MyprofileInnController extends GetxController
       },
     );
   }
+
+
+  var instaLoading = false.obs;
+  Future<void> verifyInsta({required String code}) async {
+    instaLoading.value = true;
+    try {
+      var url = Uri.parse('https://api.instagram.com/oauth/access_token');
+
+      var request = http.MultipartRequest('POST', url)
+        ..fields['client_id'] = '9550333448334536'  // Ensure it's a string
+        ..fields['client_secret'] = 'da91dd23619e4cb00af9d23cc67b5e15'
+        ..fields['grant_type'] = 'authorization_code'
+        ..fields['redirect_uri'] = EndPoints.redirectSuccessUrl
+        ..fields['code'] = code;
+
+      print('send data == ${request.fields}');
+
+      var response = await request.send();
+
+      var responseBody = await response.stream.bytesToString();
+      print('insta response == ${response.statusCode} \n $responseBody');
+      if(response.statusCode == 200){
+        var data = jsonDecode(responseBody);
+        var token = data['access_token'];
+        await getInstaData(token: token);
+      }else{
+        Get.back();
+        showTostMsg('Login failed. Please try again.');
+      }
+    } catch (e) {
+      Get.back();
+      showTostMsg('Login failed. Please try again.');
+      print('insta error == ${e.toString()}');
+    }
+    instaLoading.value = false;
+  }
+
+
+  Future<void> getInstaData({required String token}) async{
+
+    try{
+      var url = Uri.parse('https://graph.instagram.com/v22.0/me?fields=user_id,username&access_token=$token');
+      var request = http.MultipartRequest('GET', url);
+      var response = await request.send();
+
+      var responseBody = await response.stream.bytesToString();
+      print('insta user data response == ${response.statusCode} \n $responseBody');
+      if(response.statusCode == 200){
+        var data = jsonDecode(responseBody);
+        instaID.value = data['user_id'];
+        instaName.value = data['username'];
+        isInstaVerified.value = 1;
+        Get.back();
+        // await socialUpdate();
+      }else{
+        Get.back();
+        showTostMsg('Login failed. Please try again.');
+      }
+    }catch(e){
+      Get.back();
+      showTostMsg('Login failed. Please try again.');
+      print('get insta data error == ${e.toString()}');
+    }
+
+  }
+
+
+  // jayesh.nbt@gmail.com
+  // Nbt@123@#
+
 
 ///************************************************language get dropdown api ****************
   Rx<bool> isLanLoading = false.obs;
@@ -972,9 +1048,8 @@ class MyprofileInnController extends GetxController
       'user_id' : uid,
       'verify_instagram' : isInstaVerified.value,
       'verify_linkedin' : isLinkdinVerified.value,
-      // 'instagram_id':,
-      // 'instagram_email':,
-      // 'instagram_name':,
+      'instagram_id': instaID.value,
+      'instagram_name': instaName.value,
       'linkedin_id': linkedinId.value,
       'linkedin_email': linkedinEmail.value,
       'linkedin_name': linkedinName.value,

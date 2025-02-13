@@ -301,15 +301,45 @@ class Creativitycontroller extends GetxController
   }
 
 
+  // bool checkDateTime(String sDate, String eDate, TimeOfDay sTime, TimeOfDay eTime) {
+  //   DateTime startDate = DateTime.parse(sDate);
+  //   DateTime endDate = DateTime.parse(eDate);
+  //
+  //   if (startDate.year == endDate.year && startDate.month == endDate.month && startDate.day == endDate.day) {
+  //     int startTimeInMinutes = sTime.hour * 60 + sTime.minute;
+  //     int endTimeInMinutes = eTime.hour * 60 + eTime.minute;
+  //     return endTimeInMinutes > startTimeInMinutes;
+  //   }
+  //   return true;
+  // }
+
+
   bool checkDateTime(String sDate, String eDate, TimeOfDay sTime, TimeOfDay eTime) {
     DateTime startDate = DateTime.parse(sDate);
     DateTime endDate = DateTime.parse(eDate);
+    DateTime now = DateTime.now();
+
+    int startTimeInMinutes = sTime.hour * 60 + sTime.minute;
+    int endTimeInMinutes = eTime.hour * 60 + eTime.minute;
+    int currentTimeInMinutes = now.hour * 60 + now.minute + 60; // One hour after current time
+
+    if (startDate.year == now.year && startDate.month == now.month && startDate.day == now.day) {
+      if (startTimeInMinutes < currentTimeInMinutes) {
+        showTostMsg('Start time should be at least one hour after current time.',gravity: ToastGravity.CENTER);
+        return false;
+      }
+    }
 
     if (startDate.year == endDate.year && startDate.month == endDate.month && startDate.day == endDate.day) {
-      int startTimeInMinutes = sTime.hour * 60 + sTime.minute;
-      int endTimeInMinutes = eTime.hour * 60 + eTime.minute;
-      return endTimeInMinutes > startTimeInMinutes;
+      if(endTimeInMinutes > startTimeInMinutes){
+        return true;
+      }else {
+        showTostMsg(
+            'Please select valid end time.', gravity: ToastGravity.CENTER);
+        return false;
+      }
     }
+
     return true;
   }
 
@@ -737,15 +767,9 @@ class Creativitycontroller extends GetxController
         hour: int.parse(eTime.value.split(":")[0]),
         minute: int.parse(eTime.value.split(":")[1]),
       ))
-        // !checkTime(TimeOfDay(
-        // hour: int.parse(sTime.value.split(":")[0]),
-        // minute: int.parse(sTime.value.split(":")[1]),
-        // ),TimeOfDay(
-        // hour: int.parse(eTime.value.split(":")[0]),
-        // minute: int.parse(eTime.value.split(":")[1]),
-        // ))
       ){
-        showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
+        return;
+        // showTostMsg("Please select valid end time.",gravity: ToastGravity.CENTER);
       }else if(groupSize.value == 1 || groupSize.value == 0){
         showTostMsg('Please add people',gravity: ToastGravity.CENTER);
       }else if(groupSize.value < 2){

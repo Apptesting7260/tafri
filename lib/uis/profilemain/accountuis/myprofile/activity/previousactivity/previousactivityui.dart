@@ -11,6 +11,7 @@ import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
+import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/uis/explore/hostprofile/hostprofileui.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/activity/previousactivity/controller/previousacti_controller.dart';
 import 'package:plusone/utils/colors.dart';
@@ -483,8 +484,11 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                             //     ],
                             //   ),
                             // )
-                            InkWell(
+                            GestureDetector(
                               onTap: () {
+                                if(Get.isRegistered<HostProfileController>()){
+                                  Get.delete<HostProfileController>();
+                                }
                                 Get.toNamed(Routes.hostProfileUi,arguments: controller.actData.value.activity?.hostId.toString());
                               },
                               child: Column(

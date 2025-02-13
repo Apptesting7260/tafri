@@ -675,7 +675,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                           );
                                                         },
                                                         firstDate:
-                                                            DateTime.now().add(Duration(days: 1)),
+                                                            DateTime.now(),
                                                         lastDate:
                                                         DateTime.now().add(Duration(days: 365)),
                                                         currentDate: controller
@@ -768,7 +768,7 @@ class RepeatcreateActivityUi extends GetWidget<Repeatcreativitycontroller> {
                                                       );
                                                     },
                                                     firstDate:
-                                                    DateTime.now().add(Duration(days: 1)),
+                                                    DateTime.now(),
                                                     lastDate:
                                                     DateTime.now().add(Duration(days: 365)),
                                                     currentDate: controller

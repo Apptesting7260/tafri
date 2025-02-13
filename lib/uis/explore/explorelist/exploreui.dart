@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
@@ -257,12 +258,14 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                       .status ==
                                       'approved')
                                       .toList();
-                                  return InkWell(
+                                  return GestureDetector(
                                     onTap: () {
                                       if(controller.homeData.value.result?.profileComplete == true
                                           &&  controller.homeData.value.result?.membershipStatus == true) {
                                         if(controller.homeData.value.result?.activities?[index].hostId.toString() == LocalStorage.getUid()){
-                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.homeData.value.result?.activities?[index].id.toString());
+                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.homeData.value.result?.activities?[index].id.toString())?.then((value) {
+                                            controller.homePageApi();
+                                          },);
                                         }else {
                                           Get.toNamed(
                                               Routes
@@ -270,7 +273,9 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                               arguments: activityData?[index]
                                                   .id
                                                   .toString()
-                                          );
+                                          )?.then((value) {
+                                            controller.homePageApi();
+                                          },);
                                         }
                                       } else {
                                         controller.showHomePop();
@@ -490,10 +495,13 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                               const SizedBox(
                                                 width: 5,
                                               ),
-                                              InkWell(
+                                              GestureDetector(
                                                 onTap:
                                                     () {
                                                   if(controller.homeData.value.result?.profileComplete == true && controller.homeData.value.result?.membershipStatus == true) {
+                                                    if(Get.isRegistered<HostProfileController>()){
+                                                      Get.delete<HostProfileController>();
+                                                    }
                                                     Get.toNamed(
                                                         Routes
                                                             .hostProfileUi,

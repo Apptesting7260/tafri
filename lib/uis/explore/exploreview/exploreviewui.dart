@@ -12,7 +12,9 @@ import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
+import 'package:plusone/uis/explore/Userprofile/controller/userprofile_controller.dart';
 import 'package:plusone/uis/explore/exploreview/controller/exploreview_controller.dart';
+import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/colors.dart';
@@ -434,8 +436,11 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      InkWell(
+                                      GestureDetector(
                                         onTap: () {
+                                          if(Get.isRegistered<HostProfileController>()){
+                                            Get.delete<HostProfileController>();
+                                          }
                                           Get.toNamed(Routes.hostProfileUi,
                                               arguments: controller.actData
                                                   .value.activity!.hostId
@@ -541,6 +546,9 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               itemBuilder: (context, index) {
                                                 return GestureDetector(
                                                   onTap: () {
+                                                    if(Get.isRegistered<UserProfileController>()){
+                                                      Get.delete<UserProfileController>();
+                                                    }
                                                     Get.toNamed(
                                                         Routes.userProfileui,
                                                         arguments: controller
