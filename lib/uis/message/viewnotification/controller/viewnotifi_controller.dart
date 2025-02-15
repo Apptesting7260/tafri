@@ -13,7 +13,7 @@ class ViewNotifiController extends GetxController{
     actId.value = data['activity_id'];
     actImg.value = data['activity_img'];
     actTitle.value = data['activity_title'];
-    hostId.value = data['hostid'];
+    // hostId.value = data['hostid'];
     waitlistMsg.value = data['waitlist_msg'] ?? '';
     getActivityStatus();
     super.onInit();
@@ -47,6 +47,7 @@ class ViewNotifiController extends GetxController{
       final response = await api.post(EndPoints.activityStatusUrl, body,headers: header);
       if(response.statusCode == 200){
         actStatus.value = response.body['activity-status'];
+        hostId.value = response.body['host_id'].toString();
       }else{
         actStatus.value = '';
       }

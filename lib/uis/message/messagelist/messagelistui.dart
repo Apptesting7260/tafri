@@ -389,11 +389,11 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                                 index]
                                                             .message
                                                             .toString(),
-                                            'hostid': controller
-                                                .notData
-                                                .value
-                                                .notifications?[
-                                            index].userId.toString(),
+                                            // 'hostid': controller
+                                            //     .notData
+                                            //     .value
+                                            //     .notifications?[
+                                            // index].userId.toString(),
                                             'userid': controller
                                                 .notData
                                                 .value
