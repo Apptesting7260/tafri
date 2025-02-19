@@ -419,7 +419,9 @@ class ExploreListController extends GetxController {
                     if(homeData.value.result?.membershipStatus == true){
 
                     }else {
-                      Get.toNamed(Routes.mymembershipProUi);
+                      Get.toNamed(Routes.mymembershipProUi)?.then((value) {
+                        homePageApi();
+                      },);
                     }
                   },
                   child: Container(
@@ -465,7 +467,9 @@ class ExploreListController extends GetxController {
                     if(homeData.value.result?.profileComplete == true){
 
                     }else {
-                      Get.toNamed(Routes.myprofileInnUi);
+                      Get.toNamed(Routes.myprofileInnUi)?.then((value) {
+                        homePageApi();
+                      },);
                     }
                   },
                   child: Container(
