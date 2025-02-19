@@ -10,6 +10,7 @@ import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custofilterbtn.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/onbording/login/model/social_login_model.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/activityvisibility/controller/activityvisibility_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
@@ -266,6 +267,7 @@ class SettingController extends GetxController{
       print(response.body);
       if(response.statusCode == 200){
         GoogleSignIn().signOut();
+        Get.find<SocketController>().deleteUser();
         LocalStorage.removeToken();
         debugPrint("gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
         if (LocalStorage.getToken() == null || LocalStorage.getUid() == null) {

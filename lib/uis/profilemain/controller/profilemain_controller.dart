@@ -110,6 +110,7 @@ class ProfilemainController extends GetxController{
     logoutloading.value = true;
 
     try{
+
       final response = await api.post(EndPoints.logout,body,headers: header);
       if(response.statusCode == 200){
         GoogleSignIn().signOut();

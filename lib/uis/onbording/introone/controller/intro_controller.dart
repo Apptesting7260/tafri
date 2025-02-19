@@ -318,6 +318,7 @@ class IntroController extends GetxController {
     numberLoading.value = true;
     try{
       final response = await api.post(EndPoints.numberCheck, data);
+      print('res == ${response.body}  ${response.statusCode}');
       if(response.statusCode == 200){
         if(response.body['message'] == 'Mobile number not exists'){
           sendOtp();

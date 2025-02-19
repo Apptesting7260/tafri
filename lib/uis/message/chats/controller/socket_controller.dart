@@ -281,5 +281,18 @@ class SocketController extends GetxService {
   /// leave group///
 
 
+  /// delete user
+  bool deleteUser(){
+    socket.emit('delete-user-account',{
+      'userId': int.parse(LocalStorage.getUid().toString())
+    });
+    socket.on('delete-user-account', (data) {
+      print('delete account data   ${data}');
+      return true;
+    },);
+    return false;
+  }
+  /// delete user
+
 
 }

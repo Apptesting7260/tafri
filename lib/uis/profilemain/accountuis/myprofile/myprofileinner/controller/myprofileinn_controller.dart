@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/addphoto/controller/addphoto_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/funfact/models/funfactquest_model.dart';
 import 'package:plusone/uis/profilemain/accountuis/myprofile/myprofileinner/proallui/language/models/langauagemodel.dart';
@@ -296,7 +297,7 @@ class MyprofileInnController extends GetxController
       var url = Uri.parse('https://api.instagram.com/oauth/access_token');
 
       var request = http.MultipartRequest('POST', url)
-        ..fields['client_id'] = '9550333448334536'  // Ensure it's a string
+        ..fields['client_id'] = '9550333448334536'
         ..fields['client_secret'] = 'da91dd23619e4cb00af9d23cc67b5e15'
         ..fields['grant_type'] = 'authorization_code'
         ..fields['redirect_uri'] = EndPoints.redirectSuccessUrl
@@ -1253,14 +1254,15 @@ class MyprofileInnController extends GetxController
     deleteloading.value = true;
     try{
       final response = await api.delete(EndPoints.deleteUser, headers: header);
-      print(response.body);
+      print('delete user == ${response.body}');
       if(response.statusCode == 200){
         GoogleSignIn().signOut();
-        LocalStorage.removeToken();
-        debugPrint("gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
-        if (LocalStorage.getToken() == null || LocalStorage.getUid() == null) {
-          Get.offAllNamed(Routes.initialPage);
-        }
+        Get.find<SocketController>().deleteUser();
+        // LocalStorage.removeToken();
+        // debugPrint("gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
+        // if (LocalStorage.getToken() == null || LocalStorage.getUid() == null) {
+        //   Get.offAllNamed(Routes.initialPage);
+        // }
       }
     }catch(e){
       showTostMsg('Something went wrong');
