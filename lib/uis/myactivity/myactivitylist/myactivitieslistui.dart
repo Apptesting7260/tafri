@@ -261,7 +261,28 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                     padding: const EdgeInsets.only(top: 5),
                                                                                     child: InkWell(
                                                                                       onTap: () {
-                                                                                        Get.toNamed(Routes.exploreView, arguments: data.activities?[ind].id.toString());
+                                                                                        if(
+                                                                                        homeController
+                                                                                            .homeData.value
+                                                                                            .result
+                                                                                            ?.profileComplete ==
+                                                                                            true &&
+                                                                                            homeController
+                                                                                                .homeData
+                                                                                                .value.result
+                                                                                                ?.membershipStatus ==
+                                                                                                true
+                                                                                        ){
+                                                                                          Get.toNamed(
+                                                                                              Routes
+                                                                                                  .exploreView,
+                                                                                              arguments: data
+                                                                                                  .activities?[ind]
+                                                                                                  .id
+                                                                                                  .toString());
+                                                                                        }else {
+                                                                                          homeController.showHomePop();
+                                                                                        }
                                                                                       },
                                                                                       child: Container(
                                                                                         padding: const EdgeInsets.only(
@@ -502,12 +523,36 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                           ),
                                                                                           child: InkWell(
                                                                                             onTap: () {
-                                                                                              Get.toNamed(Routes.previousActivityUi, arguments: {
-                                                                                                "isHost": false,
-                                                                                                "id": data.activities?[ind].id.toString()
-                                                                                              })?.then((value) async{
-                                                                                                await controller.attendingActivity();
-                                                                                              },);
+                                                                                              if(
+                                                                                              homeController
+                                                                                                  .homeData.value
+                                                                                                  .result
+                                                                                                  ?.profileComplete ==
+                                                                                                  true &&
+                                                                                                  homeController
+                                                                                                      .homeData
+                                                                                                      .value.result
+                                                                                                      ?.membershipStatus ==
+                                                                                                      true
+                                                                                              ) {
+                                                                                                Get.toNamed(
+                                                                                                    Routes
+                                                                                                        .previousActivityUi,
+                                                                                                    arguments: {
+                                                                                                      "isHost": false,
+                                                                                                      "id": data
+                                                                                                          .activities?[ind]
+                                                                                                          .id
+                                                                                                          .toString()
+                                                                                                    })
+                                                                                                    ?.then((
+                                                                                                    value) async {
+                                                                                                  await controller
+                                                                                                      .attendingActivity();
+                                                                                                },);
+                                                                                              }else{
+                                                                                                homeController.showHomePop();
+                                                                                              }
                                                                                             },
                                                                                             child: Row(
                                                                                               // crossAxisAlignment: CrossAxisAlignment.start,
@@ -902,7 +947,28 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                             child:
                                                                                 InkWell(
                                                                               onTap: () {
-                                                                                Get.toNamed(Routes.hostUpcommingActiview, arguments: data.activities?[ind].id.toString());
+                                                                                if(
+                                                                                homeController
+                                                                                    .homeData.value
+                                                                                    .result
+                                                                                    ?.profileComplete ==
+                                                                                    true &&
+                                                                                    homeController
+                                                                                        .homeData
+                                                                                        .value.result
+                                                                                        ?.membershipStatus ==
+                                                                                        true
+                                                                                ) {
+                                                                                  Get.toNamed(
+                                                                                      Routes
+                                                                                          .hostUpcommingActiview,
+                                                                                      arguments: data
+                                                                                          .activities?[ind]
+                                                                                          .id
+                                                                                          .toString());
+                                                                                }else{
+                                                                                  homeController.showHomePop();
+                                                                                }
                                                                               },
                                                                               child: Container(
                                                                                 padding: const EdgeInsets.only(
@@ -1155,12 +1221,35 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                     ),
                                                                                     child: GestureDetector(
                                                                                       onTap: () {
-                                                                                        Get.toNamed(Routes.previousActivityUi, arguments: {
-                                                                                          "isHost": true,
-                                                                                          'id': data.activities?[ind].id
-                                                                                        })?.then((value) async{
-                                                                                          await controller.hostingActivity();
-                                                                                        },);
+                                                                                        if(
+                                                                                        homeController
+                                                                                            .homeData.value
+                                                                                            .result
+                                                                                            ?.profileComplete ==
+                                                                                            true &&
+                                                                                            homeController
+                                                                                                .homeData
+                                                                                                .value.result
+                                                                                                ?.membershipStatus ==
+                                                                                                true
+                                                                                        ) {
+                                                                                          Get.toNamed(
+                                                                                              Routes
+                                                                                                  .previousActivityUi,
+                                                                                              arguments: {
+                                                                                                "isHost": true,
+                                                                                                'id': data
+                                                                                                    .activities?[ind]
+                                                                                                    .id
+                                                                                              })
+                                                                                              ?.then((
+                                                                                              value) async {
+                                                                                            await controller
+                                                                                                .hostingActivity();
+                                                                                          },);
+                                                                                        }else{
+                                                                                          homeController.showHomePop();
+                                                                                        }
                                                                                       },
                                                                                       child: Row(
                                                                                         // crossAxisAlignment: CrossAxisAlignment.start,
