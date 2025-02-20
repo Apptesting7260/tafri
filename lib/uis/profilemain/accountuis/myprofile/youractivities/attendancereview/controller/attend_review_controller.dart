@@ -55,8 +55,8 @@ class AttendReviewController extends GetxController{
         goinglist?[index].userAttendance = att == true ? true : true;
         showTostMsg('Attendance status updated successfully');
         previousActiController.actapi(actid);
-        previousActiController..showapi(actid);
-        previousActiController..attlistapi(actid);
+        previousActiController.showapi(actid);
+        previousActiController.attlistapi(actid);
 
       }else{
         print('error == ${response.body}');

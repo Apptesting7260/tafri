@@ -439,7 +439,7 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                                     height: Get.height * 0.01,
                                   ),
                                   Text(
-                                    "${controller.actData.value.activity!.formattedDate} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}",
+                                    "${controller.actData.value.activity!.formattedDate}${controller.actData.value.activity!.endDate != null ? ' - ${controller.actData.value.activity!.endDate}' : ''} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}",
                                     style: TextStyle(fontSize: 14,color:clrGreyTextLight,fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
