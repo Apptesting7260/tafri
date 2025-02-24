@@ -255,6 +255,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                           color: clrGreyDark,
                                                           fontWeight:
                                                           FontWeight.w300,
+                                                          fontFamily: 'Nunito',
                                                           fontSize: 14)),
                                                   const TextSpan(text: ' '),
                                                   TextSpan(
@@ -263,6 +264,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                           color: clrYellowText,
                                                           fontWeight:
                                                           FontWeight.w300,
+                                                          fontFamily: 'Nunito',
                                                           fontSize: 14,
                                                           decoration: TextDecoration
                                                               .underline)),
@@ -286,7 +288,8 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                       color: clrGreyDark,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      fontSize: 12)),
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 13)),
                                               const TextSpan(text: ' '),
                                               TextSpan(
                                                   text: "Terms of Use",
@@ -297,7 +300,8 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                       color: clrYellowText,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      fontSize: 12,
+                                                      fontSize: 13,
+                                                      fontFamily: 'Nunito',
                                                       decoration: TextDecoration
                                                           .underline)),
                                               TextSpan(
@@ -306,7 +310,8 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                       color: clrGreyDark,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      fontSize: 12)),
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 13)),
                                               const TextSpan(text: ' '),
                                               TextSpan(
                                                   text: "Privacy Policy",
@@ -317,7 +322,8 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                       color: clrYellowText,
                                                       fontWeight:
                                                           FontWeight.w300,
-                                                      fontSize: 12,
+                                                      fontSize: 13,
+                                                      fontFamily: 'Nunito',
                                                       decoration: TextDecoration
                                                           .underline)),
                                             ])),
@@ -336,6 +342,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                     color: clrGreyDark,
                                                     fontWeight:
                                                     FontWeight.w300,
+                                                    fontFamily: 'Nunito',
                                                     fontSize: 12)),
                                             TextSpan(
                                                 text: "Contact Us",
@@ -347,6 +354,7 @@ class IntroOneUi extends GetWidget<IntroController> {
                                                     fontWeight:
                                                     FontWeight.w300,
                                                     fontSize: 12,
+                                                    fontFamily: 'Nunito',
                                                     decoration: TextDecoration
                                                         .underline)),
 

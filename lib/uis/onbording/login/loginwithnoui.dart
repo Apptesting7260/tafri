@@ -283,11 +283,13 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                             color: clrGreyDark,
                                                             fontWeight:
                                                             FontWeight.w300,
+                                                            fontFamily: 'Nunito',
                                                             fontSize: 14)),
                                                         TextSpan(text: 'Sign up',style: TextStyle(
                                                             color: clrYellowText,
                                                             fontWeight:
                                                             FontWeight.w300,
+                                                            fontFamily: 'Nunito',
                                                             fontSize: 14,
                                                             decoration: TextDecoration
                                                                 .underline))
@@ -311,7 +313,8 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                 color: clrGreyDark,
                                                                 fontWeight:
                                                                 FontWeight.w300,
-                                                                fontSize: 12)),
+                                                                fontFamily: 'Nunito',
+                                                                fontSize: 13)),
                                                         const TextSpan(text: ' '),
                                                         TextSpan(
                                                             text: "Terms of Use",
@@ -322,7 +325,8 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                 color: clrYellowText,
                                                                 fontWeight:
                                                                 FontWeight.w300,
-                                                                fontSize: 12,
+                                                                fontFamily: 'Nunito',
+                                                                fontSize: 13,
                                                                 decoration: TextDecoration
                                                                     .underline)),
                                                         TextSpan(
@@ -331,7 +335,8 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                 color: clrGreyDark,
                                                                 fontWeight:
                                                                 FontWeight.w300,
-                                                                fontSize: 12)),
+                                                                fontFamily: 'Nunito',
+                                                                fontSize: 13)),
                                                         const TextSpan(text: ' '),
                                                         TextSpan(
                                                             text: "Privacy Policy",
@@ -342,7 +347,8 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                 color: clrYellowText,
                                                                 fontWeight:
                                                                 FontWeight.w300,
-                                                                fontSize: 12,
+                                                                fontFamily: 'Nunito',
+                                                                fontSize: 13,
                                                                 decoration: TextDecoration
                                                                     .underline)),
                                                       ])),
@@ -362,6 +368,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                     color: clrGreyDark,
                                                                     fontWeight:
                                                                     FontWeight.w300,
+                                                                    fontFamily: 'Nunito',
                                                                     fontSize: 12)),
                                                             TextSpan(
                                                                 text: "Contact Us",
@@ -372,6 +379,7 @@ class LoginWithNoUi extends GetWidget<LoginnoController> {
                                                                     color: clrYellowText,
                                                                     fontWeight:
                                                                     FontWeight.w300,
+                                                                    fontFamily: 'Nunito',
                                                                     fontSize: 12,
                                                                     decoration: TextDecoration
                                                                         .underline)),

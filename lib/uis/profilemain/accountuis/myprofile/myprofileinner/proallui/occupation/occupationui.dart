@@ -109,7 +109,6 @@ class OccupationUi extends GetWidget<MyprofileInnController> {
                           // profilemainController.profileData.value.result?.profile?.organisationName = controller.organiController.value.text.trim();
                           // profilemainController.profileData.refresh();
                           // Get.back();
-
                           await controller.occUpdate();
 
                         }

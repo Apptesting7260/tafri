@@ -417,7 +417,7 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                               height: h * .005,
                                             ),
                                             Text(
-                                              '${controller.actData.value.activity!.formattedDate}${controller.actData.value.activity!.endDate != null ? ' - ${controller.actData.value.activity!.endDate}' : ''} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
+                                              '${controller.actData.value.activity!.formattedDate}${controller.actData.value.activity!.endDate != controller.actData.value.activity!.formattedDate ? ' - ${controller.actData.value.activity!.endDate}' : ''} | ${controller.actData.value.activity!.startAt} - ${controller.actData.value.activity!.endAt}',
                                               style: TextStyle(
                                                   color: clrGreyTextLight),
                                             ),

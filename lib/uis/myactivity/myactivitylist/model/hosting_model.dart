@@ -268,7 +268,7 @@ class ActivityElement {
     gender: json["gender"],
     repeatStatus: json["repeat_status"],
     joinInstantly: json["join_instantly"],
-    status: json["status"],
+    status: json["status"] == 'not_approved' ? 'rejected' : json["status"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     formattedDate: json["formatted_date"],

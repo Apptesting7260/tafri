@@ -693,7 +693,7 @@ class ExploreViewController extends GetxController{
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                 Get.offAllNamed(Routes.navbarUi);
-              }, backgroundClr: clrBlacke, child: Text("Go to activity",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+              }, backgroundClr: clrBlacke, child: Text("Go to home screen",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             ),
               SizedBox(
               height: Get.height*.014,
@@ -736,7 +736,7 @@ class ExploreViewController extends GetxController{
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Center(child: Text("We will let you know once the host responds to your request. Make sure you turn on the app notification to receive timely updates.",style: TextStyle(color: clrGreyTextLight),textAlign: TextAlign.center,)),
+              child: Center(child: Text("Make sure to enable app notifications to receive updates.",style: TextStyle(color: clrGreyTextLight),textAlign: TextAlign.center,)),
             ),
               SizedBox(
               height: Get.height*.024,
@@ -745,7 +745,7 @@ class ExploreViewController extends GetxController{
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                 Get.offAllNamed(Routes.navbarUi);
-              }, backgroundClr: clrBlacke, child: Text("Go to activity",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+              }, backgroundClr: clrBlacke, child: Text("Go to home screen",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             ),
               SizedBox(
               height: Get.height*.014,

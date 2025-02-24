@@ -30,13 +30,14 @@ class ProfilemainController extends GetxController{
   List<Subcategory> interestList = [];
 
   Future<void> viewProfile() async{
+    profileLoading.value = true;
+    print('loading p == ${profileLoading.value}    ${DateTime.now()}');
 
     String? token = LocalStorage.getToken();
     String? uid = LocalStorage.getUid();
     print('token == $token        $uid');
     var header = {"Authorization": "Bearer $token"};
 
-    profileLoading.value = true;
     try{
       final response = await api.get('${EndPoints.profileViewUrl}${LocalStorage.getUid()}',headers: header);
       print('profile == ${response.body}');
@@ -44,6 +45,7 @@ class ProfilemainController extends GetxController{
         var data = ProfileViewModel.fromJson(response.body);
         if(data.status == true){
           profileData.value = data;
+          // profileData.refresh();
           print('profile url == ${profileData.value.result?.profile?.profilePhoto}');
           interestList.clear();
           if(data.result?.profile?.activityTitles != null){
@@ -87,6 +89,9 @@ class ProfilemainController extends GetxController{
       profileLoading.value = false;
       print('error == ${e.toString()}');
     }
+
+    print('loading p == ${profileLoading.value}   ${DateTime.now()}');
+
 
   }
 

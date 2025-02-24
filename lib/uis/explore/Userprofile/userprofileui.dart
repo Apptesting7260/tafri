@@ -138,7 +138,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '${controller.hostData.value.result?.firstName} ${controller.hostData.value.result?.lastName}',
+                              '${controller.hostData.value.result?.firstName}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 16),
                             ),

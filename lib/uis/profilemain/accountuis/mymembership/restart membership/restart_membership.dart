@@ -115,14 +115,14 @@ class ReStartMembershipScreen extends StatelessWidget {
                                                     children: [
                                                       paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
                                                         text:
-                                                        "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
+                                                        "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free ",
                                                         style: TextStyle(
                                                             color:
                                                             clrYellowText),
                                                       ) : const TextSpan(),
                                                       TextSpan(
                                                           text:
-                                                          " ${paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? 'then' : ''} €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                          "${paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? 'then ' : ''}€${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
                                                           style: TextStyle(
                                                               color:
                                                               clrGrey5D5C5E))
@@ -192,7 +192,7 @@ class ReStartMembershipScreen extends StatelessWidget {
                       height: Get.height * 0.03,
                     ),
                     Obx(() => RichText(
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         text: TextSpan(children: [
                           TextSpan(
                             text:

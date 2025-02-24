@@ -147,7 +147,7 @@ class _SwitchPlanUiState extends State<SwitchPlanUi> {
                                                   // ),
                                                   TextSpan(
                                                       text:
-                                                      " €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                      "€${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
                                                       style: TextStyle(
                                                           color: clrBlacke,
                                                           fontWeight: FontWeight.w700))

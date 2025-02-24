@@ -130,7 +130,7 @@ class _RestartSwitchPlanUiState extends State<RestartSwitchPlanUi> {
                                                 text: TextSpan(children: [
                                                   TextSpan(
                                                       text:
-                                                      " €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                      "€${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
                                                       style: TextStyle(
                                                           color: clrBlacke,
                                                           fontWeight: FontWeight.w700))

@@ -93,7 +93,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annual",
+                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annually",
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 18),
@@ -729,14 +729,14 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                                           children: [
                                                                             paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? TextSpan(
                                                                               text:
-                                                                              "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free",
+                                                                              "${paymentController.getWeek(int.parse(data.trailDays.toString()))} free ",
                                                                               style: TextStyle(
                                                                                   color:
                                                                                   clrYellowText),
                                                                             ) : const TextSpan(),
                                                                             TextSpan(
                                                                                 text:
-                                                                                " ${paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? 'then' : ''} €${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
+                                                                                "${paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? 'then ' : ''}€${data.price}/${data.billingPeriod == 'monthly' ? 'month' : data.billingPeriod == 'yearly' ? 'year' : ''}",
                                                                                 style: TextStyle(
                                                                                     color:
                                                                                     clrGrey5D5C5E))
@@ -806,7 +806,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             height: Get.height * 0.03,
                                           ),
                                           RichText(
-                                              textAlign: TextAlign.center,
+                                              textAlign: TextAlign.left,
                                               text: TextSpan(children: [
                                                 TextSpan(
                                                   text:

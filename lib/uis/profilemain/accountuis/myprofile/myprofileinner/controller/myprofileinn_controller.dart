@@ -54,6 +54,17 @@ class MyprofileInnController extends GetxController
     super.onInit();
   }
 
+
+  @override
+  void dispose() {
+    super.dispose();
+    bioController.value.dispose();
+    ocupatController.dispose();
+    organiController.dispose();
+    locController.dispose();
+  }
+
+
   var bioController = TextEditingController(text: profileController.profileData.value.result?.profile?.bio ?? '').obs;
   var currentLength = (profileController.profileData.value.result?.profile?.bio?.length ?? 0).obs;
   TextEditingController locController = TextEditingController(text: profileController.profileData.value.result?.location ?? '');
@@ -707,9 +718,9 @@ class MyprofileInnController extends GetxController
       if(response.statusCode == 200){
         var data = response.body;
         if(data['status'] == true){
-          await profileController.viewProfile();
+          // await profileController.viewProfile();
           bioLoading.value = false;
-          Get.back();
+          Get.back(result: true);
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');
@@ -764,8 +775,7 @@ class MyprofileInnController extends GetxController
         var data = response.body;
         if(data['status'] == true){
           locationLoading.value = false;
-          Get.back();
-          await profileController.viewProfile();
+          Get.back(result: true);
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');
@@ -815,8 +825,8 @@ class MyprofileInnController extends GetxController
         var data = response.body;
         if(data['status'] == true){
           occLoading.value = false;
-          Get.back();
-          await profileController.viewProfile();
+          Get.back(result: true);
+          // await profileController.viewProfile();
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');
@@ -865,8 +875,8 @@ class MyprofileInnController extends GetxController
         var data = response.body;
         if(data['status'] == true){
           langLoading.value = false;
-          Get.back();
-          await profileController.viewProfile();
+          Get.back(result: true);
+          // await profileController.viewProfile();
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');
@@ -915,8 +925,8 @@ class MyprofileInnController extends GetxController
         var data = response.body;
         if(data['status'] == true){
           actintLoading.value = false;
-          Get.back();
-          await profileController.viewProfile();
+          Get.back(result: true);
+          // await profileController.viewProfile();
         }else{
           print('profile error ==');
           showTostMsg('Something went wrong');

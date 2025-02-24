@@ -333,7 +333,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Get.toNamed(Routes.bioUi);
+                                      Get.toNamed(Routes.bioUi)?.then((value) {
+                                        if(value == true) {
+                                          profileController.viewProfile();
+                                        }
+                                      },);
                                     },
                                     child: Container(
                                       width: double.maxFinite,
@@ -370,7 +374,7 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                                       .result
                                                       !.profile
                                                       !.bio!.isEmpty
-                                                      ? "Add a short bio (Optional)"
+                                                      ? "Add a short bio"
                                                       : '${profileController.profileData.value.result?.profile?.bio}',
                                                   style: TextStyle(
                                                       fontSize: 13,
@@ -425,7 +429,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Get.toNamed(Routes.locationProUi);
+                                      Get.toNamed(Routes.locationProUi)?.then((value) {
+                                        if(value == true) {
+                                          profileController.viewProfile();
+                                        }
+                                      },);
                                     },
                                     child: Container(
                                       width: double.maxFinite,
@@ -493,7 +501,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Get.toNamed(Routes.occupationProUi);
+                                      Get.toNamed(Routes.occupationProUi)?.then((value) {
+                                        if(value == true) {
+                                          profileController.viewProfile();
+                                        }
+                                      },);
                                     },
                                     child: Container(
                                       width: double.maxFinite,
@@ -582,7 +594,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Get.toNamed(Routes.languageProUi);
+                                      Get.toNamed(Routes.languageProUi)?.then((value) {
+                                        if(value == true) {
+                                          profileController.viewProfile();
+                                        }
+                                      },);
                                     },
                                     child: Container(
                                       width: double.maxFinite,
@@ -692,7 +708,11 @@ class MyProfileUi extends GetWidget<MyprofileInnController> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Get.toNamed(Routes.activityInterestUi);
+                                      Get.toNamed(Routes.activityInterestUi)?.then((value) {
+                                        if(value == true) {
+                                          profileController.viewProfile();
+                                        }
+                                      },);
                                     },
                                     child: Container(
                                       width: double.maxFinite,

@@ -1042,7 +1042,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                 Container(
                                                                                                   padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 7),
                                                                                                   decoration: BoxDecoration(
-                                                                                                    color: darkYellow.withOpacity(.15),
+                                                                                                    color: data.activities?[ind].status == 'rejected' ? clrGreyLight : darkYellow.withOpacity(.15),
                                                                                                     borderRadius: BorderRadius.circular(50)
                                                                                                   ),
                                                                                                   child: Center(
@@ -1050,7 +1050,7 @@ class MyActivitiesListUi extends GetWidget<MyactiController> {
                                                                                                       '${data.activities?[ind].status?.substring(0, 1).toUpperCase()}${data.activities?[ind].status?.substring(1) ?? ''}',
                                                                                                       style: TextStyle(
                                                                                                         fontSize: 10,
-                                                                                                        color: darkYellow,
+                                                                                                        color: data.activities?[ind].status == 'rejected' ? clrBlacke : darkYellow,
                                                                                                       ),
                                                                                                     )
                                                                                                   ),
