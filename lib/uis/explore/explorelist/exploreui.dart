@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
+import 'package:plusone/uis/explore/filter/controller/filterexp_controller.dart';
 import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
@@ -23,9 +24,10 @@ import '../../../networking/firebase_api.dart';
 import 'controller/explorelist_controller.dart';
 
 class ExploreUi extends GetWidget<ExploreListController> {
-  const ExploreUi({super.key});
+  ExploreUi({super.key});
 
 // var controller= Get.put(ExploreController());
+  FilterExpController filterController = Get.put(FilterExpController());
   @override
   Widget build(BuildContext context) {
     var h = Get.height;
@@ -742,6 +744,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                              if (controller
                                  .selectedIndex.value !=
                                  index) {
+                               filterController.resetForm();
                                controller.selectedIndex.value =
                                    index;
                                controller.categoryID.value =
@@ -800,6 +803,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                          return GestureDetector(
                            onTap: () async {
                              if (controller.selectedIndex.value != index) {
+                               filterController.resetForm();
                                controller.selectedIndex.value = index;
                                controller.categoryID.value = categoryData?[categoryIndex].id.toString();
                                categoryData?[categoryIndex].loading?.value = true;

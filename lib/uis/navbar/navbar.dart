@@ -6,6 +6,7 @@ import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/creativity/createcreativityui.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/explore/explorelist/exploreui.dart';
+import 'package:plusone/uis/explore/filter/controller/filterexp_controller.dart';
 import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/uis/message/messagelist/controller/messagelist_controller.dart';
 import 'package:plusone/uis/message/messagelist/messagelistui.dart';
@@ -31,7 +32,6 @@ class Navbar extends GetWidget {
   SocketController chatController = Get.put(SocketController());
   MyactiController activityController =  Get.put(MyactiController());
   MessagelistController notController = Get.put(MessagelistController());
-
 
   final iconList = <IconData>[
     Icons.brightness_5,
