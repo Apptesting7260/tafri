@@ -25,7 +25,7 @@ class FilterExpController extends GetxController{
     super.onInit();
   }
 
-  final ExploreListController homeController = Get.find<ExploreListController>();
+  final ExploreListController homeController = Get.isRegistered<ExploreListController>() ? Get.find<ExploreListController>() : Get.put(ExploreListController());
 
   var currentPage = 0.obs;
   var focusedDay = DateTime.now().obs;

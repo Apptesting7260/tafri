@@ -32,6 +32,7 @@ class Navbar extends GetWidget {
   SocketController chatController = Get.put(SocketController());
   MyactiController activityController =  Get.put(MyactiController());
   MessagelistController notController = Get.put(MessagelistController());
+  FilterExpController filterController = Get.put(FilterExpController());
 
   final iconList = <IconData>[
     Icons.brightness_5,
