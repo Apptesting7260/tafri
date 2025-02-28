@@ -6,10 +6,7 @@ import 'package:plusone/payment/payment_controller.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/components/custoelevatedbtn.dart';
 import 'package:plusone/uis/components/custotextfield.dart';
-import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
 import 'package:plusone/uis/profilemain/accountuis/mymembership/controller/mymembership_controller.dart';
-import 'package:plusone/uis/profilemain/accountuis/mymembership/switchplan/switchplanui.dart';
-import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
 import 'package:plusone/utils/size.dart';
@@ -79,6 +76,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                       SizedBox(
                                         height: Get.height * 0.035,
                                       ),
+
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 20),
@@ -103,7 +101,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             ),
 
                                             /// for trail
-                                            paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(
+                                            paymentController.profileController.profileData.value.result?.restartPlan?.planType == null && paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(
                                                 text: TextSpan(
                                                     children: [
                                                       TextSpan(
@@ -136,7 +134,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                       ),
                                                     ]
                                                 )
-                                            ) : paymentController.profileController.profileData.value.result?.trailDate != null ? RichText(
+                                            ) : paymentController.profileController.profileData.value.result?.restartPlan?.planType == null && paymentController.profileController.profileData.value.result?.trailDate != null ? RichText(
                                               text: TextSpan(
                                                  children: [
                                                    TextSpan(
@@ -164,7 +162,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
 
                                             paymentController.profileController.profileData.value.result?.trailDate != null ? SizedBox(height: 2,) : SizedBox(),
 
-                                            paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(
+                                            paymentController.profileController.profileData.value.result?.restartPlan?.planType == null && paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(
                                               text: TextSpan(
                                                 children: [
                                                   TextSpan(
@@ -193,7 +191,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                   ),
                                                 ]
                                               ),
-                                            ) : paymentController.profileController.profileData.value.result?.trailDate != null ? RichText(
+                                            ) : paymentController.profileController.profileData.value.result?.restartPlan?.planType == null && paymentController.profileController.profileData.value.result?.trailDate != null ? RichText(
                                                 text: TextSpan(
                                                     children: [
                                                       TextSpan(
@@ -241,6 +239,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                             ) : paymentController.profileController.profileData.value.result?.cancelDate != null ? Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
+                                                paymentController.profileController.profileData.value.result?.restartPlan?.planType != null && paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? SizedBox() :
                                                 paymentController.profileController.profileData.value.result?.switchPlan!.planId != null && paymentController.profileController.profileData.value.result?.switchPlan!.cancelDate != null ? RichText(text: TextSpan(
                                                   children: [
                                                     TextSpan(text: 'You have ', style: TextStyle(
@@ -309,7 +308,48 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                     ]
                                                 )),
                                                 const SizedBox(height: 2,),
-                                                RichText(text: TextSpan(
+                                                paymentController.profileController.profileData.value.result?.restartPlan?.planType != null && paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? RichText(text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text: 'Your current ${paymentController.profileController.profileData.value.result?.planType} plan remains active until ',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                                      color: clrYellowText,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                        text: ', then your new ${paymentController.profileController.profileData.value.result?.restartPlan!.planType} plan will active.',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    ))
+                                                  ]
+                                                )) :
+                                                paymentController.profileController.profileData.value.result?.switchPlan!.planId != null && paymentController.profileController.profileData.value.result?.switchPlan!.cancelDate == null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text: 'Your current ${paymentController.profileController.profileData.value.result?.planType} plan remains active until ',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                                      color: clrYellowText,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                      text: ', then switches to ${paymentController.profileController.profileData.value.result?.switchPlan!.planId}.',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    ))
+                                                  ]
+                                                )) : RichText(text: TextSpan(
                                                   children: [
                                                     TextSpan(text: 'Your plan will not renew, and there will be no further charges after ',style: TextStyle(
                                                       color: clrGrey5D5C5E,
@@ -379,129 +419,295 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           ],
                                         ),
                                       ),
-                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? SizedBox(
-                                        height: Get.height * 0.025,
-                                      ) : const SizedBox(),
-                                      paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 20),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            // color: clrGreyLight,
-                                            border: Border.all(
-                                                color: clrGrey.withOpacity(0.4))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'Monthly' : 'Annually',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 18),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            // Text(
-                                            //   paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
-                                            //   style: TextStyle(
-                                            //       fontSize: 13,
-                                            //       color: clrGrey5D5C5E),
-                                            // ),
-                                            RichText(text: TextSpan(
-                                              children: [
-                                                TextSpan(text: 'The changes to your membership have been made, and your new plan will renew at €${paymentController.getAmount(paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'monthly' : 'yearly')} per',style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: clrGrey5D5C5E,
-                                                  fontFamily: 'Nunito',
-                                                )),
-                                                TextSpan(text: ' ${paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'month' : 'year'} ',style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: clrYellowText,
-                                                  fontFamily: 'Nunito',
-                                                )),
-                                                TextSpan(text: 'starting ',style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: clrGrey5D5C5E,
-                                                  fontFamily: 'Nunito',
-                                                )),
-                                                TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: clrYellowText,
-                                                  fontFamily: 'Nunito',
-                                                )),
-                                                TextSpan(text: '.',style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: clrGrey5D5C5E,
-                                                  fontFamily: 'Nunito',
-                                                )),
-                                              ]
-                                            ))
-                                          ],
-                                        ),
-                                      ) : const SizedBox(),
-                                      SizedBox(height: 20,),
 
-                                      paymentController.profileController.profileData.value.result?.restartPlan?.planType != null && paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 20),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            // color: clrGreyLight,
-                                            border: Border.all(
-                                                color: clrGrey.withOpacity(0.4))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'Monthly' : 'Annually',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 18),
-                                            ),
-                                            const SizedBox(height: 5,),
-                                            // Text(
-                                            //   paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
-                                            //   style: TextStyle(
-                                            //       fontSize: 13,
-                                            //       color: clrGrey5D5C5E),
-                                            // ),
-                                            RichText(text: TextSpan(
-                                                children: [
-                                                  TextSpan(text: 'The changes to your membership have been made, and your new plan will renew at €${paymentController.getAmount(paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'monthly' : 'yearly')} per',style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: clrGrey5D5C5E,
-                                                    fontFamily: 'Nunito',
-                                                  )),
-                                                  TextSpan(text: ' ${paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'month' : 'year'} ',style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: clrYellowText,
-                                                    fontFamily: 'Nunito',
-                                                  )),
-                                                  TextSpan(text: 'starting ',style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: clrGrey5D5C5E,
-                                                    fontFamily: 'Nunito',
-                                                  )),
-                                                  TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: clrYellowText,
-                                                    fontFamily: 'Nunito',
-                                                  )),
-                                                  TextSpan(text: '.',style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: clrGrey5D5C5E,
-                                                    fontFamily: 'Nunito',
-                                                  )),
-                                                ]
-                                            ))
-                                          ],
-                                        ),
-                                      ) : const SizedBox(),
+                                      // /// switch plan
+                                      // paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? SizedBox(
+                                      //   height: Get.height * 0.025,
+                                      // ) : const SizedBox(),
+                                      // paymentController.profileController.profileData.value.result?.switchPlan?.planId != null && paymentController.profileController.profileData.value.result?.switchPlan?.cancelDate == null ? Container(
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //       horizontal: 20, vertical: 20),
+                                      //   decoration: BoxDecoration(
+                                      //       borderRadius:
+                                      //       BorderRadius.circular(10),
+                                      //       // color: clrGreyLight,
+                                      //       border: Border.all(
+                                      //           color: clrGrey.withOpacity(0.4))),
+                                      //   child: Column(
+                                      //     crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
+                                      //     children: [
+                                      //       Text(paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'Monthly' : 'Annually',
+                                      //         style: const TextStyle(
+                                      //             fontWeight: FontWeight.w600,
+                                      //             fontSize: 18),
+                                      //       ),
+                                      //       const SizedBox(height: 5,),
+                                      //       // Text(
+                                      //       //   paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
+                                      //       //   style: TextStyle(
+                                      //       //       fontSize: 13,
+                                      //       //       color: clrGrey5D5C5E),
+                                      //       // ),
+                                      //       RichText(text: TextSpan(
+                                      //         children: [
+                                      //           TextSpan(text: 'The changes to your membership have been made, and your new plan will renew at €${paymentController.getAmount(paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'monthly' : 'yearly')} per',style: TextStyle(
+                                      //             fontSize: 14,
+                                      //             color: clrGrey5D5C5E,
+                                      //             fontFamily: 'Nunito',
+                                      //           )),
+                                      //           TextSpan(text: ' ${paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? 'month' : 'year'} ',style: TextStyle(
+                                      //             fontSize: 14,
+                                      //             color: clrYellowText,
+                                      //             fontFamily: 'Nunito',
+                                      //           )),
+                                      //           TextSpan(text: 'starting ',style: TextStyle(
+                                      //             fontSize: 14,
+                                      //             color: clrGrey5D5C5E,
+                                      //             fontFamily: 'Nunito',
+                                      //           )),
+                                      //           TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                      //             fontSize: 14,
+                                      //             color: clrYellowText,
+                                      //             fontFamily: 'Nunito',
+                                      //           )),
+                                      //           TextSpan(text: '.',style: TextStyle(
+                                      //             fontSize: 14,
+                                      //             color: clrGrey5D5C5E,
+                                      //             fontFamily: 'Nunito',
+                                      //           )),
+                                      //         ]
+                                      //       ))
+                                      //     ],
+                                      //   ),
+                                      // ) : const SizedBox(),
+                                      // SizedBox(height: 20,),
+                                      //
+                                      // /// restart plan
+                                      // paymentController.profileController.profileData.value.result?.restartPlan?.planType != null && paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? Container(
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //       horizontal: 20, vertical: 20),
+                                      //   decoration: BoxDecoration(
+                                      //       borderRadius:
+                                      //       BorderRadius.circular(10),
+                                      //       // color: clrGreyLight,
+                                      //       border: Border.all(
+                                      //           color: clrGrey.withOpacity(0.4))),
+                                      //   child: Column(
+                                      //     crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
+                                      //     children: [
+                                      //       Text(paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'Monthly' : 'Annually',
+                                      //         style: const TextStyle(
+                                      //             fontWeight: FontWeight.w600,
+                                      //             fontSize: 18),
+                                      //       ),
+                                      //       const SizedBox(height: 5,),
+                                      //       // Text(
+                                      //       //   paymentController.profileController.profileData.value.result?.switchPlan?.planId == 'monthly' ? "Your plan will be activate after the annual plan." : "Your plan will be activate after the monthly plan.",
+                                      //       //   style: TextStyle(
+                                      //       //       fontSize: 13,
+                                      //       //       color: clrGrey5D5C5E),
+                                      //       // ),
+                                      //       RichText(text: TextSpan(
+                                      //           children: [
+                                      //             TextSpan(text: 'The changes to your membership have been made, and your new plan will renew at €${paymentController.getAmount(paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'monthly' : 'yearly')} per',style: TextStyle(
+                                      //               fontSize: 14,
+                                      //               color: clrGrey5D5C5E,
+                                      //               fontFamily: 'Nunito',
+                                      //             )),
+                                      //             TextSpan(text: ' ${paymentController.profileController.profileData.value.result?.restartPlan?.planType == 'monthly' ? 'month' : 'year'} ',style: TextStyle(
+                                      //               fontSize: 14,
+                                      //               color: clrYellowText,
+                                      //               fontFamily: 'Nunito',
+                                      //             )),
+                                      //             TextSpan(text: 'starting ',style: TextStyle(
+                                      //               fontSize: 14,
+                                      //               color: clrGrey5D5C5E,
+                                      //               fontFamily: 'Nunito',
+                                      //             )),
+                                      //             TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                      //               fontSize: 14,
+                                      //               color: clrYellowText,
+                                      //               fontFamily: 'Nunito',
+                                      //             )),
+                                      //             TextSpan(text: '.',style: TextStyle(
+                                      //               fontSize: 14,
+                                      //               color: clrGrey5D5C5E,
+                                      //               fontFamily: 'Nunito',
+                                      //             )),
+                                      //           ]
+                                      //       ))
+                                      //     ],
+                                      //   ),
+                                      // ) : const SizedBox(),
+                                      //
+                                      // paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
+                                      //   height: Get.height * 0.035,
+                                      // ) : const SizedBox(),
+                                      // ///
 
-                                      paymentController.profileController.profileData.value.result?.cancelDate == null ? SizedBox(
-                                        height: Get.height * 0.035,
-                                      ) : const SizedBox(),
+
+                                      ///
+                                      // Container(
+                                      //     padding: const EdgeInsets.symmetric(
+                                      //         horizontal: 20, vertical: 20),
+                                      //     decoration: BoxDecoration(
+                                      //         borderRadius:
+                                      //         BorderRadius.circular(10),
+                                      //         // color: clrGreyLight,
+                                      //         border: Border.all(
+                                      //             color: clrGrey.withOpacity(0.4))),
+                                      //     child: Column(
+                                      //         crossAxisAlignment:
+                                      //         CrossAxisAlignment.start,
+                                      //         children: [
+                                      //           Text(
+                                      //             paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annually",
+                                      //             style: const TextStyle(
+                                      //                 fontWeight: FontWeight.w600,
+                                      //                 fontSize: 18),
+                                      //           ),
+                                      //           const SizedBox(
+                                      //             height: 5,
+                                      //           ),
+                                      //
+                                      //
+                                      //           /// for trail
+                                      //           paymentController.profileController.profileData.value.result?.trailDate != null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(
+                                      //               text: TextSpan(
+                                      //                   children: [
+                                      //                     TextSpan(
+                                      //                         text: 'You have ',
+                                      //                         style: TextStyle(
+                                      //                             color: clrGreyTextLight,
+                                      //                             fontSize: 14,
+                                      //                             fontFamily: 'Nunito',
+                                      //                             fontWeight: FontWeight.w600
+                                      //                         )
+                                      //                     ),
+                                      //                     TextSpan(
+                                      //                         text: 'canceled',
+                                      //                         style: TextStyle(
+                                      //                             color: clrGreyTextLight,
+                                      //                             fontSize: 14,
+                                      //                             decoration: TextDecoration.underline,
+                                      //                             fontFamily: 'Nunito',
+                                      //                             fontWeight: FontWeight.w600
+                                      //                         )
+                                      //                     ),
+                                      //                     TextSpan(
+                                      //                         text: ' your trial.',
+                                      //                         style: TextStyle(
+                                      //                             color: clrGreyTextLight,
+                                      //                             fontSize: 14,
+                                      //                             fontFamily: 'Nunito',
+                                      //                             fontWeight: FontWeight.w600
+                                      //                         )
+                                      //                     ),
+                                      //                   ]
+                                      //               )
+                                      //           ) : paymentController.profileController.profileData.value.result?.trailDate != null ? RichText(
+                                      //               text: TextSpan(
+                                      //                   children: [
+                                      //                     TextSpan(
+                                      //                         text: 'You are currently on a ',
+                                      //                         style: TextStyle(
+                                      //                             color: clrGreyTextLight,
+                                      //                             fontSize: 14,
+                                      //                             fontFamily: 'Nunito',
+                                      //                             fontWeight: FontWeight.w600
+                                      //                         )
+                                      //                     ),
+                                      //                     TextSpan(
+                                      //                         text: 'free trial',
+                                      //                         style: TextStyle(
+                                      //                             color: clrYellowText,
+                                      //                             fontSize: 14,
+                                      //                             fontFamily: 'Nunito',
+                                      //                             fontWeight: FontWeight.w600
+                                      //                         )
+                                      //                     ),
+                                      //                   ]
+                                      //               )
+                                      //           ) : SizedBox(),
+                                      //           /// for trail
+                                      //
+                                      //
+                                      //           paymentController.profileController.profileData.value.result?.restartPlan?.planType == null && paymentController.profileController.profileData.value.result?.switchPlan?.planId == null && paymentController.profileController.profileData.value.result?.cancelDate == null ? RichText(
+                                      //               text: TextSpan(
+                                      //                   children: [
+                                      //                     TextSpan(
+                                      //                         text: 'Your plan will renew on ',
+                                      //                         style: TextStyle(
+                                      //                           fontSize: 14,
+                                      //                           color: clrGrey5D5C5E,
+                                      //                           fontFamily: 'Nunito',
+                                      //                         )
+                                      //                     ),
+                                      //                     TextSpan(
+                                      //                         text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',
+                                      //                         style: TextStyle(
+                                      //                           fontSize: 14,
+                                      //                           color: clrYellowText,
+                                      //                           fontFamily: 'Nunito',
+                                      //                         )
+                                      //                     ),
+                                      //                     TextSpan(
+                                      //                         text: ' for the regular price of €${paymentController.getAmount(paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'monthly' : 'yearly')}',
+                                      //                         style: TextStyle(
+                                      //                           fontSize: 14,
+                                      //                           color: clrGrey5D5C5E,
+                                      //                           fontFamily: 'Nunito',
+                                      //                         )
+                                      //                     ),
+                                      //                     TextSpan(
+                                      //                         text: ' ${paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'monthly' : 'annually'}',
+                                      //                         style: TextStyle(
+                                      //                           fontSize: 14,
+                                      //                           color: clrYellowText,
+                                      //                           fontFamily: 'Nunito',
+                                      //                         )
+                                      //                     ),
+                                      //                     TextSpan(
+                                      //                         text: '.',
+                                      //                         style: TextStyle(
+                                      //                           fontSize: 14,
+                                      //                           color: clrGrey5D5C5E,
+                                      //                           fontFamily: 'Nunito',
+                                      //                         )
+                                      //                     ),
+                                      //                   ]
+                                      //               )) : paymentController.profileController.profileData.value.result?.restartPlan?.planType == null && paymentController.profileController.profileData.value.result?.switchPlan?.planId == null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(text: TextSpan(
+                                      //               children: [
+                                      //                 TextSpan(text: 'You have ', style: TextStyle(
+                                      //                     color: clrGreyTextLight,
+                                      //                     fontSize: 14,
+                                      //                     fontFamily: 'Nunito',
+                                      //                     fontWeight: FontWeight.w600
+                                      //                 )),
+                                      //                 TextSpan(text: 'canceled', style: TextStyle(
+                                      //                     color: clrGreyTextLight,
+                                      //                     fontSize: 14,
+                                      //                     fontFamily: 'Nunito',
+                                      //                     fontWeight: FontWeight.w600,
+                                      //                     decoration: TextDecoration.underline
+                                      //                 )),
+                                      //                 TextSpan(text: ' your membership.', style: TextStyle(
+                                      //                     color: clrGreyTextLight,
+                                      //                     fontSize: 14,
+                                      //                     fontFamily: 'Nunito',
+                                      //                     fontWeight: FontWeight.w600
+                                      //                 )),
+                                      //               ]
+                                      //           )) : SizedBox()
+                                      //
+                                      //
+                                      //
+                                      //         ])),
+                                      ///
+
+
                                     ],
                                   ),
                                   Center(
@@ -940,6 +1146,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
       ),
     );
   }
+
 
   Widget buildBillingButton() {
     final result = paymentController.profileController.profileData.value.result;

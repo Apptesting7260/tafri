@@ -127,7 +127,7 @@ class PaymentController extends GetxController{
         return '12 months (1 year)';
       default:
         if (days < 7) {
-          return  days > 2 ? '$days days' : '$days day';
+          return  days > 1 ? '$days days' : '$days day';
         } else if (days > 7 && days < 30) {
           int weeks = days ~/ 7;
           return '$weeks ${weeks > 1 ? 'weeks' : 'week'}';

@@ -91,6 +91,7 @@ dependencies:
   flutter_svg_provider: ^1.0.7
   flutter_widget_from_html_core: ^0.15.2
   flutter_linkify: ^6.0.0
+  instagram_login: ^1.0.0
 
 dev_dependencies:
   flutter_test:
