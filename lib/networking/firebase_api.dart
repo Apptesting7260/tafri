@@ -183,7 +183,21 @@ class FirebaseApi {
               'details  =  ${details.id}  ===  ${details.notificationResponseType}  ==  ${details.input}   ===  ${details.payload}');
           final Map<String, dynamic> data = jsonDecode(details.payload!);
           print('data == ${data['activity_id']}');
-          if(LocalStorage.getUid().toString() == data['host_id']){
+
+          bool from = data.containsKey('chatType');
+          if(from){
+
+            if(data['chatType'] == 'personal'){
+              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId']);
+            }else if(data['chatType'] == 'group'){
+              Get.toNamed(Routes.chatUi,arguments: {
+                'gpID': data['chatGroupId'],
+                'activityId': data['activityId'].toString(),
+                'hostId': data['createdBy'].toString()
+              });
+            }
+
+          }else if(LocalStorage.getUid().toString() == data['host_id']){
 
             if(data['status'] == 'approved'){
               Get.toNamed(Routes.hostUpcommingActiview, arguments: data['activity_id'].toString());
@@ -258,7 +272,21 @@ class FirebaseApi {
 
         if (data != null) {
           print('data == ${data['activity_id']}');
-          if (LocalStorage.getUid().toString() == data['host_id']) {
+
+          bool from = data.containsKey('chatType');
+          if(from){
+
+            if(data['chatType'] == 'personal'){
+              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId']);
+            }else if(data['chatType'] == 'group'){
+              Get.toNamed(Routes.chatUi,arguments: {
+                'gpID': data['chatGroupId'],
+                'activityId': data['activityId'].toString(),
+                'hostId': data['createdBy'].toString()
+              });
+            }
+
+          } else if (LocalStorage.getUid().toString() == data['host_id']) {
             if (data['status'] == 'approved') {
               Get.toNamed(Routes.hostUpcommingActiview,
                   arguments: data['activity_id'].toString());
@@ -311,7 +339,20 @@ class FirebaseApi {
 
         if (data != null) {
           print('data == ${data['activity_id']}');
-          if (LocalStorage.getUid().toString() == data['host_id']) {
+          bool from = data.containsKey('chatType');
+          if(from){
+
+            if(data['chatType'] == 'personal'){
+              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId']);
+            }else if(data['chatType'] == 'group'){
+              Get.toNamed(Routes.chatUi,arguments: {
+                'gpID': data['chatGroupId'],
+                'activityId': data['activityId'].toString(),
+                'hostId': data['createdBy'].toString()
+              });
+            }
+
+          }else if (LocalStorage.getUid().toString() == data['host_id']) {
             if (data['status'] == 'approved') {
               Get.toNamed(Routes.hostUpcommingActiview,
                   arguments: data['activity_id'].toString());

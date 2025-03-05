@@ -119,7 +119,7 @@ class AttendanceReviewUi extends GetWidget<AttendReviewController>{
                                ),
                                Flexible(
                                    child: Text(
-                                     ' ${controller.goinglist![index].firstName.toString()} ${ controller.goinglist![index].lastName.toString()}',
+                                     ' ${controller.goinglist![index].firstName.toString()}',
                                      style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),
                                    )
                                )

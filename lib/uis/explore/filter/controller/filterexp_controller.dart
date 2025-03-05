@@ -30,6 +30,7 @@ class FilterExpController extends GetxController{
   var currentPage = 0.obs;
   var focusedDay = DateTime.now().obs;
   var daysInMonth = <int>[].obs;
+  var reset = false.obs;
 
   void updatePage(int index) {
     currentPage.value = index;
@@ -285,38 +286,18 @@ class FilterExpController extends GetxController{
     print('date ==> ${date}');
 
     // Validation to ensure at least one of the fields has a value
-    if(hideWaitListAct.value == false) {
-      if (selected.isEmpty && locController.text.isEmpty &&
-          filterDateStart.isEmpty
-          && groupSizeController.text.isEmpty && categoryid.value == false
-          && genderFilter.value == 0 && selectedTime.isEmpty && date.isEmpty
-      ) {
-        showTostMsg('Please select at least one filter.');
-        return;
+    if(!reset.value) {
+      if (hideWaitListAct.value == false) {
+        if (selected.isEmpty && locController.text.isEmpty &&
+            filterDateStart.isEmpty
+            && groupSizeController.text.isEmpty && categoryid.value == false
+            && genderFilter.value == 0 && selectedTime.isEmpty && date.isEmpty
+        ) {
+          showTostMsg('Please select at least one filter.');
+          return;
+        }
       }
     }
-
-    // Map body;
-
-    // if(selected.isEmpty && locController.text.isEmpty && date.isEmpty
-    //     && groupSize.value <= 1 && categoryid == true
-    //     && genderFilter.value == 0 && selectedTime.isEmpty){
-    //    body = {
-    //     'user_id': LocalStorage.getUid(),
-    //      'category_id': ''
-    //    };
-    // } else{
-    //    body = {
-    //     'user_id': LocalStorage.getUid(),
-    //     'category_id': categoryid == true ? '' : selected,
-    //      locController.value.text.isNotEmpty ? 'location': locController.value.text.toString() : null,
-    //     'max_people': groupSize.value <2 ? '' : groupSize.value.toString(),
-    //     'date': date,
-    //     'time_slot': selectedTime.value,
-    //     'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '',
-    //     'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
-    //   };
-    // }
 
      Map body = {
       'user_id': LocalStorage.getUid(),
@@ -329,7 +310,7 @@ class FilterExpController extends GetxController{
        if(date.isNotEmpty) 'date': date,
        if(selectedTime.value.isNotEmpty) 'time_slot': selectedTime.value,
        if(genderFilter.value != 0) 'gender': genderFilter.value == 1 ? 'same' : genderFilter.value == 2 ? 'all' : '' ,
-       'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
+       if(!reset.value)'hide_waitlist': hideWaitListAct.value == true ? '1' : '0',
     };
 
     print(body);
@@ -362,6 +343,10 @@ class FilterExpController extends GetxController{
         // filterActData.value = FilteractivityModel.fromJson(response.body);
         // resetForm();
         // Get.toNamed(Routes.filterActUi);
+        if(reset.value = true){
+          homeController.selectedIndex.value = 0;
+        }
+        reset.value = false;
         Get.back();
       }else if(response.statusCode == 499){
         LocalStorage.removeToken();
@@ -381,7 +366,8 @@ class FilterExpController extends GetxController{
   }
 
 
-  resetForm() {
+  resetForm(bool fromHome) {
+    if(!fromHome) reset.value = true;
     for (var category in catData.value.result!) {
       category.isSelected = false;
     }

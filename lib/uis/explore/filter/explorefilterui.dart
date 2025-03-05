@@ -142,6 +142,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               value: controller
                                                   .hideWaitListAct.value,
                                               onChanged: (p0) {
+                                                controller.reset.value = false;
                                                 controller
                                                     .changeHideWaitListAct();
                                               },
@@ -257,6 +258,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                   ],
                                                 ),
                                                 onTap: () {
+                                                  controller.reset.value = false;
                                                   controller.selectCategory(e.id!);
                                                   controller.categoryid.value = false;
                                                 },
@@ -282,6 +284,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                 ],
                                               ),
                                               ontap: () {
+                                                controller.reset.value = false;
                                                 controller.categoryid.value = !controller.categoryid.value;
                                                 for (var category in controller.catData.value.result!) {
                                                   category.isSelected = false;
@@ -323,6 +326,9 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                           suggestionsCallback: (value) async{
                                             return controller.searchPlaces(value);
                                           },
+                                            onChanged: (p0) {
+                                              controller.reset.value = false;
+                                            },
                                           contentPadding: EdgeInsets.symmetric(
                                               horizontal: 15, vertical: 0),
                                           hintText: "Search location",
@@ -385,6 +391,9 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             "assets/icons/manicon.png",
                                             scale: 2.5,
                                           ),
+                                          onChanged: (p0) {
+                                            controller.reset.value = false;
+                                          },
                                           hintSize: 14,
                                           contentPadding: EdgeInsets.symmetric(
                                               horizontal: 15, vertical: 0),
@@ -457,6 +466,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                   //     .changeDateFilter(
                                                   //     "Pick a date");
                                                   if (picked != null) {
+                                                    controller.reset.value = false;
                                                     controller.changeFilterDate(picked);
                                                     controller.initialRange?.value = picked;
                                                     // controller.filterDateStart.value =
@@ -541,6 +551,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.reset.value = false;
                                                   controller.filterDateCalenderStart.value = '';
                                                   controller.filterDateCalenderEnd.value = '';
                                                   controller.filterDateStart.value = '';
@@ -571,6 +582,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.reset.value = false;
                                                   controller.filterDateCalenderStart.value = '';
                                                   controller.filterDateCalenderEnd.value = '';
                                                   controller.filterDateStart.value = '';
@@ -601,6 +613,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                                 : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.reset.value = false;
                                                   controller.filterDateCalenderStart.value = '';
                                                   controller.filterDateCalenderEnd.value = '';
                                                   controller.filterDateStart.value = '';
@@ -630,6 +643,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                                             : clrBlacke,
                                                         fontSize: 13)),
                                                 ontap: () {
+                                                  controller.reset.value = false;
                                                   controller.filterDateCalenderStart.value = '';
                                                   controller.filterDateCalenderEnd.value = '';
                                                   controller.filterDateStart.value = '';
@@ -672,6 +686,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                               return e['value'];
                                             },).toList(),
                                             onChanged: (val) {
+                                              controller.reset.value = false;
                                               switch (val) {
                                                 case 'Morning (Before 12:00)':
                                                   controller.selectedTime.value = "morning";
@@ -785,6 +800,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                             return e['value'];
                                           },).toList(),
                                           onChanged: (val) {
+                                            controller.reset.value = false;
                                             if(val == 'All'){
                                               controller.genderFilter.value = 2;
                                             }else if(val  == 'Same gender as me'){
@@ -869,7 +885,7 @@ class ExploreFilterUi extends GetWidget<FilterExpController> {
                                           // height: h*0.05,
                                           child: CustomElevatedButton(
                                               onTap: () {
-                                                controller.resetForm();
+                                                controller.resetForm(false);
                                               },
                                               backgroundClr: clrWhite,
                                               borderClr: clrBlacke,

@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plusone/routes/routes.dart';
@@ -20,6 +22,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../networking/firebase_api.dart';
 import 'controller/explorelist_controller.dart';
 
@@ -575,7 +578,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                           Padding(
                                             padding: const EdgeInsets.only(right: 13),
                                             child: ReadMoreText(
-                                              '${activityData?[index].description}',
+                                              '${activityData[index].description}',
                                               style: TextStyle(
                                                   color:
                                                   clrGreyDark),
@@ -586,6 +589,26 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                               colorClickableText:
                                               Colors
                                                   .pink,
+                                              annotations: [ Annotation(
+                                                regExp: RegExp(r"https?:\/\/[a-zA-Z0-9./-]+"),
+                                                spanBuilder: ({required String text, TextStyle? textStyle}) {
+                                                  return TextSpan(
+                                                    text: text,
+                                                    style: textStyle?.copyWith(
+                                                      color: Colors.blue,
+                                                      decoration: TextDecoration.none,
+                                                    ) ??
+                                                        const TextStyle(
+                                                          color: Colors.blue,
+                                                          decoration: TextDecoration.none,
+                                                        ),
+                                                    recognizer: TapGestureRecognizer()
+                                                      ..onTap = () async {
+                                                          await launchUrl(Uri.parse(text));
+                                                      },
+                                                  );
+                                                },
+                                              ),],
                                               trimCollapsedText:
                                               ' Show more',
                                               trimExpandedText:
@@ -744,9 +767,10 @@ class ExploreUi extends GetWidget<ExploreListController> {
                              if (controller
                                  .selectedIndex.value !=
                                  index) {
-                               filterController.resetForm();
+                               filterController.resetForm(true);
                                controller.selectedIndex.value =
                                    index;
+                               print('sele == ${controller.selectedIndex.value}');
                                controller.categoryID.value =
                                ''; // Use a special ID for "All"
                                controller.allLoading.value =
@@ -803,7 +827,7 @@ class ExploreUi extends GetWidget<ExploreListController> {
                          return GestureDetector(
                            onTap: () async {
                              if (controller.selectedIndex.value != index) {
-                               filterController.resetForm();
+                               filterController.resetForm(true);
                                controller.selectedIndex.value = index;
                                controller.categoryID.value = categoryData?[categoryIndex].id.toString();
                                categoryData?[categoryIndex].loading?.value = true;

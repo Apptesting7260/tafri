@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,6 +25,7 @@ import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/custom_radio.dart';
 import '../../../utils/error_widget.dart';
 import '../../../utils/tostmsg.dart';
@@ -513,13 +515,25 @@ class ExploreViewUi extends GetWidget<ExploreViewController> {
                                   SizedBox(
                                     height: Get.height * 0.01,
                                   ),
-                                  Text(
-                                    controller
-                                        .actData.value.activity!.description
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 14, color: clrGrey5D5C5E),
-                                  ),
+                                  SelectableText.rich(TextSpan(
+                                    children: [
+                                      WidgetSpan(child: Linkify(text: controller
+                                          .actData.value.activity!.description
+                                          .toString(),style: TextStyle(
+                                      fontSize: 14, color: clrGrey5D5C5E,fontFamily: 'Nunito'),linkStyle: const TextStyle(
+                                          decoration: TextDecoration.none
+                                      ),onOpen: (link) async{
+                                        await launchUrl(Uri.parse(link.url));
+                                      }))
+                                    ]
+                                  )),
+                                  // Text(
+                                  //   controller
+                                  //       .actData.value.activity!.description
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontSize: 14, color: clrGrey5D5C5E),
+                                  // ),
                                   SizedBox(
                                     height: Get.height * 0.01,
                                   ),

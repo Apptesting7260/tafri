@@ -110,116 +110,238 @@ class ChatUi extends GetWidget<GroupChatController> {
                 ],
               ),
             ),
-            appBar: PreferredSize(preferredSize: const Size.fromHeight(130), child: Padding(
-              padding: EdgeInsets.only(left: Res.Defalt_side_margin,right: Res.Defalt_side_margin,top: 15),
-              child: AppBar(
-                backgroundColor: clrWhite,
-                surfaceTintColor: clrWhite,
-                elevation: 0,
-                toolbarHeight: 130,
-                centerTitle: true,
-                leading: Align(alignment: Alignment.topLeft,child: CommonUi.appBar()),
-                leadingWidth: 40,
-                title: Column(
+            appBar: PreferredSize(preferredSize: const Size.fromHeight(140), child: Padding(
+              padding: EdgeInsets.only(left: Res.Defalt_side_margin,right: Res.Defalt_side_margin,top: 35),
+              child: Container(
+                height: 140,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
-                        baseColor: grey300,
-                        highlightColor: grey100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Container(
-                            height: h * .08,
-                            width: h * .08,
-                            color: clrGrey,
-                          ),
-                        )) : GestureDetector(
-                      onTap: () {
-                        if(controller.actStatus.value.isEmpty){
-
-                        }else if(controller.actStatus.value == 'completed'){
-                          Get.toNamed(Routes.previousActivityUi, arguments: {
-                            "isHost": LocalStorage.getUid() == controller.hostId.value ? true : false,
-                            "id": controller.actId.value
-                          });
-                        }else if(controller.actStatus.value == 'approved'){
-                          if(LocalStorage.getUid() == controller.hostId.value){
-                            Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
-                          }else{
-                            Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
-                          }
-                        }else if(controller.actStatus.value == 'pending'){
-                          if(LocalStorage.getUid() == controller.hostId.value){
-                            Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
-                          }else{
-                            Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
-                          }
-                        }else if(controller.actStatus.value == 'not_approved'){
-                          if(LocalStorage.getUid() == controller.hostId.value){
-                            Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
-                          }else{
-                            Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
-                          }
-                        }
-                      },
-                          child: Container(
-                          clipBehavior: Clip.hardEdge,
-                          height: h * .08,
-                          width: h * .08,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: clrGreyLight
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: controller.allMessage.value.gpImg ?? '',
-                            fit: BoxFit.cover,
-                            memCacheWidth: 500,
-                            placeholder: (context, url) => Shimmer.fromColors(
+                    CommonUi.appBar(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
                                 baseColor: grey300,
                                 highlightColor: grey100,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: Container(
-                                    height: h * .055,
-                                    width: h * .055,
+                                    height: h * .08,
+                                    width: h * .08,
                                     color: clrGrey,
                                   ),
-                                )),
-                            errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
-                          )),
-                        ),),
-                    const SizedBox(
-                      height: 7,
+                                )) : GestureDetector(
+                              onTap: () {
+                                if(controller.actStatus.value.isEmpty){
+
+                                }else if(controller.actStatus.value == 'completed'){
+                                  Get.toNamed(Routes.previousActivityUi, arguments: {
+                                    "isHost": LocalStorage.getUid() == controller.hostId.value ? true : false,
+                                    "id": controller.actId.value
+                                  });
+                                }else if(controller.actStatus.value == 'approved'){
+                                  if(LocalStorage.getUid() == controller.hostId.value){
+                                    Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                                  }else{
+                                    Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                                  }
+                                }else if(controller.actStatus.value == 'pending'){
+                                  if(LocalStorage.getUid() == controller.hostId.value){
+                                    Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                                  }else{
+                                    Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                                  }
+                                }else if(controller.actStatus.value == 'not_approved'){
+                                  if(LocalStorage.getUid() == controller.hostId.value){
+                                    Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+                                  }else{
+                                    Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+                                  }
+                                }
+                              },
+                              child: Container(
+                                  clipBehavior: Clip.hardEdge,
+                                  height: h * .08,
+                                  width: h * .08,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: clrGreyLight
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: controller.allMessage.value.gpImg ?? '',
+                                    fit: BoxFit.cover,
+                                    memCacheWidth: 500,
+                                    placeholder: (context, url) => Shimmer.fromColors(
+                                        baseColor: grey300,
+                                        highlightColor: grey100,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(100),
+                                          child: Container(
+                                            height: h * .055,
+                                            width: h * .055,
+                                            color: clrGrey,
+                                          ),
+                                        )),
+                                    errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
+                                  )),
+                            ),),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+                                baseColor: grey300,
+                                highlightColor: grey100,
+                                child: ClipRRect(
+                                  child: Container(
+                                    height: h * .01,
+                                    width: h * .08,
+                                    color: clrGrey,
+                                  ),
+                                )) : Flexible(
+                                  child: Text(
+                                    controller.allMessage.value.gpName ?? '',
+                                    style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.5),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),),
+                            Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+                                baseColor: grey300,
+                                highlightColor: grey100,
+                                child: ClipRRect(
+                                  child: Container(
+                                    height: h * .01,
+                                    width: h * .08,
+                                    color: clrGrey,
+                                  ),
+                                )) : controller.allMessage.value.members != null ? Text('${controller.allMessage.value.members ?? '0'} ${controller.allMessage.value.members! > 1 ? 'members' : 'member'}',style: TextStyle(color: clrGrey, fontSize: 12)) : SizedBox()),
+                            SizedBox(height: 15,)
+                          ],
+                        ),
+                      ),
                     ),
-                    Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
-                        baseColor: grey300,
-                        highlightColor: grey100,
-                        child: ClipRRect(
-                          child: Container(
-                            height: h * .01,
-                            width: h * .08,
-                            color: clrGrey,
-                          ),
-                        )) : Text(
-                      controller.allMessage.value.gpName ?? '',
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          height: 1.5),
-                    ),),
-                    Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
-                        baseColor: grey300,
-                        highlightColor: grey100,
-                        child: ClipRRect(
-                          child: Container(
-                            height: h * .01,
-                            width: h * .08,
-                            color: clrGrey,
-                          ),
-                        )) : controller.allMessage.value.members != null ? Text('${controller.allMessage.value.members ?? '0'} ${controller.allMessage.value.members! > 1 ? 'members' : 'member'}',style: TextStyle(color: clrGrey, fontSize: 12)) : SizedBox())
+                    SizedBox(width: 10,)
                   ],
                 ),
-                // actions: const [Align(alignment: Alignment.topLeft,child: Icon(Icons.more_vert))],
-              ),
+              )
+              // AppBar(
+              //   backgroundColor: clrWhite,
+              //   surfaceTintColor: clrWhite,
+              //   elevation: 0,
+              //   toolbarHeight: 140,
+              //   centerTitle: true,
+              //   leading: Align(alignment: Alignment.topLeft,child: CommonUi.appBar()),
+              //   leadingWidth: 40,
+              //   title: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+              //           baseColor: grey300,
+              //           highlightColor: grey100,
+              //           child: ClipRRect(
+              //             borderRadius: BorderRadius.circular(100),
+              //             child: Container(
+              //               height: h * .08,
+              //               width: h * .08,
+              //               color: clrGrey,
+              //             ),
+              //           )) : GestureDetector(
+              //         onTap: () {
+              //           if(controller.actStatus.value.isEmpty){
+              //
+              //           }else if(controller.actStatus.value == 'completed'){
+              //             Get.toNamed(Routes.previousActivityUi, arguments: {
+              //               "isHost": LocalStorage.getUid() == controller.hostId.value ? true : false,
+              //               "id": controller.actId.value
+              //             });
+              //           }else if(controller.actStatus.value == 'approved'){
+              //             if(LocalStorage.getUid() == controller.hostId.value){
+              //               Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+              //             }else{
+              //               Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+              //             }
+              //           }else if(controller.actStatus.value == 'pending'){
+              //             if(LocalStorage.getUid() == controller.hostId.value){
+              //               Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+              //             }else{
+              //               Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+              //             }
+              //           }else if(controller.actStatus.value == 'not_approved'){
+              //             if(LocalStorage.getUid() == controller.hostId.value){
+              //               Get.toNamed(Routes.hostUpcommingActiview, arguments: controller.actId.value);
+              //             }else{
+              //               Get.toNamed(Routes.exploreView, arguments: controller.actId.value);
+              //             }
+              //           }
+              //         },
+              //             child: Container(
+              //             clipBehavior: Clip.hardEdge,
+              //             height: h * .08,
+              //             width: h * .08,
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(100),
+              //               color: clrGreyLight
+              //             ),
+              //             child: CachedNetworkImage(
+              //               imageUrl: controller.allMessage.value.gpImg ?? '',
+              //               fit: BoxFit.cover,
+              //               memCacheWidth: 500,
+              //               placeholder: (context, url) => Shimmer.fromColors(
+              //                   baseColor: grey300,
+              //                   highlightColor: grey100,
+              //                   child: ClipRRect(
+              //                     borderRadius: BorderRadius.circular(100),
+              //                     child: Container(
+              //                       height: h * .055,
+              //                       width: h * .055,
+              //                       color: clrGrey,
+              //                     ),
+              //                   )),
+              //               errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
+              //             )),
+              //           ),),
+              //       const SizedBox(
+              //         height: 7,
+              //       ),
+              //       Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+              //           baseColor: grey300,
+              //           highlightColor: grey100,
+              //           child: ClipRRect(
+              //             child: Container(
+              //               height: h * .01,
+              //               width: h * .08,
+              //               color: clrGrey,
+              //             ),
+              //           )) : Text(
+              //         'controller.allMessage.value.gpName dnjkfd fdsj fdsfj ' ?? '',
+              //         style: const TextStyle(
+              //             fontSize: 16,
+              //             fontWeight: FontWeight.w600,
+              //             height: 1.5),
+              //       ),),
+              //       Obx(() => controller.msgLoading.value ? Shimmer.fromColors(
+              //           baseColor: grey300,
+              //           highlightColor: grey100,
+              //           child: ClipRRect(
+              //             child: Container(
+              //               height: h * .01,
+              //               width: h * .08,
+              //               color: clrGrey,
+              //             ),
+              //           )) : controller.allMessage.value.members != null ? Text('${controller.allMessage.value.members ?? '0'} ${controller.allMessage.value.members! > 1 ? 'members' : 'member'}',style: TextStyle(color: clrGrey, fontSize: 12)) : SizedBox()),
+              //       SizedBox(height: 15,)
+              //     ],
+              //   ),
+              //   // actions: const [Align(alignment: Alignment.topLeft,child: Icon(Icons.more_vert))],
+              // ),
             ),),
             body: Obx(() => controller.msgLoading.value ? Center(
               child: CommonUi.scaffoldLoading(color: clrYellow),

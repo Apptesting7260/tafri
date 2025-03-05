@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
@@ -8,6 +9,7 @@ import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../routes/routes.dart';
 import '../../../../utils/colors.dart';
@@ -608,6 +610,26 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                       trimLines: 2,
                                                       colorClickableText:
                                                           Colors.pink,
+                                                      annotations: [ Annotation(
+                                                        regExp: RegExp(r"https?:\/\/[a-zA-Z0-9./-]+"),
+                                                        spanBuilder: ({required String text, TextStyle? textStyle}) {
+                                                          return TextSpan(
+                                                            text: text,
+                                                            style: textStyle?.copyWith(
+                                                              color: Colors.blue,
+                                                              decoration: TextDecoration.none,
+                                                            ) ??
+                                                                const TextStyle(
+                                                                  color: Colors.blue,
+                                                                  decoration: TextDecoration.none,
+                                                                ),
+                                                            recognizer: TapGestureRecognizer()
+                                                              ..onTap = () async {
+                                                                await launchUrl(Uri.parse(text));
+                                                              },
+                                                          );
+                                                        },
+                                                      ),],
                                                       trimCollapsedText:
                                                           ' Show more',
                                                       trimExpandedText:

@@ -90,12 +90,16 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annually",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 18),
-                                            ),
+                                            Text("${getSubscriptionStatus() == 'monthly' ? 'Monthly' : getSubscriptionStatus() == 'yearly' ? 'Annually' : getSubscriptionStatus()}", style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'Nunito',
+                                                fontSize: 18),),
+                                            // Text(
+                                            //   paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'Monthly' : "Annually",
+                                            //   style: const TextStyle(
+                                            //       fontWeight: FontWeight.w600,
+                                            //       fontSize: 18),
+                                            // ),
                                             const SizedBox(
                                               height: 5,
                                             ),
@@ -114,11 +118,10 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                           )
                                                       ),
                                                       TextSpan(
-                                                          text: 'canceled',
+                                                          text: 'cancelled',
                                                           style: TextStyle(
                                                               color: clrGreyTextLight,
                                                               fontSize: 14,
-                                                              decoration: TextDecoration.underline,
                                                               fontFamily: 'Nunito',
                                                               fontWeight: FontWeight.w600
                                                           )
@@ -166,29 +169,64 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                               text: TextSpan(
                                                 children: [
                                                   TextSpan(
-                                                    text: 'Your plan will not renew, and there will be no further charges after ',
-                                                      style: TextStyle(
-                                                          color: clrGrey5D5C5E,
-                                                          fontSize: 14,
-                                                          fontFamily: 'Nunito',
-                                                      )
+                                                    text: 'Your current ',style: TextStyle(
+                                                    color: clrGrey5D5C5E,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Nunito',
+                                                  )),
+                                                  TextSpan(
+                                                    text: '${paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'monthly' : "annually"}',
+                                                    style: TextStyle(
+                                                      color: clrYellowText,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )
                                                   ),
+                                                  TextSpan(
+                                                    text: ' plan will remain active until ',style: TextStyle(
+                                                    color: clrGrey5D5C5E,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Nunito',
+                                                  )),
                                                   TextSpan(
                                                     text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',
                                                       style: TextStyle(
-                                                          color: clrYellowText,
-                                                          fontSize: 14,
-                                                          fontFamily: 'Nunito',
-                                                      )
-                                                  ),
-                                                  TextSpan(
-                                                      text: '.',
-                                                      style: TextStyle(
-                                                        color: clrGrey5D5C5E,
+                                                        color: clrYellowText,
                                                         fontSize: 14,
                                                         fontFamily: 'Nunito',
-                                                      )
-                                                  ),
+                                                      )),
+                                                  TextSpan(
+                                                    text: ', after which it will not renew, and you will not be charged again.',style: TextStyle(
+                                                    color: clrGrey5D5C5E,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Nunito',
+                                                  ))
+
+
+                                                  // TextSpan(
+                                                  //   text: 'Your plan will not renew, and there will be no further charges after ',
+                                                  //     style: TextStyle(
+                                                  //         color: clrGrey5D5C5E,
+                                                  //         fontSize: 14,
+                                                  //         fontFamily: 'Nunito',
+                                                  //     )
+                                                  // ),
+                                                  // TextSpan(
+                                                  //   text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',
+                                                  //     style: TextStyle(
+                                                  //         color: clrYellowText,
+                                                  //         fontSize: 14,
+                                                  //         fontFamily: 'Nunito',
+                                                  //     )
+                                                  // ),
+                                                  // TextSpan(
+                                                  //     text: '.',
+                                                  //     style: TextStyle(
+                                                  //       color: clrGrey5D5C5E,
+                                                  //       fontSize: 14,
+                                                  //       fontFamily: 'Nunito',
+                                                  //     )
+                                                  // ),
                                                 ]
                                               ),
                                             ) : paymentController.profileController.profileData.value.result?.restartPlan?.planType == null && paymentController.profileController.profileData.value.result?.trailDate != null ? RichText(
@@ -248,12 +286,11 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                         fontFamily: 'Nunito',
                                                         fontWeight: FontWeight.w600
                                                     )),
-                                                    TextSpan(text: 'canceled', style: TextStyle(
+                                                    TextSpan(text: 'cancelled', style: TextStyle(
                                                         color: clrGreyTextLight,
                                                         fontSize: 14,
                                                         fontFamily: 'Nunito',
                                                         fontWeight: FontWeight.w600,
-                                                      decoration: TextDecoration.underline
                                                     )),
                                                     TextSpan(text: ' your membership.', style: TextStyle(
                                                         color: clrGreyTextLight,
@@ -270,12 +307,12 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                           fontFamily: 'Nunito',
                                                           fontWeight: FontWeight.w600
                                                       )),
-                                                      TextSpan(text: 'canceled', style: TextStyle(
+                                                      TextSpan(text: 'cancelled', style: TextStyle(
                                                           color: clrGreyTextLight,
                                                           fontSize: 14,
                                                           fontFamily: 'Nunito',
                                                           fontWeight: FontWeight.w600,
-                                                          decoration: TextDecoration.underline
+
                                                       )),
                                                       TextSpan(text: ' your membership.', style: TextStyle(
                                                           color: clrGreyTextLight,
@@ -292,12 +329,11 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                           fontFamily: 'Nunito',
                                                           fontWeight: FontWeight.w600
                                                       )),
-                                                      TextSpan(text: 'canceled', style: TextStyle(
+                                                      TextSpan(text: 'cancelled', style: TextStyle(
                                                           color: clrGreyTextLight,
                                                           fontSize: 14,
                                                           fontFamily: 'Nunito',
                                                           fontWeight: FontWeight.w600,
-                                                          decoration: TextDecoration.underline
                                                       )),
                                                       TextSpan(text: ' your membership.', style: TextStyle(
                                                           color: clrGreyTextLight,
@@ -310,8 +346,24 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 const SizedBox(height: 2,),
                                                 paymentController.profileController.profileData.value.result?.restartPlan?.planType != null && paymentController.profileController.profileData.value.result?.restartPlan?.cancelDate == null ? RichText(text: TextSpan(
                                                   children: [
+
+                                                    ///restart plan
                                                     TextSpan(
-                                                      text: 'Your current ${paymentController.profileController.profileData.value.result?.planType} plan remains active until ',style: TextStyle(
+                                                        text: 'Your current ',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                        text: '${paymentController.profileController.profileData.value.result?.planType}',
+                                                        style: TextStyle(
+                                                          color: clrYellowText,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Nunito',
+                                                        )
+                                                    ),
+                                                    TextSpan(
+                                                        text: ' plan is active. From ',style: TextStyle(
                                                       color: clrGrey5D5C5E,
                                                       fontSize: 14,
                                                       fontFamily: 'Nunito',
@@ -322,17 +374,86 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                       fontFamily: 'Nunito',
                                                     )),
                                                     TextSpan(
-                                                        text: ', then your new ${paymentController.profileController.profileData.value.result?.restartPlan!.planType} plan will active.',style: TextStyle(
+                                                        text: ', your plan will switch to the ',
+                                                        style: TextStyle(
+                                                          color: clrGrey5D5C5E,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Nunito',
+                                                        )
+                                                    ),
+                                                    TextSpan(
+                                                        text: '${paymentController.profileController.profileData.value.result?.restartPlan!.planType == 'monthly' ? 'monthly' : 'annual'}',style: TextStyle(
+                                                      color: clrYellowText,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                        text: ' plan automatically, and you will be charged ',style: TextStyle(
                                                       color: clrGrey5D5C5E,
                                                       fontSize: 14,
                                                       fontFamily: 'Nunito',
-                                                    ))
+                                                    )),
+                                                    TextSpan(
+                                                        text: '€${paymentController.getAmount(paymentController.profileController.profileData.value.result?.restartPlan!.planType == 'monthly' ? 'monthly' : 'yearly')}',
+                                                        style: TextStyle(
+                                                          color: clrGrey5D5C5E,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Nunito',
+                                                        )
+                                                    ),
+                                                    TextSpan(
+                                                        text: ' ${paymentController.profileController.profileData.value.result?.restartPlan!.planType == 'monthly' ? 'monthly' : 'annually'}',style: TextStyle(
+                                                      color: clrYellowText,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                        text: '.',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+
+
+
+
+                                                    // TextSpan(
+                                                    //   text: 'Your current ${paymentController.profileController.profileData.value.result?.planType} plan remains active until ',style: TextStyle(
+                                                    //   color: clrGrey5D5C5E,
+                                                    //   fontSize: 14,
+                                                    //   fontFamily: 'Nunito',
+                                                    // )),
+                                                    // TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                                    //   color: clrYellowText,
+                                                    //   fontSize: 14,
+                                                    //   fontFamily: 'Nunito',
+                                                    // )),
+                                                    // TextSpan(
+                                                    //     text: ', then your new ${paymentController.profileController.profileData.value.result?.restartPlan!.planType} plan will active.',style: TextStyle(
+                                                    //   color: clrGrey5D5C5E,
+                                                    //   fontSize: 14,
+                                                    //   fontFamily: 'Nunito',
+                                                    // ))
                                                   ]
                                                 )) :
                                                 paymentController.profileController.profileData.value.result?.switchPlan!.planId != null && paymentController.profileController.profileData.value.result?.switchPlan!.cancelDate == null && paymentController.profileController.profileData.value.result?.cancelDate != null ? RichText(text: TextSpan(
                                                   children: [
                                                     TextSpan(
-                                                      text: 'Your current ${paymentController.profileController.profileData.value.result?.planType} plan remains active until ',style: TextStyle(
+                                                      text: 'Your current ',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                      text: '${paymentController.profileController.profileData.value.result?.planType}',
+                                                      style: TextStyle(
+                                                        color: clrYellowText,
+                                                        fontSize: 14,
+                                                        fontFamily: 'Nunito',
+                                                      )
+                                                    ),
+                                                    TextSpan(
+                                                        text: ' plan is active. From ',style: TextStyle(
                                                       color: clrGrey5D5C5E,
                                                       fontSize: 14,
                                                       fontFamily: 'Nunito',
@@ -343,29 +464,99 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                       fontFamily: 'Nunito',
                                                     )),
                                                     TextSpan(
-                                                      text: ', then switches to ${paymentController.profileController.profileData.value.result?.switchPlan!.planId}.',style: TextStyle(
-                                                      color: clrGrey5D5C5E,
-                                                      fontSize: 14,
-                                                      fontFamily: 'Nunito',
-                                                    ))
-                                                  ]
-                                                )) : RichText(text: TextSpan(
-                                                  children: [
-                                                    TextSpan(text: 'Your plan will not renew, and there will be no further charges after ',style: TextStyle(
-                                                      color: clrGrey5D5C5E,
-                                                      fontSize: 14,
-                                                      fontFamily: 'Nunito',
-                                                    )),
-                                                    TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                                      text: ', your plan will switch to the ',
+                                                      style: TextStyle(
+                                                        color: clrGrey5D5C5E,
+                                                        fontSize: 14,
+                                                        fontFamily: 'Nunito',
+                                                      )
+                                                    ),
+                                                    TextSpan(
+                                                      text: '${paymentController.profileController.profileData.value.result?.switchPlan!.planId == 'monthly' ? 'monthly' : 'annual'}',style: TextStyle(
                                                       color: clrYellowText,
                                                       fontSize: 14,
                                                       fontFamily: 'Nunito',
                                                     )),
-                                                    TextSpan(text: '.',style: TextStyle(
+                                                    TextSpan(
+                                                      text: ' plan automatically, and you will be charged ',style: TextStyle(
                                                       color: clrGrey5D5C5E,
                                                       fontSize: 14,
                                                       fontFamily: 'Nunito',
                                                     )),
+                                                    TextSpan(
+                                                      text: '€${paymentController.getAmount(paymentController.profileController.profileData.value.result?.switchPlan!.planId == 'monthly' ? 'monthly' : 'yearly')}',
+                                                        style: TextStyle(
+                                                          color: clrGrey5D5C5E,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Nunito',
+                                                        )
+                                                    ),
+                                                    TextSpan(
+                                                      text: ' ${paymentController.profileController.profileData.value.result?.switchPlan!.planId == 'monthly' ? 'monthly' : 'annually'}',style: TextStyle(
+                                                      color: clrYellowText,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                        text: '.',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                  ]
+                                                )) : RichText(text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text: 'Your current ',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                        text: '${paymentController.profileController.profileData.value.result?.planType == 'monthly' ?  'monthly' : "annually"}',
+                                                        style: TextStyle(
+                                                          color: clrYellowText,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Nunito',
+                                                        )
+                                                    ),
+                                                    TextSpan(
+                                                        text: ' plan will remain active until ',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    )),
+                                                    TextSpan(
+                                                        text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',
+                                                        style: TextStyle(
+                                                          color: clrYellowText,
+                                                          fontSize: 14,
+                                                          fontFamily: 'Nunito',
+                                                        )),
+                                                    TextSpan(
+                                                        text: ', after which it will not renew, and you will not be charged again.',style: TextStyle(
+                                                      color: clrGrey5D5C5E,
+                                                      fontSize: 14,
+                                                      fontFamily: 'Nunito',
+                                                    ))
+
+
+
+                                                    // TextSpan(text: 'Your plan will not renew, and there will be no further charges after ',style: TextStyle(
+                                                    //   color: clrGrey5D5C5E,
+                                                    //   fontSize: 14,
+                                                    //   fontFamily: 'Nunito',
+                                                    // )),
+                                                    // TextSpan(text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',style: TextStyle(
+                                                    //   color: clrYellowText,
+                                                    //   fontSize: 14,
+                                                    //   fontFamily: 'Nunito',
+                                                    // )),
+                                                    // TextSpan(text: '.',style: TextStyle(
+                                                    //   color: clrGrey5D5C5E,
+                                                    //   fontSize: 14,
+                                                    //   fontFamily: 'Nunito',
+                                                    // )),
                                                   ]
                                                 ))
                                               ],
@@ -373,7 +564,23 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 text: TextSpan(
                                                   children: [
                                                     TextSpan(
-                                                        text: 'Your plan will renew on ',
+                                                        text: 'Your current ',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: clrGrey5D5C5E,
+                                                          fontFamily: 'Nunito',
+                                                        )
+                                                    ),
+                                                    TextSpan(
+                                                        text: '${paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'monthly' : 'annually'}',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: clrYellowText,
+                                                          fontFamily: 'Nunito',
+                                                        )
+                                                    ),
+                                                    TextSpan(
+                                                        text: ' plan is active and will renew automatically on ',
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                           color: clrGrey5D5C5E,
@@ -382,22 +589,6 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                     ),
                                                     TextSpan(
                                                         text: '${DateFormat('MMMM d, yyyy').format(DateTime.parse(paymentController.profileController.profileData.value.result!.endDate.toString()))}',
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: clrYellowText,
-                                                          fontFamily: 'Nunito',
-                                                        )
-                                                    ),
-                                                    TextSpan(
-                                                        text: ' for the regular price of €${paymentController.getAmount(paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'monthly' : 'yearly')}',
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: clrGrey5D5C5E,
-                                                          fontFamily: 'Nunito',
-                                                        )
-                                                    ),
-                                                    TextSpan(
-                                                        text: ' ${paymentController.profileController.profileData.value.result?.planType == 'monthly' ? 'monthly' : 'annually'}',
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                           color: clrYellowText,
@@ -1145,6 +1336,35 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                 ))),
       ),
     );
+  }
+
+  String getSubscriptionStatus() {
+    final result = paymentController.profileController.profileData.value.result;
+
+    // Check if the main plan is active
+    if(result?.cancelDate == null && result?.switchPlan?.cancelDate == null && result?.switchPlan?.planId == null && result?.restartPlan?.planType == null && result?.restartPlan?.cancelDate == null){
+      return result!.planType.toString();
+    }
+
+    // Check if the switch plan exists
+    if (result?.switchPlan?.planId != null && result?.restartPlan?.planType == null) {
+      var switchPlan = result?.switchPlan;
+      if (switchPlan?.cancelDate == null) {
+        return result!.planType.toString();
+      } else {
+        return "No active plan";
+      }
+    }
+
+    // Check if the restart plan exists
+    if (result?.restartPlan?.planType != null) {
+      var restartPlan = result?.restartPlan;
+      if (restartPlan?.cancelDate == null) {
+        return result!.planType.toString();
+      }
+    }
+
+    return "No active plan";
   }
 
 

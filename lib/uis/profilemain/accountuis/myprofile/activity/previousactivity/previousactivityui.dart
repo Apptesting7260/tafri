@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../utils/local_storage.dart';
 
@@ -563,11 +565,21 @@ class PreviousActivityUi extends GetWidget<PreviousActiController>{
                         SizedBox(
                           height: Get.height * 0.01,
                         ),
-                        Text(
-                          // "Hey guys! Looking to brighten up your morning? How about joining me for a coffee break at the local café around 10 AM? I'm extending an invite to three fellow coffee lovers to join the chat and caffeine boost. Let's turn strangers into friends over a cup of joe! Hope to see you there for a delightful break. ☕️👋",
-                          controller.actData.value.activity!.description.toString(),
-                          style: TextStyle(fontSize: 14,color:clrGreyTextLight),
-                        ),
+                        SelectableText.rich(TextSpan(
+                            children: [
+                              WidgetSpan(child: Linkify(text: "${controller.actData.value.activity!.description.toString()}",style: TextStyle(
+                                  fontSize: 14, color: clrGrey5D5C5E,fontFamily: 'Nunito'),linkStyle: const TextStyle(
+                                  decoration: TextDecoration.none
+                              ),onOpen: (link) async{
+                                await launchUrl(Uri.parse(link.url));
+                              }))
+                            ]
+                        )),
+                        // Text(
+                        //   // "Hey guys! Looking to brighten up your morning? How about joining me for a coffee break at the local café around 10 AM? I'm extending an invite to three fellow coffee lovers to join the chat and caffeine boost. Let's turn strangers into friends over a cup of joe! Hope to see you there for a delightful break. ☕️👋",
+                        //   controller.actData.value.activity!.description.toString(),
+                        //   style: TextStyle(fontSize: 14,color:clrGreyTextLight),
+                        // ),
                         SizedBox(
                           height: Get.height * 0.01,
                         ),

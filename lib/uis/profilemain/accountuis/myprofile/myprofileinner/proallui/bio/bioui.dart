@@ -62,7 +62,7 @@ class BioUi extends GetWidget<MyprofileInnController> {
                 child: Column(
                   children: [
                     const Text(
-                      "Share a bit about yourself helps members understand you better and find like-minded activity partners.",
+                      "Share a bit about yourself to help members understand you better and find like-minded activity partners.",
                       style: TextStyle(fontSize: 15),
                     ),
                     SizedBox(
@@ -92,8 +92,8 @@ class BioUi extends GetWidget<MyprofileInnController> {
                                 hintStyle: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     color: clrGreyTextLight),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 10),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15,right: 15, top: 0,bottom: 50),
                                 fillColor: clrGreyLight,
                                 filled: true,
                                 border: OutlineInputBorder(
@@ -117,7 +117,7 @@ class BioUi extends GetWidget<MyprofileInnController> {
                               },
                             ),
                             Padding(
-                                padding: const EdgeInsets.only(bottom: 15, right: 15),
+                                padding: const EdgeInsets.only(bottom: 10, right: 15),
                                 child: Text(
                                   '${controller.currentLength.value}/$maxLength',
                                   style: TextStyle(

@@ -94,109 +94,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.poSupportChat,arguments: chatController.allGroup.value.support != null ? chatController.allGroup.value.support!.frientConvarsationId : '')?.then((value) {
-                              chatController.fetchGroup();
-                              chatController.searchController.clear();
-                            },);
-                          },
-                          child: Row(
-                            children: [
-                              Container(
-                                clipBehavior: Clip.hardEdge,
-                                height: h * 0.055,
-                                width: h * 0.055,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: Image.asset(
-                                  "assets/images/plusones.png",
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(
-                                width: Get.width * 0.02,
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            "PlusOnes Support",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Obx(() => chatController.allGroup.value.friend!.isEmpty && chatController.gpLoading.value ? const Text('') : chatController.allGroup.value.support == null ? Text('Hey, welcome to PlusOnes...'): Text(
-                                              (chatController.allGroup.value.support!.lastMsg!.textmessage == 'null' && chatController.allGroup.value.support!.lastMsg!.file!.isNotEmpty) ? 'Media' : chatController.allGroup.value.support!.lastMsg!.textmessage!.isNotEmpty ? '${chatController.allGroup.value.support!.lastMsg!.textmessage}' : "Hey, welcome to PlusOnes...",
-                                              maxLines: 1,
-                                              overflow:
-                                              TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  color: clrGrey868380,
-                                                  fontSize: 12)),)
-                                          // Text("Hey, welcome to PlusOnes... ",
-                                          //     maxLines: 1,
-                                          //     overflow: TextOverflow.ellipsis,
-                                          //     style: TextStyle(
-                                          //         color: clrGrey868380,
-                                          //         fontSize: 12)),
-                                        ],
-                                      ),
-                                    ),
-                                    Obx(() => chatController.gpLoading.value && chatController.allGroup.value.friend!.isEmpty ? SizedBox() : chatController.allGroup.value.support == null ? SizedBox() : chatController.allGroup.value.support!.friendUnSeenMessage! > 0 ? Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: clrBlacke,
-                                          maxRadius: 10,
-                                          child: Text(
-                                            "${chatController.allGroup.value.support!.friendUnSeenMessage}",
-                                            style: TextStyle(
-                                                color: clrWhite,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                        Text(
-                                          timeago.format(chatController.allGroup.value.support!.updatedAt!),
-                                          style: TextStyle(
-                                              color: clrGreyDark, fontSize: 12),
-                                        )
-                                      ],
-                                    ) : SizedBox(),)
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-                        const Divider(thickness: 0.5),
-                        Text(
-                          "Group chats with other members appear below. ",
-                          style: TextStyle(color: clrGrey868380, fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.02,
-                        ),
-                        chatController.allGroup.value.friend!.isNotEmpty ? const Text(
-                          "Chats",
-                          style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-                        ) : SizedBox(),
-                        chatController.allGroup.value.friend!.isNotEmpty ? SizedBox(
-                          height: Get.height * 0.01,
-                        ) : SizedBox(),
-                        chatController.allGroup.value.friend!.isEmpty && chatController.gpLoading.value ? Expanded(child: Center(child: CommonUi.scaffoldLoading(color: clrYellow))) : Expanded(
+                        Expanded(
                           child: SmartRefresher(
                             controller: chatController.chatRefreshController,
                             header: CommonUi.refreshHeader(),
@@ -204,161 +102,267 @@ class MessageListUi extends GetWidget<MessagelistController> {
                               chatController.fetchGroup();
                               chatController.chatRefreshController.refreshCompleted();
                             },
-                            child: chatController.allGroup.value.friend!.isEmpty ? Center(child: Text('No group yet!',style: TextStyle(
-                              fontSize: 16
-                            ),)) : chatController.filteredGroups.isNotEmpty ? ListView.builder(
-                                itemCount: chatController.filteredGroups.length ?? 0,
-                                physics: const ScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  var data = chatController.filteredGroups[index];
-                                  return Container(
-                                    margin: const EdgeInsets.symmetric(vertical: 3),
-                                    child: Column(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            chatController.focusNode.unfocus();
-                                            Get.toNamed(Routes.chatUi,arguments: {
-                                              'gpID': data.groupId,
-                                              'activityId': data.activityId.toString(),
-                                              'hostId': data.createdBy.toString()
-                                            })?.then((value) {
-                                              chatController.fetchGroup();
-                                              chatController.searchController.clear();
-                                            },);
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                  clipBehavior: Clip.hardEdge,
-                                                  height: h * .055,
-                                                  width: h * .055,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(100),
-                                                    color: clrGreyLight
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.poSupportChat,arguments: chatController.allGroup.value.support != null ? chatController.allGroup.value.support!.frientConvarsationId : '')?.then((value) {
+                                      chatController.fetchGroup();
+                                      chatController.searchController.clear();
+                                    },);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        clipBehavior: Clip.hardEdge,
+                                        height: h * 0.055,
+                                        width: h * 0.055,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(100),
+                                        ),
+                                        child: Image.asset(
+                                          "assets/images/plusones.png",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: Get.width * 0.02,
+                                      ),
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "PlusOnes Support",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w600),
                                                   ),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: '${data?.groupImg}',
-                                                    memCacheWidth: 400,
-                                                    fit: BoxFit.cover,
-                                                    placeholder: (context, url) => Shimmer.fromColors(
-                                                        baseColor: grey300,
-                                                        highlightColor: grey100,
-                                                        child: ClipRRect(
-                                                          borderRadius: BorderRadius.circular(100),
-                                                          child: Container(
-                                                            height: h * .055,
-                                                            width: h * .055,
-                                                            color: clrGrey,
-                                                          ),
-                                                        )
-                                                    ),
-                                                    errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
-                                                  )
+                                                  Obx(() => chatController.allGroup.value.friend!.isEmpty && chatController.gpLoading.value ? const Text('') : chatController.allGroup.value.support == null ? Text('Hey, welcome to PlusOnes!'): Text(
+                                                      (chatController.allGroup.value.support!.lastMsg!.textmessage == 'null' && chatController.allGroup.value.support!.lastMsg!.file!.isNotEmpty) ? 'Media' : chatController.allGroup.value.support!.lastMsg!.textmessage!.isNotEmpty ? '${chatController.allGroup.value.support!.lastMsg!.textmessage}' : "Hey, welcome to PlusOnes...",
+                                                      maxLines: 1,
+                                                      overflow:
+                                                      TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          color: clrGrey868380,
+                                                          fontSize: 12)),)
+                                                ],
                                               ),
-                                              SizedBox(
-                                                width: Get.width * 0.02,
-                                              ),
-                                              Expanded(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            "${data?.groupName}",
-                                                            style: const TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                FontWeight.w600),
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                          ),
-                                                          Text(
-                                                              (data!.lastMsg!.textmessage == 'null' && data.lastMsg!.file!.isNotEmpty) ? 'Media' : data.lastMsg!.textmessage!.isNotEmpty ? '${data.lastMsg!.textmessage}' : "No messages yet",
-                                                              maxLines: 1,
-                                                              overflow:
-                                                              TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                  color: clrGrey868380,
-                                                                  fontSize: 12)),
-                                                        ],
+                                            ),
+                                            Obx(() => chatController.gpLoading.value && chatController.allGroup.value.friend!.isEmpty ? SizedBox() : chatController.allGroup.value.support == null ? SizedBox() : chatController.allGroup.value.support!.friendUnSeenMessage! > 0 ? Column(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundColor: clrBlacke,
+                                                  maxRadius: 10,
+                                                  child: Text(
+                                                    "${chatController.allGroup.value.support!.friendUnSeenMessage}",
+                                                    style: TextStyle(
+                                                        color: clrWhite,
+                                                        fontSize: 10,
+                                                        fontWeight: FontWeight.w600),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  timeago.format(chatController.allGroup.value.support!.updatedAt!),
+                                                  style: TextStyle(
+                                                      color: clrGreyDark, fontSize: 12),
+                                                )
+                                              ],
+                                            ) : SizedBox(),)
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.01,
+                                ),
+                                const Divider(thickness: 0.5),
+                                Text(
+                                  "Group chats with other members appear below. ",
+                                  style: TextStyle(color: clrGrey868380, fontSize: 12),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
+                                ),
+                                chatController.allGroup.value.friend!.isNotEmpty ? const Text(
+                                  "Chats",
+                                  style:
+                                  TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                                ) : SizedBox(),
+                                chatController.allGroup.value.friend!.isNotEmpty ? SizedBox(
+                                  height: Get.height * 0.01,
+                                ) : SizedBox(),
+                                chatController.allGroup.value.friend!.isEmpty
+                                    ? Center(
+                                  child: chatController.gpLoading.value
+                                      ? CommonUi.scaffoldLoading(color: clrYellow)
+                                      : Text('No group yet!', style: TextStyle(fontSize: 16)),
+                                )
+                                    : chatController.filteredGroups.isNotEmpty
+                                    ? ListView.builder(
+                                    itemCount: chatController.filteredGroups.length ?? 0,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      var data = chatController.filteredGroups[index];
+                                      return Container(
+                                        margin: const EdgeInsets.symmetric(vertical: 3),
+                                        child: Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                chatController.focusNode.unfocus();
+                                                Get.toNamed(Routes.chatUi,arguments: {
+                                                  'gpID': data.groupId,
+                                                  'activityId': data.activityId.toString(),
+                                                  'hostId': data.createdBy.toString()
+                                                })?.then((value) {
+                                                  chatController.fetchGroup();
+                                                  chatController.searchController.clear();
+                                                },);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                      clipBehavior: Clip.hardEdge,
+                                                      height: h * .055,
+                                                      width: h * .055,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                          BorderRadius.circular(100),
+                                                          color: clrGreyLight
                                                       ),
-                                                    ),
-                                                    Row(
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: '${data?.groupImg}',
+                                                        memCacheWidth: 400,
+                                                        fit: BoxFit.cover,
+                                                        placeholder: (context, url) => Shimmer.fromColors(
+                                                            baseColor: grey300,
+                                                            highlightColor: grey100,
+                                                            child: ClipRRect(
+                                                              borderRadius: BorderRadius.circular(100),
+                                                              child: Container(
+                                                                height: h * .055,
+                                                                width: h * .055,
+                                                                color: clrGrey,
+                                                              ),
+                                                            )
+                                                        ),
+                                                        errorWidget: (context, url, error) => Icon(Icons.group,color: clrGreyDark,),
+                                                      )
+                                                  ),
+                                                  SizedBox(
+                                                    width: Get.width * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment.end,
-                                                          children: [
-                                                            // Container(
-                                                            //   padding: EdgeInsets.all(7),
-                                                            //   decoration: BoxDecoration(
-                                                            //     borderRadius: BorderRadius.circular(100),
-                                                            //     color: clrBlacke
-                                                            //   ),
-                                                            //   child: Text("1",style: TextStyle(color: clrWhite),),
-                                                            // ),
-                                                            data!.groupUnSennMessage! > 0 ? CircleAvatar(
-                                                              backgroundColor: clrBlacke,
-                                                              maxRadius: 10,
-                                                              child: Text(
-                                                                "${data.groupUnSennMessage}",
-                                                                style: TextStyle(
-                                                                    color: clrWhite,
-                                                                    fontSize: 10,
+                                                        Flexible(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                "${data?.groupName}",
+                                                                style: const TextStyle(
+                                                                    fontSize: 15,
                                                                     fontWeight:
-                                                                    FontWeight.w700),
+                                                                    FontWeight.w600),
+                                                                maxLines: 1,
+                                                                overflow: TextOverflow.ellipsis,
                                                               ),
-                                                            ) : const SizedBox(),
-                                                            data.groupUnSennMessage! > 0 ? Text(
-                                                              timeago.format(data.updatedAt!),
-                                                              style: TextStyle(
-                                                                  color: clrGreyDark,
-                                                                  fontSize: 12),
-                                                            ) : const SizedBox()
-                                                          ],
+                                                              Text(
+                                                                  (data!.lastMsg!.textmessage == 'null' && data.lastMsg!.file!.isNotEmpty) ? 'Media' : data.lastMsg!.textmessage!.isNotEmpty ? '${data.lastMsg!.textmessage}' : "No messages yet",
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                  TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                      color: clrGrey868380,
+                                                                      fontSize: 12)),
+                                                            ],
+                                                          ),
                                                         ),
-                                                        data.startDate != null ? SizedBox(width: 8,) : SizedBox(),
-                                                        data.startDate != null ? Text('${DateFormat('d MMM').format(DateTime.parse(data.startDate.toString()))}',style: TextStyle(
-                                                            fontSize: 13,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: clrGreyTextLight
-                                                        ),) : SizedBox()
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.end,
+                                                              children: [
+                                                                // Container(
+                                                                //   padding: EdgeInsets.all(7),
+                                                                //   decoration: BoxDecoration(
+                                                                //     borderRadius: BorderRadius.circular(100),
+                                                                //     color: clrBlacke
+                                                                //   ),
+                                                                //   child: Text("1",style: TextStyle(color: clrWhite),),
+                                                                // ),
+                                                                data!.groupUnSennMessage! > 0 ? CircleAvatar(
+                                                                  backgroundColor: clrBlacke,
+                                                                  maxRadius: 10,
+                                                                  child: Text(
+                                                                    "${data.groupUnSennMessage}",
+                                                                    style: TextStyle(
+                                                                        color: clrWhite,
+                                                                        fontSize: 10,
+                                                                        fontWeight:
+                                                                        FontWeight.w700),
+                                                                  ),
+                                                                ) : const SizedBox(),
+                                                                data.groupUnSennMessage! > 0 ? Text(
+                                                                  timeago.format(data.updatedAt!),
+                                                                  style: TextStyle(
+                                                                      color: clrGreyDark,
+                                                                      fontSize: 12),
+                                                                ) : const SizedBox()
+                                                              ],
+                                                            ),
+                                                            data.startDate != null ? SizedBox(width: 8,) : SizedBox(),
+                                                            data.startDate != null ? Text('${DateFormat('d MMM').format(DateTime.parse(data.startDate.toString()))}',style: TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: clrGreyTextLight
+                                                            ),) : SizedBox()
+                                                          ],
+                                                        )
                                                       ],
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: Get.height * 0.01,
+                                            ),
+                                            Divider(
+                                              color: clrGrey,
+                                              thickness: 0.5,
+                                            )
+                                          ],
                                         ),
-                                        SizedBox(
-                                          height: Get.height * 0.01,
-                                        ),
-                                        Divider(
-                                          color: clrGrey,
-                                          thickness: 0.5,
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                }) : Center(
-                              child: Text('No group find',style: TextStyle(
-                                  fontSize: 16
-                              ),),
+                                      );
+                                    }) : Center(
+                                  child: Text('No group find',style: TextStyle(
+                                      fontSize: 16
+                                  ),),
+                                ),
+                                const SizedBox(height: 20,)
+                              ],
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20,)
+                        )
                       ],
                     ),),
                   ),
