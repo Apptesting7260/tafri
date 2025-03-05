@@ -29,7 +29,7 @@ class ChatUi extends GetWidget<GroupChatController> {
       child: Container(
         color: clrWhite,
         child: SafeArea(
-          top: false,
+          top: true,
           child: Scaffold(
             bottomSheet: Padding(
               padding: EdgeInsets.only(left: Res.Defalt_side_margin,bottom: 5,top: 5,right: Res.Defalt_side_margin),
@@ -110,10 +110,11 @@ class ChatUi extends GetWidget<GroupChatController> {
                 ],
               ),
             ),
-            appBar: PreferredSize(preferredSize: const Size.fromHeight(140), child: Padding(
-              padding: EdgeInsets.only(left: Res.Defalt_side_margin,right: Res.Defalt_side_margin,top: 35),
+            appBar: PreferredSize(preferredSize: const Size.fromHeight(150), child: Padding(
+              padding: EdgeInsets.only(left: Res.Defalt_side_margin,right: Res.Defalt_side_margin,top: 15),
               child: Container(
-                height: 140,
+                height: 150,
+                // color: clrBlacke,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,

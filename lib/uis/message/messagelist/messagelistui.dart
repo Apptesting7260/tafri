@@ -52,16 +52,40 @@ class MessageListUi extends GetWidget<MessagelistController> {
                     const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                 labelStyle:
                     const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-                tabs: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      "Chats",
-                    ),
+                tabs: [
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          "Chats",
+                        ),
+                      ),
+                      Obx(() => chatController.unReadMsg.value > 0 ? Padding(
+                        padding: const EdgeInsets.only(top: 7),
+                        child: CircleAvatar(
+                          radius: 5,
+                          backgroundColor: clrRed,
+                        ),
+                      ) : const SizedBox(),)
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Text("Notifications"),
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Text("Notifications"),
+                      ),
+                      Obx(() => controller.unReadNot.value > 0 ? Padding(
+                        padding: const EdgeInsets.only(top: 7),
+                        child: CircleAvatar(
+                          radius: 5,
+                          backgroundColor: clrRed,
+                        ),
+                      ) : const SizedBox()),
+                    ],
                   )
                 ],
                 controller: controller.tabController,
@@ -144,7 +168,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w600),
                                                   ),
-                                                  Obx(() => chatController.allGroup.value.friend!.isEmpty && chatController.gpLoading.value ? const Text('') : chatController.allGroup.value.support == null ? Text('Hey, welcome to PlusOnes!'): Text(
+                                                  Obx(() => chatController.allGroup.value.friend!.isEmpty && chatController.gpLoading.value ? const Text('') : chatController.allGroup.value.support == null ? const Text('Hey, welcome to PlusOnes!'): Text(
                                                       (chatController.allGroup.value.support!.lastMsg!.textmessage == 'null' && chatController.allGroup.value.support!.lastMsg!.file!.isNotEmpty) ? 'Media' : chatController.allGroup.value.support!.lastMsg!.textmessage!.isNotEmpty ? '${chatController.allGroup.value.support!.lastMsg!.textmessage}' : "Hey, welcome to PlusOnes...",
                                                       maxLines: 1,
                                                       overflow:
@@ -155,7 +179,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 ],
                                               ),
                                             ),
-                                            Obx(() => chatController.gpLoading.value && chatController.allGroup.value.friend!.isEmpty ? SizedBox() : chatController.allGroup.value.support == null ? SizedBox() : chatController.allGroup.value.support!.friendUnSeenMessage! > 0 ? Column(
+                                            Obx(() => chatController.gpLoading.value && chatController.allGroup.value.friend!.isEmpty ? const SizedBox() : chatController.allGroup.value.support == null ? const SizedBox() : chatController.allGroup.value.support!.friendUnSeenMessage! > 0 ? Column(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 CircleAvatar(
@@ -175,7 +199,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                       color: clrGreyDark, fontSize: 12),
                                                 )
                                               ],
-                                            ) : SizedBox(),)
+                                            ) : const SizedBox(),)
                                           ],
                                         ),
                                       )
@@ -197,20 +221,20 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                   "Chats",
                                   style:
                                   TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-                                ) : SizedBox(),
+                                ) : const SizedBox(),
                                 chatController.allGroup.value.friend!.isNotEmpty ? SizedBox(
                                   height: Get.height * 0.01,
-                                ) : SizedBox(),
+                                ) : const SizedBox(),
                                 chatController.allGroup.value.friend!.isEmpty
                                     ? Center(
                                   child: chatController.gpLoading.value
                                       ? CommonUi.scaffoldLoading(color: clrYellow)
-                                      : Text('No group yet!', style: TextStyle(fontSize: 16)),
+                                      : const Text('No group yet!', style: TextStyle(fontSize: 16)),
                                 )
                                     : chatController.filteredGroups.isNotEmpty
                                     ? ListView.builder(
                                     itemCount: chatController.filteredGroups.length ?? 0,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       var data = chatController.filteredGroups[index];
@@ -329,12 +353,12 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                                 ) : const SizedBox()
                                                               ],
                                                             ),
-                                                            data.startDate != null ? SizedBox(width: 8,) : SizedBox(),
+                                                            data.startDate != null ? const SizedBox(width: 8,) : const SizedBox(),
                                                             data.startDate != null ? Text('${DateFormat('d MMM').format(DateTime.parse(data.startDate.toString()))}',style: TextStyle(
                                                                 fontSize: 13,
                                                                 fontWeight: FontWeight.w600,
                                                                 color: clrGreyTextLight
-                                                            ),) : SizedBox()
+                                                            ),) : const SizedBox()
                                                           ],
                                                         )
                                                       ],
@@ -353,7 +377,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                           ],
                                         ),
                                       );
-                                    }) : Center(
+                                    }) : const Center(
                                   child: Text('No group find',style: TextStyle(
                                       fontSize: 16
                                   ),),
@@ -367,7 +391,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                     ),),
                   ),
                   //notification ui
-                      Obx(() => controller.notLoading.value ? Center(child: CommonUi.scaffoldLoading(color: clrYellow)) : controller.notError.value.isNotEmpty ? Center(child: ErrorScreen()) : Padding(
+                      Obx(() => controller.notLoading.value ? Center(child: CommonUi.scaffoldLoading(color: clrYellow)) : controller.notError.value.isNotEmpty ? const Center(child: ErrorScreen()) : Padding(
                         padding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
                         child: Column(
                           children: [
@@ -436,7 +460,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                         vertical: h * 0.008),
                                                     decoration: BoxDecoration(
                                                       color: clrYellow,
-                                                      borderRadius: BorderRadius.only(
+                                                      borderRadius: const BorderRadius.only(
                                                           bottomRight: Radius.circular(15),
                                                           topRight: Radius.circular(15)
                                                       ),
@@ -519,7 +543,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                             Text(
                                                               "${controller.notData.value.notifications?[index].message}",
                                                               style:
-                                                              TextStyle(fontSize: 13),
+                                                              const TextStyle(fontSize: 13),
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                             ),
@@ -541,7 +565,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                                                 controller.notData.value.notifications?[index].isRead == '0' ? CircleAvatar(
                                                   radius: 4,
                                                   backgroundColor: clrYellow,
-                                                ) : SizedBox()
+                                                ) : const SizedBox()
                                                 // Icon(Icons.more_vert,color: Color.fromRGBO(85, 92, 105, 1),)
                                               ],
                                             ),

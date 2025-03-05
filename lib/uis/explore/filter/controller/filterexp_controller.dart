@@ -266,7 +266,7 @@ class FilterExpController extends GetxController{
 
 
   Future<void> filterActivity() async{
-
+    print('reset value == ${reset.value}');
     var date = '';
 
 
@@ -330,6 +330,10 @@ class FilterExpController extends GetxController{
         homeController.homeData.refresh();
         homeController.selectedIndex.value = (-1);
         print('home data == ${data.result?.activities}');
+        homeController.homeData.value.result?.categories?.forEach((g) {
+          g.selected = false;
+        },);
+        homeController.homeData.refresh();
         for (var e in selected) {
           homeController.homeData.value.result?.categories?.forEach((f) {
             if(e == f.id){
@@ -343,7 +347,8 @@ class FilterExpController extends GetxController{
         // filterActData.value = FilteractivityModel.fromJson(response.body);
         // resetForm();
         // Get.toNamed(Routes.filterActUi);
-        if(reset.value = true){
+        if(reset.value == true){
+          print('reset == ${reset.value}');
           homeController.selectedIndex.value = 0;
         }
         reset.value = false;
