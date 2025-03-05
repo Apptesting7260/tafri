@@ -105,6 +105,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:plusone/routes/routes.dart';
+import 'package:plusone/uis/message/chats/controller/group_chat_controller.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/local_storage.dart';
 
@@ -180,7 +182,7 @@ class FirebaseApi {
 
         if (details.payload != null) {
           print(
-              'details  =  ${details.id}  ===  ${details.notificationResponseType}  ==  ${details.input}   ===  ${details.payload}');
+              'details a =  ${details.id}  ===  ${details.notificationResponseType}  ==  ${details.input}   ===  ${details.payload}');
           final Map<String, dynamic> data = jsonDecode(details.payload!);
           print('data == ${data['activity_id']}');
 
@@ -188,13 +190,27 @@ class FirebaseApi {
           if(from){
 
             if(data['chatType'] == 'personal'){
-              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId']);
+              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId'])?.then((value) {
+                if(Get.isRegistered<SocketController>()){
+                  Get.find<SocketController>().fetchGroup();
+                }
+              },);
             }else if(data['chatType'] == 'group'){
-              Get.toNamed(Routes.chatUi,arguments: {
-                'gpID': data['chatGroupId'],
-                'activityId': data['activityId'].toString(),
-                'hostId': data['createdBy'].toString()
-              });
+              if(Get.isRegistered<GroupChatController>()){
+                Get.delete<GroupChatController>();
+                Get.back();
+              }
+              Future.delayed(Duration(milliseconds: 500),() {
+                Get.toNamed(Routes.chatUi,arguments: {
+                  'gpID': data['chatGroupId'],
+                  'activityId': data['activityId'].toString(),
+                  'hostId': data['createdBy'].toString()
+                })?.then((value) {
+                  if(Get.isRegistered<SocketController>()){
+                    Get.find<SocketController>().fetchGroup();
+                  }
+                },);
+              },);
             }
 
           }else if(LocalStorage.getUid().toString() == data['host_id']){
@@ -277,13 +293,27 @@ class FirebaseApi {
           if(from){
 
             if(data['chatType'] == 'personal'){
-              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId']);
+              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId'])?.then((value) {
+                if(Get.isRegistered<SocketController>()){
+                  Get.find<SocketController>().fetchGroup();
+                }
+              },);
             }else if(data['chatType'] == 'group'){
-              Get.toNamed(Routes.chatUi,arguments: {
-                'gpID': data['chatGroupId'],
-                'activityId': data['activityId'].toString(),
-                'hostId': data['createdBy'].toString()
-              });
+              if(Get.isRegistered<GroupChatController>()){
+                Get.delete<GroupChatController>();
+                Get.back();
+              }
+              Future.delayed(Duration(milliseconds: 500),() {
+                Get.toNamed(Routes.chatUi,arguments: {
+                  'gpID': data['chatGroupId'],
+                  'activityId': data['activityId'].toString(),
+                  'hostId': data['createdBy'].toString()
+                })?.then((value) {
+                  if(Get.isRegistered<SocketController>()) {
+                    Get.find<SocketController>().fetchGroup();
+                  }
+                },);
+              },);
             }
 
           } else if (LocalStorage.getUid().toString() == data['host_id']) {
@@ -343,13 +373,27 @@ class FirebaseApi {
           if(from){
 
             if(data['chatType'] == 'personal'){
-              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId']);
+              Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId'])?.then((value) {
+                if(Get.isRegistered<SocketController>()){
+                  Get.find<SocketController>().fetchGroup();
+                }
+              },);
             }else if(data['chatType'] == 'group'){
-              Get.toNamed(Routes.chatUi,arguments: {
-                'gpID': data['chatGroupId'],
-                'activityId': data['activityId'].toString(),
-                'hostId': data['createdBy'].toString()
-              });
+              if(Get.isRegistered<GroupChatController>()){
+                Get.delete<GroupChatController>();
+                Get.back();
+              }
+              Future.delayed(Duration(milliseconds: 500),() {
+                Get.toNamed(Routes.chatUi,arguments: {
+                  'gpID': data['chatGroupId'],
+                  'activityId': data['activityId'].toString(),
+                  'hostId': data['createdBy'].toString()
+                })?.then((value) {
+                  if(Get.isRegistered<SocketController>()){
+                    Get.find<SocketController>().fetchGroup();
+                  }
+                },);
+              },);
             }
 
           }else if (LocalStorage.getUid().toString() == data['host_id']) {

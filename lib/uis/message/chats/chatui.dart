@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/colors.dart';
 
 class ChatUi extends GetWidget<GroupChatController> {
-  ChatUi({super.key});
+  const ChatUi({super.key});
 
 
   @override
