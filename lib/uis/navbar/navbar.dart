@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plusone/networking/firebase_api.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/creativity/createcreativityui.dart';
 import 'package:plusone/uis/explore/explorelist/controller/explorelist_controller.dart';
@@ -17,21 +18,33 @@ import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/uis/profilemain/profileui.dart';
 import '../../utils/colors.dart';
 
-class Navbar extends GetWidget {
+class Navbar extends StatefulWidget {
   Navbar({super.key});
+
+  @override
+  State<Navbar> createState() => _NavbarState();
+}
+
+class _NavbarState extends State<Navbar> {
   List classes = [
      ExploreUi(),
      MessageListUi(),
      MyActivitiesListUi(),
      ProfileUi()
   ];
+
   // List<IconData> iconList=[IconData()];
   NavBarController navcontroller = Get.put(NavBarController());
+
   ExploreListController exploreListController=Get.put(ExploreListController());
+
   // SocketController chatController = Get.find<SocketController>();
   SocketController chatController = Get.put(SocketController());
+
   MyactiController activityController =  Get.put(MyactiController());
+
   MessagelistController notController = Get.put(MessagelistController());
+
   FilterExpController filterController = Get.put(FilterExpController());
 
   final iconList = <IconData>[
@@ -40,7 +53,16 @@ class Navbar extends GetWidget {
     Icons.brightness_6,
     Icons.brightness_7,
   ];
+
   int classIndex = 0;
+
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseApi().initializeNotification(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

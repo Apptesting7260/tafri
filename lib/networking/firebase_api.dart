@@ -276,7 +276,81 @@ class FirebaseApi {
             'messageSSSS ===  ${message.data}  ===   ${message.notification?.body}   ====   ${message.notification?.title}');
         // showNotification(message);
         // snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
-        showCustomSnackbar(message.notification!.title.toString(), message.notification!.body.toString(), context);
+        showCustomSnackbar(message.notification!.title.toString(), message.notification!.body.toString(), context,() {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          if(message != null) {
+            final Map<String, dynamic> data = message!.data;
+
+            if (data != null) {
+              print('data == ${data['activity_id']}');
+
+              bool from = data.containsKey('chatType');
+              if(from){
+
+                if(data['chatType'] == 'personal'){
+                  Get.toNamed(Routes.poSupportChat,arguments: data['friendsAndConversationId'])?.then((value) {
+                    if(Get.isRegistered<SocketController>()){
+                      Get.find<SocketController>().fetchGroup();
+                    }
+                  },);
+                }else if(data['chatType'] == 'group'){
+                  if(Get.isRegistered<GroupChatController>()){
+                    Get.delete<GroupChatController>();
+                    Get.back();
+                  }
+                  Future.delayed(Duration(milliseconds: 500),() {
+                    Get.toNamed(Routes.chatUi,arguments: {
+                      'gpID': data['chatGroupId'],
+                      'activityId': data['activityId'].toString(),
+                      'hostId': data['createdBy'].toString()
+                    })?.then((value) {
+                      if(Get.isRegistered<SocketController>()) {
+                        Get.find<SocketController>().fetchGroup();
+                      }
+                    },);
+                  },);
+                }
+
+              } else if (LocalStorage.getUid().toString() == data['host_id']) {
+                if (data['status'] == 'approved') {
+                  Get.toNamed(Routes.hostUpcommingActiview,
+                      arguments: data['activity_id'].toString());
+                } else if (data['status'] == 'pending') {
+                  Get.toNamed(Routes.hostUpcommingActiview,
+                      arguments: data['activity_id'].toString());
+                } else if (data['status'] == 'completed') {
+                  Get.toNamed(Routes.previousActivityUi, arguments: {
+                    "isHost": true,
+                    'id': data['activity_id'].toString()
+                  });
+                } else if (data['status'] == 'not_approved') {
+                  Get.toNamed(Routes.hostUpcommingActiview,
+                      arguments: data['activity_id'].toString());
+                } else {
+                  Get.toNamed(Routes.navbarUi);
+                }
+              } else {
+                if (data['status'] == 'approved') {
+                  Get.toNamed(Routes.exploreView,
+                      arguments: data['activity_id'].toString());
+                } else if (data['status'] == 'pending') {
+                  Get.toNamed(Routes.navbarUi);
+                } else if (data['status'] == 'completed') {
+                  Get.toNamed(Routes.previousActivityUi, arguments: {
+                    "isHost": false,
+                    "id": data['activity_id'].toString()
+                  });
+                } else if (data['status'] == 'not_approved') {
+                  Get.toNamed(Routes.navbarUi);
+                } else {
+                  Get.toNamed(Routes.navbarUi);
+                }
+              }
+            } else {
+              Get.toNamed(Routes.navbarUi);
+            }
+          }
+        },);
       }
     });
 
@@ -546,41 +620,44 @@ class FirebaseApi {
   }
 
 
-  static showCustomSnackbar(String title, String message,BuildContext context) {
+  static showCustomSnackbar(String title, String message,BuildContext context,void Function()? onTap) {
     final snackBar = SnackBar(
-      content: Row(
-        // mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Image.asset(
-            'assets/images/launcher.webp',
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-          ),
-          SizedBox(width: 10),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontWeight: FontWeight.bold,color: clrBlacke),
-                  maxLines: 1,
-                ),
-                Flexible(
-                  child: Text(
-                    message,
-                    style: TextStyle(color: clrGreyDark),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+      content: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Image.asset(
+              'assets/images/launcher.webp',
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
             ),
-          ),
-        ],
+            SizedBox(width: 10),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(fontWeight: FontWeight.bold,color: clrBlacke),
+                    maxLines: 1,
+                  ),
+                  Flexible(
+                    child: Text(
+                      message,
+                      style: TextStyle(color: clrGreyDark),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       backgroundColor: clrGreyLight,
       shape: RoundedRectangleBorder(

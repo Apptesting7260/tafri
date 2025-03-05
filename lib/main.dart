@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initDeepLink();
-    FirebaseApi().initializeNotification(context);
+    // FirebaseApi().initializeNotification(context);
   }
 
   late AppLinks _appLinks;
