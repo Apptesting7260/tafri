@@ -2,31 +2,23 @@
   "project_info": {
     "project_number": "396232712466",
     "project_id": "plusones-28b9f",
-    "storage_bucket": "plusones-28b9f.appspot.com"
+    "storage_bucket": "plusones-28b9f.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:396232712466:android:dc6facfeb7e7d2e9cd53cb",
+        "mobilesdk_app_id": "1:396232712466:android:2fc9732be96effeccd53cb",
         "android_client_info": {
-          "package_name": "com.example.plusones"
+          "package_name": "com.app.plusones"
         }
       },
       "oauth_client": [
         {
-          "client_id": "396232712466-bdsea07vikp9jesk86dsjvtf4oiqkvhf.apps.googleusercontent.com",
+          "client_id": "396232712466-m1jgiajvejjbub6gaqfd7iedhsdantvc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.plusones",
+            "package_name": "com.app.plusones",
             "certificate_hash": "c62f766bc136fcf202e96dba7358261fff21b4e6"
-          }
-        },
-        {
-          "client_id": "396232712466-r24io2nvm37ghfp6i0j2ip0pvh5e9eog.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.plusones",
-            "certificate_hash": "b10e236db47d432cb78cfbb00e917703b9673641"
           }
         },
         {
@@ -36,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAeb1sP2mDZj5suUJWIZ-WNpKg-fjBfNic"
+          "current_key": "AIzaSyD14d4xF9voyyPSVoy15WCcmB84xKlTCLw"
         }
       ],
       "services": {
@@ -50,7 +42,7 @@
               "client_id": "396232712466-5am1kdm3jste33v4tah0nniick709dd7.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.plusones"
+                "bundle_id": "com.example.plusone"
               }
             }
           ]
