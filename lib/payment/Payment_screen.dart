@@ -76,35 +76,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 alignment: Alignment.center,
                 children: [
                   WebViewWidget(controller: _controller),
-                  // InAppWebView(
-                  //   initialSettings: InAppWebViewSettings(
-                  //   ),
-                  //   initialUrlRequest: URLRequest(
-                  //       url: WebUri.uri(Uri.parse(controller.paymentUrl.value))),
-                  //   onLoadStart: (controlle, url) async {
-                  //     // print(
-                  //     //     'url match ${url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-success-url'}');
-                  //     // if (url.toString().trim() ==
-                  //     //     'https://urlsdemo.online/plusone/api/redirect-success-url') {
-                  //     //   await controller.getPay(controller.paymentId.value);
-                  //     // }
-                  //   },
-                  //   onLoadStop: (controlle, url) async{
-                  //     print('load stop == ${url}');
-                  //     print(
-                  //         'url match ${url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-success-url'}');
-                  //     if (url.toString().trim() ==
-                  //         'https://urlsdemo.online/plusone/api/redirect-success-url') {
-                  //       await controller.getPayDetail(controller.paymentId.value);
-                  //     }else if(url.toString().trim() == 'https://urlsdemo.online/plusone/api/redirect-cancel-url'){
-                  //       showTostMsg('Your payment has been cancelled');
-                  //       Get.back();
-                  //     }
-                  //   },
-                  //   onConsoleMessage: (controlle, consoleMessage) {
-                  //     print('msg == ${consoleMessage}');
-                  //   },
-                  // ),
                   controller.loading.value ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

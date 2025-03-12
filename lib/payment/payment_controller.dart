@@ -256,9 +256,13 @@ class PaymentController extends GetxController{
         final data = jsonDecode(response.body);
         print('respos == ${response.body}');
         print('cust == ${data['customerId']}  ${data['mandateId']}  ${data['details']['cardToken']}');
-        mandateID.value = data['mandateId'];
-        cardToken.value = data['details']['cardToken'];
-        await createSub(customerId.value, price.value, planType.value == 'monthly' ? '1 month' : '12 months', planType.value == 'monthly' ? 'Monthly Membership' : 'Yearly Membership');
+        if(data['status'] == 'paid'){
+          mandateID.value = data['mandateId'];
+          cardToken.value = data['details']['cardToken'];
+          await createSub(customerId.value, price.value, planType.value == 'monthly' ? '1 month' : '12 months', planType.value == 'monthly' ? 'Monthly Membership' : 'Yearly Membership');
+        }else{
+          showTostMsg('${data['details']['failureMessage']}');
+        }
         // await saveCard(data['customerId'], data['mandateId'], data['details']['cardToken']);
         // Get.back();
       }else{
@@ -657,14 +661,22 @@ class PaymentController extends GetxController{
         final data = jsonDecode(response.body);
         print('respos == ${response.body}');
         print('cust == ${data['customerId']}  ${data['mandateId']}  ${data['details']['cardToken']}');
-        mandateID.value = data['mandateId'];
-        cardToken.value = data['details']['cardToken'];
-        await createMembership(customerId.value, price.value, planType.value == 'monthly' ? '1 month' : '12 months', planType.value == 'monthly' ? 'Monthly Membership' : 'Yearly Membership');
+        if(data['status'] == 'paid') {
+          mandateID.value = data['mandateId'];
+          cardToken.value = data['details']['cardToken'];
+          await createMembership(customerId.value, price.value, planType.value == 'monthly' ? '1 month' : '12 months', planType.value == 'monthly' ? 'Monthly Membership' : 'Yearly Membership');
+        }else{
+          showTostMsg('${data['details']['failureMessage']}');
+          Get.back();
+        }
+
       }else{
         showTostMsg('Something went wrong.Please try again.');
+        Get.back();
       }
     }catch(e){
       showTostMsg('Something went wrong.Please try again.');
+      Get.back();
       print('get payment error == ${e.toString()}');
     }
     loading.value = false;
