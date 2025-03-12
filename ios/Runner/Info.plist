@@ -26,10 +26,10 @@
 	<key>FlutterDeepLinkingEnabled</key>
     <false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app requires access to your location while in use to provide better services.</string>
+    <string>PlusOnes requires location access to recommend and display activities near you.</string>
 
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>This app requires access to your location at all times for optimal functionality.</string>
+    <string>PlusOnes requires location access to recommend and display activities near you.</string>
 
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>This app requires access to your location even in the background for specific features.</string>
@@ -81,12 +81,12 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to provide better services.</string>
+	<string>PlusOnes requires location access to recommend and display activities near you.</string>
 	<key>NSMicrophoneUsageDescription</key>
     <string>we requires access to microphone for improving your experience.</string>
 
     <key>NSCameraUsageDescription</key>
-    <string>we requires access to camera for improving your experience.</string>
+    <string>PlusOnes requires camera access to allow you to upload profile and activity photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to allow you to select and upload images to enhance your experience.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
