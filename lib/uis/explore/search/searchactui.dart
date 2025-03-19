@@ -104,7 +104,9 @@ class SearchActui extends GetWidget<SearchActController> {
                                               true) {
 
                                         if(controller.homeData.value.result?.activities?[index].hostId.toString() == LocalStorage.getUid()){
-                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: activityData?[index].id.toString());
+                                          Get.toNamed(Routes.hostUpcommingActiview, arguments: activityData?[index].id.toString())?.then((value) {
+                                            controller.homePageApi();
+                                          },);
                                         }else {
                                           Get.toNamed(
                                               Routes
@@ -112,7 +114,9 @@ class SearchActui extends GetWidget<SearchActController> {
                                               arguments: activityData?[index]
                                                   .id
                                                   .toString()
-                                          );
+                                          )?.then((value) {
+                                            controller.homePageApi();
+                                          },);
                                         }
 
                                         // Get.toNamed(Routes.exploreView,
@@ -428,7 +432,9 @@ class SearchActui extends GetWidget<SearchActController> {
                                                         arguments:
                                                         activityData?[index]
                                                             .hostId
-                                                            .toString());
+                                                            .toString())?.then((value) {
+                                                              controller.homePageApi();
+                                                            },);
                                                   }else{
                                                     controller.showHomePop();
                                                   }

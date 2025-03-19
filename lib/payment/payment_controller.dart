@@ -624,6 +624,7 @@ class PaymentController extends GetxController{
       // 'method': 'creditcard',
       "sequenceType": "first",
       // "sequenceType": "recurring",
+      // 'webhookUrl': EndPoints.mollieWebhook,
       "customerId": customerID,
       'redirectUrl': '${EndPoints.redirectSuccessUrl}',
       'cancelUrl': '${EndPoints.redirectCancelUrl}'

@@ -33,7 +33,7 @@ class Result {
   String? email;
   dynamic emailVerifiedAt;
   String? status;
-  String? isBlocked;
+  bool? isBlocked;
   String? userType;
   String? subscriptionStatus;
   String? currentStep;

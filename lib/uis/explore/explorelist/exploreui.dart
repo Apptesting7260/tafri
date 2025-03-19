@@ -512,7 +512,9 @@ class ExploreUi extends GetWidget<ExploreListController> {
                                                             .hostProfileUi,
                                                         arguments: activityData?[index]
                                                             .hostId
-                                                            .toString());
+                                                            .toString())?.then((value) {
+                                                              controller.homePageApi();
+                                                            },);
                                                   }else{
                                                     controller.showHomePop();
                                                   }
@@ -716,7 +718,9 @@ class ExploreUi extends GetWidget<ExploreListController> {
                              width: Get.width * 0.76,
                              child:  CustoTextFormField(
                                onTap: () {
-                                 Get.toNamed(Routes.searchActUi);
+                                 Get.toNamed(Routes.searchActUi)?.then((value) {
+                                   controller.homePageApi();
+                                 },);
                                },
                                readonly: true,
                                // hintText: "Anywhere • any week",

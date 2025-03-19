@@ -158,23 +158,22 @@ class ReStartMembershipScreen extends StatelessWidget {
                       ),);
                     },shrinkWrap: true, separatorBuilder: (context, index) => const SizedBox(height: 20,), itemCount: paymentController.plans.value.result!.length),
 
-                    paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? SizedBox(
+                    // paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? SizedBox(
+                    //   height: Get.height * 0.03,
+                    // ) : SizedBox(),
+                    SizedBox(
                       height: Get.height * 0.03,
-                    ) : SizedBox(),
-                    paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Row(
+                    ),
+                    Row(
                       children: [
                         Flexible(
-                          child: Opacity(
-                            opacity: paymentController.profileController.profileData.value.result?.referalApplied == null ? 1 : 0.5,
-                            child: CustoTextFormField(
-                              hintText: 'Enter referral code',
-                              controll: paymentController.referalController,
-                              readonly: paymentController.profileController.profileData.value.result?.referalApplied == null ? false : true,
-                            ),
+                          child: CustoTextFormField(
+                            hintText: 'Enter referral code',
+                            controll: paymentController.referalController,
                           ),
                         ),
-                        paymentController.profileController.profileData.value.result?.referalApplied == null ? SizedBox(width: Get.width*0.04,) :SizedBox(),
-                        paymentController.profileController.profileData.value.result?.referalApplied == null ? Obx(() => Opacity(
+                        SizedBox(width: Get.width*0.04,),
+                        Obx(() => Opacity(
                           opacity: paymentController.referalLoading.value ? 0.5 : 1,
                           child: SizedBox(
                             height: Get.height*.06,
@@ -184,10 +183,37 @@ class ReStartMembershipScreen extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700),)),
                           ),
-                        ),) : SizedBox(),
-                        paymentController.profileController.profileData.value.result?.referalApplied == null ? const SizedBox(width: 10,) : SizedBox(),
+                        ),),
+                        const SizedBox(width: 10,),
                       ],
-                    ) : SizedBox(),
+                    ),
+                    // paymentController.profileController.profileData.value.result?.referalApplied == null && paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Row(
+                    //   children: [
+                    //     Flexible(
+                    //       child: Opacity(
+                    //         opacity: paymentController.profileController.profileData.value.result?.referalApplied == null ? 1 : 0.5,
+                    //         child: CustoTextFormField(
+                    //           hintText: 'Enter referral code',
+                    //           controll: paymentController.referalController,
+                    //           readonly: paymentController.profileController.profileData.value.result?.referalApplied == null ? false : true,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     paymentController.profileController.profileData.value.result?.referalApplied == null ? SizedBox(width: Get.width*0.04,) :SizedBox(),
+                    //     paymentController.profileController.profileData.value.result?.referalApplied == null ? Obx(() => Opacity(
+                    //       opacity: paymentController.referalLoading.value ? 0.5 : 1,
+                    //       child: SizedBox(
+                    //         height: Get.height*.06,
+                    //         child: CustomElevatedButton(onTap: () {
+                    //           paymentController.applyCode();
+                    //         }, backgroundClr: clrBlacke,paddingHz: 20,paddingVr: 10, child: paymentController.referalLoading.value ? CommonUi.buttonLoading() : Text('Apply',style: TextStyle(color: clrWhite,
+                    //             fontSize: 16,
+                    //             fontWeight: FontWeight.w700),)),
+                    //       ),
+                    //     ),) : SizedBox(),
+                    //     paymentController.profileController.profileData.value.result?.referalApplied == null ? const SizedBox(width: 10,) : SizedBox(),
+                    //   ],
+                    // ) : SizedBox(),
                     SizedBox(
                       height: Get.height * 0.03,
                     ),

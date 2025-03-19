@@ -94,6 +94,8 @@ class EndPoints{
   static String redirectCancelUrl = '${baseUrl}redirect-cancel-url';
   static String readNotificationUrl = '${baseUrl}change-notification-status';
   static String activityStatusUrl = '${baseUrl}get-activity-status';
+  static String blockUrl = '${baseUrl}block-user';
+  static String unBlockUrl = '${baseUrl}unblock-user';
 
 
   static String chatUrl = 'https://chatapi.plusonesapp.com';

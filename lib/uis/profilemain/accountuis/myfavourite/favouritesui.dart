@@ -7,6 +7,7 @@ import 'package:plusone/uis/explore/explorelist/controller/explorelist_controlle
 import 'package:plusone/uis/explore/hostprofile/controller/hostprofile_controller.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
+import 'package:plusone/utils/local_storage.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -118,10 +119,19 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                         .result
                                                         ?.membershipStatus ==
                                                     true) {
-                                              Get.toNamed(Routes.exploreView,
-                                                  arguments: resultData[index]
-                                                      .id
-                                                      .toString());
+                                              if(resultData[index].hostId.toString() == LocalStorage.getUid()){
+                                                Get.toNamed(Routes.hostUpcommingActiview, arguments: resultData[index].id.toString())?.then((value) {
+                                                  controller.myfavouriteapi();
+                                                },);
+                                              }else {
+                                                Get.toNamed(Routes.exploreView,
+                                                    arguments: resultData[index]
+                                                        .id
+                                                        .toString())?.then((
+                                                    value) {
+                                                  controller.myfavouriteapi();
+                                                },);
+                                              }
                                             } else {
                                               homeController.showHomePop();
                                             }
@@ -491,7 +501,9 @@ class FavouriteListUi extends GetWidget<MyfavouriteController> {
                                                                   resultData[
                                                                           index]
                                                                       .hostId
-                                                                      .toString());
+                                                                      .toString())?.then((value) {
+                                                                        controller.myfavouriteapi();
+                                                                      },);
                                                         } else {
                                                           homeController
                                                               .showHomePop();

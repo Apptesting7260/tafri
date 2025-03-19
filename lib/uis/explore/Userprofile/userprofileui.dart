@@ -42,23 +42,31 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                       "User profile",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(
+                    Obx(() => controller.hostLoading.value || controller.hostError.value.isNotEmpty ? const SizedBox() : SizedBox(
                       child: PopupMenuButton(
                         elevation: 5,
-                        icon: Icon(Icons.more_vert,size: 30,),
+                        icon: const Icon(Icons.more_vert,size: 30,),
                         itemBuilder: (context) => [
                           const PopupMenuItem(
                             child: Text("Report"),
                             value: 1,
-                          )
+                          ),
+                          PopupMenuItem(
+                            child: controller.hostData.value.result?.isBlocked == false ? const Text("Block") : const Text('Unblock'),
+                            value: controller.hostData.value.result?.isBlocked == false ? 2 : 3,
+                          ),
                         ],
                         onSelected: (val) {
                           if (val == 1) {
                             alertReport();
+                          } else if(val == 2){
+                            alertBlock();
+                          } else if(val == 3){
+                            alertUnBlock();
                           }
                         },
                       ),
-                    ),
+                    ),),
                   ],
                 ),
                 SizedBox(
@@ -68,7 +76,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                   child: Center(
                     child: CommonUi.scaffoldLoading(color: clrYellow),
                   ),
-                ) : controller.hostError.value.isNotEmpty ? Expanded(
+                ) : controller.hostError.value.isNotEmpty ? const Expanded(
                     child: Center(child: ErrorScreen())
                 ) : Expanded(
                   child: SingleChildScrollView(
@@ -139,7 +147,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                           children: [
                             Text(
                               '${controller.hostData.value.result?.firstName}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 16),
                             ),
                             const SizedBox(
@@ -154,7 +162,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                 child: Icon(
                                   Icons.verified,
                                   color: clrYellow,
-                                )) : SizedBox()
+                                )) : const SizedBox()
                           ],
                         ),
                         SizedBox(
@@ -163,8 +171,8 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                         Center(
                             child: controller.hostData.value.result!.age! > 0 ? Text(
                               "${controller.hostData.value.result?.age} years old |  ${controller.getPronoun(controller.hostData.value.result?.gender)}",
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                            ) : SizedBox()),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                            ) : const SizedBox()),
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
@@ -610,7 +618,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                             children: [
                               Text(
                                 "Fun facts about ${controller.hostData.value.result?.firstName}",
-                                style: TextStyle(fontWeight: FontWeight.w800),
+                                style: const TextStyle(fontWeight: FontWeight.w800),
                               ),
                               const SizedBox(
                                 height: 10,
@@ -648,17 +656,17 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                           height: Get.height * 0.015,
                         ),
                         controller.hostData.value.result!.upcomingActivities!.isEmpty
-                            ? SizedBox()
+                            ? const SizedBox()
                             :  controller.hostData.value.result!.upcommingActivityStatus == '1'
-                            ? Text(
+                            ? const Text(
                           "Upcoming activities",
                           style: TextStyle(fontWeight: FontWeight.w800),
-                        ) : SizedBox(),
+                        ) : const SizedBox(),
                         SizedBox(
                           height: Get.height * 0.01,
                         ),
                         controller.hostData.value.result!.upcomingActivities!.isEmpty
-                            ? SizedBox()
+                            ? const SizedBox()
                             : controller.hostData.value.result!.upcommingActivityStatus == '1'
                             ? ListView.builder(
                             itemCount: controller.hostData.value
@@ -686,7 +694,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                       height: Get.height * 0.003,
                                     ),
                                     ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       itemCount: controller.hostData.value
                                           .result?.upcomingActivities?[index].activities?.length,
                                       shrinkWrap: true,
@@ -759,7 +767,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                                       children: [
                                                         Text(
                                                           controller.hostData.value.result?.upcomingActivities?[index].activities?[ind].name.toString() ?? '',
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 14,
                                                               fontWeight:
                                                               FontWeight.w600),
@@ -783,23 +791,23 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                   ],
                                 ),
                               );
-                            }) : SizedBox(),
+                            }) : const SizedBox(),
                         SizedBox(
                           height: Get.height * 0.015,
                         ),
                         controller.hostData.value.result!.previousActivities!.isEmpty
-                            ? SizedBox()
+                            ? const SizedBox()
                             : controller.hostData.value.result!.previousActivityStatus == '1'
-                            ? Text(
+                            ? const Text(
                           "Previous activities",
                           style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                        ) : SizedBox(),
+                        ) : const SizedBox(),
                         SizedBox(
                           height: Get.height * 0.015,
                         ),
                         controller.hostData.value.result!.previousActivities!.isEmpty
-                            ? SizedBox()
+                            ? const SizedBox()
                             : controller.hostData.value.result!.previousActivityStatus == '1'
                             ? ListView.builder(
                             itemCount: controller.hostData.value
@@ -825,7 +833,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                       height: Get.height * 0.003,
                                     ),
                                     ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       itemCount: controller.hostData.value
                                           .result?.previousActivities?[index].activities?.length,
                                       shrinkWrap: true,
@@ -922,7 +930,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                                       children: [
                                                         Text(
                                                           controller.hostData.value.result?.previousActivities?[index].activities?[ind].name.toString() ?? '',
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 14,
                                                               fontWeight:
                                                               FontWeight.w600),
@@ -949,7 +957,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
                                   ],
                                 ),
                               );
-                            }) : SizedBox(),
+                            }) : const SizedBox(),
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
@@ -1032,7 +1040,7 @@ class UserProfileUi extends GetWidget<UserProfileController>{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
+                GestureDetector(
                     onTap: () {
                       Get.back();
                     },
@@ -1194,4 +1202,155 @@ class UserProfileUi extends GetWidget<UserProfileController>{
       ),
     ));
   }
+
+   alertBlock(){
+     Get.dialog(AlertDialog(
+       insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+       content: Column(
+         mainAxisSize: MainAxisSize.min,
+         children: [
+           const Text("You won't see this user's messages or activities anymore.",style: TextStyle(
+             fontSize: 18,
+             fontFamily: 'Nunito',
+           ),),
+           const SizedBox(
+             height: 20,
+           ),
+           Row(
+             children: [
+               Flexible(
+                 child: SizedBox(
+                   height: Get.height * .07,
+                   child: CustomElevatedButton(
+                     backgroundClr: clrWhite,
+                     borderClr: clrBlacke,
+                     onTap: () {
+                       Get.back();
+                     },
+                     child: Center(
+                       child: Text('Cancel', style: TextStyle(
+                           color: clrBlacke,
+                           fontSize: 16,
+                           fontFamily: 'Nunito',
+                           fontWeight: FontWeight.w700),),
+                     ),
+                   ),
+                 ),
+               ),
+               const SizedBox(width: 10,),
+               Flexible(
+                 child: SizedBox(
+                   height: Get.height * .07,
+                   child: CustomElevatedButton(
+                     backgroundClr: clrBlacke,
+                     onTap: () {
+                       controller.blockUser(controller.hostData.value.result!.id.toString());
+                     },
+                     child: Center(
+                       child: Obx(() => controller.blockLoading.value ? CommonUi.buttonLoading() : Text('Block', style: TextStyle(
+                           color: clrWhite,
+                           fontSize: 16,
+                           fontFamily: 'Nunito',
+                           fontWeight: FontWeight.w700),),),
+                     ),
+                   ),
+                 ),
+               ),
+
+             ],
+           )
+         ],
+       ),
+       title: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         children: [
+           GestureDetector(onTap: () {
+             Get.back();
+           },child: const Icon(Icons.close,size: 25,)),
+           const Text('Block user',
+             style: TextStyle(fontSize: 20, fontFamily: 'Nunito',fontWeight: FontWeight.w700),
+           ),
+           const SizedBox(),
+         ],
+       ),
+     ));
+   }
+
+   alertUnBlock(){
+     Get.dialog(AlertDialog(
+       insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+       content: Column(
+         mainAxisSize: MainAxisSize.min,
+         children: [
+           const Text("Do you want to unblock this user?",style: TextStyle(
+             fontSize: 18,
+             fontFamily: 'Nunito',
+           ),),
+           const SizedBox(
+             height: 20,
+           ),
+           Row(
+             children: [
+               Flexible(
+                 child: SizedBox(
+                   height: Get.height * .07,
+                   child: CustomElevatedButton(
+                     backgroundClr: clrWhite,
+                     borderClr: clrBlacke,
+                     onTap: () {
+                       Get.back();
+                     },
+                     child: Center(
+                       child: Text('Cancel', style: TextStyle(
+                           color: clrBlacke,
+                           fontSize: 16,
+                           fontFamily: 'Nunito',
+                           fontWeight: FontWeight.w700),),
+                     ),
+                   ),
+                 ),
+               ),
+               const SizedBox(width: 10,),
+               Flexible(
+                 child: SizedBox(
+                   height: Get.height * .07,
+                   child: CustomElevatedButton(
+                     backgroundClr: clrBlacke,
+                     onTap: () {
+                       controller.unblockUser(controller.hostData.value.result!.id!.toString());
+                     },
+                     child: Center(
+                       child: Obx(() => controller.blockLoading.value ? CommonUi.buttonLoading() : Text('Unblock', style: TextStyle(
+                           color: clrWhite,
+                           fontSize: 16,
+                           fontFamily: 'Nunito',
+                           fontWeight: FontWeight.w700),),),
+                     ),
+                   ),
+                 ),
+               ),
+
+             ],
+           )
+         ],
+       ),
+       title: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         children: [
+           GestureDetector(onTap: () {
+             Get.back();
+           },child: const Icon(Icons.close,size: 25,)),
+           const Text('Unblock user',
+             style: TextStyle(fontSize: 20, fontFamily: 'Nunito',fontWeight: FontWeight.w700),
+           ),
+           const SizedBox(),
+         ],
+       ),
+     ));
+   }
+
+
+
 }

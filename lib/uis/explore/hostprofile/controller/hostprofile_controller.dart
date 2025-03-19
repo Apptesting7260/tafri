@@ -4,6 +4,7 @@ import 'package:plusone/networking/apiservices.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/routes/routes.dart';
 import 'package:plusone/uis/explore/hostprofile/model/hostprofile_model.dart';
+import 'package:plusone/uis/message/chats/controller/socket_controller.dart';
 import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/tostmsg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -248,5 +249,67 @@ class HostProfileController extends GetxController{
         return 'Unknown';
     }
   }
+
+  var blockLoading = false.obs;
+  Future<void> blockUser(String id) async{
+    blockLoading.value = true;
+    Map body = {
+      'blocked_user_id': id,
+    };
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    try{
+      final response = await api.post(EndPoints.blockUrl, body, headers: header);
+      print('block response == ${response.body}');
+      if(response.statusCode == 200){
+        hostData.value.result?.isBlocked = true;
+        hostData.refresh();
+        showTostMsg('User has been successfully blocked.');
+        Get.back();
+      }else{
+        showTostMsg(response.body['message']);
+      }
+    }catch(e){
+      showTostMsg('Failed to block user. Please try again.');
+      print('block user error == ${e.toString()}');
+    }
+    blockLoading.value = false;
+
+  }
+
+  Future<void> unblockUser(String id) async{
+    blockLoading.value = true;
+
+    Map body = {
+      'blocked_user_id': id,
+    };
+
+    Map<String,String> header = {
+      'Authorization' : 'Bearer ${LocalStorage.getToken()}'
+    };
+
+    try{
+      final response = await api.post(EndPoints.unBlockUrl, body, headers: header);
+      print('unblock response == ${response.body}');
+      if(response.statusCode == 200){
+        hostData.value.result?.isBlocked = false;
+        hostData.refresh();
+        showTostMsg('User has been successfully unblocked.');
+        Get.back();
+      }else{
+        showTostMsg(response.body['message']);
+      }
+    }catch(e){
+      showTostMsg('Failed to unblock user. Please try again.');
+      print('unblock user error == ${e.toString()}');
+    }
+    blockLoading.value = false;
+
+  }
+
+
 
 }

@@ -295,4 +295,26 @@ class SocketController extends GetxService {
   /// delete user
 
 
+  /// block unblock user
+  void blockUser({required String id}){
+    socket.emit('block-user',{
+      'userId': int.parse(LocalStorage.getUid().toString()),
+      'blockUserId': int.parse(id),
+    });
+    socket.on('block-user', (data) {
+      print('socket block user == $data');
+    },);
+  }
+  
+  void unblockUser({required String id}){
+    socket.emit('unblock-user',{
+      'userId': int.parse(LocalStorage.getUid().toString()),
+      'blockUserId': int.parse(id),
+    });
+    socket.on('unblock-user', (data) {
+      print('socket unblock user == $data');
+    },);
+  }
+  /// block unblock user
+
 }
