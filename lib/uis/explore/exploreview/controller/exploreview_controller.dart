@@ -745,7 +745,7 @@ class ExploreViewController extends GetxController{
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: SizedBox(width: double.maxFinite,height: Res.h_btn,child: CustomElevatedButton(onTap: (){
                 Get.offAllNamed(Routes.navbarUi);
-              }, backgroundClr: clrBlacke, child: Text("Go to home screen",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+              }, backgroundClr: clrBlacke, child: Text("Explore more activities",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
             ),
               SizedBox(
               height: Get.height*.014,
