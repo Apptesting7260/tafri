@@ -164,8 +164,8 @@ class PaymentController extends GetxController{
 
 
   String baseUrl = 'https://api.mollie.com/v2/';
-  // static String apiKey = 'test_x5n28NeK3FaaUdTB3bpnE2AErsSBpR';
-  static String apiKey = 'live_jdRv2AhgqCQryKw8Rm4NdxCsx77FTy';
+  static String apiKey = 'test_x5n28NeK3FaaUdTB3bpnE2AErsSBpR';
+  // static String apiKey = 'live_jdRv2AhgqCQryKw8Rm4NdxCsx77FTy';
 
   var header = {
     'Authorization': 'Bearer $apiKey'
@@ -434,6 +434,58 @@ class PaymentController extends GetxController{
     ));
   }
 
+  processingPopUp() {
+    Get.dialog(AlertDialog(
+      scrollable: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18)
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: Res.Defalt_side_margin),
+      contentPadding: const EdgeInsets.symmetric(vertical: 30),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(child: Image.asset("assets/icons/congratesicon.png",height: 65,),),
+            const SizedBox(height: 15,),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Center(
+                child:  Text(
+                  "Congratulations",
+                  style: TextStyle(fontSize: 19
+                      , fontWeight: FontWeight.w800),textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height:Get.height*.014,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Center(child: Text("We are processing your payment. Once it is completed, you will receive the membership.",style: TextStyle(color: clrGreyTextLight,),textAlign: TextAlign.center,)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+              child: SizedBox(width: Get.width,height: Res.h_btn,child: CustomElevatedButton(onTap: () {
+                Get.offAllNamed(Routes.navbarUi);
+              }, backgroundClr: clrBlacke, child: Text("Let’s explore",style: TextStyle(color: clrWhite,fontSize: 16,fontWeight: FontWeight.w700),))),
+            ),
+            SizedBox(
+              height: Get.height*.014,
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
 
 
   Future<void> saveCard(String customerID,String mandateID,String cardToken,String plan,String amount,String transactionID,String date,String subscriptionID,String endDate) async{
@@ -624,7 +676,11 @@ class PaymentController extends GetxController{
       // 'method': 'creditcard',
       "sequenceType": "first",
       // "sequenceType": "recurring",
-      // 'webhookUrl': EndPoints.mollieWebhook,
+      'webhookUrl': "${EndPoints.mollieWebhook}",
+      'metadata': {
+        'planid': planID.value,
+        'userid': LocalStorage.getUid().toString()
+      },
       "customerId": customerID,
       'redirectUrl': '${EndPoints.redirectSuccessUrl}',
       'cancelUrl': '${EndPoints.redirectCancelUrl}'
@@ -665,7 +721,14 @@ class PaymentController extends GetxController{
         if(data['status'] == 'paid') {
           mandateID.value = data['mandateId'];
           cardToken.value = data['details']['cardToken'];
-          await createMembership(customerId.value, price.value, planType.value == 'monthly' ? '1 month' : '12 months', planType.value == 'monthly' ? 'Monthly Membership' : 'Yearly Membership');
+          Get.back();
+          processingPopUp();
+          await profileController.viewProfile();
+          if(profileController.profileData.value.result?.planType != null){
+            profileController.profileData.value.result?.planType == 'monthly' ? updateSelectedValue(0) : updateSelectedValue(1);
+            purchasedPlan.value = profileController.profileData.value.result?.planType ?? '';
+          }
+          // await createMembership(customerId.value, price.value, planType.value == 'monthly' ? '1 month' : '12 months', planType.value == 'monthly' ? 'Monthly Membership' : 'Yearly Membership');
         }else{
           showTostMsg('${data['details']['failureMessage']}');
           Get.back();

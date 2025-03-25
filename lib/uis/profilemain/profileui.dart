@@ -295,7 +295,10 @@ class ProfileUi extends GetWidget<ProfilemainController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.toNamed(Routes.mymembershipProUi);
+                            Get.toNamed(Routes.mymembershipProUi)?.then((value) {
+                              controller.viewProfile();
+                              homeController.homePageApi();
+                            },);
                           },
                           child: Container(
                             height: Res.h_btn,
