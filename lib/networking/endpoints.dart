@@ -96,6 +96,7 @@ class EndPoints{
   static String activityStatusUrl = '${baseUrl}get-activity-status';
   static String blockUrl = '${baseUrl}block-user';
   static String unBlockUrl = '${baseUrl}unblock-user';
+  static String blockedUserUrl = '${baseUrl}blocked-user-list';
 
 
   static String chatUrl = 'https://chatapi.plusonesapp.com';

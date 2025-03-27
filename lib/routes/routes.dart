@@ -77,6 +77,8 @@ import 'package:plusone/uis/profilemain/accountuis/referfrnd/bindings/referfrnd_
 import 'package:plusone/uis/profilemain/accountuis/referfrnd/referfrndui.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/bindings/setting_binding.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/activityvisibility/bindings/activityvisibility_binding.dart';
+import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/blocked%20user/blocked_user_bindings.dart';
+import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/blocked%20user/blocked_user_screen.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/pushnotification/bindings/pushnotifisetting_binding.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/settingsalluis/pushnotification/notificationproui.dart';
 import 'package:plusone/uis/profilemain/accountuis/settings/settingui.dart';
@@ -169,6 +171,7 @@ class Routes{
   static String restartSwitchScreen='/restartSwitchScreen';
   static String chatPhotoScreen='/chatPhotoScreen';
   static String instaLoginScreen='/instaLoginScreen';
+  static String blockedUserScreen='/blockedUserScreen';
 
   static List<GetPage<dynamic>>? listRoutes=[
     GetPage(name: initialPage, page:()=> IntroOneUi(),binding: IntroBinding()),
@@ -230,5 +233,6 @@ class Routes{
     GetPage(name: restartSwitchScreen, page: () => RestartSwitchPlanUi()),
     GetPage(name: chatPhotoScreen, page: () => ChatPhotoScreen()),
     GetPage(name: instaLoginScreen, page: () => InstaLoginView()),
+    GetPage(name: blockedUserScreen, page: () => BlockedUserScreen(),binding: BlockedUserBindings()),
   ];
 }

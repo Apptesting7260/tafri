@@ -181,11 +181,11 @@ class SettingUi extends GetWidget<SettingController>{
                                   );
                                 })
                               ],
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                             Platform.isIOS ?Divider(
                               color: clrGreyLight,
                               height: 25,
-                            ) : SizedBox(),
+                            ) : const SizedBox(),
                             SizedBox(
                               height:h*.015,
                             ),
@@ -208,6 +208,20 @@ class SettingUi extends GetWidget<SettingController>{
                                   "Activity visibility on profile",
                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
                                 ),
+                              ),
+                            ),
+                            Divider(
+                              color: clrGreyLight,
+                              height: h*.021,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.blockedUserScreen);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text('Blocked user',
+                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                               ),
                             ),
                             Divider(
