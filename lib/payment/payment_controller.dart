@@ -164,8 +164,8 @@ class PaymentController extends GetxController{
 
 
   String baseUrl = 'https://api.mollie.com/v2/';
-  static String apiKey = 'test_x5n28NeK3FaaUdTB3bpnE2AErsSBpR';
-  // static String apiKey = 'live_jdRv2AhgqCQryKw8Rm4NdxCsx77FTy';
+  // static String apiKey = 'test_x5n28NeK3FaaUdTB3bpnE2AErsSBpR';
+  static String apiKey = 'live_jdRv2AhgqCQryKw8Rm4NdxCsx77FTy';
 
   var header = {
     'Authorization': 'Bearer $apiKey'
