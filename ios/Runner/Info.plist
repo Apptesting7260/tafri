@@ -113,5 +113,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
+	<key>SKExternalPurchase</key>
+    <array>
+        <string>nl</string>
+    </array>
 </dict>
 </plist>

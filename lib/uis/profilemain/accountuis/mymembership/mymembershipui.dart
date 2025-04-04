@@ -30,7 +30,9 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
 
     return GestureDetector(
       onTap: () {
+        print('tap');
         FocusScope.of(context).unfocus();
+        paymentController.handleExternalPurchase();
       },
       child: Scaffold(
         backgroundColor: clrWhite,

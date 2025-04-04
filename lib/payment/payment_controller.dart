@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:plusone/networking/apiservices.dart';
@@ -1531,5 +1532,69 @@ class PaymentController extends GetxController{
 
 
   /// referral popup ///
+
+
+//
+// class ExternalPurchase {
+//   static const MethodChannel _channel =
+//       MethodChannel('external_purchase_channel');
+//
+//   static Future<bool> canPresent() async {
+//     return await _channel.invokeMethod<bool>('canPresent') ?? false;
+//   }
+//
+//   static Future<String?> presentNoticeSheet() async {
+//     return await _channel.invokeMethod<String>('presentNoticeSheet');
+//   }
+// }
+//
+// void handleExternalPurchase() async {
+//   bool canUseExternalPurchase = await ExternalPurchase.canPresent();
+//
+//   if (canUseExternalPurchase) {
+//     String? token = await ExternalPurchase.presentNoticeSheet();
+//
+//     if (token != null) {
+//       // Send this token to your server to process the transaction
+//       print("External Purchase Token: $token");
+//     } else {
+//       print("User canceled the external purchase");
+//     }
+//   } else {
+//     print("External purchases not available on this device");
+//   }
+// }
+
+  static const MethodChannel _channel =
+  MethodChannel('external_purchase_channel');
+
+  static Future<bool> canPresent() async {
+    return await _channel.invokeMethod<bool>('canPresent') ?? false;
+  }
+
+  static Future<String?> presentNoticeSheet() async {
+    return await _channel.invokeMethod<String>('presentNoticeSheet');
+  }
+
+void handleExternalPurchase() async {
+  bool canUseExternalPurchase = await canPresent();
+
+  if (canUseExternalPurchase) {
+    String? token = await presentNoticeSheet();
+
+    if (token != null) {
+      // Send this token to your server to process the transaction
+      showTostMsg('Notice sheet available. Token is ${token}');
+      print("External Purchase Token: $token");
+    } else {
+      showTostMsg('Notice sheet not available');
+      print("User canceled the external purchase");
+    }
+  } else {
+    showTostMsg('Purchase not available');
+    print("External purchases not available on this device");
+  }
+}
+
 
 }

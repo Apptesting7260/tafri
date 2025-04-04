@@ -74,10 +74,14 @@ import StoreKit
         let controller = window?.rootViewController as! FlutterViewController
         let channel = FlutterMethodChannel(name: "external_purchase_channel", binaryMessenger: controller.binaryMessenger)
 
-        channel.setMethodCallHandler { (call, result) in
+        channel.setMethodCallHandler({ (call: FlutterMethodCall, result: @escaping FlutterResult) in
             if call.method == "canPresent" {
                 if #available(iOS 17.4, *) {
-                    result(SKExternalPurchase.canPresent)
+                    Task {
+                        let isAvailable = await ExternalPurchase.canPresent
+                        print("is available == ",isAvailable)
+                        result(isAvailable)
+                    }
                 } else {
                     result(false)
                 }
@@ -85,7 +89,7 @@ import StoreKit
                 if #available(iOS 17.4, *) {
                     Task {
                         do {
-                            let noticeResult = try await SKExternalPurchase.presentNoticeSheet()
+                            let noticeResult = try await ExternalPurchase.presentNoticeSheet()
                             switch noticeResult {
                             case .continuedWithExternalPurchaseToken(let token):
                                 result(token)
@@ -102,7 +106,7 @@ import StoreKit
             } else {
                 result(FlutterMethodNotImplemented)
             }
-        }
+        })
 
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
