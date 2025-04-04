@@ -112,6 +112,18 @@ class SocketController extends GetxService {
             .toString(),
         'fcmToken': FirebaseApi.fcmToken
       });
+      print('socket == ${{
+        'id':
+        int.parse(profileController.profileData.value.result!.id.toString()),
+        'first_name':
+        profileController.profileData.value.result!.firstName.toString(),
+        'last_name':
+        profileController.profileData.value.result!.lastName.toString(),
+        'profile_photo': profileController
+            .profileData.value.result!.profile?.profilePhoto
+            .toString(),
+        'fcmToken': FirebaseApi.fcmToken
+      }}');
       fetchGroup();
 
     });
