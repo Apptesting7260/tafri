@@ -1420,7 +1420,7 @@ class PaymentController extends GetxController{
   var referalLoading = false.obs;
 
 
-  referSuccessPopUp(){
+  referSuccessPopUp(var days){
     Get.dialog(AlertDialog(
       scrollable: true,
       shape: RoundedRectangleBorder(
@@ -1444,7 +1444,7 @@ class PaymentController extends GetxController{
             const SizedBox(height: 15,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Center(child: Text("Your referral code has been successfully applied",style: TextStyle(color: clrBlacke,fontSize: 15),textAlign: TextAlign.center,)),
+              child: Center(child: Text("Your referral code has been successfully applied. You've received $days days of free membership.",style: TextStyle(color: clrBlacke,fontSize: 15),textAlign: TextAlign.center,)),
             ),
             const SizedBox(
               height: 20,
@@ -1513,9 +1513,9 @@ class PaymentController extends GetxController{
       print('data == ${response.body['message']}');
       if(response.statusCode == 200){
         profileController.profileData.value.result?.referalApplied = referalController.value.text.trim();
-        profileController.profileData.value.result?.myReferDays = 5;
+        profileController.profileData.value.result?.myReferDays = profileController.profileData.value.result?.myReferDays ?? 0 + int.parse(response.body['extra_days']);
         profileController.profileData.refresh();
-        referSuccessPopUp();
+        referSuccessPopUp(response.body['extra_days']);
       }else if(response.statusCode == 400){
         referFailPopUp(message: response.body['message']);
       }else{

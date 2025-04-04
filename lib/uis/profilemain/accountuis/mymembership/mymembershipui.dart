@@ -1127,6 +1127,11 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                                           FontWeight
                                                                               .w600),
                                                                     ),
+                                                                    // paymentController.profileController.profileData.value.result?.myReferDays != null ? SizedBox(height: 3,) : SizedBox(),
+                                                                    paymentController.profileController.profileData.value.result?.myReferDays != null ? Text("Your referral code has been added. You've received ${paymentController.profileController.profileData.value.result?.myReferDays} days on top of your free trial.",style: TextStyle(
+                                                                        color: clrBlacke.withOpacity(0.5)
+                                                                    ),) : SizedBox(),
+                                                                    paymentController.profileController.profileData.value.result?.myReferDays != null ? SizedBox(height: 3,) : SizedBox(),
                                                                     RichText(
                                                                         text: TextSpan(
                                                                             children: [
@@ -1144,10 +1149,10 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                                                       color:
                                                                                       clrGrey5D5C5E))
                                                                             ])),
-                                                                    paymentController.profileController.profileData.value.result?.myReferDays != null ? SizedBox(height: 3,) : SizedBox(),
-                                                                    paymentController.profileController.profileData.value.result?.myReferDays != null ? Text('Your referral code has been added',style: TextStyle(
-                                                                      color: clrBlacke.withOpacity(0.5)
-                                                                    ),) : SizedBox()
+                                                                    // paymentController.profileController.profileData.value.result?.myReferDays != null ? SizedBox(height: 3,) : SizedBox(),
+                                                                    // paymentController.profileController.profileData.value.result?.myReferDays != null ? Text('Your referral code has been added',style: TextStyle(
+                                                                    //   color: clrBlacke.withOpacity(0.5)
+                                                                    // ),) : SizedBox()
                                                                   ],
                                                                 ),
                                                               ),
@@ -1349,8 +1354,9 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
                                                 }
                                               },
                                               backgroundClr: clrBlacke,
+                                              //Start ${paymentController.getWeek(int.parse(paymentController.freeDays.value))} free
                                               child: paymentController.loading.value ? CommonUi.buttonLoading() : (paymentController.profileController.profileData.value.result?.cardDetail?.cardSave == false ? Text(
-                                                paymentController.choosePlan.value != (-1) ? "Start ${paymentController.getWeek(int.parse(paymentController.freeDays.value))} free" : 'Start membership',
+                                                paymentController.choosePlan.value != (-1) ? "Start free trial" : 'Start membership',
                                                 style: TextStyle(
                                                     color: clrWhite,
                                                     fontSize: 16,

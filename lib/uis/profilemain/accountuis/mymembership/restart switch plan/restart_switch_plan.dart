@@ -126,6 +126,12 @@ class _RestartSwitchPlanUiState extends State<RestartSwitchPlanUi> {
                                             const SizedBox(
                                               height: 5,
                                             ),
+                                            paymentController.profileController.profileData.value.result?.myReferDays != null ? Text("Your referral code has been added. You've received ${paymentController.profileController.profileData.value.result?.myReferDays} days on top of your free trial.",style: TextStyle(
+                                                color: clrBlacke.withOpacity(0.5)
+                                            ),) : SizedBox(),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
                                             RichText(
                                                 text: TextSpan(children: [
                                                   TextSpan(
@@ -135,12 +141,12 @@ class _RestartSwitchPlanUiState extends State<RestartSwitchPlanUi> {
                                                           color: clrBlacke,
                                                           fontWeight: FontWeight.w700))
                                                 ])),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            paymentController.profileController.profileData.value.result?.myReferDays != null ? Text('Your referral code has been added',style: TextStyle(
-                                                color: clrBlacke.withOpacity(0.5)
-                                            ),) : SizedBox()
+                                            // const SizedBox(
+                                            //   height: 5,
+                                            // ),
+                                            // paymentController.profileController.profileData.value.result?.myReferDays != null ? Text('Your referral code has been added',style: TextStyle(
+                                            //     color: clrBlacke.withOpacity(0.5)
+                                            // ),) : SizedBox()
                                           ],
                                         ),
                                       ),
