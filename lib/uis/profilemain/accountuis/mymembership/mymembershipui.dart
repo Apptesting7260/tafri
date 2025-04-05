@@ -32,7 +32,7 @@ class MyMemberShipUi extends GetWidget<MymembershipController> {
       onTap: () {
         print('tap');
         FocusScope.of(context).unfocus();
-        paymentController.handleExternalPurchase();
+        // paymentController.handleExternalPurchase();
       },
       child: Scaffold(
         backgroundColor: clrWhite,
