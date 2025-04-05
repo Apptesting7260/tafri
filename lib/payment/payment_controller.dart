@@ -1513,17 +1513,17 @@ class PaymentController extends GetxController{
       print('data == ${response.body['message']}');
       if(response.statusCode == 200){
         profileController.profileData.value.result?.referalApplied = referalController.value.text.trim();
-        profileController.profileData.value.result?.myReferDays = profileController.profileData.value.result?.myReferDays ?? 0 + int.parse(response.body['extra_days']);
+        profileController.profileData.value.result?.myReferDays = (profileController.profileData.value.result?.myReferDays ?? 0) + int.parse(response.body['extra_days'].toString());
         profileController.profileData.refresh();
-        referSuccessPopUp(response.body['extra_days']);
+        referSuccessPopUp(response.body['extra_days'].toString());
       }else if(response.statusCode == 400){
         referFailPopUp(message: response.body['message']);
       }else{
         referFailPopUp();
         // showTostMsg('${response.body['message']}');
       }
-    }catch(e){
-      print('referal code error == ${e.toString()}');
+    }catch(e, stacktrace){
+      print('referal code error == ${stacktrace}');
       showTostMsg('Something went wrong. Please try again.');
     }
     referalLoading.value = false;

@@ -110,9 +110,9 @@ class ReStartMembershipScreen extends StatelessWidget {
                                                   FontWeight
                                                       .w600),
                                             ),
-                                            paymentController.profileController.profileData.value.result?.myReferDays != null ? Text("Your referral code has been added. You've received ${paymentController.profileController.profileData.value.result?.myReferDays} days on top of your free trial.",style: TextStyle(
+                                            Obx(() => paymentController.profileController.profileData.value.result?.myReferDays != null ? Text("Your referral code has been added. You've received ${paymentController.profileController.profileData.value.result?.myReferDays} days on top of your free trial.",style: TextStyle(
                                                 color: clrBlacke.withOpacity(0.5)
-                                            ),) : SizedBox(),
+                                            ),) : SizedBox(),),
                                             paymentController.profileController.profileData.value.result?.myReferDays != null ? SizedBox(height: 3,) : SizedBox(),
                                             RichText(
                                                 text: TextSpan(
