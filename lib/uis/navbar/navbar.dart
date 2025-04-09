@@ -16,6 +16,7 @@ import 'package:plusone/uis/myactivity/myactivitylist/myactivitieslistui.dart';
 import 'package:plusone/uis/navbar/controller/navbar_controller.dart';
 import 'package:plusone/uis/profilemain/controller/profilemain_controller.dart';
 import 'package:plusone/uis/profilemain/profileui.dart';
+import 'package:plusone/utils/local_storage.dart';
 import '../../utils/colors.dart';
 
 class Navbar extends StatefulWidget {
@@ -56,11 +57,25 @@ class _NavbarState extends State<Navbar> {
 
   int classIndex = 0;
 
-
+  FirebaseApi firebase = FirebaseApi();
   @override
   void initState() {
     super.initState();
-    FirebaseApi().initializeNotification(context);
+    firebase.initializeNotification(context);
+    getTokenAndUpdate();
+  }
+
+  void getTokenAndUpdate() async{
+    var token = await firebase.firebaseMessaging.getToken();
+    var oldFcmToken = LocalStorage.getFcmToken();
+    if(token != oldFcmToken){
+      navcontroller.updateFcmToken(oldFcmToken: oldFcmToken ?? "", fcmToken: token ?? "");
+    }else{
+      debugPrint('========================== Old fcmToken == New fcmToken   ==============================');
+      debugPrint('    fcm token == $token');
+      debugPrint('old fcm token == $oldFcmToken');
+    }
+
   }
 
   @override

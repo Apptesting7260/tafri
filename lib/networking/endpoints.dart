@@ -98,6 +98,8 @@ class EndPoints{
   static String unBlockUrl = '${baseUrl}unblock-user';
   static String blockedUserUrl = '${baseUrl}blocked-user-list';
 
+  static String updateFcmTokenUrl = '${baseUrl}update-fcm-token';
+
 
   static String chatUrl = 'https://chatapi.plusonesapp.com';
   // static String chatUrl = 'http://188.245.228.111:8000';

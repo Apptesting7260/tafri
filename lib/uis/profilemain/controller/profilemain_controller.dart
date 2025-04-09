@@ -120,8 +120,8 @@ class ProfilemainController extends GetxController{
       if(response.statusCode == 200){
         GoogleSignIn().signOut();
         LocalStorage.removeToken();
-        debugPrint(
-            "gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=");
+        LocalStorage.removeFcmToken();
+        debugPrint("gk==getUid=${LocalStorage.getUid()}=token=${LocalStorage.getToken()}=fcm==${LocalStorage.getFcmToken()}");
 
         if (LocalStorage.getToken() == null ||
             LocalStorage.getUid() == null) {
@@ -130,10 +130,12 @@ class ProfilemainController extends GetxController{
         }
       }else if(response.statusCode == 401){
         LocalStorage.removeToken();
+        LocalStorage.removeFcmToken();
         Get.offAllNamed(Routes.initialPage);
         showTostMsg('Session expired. Please login again.');
       }else if(response.statusCode == 499){
         LocalStorage.removeToken();
+        LocalStorage.removeFcmToken();
         Get.offAllNamed(Routes.initialPage);
         var data = response.body;
         showTostMsg('${data['message']}');
