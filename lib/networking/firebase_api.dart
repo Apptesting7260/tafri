@@ -127,7 +127,7 @@ class FirebaseApi {
   static String? fcmToken;
   static String? apnToken;
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
@@ -139,7 +139,7 @@ class FirebaseApi {
   }
 
   Future<void> _requestPermission() async {
-    await _firebaseMessaging.requestPermission(
+    await firebaseMessaging.requestPermission(
       // alert: true,
       // badge: true,
       // sound: true,
@@ -148,9 +148,12 @@ class FirebaseApi {
   }
 
   Future<void> _getToken() async {
-    fcmToken = await _firebaseMessaging.getToken();
+    fcmToken = await firebaseMessaging.getToken();
+    if(fcmToken != null){
+      LocalStorage.saveFcmToken(fcmToken.toString());
+    }
     if(Platform.isIOS) {
-      apnToken = await _firebaseMessaging.getAPNSToken();
+      apnToken = await firebaseMessaging.getAPNSToken();
     }
     print(
         '==========================   fcmToken   ==============================');
@@ -431,7 +434,7 @@ class FirebaseApi {
       }
     });
 
-    _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
+    firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
       if (message != null) {
         showNotification(message);
         // snackBar1(message.notification!.title.toString(), message.notification!.body.toString());
