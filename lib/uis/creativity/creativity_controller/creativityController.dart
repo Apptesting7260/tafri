@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -431,9 +432,37 @@ class Creativitycontroller extends GetxController
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
-    galleryImages.add(File(photo!.path));
-    print(galleryImages);
+    // galleryImages.add(File(photo!.path));
+    if(photo != null){
+      File imageFile = File(photo.path);
+      XFile compressedImage = await compressImage(imageFile: imageFile);
+      galleryImages.add(File(compressedImage.path));
+    }
+    print("galleryImages :$galleryImages");
   }
+
+  Future<XFile> compressImage({required File imageFile}) async {
+    debugPrint("Original size : >>>>>> ${imageFile.lengthSync().toString()}");
+    try {
+      final XFile? compressedImage = await FlutterImageCompress.compressAndGetFile(
+        imageFile.path,
+        path.join(path.dirname(imageFile.path), 'PlusOnes_${DateTime.now().microsecondsSinceEpoch}.jpeg'),
+        quality: 60,
+        format: CompressFormat.jpeg,
+      );
+      if (compressedImage == null) {
+        throw ("Failed to compress the image");
+      }
+      File compressedFile = File(compressedImage.path);
+      debugPrint("Compressed size : >>>>>> ${compressedFile.lengthSync().toString()}");
+      return compressedImage;
+    } catch (err) {
+      debugPrint("Error image compression: $err");
+      rethrow;
+    }
+  }
+
+
 
   var containerList = [].obs;
 
