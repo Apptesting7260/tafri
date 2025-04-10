@@ -1,10 +1,6 @@
 import 'dart:developer';
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -15,7 +11,6 @@ import 'package:plusone/uis/message/messagelist/controller/messagelist_controlle
 import 'package:plusone/utils/colors.dart';
 import 'package:plusone/utils/common.dart';
 import 'package:plusone/utils/error_widget.dart';
-import 'package:plusone/utils/local_storage.dart';
 import 'package:plusone/utils/size.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
@@ -54,6 +49,7 @@ class MessageListUi extends GetWidget<MessagelistController> {
                     const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 tabs: [
                   Stack(
+                    clipBehavior: Clip.none,
                     alignment: Alignment.topRight,
                     children: [
                       const Padding(
@@ -62,8 +58,9 @@ class MessageListUi extends GetWidget<MessagelistController> {
                           "Chats",
                         ),
                       ),
-                      Obx(() => chatController.unReadMsg.value > 0 ? Padding(
-                        padding: const EdgeInsets.only(top: 7),
+                      Obx(() => chatController.unReadMsg.value > 0 ?  Positioned(
+                        right: -5,
+                        top: 5,
                         child: CircleAvatar(
                           radius: 5,
                           backgroundColor: clrRed,
@@ -72,14 +69,16 @@ class MessageListUi extends GetWidget<MessagelistController> {
                     ],
                   ),
                   Stack(
+                    clipBehavior: Clip.none,
                     alignment: Alignment.topRight,
                     children: [
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),
                         child: Text("Notifications"),
                       ),
-                      Obx(() => controller.unReadNot.value > 0 ? Padding(
-                        padding: const EdgeInsets.only(top: 7),
+                      Obx(() => controller.unReadNot.value > 0 ? Positioned(
+                        right: -5,
+                        top: 5,
                         child: CircleAvatar(
                           radius: 5,
                           backgroundColor: clrRed,

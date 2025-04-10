@@ -23,4 +23,16 @@ class LocalStorage {
     storage.remove('token');
     storage.remove('uid');
   }
+
+  static void saveFcmToken(String fcmToken) {
+    storage.write('fcmToken', fcmToken);
+  }
+
+  static String? getFcmToken(){
+    return storage.read("fcmToken");
+  }
+
+  static void removeFcmToken(){
+    storage.remove('fcmToken');
+  }
 }

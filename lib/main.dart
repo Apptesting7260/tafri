@@ -155,6 +155,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     String? token = LocalStorage.getToken();
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
