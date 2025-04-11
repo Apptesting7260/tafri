@@ -160,7 +160,7 @@ class CreateActivityUi extends GetWidget<Creativitycontroller> {
                                                                           }
                                                                         }
                                                                       },
-                                                                      child:
+                                                                      child:    
                                                                           Padding(
                                                                         padding: const EdgeInsets
                                                                             .only(

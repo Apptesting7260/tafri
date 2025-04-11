@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:plusone/networking/endpoints.dart';
 import 'package:plusone/routes/routes.dart';
@@ -57,9 +59,12 @@ class AddphotoController extends GetxController {
     try{
       final image = await cropController.onCropImage();
       if(image != null){
-        print('croped image == ${image}');
+        print('croped image == $image');
         final cropImage = await convertImage(image.bytes, 'PlusOnes_${DateTime.now().microsecondsSinceEpoch}.jpg');
-        selectedImage.value = cropImage;
+        File imageFile = File(cropImage.path);
+        final compressedImage = await compressImage(imageFile: imageFile);
+        selectedImage.value = XFile(compressedImage.path);
+        // selectedImage.value = cropImage;
         Get.back();
       }
     }catch(e){
@@ -69,6 +74,30 @@ class AddphotoController extends GetxController {
 
   }
 
+Future<XFile> compressImage({
+    required File imageFile,
+  }) async {
+    debugPrint("Original size : >>>>>> ${imageFile.lengthSync().toString()}");
+    try {
+      final XFile? compressedImage = await FlutterImageCompress.compressAndGetFile(
+        imageFile.path,
+        path.join(path.dirname(imageFile.path), 'PlusOnes_${DateTime.now().microsecondsSinceEpoch}.jpeg'),
+        quality: 60,
+        format: CompressFormat.jpeg,
+      );
+
+      if (compressedImage == null) {
+        throw ("Failed to compress the image");
+      }
+      debugPrint("Compressed Image: ${compressedImage.path}");
+      final compressedFile = File(compressedImage.path);
+      debugPrint("Compressed size : >>>>>> ${compressedFile.lengthSync().toString()}");
+      return compressedImage;
+    } catch (err) {
+      debugPrint("Error image compression: $err");
+      rethrow;
+    }
+  }
 
   String? token = LocalStorage.getToken();
   String? uid = LocalStorage.getUid();
