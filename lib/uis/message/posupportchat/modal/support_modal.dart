@@ -108,7 +108,7 @@ class Message {
     try{
       tz.initializeTimeZones();
 
-      String targetTimeZone = Get.find<SocketController>().profileController.profileData.value.result?.timeZone == 'Asia/Calcutta' ? 'Asia/Kolkata' : Get.find<SocketController>().profileController.profileData.value.result?.timeZone ?? '';
+      String targetTimeZone = Get.find<SocketController>().profileController.profileData.value.result?.timeZone == 'Asia/Calcutta' ? 'Asia/Kolkata' : Get.find<SocketController>().profileController.profileData.value.result?.timeZone ?? 'Europe/Amsterdam';
 // String targetTimeZone = 'Asia/Calcutta';
       print('user time zone == ${Get.find<SocketController>().profileController.profileData.value.result?.timeZone}');
       DateTime dateTime = DateTime.parse(messageTime!);
